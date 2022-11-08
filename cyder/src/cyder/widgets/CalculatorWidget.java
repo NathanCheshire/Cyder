@@ -10,6 +10,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
@@ -47,7 +48,7 @@ public final class CalculatorWidget {
     /**
      * The theme for each calculator button.
      */
-    private static final CyderModernButton.ThemeBuilder theme = new CyderModernButton.ThemeBuilder();
+    private static final ThemeBuilder theme = new ThemeBuilder();
 
     static {
         theme.setFont(CyderFonts.SEGOE_30);

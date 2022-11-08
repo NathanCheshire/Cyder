@@ -16,6 +16,8 @@ import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
+import cyder.ui.frame.ScreenPosition;
 import cyder.user.UserUtil;
 import cyder.utils.BoundsUtil;
 import cyder.utils.OsUtil;
@@ -176,14 +178,14 @@ public final class ExceptionHandler {
         int frameHeight = labelHeight + 2 * offset;
         CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(frameWidth, frameHeight, exceptionRed);
         borderlessFrame.setTitle(exceptionMessage);
-        borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
+        borderlessFrame.setFrameType(FrameType.POPUP);
 
         String labelText = builder.toString();
         JLabel label = generatePopupLabel(labelText, escapeOpacityThread, borderlessFrame);
         label.setBounds(offset, offset, labelWidth, labelHeight);
         borderlessFrame.getContentPane().add(label);
 
-        borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
+        borderlessFrame.setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
         borderlessFrame.setOpacity(minimumOpacity);
         borderlessFrame.setVisible(true);
 

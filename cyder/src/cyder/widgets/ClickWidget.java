@@ -11,6 +11,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -69,7 +70,7 @@ public final class ClickWidget {
             clickMeFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
             clickMeFrame.setAutoFastClose(true);
             clickMeFrame.setTitle(CLICK_ME);
-            clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
+            clickMeFrame.setFrameType(FrameType.POPUP);
             clickMeFrame.setBackground(CyderColors.vanilla);
 
             JLabel clickMeLabel = new JLabel(CLICK_ME);

@@ -17,7 +17,9 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderSwitch;
+import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.utils.SimplexNoiseUtil;
 import cyder.utils.UiUtil;
 
@@ -398,7 +400,7 @@ public final class PerlinWidget {
 
         CyderSliderUi speedSliderUi = new CyderSliderUi(speedSlider);
         speedSliderUi.setThumbRadius(25);
-        speedSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        speedSliderUi.setThumbShape(ThumbShape.CIRCLE);
         speedSliderUi.setThumbFillColor(Color.black);
         speedSliderUi.setThumbOutlineColor(CyderColors.navy);
         speedSliderUi.setRightThumbColor(CyderColors.regularBlue);
@@ -422,7 +424,7 @@ public final class PerlinWidget {
 
         CyderSliderUi featureSliderUi = new CyderSliderUi(featureSlider);
         featureSliderUi.setThumbRadius(25);
-        featureSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        featureSliderUi.setThumbShape(ThumbShape.CIRCLE);
         featureSliderUi.setThumbFillColor(Color.black);
         featureSliderUi.setThumbOutlineColor(CyderColors.navy);
         featureSliderUi.setRightThumbColor(CyderColors.regularBlue);
@@ -441,7 +443,7 @@ public final class PerlinWidget {
         featureSlider.setFocusable(false);
         featureSlider.repaint();
 
-        dimensionSwitch = new CyderSwitch(dimensionSwitchSize, CyderSwitch.State.OFF);
+        dimensionSwitch = new CyderSwitch(dimensionSwitchSize, CyderSwitchState.OFF);
         dimensionSwitch.setButtonPercent(50);
         dimensionSwitch.setSize(dimensionSwitchSize);
         dimensionSwitch.setOffText(TWO_D);
@@ -494,7 +496,7 @@ public final class PerlinWidget {
      */
     @ForReadability
     private static boolean twoDimensionalMode() {
-        return dimensionSwitch.getState().equals(CyderSwitch.State.OFF);
+        return dimensionSwitch.getState().equals(CyderSwitchState.OFF);
     }
 
     /**

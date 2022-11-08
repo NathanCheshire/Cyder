@@ -20,7 +20,9 @@ import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
 import cyder.ui.selection.CyderSwitch;
+import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -336,7 +338,7 @@ public final class PathFinderWidget {
      */
     private static final String RESUME = "Resume";
 
-    // todo deselecting start or goal should be died to set state of atomic boolean
+    // todo selecting start or goal should reset the state of what the next node should be, p sure this is broken
 
     /**
      * Suppress default constructor.
@@ -476,7 +478,7 @@ public final class PathFinderWidget {
                 MAX_SLIDER_VALUE, DEFAULT_SLIDER_VALUE);
         CyderSliderUi speedSliderUi = new CyderSliderUi(speedSlider);
         speedSliderUi.setThumbStroke(new BasicStroke(2.0f));
-        speedSliderUi.setThumbShape(CyderSliderUi.ThumbShape.RECT);
+        speedSliderUi.setThumbShape(ThumbShape.RECTANGLE);
         speedSliderUi.setThumbFillColor(Color.black);
         speedSliderUi.setThumbOutlineColor(CyderColors.navy);
         speedSliderUi.setRightThumbColor(CyderColors.regularBlue);
@@ -994,9 +996,9 @@ public final class PathFinderWidget {
      */
     private static void resetSwitcherStates() {
         // Corresponds to Manhattan
-        heuristicSwitch.setState(CyderSwitch.State.OFF);
+        heuristicSwitch.setState(CyderSwitchState.OFF);
         // Corresponds to A*
-        algorithmSwitch.setState(CyderSwitch.State.OFF);
+        algorithmSwitch.setState(CyderSwitchState.OFF);
     }
 
     /**
@@ -1149,8 +1151,8 @@ public final class PathFinderWidget {
      * @return the cost to path from the provided node to the goal
      */
     private static double heuristic(PathNode node) {
-        boolean dijkstrasAlgorithm = algorithmSwitch.getState() == CyderSwitch.State.ON;
-        boolean euclideanDistance = heuristicSwitch.getState() == CyderSwitch.State.ON;
+        boolean dijkstrasAlgorithm = algorithmSwitch.getState() == CyderSwitchState.ON;
+        boolean euclideanDistance = heuristicSwitch.getState() == CyderSwitchState.ON;
         if (dijkstrasAlgorithm) {
             return DIJKSTRA_HEURISTIC;
         } else if (euclideanDistance) {

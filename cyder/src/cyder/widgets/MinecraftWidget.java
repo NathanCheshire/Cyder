@@ -11,6 +11,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.network.NetworkUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
 import cyder.user.MappedExecutable;
 import cyder.user.UserUtil;
 import cyder.utils.IoUtil;
@@ -160,7 +161,7 @@ public final class MinecraftWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(minecraftFrame);
         minecraftFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, background);
-        minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        minecraftFrame.setTitlePosition(TitlePosition.CENTER);
         minecraftFrame.setTitle(FRAME_TITLE);
 
         JLabel blockLabel = new JLabel(BLOCK);

@@ -1,15 +1,12 @@
 package cyder.ui.frame;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.console.ConsoleConstants;
 import cyder.constants.*;
-import cyder.enums.Direction;
 import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -21,10 +18,10 @@ import cyder.login.LoginHandler;
 import cyder.math.AngleUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.time.TimeUtil;
 import cyder.ui.CyderComponentResizer;
 import cyder.ui.CyderPanel;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.DragLabelType;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.pane.CyderOutputPane;
@@ -83,24 +80,6 @@ public class CyderFrame extends JFrame {
      * the notification is turned into a popup pane.
      */
     public static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
-
-    /**
-     * The possible title positions for a CyderFrame title.
-     */
-    public enum TitlePosition {
-        LEFT,
-        CENTER,
-        RIGHT,
-    }
-
-    /**
-     * The possible frame types for a CyderFrame.
-     */
-    public enum FrameType {
-        DEFAULT,
-        INPUT_GETTER,
-        POPUP,
-    }
 
     /**
      * This CyderFrame's frame type.
@@ -383,7 +362,7 @@ public class CyderFrame extends JFrame {
 
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
-                this, CyderDragLabel.Type.TOP);
+                this, DragLabelType.TOP);
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
                 iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         topDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -399,7 +378,7 @@ public class CyderFrame extends JFrame {
 
         leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                this, CyderDragLabel.Type.LEFT);
+                this, DragLabelType.LEFT);
         leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
                 BORDER_LEN - FRAME_RESIZING_LEN,
                 height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -417,7 +396,7 @@ public class CyderFrame extends JFrame {
 
         rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                this, CyderDragLabel.Type.RIGHT);
+                this, DragLabelType.RIGHT);
         rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
                 BORDER_LEN - FRAME_RESIZING_LEN,
                 height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -435,7 +414,7 @@ public class CyderFrame extends JFrame {
 
         bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
                 BORDER_LEN - FRAME_RESIZING_LEN,
-                this, CyderDragLabel.Type.BOTTOM);
+                this, DragLabelType.BOTTOM);
         bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
                 width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -556,7 +535,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
         setContentPane(contentLabel);
 
-        masterDrag = new CyderDragLabel(width, height, this, CyderDragLabel.Type.FULL);
+        masterDrag = new CyderDragLabel(width, height, this, DragLabelType.FULL);
         masterDrag.setRightButtonList(null);
         masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);
@@ -1145,7 +1124,7 @@ public class CyderFrame extends JFrame {
                 if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
                         || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
                     notifyAndReleaseNotificationSemaphore(currentBuilder.getHtmlText(), null,
-                            currentBuilder.notifyTime);
+                            currentBuilder.getNotifyTime());
                     continue;
                 }
 
@@ -1158,7 +1137,7 @@ public class CyderFrame extends JFrame {
                     if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
                         notifyAndReleaseNotificationSemaphore(null, currentBuilder.getContainer(),
-                                currentBuilder.notifyTime);
+                                currentBuilder.getNotifyTime());
                         continue;
                     }
 
@@ -1586,7 +1565,11 @@ public class CyderFrame extends JFrame {
      * The directions for frame dancing.
      */
     private enum DancingDirection {
-        INITIAL_UP, LEFT, DOWN, RIGHT, UP
+        INITIAL_UP,
+        LEFT,
+        DOWN,
+        RIGHT,
+        UP
     }
 
     /**
@@ -3075,20 +3058,6 @@ public class CyderFrame extends JFrame {
     // ----------------
 
     /**
-     * The types of menus that a frame can use for its menu.
-     */
-    public enum MenuType {
-        /**
-         * The default which mimics the console.
-         */
-        PANEL,
-        /**
-         * Lays out the menu items in a horizontal scroll right below the drag label.
-         */
-        RIBBON,
-    }
-
-    /**
      * The menu type for the frame's menu.
      */
     private MenuType menuType = MenuType.PANEL;
@@ -3737,61 +3706,6 @@ public class CyderFrame extends JFrame {
     // todo extract me?
 
     /**
-     * The screen positions for a {@link CyderFrame} to be placed at.
-     */
-    public enum ScreenPosition {
-        /**
-         * The true top left of the monitor.
-         */
-        TRUE_TOP_LEFT,
-
-        /**
-         * The top left of the monitor, accounting for the possible taskbar.
-         */
-        TOP_LEFT,
-
-        /**
-         * The true top right of the monitor.
-         */
-        TRUE_TOP_RIGHT,
-
-        /**
-         * The top right of the monitor, accounting for the possible taskbar.
-         */
-        TOP_RIGHT,
-
-        /**
-         * The true bottom left of the monitor.
-         */
-        TRUE_BOTTOM_LEFT,
-
-        /**
-         * The bottom left of the monitor, accounting for the possible taskbar.
-         */
-        BOTTOM_LEFT,
-
-        /**
-         * The true bottom right of the monitor.
-         */
-        TRUE_BOTTOM_RIGHT,
-
-        /**
-         * The bottom right of the monitor, accounting for the possible taskbar.
-         */
-        BOTTOM_RIGHT,
-
-        /**
-         * The true center of the monitor.
-         */
-        TRUE_CENTER,
-
-        /**
-         * The center of the monitor, accounting for the taskbar position.
-         */
-        CENTER,
-    }
-
-    /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
      * @param screenPos the screen position to move the Console to
@@ -3934,306 +3848,5 @@ public class CyderFrame extends JFrame {
      */
     public void setAutoFastClose(boolean autoFastClose) {
         this.autoFastClose = autoFastClose;
-    }
-
-    /*
-    Inner classes such as builders.
-     */
-
-    /**
-     * A builder for a CyderFrame notification.
-     */
-    @CanIgnoreReturnValue
-    public static final class NotificationBuilder {
-        /**
-         * The html styled text to display.
-         */
-        private final String htmlText;
-
-        // -------------------
-        // Optional parameters
-        // -------------------
-
-        /**
-         * The duration the notification should be visible for in ms not counting the animation period.
-         */
-        private int viewDuration = 5000;
-
-        /**
-         * The direction to draw the notification arrow.
-         */
-        private Direction arrowDir = Direction.TOP;
-
-        /**
-         * The runnable to invoke upon the notification being killed by a user.
-         */
-        private Runnable onKillAction;
-
-        /**
-         * The direction for the notification to appear/disappear from/to.
-         */
-        private NotificationDirection notificationDirection = NotificationDirection.TOP;
-
-        /**
-         * The type of notification, i.e. notification vs toast.
-         */
-        private CyderNotification.NotificationType notificationType = CyderNotification.NotificationType.NOTIFICATION;
-
-        /**
-         * The custom container for the notification. If this is not provided a label is generated
-         * which holds the html styled text.
-         */
-        private JLabel container;
-
-        /**
-         * Whether the view duration should be auto-calculated.
-         */
-        private boolean calculateViewDuration;
-
-        /**
-         * The time the notification was originally constructed at.
-         */
-        private final String notifyTime;
-
-        /**
-         * Default constructor for a Notification with the required parameters for the Notification.
-         *
-         * @param htmlText the html styled text to display
-         */
-        public NotificationBuilder(String htmlText) {
-            Preconditions.checkNotNull(htmlText);
-            Preconditions.checkArgument(!htmlText.isEmpty());
-
-            this.htmlText = htmlText;
-
-            notifyTime = TimeUtil.notificationTime();
-
-            Logger.log(LogTag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Returns the html text for the notification.
-         *
-         * @return the html text for the notification
-         */
-        public String getHtmlText() {
-            return htmlText;
-        }
-
-        /**
-         * Returns the view duration for the notification.
-         *
-         * @return the view duration for the notification
-         */
-        public int getViewDuration() {
-            return viewDuration;
-        }
-
-        /**
-         * Sets the view duration for the notification.
-         *
-         * @param viewDuration the view duration for the notification
-         * @return this NotificationBuilder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setViewDuration(int viewDuration) {
-            this.viewDuration = viewDuration;
-            return this;
-        }
-
-        /**
-         * Returns the arrow direction for the notification.
-         *
-         * @return the arrow direction for the notification
-         */
-        public Direction getArrowDir() {
-            return arrowDir;
-        }
-
-        /**
-         * Sets the arrow direction for the notification.
-         *
-         * @param arrowDir the arrow direction for the notification
-         * @return this NotificationBuilder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setArrowDir(Direction arrowDir) {
-            this.arrowDir = arrowDir;
-            return this;
-        }
-
-        /**
-         * Returns the on kill action for this notification.
-         *
-         * @return the on kill action for this notification
-         */
-        public Runnable getOnKillAction() {
-            return onKillAction;
-        }
-
-        /**
-         * Sets the on kill action for this notification.
-         *
-         * @param onKillAction the on kill action for this notification
-         * @return this NotificationBuilder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setOnKillAction(Runnable onKillAction) {
-            this.onKillAction = onKillAction;
-            return this;
-        }
-
-        /**
-         * Returns the notification direction for this notification.
-         *
-         * @return the notification direction for this notification
-         */
-        public NotificationDirection getNotificationDirection() {
-            return notificationDirection;
-        }
-
-        /**
-         * Sets the notification direction for this notification.
-         *
-         * @param notificationDirection the notification direction for this notification
-         * @return this NotificationBuilder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setNotificationDirection(NotificationDirection notificationDirection) {
-            this.notificationDirection = notificationDirection;
-            return this;
-        }
-
-        /**
-         * Returns the container for this notification.
-         * This takes the place of the text container.
-         *
-         * @return the container for this notification
-         */
-        public JLabel getContainer() {
-            return container;
-        }
-
-        /**
-         * Sets the custom container for this notification.
-         * This takes the place of the text container.
-         *
-         * @param container the JLabel container for this notification
-         * @return this NotificationBuilder
-         */
-        public NotificationBuilder setContainer(JLabel container) {
-            Preconditions.checkNotNull(container);
-            Preconditions.checkArgument(container.getWidth() > 0);
-            Preconditions.checkArgument(container.getHeight() > 0);
-
-            this.container = container;
-            return this;
-        }
-
-        /**
-         * Returns the time at which this object was created.
-         *
-         * @return the time at which this object was created
-         */
-        public String getNotifyTime() {
-            return notifyTime;
-        }
-
-        /**
-         * Returns the notification type of this notification.
-         *
-         * @return the notification type of this notification
-         */
-        public CyderNotification.NotificationType getNotificationType() {
-            return notificationType;
-        }
-
-        /**
-         * Sets the notification type of this notification.
-         *
-         * @param notificationType the notification type of this notification
-         * @return this NotificationBuilder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setNotificationType(CyderNotification.NotificationType notificationType) {
-            this.notificationType = notificationType;
-            return this;
-        }
-
-        /**
-         * Returns whether the view duration should be auto-calculated.
-         *
-         * @return whether the view duration should be auto-calculated
-         */
-        public boolean isCalculateViewDuration() {
-            return calculateViewDuration;
-        }
-
-        /**
-         * Sets whether the view duration should be auto-calculated.
-         *
-         * @param calculateViewDuration whether the view duration should be auto-calculated
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public NotificationBuilder setCalculateViewDuration(boolean calculateViewDuration) {
-            this.calculateViewDuration = calculateViewDuration;
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            } else if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            NotificationBuilder other = (NotificationBuilder) o;
-
-            return viewDuration == other.viewDuration
-                    && notifyTime.equals(other.notifyTime)
-                    && Objects.equal(htmlText, other.htmlText)
-                    && Objects.equal(onKillAction, other.onKillAction)
-                    && notificationDirection == other.notificationDirection
-                    && calculateViewDuration == other.calculateViewDuration
-                    && notificationType == other.notificationType
-                    && Objects.equal(container, other.container);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            int ret = Integer.hashCode(viewDuration);
-            ret = 31 * ret + notifyTime.hashCode();
-            ret = 31 * ret + htmlText.hashCode();
-            ret = 31 * ret + arrowDir.hashCode();
-            ret = 31 * ret + notificationDirection.hashCode();
-            ret = 31 * ret + notificationType.hashCode();
-            return ret;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "NotificationBuilder{"
-                    + "htmlText=" + quote + htmlText + quote
-                    + ", viewDuration=" + viewDuration
-                    + ", arrowDir=" + arrowDir
-                    + ", onKillAction=" + onKillAction
-                    + ", notificationDirection=" + notificationDirection
-                    + ", notificationType=" + notificationType
-                    + ", container=" + container
-                    + ", calculateViewDuration=" + calculateViewDuration
-                    + ", notifyTime=" + quote + notifyTime + quote
-                    + "}";
-        }
     }
 }

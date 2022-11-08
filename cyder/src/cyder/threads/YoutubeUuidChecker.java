@@ -10,6 +10,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
@@ -101,7 +102,7 @@ public class YoutubeUuidChecker {
 
                     CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),
                             Thumbnail.getHeight(), new ImageIcon(Thumbnail));
-                    thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+                    thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
                     thumbnailFrame.setTitle(youtubeUuid);
 
                     JLabel pictureLabel = new JLabel();

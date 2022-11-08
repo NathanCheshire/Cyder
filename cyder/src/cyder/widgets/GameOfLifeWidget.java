@@ -28,7 +28,9 @@ import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderComboBox;
 import cyder.ui.selection.CyderSwitch;
+import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.user.UserUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -388,19 +390,19 @@ public final class GameOfLifeWidget {
 
         CyderGridLayout switchGrid = new CyderGridLayout(2, 1);
 
-        detectOscillationsSwitch = new CyderSwitch(switchSize, CyderSwitch.State.ON);
+        detectOscillationsSwitch = new CyderSwitch(switchSize, CyderSwitchState.ON);
         detectOscillationsSwitch.setSize(switchSize);
-        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
+        detectOscillationsSwitch.setState(CyderSwitchState.ON);
         detectOscillationsSwitch.setButtonPercent(50);
         detectOscillationsSwitch.setOnText("Oscillations");
         detectOscillationsSwitch.setOffText("Ignore");
         switchGrid.addComponent(detectOscillationsSwitch);
 
-        CyderSwitch drawGridLinesSwitch = new CyderSwitch(switchSize, CyderSwitch.State.OFF);
+        CyderSwitch drawGridLinesSwitch = new CyderSwitch(switchSize, CyderSwitchState.OFF);
         drawGridLinesSwitch.setSize(switchSize);
         drawGridLinesSwitch.getSwitchButton().addActionListener(e -> {
-            CyderSwitch.State nextState = drawGridLinesSwitch.getNextState();
-            conwayGrid.setDrawGridLines(nextState.equals(CyderSwitch.State.ON));
+            CyderSwitchState nextState = drawGridLinesSwitch.getNextState();
+            conwayGrid.setDrawGridLines(nextState.equals(CyderSwitchState.ON));
             conwayGrid.repaint();
         });
         drawGridLinesSwitch.setOffText("No Grid");
@@ -417,7 +419,7 @@ public final class GameOfLifeWidget {
         CyderSliderUi sliderUi = new CyderSliderUi(iterationsPerSecondSlider);
         sliderUi.setThumbStroke(new BasicStroke(2.0f));
         sliderUi.setThumbRadius(25);
-        sliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        sliderUi.setThumbShape(ThumbShape.CIRCLE);
         sliderUi.setThumbFillColor(Color.black);
         sliderUi.setThumbOutlineColor(CyderColors.navy);
         sliderUi.setRightThumbColor(CyderColors.regularBlue);
@@ -528,7 +530,7 @@ public final class GameOfLifeWidget {
         conwayGrid.clearGrid();
         conwayGrid.repaint();
 
-        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
+        detectOscillationsSwitch.setState(CyderSwitchState.ON);
         iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
         iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
@@ -622,7 +624,7 @@ public final class GameOfLifeWidget {
                         conwayFrame.notify("Simulation stabilized at generation: " + generation);
                         stopSimulation();
                         return;
-                    } else if (detectOscillationsSwitch.getState().equals(CyderSwitch.State.ON)
+                    } else if (detectOscillationsSwitch.getState().equals(CyderSwitchState.ON)
                             && nextState.equals(lastState)) {
                         conwayFrame.revokeAllNotifications();
                         conwayFrame.notify("Detected oscillation at generation: " + generation);

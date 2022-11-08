@@ -12,6 +12,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.IoUtil;
@@ -54,7 +55,7 @@ public final class PhoneWidget {
     /**
      * The button theme.
      */
-    private static final CyderModernButton.ThemeBuilder theme = new CyderModernButton.ThemeBuilder()
+    private static final ThemeBuilder theme = new ThemeBuilder()
             .setFont(CyderFonts.SEGOE_30)
             .setBackgroundColor(CyderColors.regularOrange)
             .setBorderColor(CyderColors.navy)

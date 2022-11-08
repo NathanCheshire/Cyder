@@ -36,10 +36,13 @@ import cyder.ui.drag.button.ChangeSizeButton;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.MenuType;
+import cyder.ui.frame.NotificationBuilder;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.user.UserFile;
 import cyder.utils.*;
 import cyder.youtube.DownloadType;
@@ -455,7 +458,7 @@ public final class AudioPlayer {
             }
         });
         audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
-        audioPlayerFrame.setMenuType(CyderFrame.MenuType.PANEL);
+        audioPlayerFrame.setMenuType(MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -539,7 +542,7 @@ public final class AudioPlayer {
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
         audioLocationSliderUi.setThumbStroke(SLIDER_STROKE);
-        audioLocationSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        audioLocationSliderUi.setThumbShape(ThumbShape.CIRCLE);
         audioLocationSliderUi.setThumbRadius(25);
         audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
@@ -651,7 +654,7 @@ public final class AudioPlayer {
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
         audioVolumeSliderUi.setThumbStroke(SLIDER_STROKE);
-        audioVolumeSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        audioVolumeSliderUi.setThumbShape(ThumbShape.CIRCLE);
         audioVolumeSliderUi.setThumbRadius(25);
         audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
@@ -1025,7 +1028,7 @@ public final class AudioPlayer {
 
                 try {
                     ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
-                    audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
+                    audioPlayerFrame.notify(new NotificationBuilder
                             ("Saved waveform to your files directory")
                             .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
                 } catch (Exception e) {
@@ -1093,7 +1096,7 @@ public final class AudioPlayer {
      * The runnable used to dreamify an audio file.
      */
     private static final Runnable dreamifyRunnable = () -> {
-        audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
+        audioPlayerFrame.notify(new NotificationBuilder("Dreamifying \""
                 + FileUtil.getFilename(currentAudioFile.get()) + CyderStrings.quote).setViewDuration(10000));
         dreamifierLocked.set(true);
 

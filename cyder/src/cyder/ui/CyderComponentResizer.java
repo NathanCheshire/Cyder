@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * A listener to allow custom, undecorated frames to be resizable.
+ * A listener to allow custom, undecorated frames (typically {@link CyderFrame}s) to be resizable.
  */
 public class CyderComponentResizer extends MouseAdapter {
     /**
@@ -627,7 +627,7 @@ public class CyderComponentResizer extends MouseAdapter {
         /**
          * Resets the original focusable property of the encapsulated component.
          */
-        @SuppressWarnings("ConstantConditions") // it is not always true
+        @SuppressWarnings("ConstantConditions") /* The conditions are, in fact, not constant */
         public void restore() {
             if (canFocus) {
                 component.setFocusable(canFocus);

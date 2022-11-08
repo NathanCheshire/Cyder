@@ -25,35 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A drag label to be used for CyderFrames borders.
  */
 public class CyderDragLabel extends JLabel {
-    /**
-     * The possible types of drag labels.
-     */
-    public enum Type {
-        /**
-         * The top of the frame. This is the only drag label that builds the default right button list.
-         */
-        TOP,
-
-        /**
-         * The bottom of the frame.
-         */
-        BOTTOM,
-
-        /**
-         * The left of the frame.
-         */
-        LEFT,
-
-        /**
-         * The right of the frame.
-         */
-        RIGHT,
-
-        /**
-         * The drag label takes up the full content pane or is the content pane.
-         */
-        FULL
-    }
 
     /**
      * The key to get the drag label height from the props if present.
@@ -129,7 +100,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The type of drag label this drag label is.
      */
-    private final Type type;
+    private final DragLabelType type;
 
     /**
      * Constructs a new drag label with the provided bounds and frame to effect.
@@ -139,7 +110,7 @@ public class CyderDragLabel extends JLabel {
      * @param effectFrame the cyder frame object to control
      * @param type        the type of drag label this drag label should be
      */
-    public CyderDragLabel(int width, int height, CyderFrame effectFrame, Type type) {
+    public CyderDragLabel(int width, int height, CyderFrame effectFrame, DragLabelType type) {
         this.width = width;
         this.height = height;
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
@@ -149,7 +120,7 @@ public class CyderDragLabel extends JLabel {
         leftButtonList = new LinkedList<>();
 
         /* This is better for readability */
-        if (type == Type.TOP) {
+        if (type == DragLabelType.TOP) {
             rightButtonList = buildRightButtonList();
         } else {
             rightButtonList = new LinkedList<>();
@@ -854,7 +825,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the type of drag label this drag label is
      */
-    public Type getType() {
+    public DragLabelType getType() {
         return type;
     }
 }

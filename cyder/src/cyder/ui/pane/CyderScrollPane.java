@@ -525,7 +525,7 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     /**
-     * An invisible button to use for the scroll bar so that they are invisible.
+     * An invisible button to use for the scroll bar so that the buttons to navigate left/right/up/down are invisible.
      */
     private static class InvisibleScrollBarButton extends JButton {
         /**

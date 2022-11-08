@@ -14,6 +14,7 @@ import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
@@ -416,7 +417,7 @@ public enum CyderSplash {
         splashFrame.addWindowListener(splashFrameWindowAdapter);
         splashFrame.setTitle(FRAME_TITLE);
         splashFrame.addEndDragEventCallback(dragEventCallback);
-        splashFrame.setFrameType(CyderFrame.FrameType.POPUP);
+        splashFrame.setFrameType(FrameType.POPUP);
     }
 
     /**

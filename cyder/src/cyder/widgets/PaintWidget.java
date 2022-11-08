@@ -26,12 +26,15 @@ import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
+import cyder.ui.frame.NotificationBuilder;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
@@ -171,7 +174,7 @@ public final class PaintWidget {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
                     ImageIO.write(image, Extension.PNG.getExtensionWithoutPeriod(), referenceFile);
 
-                    paintFrame.notify(new CyderFrame.NotificationBuilder(
+                    paintFrame.notify(new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
                                     + "\" to your Files/ directory. Click me to view it")
                             .setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui()));
@@ -601,7 +604,7 @@ public final class PaintWidget {
                 MAX_BRUSH_WIDTH, brushWidth);
         CyderSliderUi UI = new CyderSliderUi(brushWidthSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setThumbShape(CyderSliderUi.ThumbShape.RECT);
+        UI.setThumbShape(ThumbShape.RECTANGLE);
         UI.setThumbFillColor(Color.black);
         UI.setThumbOutlineColor(CyderColors.navy);
         UI.setRightThumbColor(CyderColors.regularBlue);
@@ -689,7 +692,7 @@ public final class PaintWidget {
 
         paintControlsFrame.setLocation(x, y);
         paintControlsFrame.setVisible(true);
-        paintControlsFrame.setFrameType(CyderFrame.FrameType.POPUP);
+        paintControlsFrame.setFrameType(FrameType.POPUP);
 
         if (paintFrame.isVisible()) return;
 

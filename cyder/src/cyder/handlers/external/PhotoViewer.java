@@ -16,6 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 
@@ -124,7 +125,7 @@ public class PhotoViewer {
 
             pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
             pictureFrame.setBackground(Color.BLACK);
-            pictureFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+            pictureFrame.setTitlePosition(TitlePosition.CENTER);
             revalidateTitle(FileUtil.getFilename(currentImage.getName()));
             pictureFrame.setVisible(true);
             pictureFrame.addWindowListener(generateWindowAdapter());

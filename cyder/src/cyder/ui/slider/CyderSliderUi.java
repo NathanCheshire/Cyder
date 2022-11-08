@@ -64,7 +64,7 @@ public class CyderSliderUi extends BasicSliderUI {
     /**
      * The shape of the thumb.
      */
-    private ThumbShape thumbShape = ThumbShape.RECT;
+    private ThumbShape thumbShape = ThumbShape.RECTANGLE;
 
     /**
      * Sets the radius of the thumb.
@@ -429,7 +429,7 @@ public class CyderSliderUi extends BasicSliderUI {
                 g.fillOval(x, y, thumbRadius / 2, thumbRadius / 2);
                 g2d.dispose();
             }
-            case RECT -> {
+            case RECTANGLE -> {
                 Rectangle knobBounds = thumbRect;
                 int w = knobBounds.width;
                 int h = knobBounds.height;
@@ -574,28 +574,5 @@ public class CyderSliderUi extends BasicSliderUI {
                 slider.setValue(valueForXPosition(thumbMiddle));
             }
         }
-    }
-
-    /**
-     * Possible slider shapes for a CyderSlider thumb.
-     */
-    public enum ThumbShape {
-        /**
-         * A classic filled circle.
-         */
-        CIRCLE,
-        /**
-         * A rectangle
-         */
-        RECT,
-        /**
-         * A circle that isn't filled in, you can see where the track splits colors
-         * if old value is different from new value.
-         */
-        HOLLOW_CIRCLE,
-        /**
-         * Why though.
-         */
-        NONE
     }
 }

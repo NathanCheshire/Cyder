@@ -13,7 +13,19 @@ import java.awt.event.MouseMotionListener;
  * A mouse motion listener to allow a component to be dragged during runtime.
  */
 public class CyderDraggableComponent implements MouseMotionListener {
+    /**
+     * The key to obtain whether the components are relocatable from the props.
+     */
+    private static final String COMPONENTS_RELOCATABLE = "components_relocatable";
+
+    /**
+     * The current x location of the mouse relative to the parent component\.
+     */
     private int xMouse;
+
+    /**
+     * The current y location of the mouse relative to the parent component\.
+     */
     private int yMouse;
 
     /**
@@ -22,11 +34,6 @@ public class CyderDraggableComponent implements MouseMotionListener {
     public CyderDraggableComponent() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
-
-    /**
-     * The key to obtain whether the components are relocatable from the props.
-     */
-    private static final String COMPONENTS_RELOCATABLE = "components_relocatable";
 
     /**
      * {@inheritDoc}

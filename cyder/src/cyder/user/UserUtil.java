@@ -885,22 +885,23 @@ public final class UserUtil {
         Dimension maximumDimension = new Dimension(UiUtil.getDefaultMonitorWidth(), UiUtil.getDefaultMonitorHeight());
 
         for (File backgroundFile : validBackgroundFiles) {
+            String filename = FileUtil.getFilename(backgroundFile);
+
             BufferedImage image = null;
             try {
-                CyderSplash.INSTANCE.setLoadingMessage("Reading background: " + FileUtil.getFilename(backgroundFile));
+                CyderSplash.INSTANCE.setLoadingMessage("Reading background: " + filename);
                 image = ImageUtil.read(backgroundFile);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
 
             if (image == null) continue;
-            CyderSplash.INSTANCE.setLoadingMessage("Resizing background: " + FileUtil.getFilename(backgroundFile));
+            CyderSplash.INSTANCE.setLoadingMessage("Checking if resize needed for background: " + filename);
             image = ImageUtil.ensureFitsInBounds(image, maximumDimension);
 
             try {
                 if (!ImageIO.write(image, FileUtil.getExtensionWithoutPeriod(backgroundFile), backgroundFile)) {
-                    throw new FatalException("Failed to downscale image: "
-                            + backgroundFile.getAbsolutePath());
+                    throw new FatalException("Failed to downscale image: " + backgroundFile.getAbsolutePath());
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

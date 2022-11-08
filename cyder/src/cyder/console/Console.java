@@ -39,6 +39,9 @@ import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.*;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.NotificationBuilder;
+import cyder.ui.frame.ScreenPosition;
+import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
@@ -778,8 +781,8 @@ public enum Console {
     /**
      * The builder for when the alternate background buttons is pressed when only one background is present.
      */
-    private static final CyderFrame.NotificationBuilder onlyOneBackgroundNotificationBuilder
-            = new CyderFrame.NotificationBuilder(onlyOneBackgroundNotificationText)
+    private static final NotificationBuilder onlyOneBackgroundNotificationBuilder
+            = new NotificationBuilder(onlyOneBackgroundNotificationText)
             .setViewDuration(5000)
             .setOnKillAction(() -> UserEditor.showGui(UserEditor.Page.FILES));
 
@@ -876,7 +879,7 @@ public enum Console {
      */
     @ForReadability
     private void installConsoleClock() {
-        consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        consoleCyderFrame.setTitlePosition(TitlePosition.CENTER);
         consoleCyderFrame.setCyderFrameTitle("");
         consoleCyderFrame.setTitleLabelFont(CONSOLE_CLOCK_FONT);
     }
@@ -3306,7 +3309,7 @@ public enum Console {
      *
      * @param screenPosition the screen position to move the Console to
      */
-    public void setLocationOnScreen(CyderFrame.ScreenPosition screenPosition) {
+    public void setLocationOnScreen(ScreenPosition screenPosition) {
         Preconditions.checkNotNull(screenPosition);
 
         consoleCyderFrame.setLocationOnScreen(screenPosition);

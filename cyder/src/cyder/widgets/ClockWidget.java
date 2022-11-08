@@ -26,6 +26,7 @@ import cyder.time.TimeUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
@@ -655,7 +656,7 @@ public final class ClockWidget {
             }
         };
         miniFrame.setTitle(TIMEZONE + space + openingParenthesis + GMT + currentGmtOffset + closingParenthesis);
-        miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        miniFrame.setTitlePosition(TitlePosition.CENTER);
 
         JLabel currentTimeLabel =
                 new JLabel(getCurrentTimeAccountingForOffset(currentGmtOffset), SwingConstants.CENTER);

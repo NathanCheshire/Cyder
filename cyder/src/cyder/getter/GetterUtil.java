@@ -12,6 +12,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.BoundsUtil;
@@ -170,7 +171,7 @@ public final class GetterUtil {
             CyderFrame inputFrame = new CyderFrame(textWidth, frameHeight, CyderIcons.defaultBackground);
             getInputFrames.add(inputFrame);
             inputFrame.addPreCloseAction(() -> getInputFrames.remove(inputFrame));
-            inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+            inputFrame.setFrameType(FrameType.INPUT_GETTER);
             inputFrame.setTitle(getInputBuilder.getFrameTitle());
             getInputBuilder.getOnDialogDisposalRunnables().forEach(inputFrame::addPostCloseAction);
 
@@ -479,7 +480,7 @@ public final class GetterUtil {
             try {
                 resetFileHistory();
 
-                directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                directoryFrame.setFrameType(FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
                 getFileBuilder.getOnDialogDisposalRunnables().forEach(directoryFrame::addPostCloseAction);
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
@@ -857,7 +858,7 @@ public final class GetterUtil {
                 frameReference.set(confirmationFrame);
                 getConfirmationBuilder.getOnDialogDisposalRunnables().forEach(confirmationFrame::addPostCloseAction);
 
-                confirmationFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                confirmationFrame.setFrameType(FrameType.INPUT_GETTER);
                 confirmationFrame.setTitle(getConfirmationBuilder.getFrameTitle());
                 confirmationFrame.addPreCloseAction(() -> {
                     if (ret.get() != Boolean.TRUE) {

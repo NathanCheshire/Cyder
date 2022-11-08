@@ -11,6 +11,7 @@ import cyder.constants.CyderIcons;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.selection.CyderCheckbox;
@@ -138,7 +139,7 @@ public final class TemperatureWidget {
     /**
      * The theme for the buttons.
      */
-    private static final CyderModernButton.ThemeBuilder buttonTheme = new CyderModernButton.ThemeBuilder()
+    private static final ThemeBuilder buttonTheme = new ThemeBuilder()
             .setBackgroundColor(CyderColors.regularRed)
             .setBorderLength(5)
             .setBorderColor(CyderColors.navy)

@@ -17,16 +17,13 @@ import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.field.CyderTextField;
-import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.NotificationDirection;
+import cyder.ui.frame.*;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.progress.CyderProgressUI;
-import cyder.ui.selection.CyderCheckbox;
-import cyder.ui.selection.CyderCheckboxGroup;
-import cyder.ui.selection.CyderComboBox;
-import cyder.ui.selection.CyderSwitch;
+import cyder.ui.selection.*;
 import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
 import cyder.utils.ImageUtil;
 
 import javax.swing.*;
@@ -116,15 +113,15 @@ public final class GuiTests {
         removeRightButton.setSize(200, 40);
 
         CyderButton leftTitle = new CyderButton("Left title");
-        leftTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT));
+        leftTitle.addActionListener(e -> testFrame.setTitlePosition(TitlePosition.LEFT));
         leftTitle.setSize(200, 40);
 
         CyderButton centerTitle = new CyderButton("Center title");
-        centerTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER));
+        centerTitle.addActionListener(e -> testFrame.setTitlePosition(TitlePosition.CENTER));
         centerTitle.setSize(200, 40);
 
         CyderButton rightTitle = new CyderButton("Right title");
-        rightTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.RIGHT));
+        rightTitle.addActionListener(e -> testFrame.setTitlePosition(TitlePosition.RIGHT));
         rightTitle.setSize(200, 40);
 
         CyderTextField titleField = new CyderTextField();
@@ -174,55 +171,55 @@ public final class GuiTests {
 
         CyderButton topNotify = new CyderButton("Top");
         topNotify.setSize(150, 40);
-        topNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        topNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.TOP)
                 .setNotificationDirection(NotificationDirection.TOP)));
 
         CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setSize(150, 40);
-        rightNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        rightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.TOP_RIGHT)));
 
         CyderButton bottomNotify = new CyderButton("Bottom");
         bottomNotify.setSize(150, 40);
-        bottomNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        bottomNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.BOTTOM)
                 .setNotificationDirection(NotificationDirection.BOTTOM)));
 
         CyderButton leftNotify = new CyderButton("Top Left");
         leftNotify.setSize(150, 40);
-        leftNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        leftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.TOP_LEFT)));
 
         CyderButton centerLeftNotify = new CyderButton("Center Left");
         centerLeftNotify.setSize(150, 40);
-        centerLeftNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        centerLeftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.LEFT)));
 
         CyderButton centerRightNotify = new CyderButton("Center Right");
         centerRightNotify.setSize(150, 40);
-        centerRightNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        centerRightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.RIGHT)));
 
         CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
         bottomLeftNotify.setSize(150, 40);
-        bottomLeftNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        bottomLeftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)));
         CyderButton bottomRightNotify = new CyderButton("Bottom Right");
         bottomRightNotify.setSize(170, 40);
-        bottomRightNotify.addActionListener(e -> testFrame.notify(new CyderFrame.NotificationBuilder(ctf.getText())
+        bottomRightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
                 .setArrowDir(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.BOTTOM_RIGHT)));
@@ -404,7 +401,7 @@ public final class GuiTests {
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
         CyderSliderUi UI = new CyderSliderUi(audioVolumeSlider);
         UI.setThumbRadius(25);
-        UI.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        UI.setThumbShape(ThumbShape.CIRCLE);
         UI.setThumbFillColor(CyderColors.regularPink);
         UI.setThumbOutlineColor(CyderColors.regularPink);
         UI.setRightThumbColor(CyderColors.navy);
@@ -434,7 +431,7 @@ public final class GuiTests {
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame(600, 200);
         cf.setTitle("Title Length Test");
-        cf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        cf.setTitlePosition(TitlePosition.LEFT);
 
         CyderTextField ctf = new CyderTextField();
         ctf.setBounds(40, 40, 600 - 80, 40);
@@ -459,7 +456,7 @@ public final class GuiTests {
 
         CyderSwitch cs = new CyderSwitch(300, 100);
         cs.setBounds(100, 100, 300, 100);
-        cs.setState(CyderSwitch.State.OFF);
+        cs.setState(CyderSwitchState.OFF);
         testFrame.getContentPane().add(cs);
 
         testFrame.finalizeAndShow();
@@ -534,7 +531,7 @@ public final class GuiTests {
         CyderButton testButton = new CyderButton("This");
         testButton.setSize(100, 100);
         testButton.addActionListener(e -> gridTestFrame.notify(
-                new CyderFrame.NotificationBuilder("Notified button clicked")));
+                new NotificationBuilder("Notified button clicked")));
         layout.addComponent(testButton, 0, 0, GridPosition.RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
@@ -592,7 +589,7 @@ public final class GuiTests {
             cb.setSize(200, 50);
             int finalI = i;
             cb.addActionListener(e -> testFrame.notify(
-                    new CyderFrame.NotificationBuilder(finalI + " button: " + cb)));
+                    new NotificationBuilder(finalI + " button: " + cb)));
             layout.addComponent(cb);
         }
 
@@ -641,7 +638,7 @@ public final class GuiTests {
         testFrame.setTitle("Menu Test");
 
         testFrame.setMenuEnabled(true);
-        testFrame.setMenuType(CyderFrame.MenuType.RIBBON);
+        testFrame.setMenuType(MenuType.RIBBON);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -665,10 +662,10 @@ public final class GuiTests {
         CyderButton switchMenuType = new CyderButton("Switch Menu");
         switchMenuType.setSize(200, 40);
         switchMenuType.addActionListener(e -> {
-            if (testFrame.getMenuType() == CyderFrame.MenuType.PANEL) {
-                testFrame.setMenuType(CyderFrame.MenuType.RIBBON);
+            if (testFrame.getMenuType() == MenuType.PANEL) {
+                testFrame.setMenuType(MenuType.RIBBON);
             } else {
-                testFrame.setMenuType(CyderFrame.MenuType.PANEL);
+                testFrame.setMenuType(MenuType.PANEL);
             }
         });
 
@@ -713,7 +710,7 @@ public final class GuiTests {
         CyderTextField ctf = new CyderTextField();
         ctf.setSize(200, 40);
         ctf.addActionListener(
-                e -> testFrame.notify(new CyderFrame.NotificationBuilder("NULL").setContainer(container)));
+                e -> testFrame.notify(new NotificationBuilder("NULL").setContainer(container)));
 
         CyderFlowLayout cyderFlow = new CyderFlowLayout(
                 HorizontalAlignment.CENTER_STATIC,

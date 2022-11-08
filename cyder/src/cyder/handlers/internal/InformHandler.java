@@ -9,6 +9,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.BoundsUtil;
@@ -141,7 +142,7 @@ public final class InformHandler {
             });
         }
 
-        informFrame.setFrameType(CyderFrame.FrameType.POPUP);
+        informFrame.setFrameType(FrameType.POPUP);
         informFrame.setVisible(true);
         informFrame.setLocationRelativeTo(relativeTo);
 

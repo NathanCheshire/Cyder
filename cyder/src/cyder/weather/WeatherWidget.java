@@ -23,6 +23,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 
@@ -874,7 +875,7 @@ public class WeatherWidget {
         refreshFrameTitle(splitCity);
 
         if (weatherFrame != null) weatherFrame.toast(
-                new CyderFrame.NotificationBuilder(REFRESHED).setViewDuration(1000));
+                new NotificationBuilder(REFRESHED).setViewDuration(1000));
     }
 
     /**
