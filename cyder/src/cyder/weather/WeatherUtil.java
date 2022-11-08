@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.Optional;
 
 /**
- * Utilities related to weather and the weather API utilized by Cyder.
+ * Utilities related to weather and the weather API, that of Open Weather Map, utilized by Cyder.
  */
 public final class WeatherUtil {
     /**
@@ -79,6 +79,7 @@ public final class WeatherUtil {
     public static Optional<WeatherData> getWeatherData(String locationString) {
         Preconditions.checkNotNull(locationString);
         Preconditions.checkArgument(!locationString.isEmpty());
+        Preconditions.checkState(PropLoader.propExists(WEATHER_KEY));
 
         String weatherKey = PropLoader.getString(WEATHER_KEY);
 

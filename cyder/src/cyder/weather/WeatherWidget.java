@@ -879,11 +879,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The regex to target all latin characters.
-     */
-    private static final String replaceLettersRegex = "[a-zA-Z]+";
-
-    /**
      * The day time identifier.
      */
     private static final String D = "d";
@@ -899,7 +894,7 @@ public class WeatherWidget {
         long currentTime = new Date().getTime();
 
         boolean isAfterSunset = currentTime > sunsetTime;
-        String weatherIconIdAndTime = weatherIconId.replaceAll(replaceLettersRegex, "")
+        String weatherIconIdAndTime = weatherIconId.replaceAll(CyderRegexPatterns.englishLettersRegex, "")
                 + (isAfterSunset ? N : D);
 
         return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
