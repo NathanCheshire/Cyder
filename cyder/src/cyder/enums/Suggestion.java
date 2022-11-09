@@ -1,5 +1,8 @@
 package cyder.enums;
 
+/**
+ * A suggestion to a user for how to use Cyder.
+ */
 public enum Suggestion {
     Pathfinder("pathfinder", "open an A* and Dijkstra's algorithm path finding visualizer"),
     Math("e^pi", "calculate e^pi using the command line mathematical expression parser"),
@@ -8,7 +11,10 @@ public enum Suggestion {
     Weather("weather", "open up the weather widget"),
     Curl("curl", "curl a url just like linux"),
     Play("play", "downloads a youtube video's audio and plays it using the audio player"),
-    Conway("Conway's Game of Life", "Conway's game of life re-created in Cyder");
+    Conway("Conway's Game of Life", "Conway's game of life re-created in Cyder"),
+    X("x", "An easter egg for XXX Tentacion"),
+    Hangman("hangman", "A hangman game"),
+    Paint("paint", "A painting widget");
 
     /**
      * The trigger for the command for this suggestion.
@@ -20,12 +26,6 @@ public enum Suggestion {
      */
     private final String description;
 
-    /**
-     * Constructs a new Suggestion from the provided arguments.
-     *
-     * @param command     the command which will trigger the suggestion
-     * @param description a description of what the trigger results in
-     */
     Suggestion(String command, String description) {
         this.command = command;
         this.description = description;

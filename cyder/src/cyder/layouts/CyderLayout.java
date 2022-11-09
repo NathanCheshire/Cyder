@@ -63,7 +63,7 @@ public abstract class CyderLayout extends JLabel {
     public abstract Dimension getPackSize();
 
     /*
-    Override add methods so that a user doesn't
+    Override add methods so that a developer doesn't
     accidentally call them and wonder why their components aren't
     appearing on the CyderFrame.
      */
@@ -135,7 +135,7 @@ public abstract class CyderLayout extends JLabel {
     }
 
     /*
-    Override remove methods so that a user doesn't
+    Override remove methods so that a developer doesn't
     accidentally call them and wonder why their components aren't
     disappearing on the CyderFrame.
      */

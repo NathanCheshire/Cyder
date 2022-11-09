@@ -22,8 +22,8 @@ public enum SystemPropertyKey {
     JAVA_LIBRARY_PATH("java.library.path", "List of paths to search when loading libraries"),
     JAVA_IO_TMPDIR("java.io.tmpdir", "Default temp file path"),
     JAVA_COMPILER("java.compiler", "Name of JIT compiler to use"),
-    JAVA_EXT_DIRS("java.ext.dirs", "Path of extension directory or directories Deprecated. This property,"
-            + " and the mechanism which implements it, may be removed in a future release."),
+    JAVA_EXT_DIRS("java.ext.dirs", "Path of extension directory or directories Deprecated."
+            + " This property, and the mechanism which implements it, may be removed in a future release."),
     OS_NAME("os.name", "Operating system name"),
     OS_ARCH("os.arch", "Operating system architecture"),
     OS_VERSION("os.version", "Operating system version"),

@@ -25,7 +25,7 @@ public enum ExitCondition {
      * Reserved as this indicates something specific to JVM exits.
      */
     @Deprecated
-    TrueExternalStop(-1, "DO NOT OVERRIDE"),
+    TrueExternalStop(-1, "DO NOT USE"),
 
     /**
      * The standard Cyder exit.

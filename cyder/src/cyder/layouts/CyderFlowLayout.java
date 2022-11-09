@@ -2,6 +2,7 @@ package cyder.layouts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.CyderPanel;
@@ -177,17 +178,14 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public void revalidateComponents() {
-        // If no components or no panel, cannot revalidate
-        if (components.size() < 1 || associatedPanel == null || associatedPanel.getWidth() == 0) return;
+        if (!shouldRevalidateComponents()) return;
 
         Component focusOwner = null;
         ArrayList<ArrayList<Component>> rows = new ArrayList<>();
         ArrayList<Component> currentRow = new ArrayList<>();
 
-        int currentWidthAcc = 0;
-
-        // max allowable width per row is the panel width minus the horizontal padding
-        int maxWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
+        int currentRowWidth = 0;
+        int maxRowWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
 
         // validate all rows and figure out if we can display some/all rows
         for (Component flowComponent : components) {
@@ -197,156 +195,102 @@ public class CyderFlowLayout extends CyderLayout {
             }
 
             // if this component cannot start on this row, then wrap it to a new row
-            if (currentWidthAcc + flowComponent.getWidth() + horizontalGap > maxWidth) {
-                // if nothing is on the current row
-                if (currentRow.size() < 1) {
-                    // add the component to this row
+            if (currentRowWidth + flowComponent.getWidth() + horizontalGap > maxRowWidth) {
+                // Ensure at least one component on this row
+                if (currentRow.isEmpty()) {
                     currentRow.add(flowComponent);
-
-                    // add the row with a singular element to the rows list
                     rows.add(currentRow);
 
-                    // reset to a new row to add to
                     currentRow = new ArrayList<>();
-                    currentWidthAcc = 0;
-                }
-                // something is on this row so we need to add and reset
-                else {
-                    // add current row to rows list
+                    currentRowWidth = 0;
+                } else {
+                    // Something already on row so add and make new row list
+
                     rows.add(currentRow);
 
-                    // reset row vars for new row
                     currentRow = new ArrayList<>();
-                    currentWidthAcc = flowComponent.getWidth() + horizontalGap;
+                    currentRowWidth = flowComponent.getWidth() + horizontalGap;
                     currentRow.add(flowComponent);
                 }
-            }
-            // component can fit on this row
-            else {
-                // increment width acc
-                currentWidthAcc += flowComponent.getWidth() + horizontalGap;
-
-                // add component to row list
+            } else { // Component fits on this row
+                currentRowWidth += flowComponent.getWidth() + horizontalGap;
                 currentRow.add(flowComponent);
             }
         }
 
-        // may have run out of components before meeting the max width constraint
-        // so if the current row has components, add the row to the list of rows
-        if (!currentRow.isEmpty()) {
-            rows.add(currentRow);
-        }
+        // If loop exited before hitting row width limit
+        if (!currentRow.isEmpty()) rows.add(currentRow);
 
-        // find the max component height of each row
+        // Find the max component height of each row
         ArrayList<Integer> maxRowHeights = new ArrayList<>();
         for (ArrayList<Component> row : rows) {
             int currentRowMax = 0;
-
-            for (Component rowComponent : row) {
-                currentRowMax = Math.max(currentRowMax, rowComponent.getHeight());
-            }
-
+            for (Component rowComponent : row) currentRowMax = Math.max(currentRowMax, rowComponent.getHeight());
             maxRowHeights.add(currentRowMax);
         }
 
-        // now figure out how many rows we can show
-        // and from that, we can determine how to do vertical alignment
-        // by having an initial offset and a gap which mayo not be equal to the one provided.
+        // Calculate how many rows of components we can show
         int numRows = 0;
-        int heightAcc = 0;
-
-        // for all row heights
+        int currentHeight = 0;
+        int panelHeight = associatedPanel.getHeight();
         for (int maxRowHeight : maxRowHeights) {
-            // if we can fit it in the view even if it's a singular pixel
-            if (heightAcc + maxRowHeight < associatedPanel.getHeight()) {
-                heightAcc += maxRowHeight;
+            // If we can fit part of the next row on the panel
+            if (currentHeight + maxRowHeight < panelHeight) {
+                currentHeight += maxRowHeight;
                 numRows++;
             } else {
                 break;
             }
         }
-
-        // ensure that we always do at least 1 row, less than 1 should be impossible
         numRows = Math.max(1, numRows);
 
-        // the horizontal line to center the current row on,
-        // this is based off of  the vertical alignment
-        int currentHeightCenteringInc = 0;
+        // The horizontal line to center the current row on
+        int currentHeightCenteringY = 0;
+        // The value to increment currentHeightCenteringY by if verticalAlignment is CENTER
+        int currentHeightCenterIncrement = 0;
 
-        int centerPartition = 0;
-
-        // figure out starting height and increment based off of vertical alignment
+        // Figure out the above vars
         switch (verticalAlignment) {
-            // this is the default, components are layered down
-            // with the minimum spacing in between them (vertical padding)
-            case TOP:
-                currentHeightCenteringInc += verticalGap;
-                break;
-            // component rows are spaced evenly to take up the whole space available
-            case CENTER:
+            // Default, components are laid out from top to bottom with minimum vertical spacing
+            case TOP -> currentHeightCenteringY += verticalGap;
+            // Component rows are spaced evenly to take up the space available
+            case CENTER -> {
                 int rowHeightsOfVisibleRows = 0;
-                for (int i = 0 ; i < numRows ; i++) {
-                    rowHeightsOfVisibleRows += maxRowHeights.get(i);
-                }
-
-                centerPartition = (associatedPanel.getHeight()
-                        - rowHeightsOfVisibleRows) / (numRows + 1);
-
-                currentHeightCenteringInc = centerPartition;
-
-                break;
-            // component rows are placed to border the bottom with the minimum
-            // padding in between them
-            case BOTTOM:
+                for (int i = 0 ; i < numRows ; i++) rowHeightsOfVisibleRows += maxRowHeights.get(i);
+                currentHeightCenterIncrement = (associatedPanel.getHeight() - rowHeightsOfVisibleRows) / (numRows + 1);
+                currentHeightCenteringY = currentHeightCenterIncrement;
+            }
+            // Component rows are placed to border the bottom with minimum vertical spacing
+            case BOTTOM -> {
                 int rowHeights = 0;
-
-                for (int aMaxHeight : maxRowHeights) {
-                    rowHeights += aMaxHeight;
-                }
-
-                currentHeightCenteringInc = associatedPanel.getHeight()
-                        - verticalGap * rows.size() - rowHeights;
-                break;
-            // component rows are spaced with the minimum gap and placed at the center
-            case CENTER_STATIC:
+                for (int aMaxHeight : maxRowHeights) rowHeights += aMaxHeight;
+                currentHeightCenteringY = associatedPanel.getHeight() - verticalGap * rows.size() - rowHeights;
+            }
+            // Component rows are spaced with the minimum vertical spacing and centered in the available space
+            case CENTER_STATIC -> {
                 int sumRowHeights = 0;
-
-                for (int aMaxHeight : maxRowHeights) {
-                    sumRowHeights += aMaxHeight + verticalGap;
-                }
-
+                for (int aMaxHeight : maxRowHeights) sumRowHeights += aMaxHeight + verticalGap;
                 // one less than num components always
                 sumRowHeights -= verticalGap;
-
-                currentHeightCenteringInc = associatedPanel.getHeight() / 2 - sumRowHeights / 2;
-
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
+                currentHeightCenteringY = associatedPanel.getHeight() / 2 - sumRowHeights / 2;
+            }
+            default -> throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
         }
 
-        // for all the rows we can show
         for (int i = 0 ; i < numRows ; i++) {
             currentRow = rows.remove(0);
+            int currentRowMaxHeight = maxRowHeights.remove(0);
+            currentHeightCenteringY += (currentRowMaxHeight / 2);
 
-            // the current max height for the row from the above computed list
-            int maxHeight = maxRowHeights.remove(0);
-
-            // the centering horizontal start line is now the
-            // padding plus half the max component height
-            currentHeightCenteringInc += (maxHeight / 2);
-
-            // now figure out how much width this row really requires (we know it will fit).
-            // the initial value is -horizontalGap to offset the last component having a horizontalGap after it
-            int necessaryWidth = -horizontalGap;
-            int componentCount = 0;
+            // Figure out how much width this row requires
+            int currentRowNecessaryWidth = 0;
             for (Component flowComponent : currentRow) {
-                necessaryWidth += flowComponent.getWidth() + horizontalGap;
-                componentCount++;
+                currentRowNecessaryWidth += flowComponent.getWidth() + horizontalGap;
             }
+            // Account for last addition of horizontal gap
+            currentRowNecessaryWidth -= horizontalGap;
 
-            // based on alignment figure out how to place the rows on the pane
-            // and what to do with excess space
+            // Figure out how to place current row components on the content pane
             switch (horizontalAlignment) {
                 // left means all components on left with the minimum spacing in between
                 case LEFT:
@@ -359,7 +303,7 @@ public class CyderFlowLayout extends CyderLayout {
                         // this is guaranteed to work since
                         // currentHeightCenteringInc >= currentFlowComp.height / 2 is always true
                         flowComponent.setLocation(currentLeftX,
-                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
 
                         // add the component to the panel (sometimes necessary, usually not)
                         associatedPanel.add(flowComponent);
@@ -378,7 +322,7 @@ public class CyderFlowLayout extends CyderLayout {
                 // evenly in the padding and gap values
                 case CENTER:
                     // figure out how much excess space we have for this row
-                    int partitionedRemainingWidth = (maxWidth - necessaryWidth) / (componentCount + 1);
+                    int partitionedRemainingWidth = (maxRowWidth - currentRowNecessaryWidth) / (currentRow.size() + 1);
 
                     // the current x incrementer based off of the minimum x and a partitioned width value
                     int currentCenterX = horizontalPadding + partitionedRemainingWidth;
@@ -388,7 +332,7 @@ public class CyderFlowLayout extends CyderLayout {
                         //the below statement will always work since
                         // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
                         flowComponent.setLocation(currentCenterX,
-                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
 
                         // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
@@ -407,14 +351,14 @@ public class CyderFlowLayout extends CyderLayout {
                 // and placed in the center, excess space is placed on the left and right
                 case CENTER_STATIC:
                     // find the starting x
-                    int centeringXAcc = horizontalPadding + (maxWidth - necessaryWidth) / 2;
+                    int centeringXAcc = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth) / 2;
 
                     // for all components on this row
                     for (Component flowComponent : currentRow) {
                         //the below statement will always work since
                         // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
                         flowComponent.setLocation(centeringXAcc,
-                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
 
                         // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
@@ -433,14 +377,14 @@ public class CyderFlowLayout extends CyderLayout {
                 // with the rightward component bordering the frame
                 case RIGHT:
                     // the start of the row
-                    int currentRightX = horizontalPadding + (maxWidth - necessaryWidth);
+                    int currentRightX = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth);
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
                         // the below statement will always work since >= (currentFlowComp.height / 2)
                         // is always true
                         flowComponent.setLocation(currentRightX,
-                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
 
                         // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
@@ -456,38 +400,38 @@ public class CyderFlowLayout extends CyderLayout {
                     break;
             }
 
-            // increment the centering line by the other half of the max height
-            currentHeightCenteringInc += maxHeight / 2;
+            // Increment the centering line by the other half of the current row's max component height
+            currentHeightCenteringY += currentRowMaxHeight / 2;
 
-            // additionally increment by the vertical gap which may or may not be
-            // the one passed in depending on the horizontal alignment
+            // Increment vertical gap based on vertical alignment
             switch (verticalAlignment) {
-                // component rows are spaced evenly to take up the whole space available
-                case CENTER:
-                    currentHeightCenteringInc += centerPartition;
-                    break;
-                // the default gap since we've already translated down by a proper starting amount
-                case TOP:
-                case BOTTOM:
-                case CENTER_STATIC:
-                    currentHeightCenteringInc += verticalGap;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
+                // Component rows are spaced evenly to take up the whole space available
+                case CENTER -> currentHeightCenteringY += currentHeightCenterIncrement;
+                // The default gap since we've already translated down by a proper starting amount
+                case TOP, BOTTOM, CENTER_STATIC -> currentHeightCenteringY += verticalGap;
+                default -> throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
             }
 
-            // if the next row's starting y value is not visible at
-            // all (exceeds the panel's height), then we can stop rendering rows
-            if (!maxRowHeights.isEmpty()
-                    && (currentHeightCenteringInc - maxRowHeights.get(0) / 2) > associatedPanel.getHeight()) {
-                break;
-            }
+            // If the next row's starting y value is not visible at, then we can stop rendering rows
+            if (!maxRowHeights.isEmpty() && (currentHeightCenteringY - maxRowHeights.get(0) / 2)
+                    > associatedPanel.getHeight()) break;
         }
 
-        // restore focus if we found a component that was the focus owner
-        if (focusOwner != null) {
-            focusOwner.requestFocus();
-        }
+        // todo methods for finding and restoring?
+        // Restore focus if we found a component that was the focus owner
+        if (focusOwner != null) focusOwner.requestFocus();
+    }
+
+    /**
+     * Returns whether the {@link #revalidateComponents()} method should actually revalidate.
+     * Used primarily is a precondition.
+     *
+     * @return whether the components managed by this layout should be revalidated.
+     */
+    @ForReadability
+    private boolean shouldRevalidateComponents() {
+        return components.size() > 0 && associatedPanel != null
+                && associatedPanel.getWidth() > 0 && associatedPanel.getHeight() > 0;
     }
 
     /**

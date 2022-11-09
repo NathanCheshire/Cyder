@@ -1,7 +1,7 @@
 package cyder.enums;
 
 /**
- * Things Cyder inspects at runtime.
+ * Inspections Cyder performs at runtime, specifically, at startup.
  */
 public enum CyderInspection {
     /**
