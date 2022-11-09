@@ -101,11 +101,11 @@ public class CyderGridLayout extends CyderLayout {
     }
 
     /**
-     * Revalidates the bounds of all components on the grid.
+     * {@inheritDoc}
      */
+    @Override
     public void revalidateComponents() {
-        if (associatedPanel == null)
-            return;
+        if (associatedPanel == null) return;
 
         int widthPartition = associatedPanel.getWidth() / horizontalCells;
         int heightPartition = associatedPanel.getHeight() / verticalCells;
@@ -114,83 +114,75 @@ public class CyderGridLayout extends CyderLayout {
 
         for (int xCell = 0 ; xCell < horizontalCells ; xCell++) {
             for (int yCell = 0 ; yCell < verticalCells ; yCell++) {
-                // If no component exists at this location then continue
-                if (components[xCell][yCell] == null)
-                    continue;
+                if (components[xCell][yCell] == null) continue;
 
-                // Figure out the starting values for this cell
-                int startX = xCell * widthPartition;
-                int startY = yCell * heightPartition;
-
-                //  Instantiate a reference component for the current component
+                int currentCellStartX = xCell * widthPartition;
+                int currentCellStartY = yCell * heightPartition;
                 GridComponent refComponent = components[xCell][yCell];
 
-                // If this is the first focused component we have come across
-                // set it as the focus owner
-                if (refComponent.getComponent().isFocusOwner() && focusOwner == null)
+                // Determine focus owner if not yet set
+                if (refComponent.getComponent().isFocusOwner() && focusOwner == null) {
                     focusOwner = refComponent.getComponent();
+                }
 
                 // If the component is a CyderPanel, give it as much space to work with as possible
-                if (refComponent.getComponent() instanceof CyderPanel) {
-                    refComponent.getComponent().setBounds(startX, startY, widthPartition, heightPartition);
-                    ((CyderPanel) (refComponent.getComponent())).revalidateComponents();
-                }
-                // Otherwise if it doesn't fit in the partitioned space,
-                // set the size to as big as we can let it be so now overflow is visible
-                else if (refComponent.getOriginalWidth() >= widthPartition ||
+                if (refComponent.getComponent() instanceof CyderPanel panel) {
+                    refComponent.getComponent().setBounds(
+                            currentCellStartX, currentCellStartY, widthPartition, heightPartition);
+                    panel.revalidateComponents();
+                } else if (refComponent.getOriginalWidth() >= widthPartition ||
                         refComponent.getOriginalHeight() >= heightPartition) {
-                    refComponent.getComponent().setBounds(startX, startY,
-                            // Only one might be over the max value so take the min of partition and len
+                    // Doesn't fit in the partitioned space so give it as much as possible
+                    refComponent.getComponent().setBounds(currentCellStartX, currentCellStartY,
+                            // Only one dimension might be over the max value
+                            // so take the min of partition and dimensional length
                             Math.min(widthPartition, refComponent.getOriginalWidth()),
                             Math.min(heightPartition, refComponent.getOriginalHeight()));
-                }
-                // Otherwise it fits so calculate how to place it in the grid space
-                else {
-                    // Figure out values to center the component in the grid space
-                    int addX = (widthPartition - refComponent.getOriginalWidth()) / 2;
-                    int addY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                } else {
+                    // Fits so calculate how to position it in the grid cell based on the position
 
-                    // Figure out values for how to move the component from the centered
-                    // position to any possible Position value
-                    int adjustX = 0;
-                    int adjustY = 0;
+                    int centeringXAdditive = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                    int centeringYAdditive = (heightPartition - refComponent.getOriginalHeight()) / 2;
+
+                    int positionAdjustX = 0;
+                    int positionAdjustY = 0;
 
                     switch (refComponent.getPosition()) {
                         case TOP_LEFT:
-                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case TOP:
-                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case TOP_RIGHT:
-                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case LEFT:
-                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             break;
                         case MIDDLE:
                             break;
                         case RIGHT:
-                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
                             break;
                         case BOTTOM_LEFT:
-                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case BOTTOM:
-                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case BOTTOM_RIGHT:
-                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            positionAdjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            positionAdjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                     }
 
-                    // Set the component bounds with the original size since the component fits
-                    refComponent.getComponent().setBounds(startX + addX + adjustX,
-                            startY + addY + adjustY,
+                    refComponent.getComponent().setBounds(
+                            currentCellStartX + centeringXAdditive + positionAdjustX,
+                            currentCellStartY + centeringYAdditive + positionAdjustY,
                             refComponent.getOriginalWidth(),
                             refComponent.getOriginalHeight());
                 }
@@ -199,9 +191,7 @@ public class CyderGridLayout extends CyderLayout {
             }
         }
 
-        if (focusOwner != null) {
-            focusOwner.requestFocus();
-        }
+        if (focusOwner != null) focusOwner.requestFocus();
     }
 
     /**
@@ -215,8 +205,11 @@ public class CyderGridLayout extends CyderLayout {
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < verticalCells ; y++) {
                 if (components[x][y] == null) {
-                    components[x][y] = new GridComponent(component, //defaults here
-                            component.getWidth(), component.getHeight(), GridPosition.MIDDLE);
+                    components[x][y] = new GridComponent(
+                            component,
+                            component.getWidth(),
+                            component.getHeight(),
+                            GridPosition.MIDDLE);
                     repaint();
                     return;
                 }
@@ -229,8 +222,8 @@ public class CyderGridLayout extends CyderLayout {
      * Adds the provided component to the grid at the first available space.
      *
      * @param component       the component to add to the grid if possible
-     * @param sectionPosition the position to set the component to if it fits
-     *                        in the partitioned space or how to position the component should it overflow the partitioned space
+     * @param sectionPosition the position to set the component to if it fits in the partitioned space
+     *                        or how to position the component should it overflow the partitioned space
      * @return whether the component was added successfully
      */
     @CanIgnoreReturnValue
@@ -241,8 +234,11 @@ public class CyderGridLayout extends CyderLayout {
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < verticalCells ; y++) {
                 if (components[x][y] == null) {
-                    components[x][y] = new GridComponent(component,
-                            component.getWidth(), component.getHeight(), sectionPosition);
+                    components[x][y] = new GridComponent(
+                            component,
+                            component.getWidth(),
+                            component.getHeight(),
+                            sectionPosition);
                     repaint();
                     return true;
                 }
@@ -268,14 +264,13 @@ public class CyderGridLayout extends CyderLayout {
         Preconditions.checkArgument(x < horizontalCells);
         Preconditions.checkArgument(y < verticalCells);
 
-        if (components[x][y] != null) {
-            return false;
-        }
-
-        components[x][y] = new GridComponent(component, component.getWidth(),
-                component.getHeight(), GridPosition.MIDDLE);
+        if (components[x][y] != null) return false;
+        components[x][y] = new GridComponent(
+                component,
+                component.getWidth(),
+                component.getHeight(),
+                GridPosition.MIDDLE);
         repaint();
-
         return true;
     }
 
@@ -298,13 +293,13 @@ public class CyderGridLayout extends CyderLayout {
         Preconditions.checkArgument(x < horizontalCells);
         Preconditions.checkArgument(y < verticalCells);
 
-        if (components[x][y] != null) {
-            return false;
-        }
-
-        components[x][y] = new GridComponent(component, component.getWidth(), component.getHeight(), sectionPosition);
+        if (components[x][y] != null) return false;
+        components[x][y] = new GridComponent(
+                component,
+                component.getWidth(),
+                component.getHeight(),
+                sectionPosition);
         repaint();
-
         return true;
     }
 
@@ -357,11 +352,7 @@ public class CyderGridLayout extends CyderLayout {
 
         for (GridComponent[] componentRow : components) {
             int acc = 0;
-
-            for (GridComponent component : componentRow) {
-                acc += component.getOriginalWidth();
-            }
-
+            for (GridComponent component : componentRow) acc += component.getOriginalWidth();
             maxLineWidth = Math.max(maxLineWidth, acc);
         }
 
@@ -377,11 +368,7 @@ public class CyderGridLayout extends CyderLayout {
 
         for (GridComponent[] componentColumn : tempComponents) {
             int acc = 0;
-
-            for (GridComponent component : componentColumn) {
-                acc += component.getOriginalHeight();
-            }
-
+            for (GridComponent component : componentColumn) acc += component.getOriginalHeight();
             maxColumnHeight = Math.max(maxColumnHeight, acc);
         }
 

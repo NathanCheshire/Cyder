@@ -174,8 +174,7 @@ public class CyderFlowLayout extends CyderLayout {
     }
 
     /**
-     * Revalidates the component sizes for the FlowLayout and repaints
-     * the linked panel so that the component positions are updated.
+     * {@inheritDoc}
      */
     @Override
     public void revalidateComponents() {
