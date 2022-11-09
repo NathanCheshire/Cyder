@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
+import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
@@ -37,18 +38,6 @@ import java.util.concurrent.Semaphore;
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
 public final class UserUtil {
-    /**
-     * The length of the default solid background.
-     */
-    private static final int DEFAULT_SOLID_BACKGROUND_LEN = 800;
-
-    /**
-     * The default background to use for account creation when a network connection is unavailable.
-     */
-    public static final BufferedImage DEFAULT_USER_SOLID_COLOR_BACKGROUND
-            = ImageUtil.toBufferedImage(ImageUtil.imageIconFromColor(Color.black,
-            DEFAULT_SOLID_BACKGROUND_LEN, DEFAULT_SOLID_BACKGROUND_LEN));
-
     /**
      * Suppress default constructor.
      */
@@ -1234,7 +1223,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
 
-        BufferedImage createMe = DEFAULT_USER_SOLID_COLOR_BACKGROUND;
+        BufferedImage createMe = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
 
         int latency = NetworkUtil.latency(MAX_LATENCY);
         if (latency < MAX_LATENCY) {

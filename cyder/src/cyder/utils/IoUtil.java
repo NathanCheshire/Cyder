@@ -203,14 +203,14 @@ public final class IoUtil {
     /**
      * The name of the thread for playing general audio.
      */
-    private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IOUtil General Audio";
+    private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IoUtil General Audio";
 
     /**
      * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
      *
      * @param filePath the path to the audio file to play
      */
-    public static void playGeneralAudio(String filePath) {
+    public static void playGeneralAudio(String filePath) { // todo remove me
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
@@ -218,7 +218,8 @@ public final class IoUtil {
     }
 
     /**
-     * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
+     * Plays the requested audio file using the general IoUtil
+     * JLayer player which can be terminated by the user.
      *
      * @param file the audio file to play
      */
@@ -235,7 +236,6 @@ public final class IoUtil {
         }
 
         Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
-
         Console.INSTANCE.showAudioButton();
 
         CyderThreadRunner.submit(() -> {
@@ -244,6 +244,41 @@ public final class IoUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
+                Console.INSTANCE.revalidateAudioMenuVisibility();
+            }
+        }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
+    }
+
+    /**
+     * Plays the requested audio file using the general IoUtil
+     * JLayer player which can be terminated by the user.
+     *
+     * @param file                 the audio file to play
+     * @param onCompletionCallback the callback to invoke upon completion of playing the audio file
+     */
+    public static void playGeneralAudioWithCompletionCallback(File file, Runnable onCompletionCallback) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkNotNull(onCompletionCallback);
+
+        try {
+            stopGeneralAudio();
+            FileInputStream FileInputStream = new FileInputStream(file);
+            player = new Player(FileInputStream);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
+        Console.INSTANCE.showAudioButton();
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                player.play();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            } finally {
+                onCompletionCallback.run();
                 Console.INSTANCE.revalidateAudioMenuVisibility();
             }
         }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
@@ -259,8 +294,8 @@ public final class IoUtil {
     }
 
     /**
-     * Plays the requested audio file using a new JLayer Player object.
-     * (this cannot be stopped util the mpeg is finished)
+     * Plays the requested audio file using a new JLayer Player object
+     * (this cannot be stopped util the mpeg is finished).
      *
      * @param filePath the path to the audio file to play
      */
@@ -358,7 +393,7 @@ public final class IoUtil {
         }
     }
 
-    // todo make own class for this and probably close to needing a file package
+    // todo make own class for this and move to file package
 
     /**
      * A legacy DOS attribute of a file.

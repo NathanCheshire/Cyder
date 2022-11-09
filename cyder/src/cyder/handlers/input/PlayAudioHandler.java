@@ -2,6 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
+import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -14,9 +15,9 @@ import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.youtube.YoutubeUtil;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 /**
  * A handler for commands that play audio.
@@ -30,7 +31,7 @@ public class PlayAudioHandler extends InputHandler {
     }
 
     @Handle({"heyya", "windows", "lightsaber", "xbox", "startrek", "toystory",
-            "logic", "18002738255", "xxx", "blackpanther", "chadwickboseman", "f17", "play"})
+            "logic", "18002738255", "x", "blackpanther", "chadwickboseman", "f17", "play"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -51,26 +52,13 @@ public class PlayAudioHandler extends InputHandler {
         } else if (getInputHandler().getCommand()
                 .replace(CyderStrings.dash, "").equals("18002738255")) {
             IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
-        } else if (getInputHandler().commandIs("xxx")) {
-            CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);
-            Console.INSTANCE.getConsoleCyderFrame()
-                    .setIconImage(new ImageIcon(StaticUtil.getStaticPath("x.png")).getImage());
-            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("x.mp3"));
+        } else if (getInputHandler().commandIs("x")) {
+            Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.X_ICON.getImage());
+            IoUtil.playGeneralAudioWithCompletionCallback(StaticUtil.getStaticResource("x.mp3"),
+                    () -> Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.CYDER_ICON.getImage()));
         } else if (getInputHandler().inputIgnoringSpacesMatches("blackpanther")
                 || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
-            CyderThreadRunner.submit(() -> {
-                getInputHandler().getJTextPane().setText("");
-
-                IoUtil.playGeneralAudio(StaticUtil.getStaticResource("allthestars.mp3"));
-                getInputHandler().getJTextPane().setFont(new Font("BEYNO",
-                        Font.BOLD, getInputHandler().getJTextPane().getFont().getSize()));
-                BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
-                        false, 15, false);
-
-                ThreadUtil.sleep(4000);
-
-                getInputHandler().getJTextPane().setFont(Console.INSTANCE.generateUserFont());
-            }, "Chadwick Boseman");
+            chadwickBosemanEasterEgg();
         } else if (getInputHandler().commandIs("f17")) {
             if (getInputHandler().getRobot() != null) {
                 getInputHandler().getRobot().keyPress(KeyEvent.VK_F17);
@@ -101,5 +89,45 @@ public class PlayAudioHandler extends InputHandler {
         }
 
         return ret;
+    }
+
+    /**
+     * The all the stars music file.
+     */
+    private static final File allTheStars = StaticUtil.getStaticResource("allthestars.mp3");
+
+    /**
+     * The Beyno font.
+     */
+    private static final Font beynoFont = new CyderFonts.FontBuilder("BEYNO")
+            .setSize(getInputHandler().getJTextPane().getFont().getSize()).generate();
+
+    /**
+     * The chadwick boseman bletchy text.
+     */
+    private static final String chadwickBosemanBletchyText = "RIP CHADWICK BOSEMAN";
+
+    /**
+     * The delay between starting the chadwick boseman easter egg audio/bletchy thread,
+     * and resetting to the user's font.
+     */
+    private static final int chadwickBosemanResetFontDelay = 4000;
+
+    /**
+     * Shows the Chadwick Boseman easter egg.
+     */
+    private static void chadwickBosemanEasterEgg() {
+        String threadName = "Chadwick Boseman Easter Egg Thread";
+        CyderThreadRunner.submit(() -> {
+            getInputHandler().getJTextPane().setText("");
+
+            IoUtil.playGeneralAudio(allTheStars);
+            getInputHandler().getJTextPane().setFont(beynoFont);
+            BletchyThread.bletchy(chadwickBosemanBletchyText, false, 15, false);
+
+            ThreadUtil.sleep(chadwickBosemanResetFontDelay);
+
+            getInputHandler().getJTextPane().setFont(Console.INSTANCE.generateUserFont());
+        }, threadName);
     }
 }

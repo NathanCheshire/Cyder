@@ -7,7 +7,6 @@ import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
@@ -343,6 +342,11 @@ public enum Console {
     private final AtomicBoolean shouldShowBusyAnimation = new AtomicBoolean();
 
     /**
+     * The starting point of the busy icon.
+     */
+    private final Point busyIconStartingPoint = new Point(0, 0);
+
+    /**
      * Initializes the console busy icon.
      */
     private void initializeBusyIcon() {
@@ -364,14 +368,14 @@ public enum Console {
         busyIcon.setVisible(false);
     }
 
-    // todo whenever the xxx song ends playing, reset the console icon back to original
-
     /**
      * Shows the busy animation starting from the beginning
      */
     private void showBusyAnimation() {
+        Preconditions.checkState(!shouldShowBusyAnimation.get());
+
         shouldShowBusyAnimation.set(true);
-        busyIcon.setLocation(0, 0);
+        busyIcon.setLocation(busyIconStartingPoint);
         busyIcon.repaint();
         busyIcon.setVisible(true);
 
@@ -1124,6 +1128,16 @@ public enum Console {
     private static final int CLOCK_CHECK_FREQUENCY = 50;
 
     /**
+     * The frequency to check for whether the busy animation should be shown.
+     */
+    private static final int busyAnimationSleepTime = 3000;
+
+    /**
+     * The frequency to check for console disposal in the busy animation checker thread.
+     */
+    private static final int busyAnimationCheckFrequency = 50;
+
+    /**
      * Begins the console checker executors/threads.
      */
     @ForReadability
@@ -1167,15 +1181,17 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             try {
                 while (true) {
-                    if (!isClosed() && UserUtil.getCyderUser().getShowBusyIcon().equals("1")) {
+                    // todo rename to busy animation
+                    boolean busyIcon = UserUtil.getCyderUser().getShowBusyIcon().equals("1");
+                    if (!isClosed() && busyIcon) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                        int num = threadGroup.activeCount();
-                        Thread[] printThreads = new Thread[num];
+                        int threadCount = threadGroup.activeCount();
+                        Thread[] printThreads = new Thread[threadCount];
                         threadGroup.enumerate(printThreads);
 
                         int busyThreads = 0;
 
-                        for (int i = 0 ; i < num ; i++) {
+                        for (int i = 0 ; i < threadCount ; i++) {
                             boolean contains = false;
 
                             for (IgnoreThread ignoreThread : IgnoreThread.values()) {
@@ -1197,15 +1213,10 @@ public enum Console {
                         }
                     }
 
-                    // todo extract these
-                    consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
-                    ThreadUtil.sleepWithChecks(3000, 50, consoleClosed);
+                    ThreadUtil.sleepWithChecks(busyAnimationSleepTime, busyAnimationCheckFrequency, consoleClosed);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-            } finally {
-                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
-                consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
             }
         }, IgnoreThread.CyderBusyChecker.getName());
     }

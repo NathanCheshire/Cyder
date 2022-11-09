@@ -517,7 +517,7 @@ public final class UserCreator {
         try {
             background = ImageUtil.read(newUserBackgroundFile);
         } catch (Exception e) {
-            background = UserUtil.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
+            background = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
         }
 
         user.setScreenStat(createDefaultScreenStat(background));
