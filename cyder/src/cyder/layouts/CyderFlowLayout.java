@@ -8,6 +8,7 @@ import cyder.logging.Logger;
 import cyder.ui.CyderPanel;
 import cyder.utils.StringUtil;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -180,46 +181,9 @@ public class CyderFlowLayout extends CyderLayout {
     public void revalidateComponents() {
         if (!shouldRevalidateComponents()) return;
 
-        Component focusOwner = null;
-        ArrayList<ArrayList<Component>> rows = new ArrayList<>();
-        ArrayList<Component> currentRow = new ArrayList<>();
+        Component focusOwner = findFocusOwner();
 
-        int currentRowWidth = 0;
-        int maxRowWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
-
-        // validate all rows and figure out if we can display some/all rows
-        for (Component flowComponent : components) {
-            // find the focus owner to reset after revalidation
-            if (flowComponent.isFocusOwner() && focusOwner == null) {
-                focusOwner = flowComponent;
-            }
-
-            // if this component cannot start on this row, then wrap it to a new row
-            if (currentRowWidth + flowComponent.getWidth() + horizontalGap > maxRowWidth) {
-                // Ensure at least one component on this row
-                if (currentRow.isEmpty()) {
-                    currentRow.add(flowComponent);
-                    rows.add(currentRow);
-
-                    currentRow = new ArrayList<>();
-                    currentRowWidth = 0;
-                } else {
-                    // Something already on row so add and make new row list
-
-                    rows.add(currentRow);
-
-                    currentRow = new ArrayList<>();
-                    currentRowWidth = flowComponent.getWidth() + horizontalGap;
-                    currentRow.add(flowComponent);
-                }
-            } else { // Component fits on this row
-                currentRowWidth += flowComponent.getWidth() + horizontalGap;
-                currentRow.add(flowComponent);
-            }
-        }
-
-        // If loop exited before hitting row width limit
-        if (!currentRow.isEmpty()) rows.add(currentRow);
+        ArrayList<ArrayList<Component>> rows = getRows();
 
         // Find the max component height of each row
         ArrayList<Integer> maxRowHeights = new ArrayList<>();
@@ -277,10 +241,13 @@ public class CyderFlowLayout extends CyderLayout {
             default -> throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
         }
 
+        int maxRowWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
+
         for (int i = 0 ; i < numRows ; i++) {
-            currentRow = rows.remove(0);
+            ArrayList<Component> currentRow = rows.remove(0);
             int currentRowMaxHeight = maxRowHeights.remove(0);
             currentHeightCenteringY += (currentRowMaxHeight / 2);
+            if (currentHeightCenteringY > associatedPanel.getHeight()) break;
 
             // Figure out how much width this row requires
             int currentRowNecessaryWidth = 0;
@@ -290,120 +257,78 @@ public class CyderFlowLayout extends CyderLayout {
             // Account for last addition of horizontal gap
             currentRowNecessaryWidth -= horizontalGap;
 
+            // Defined outside switch for readability
+            int currentX;
             // Figure out how to place current row components on the content pane
             switch (horizontalAlignment) {
-                // left means all components on left with the minimum spacing in between
-                case LEFT:
-                    // the left most point we can go
-                    int currentLeftX = horizontalPadding;
-
-                    // for all components on this row, set their locations
-                    // on the center line and the currentLeftX
+                // Place components on the left with the minimum spacing in between
+                case LEFT -> {
+                    currentX = horizontalPadding;
                     for (Component flowComponent : currentRow) {
-                        // this is guaranteed to work since
-                        // currentHeightCenteringInc >= currentFlowComp.height / 2 is always true
-                        flowComponent.setLocation(currentLeftX,
-                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
-
-                        // add the component to the panel (sometimes necessary, usually not)
+                        int flowComponentY = currentHeightCenteringY - (flowComponent.getHeight() / 2);
+                        flowComponent.setLocation(currentX, flowComponentY);
                         associatedPanel.add(flowComponent);
 
-                        // increment by the width and gap needed
-                        currentLeftX += flowComponent.getWidth() + horizontalGap;
+                        currentX += flowComponent.getWidth() + horizontalGap;
 
                         if (flowComponent instanceof CyderPanel panel) {
                             panel.revalidateComponents();
                         }
                     }
-
-                    break;
-
-                // center means the components are centered and excess space is placed
-                // evenly in the padding and gap values
-                case CENTER:
-                    // figure out how much excess space we have for this row
-                    int partitionedRemainingWidth = (maxRowWidth - currentRowNecessaryWidth) / (currentRow.size() + 1);
-
-                    // the current x incrementer based off of the minimum x and a partitioned width value
-                    int currentCenterX = horizontalPadding + partitionedRemainingWidth;
-
-                    // for all the components
+                }
+                // Components are evenly spaced utilizing all available space
+                case CENTER -> {
+                    int remainingWidthPartition = maxRowWidth - currentRowNecessaryWidth;
+                    int additionalWidthPartition = remainingWidthPartition / (currentRow.size() + 1);
+                    currentX = additionalWidthPartition + horizontalPadding;
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since
-                        // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
-                        flowComponent.setLocation(currentCenterX,
-                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
-
-                        // add the component (sometimes needed, usually not)
+                        int flowComponentY = currentHeightCenteringY - (flowComponent.getHeight() / 2);
+                        flowComponent.setLocation(currentX, flowComponentY);
                         associatedPanel.add(flowComponent);
 
-                        // increment by the width, gap, and a partition width
-                        currentCenterX += flowComponent.getWidth() + horizontalGap + partitionedRemainingWidth;
+                        currentX += flowComponent.getWidth() + horizontalGap + additionalWidthPartition;
 
                         if (flowComponent instanceof CyderPanel panel) {
                             panel.revalidateComponents();
                         }
                     }
-
-                    break;
-
-                // center static means the components are grouped together with minimum spacing
-                // and placed in the center, excess space is placed on the left and right
-                case CENTER_STATIC:
-                    // find the starting x
-                    int centeringXAcc = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth) / 2;
-
-                    // for all components on this row
+                }
+                // Components are spaced with minimum spacing and then the row is centered on the content pane
+                case CENTER_STATIC -> {
+                    currentX = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth) / 2;
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since
-                        // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
-                        flowComponent.setLocation(centeringXAcc,
-                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
-
-                        // add the component (sometimes needed, usually not)
+                        int flowComponentY = currentHeightCenteringY - (flowComponent.getHeight() / 2);
+                        flowComponent.setLocation(currentX, flowComponentY);
                         associatedPanel.add(flowComponent);
 
-                        // increment by width and a gap
-                        centeringXAcc += flowComponent.getWidth() + horizontalGap;
+                        currentX += flowComponent.getWidth() + horizontalGap;
 
                         if (flowComponent instanceof CyderPanel panel) {
                             panel.revalidateComponents();
                         }
                     }
-
-                    break;
-
-                // right means the minimum spacing between components
-                // with the rightward component bordering the frame
-                case RIGHT:
-                    // the start of the row
-                    int currentRightX = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth);
-
-                    //set component locations based on centering line and currentX
+                }
+                // Components are placed on the right with the minimum spacing in between
+                case RIGHT -> {
+                    currentX = horizontalPadding + (maxRowWidth - currentRowNecessaryWidth);
                     for (Component flowComponent : currentRow) {
-                        // the below statement will always work since >= (currentFlowComp.height / 2)
-                        // is always true
-                        flowComponent.setLocation(currentRightX,
-                                currentHeightCenteringY - (flowComponent.getHeight() / 2));
-
-                        // add the component (sometimes needed, usually not)
+                        int flowComponentY = currentHeightCenteringY - (flowComponent.getHeight() / 2);
+                        flowComponent.setLocation(currentX, flowComponentY);
                         associatedPanel.add(flowComponent);
 
-                        // increment by width and a gap
-                        currentRightX += flowComponent.getWidth() + horizontalGap;
+                        currentX += flowComponent.getWidth() + horizontalGap;
 
                         if (flowComponent instanceof CyderPanel panel) {
                             panel.revalidateComponents();
                         }
                     }
-
-                    break;
+                }
             }
 
             // Increment the centering line by the other half of the current row's max component height
             currentHeightCenteringY += currentRowMaxHeight / 2;
 
-            // Increment vertical gap based on vertical alignment
+            // Increment vertical gap based on vertical alignment to the next starting centering y
             switch (verticalAlignment) {
                 // Component rows are spaced evenly to take up the whole space available
                 case CENTER -> currentHeightCenteringY += currentHeightCenterIncrement;
@@ -411,15 +336,54 @@ public class CyderFlowLayout extends CyderLayout {
                 case TOP, BOTTOM, CENTER_STATIC -> currentHeightCenteringY += verticalGap;
                 default -> throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
             }
-
-            // If the next row's starting y value is not visible at, then we can stop rendering rows
-            if (!maxRowHeights.isEmpty() && (currentHeightCenteringY - maxRowHeights.get(0) / 2)
-                    > associatedPanel.getHeight()) break;
         }
 
-        // todo methods for finding and restoring?
-        // Restore focus if we found a component that was the focus owner
         if (focusOwner != null) focusOwner.requestFocus();
+    }
+
+    /**
+     * Calculates and returns the the current rows that may be placed
+     * on the content pane with the current provided space.
+     *
+     * @return the list of rows
+     */
+    @ForReadability
+    private ArrayList<ArrayList<Component>> getRows() {
+        ArrayList<ArrayList<Component>> rows = new ArrayList<>();
+        ArrayList<Component> currentRow = new ArrayList<>();
+
+        int currentRowWidth = 0;
+        int maxRowWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
+
+        // validate all rows and figure out if we can display some/all rows
+        for (Component flowComponent : components) {
+            // If this component cannot start on this row, then wrap it to a new row
+            if (currentRowWidth + flowComponent.getWidth() + horizontalGap > maxRowWidth) {
+                // Ensure at least one component on this row
+                if (currentRow.isEmpty()) {
+                    currentRow.add(flowComponent);
+                    rows.add(currentRow);
+
+                    currentRow = new ArrayList<>();
+                    currentRowWidth = 0;
+                } else {
+                    // Something already on row so add and make new row list
+
+                    rows.add(currentRow);
+
+                    currentRow = new ArrayList<>();
+                    currentRowWidth = flowComponent.getWidth() + horizontalGap;
+                    currentRow.add(flowComponent);
+                }
+            } else { // Component fits on this row
+                currentRowWidth += flowComponent.getWidth() + horizontalGap;
+                currentRow.add(flowComponent);
+            }
+        }
+
+        // If loop exited before hitting row width limit
+        if (!currentRow.isEmpty()) rows.add(currentRow);
+        return rows;
     }
 
     /**
@@ -432,6 +396,21 @@ public class CyderFlowLayout extends CyderLayout {
     private boolean shouldRevalidateComponents() {
         return components.size() > 0 && associatedPanel != null
                 && associatedPanel.getWidth() > 0 && associatedPanel.getHeight() > 0;
+    }
+
+    /**
+     * Returns the first component found from {@link #components} for
+     * which {@link Component#isFocusOwner()} returns true.
+     *
+     * @return the focus owner component
+     */
+    @ForReadability
+    private @Nullable Component findFocusOwner() {
+        for (Component flowComponent : components) {
+            if (flowComponent.isFocusOwner()) return flowComponent;
+        }
+
+        return null;
     }
 
     /**
