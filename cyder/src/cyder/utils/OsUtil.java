@@ -581,7 +581,7 @@ public final class OsUtil {
      * Ensures the dynamic directory and all subdirectories are created.
      */
     public static void ensureDynamicsCreated() {
-        File dynamic = new File(Dynamic.PATH);
+        File dynamic = Dynamic.buildDynamic();
 
         boolean dynamicExists = dynamic.exists();
 
@@ -594,7 +594,7 @@ public final class OsUtil {
         }
 
         for (Dynamic dynamicDirectory : Dynamic.values()) {
-            File currentDynamic = buildFile(Dynamic.PATH, dynamicDirectory.getDirectoryName());
+            File currentDynamic = Dynamic.buildDynamic(dynamicDirectory.getDirectoryName());
 
             if (dynamicDirectory == Dynamic.TEMP) {
                 deleteFile(currentDynamic);
@@ -637,7 +637,7 @@ public final class OsUtil {
         checkNotNull(filename);
         checkArgument(!filename.isEmpty());
 
-        File exes = buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName());
+        File exes = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
 
         if (exes.exists()) {
             File[] exeFiles = exes.listFiles();

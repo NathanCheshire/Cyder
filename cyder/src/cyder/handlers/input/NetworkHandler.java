@@ -123,8 +123,7 @@ public class NetworkHandler extends InputHandler {
                         }
                     }
 
-                    File saveFile = OsUtil.buildFile(Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
+                    File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
                             UserFile.FILES.getName(), saveName);
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");

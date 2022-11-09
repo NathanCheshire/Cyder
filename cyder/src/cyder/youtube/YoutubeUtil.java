@@ -234,8 +234,7 @@ public final class YoutubeUtil {
             parsedAsciiSaveName = SecurityUtil.generateUuid();
         }
 
-        File albumArtDir = OsUtil.buildFile(
-                Dynamic.PATH,
+        File albumArtDir = Dynamic.buildDynamic(
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
@@ -341,8 +340,7 @@ public final class YoutubeUtil {
         String urlTitle = "Unknown_title";
         if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
 
-        File fullSaveFile = OsUtil.buildFile(
-                Dynamic.PATH,
+        File fullSaveFile = Dynamic.buildDynamic(
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),

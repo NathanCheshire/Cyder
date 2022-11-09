@@ -49,7 +49,7 @@ public enum LogTag {
     SUGGESTION("SUGGESTION"),
 
     /**
-     * IO by Cyder typically to/from a json file but usually to files within {@link Dynamic#PATH}
+     * IO by Cyder typically to/from a json file but usually to files within a {@link Dynamic}.
      */
     SYSTEM_IO("SYSTEM IO"),
 

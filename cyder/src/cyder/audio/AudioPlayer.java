@@ -382,8 +382,7 @@ public final class AudioPlayer {
      */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
-        File userMusicDir = OsUtil.buildFile(
-                Dynamic.PATH,
+        File userMusicDir = Dynamic.buildDynamic(
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
@@ -916,8 +915,7 @@ public final class AudioPlayer {
 
                 try {
                     if (wavConvertedFile.get().isPresent()) {
-                        File moveTo = OsUtil.buildFile(
-                                Dynamic.PATH,
+                        File moveTo = Dynamic.buildDynamic(
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
@@ -965,8 +963,7 @@ public final class AudioPlayer {
 
                 try {
                     if (mp3ConvertedFile.get().isPresent()) {
-                        File moveTo = OsUtil.buildFile(
-                                Dynamic.PATH,
+                        File moveTo = Dynamic.buildDynamic(
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
@@ -1008,8 +1005,7 @@ public final class AudioPlayer {
             String saveName = optionalSaveName.get();
 
             if (OsUtil.isValidFilename(saveName)) {
-                File saveFile = OsUtil.buildFile(
-                        Dynamic.PATH,
+                File saveFile = Dynamic.buildDynamic(
                         Dynamic.USERS.getDirectoryName(),
                         Console.INSTANCE.getUuid(),
                         UserFile.FILES.getName(),
@@ -1120,8 +1116,7 @@ public final class AudioPlayer {
         }
 
         File dreamifiedFile = dreamifiedAudio.get();
-        File targetFile = OsUtil.buildFile(
-                Dynamic.PATH,
+        File targetFile = Dynamic.buildDynamic(
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),

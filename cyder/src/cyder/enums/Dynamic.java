@@ -4,7 +4,6 @@ import cyder.utils.OsUtil;
 
 import java.io.File;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -38,7 +37,6 @@ public enum Dynamic {
      */
     EXES("exes");
 
-    // todo restrict
     /**
      * The path from the top level Cyder directory to the dynamic root.
      */
@@ -77,7 +75,6 @@ public enum Dynamic {
      */
     public static File buildDynamic(String... directories) {
         checkNotNull(directories);
-        checkArgument(directories.length > 0);
 
         StringBuilder pathString = new StringBuilder(PATH);
         pathString.append(OsUtil.FILE_SEP);

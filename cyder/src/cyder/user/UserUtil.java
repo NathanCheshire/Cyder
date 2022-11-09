@@ -370,10 +370,7 @@ public final class UserUtil {
         for (UserFile val : UserFile.values()) {
             if (val.getName().equals(UserFile.USERDATA.getName())) continue;
 
-            File currentUserFile = OsUtil.buildFile(
-                    Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(),
-                    uuid, val.getName());
+            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, val.getName());
 
             if (!currentUserFile.exists()) {
                 int attempts = 0;
@@ -581,10 +578,8 @@ public final class UserUtil {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIoSemaphore().acquire();
 
-            File currentUserBackgrounds = OsUtil.buildFile(
-                    Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), uuid,
-                    UserFile.BACKGROUNDS.getName());
+            File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                    uuid, UserFile.BACKGROUNDS.getName());
 
             if (!currentUserBackgrounds.exists())
                 return;

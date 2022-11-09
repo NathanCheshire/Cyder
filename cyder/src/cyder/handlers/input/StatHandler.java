@@ -91,7 +91,7 @@ public class StatHandler extends InputHandler {
                 getInputHandler().println(prop);
             }
         } else if (getInputHandler().commandIs("countlogs")) {
-            File[] logDirs = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()).listFiles();
+            File[] logDirs = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()).listFiles();
             int count = 0;
             int days = 0;
 

@@ -287,8 +287,7 @@ public final class UserCreator {
 
             if (!attemptToCreateUser(name, password)) {
                 if (lastGeneratedUuid != null) {
-                    OsUtil.deleteFile(OsUtil.buildFile(
-                            Dynamic.PATH, Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
+                    OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
                 }
             } else {
                 createUserFrame.dispose();

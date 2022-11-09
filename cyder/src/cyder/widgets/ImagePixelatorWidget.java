@@ -24,7 +24,6 @@ import cyder.ui.label.CyderLabel;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -257,7 +256,7 @@ public final class ImagePixelatorWidget {
 
         String currentFilename = FileUtil.getFilename(currentFile);
         String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + Extension.PNG.getExtension();
-        File saveFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName);
 
         try {

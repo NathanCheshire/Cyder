@@ -88,9 +88,8 @@ public final class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
-            String builtPath = OsUtil.buildFile(
-                    Dynamic.PATH,
-                    "tmp", FileUtil.getFilename(mp3File) + Extension.WAV.getExtension()).getAbsolutePath();
+            String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
+                    FileUtil.getFilename(mp3File) + Extension.WAV.getExtension()).getAbsolutePath();
             String safePath = quote + builtPath + quote;
 
             File outputFile = new File(builtPath);
@@ -336,8 +335,7 @@ public final class AudioUtil {
         Preconditions.checkArgument(ffmpegInstalled());
 
         return Program.FFMPEG.isInstalled() ? Program.FFMPEG.getProgramName()
-                : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename());
+                : OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename());
 
     }
 
