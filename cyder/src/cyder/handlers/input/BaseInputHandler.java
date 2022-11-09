@@ -87,6 +87,8 @@ public class BaseInputHandler {
 
     static {
         try {
+            // This should be the only instance of "new Robot()" in all of Cyder.
+            // Future may require a RobotManager class in which we might want more instances.
             robot = new Robot();
         } catch (Exception e) {
             throw new FatalException(e);
@@ -94,7 +96,7 @@ public class BaseInputHandler {
     }
 
     /**
-     * Returns the common robot object.
+     * Returns the common {@link Robot} object.
      *
      * @return the common robot object
      */
@@ -115,7 +117,11 @@ public class BaseInputHandler {
     }
 
     /**
-     * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}.
+     * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}, that of the following:
+     * <ul>
+     *     <li>{@link MasterYoutubeThread}</li>
+     *     <li>{@link BletchyThread}</li>
+     * </ul>
      */
     @ForReadability
     private void initializeSpecialThreads() {
@@ -174,10 +180,12 @@ public class BaseInputHandler {
      */
     public final void handle(String op, boolean userTriggered) {
         if (!handlePreliminaries(op, userTriggered)) {
-            Logger.log(LogTag.HANDLE_METHOD, "Failed handle preliminaries for op: "
+            Logger.log(LogTag.HANDLE_METHOD, "Failed preliminaries for op: "
                     + CyderStrings.quote + op + CyderStrings.quote);
             return;
         }
+
+        // todo maybe we can have three methods for these blocks?
 
         if (redirectionHandler != null) {
             for (Method method : redirectionHandler.getMethods()) {
@@ -350,7 +358,7 @@ public class BaseInputHandler {
         redirection = false;
         redirectionFile = null;
 
-        println("Error: could not redirect output");
+        println("Failed to redirect output");
     }
 
     /**
@@ -1281,9 +1289,7 @@ public class BaseInputHandler {
      * @param lines the lines to print to the JTextPane
      */
     public final void printlns(String[] lines) {
-        for (String line : lines) {
-            println(line);
-        }
+        Arrays.stream(lines).forEach(this::println);
     }
 
     /**
@@ -1294,8 +1300,59 @@ public class BaseInputHandler {
      * @param lines the lines to print to the JTextPane
      */
     public final void printlns(List<String> lines) {
-        for (String line : lines) {
-            println(line);
-        }
+        lines.forEach(this::println);
+    }
+
+    // -----------------------------------------------------------------
+    // Printed labels which require font, font metric, font size,
+    // and foreground updating as long as they are contained in the list
+    // -----------------------------------------------------------------
+
+    private final ArrayList<JLabel> printedLabels = new ArrayList<>();
+
+    /**
+     * Adds the providede label to the printed labels list. This label will have its properties updated when
+     * the following events occurs:
+     *
+     * <ul>
+     *     <li>User font changed</li>
+     *     <li>User font metric changed</li>
+     *     <li>User font size changed</li>
+     *     <li>User foreground color changed</li>
+     * </ul>
+     *
+     * @param label the label to update when the outlined events occur
+     */
+    public void addPrintedLabel(JLabel label) {
+        Preconditions.checkNotNull(label);
+        Preconditions.checkArgument(!printedLabels.contains(label));
+
+        printedLabels.add(label);
+    }
+
+    /**
+     * Removes the provided label from the printed labels list. This label will no longer be updated.
+     *
+     * @param label the label to remove from the list
+     */
+    public void removePrintedLabel(JLabel label) {
+        Preconditions.checkNotNull(label);
+        Preconditions.checkArgument(printedLabels.contains(label));
+
+        printedLabels.remove(label);
+    }
+
+    /**
+     * Clears the printed labels list. These labels will no longer be updated if one of the following events occurs:
+     *
+     * <ul>
+     *     <li>User font changed</li>
+     *     <li>User font metric changed</li>
+     *     <li>User font size changed</li>
+     *     <li>User foreground color changed</li>
+     * </ul>
+     */
+    public void clearPrintedLabels() {
+        printedLabels.clear();
     }
 }
