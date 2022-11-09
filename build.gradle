@@ -30,7 +30,7 @@ allprojects {
 }
 
 tasks.withType(JavaCompile) {
-    it.options.compilerArgs.add('--enable-preview') // for preview 17 features
+    it.options.compilerArgs.add('--enable-preview') // For preview 17 features
 }
 
 ext {
