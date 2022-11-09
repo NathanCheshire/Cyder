@@ -1,6 +1,7 @@
 package cyder.layouts;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.ui.CyderPanel;
 import cyder.utils.StringUtil;
@@ -28,27 +29,29 @@ public class CyderGridLayout extends CyderLayout {
     private final GridComponent[][] components;
 
     /**
-     * {@inheritDoc}
+     * The default number of horizontal and vertical cells.
      */
-    @Override
-    public ArrayList<Component> getLayoutComponents() {
-        ArrayList<Component> ret = new ArrayList<>();
+    private static final int defaultHorizontalAndVerticalCells = 1;
 
-        for (GridComponent[] component : components) {
-            for (int j = 0 ; j < components[0].length ; j++) {
-                if (component[j] != null)
-                    ret.add(component[j].getComponent());
-            }
-        }
-
-        return ret;
-    }
+    /**
+     * The CyderPanel this layout manager will manage.
+     */
+    private CyderPanel associatedPanel;
 
     /**
      * Constructs a new CyderGridLayout with a singular grid cell.
      */
     public CyderGridLayout() {
-        this(1, 1);
+        this(defaultHorizontalAndVerticalCells, defaultHorizontalAndVerticalCells);
+    }
+
+    /**
+     * Constructs a new CyderGridLayout with the specified number of horizontal and vertical cells.
+     *
+     * @param horizontalAndVerticalCells the number of horizontal and vertical cells
+     */
+    public CyderGridLayout(int horizontalAndVerticalCells) {
+        this(horizontalAndVerticalCells, horizontalAndVerticalCells);
     }
 
     /**
@@ -58,8 +61,8 @@ public class CyderGridLayout extends CyderLayout {
      * @param verticalCells   the amount of vertical cells to have in the Layout
      */
     public CyderGridLayout(int horizontalCells, int verticalCells) {
-        Preconditions.checkArgument(horizontalCells >= 1);
-        Preconditions.checkArgument(verticalCells >= 1);
+        Preconditions.checkArgument(horizontalCells > 0);
+        Preconditions.checkArgument(verticalCells > 0);
 
         this.horizontalCells = horizontalCells;
         this.verticalCells = verticalCells;
@@ -68,9 +71,22 @@ public class CyderGridLayout extends CyderLayout {
     }
 
     /**
-     * The CyderPanel this layout manager will manage.
+     * {@inheritDoc}
      */
-    private CyderPanel associatedPanel;
+    @Override
+    public ImmutableList<Component> getLayoutComponents() {
+        ArrayList<Component> ret = new ArrayList<>();
+
+        for (GridComponent[] component : components) {
+            for (int j = 0 ; j < components[0].length ; j++) {
+                if (component[j] != null) {
+                    ret.add(component[j].getComponent());
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
 
     /**
      * Sets the CyderPanel to manage. Components this LM has been given thus far
@@ -194,6 +210,8 @@ public class CyderGridLayout extends CyderLayout {
      * @param component the component to add to the grid if possible
      */
     public void addComponent(Component component) {
+        Preconditions.checkNotNull(component);
+
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < verticalCells ; y++) {
                 if (components[x][y] == null) {
@@ -217,6 +235,9 @@ public class CyderGridLayout extends CyderLayout {
      */
     @CanIgnoreReturnValue
     public boolean addComponent(Component component, GridPosition sectionPosition) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(sectionPosition);
+
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < verticalCells ; y++) {
                 if (components[x][y] == null) {
@@ -242,11 +263,10 @@ public class CyderGridLayout extends CyderLayout {
     @CanIgnoreReturnValue
     public boolean addComponent(Component component, int x, int y) {
         Preconditions.checkNotNull(component);
-        Preconditions.checkNotNull(components);
         Preconditions.checkArgument(x >= 0);
         Preconditions.checkArgument(y >= 0);
-        Preconditions.checkArgument(x <= horizontalCells - 1);
-        Preconditions.checkArgument(y <= verticalCells - 1);
+        Preconditions.checkArgument(x < horizontalCells);
+        Preconditions.checkArgument(y < verticalCells);
 
         if (components[x][y] != null) {
             return false;
@@ -272,7 +292,6 @@ public class CyderGridLayout extends CyderLayout {
     @CanIgnoreReturnValue
     public boolean addComponent(Component component, int x, int y, GridPosition sectionPosition) {
         Preconditions.checkNotNull(component);
-        Preconditions.checkNotNull(components);
         Preconditions.checkNotNull(sectionPosition);
         Preconditions.checkArgument(x >= 0);
         Preconditions.checkArgument(y >= 0);
@@ -295,7 +314,6 @@ public class CyderGridLayout extends CyderLayout {
      * @param component the component to remove from the panel
      */
     public void removeComponent(Component component) {
-        Preconditions.checkNotNull(components);
         Preconditions.checkNotNull(component);
 
         for (int x = 0 ; x < horizontalCells ; x++) {
@@ -319,8 +337,8 @@ public class CyderGridLayout extends CyderLayout {
         Preconditions.checkNotNull(components);
         Preconditions.checkArgument(x >= 0);
         Preconditions.checkArgument(y >= 0);
-        Preconditions.checkArgument(x <= horizontalCells - 1);
-        Preconditions.checkArgument(y <= verticalCells - 1);
+        Preconditions.checkArgument(x < horizontalCells);
+        Preconditions.checkArgument(y < verticalCells);
 
         if (components[x][y] == null) {
             return false;
@@ -379,5 +397,4 @@ public class CyderGridLayout extends CyderLayout {
     public String toString() {
         return StringUtil.commonCyderUiToString(this);
     }
-
 }

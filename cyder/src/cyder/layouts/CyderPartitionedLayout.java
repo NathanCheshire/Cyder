@@ -1,6 +1,7 @@
 package cyder.layouts;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
 import cyder.ui.CyderPanel;
@@ -43,6 +44,7 @@ public class CyderPartitionedLayout extends CyderLayout {
         /**
          * The components are laid out in a row.
          */
+
         ROW,
         /**
          * The components are laid out in a column.
@@ -70,16 +72,21 @@ public class CyderPartitionedLayout extends CyderLayout {
     private PartitionAlignment newComponentPartitionAlignment = PartitionAlignment.CENTER;
 
     /**
+     * The direct components managed by this layout.
+     */
+    private final ArrayList<PartitionedComponent> components;
+
+    /**
+     * The CyderPanel this layout manager will manage.
+     */
+    private CyderPanel associatedPanel;
+
+    /**
      * Constructs a new partitioned layout.
      */
     public CyderPartitionedLayout() {
         components = new ArrayList<>();
     }
-
-    /**
-     * The direct components managed by this layout.
-     */
-    private final ArrayList<PartitionedComponent> components;
 
     /**
      * Returns the {@link PartitionDirection}, that of {@link PartitionDirection#COLUMN}
@@ -111,17 +118,16 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Component> getLayoutComponents() {
+    public ImmutableList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>(components.size());
-
         components.forEach(component -> ret.add(component.getComponent()));
-
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Dimension getPackSize() {
         /*
         Doesn't exactly make sense since the size depends on the provided viewport
@@ -129,11 +135,6 @@ public class CyderPartitionedLayout extends CyderLayout {
          */
         throw new UnsupportedOperationException("Not implemented");
     }
-
-    /**
-     * The CyderPanel this layout manager will manage.
-     */
-    private CyderPanel associatedPanel;
 
     /**
      * Sets the CyderPanel to manage. Components this LM has been given thus far

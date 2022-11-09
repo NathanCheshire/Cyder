@@ -1,5 +1,7 @@
 package cyder.layouts;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.CyderPanel;
@@ -64,6 +66,18 @@ public class CyderFlowLayout extends CyderLayout {
     private int verticalPadding = DEFAULT_VERTICAL_PADDING;
 
     /**
+     * The comprehensive list of components managed by this layout.
+     */
+    private final ArrayList<Component> components = new ArrayList<>();
+
+    /**
+     * The CyderPanel that this layout is in control of. This is where the
+     * width and height that we are in control from comes and it is what we add/remove
+     * components to/from.
+     */
+    private CyderPanel associatedPanel;
+
+    /**
      * Constructs a new FlowLayout with horizontal alignment CENTER,
      * vertical alignment of TOP, and component gaps of 5 pixels.
      */
@@ -104,9 +118,14 @@ public class CyderFlowLayout extends CyderLayout {
      * @param verticalGap         the vertical spacing value
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment,
-                           VerticalAlignment verticalAlignment, int horizontalGap, int verticalGap) {
-        this.horizontalAlignment = horizontalAlignment;
-        this.verticalAlignment = verticalAlignment;
+                           VerticalAlignment verticalAlignment,
+                           int horizontalGap,
+                           int verticalGap) {
+        this.horizontalAlignment = Preconditions.checkNotNull(horizontalAlignment);
+        this.verticalAlignment = Preconditions.checkNotNull(verticalAlignment);
+
+        Preconditions.checkArgument(horizontalGap > -1);
+        Preconditions.checkArgument(verticalGap > -1);
         this.horizontalGap = horizontalGap;
         this.verticalGap = verticalGap;
 
@@ -114,17 +133,12 @@ public class CyderFlowLayout extends CyderLayout {
     }
 
     /**
-     * The comprehensive list of components managed by this layout.
-     */
-    private final ArrayList<Component> flowComponents = new ArrayList<>();
-
-    /**
      * Returns the components managed by this layout.
      *
      * @return the components managed by this layout
      */
-    public final ArrayList<Component> getLayoutComponents() {
-        return flowComponents;
+    public final ImmutableList<Component> getLayoutComponents() {
+        return ImmutableList.copyOf(components);
     }
 
     /**
@@ -134,20 +148,11 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public void addComponent(Component component) {
-        boolean contains = false;
+        Preconditions.checkNotNull(component);
+        Preconditions.checkState(!components.contains(component));
 
-        for (Component flowComponent : flowComponents) {
-            if (flowComponent == component) {
-                contains = true;
-                break;
-            }
-        }
-
-        if (!contains) {
-            flowComponents.add(component);
-            revalidateComponents();
-        }
-
+        components.add(component);
+        revalidateComponents();
     }
 
     /**
@@ -157,9 +162,9 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public void removeComponent(Component component) {
-        for (Component flowComponent : flowComponents) {
-            if (flowComponent == component) {
-                flowComponents.remove(flowComponent);
+        for (Component flowComponent : components) {
+            if (flowComponent.equals(component)) {
+                components.remove(flowComponent);
                 revalidateComponents();
                 return;
             }
@@ -172,16 +177,10 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public void revalidateComponents() {
-        // if no components or no panel, cannot revalidate
-        if (flowComponents.size() < 1 || associatedPanel == null
-                || associatedPanel.getWidth() == 0) {
-            return;
-        }
+        // If no components or no panel, cannot revalidate
+        if (components.size() < 1 || associatedPanel == null || associatedPanel.getWidth() == 0) return;
 
-        // for attempted focus restoration
         Component focusOwner = null;
-
-        // lists for organizing components
         ArrayList<ArrayList<Component>> rows = new ArrayList<>();
         ArrayList<Component> currentRow = new ArrayList<>();
 
@@ -191,7 +190,7 @@ public class CyderFlowLayout extends CyderLayout {
         int maxWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
 
         // validate all rows and figure out if we can display some/all rows
-        for (Component flowComponent : flowComponents) {
+        for (Component flowComponent : components) {
             // find the focus owner to reset after revalidation
             if (flowComponent.isFocusOwner() && focusOwner == null) {
                 focusOwner = flowComponent;
@@ -492,13 +491,6 @@ public class CyderFlowLayout extends CyderLayout {
     }
 
     /**
-     * The CyderPanel that this layout is in control of. This is where the
-     * width and height that we are in control from comes and it is what we add/remove
-     * components to/from.
-     */
-    private CyderPanel associatedPanel;
-
-    /**
      * Sets the associated panel for this to calculate
      * bounds based off of and place components onto.
      *
@@ -513,6 +505,7 @@ public class CyderFlowLayout extends CyderLayout {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Dimension getPackSize() {
         int maxRowWidth = 0;
         int height = 2 * verticalGap;
@@ -521,7 +514,7 @@ public class CyderFlowLayout extends CyderLayout {
         int currentRowMaxComponentHeight = 0;
         int currentRowComponentCount = 0;
 
-        for (Component component : flowComponents) {
+        for (Component component : components) {
             int componentWidth = component.getWidth();
             int componentHeight = component.getHeight();
 
