@@ -295,10 +295,6 @@ public enum Console {
         consoleCyderFrame.finalizeAndShowCurrentPoint();
 
         revalidateInputAndOutputBounds(true);
-
-        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
-        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
-        baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
     /**
@@ -1094,6 +1090,7 @@ public enum Console {
     private void onConsoleWindowOpened() {
         inputField.requestFocus();
         inputField.setCaretPosition(inputField.getPassword().length);
+
         onLaunch();
     }
 
@@ -1181,7 +1178,6 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             try {
                 while (true) {
-                    // todo rename to busy animation
                     boolean busyIcon = UserUtil.getCyderUser().getShowBusyIcon().equals("1");
                     if (!isClosed() && busyIcon) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
@@ -1208,8 +1204,8 @@ public enum Console {
 
                         if (busyThreads == 0) {
                             shouldShowBusyAnimation.set(false);
-                        } else {
-                            if (!shouldShowBusyAnimation.get()) showBusyAnimation();
+                        } else if (!shouldShowBusyAnimation.get()) {
+                            showBusyAnimation();
                         }
                     }
 
@@ -1257,9 +1253,13 @@ public enum Console {
             String username = UserUtil.getCyderUser().getName();
             consoleCyderFrame.notify("Welcome back, " + username + "!");
         }
-
         UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
+
         introMusicCheck();
+
+        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
+        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
+        baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
     /**
@@ -1373,8 +1373,7 @@ public enum Console {
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
 
-        File userMusicDir = new File(OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), getUuid(), UserFile.MUSIC.getName()));
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), getUuid(), UserFile.MUSIC.getName());
 
         File[] files = userMusicDir.listFiles();
         if (files != null && files.length > 0) {

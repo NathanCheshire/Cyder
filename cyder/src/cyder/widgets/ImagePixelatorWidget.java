@@ -257,8 +257,8 @@ public final class ImagePixelatorWidget {
 
         String currentFilename = FileUtil.getFilename(currentFile);
         String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + Extension.PNG.getExtension();
-        File saveFile = new File(OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
+        File saveFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName);
 
         try {
             ImageIO.write(saveImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile);

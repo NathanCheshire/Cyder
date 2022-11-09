@@ -545,9 +545,7 @@ public final class UserUtil {
 
         if (files != null && files.length > 0) {
             for (File userFile : files) {
-                //file userdata
-                File json = new File(OsUtil.buildPath(
-                        userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
+                File json = OsUtil.buildFile(userFile.getAbsolutePath(), UserFile.USERDATA.getName());
 
                 if (json.exists()) {
                     if (!getterSetterValidator(json)) {
@@ -812,7 +810,7 @@ public final class UserUtil {
                     throw new FatalException("Found non-directory in users directory: " + user.getAbsolutePath());
                 }
 
-                File musicDir = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.MUSIC.getName()));
+                File musicDir = OsUtil.buildFile(user.getAbsolutePath(), UserFile.MUSIC.getName());
                 if (musicDir.exists()) {
                     CyderSplash.INSTANCE.setLoadingMessage("Cleaning user music directory: "
                             + FileUtil.getFilename(user));
@@ -824,8 +822,7 @@ public final class UserUtil {
                     }
                 }
 
-                File backgroundsDir = new File(OsUtil.buildPath(
-                        user.getAbsolutePath(), UserFile.BACKGROUNDS.getName()));
+                File backgroundsDir = OsUtil.buildFile(user.getAbsolutePath(), UserFile.BACKGROUNDS.getName());
                 if (backgroundsDir.exists()) {
                     CyderSplash.INSTANCE.setLoadingMessage("Resizing user backgrounds: "
                             + FileUtil.getFilename(user));
@@ -918,8 +915,8 @@ public final class UserUtil {
             });
         }
 
-        File albumArtDirectory = new File(OsUtil.buildPath(userDirectory.getAbsolutePath(),
-                UserFile.MUSIC.getName(), UserFile.ALBUM_ART));
+        File albumArtDirectory = OsUtil.buildFile(userDirectory.getAbsolutePath(),
+                UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
         if (!albumArtDirectory.exists()) return;
         File[] albumArtFiles = albumArtDirectory.listFiles();
 
@@ -1143,7 +1140,7 @@ public final class UserUtil {
 
         if (users != null && users.length > 0) {
             for (File user : users) {
-                File json = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+                File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
 
                 if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
                     uuids.add(user.getName());
@@ -1166,7 +1163,7 @@ public final class UserUtil {
 
         if (users != null && users.length > 0) {
             Arrays.stream(users).forEach(user -> {
-                File json = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+                File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
 
                 if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                     userFiles.add(json);

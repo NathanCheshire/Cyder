@@ -38,6 +38,7 @@ public enum Dynamic {
      */
     EXES("exes");
 
+    // todo restrict
     /**
      * The path from the top level Cyder directory to the dynamic root.
      */

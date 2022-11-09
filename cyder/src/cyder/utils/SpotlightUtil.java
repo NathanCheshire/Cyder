@@ -75,10 +75,9 @@ public final class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        return new File(OsUtil.buildPath(
-                OsUtil.WINDOWS_ROOT, "users", OsUtil.getOsUsername(),
-                "AppData", "Local", "Packages", CONTENT_DELIVERY_MANAGER_PREFIX
-                        + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets"));
+        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, "users",
+                OsUtil.getOsUsername(), "AppData", "Local", "Packages",
+                CONTENT_DELIVERY_MANAGER_PREFIX + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets");
     }
 
     /**

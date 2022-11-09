@@ -46,9 +46,8 @@ public class FileHandler extends InputHandler {
             SpotlightUtil.wipeSpotlights();
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {
-                File requestedDeleteFile = new File(OsUtil.buildPath(
-                        Dynamic.PATH, "users",
-                        Console.INSTANCE.getUuid(), getInputHandler().getArg(0)));
+                File requestedDeleteFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(), getInputHandler().getArg(0));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
                         if (OsUtil.deleteFile(requestedDeleteFile)) {
