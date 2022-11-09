@@ -338,8 +338,6 @@ public final class PathFinderWidget {
      */
     private static final String RESUME = "Resume";
 
-    // todo selecting start or goal should reset the state of what the next node should be, p sure this is broken
-
     /**
      * Suppress default constructor.
      */
@@ -517,6 +515,7 @@ public final class PathFinderWidget {
             if (placeStartBox.isChecked()) {
                 pathfindingGrid.setNodeColor(startNodeColor);
 
+                pathfindingGrid.removeInvokeWhenNodePlacedRunnables();
                 pathfindingGrid.invokeWhenNodePlaced(() -> {
                     pathfindingGrid.removeNodesOfColor(startNodeColor);
 
@@ -527,6 +526,7 @@ public final class PathFinderWidget {
                 deleteWallsCheckBox.setNotChecked();
                 pathfindingGrid.setMode(CyderGrid.Mode.ADD);
             } else {
+                pathfindingGrid.removeInvokeWhenNodePlacedRunnables();
                 pathfindingGrid.setNodeColor(wallsColor);
             }
         }
@@ -542,6 +542,7 @@ public final class PathFinderWidget {
             if (placeGoalBox.isChecked()) {
                 pathfindingGrid.setNodeColor(goalNodeColor);
 
+                pathfindingGrid.removeInvokeWhenNodePlacedRunnables();
                 pathfindingGrid.invokeWhenNodePlaced(() -> {
                     pathfindingGrid.removeNodesOfColor(goalNodeColor);
 
@@ -552,6 +553,7 @@ public final class PathFinderWidget {
                 deleteWallsCheckBox.setNotChecked();
                 pathfindingGrid.setMode(CyderGrid.Mode.ADD);
             } else {
+                pathfindingGrid.removeInvokeWhenNodePlacedRunnables();
                 pathfindingGrid.setNodeColor(wallsColor);
             }
         }

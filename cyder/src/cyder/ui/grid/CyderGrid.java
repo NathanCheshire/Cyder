@@ -1284,6 +1284,13 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Clears the runnables to invoke when the next node is placed.
+     */
+    public void removeInvokeWhenNodePlacedRunnables() {
+        runnablesForWhenNextNodePlaced.clear();
+    }
+
+    /**
      * Returns a linked list of all nodes with the provided color.
      *
      * @param color the color of the nodes to find on the grid

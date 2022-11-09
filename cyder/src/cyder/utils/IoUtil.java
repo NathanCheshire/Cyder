@@ -206,18 +206,6 @@ public final class IoUtil {
     private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IoUtil General Audio";
 
     /**
-     * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
-     *
-     * @param filePath the path to the audio file to play
-     */
-    public static void playGeneralAudio(String filePath) { // todo remove me
-        Preconditions.checkNotNull(filePath);
-        Preconditions.checkArgument(!filePath.isEmpty());
-
-        playGeneralAudio(new File(filePath));
-    }
-
-    /**
      * Plays the requested audio file using the general IoUtil
      * JLayer player which can be terminated by the user.
      *

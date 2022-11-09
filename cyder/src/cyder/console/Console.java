@@ -1386,7 +1386,7 @@ public enum Console {
 
         if (!musicList.isEmpty()) {
             int randomFileIndex = NumberUtil.randInt(files.length - 1);
-            IoUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
+            IoUtil.playGeneralAudio(files[randomFileIndex]);
         } else {
             IoUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
         }
