@@ -49,6 +49,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -3879,112 +3880,192 @@ public class CyderFrame extends JFrame {
         this.autoFastClose = autoFastClose;
     }
 
+    // ------------------
+    // Tooltip menu logic
+    // ------------------
+
     // todo bug fix, right clicking drag label buttons fires them, only left click should.
 
+    /**
+     * The current menu tooltip opacity.
+     */
+    private final AtomicInteger tooltipMenuOpacity = new AtomicInteger(ColorUtil.maxOpacity);
+
+    /**
+     * Whether the mouse has entered the tooltip menu after it was generated.
+     */
+    private final AtomicBoolean mouseHasEnteredTooltipMenu = new AtomicBoolean();
+
+    /**
+     * The tooltip menu component border color.
+     */
+    private static final Color tooltipMenuBorderColor = Color.black;
+
+    /**
+     * The tooltip menu width.
+     */
+    private static final int tooltipMenuWidth = 100;
+
+    /**
+     * The tooltip menu height.
+     */
+    private static final int tooltipMenuHeight = 100;
+
+    /**
+     * The tooltip menu border length
+     */
+    private static final int tooltipMenuBorderLength = 5;
+
+    /**
+     * The timeout before fading out the tooltip menu label if the user never interacts with the label.
+     */
+    private static final int noInteractionFadeOutTimeout = 3000;
+
+    /**
+     * The tooltip menu label, if present.
+     */
+    private @Nullable JLabel tooltipMenuLabel = null;
+
+    /**
+     * Generates and shows the tooltip menu at the closest valid point to the generating event.
+     *
+     * @param generatingEvent the {@link MouseEvent} which caused this method to be invoked
+     * @param generatingLabel the {@link CyderDragLabel} on which the generating mouse event occurred
+     */
     public void generateAndShowTooltipMenu(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
         Preconditions.checkNotNull(generatingEvent);
         Preconditions.checkNotNull(generatingLabel);
         if (isBorderlessFrame()) return;
 
-        AtomicBoolean hasEntered = new AtomicBoolean();
-        AtomicInteger opacity = new AtomicInteger(255);
+        if (tooltipMenuLabel != null) {
+            tooltipMenuLabel.setVisible(false);
+            contentLabel.remove(tooltipMenuLabel);
+            tooltipMenuLabel = null;
 
-        Color borderColor = Color.black;
-        int width = 100;
-        int height = 40;
-        int borderLen = 5;
-        JLabel label = new JLabel() {
+        }
+
+        tooltipMenuOpacity.set(ColorUtil.maxOpacity);
+        mouseHasEnteredTooltipMenu.set(false);
+
+        tooltipMenuLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
-                g.setColor(new Color(borderColor.getRed(), borderColor.getGreen(),
-                        borderColor.getBlue(), opacity.get()));
-                g.fillRect(0, 0, width, height);
-
-                Color guiTheme = CyderColors.getGuiThemeColor();
-                Color set = new Color(guiTheme.getRed(), guiTheme.getGreen(),
-                        guiTheme.getBlue(), opacity.get());
-                g.setColor(set);
-                g.fillRect(borderLen, borderLen, width - 2 * borderLen, height - 2 * borderLen);
+                g.setColor(ColorUtil.setColorOpacity(tooltipMenuBorderColor, tooltipMenuOpacity.get()));
+                g.fillRect(0, 0, tooltipMenuWidth, tooltipMenuHeight);
+                g.setColor(ColorUtil.setColorOpacity(CyderColors.getGuiThemeColor(), tooltipMenuOpacity.get()));
+                g.fillRect(tooltipMenuBorderLength, tooltipMenuBorderLength,
+                        tooltipMenuWidth - 2 * tooltipMenuBorderLength,
+                        tooltipMenuHeight - 2 * tooltipMenuBorderLength);
             }
         };
-        label.setSize(width, height);
+        tooltipMenuLabel.setSize(tooltipMenuWidth, tooltipMenuHeight);
 
         // todo method for location
         int x;
         int y;
         if (generatingLabel.equals(topDrag)) {
             x = generatingEvent.getX();
-            if (x < BORDER_LEN) {
-                x = BORDER_LEN;
-            } else if (x + width + BORDER_LEN > getWidth()) {
-                x = getWidth() - width - BORDER_LEN;
+            if (x < leftDrag.getWidth()) {
+                x = leftDrag.getWidth();
+            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > getWidth()) {
+                x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
             }
 
             y = CyderDragLabel.DEFAULT_HEIGHT;
         } else if (generatingLabel.equals(leftDrag)) {
-            x = BORDER_LEN;
+            x = leftDrag.getWidth();
 
             y = generatingEvent.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + height + BORDER_LEN > getHeight()) {
-                y = getHeight() - height - BORDER_LEN;
+            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > getHeight()) {
+                y = getHeight() - tooltipMenuHeight - bottomDrag.getHeight();
             }
         } else if (generatingLabel.equals(rightDrag)) {
-            x = getWidth() - width - BORDER_LEN;
+            x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
 
             y = generatingEvent.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + height + BORDER_LEN > getHeight()) {
-                y = getHeight() - height - BORDER_LEN;
+            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > getHeight()) {
+                y = getHeight() - tooltipMenuHeight - bottomDrag.getHeight();
             }
         } else if (generatingLabel.equals(bottomDrag)) {
             x = generatingEvent.getX();
-            if (x < BORDER_LEN) {
-                x = BORDER_LEN;
-            } else if (x + width + BORDER_LEN > getWidth()) {
-                x = getWidth() - width - BORDER_LEN;
+            if (x < leftDrag.getWidth()) {
+                x = leftDrag.getWidth();
+            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > getWidth()) {
+                x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
             }
 
-            y = getHeight() - BORDER_LEN - height;
+            y = getHeight() - bottomDrag.getHeight() - tooltipMenuHeight;
         } else {
             throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
         }
 
-        label.setLocation(x, y);
-
-        label.addMouseListener(new MouseAdapter() {
+        AtomicLong visibleTime = new AtomicLong();
+        tooltipMenuLabel.setLocation(x, y);
+        tooltipMenuLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
-                // todo fade out
-                label.setVisible(false);
+                int minVisibleTime = 2000;
+                ThreadUtil.sleep(Math.min(minVisibleTime, minVisibleTime
+                        - (System.currentTimeMillis() - visibleTime.get())));
+                fadeOutTooltipMenu();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                hasEntered.set(true);
+                mouseHasEnteredTooltipMenu.set(true);
             }
         });
-        contentLabel.add(label, JLayeredPane.DRAG_LAYER);
+        contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
+        visibleTime.set(System.currentTimeMillis());
 
-        String threadName = "CyderFrame DragLabel tooltip menu opacity fade-out animation";
-        int noInteractionFadeOutTimeout = 3000;
-        int opacityDecrement = 2;
-        int opacityAnimationTimeout = 2;
+        String threadName = "CyderFrame tooltip menu fade-out if mouse never enters label waiter thread";
         CyderThreadRunner.submit(() -> {
             ThreadUtil.sleep(noInteractionFadeOutTimeout);
-            if (!hasEntered.get()) {
-                for (int i = opacity.get() ; i >= opacityDecrement ; i -= opacityDecrement) {
-                    opacity.set(opacity.get() - opacityDecrement);
-                    label.repaint();
-                    ThreadUtil.sleep(opacityAnimationTimeout);
-                }
-
-                opacity.set(0);
-                label.repaint();
-                label.setVisible(false);
-            }
+            if (!mouseHasEnteredTooltipMenu.get()) fadeOutTooltipMenu();
         }, threadName);
+    }
+
+    /**
+     * The opacity decrement for the tooltip menu label fade-out animation.
+     */
+    private static final int tooltipMenuLabelOpacityDecrement = 2;
+
+    /**
+     * The animation timeout for the tooltip menu label fade-out animation.
+     */
+    private static final int tooltipMenuLabelAnimationTimeout = 2;
+
+    /**
+     * The thread name for the tooltip menu label fade-out animation.
+     */
+    private static final String tooltipMenuLabelAnimationThreadName = "CyderFrame tooltip menu"
+            + " label fade-out animation";
+
+    /**
+     * Performs the fade out on the tooltip menu label.
+     */
+    private void fadeOutTooltipMenu() {
+        // todo I think this is getting called for a different label, how to ensure this refers to a specific label?
+        //  well pass it a label I guess :/
+        if (tooltipMenuLabel == null) return;
+
+        CyderThreadRunner.submit(() -> {
+            for (int i = tooltipMenuOpacity.get() ; i >= tooltipMenuLabelOpacityDecrement
+                    ; i -= tooltipMenuLabelOpacityDecrement) {
+                tooltipMenuOpacity.set(tooltipMenuOpacity.get() - tooltipMenuLabelOpacityDecrement);
+                tooltipMenuLabel.repaint();
+                ThreadUtil.sleep(tooltipMenuLabelAnimationTimeout);
+            }
+
+            tooltipMenuOpacity.set(ColorUtil.minOpacity);
+            tooltipMenuLabel.repaint();
+            tooltipMenuLabel.setVisible(false);
+            contentLabel.remove(tooltipMenuLabel);
+            tooltipMenuLabel = null;
+        }, tooltipMenuLabelAnimationThreadName);
     }
 }

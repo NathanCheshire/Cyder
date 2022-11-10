@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.math.NumberUtil;
@@ -320,5 +321,34 @@ public class ColorUtil {
 
         return ImmutableList.of(flashColor, beforeLessFlash, lessFlash, afterLessFlash,
                 middle, beforeLessDefault, lessDefault, afterLessDefault, defaultColor);
+    }
+
+    /**
+     * The minimum opacity.
+     */
+    public static final int minOpacity = 0;
+
+    /**
+     * The maximum opacity.
+     */
+    public static final int maxOpacity = 255;
+
+    /**
+     * The range for opacity values for Java's {@link Color} objects.
+     */
+    private static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
+
+    /**
+     * Sets the opacity of the provided color to the provided opacity and returns a new color object.
+     *
+     * @param color   the color
+     * @param opacity the opacity of the color
+     * @return the color with the requested opacity.
+     */
+    public static Color setColorOpacity(Color color, int opacity) {
+        Preconditions.checkNotNull(color);
+        Preconditions.checkArgument(opacityRange.contains(opacity));
+
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
     }
 }
