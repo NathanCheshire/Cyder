@@ -111,13 +111,6 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Refreshes the label font of all YouTube download labels.
-     */
-    public static void refreshAllDownloadLabels() {
-        activeDownloads.forEach(YoutubeDownload::refreshLabelFont);
-    }
-
-    /**
      * Cancels all active youtube downloads.
      */
     public static void cancelAllActiveDownloads() {

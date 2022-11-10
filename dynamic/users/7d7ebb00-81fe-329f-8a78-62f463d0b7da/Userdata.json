@@ -3,7 +3,7 @@
   "pass": "1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28",
   "font": "Agency FB",
   "fontSize": "30",
-  "foreground": "F0F0F0",
+  "foreground": "f0f0f0",
   "background": "0f0f0f",
   "introMusic": "0",
   "debugStats": "0",
@@ -18,7 +18,7 @@
   "clockOnConsole": "1",
   "showSeconds": "1",
   "filterChat": "0",
-  "lastStart": "1668043431543",
+  "lastStart": "1668044498801",
   "minimizeOnClose": "0",
   "typingAnimation": "1",
   "showBusyIcon": "1",
@@ -39,13 +39,13 @@
   "paintClockLabels": "0",
   "showSecondHand": "1",
   "screenStat": {
-    "consoleX": 469,
-    "consoleY": 363,
-    "consoleWidth": 823,
-    "consoleHeight": 773,
+    "consoleX": 1555,
+    "consoleY": 244,
+    "consoleWidth": 773,
+    "consoleHeight": 823,
     "monitor": 0,
     "consoleOnTop": false,
-    "consoleDirection": "TOP"
+    "consoleDirection": "RIGHT"
   },
   "executables": []
 }

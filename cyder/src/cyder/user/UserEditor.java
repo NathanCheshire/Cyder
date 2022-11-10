@@ -1197,6 +1197,7 @@ public final class UserEditor {
                 Console.INSTANCE.getInputField().setForeground(foregroundColor);
                 Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
                 Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
+                Console.INSTANCE.getInputHandler().refreshPrintedLabels();
                 Preference.invokeRefresh(Preference.FOREGROUND);
             } catch (Exception ignored) {}
         }));
@@ -1434,6 +1435,7 @@ public final class UserEditor {
             Font applyFont = new Font(selectedFont, requestedFontMetric, requestedFontSize);
             Console.INSTANCE.getOutputArea().setFont(applyFont);
             Console.INSTANCE.getInputField().setFont(applyFont);
+            Console.INSTANCE.getInputHandler().refreshPrintedLabels();
 
             editUserFrame.notify("Applied font: " + selectedFont);
         }
@@ -1462,6 +1464,7 @@ public final class UserEditor {
         Console.INSTANCE.getInputField().setForeground(defaultForegroundColor);
         Console.INSTANCE.getInputField().setCaretColor(defaultForegroundColor);
         Console.INSTANCE.getInputField().setCaret(new CyderCaret(defaultForegroundColor));
+        Console.INSTANCE.getInputHandler().refreshPrintedLabels();
         Preference.invokeRefresh(Preference.FOREGROUND);
 
         Font applyFont = new Font(defaultFontName, defaultFontMetric, defaultFontSize);

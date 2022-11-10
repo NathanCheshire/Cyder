@@ -1308,6 +1308,17 @@ public class BaseInputHandler {
     // and foreground updating as long as they are contained in the list
     // -----------------------------------------------------------------
 
+    /**
+     * The list of labels appended to the Console's text pane which require updating whenever
+     * the following events occur:
+     *
+     * <ul>
+     *     <li>User font changed</li>
+     *     <li>User font metric changed</li>
+     *     <li>User font size changed</li>
+     *     <li>User foreground color changed</li>
+     * </ul>
+     */
     private final ArrayList<JLabel> printedLabels = new ArrayList<>();
 
     /**
@@ -1354,5 +1365,22 @@ public class BaseInputHandler {
      */
     public void clearPrintedLabels() {
         printedLabels.clear();
+    }
+
+    /**
+     * Refreshes the following properties of all labels current in the printed labels list:
+     *
+     * <ul>
+     *     <li>Foreground</li>
+     *     <li>Font</li>
+     *     <li>Font metric</li>
+     *     <li>Font size</li>
+     * </ul>
+     */
+    public void refreshPrintedLabels() {
+        printedLabels.forEach(label -> {
+            label.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+            label.setFont(Console.INSTANCE.generateUserFont());
+        });
     }
 }

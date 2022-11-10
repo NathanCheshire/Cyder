@@ -46,7 +46,6 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.user.*;
 import cyder.utils.*;
-import cyder.youtube.YoutubeUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -2407,34 +2406,33 @@ public enum Console {
      */
     @SuppressWarnings("MagicConstant") /* Font metric is always checked */
     private final MouseWheelListener fontSizerListener = e -> {
-        if (e.isControlDown()) {
-            int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
-            fontSize += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
-
-            if (fontSize > PropLoader.getInteger(MAX_FONT_SIZE)
-                    || fontSize < PropLoader.getInteger(MIN_FONT_SIZE)) {
-                return;
-            }
-
-            try {
-                String fontName = UserUtil.getCyderUser().getFont();
-                int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
-
-                Font newFont = new Font(fontName, fontMetric, fontSize);
-                if (NumberUtil.isValidFontMetric(fontMetric)) {
-                    inputField.setFont(newFont);
-                    outputArea.setFont(newFont);
-
-                    UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
-
-                    YoutubeUtil.refreshAllDownloadLabels();
-                }
-            } catch (Exception ignored) {}
-        } else {
-            // Don't disrupt original event
+        if (!e.isControlDown()) {
             outputArea.getParent().dispatchEvent(e);
             inputField.getParent().dispatchEvent(e);
+            return;
         }
+
+        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
+        fontSize += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
+
+        if (fontSize > PropLoader.getInteger(MAX_FONT_SIZE)
+                || fontSize < PropLoader.getInteger(MIN_FONT_SIZE)) {
+            return;
+        }
+
+        try {
+            String fontName = UserUtil.getCyderUser().getFont();
+            int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+
+            Font newFont = new Font(fontName, fontMetric, fontSize);
+            if (NumberUtil.isValidFontMetric(fontMetric)) {
+                inputField.setFont(newFont);
+                outputArea.setFont(newFont);
+
+                UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
+                baseInputHandler.refreshPrintedLabels();
+            }
+        } catch (Exception ignored) {}
     };
 
     /**

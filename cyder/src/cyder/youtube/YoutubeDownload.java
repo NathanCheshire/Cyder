@@ -330,17 +330,6 @@ public class YoutubeDownload {
     }
 
     /**
-     * Refreshes the font of the label containing the download information.
-     */
-    public void refreshLabelFont() {
-        if (isDone()) return;
-
-        Font font = Console.INSTANCE.generateUserFont();
-        downloadProgressLabel.setFont(font);
-        cancelButton.setFont(font);
-    }
-
-    /**
      * The download progress bar to print and update if a valid input handler is provided.
      */
     private CyderProgressBar downloadProgressBar;
@@ -545,6 +534,8 @@ public class YoutubeDownload {
         inputHandler.println(downloadProgressBar);
         inputHandler.println(downloadProgressLabel);
         inputHandler.println(getCancelDownloadButton());
+
+        inputHandler.addPrintedLabel(downloadProgressLabel);
     }
 
     /**
