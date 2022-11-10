@@ -5,12 +5,15 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
+import cyder.files.DosAttribute;
+import cyder.files.FileUtil;
 import cyder.logging.Logger;
 import cyder.utils.IoUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SpotlightUtil;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * A handler related to files and manipulation of them.
@@ -23,7 +26,7 @@ public class FileHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"wipe logs", "open current log", "open last log", "wipe"})
+    @Handle({"wipe logs", "open current log", "open last log", "wipe", "cmd", "dos attributes"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -76,6 +79,22 @@ public class FileHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("cmd")) {
             OsUtil.openShell();
+        } else if (getInputHandler().inputIgnoringSpacesAndCaseStartsWith("dos attributes")) {
+            if (getInputHandler().checkArgsLength(2)) {
+                File file = new File(getInputHandler().getArg(1));
+                if (file.exists()) {
+                    getInputHandler().println("DOS attributes for \"" + FileUtil.getFilename(file) + "\"");
+                    getInputHandler().println("------------------------");
+                    Arrays.stream(DosAttribute.values()).forEach(dosAttribute ->
+                            getInputHandler().println(dosAttribute.getMethodName() + ": "
+                                    + DosAttribute.getAttribute(file, dosAttribute)));
+                } else {
+                    getInputHandler().println("Provided file does not exist, absolute path: " + file.getAbsolutePath());
+                    getInputHandler().print("Cwd: " + new File(".").getAbsolutePath());
+                }
+            } else {
+                getInputHandler().println("DOS attributes command usage: dos attributes path/to/my/file.txt");
+            }
         } else {
             ret = false;
         }

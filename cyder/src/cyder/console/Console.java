@@ -2437,13 +2437,13 @@ public enum Console {
 
     /**
      * Sets the UUID for this Cyder session. Everything else relies on this being set and not null.
-     * Once set, a one time check is performed to fix any possibly corrupted userdata.
      *
      * @param uuid the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console
      */
     public void setUuid(String uuid) {
         Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
 
         previousUuid = this.uuid;
         this.uuid = uuid;
