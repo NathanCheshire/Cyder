@@ -232,7 +232,7 @@ public class CyderDragLabel extends JLabel {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() != MouseEvent.BUTTON1) {
-                    effectFrame.test(e, sourceDragLabel);
+                    effectFrame.generateAndShowTooltipMenu(e, sourceDragLabel);
                 }
             }
         };

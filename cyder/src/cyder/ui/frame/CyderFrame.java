@@ -3881,7 +3881,7 @@ public class CyderFrame extends JFrame {
 
     // todo bug fix, right clicking drag label buttons fires them, only left click should.
 
-    public void test(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
+    public void generateAndShowTooltipMenu(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
         Preconditions.checkNotNull(generatingEvent);
         Preconditions.checkNotNull(generatingLabel);
         if (isBorderlessFrame()) return;
@@ -3909,8 +3909,7 @@ public class CyderFrame extends JFrame {
         };
         label.setSize(width, height);
 
-        // todo need to know which drag label generated the event
-
+        // todo method for location
         int x;
         int y;
         if (generatingLabel.equals(topDrag)) {
@@ -3941,7 +3940,14 @@ public class CyderFrame extends JFrame {
                 y = getHeight() - height - BORDER_LEN;
             }
         } else if (generatingLabel.equals(bottomDrag)) {
-            throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
+            x = generatingEvent.getX();
+            if (x < BORDER_LEN) {
+                x = BORDER_LEN;
+            } else if (x + width + BORDER_LEN > getWidth()) {
+                x = getWidth() - width - BORDER_LEN;
+            }
+
+            y = getHeight() - BORDER_LEN - height;
         } else {
             throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
         }
