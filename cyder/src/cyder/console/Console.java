@@ -408,6 +408,13 @@ public enum Console {
     }
 
     /**
+     * Hides the busy animation if currently visible.
+     */
+    public void hideBusyAnimation() {
+        shouldShowBusyAnimation.set(false);
+    }
+
+    /**
      * Resets private variables to their default state.
      */
     @ForReadability

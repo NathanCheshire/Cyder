@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.logging.LogTag;
@@ -81,27 +82,27 @@ public class Preference {
     private static final ImmutableList<Preference> preferences = ImmutableList.of(
             new Preference(NAME, IGNORE, IGNORE, IGNORE,
                     () -> Logger.log(LogTag.PREFERENCE, NAME))
-                    .setIgnoreForToggleSwitches(true)
-                    .setIgnoreForUserCreation(true),
+                    .setIgnoreForToggleSwitches()
+                    .setIgnoreForUserCreation(),
 
             new Preference(PASS, IGNORE, IGNORE, IGNORE,
                     () -> Logger.log(LogTag.PREFERENCE, PASS))
-                    .setIgnoreForToggleSwitches(true)
-                    .setIgnoreForUserCreation(true),
+                    .setIgnoreForToggleSwitches()
+                    .setIgnoreForUserCreation(),
 
             new Preference(FONT, IGNORE, EMPTY, "Agency FB",
                     () -> Logger.log(LogTag.PREFERENCE, FONT))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(FOREGROUND, IGNORE, EMPTY, "f0f0f0", () -> {
                 Logger.log(LogTag.PREFERENCE, FOREGROUND);
                 Console.INSTANCE.getInputField().setForeground(
                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-            }).setIgnoreForToggleSwitches(true),
+            }).setIgnoreForToggleSwitches(),
 
             new Preference(BACKGROUND, IGNORE, EMPTY, "101010",
                     () -> Logger.log(LogTag.PREFERENCE, BACKGROUND))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(INTRO_MUSIC, "Intro Music", "Play intro music on start",
                     "0", () -> Logger.log(LogTag.PREFERENCE, INTRO_MUSIC)),
@@ -202,7 +203,7 @@ public class Preference {
 
             new Preference(LAST_START, IGNORE, EMPTY, String.valueOf(System.currentTimeMillis()),
                     () -> Logger.log(LogTag.PREFERENCE, LAST_START))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(MINIMIZE_ON_CLOSE, "Minimize On Close",
                     "Minimize the application instead of exiting whenever a close action is requested",
@@ -216,9 +217,12 @@ public class Preference {
                     "Typing animation sound effect to play if typing animation is enabled",
                     "1", () -> Logger.log(LogTag.PREFERENCE, TYPING_SOUND)),
 
-            new Preference(SHOW_BUSY_ICON, "Show Cyder Busy Icon",
-                    "Show when Cyder is busy by changing the tray icon", "0",
-                    () -> Logger.log(LogTag.PREFERENCE, SHOW_BUSY_ICON)),
+            new Preference(SHOW_BUSY_ICON, "Show Cyder Busy Animation",
+                    "Show when Cyder is busy by changing the tray icon", "1",
+                    () -> {
+                        Console.INSTANCE.hideBusyAnimation();
+                        Logger.log(LogTag.PREFERENCE, SHOW_BUSY_ICON);
+                    }),
 
             new Preference(ROUNDED_WINDOWS, "Rounded Windows", "Make certain windows rounded",
                     "0", () -> {
@@ -231,35 +235,35 @@ public class Preference {
 
                 UiUtil.repaintCyderFrames();
                 Console.INSTANCE.revalidateMenuBackgrounds();
-            }).setIgnoreForToggleSwitches(true),
+            }).setIgnoreForToggleSwitches(),
 
             new Preference(CONSOLE_CLOCK_FORMAT, IGNORE, EMPTY, "EEEEEEEEE h:mmaa", () -> {
                 Logger.log(LogTag.PREFERENCE, CONSOLE_CLOCK_FORMAT);
                 Console.INSTANCE.refreshClockText();
-            }).setIgnoreForToggleSwitches(true),
+            }).setIgnoreForToggleSwitches(),
 
             new Preference(YOUTUBE_UUID, IGNORE, EMPTY, "aaaaaaaaaaa",
                     () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_UUID))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(IP_KEY, IGNORE, EMPTY, EMPTY,
                     () -> Logger.log(LogTag.PREFERENCE, IP_KEY))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(WEATHER_KEY, IGNORE, EMPTY, EMPTY,
                     () -> Logger.log(LogTag.PREFERENCE, WEATHER_KEY))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(YOUTUBE_API_3_KEY, IGNORE, EMPTY, EMPTY,
                     () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_API_3_KEY))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(CAPS_MODE, "Capital Letters Mode", "Capitalize all console output",
                     "0", () -> Logger.log(LogTag.PREFERENCE, CAPS_MODE)),
 
             new Preference(LOGGED_IN, IGNORE, EMPTY, "0",
                     () -> Logger.log(LogTag.PREFERENCE, LOGGED_IN))
-                    .setIgnoreForToggleSwitches(true),
+                    .setIgnoreForToggleSwitches(),
 
             new Preference(AUDIO_LENGTH, "Show Audio Total Length",
                     "For the audio player, show the total audio time instead of the time remaining",
@@ -286,14 +290,14 @@ public class Preference {
 
                 Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
                 Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-            }).setIgnoreForToggleSwitches(true),
+            }).setIgnoreForToggleSwitches(),
 
             new Preference(FONT_SIZE, IGNORE, EMPTY, "30", () -> {
                 Logger.log(LogTag.PREFERENCE, FONT_SIZE);
 
                 Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
                 Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-            }).setIgnoreForToggleSwitches(true),
+            }).setIgnoreForToggleSwitches(),
 
             new Preference(WRAP_SHELL, "Wrap Shell", "Wrap the native shell by"
                     + " passing unrecognized commands to it and allowing it to process them", "0",
@@ -381,6 +385,9 @@ public class Preference {
      * @throws IllegalArgumentException if a preference with the provided id cannot be found
      */
     public static Preference get(String preferenceID) {
+        Preconditions.checkNotNull(preferenceID);
+        Preconditions.checkArgument(!preferenceID.isEmpty());
+
         for (Preference preference : preferences) {
             if (preference.getID().equals(preferenceID)) {
                 return preference;
@@ -424,7 +431,15 @@ public class Preference {
      * @param defaultValue     the default value
      * @param onChangeFunction the method to run when a change of the preference occurs
      */
-    public Preference(String id, String displayName, String tooltip, Object defaultValue, Runnable onChangeFunction) {
+    private Preference(String id, String displayName, String tooltip, Object defaultValue, Runnable onChangeFunction) {
+        Preconditions.checkNotNull(id);
+        Preconditions.checkArgument(!id.isEmpty());
+        Preconditions.checkNotNull(displayName);
+        Preconditions.checkArgument(!displayName.isEmpty());
+        Preconditions.checkNotNull(tooltip);
+        Preconditions.checkNotNull(defaultValue);
+        Preconditions.checkNotNull(onChangeFunction);
+
         this.id = id;
         this.displayName = displayName;
         this.tooltip = tooltip;
@@ -494,13 +509,12 @@ public class Preference {
     }
 
     /**
-     * Sets whether this preference should be ignored when setting up the toggle switches for the user editor.
+     * Sets this preference to be ignored when setting up the toggle switches for the user editor.
      *
-     * @param ignore whether this preference should be ignored when setting up the toggle switches for the user editor
      * @return this preference
      */
-    public Preference setIgnoreForToggleSwitches(boolean ignore) {
-        this.ignoreForToggleSwitches = ignore;
+    private Preference setIgnoreForToggleSwitches() {
+        this.ignoreForToggleSwitches = true;
         return this;
     }
 
@@ -521,13 +535,12 @@ public class Preference {
     }
 
     /**
-     * Sets whether this preference should be ignored when building a new user.
+     * Sets this preference to be ignored when building a new user.
      *
-     * @param ignore whether this preference should be ignored when building a new user
      * @return this preference
      */
-    public Preference setIgnoreForUserCreation(boolean ignore) {
-        this.ignoreForUserCreation = ignore;
+    private Preference setIgnoreForUserCreation() {
+        this.ignoreForUserCreation = true;
         return this;
     }
 
