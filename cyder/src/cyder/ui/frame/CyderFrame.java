@@ -3922,9 +3922,22 @@ public class CyderFrame extends JFrame {
     private static final int noInteractionFadeOutTimeout = 3000;
 
     /**
-     * The tooltip menu label, if present.
+     * The list of tooltip menu labels generated that have yet to be removed.
+     * This should at most contain one label.
      */
-    private @Nullable JLabel tooltipMenuLabel = null;
+    private final ArrayList<JLabel> tooltipMenuLabels = new ArrayList<>();
+
+    /**
+     * The minimum amount of time a tooltip menu label may be visible for.
+     */
+    private static final int minTooltipMenuVisibleTime = 1200;
+
+    /**
+     * The thread name for the tooltip menu fade-out waiter for when the
+     * user does not interact with the tooltip menu label.
+     */
+    private static final String tooltipMenuFadeoutWaiterThreadName = "CyderFrame tooltip"
+            + " menu fade-out if mouse never enters label waiter thread";
 
     /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
@@ -3937,17 +3950,16 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(generatingLabel);
         if (isBorderlessFrame()) return;
 
-        if (tooltipMenuLabel != null) {
+        tooltipMenuLabels.forEach(tooltipMenuLabel -> {
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
-            tooltipMenuLabel = null;
-
-        }
+        });
+        tooltipMenuLabels.clear();
 
         tooltipMenuOpacity.set(ColorUtil.maxOpacity);
         mouseHasEnteredTooltipMenu.set(false);
 
-        tooltipMenuLabel = new JLabel() {
+        JLabel tooltipMenuLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
                 g.setColor(ColorUtil.setColorOpacity(tooltipMenuBorderColor, tooltipMenuOpacity.get()));
@@ -3960,9 +3972,43 @@ public class CyderFrame extends JFrame {
         };
         tooltipMenuLabel.setSize(tooltipMenuWidth, tooltipMenuHeight);
 
-        // todo method for location
+        AtomicLong visibleTime = new AtomicLong();
+        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel));
+        tooltipMenuLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
+                        - (System.currentTimeMillis() - visibleTime.get())));
+                fadeOutTooltipMenu(tooltipMenuLabel);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                mouseHasEnteredTooltipMenu.set(true);
+            }
+        });
+        contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
+        visibleTime.set(System.currentTimeMillis());
+
+        CyderThreadRunner.submit(() -> {
+            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+            if (!mouseHasEnteredTooltipMenu.get()) fadeOutTooltipMenu(tooltipMenuLabel);
+        }, tooltipMenuFadeoutWaiterThreadName);
+
+        tooltipMenuLabels.add(tooltipMenuLabel);
+    }
+
+    /**
+     * Calculates the point to place the tooltip menu label at based on the generating event and drag label.
+     *
+     * @param generatingEvent the event which generated the invocation of the menu generation method
+     * @param generatingLabel the label which generated the generating event
+     * @return the point to place the tooltip menu label at on this frame
+     */
+    private Point calculateTooltipMenuLocation(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
         int x;
         int y;
+
         if (generatingLabel.equals(topDrag)) {
             x = generatingEvent.getX();
             if (x < leftDrag.getWidth()) {
@@ -4003,30 +4049,7 @@ public class CyderFrame extends JFrame {
             throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
         }
 
-        AtomicLong visibleTime = new AtomicLong();
-        tooltipMenuLabel.setLocation(x, y);
-        tooltipMenuLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseExited(MouseEvent e) {
-                int minVisibleTime = 2000;
-                ThreadUtil.sleep(Math.min(minVisibleTime, minVisibleTime
-                        - (System.currentTimeMillis() - visibleTime.get())));
-                fadeOutTooltipMenu();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                mouseHasEnteredTooltipMenu.set(true);
-            }
-        });
-        contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
-        visibleTime.set(System.currentTimeMillis());
-
-        String threadName = "CyderFrame tooltip menu fade-out if mouse never enters label waiter thread";
-        CyderThreadRunner.submit(() -> {
-            ThreadUtil.sleep(noInteractionFadeOutTimeout);
-            if (!mouseHasEnteredTooltipMenu.get()) fadeOutTooltipMenu();
-        }, threadName);
+        return new Point(x, y);
     }
 
     /**
@@ -4047,11 +4070,12 @@ public class CyderFrame extends JFrame {
 
     /**
      * Performs the fade out on the tooltip menu label.
+     *
+     * @param tooltipMenuLabel the label to fade out
      */
-    private void fadeOutTooltipMenu() {
-        // todo I think this is getting called for a different label, how to ensure this refers to a specific label?
-        //  well pass it a label I guess :/
-        if (tooltipMenuLabel == null) return;
+    private void fadeOutTooltipMenu(JLabel tooltipMenuLabel) {
+        Preconditions.checkNotNull(tooltipMenuLabel);
+        if (!tooltipMenuLabels.contains(tooltipMenuLabel)) return;
 
         CyderThreadRunner.submit(() -> {
             for (int i = tooltipMenuOpacity.get() ; i >= tooltipMenuLabelOpacityDecrement
@@ -4065,7 +4089,7 @@ public class CyderFrame extends JFrame {
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
-            tooltipMenuLabel = null;
+            tooltipMenuLabels.remove(tooltipMenuLabel);
         }, tooltipMenuLabelAnimationThreadName);
     }
 }
