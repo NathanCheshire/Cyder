@@ -140,6 +140,7 @@ public class CyderDragLabel extends JLabel {
         addMouseMotionListener(createDraggingMouseMotionListener(
                 effectFrame, draggingEnabled, xOffset, yOffset, leftMouseButtonPressed));
         addMouseListener(createOpacityAnimationMouseListener(effectFrame, leftMouseButtonPressed));
+        addMouseListener((createTooltipMenuMouseListener(effectFrame, this)));
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
 
@@ -213,6 +214,25 @@ public class CyderDragLabel extends JLabel {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     leftMouseButtonPressed.set(false);
                     effectFrame.endDragEvent();
+                }
+            }
+        };
+    }
+
+    /**
+     * Creates the tooltip menu mouse listener for the provided frame.
+     *
+     * @param effectFrame     the frame the tooltip will appear on
+     * @param sourceDragLabel the drag label which generated the mouse event
+     * @return the mouse listener for the tooltip menu
+     */
+    private static MouseListener createTooltipMenuMouseListener(CyderFrame effectFrame,
+                                                                CyderDragLabel sourceDragLabel) {
+        return new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() != MouseEvent.BUTTON1) {
+                    effectFrame.test(e, sourceDragLabel);
                 }
             }
         };
@@ -387,11 +407,7 @@ public class CyderDragLabel extends JLabel {
             return false;
         }
 
-        CyderDragLabel other = (CyderDragLabel) o;
-
-        return other.getWidth() == getWidth()
-                && other.getHeight() == getHeight()
-                && other.getBackground() == getBackground();
+        return false;
     }
 
     /**

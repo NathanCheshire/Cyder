@@ -7,6 +7,7 @@ import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.console.ConsoleConstants;
 import cyder.constants.*;
+import cyder.exceptions.FatalException;
 import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -47,6 +48,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -3875,5 +3877,108 @@ public class CyderFrame extends JFrame {
      */
     public void setAutoFastClose(boolean autoFastClose) {
         this.autoFastClose = autoFastClose;
+    }
+
+    // todo bug fix, right clicking drag label buttons fires them, only left click should.
+
+    public void test(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
+        Preconditions.checkNotNull(generatingEvent);
+        Preconditions.checkNotNull(generatingLabel);
+        if (isBorderlessFrame()) return;
+
+        AtomicBoolean hasEntered = new AtomicBoolean();
+        AtomicInteger opacity = new AtomicInteger(255);
+
+        Color borderColor = Color.black;
+        int width = 100;
+        int height = 40;
+        int borderLen = 5;
+        JLabel label = new JLabel() {
+            @Override
+            public void paint(Graphics g) {
+                g.setColor(new Color(borderColor.getRed(), borderColor.getGreen(),
+                        borderColor.getBlue(), opacity.get()));
+                g.fillRect(0, 0, width, height);
+
+                Color guiTheme = CyderColors.getGuiThemeColor();
+                Color set = new Color(guiTheme.getRed(), guiTheme.getGreen(),
+                        guiTheme.getBlue(), opacity.get());
+                g.setColor(set);
+                g.fillRect(borderLen, borderLen, width - 2 * borderLen, height - 2 * borderLen);
+            }
+        };
+        label.setSize(width, height);
+
+        // todo need to know which drag label generated the event
+
+        int x;
+        int y;
+        if (generatingLabel.equals(topDrag)) {
+            x = generatingEvent.getX();
+            if (x < BORDER_LEN) {
+                x = BORDER_LEN;
+            } else if (x + width + BORDER_LEN > getWidth()) {
+                x = getWidth() - width - BORDER_LEN;
+            }
+
+            y = CyderDragLabel.DEFAULT_HEIGHT;
+        } else if (generatingLabel.equals(leftDrag)) {
+            x = BORDER_LEN;
+
+            y = generatingEvent.getY();
+            if (y < CyderDragLabel.DEFAULT_HEIGHT) {
+                y = CyderDragLabel.DEFAULT_HEIGHT;
+            } else if (y + height + BORDER_LEN > getHeight()) {
+                y = getHeight() - height - BORDER_LEN;
+            }
+        } else if (generatingLabel.equals(rightDrag)) {
+            x = getWidth() - width - BORDER_LEN;
+
+            y = generatingEvent.getY();
+            if (y < CyderDragLabel.DEFAULT_HEIGHT) {
+                y = CyderDragLabel.DEFAULT_HEIGHT;
+            } else if (y + height + BORDER_LEN > getHeight()) {
+                y = getHeight() - height - BORDER_LEN;
+            }
+        } else if (generatingLabel.equals(bottomDrag)) {
+            throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
+        } else {
+            throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
+        }
+
+        label.setLocation(x, y);
+
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // todo fade out
+                label.setVisible(false);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hasEntered.set(true);
+            }
+        });
+        contentLabel.add(label, JLayeredPane.DRAG_LAYER);
+
+        String threadName = "CyderFrame DragLabel tooltip menu opacity fade-out animation";
+        int noInteractionFadeOutTimeout = 3000;
+        int opacityDecrement = 2;
+        int opacityAnimationTimeout = 2;
+        CyderThreadRunner.submit(() -> {
+            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+            if (!hasEntered.get()) {
+                for (int i = opacity.get() ; i >= opacityDecrement ; i -= opacityDecrement) {
+                    opacity.set(opacity.get() - opacityDecrement);
+                    label.repaint();
+                    ThreadUtil.sleep(opacityAnimationTimeout);
+                }
+
+                opacity.set(0);
+                label.repaint();
+                label.setVisible(false);
+            }
+        }, threadName);
     }
 }
