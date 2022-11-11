@@ -80,7 +80,9 @@ public class PinButton extends CyderDragLabelButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                incrementState();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    incrementState();
+                }
             }
 
             @Override

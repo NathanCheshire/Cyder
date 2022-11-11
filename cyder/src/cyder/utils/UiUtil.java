@@ -17,6 +17,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -545,5 +546,25 @@ public final class UiUtil {
         Arrays.stream(devices).forEach(device -> ret.add(device.getDisplayMode()));
 
         return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Generates and returns a new {@link JTextPane} with the
+     * {@link JTextPane#getScrollableTracksViewportWidth()} overridden
+     * to ensure the horizontal scroll bar is never visible.
+     *
+     * @return the custom JTextPane
+     */
+    public static JTextPane generateJTextPaneWithInvisibleHorizontalScrollbar() {
+        return new JTextPane() {
+            /**
+             * Overridden to disable horizontal scrollbar since setting
+             * the policy doesn't work apparently, thanks JDK devs.
+             */
+            @Override
+            public boolean getScrollableTracksViewportWidth() {
+                return getUI().getPreferredSize(this).width <= getParent().getSize().width;
+            }
+        };
     }
 }

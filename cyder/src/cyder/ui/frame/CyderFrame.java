@@ -44,6 +44,7 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
@@ -3552,16 +3553,7 @@ public class CyderFrame extends JFrame {
 
         menuLabel.setBorder(new LineBorder(Color.black, menuBorderThickness));
 
-        JTextPane menuPane = new JTextPane() {
-            /**
-             * Overridden to disable vertical scrollbar since setting
-             * the policy doesn't work apparently, thanks JDK devs
-             */
-            @Override
-            public boolean getScrollableTracksViewportWidth() {
-                return getUI().getPreferredSize(this).width <= getParent().getSize().width;
-            }
-        };
+        JTextPane menuPane = UiUtil.generateJTextPaneWithInvisibleHorizontalScrollbar();
         menuPane.setEditable(false);
         menuPane.setFocusable(false);
         menuPane.setOpaque(false);
@@ -3884,8 +3876,6 @@ public class CyderFrame extends JFrame {
     // Tooltip menu logic
     // ------------------
 
-    // todo bug fix, right clicking drag label buttons fires them, only left click should.
-
     /**
      * The current menu tooltip opacity.
      */
@@ -3904,7 +3894,7 @@ public class CyderFrame extends JFrame {
     /**
      * The tooltip menu width.
      */
-    private static final int tooltipMenuWidth = 100;
+    private static final int tooltipMenuWidth = 120;
 
     /**
      * The tooltip menu height.
@@ -3922,10 +3912,10 @@ public class CyderFrame extends JFrame {
     private static final int noInteractionFadeOutTimeout = 3000;
 
     /**
-     * The list of tooltip menu labels generated that have yet to be removed.
+     * The list of previous tooltip menu labels generated that have yet to be removed.
      * This should at most contain one label.
      */
-    private final ArrayList<JLabel> tooltipMenuLabels = new ArrayList<>();
+    private final ArrayList<JLabel> previousTooltipMenuLabels = new ArrayList<>();
 
     /**
      * The minimum amount of time a tooltip menu label may be visible for.
@@ -3940,6 +3930,13 @@ public class CyderFrame extends JFrame {
             + " menu fade-out if mouse never enters label waiter thread";
 
     /**
+     * The thread name for the tooltip menu fade-out water for if the user exits
+     * the label before the minimum visible time has passed.
+     */
+    private static final String tooltipMenuMouseExitedWaiterThreadName = "CyderFrame tooltip"
+            + " minimum visible time waiter";
+
+    /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
      *
      * @param generatingEvent the {@link MouseEvent} which caused this method to be invoked
@@ -3950,11 +3947,11 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(generatingLabel);
         if (isBorderlessFrame()) return;
 
-        tooltipMenuLabels.forEach(tooltipMenuLabel -> {
+        previousTooltipMenuLabels.forEach(tooltipMenuLabel -> {
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
         });
-        tooltipMenuLabels.clear();
+        previousTooltipMenuLabels.clear();
 
         tooltipMenuOpacity.set(ColorUtil.maxOpacity);
         mouseHasEnteredTooltipMenu.set(false);
@@ -3968,34 +3965,119 @@ public class CyderFrame extends JFrame {
                 g.fillRect(tooltipMenuBorderLength, tooltipMenuBorderLength,
                         tooltipMenuWidth - 2 * tooltipMenuBorderLength,
                         tooltipMenuHeight - 2 * tooltipMenuBorderLength);
+                super.paint(g);
             }
         };
         tooltipMenuLabel.setSize(tooltipMenuWidth, tooltipMenuHeight);
+        installTooltipMenuLabelScroll(tooltipMenuLabel);
+        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel));
+        contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
+
+        CyderThreadRunner.submit(() -> {
+            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+            if (!mouseHasEnteredTooltipMenu.get()) {
+                fadeOutTooltipMenu(tooltipMenuLabel);
+            }
+        }, tooltipMenuFadeoutWaiterThreadName);
+
+        previousTooltipMenuLabels.add(tooltipMenuLabel);
+    }
+
+    /**
+     * Installs the menu scroll with label options on the provided tooltip menu label.
+     *
+     * @param tooltipMenuLabel the tooltip menu label.
+     */
+    private void installTooltipMenuLabelScroll(JLabel tooltipMenuLabel) {
+        JTextPane menuPane = UiUtil.generateJTextPaneWithInvisibleHorizontalScrollbar();
 
         AtomicLong visibleTime = new AtomicLong();
-        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel));
-        tooltipMenuLabel.addMouseListener(new MouseAdapter() {
+        AtomicInteger enterExitCounter = new AtomicInteger();
+        menuPane.setEditable(false);
+        menuPane.setFocusable(false);
+        menuPane.setOpaque(false);
+        menuPane.setAutoscrolls(false);
+        menuPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
-                ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
-                        - (System.currentTimeMillis() - visibleTime.get())));
-                fadeOutTooltipMenu(tooltipMenuLabel);
+                enterExitCounter.incrementAndGet();
+                int count = enterExitCounter.get();
+                if (count == 0) return;
+                if (count == 2) {
+                    CyderThreadRunner.submit(() -> {
+                        ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
+                                - (System.currentTimeMillis() - visibleTime.get())));
+                        fadeOutTooltipMenu(tooltipMenuLabel);
+                    }, tooltipMenuMouseExitedWaiterThreadName);
+                }
+            }
+        });
+        visibleTime.set(System.currentTimeMillis());
+
+        StyledDocument doc = menuPane.getStyledDocument();
+        SimpleAttributeSet alignment = new SimpleAttributeSet();
+        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+
+        CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
+        menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        menuScroll.setThumbSize(5);
+        menuScroll.getViewport().setOpaque(false);
+        menuScroll.setFocusable(true);
+        menuScroll.setOpaque(false);
+        menuScroll.setAutoscrolls(false);
+        menuScroll.setThumbColor(CyderColors.regularPink);
+        menuScroll.setBackground(CyderColors.getGuiThemeColor());
+
+        StringUtil stringUtil = new StringUtil(new CyderOutputPane(menuPane));
+
+        stringUtil.printlnComponent(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
+        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Left monitor", () -> {
+            // todo implement me, frame level public method
+        }, tooltipMenuLabel));
+        /* Last print should be print and not println */
+        stringUtil.printComponent(generateTooltipMenuItemLabel("Right monitor", () -> {
+            // todo implement me, frame level public method
+        }, tooltipMenuLabel));
+
+        menuScroll.setBounds(tooltipMenuBorderLength, tooltipMenuBorderLength,
+                tooltipMenuWidth - 2 * tooltipMenuBorderLength,
+                tooltipMenuHeight - 2 * tooltipMenuBorderLength);
+        tooltipMenuLabel.add(menuScroll);
+    }
+
+    /**
+     * Generates and returns a tooltip menu click item.
+     *
+     * @param text                    the text of the menu option
+     * @param clickRunnable           the runnable to invoke when the menu option is clicked
+     * @param currentTooltipMenuLabel the current tooltip menu label
+     * @return the tooltip menu item
+     */
+    private JLabel generateTooltipMenuItemLabel(String text, Runnable clickRunnable, JLabel currentTooltipMenuLabel) {
+        JLabel ret = new JLabel(text);
+        ret.setForeground(CyderColors.vanilla);
+        ret.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        ret.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickRunnable.run();
+                fadeOutTooltipMenu(currentTooltipMenuLabel);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                mouseHasEnteredTooltipMenu.set(true);
+                ret.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ret.setForeground(CyderColors.vanilla);
             }
         });
-        contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
-        visibleTime.set(System.currentTimeMillis());
 
-        CyderThreadRunner.submit(() -> {
-            ThreadUtil.sleep(noInteractionFadeOutTimeout);
-            if (!mouseHasEnteredTooltipMenu.get()) fadeOutTooltipMenu(tooltipMenuLabel);
-        }, tooltipMenuFadeoutWaiterThreadName);
-
-        tooltipMenuLabels.add(tooltipMenuLabel);
+        return ret;
     }
 
     /**
@@ -4075,9 +4157,11 @@ public class CyderFrame extends JFrame {
      */
     private void fadeOutTooltipMenu(JLabel tooltipMenuLabel) {
         Preconditions.checkNotNull(tooltipMenuLabel);
-        if (!tooltipMenuLabels.contains(tooltipMenuLabel)) return;
+        if (!previousTooltipMenuLabels.contains(tooltipMenuLabel)) return;
 
         CyderThreadRunner.submit(() -> {
+            Arrays.stream(tooltipMenuLabel.getComponents()).forEach(component -> component.setVisible(false));
+
             for (int i = tooltipMenuOpacity.get() ; i >= tooltipMenuLabelOpacityDecrement
                     ; i -= tooltipMenuLabelOpacityDecrement) {
                 tooltipMenuOpacity.set(tooltipMenuOpacity.get() - tooltipMenuLabelOpacityDecrement);
@@ -4089,7 +4173,7 @@ public class CyderFrame extends JFrame {
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
-            tooltipMenuLabels.remove(tooltipMenuLabel);
+            previousTooltipMenuLabels.remove(tooltipMenuLabel);
         }, tooltipMenuLabelAnimationThreadName);
     }
 }

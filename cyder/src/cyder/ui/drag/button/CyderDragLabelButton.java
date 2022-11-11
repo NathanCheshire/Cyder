@@ -30,7 +30,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
     private static final String DRAG_LABEL_BUTTON_SIZE = "drag_label_button_size";
 
     static {
-        switch (PropLoader.getString(DRAG_LABEL_BUTTON_SIZE)) {
+        switch (PropLoader.getString(DRAG_LABEL_BUTTON_SIZE).toLowerCase()) {
             case "medium" -> DEFAULT_SIZE = DragLabelButtonSize.MEDIUM;
             case "large" -> DEFAULT_SIZE = DragLabelButtonSize.LARGE;
             case "full" -> DEFAULT_SIZE = DragLabelButtonSize.FULL_DRAG_LABEL;
@@ -67,7 +67,9 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                invokeClickActions();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    invokeClickActions();
+                }
             }
 
             @Override

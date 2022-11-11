@@ -9,10 +9,9 @@ import javax.swing.*;
 import java.util.concurrent.Semaphore;
 
 /**
- * A wrapper to associated a JTextPane, StringUtil, and Semaphore
- * into a thread-safe happy little entity.
- * <p>
- * Note that this does not make the provided objects immutable and make defensive copies.
+ * A wrapper to associated a {@link JTextPane}, {@link StringUtil},
+ * and {@link Semaphore} into a thread-safe happy little entity.
+ * Note that this does not make the provided objects immutable or thread-safe.
  */
 public class CyderOutputPane {
     /**
@@ -38,23 +37,6 @@ public class CyderOutputPane {
      */
     private CyderOutputPane() {
         throw new IllegalStateException(INSTANTIATION_MESSAGE);
-    }
-
-    /**
-     * Constructs a new CyderOutputPane.
-     *
-     * @param jTextPane  the JTextPane to link
-     * @param stringUtil the StringUtil to use for the JTextPane
-     */
-    public CyderOutputPane(JTextPane jTextPane, StringUtil stringUtil) {
-        Preconditions.checkNotNull(jTextPane);
-        Preconditions.checkNotNull(stringUtil);
-
-        this.jTextPane = jTextPane;
-        this.stringUtil = stringUtil;
-        semaphore = new Semaphore(1);
-
-        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
