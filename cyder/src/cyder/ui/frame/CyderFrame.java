@@ -2007,7 +2007,7 @@ public class CyderFrame extends JFrame {
 
         try {
             // Borderless frames are by default rounded
-            if (isBorderlessFrame() || (cr == null && Console.INSTANCE.getUuid() != null
+            if (isBorderlessFrame() || (cyderComponentResizer == null && Console.INSTANCE.getUuid() != null
                     && UserUtil.getCyderUser().getRoundedWindows().equals("1"))) {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
@@ -2168,7 +2168,7 @@ public class CyderFrame extends JFrame {
      */
     public void setMinimumSize(Dimension minSize) {
         minimumSize = minSize;
-        cr.setMinimumSize(minimumSize);
+        cyderComponentResizer.setMinimumSize(minimumSize);
     }
 
     /**
@@ -2188,7 +2188,7 @@ public class CyderFrame extends JFrame {
      */
     public void setMaximumSize(Dimension maxSize) {
         maximumSize = maxSize;
-        cr.setMaximumSize(maximumSize);
+        cyderComponentResizer.setMaximumSize(maximumSize);
     }
 
     /**
@@ -2208,7 +2208,7 @@ public class CyderFrame extends JFrame {
      */
     public void setSnapSize(Dimension snap) {
         snapSize = snap;
-        cr.setSnapSize(snapSize);
+        cyderComponentResizer.setSnapSize(snapSize);
     }
 
     /**
@@ -2251,7 +2251,7 @@ public class CyderFrame extends JFrame {
     /**
      * The component resizing object for this CyderFrame.
      */
-    private CyderComponentResizer cr;
+    private CyderComponentResizer cyderComponentResizer;
 
     /**
      * Whether to allow background resizing on CyderFrame resize events.
@@ -2259,7 +2259,7 @@ public class CyderFrame extends JFrame {
      * @param allowed whether to allow background resizing on CyderFrame resize events
      */
     public void setBackgroundResizing(Boolean allowed) {
-        cr.setBackgroundResizing(allowed);
+        cyderComponentResizer.setBackgroundResizing(allowed);
     }
 
     /**
@@ -2267,16 +2267,16 @@ public class CyderFrame extends JFrame {
      * resizable such as registering the min/max sizes.
      */
     public void initializeResizing() {
-        if (cr != null) {
+        if (cyderComponentResizer != null) {
             return;
         }
 
-        cr = new CyderComponentResizer();
-        cr.registerComponent(this);
-        cr.setResizingAllowed(true);
-        cr.setMinimumSize(getMinimumSize());
-        cr.setMaximumSize(getMaximumSize());
-        cr.setSnapSize(getSnapSize());
+        cyderComponentResizer = new CyderComponentResizer();
+        cyderComponentResizer.registerComponent(this);
+        cyderComponentResizer.setResizingAllowed(true);
+        cyderComponentResizer.setMinimumSize(getMinimumSize());
+        cyderComponentResizer.setMaximumSize(getMaximumSize());
+        cyderComponentResizer.setSnapSize(getSnapSize());
 
         setShape(null);
     }
@@ -2287,7 +2287,7 @@ public class CyderFrame extends JFrame {
      * @param allow whether frame resizing is allowed
      */
     public void setFrameResizing(boolean allow) {
-        cr.setResizingAllowed(allow);
+        cyderComponentResizer.setResizingAllowed(allow);
     }
 
     /**
@@ -2302,8 +2302,8 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setResizable(boolean allow) {
-        if (cr != null) {
-            cr.setResizingAllowed(allow);
+        if (cyderComponentResizer != null) {
+            cyderComponentResizer.setResizingAllowed(allow);
         }
     }
 
@@ -2319,7 +2319,7 @@ public class CyderFrame extends JFrame {
             // Mainly needed for icon label and pane bounds, layout isn't usually expensive
             revalidateLayout();
 
-            if (cr != null && cr.backgroundResizingEnabled()) {
+            if (cyderComponentResizer != null && cyderComponentResizer.backgroundResizingEnabled()) {
                 iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
@@ -2384,9 +2384,10 @@ public class CyderFrame extends JFrame {
             iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
                     height - 2 * FRAME_RESIZING_LEN);
 
-            if (cr != null) {
-                cr.setMinimumSize(new Dimension(600, 600));
-                cr.setMaximumSize(new Dimension(background.getIconWidth(), background.getIconHeight()));
+            if (cyderComponentResizer != null) {
+                cyderComponentResizer.setMinimumSize(new Dimension(600, 600));
+                cyderComponentResizer.setMaximumSize(
+                        new Dimension(background.getIconWidth(), background.getIconHeight()));
             }
 
             revalidate();
@@ -3935,6 +3936,14 @@ public class CyderFrame extends JFrame {
             + " minimum visible time waiter";
 
     /**
+     * The additional time after the mouse leaves the tooltip menu and the minimum visible time has passed
+     * that the tooltip menu remains visible.
+     */
+    private static final int tooltipMenuMouseExitAdditionalVisibleTime = 800;
+
+    // todo height of tooltip menu label needs to be dynamic
+
+    /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
      *
      * @param generatingEvent the {@link MouseEvent} which caused this method to be invoked
@@ -3944,6 +3953,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(generatingEvent);
         Preconditions.checkNotNull(generatingLabel);
         if (isBorderlessFrame()) return;
+        if (frameType != FrameType.DEFAULT) return;
 
         previousTooltipMenuLabels.forEach(tooltipMenuLabel -> {
             tooltipMenuLabel.setVisible(false);
@@ -4001,11 +4011,11 @@ public class CyderFrame extends JFrame {
             public void mouseExited(MouseEvent e) {
                 mouseHasEnteredTooltipMenu.set(true);
                 enterExitCounter.incrementAndGet();
-                int count = enterExitCounter.get();
-                if (count != 2) return;
+                if (enterExitCounter.get() != 2) return;
                 CyderThreadRunner.submit(() -> {
                     ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
                             - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get())));
+                    ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
                     fadeOutTooltipMenu(tooltipMenuLabel);
                 }, tooltipMenuMouseExitedWaiterThreadName);
             }
@@ -4034,8 +4044,10 @@ public class CyderFrame extends JFrame {
         stringUtil.printlnComponent(generateTooltipMenuItemLabel("Frame location",
                 this::onFrameLocationTooltipMenuItemPressed, tooltipMenuLabel));
         /* Last print should be print and not println */
-        stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size",
-                this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
+        if (cyderComponentResizer != null && cyderComponentResizer.isResizingEnabled()) {
+            stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size",
+                    this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
+        }
 
         menuScroll.setBounds(tooltipMenuBorderLength, tooltipMenuBorderLength,
                 tooltipMenuWidth - 2 * tooltipMenuBorderLength,
