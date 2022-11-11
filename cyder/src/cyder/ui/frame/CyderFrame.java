@@ -9,6 +9,7 @@ import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.exceptions.FatalException;
 import cyder.getter.GetConfirmationBuilder;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -43,10 +44,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -3909,7 +3907,7 @@ public class CyderFrame extends JFrame {
     /**
      * The timeout before fading out the tooltip menu label if the user never interacts with the label.
      */
-    private static final int noInteractionFadeOutTimeout = 3000;
+    private static final int noInteractionFadeOutTimeout = 1000;
 
     /**
      * The list of previous tooltip menu labels generated that have yet to be removed.
@@ -3953,7 +3951,6 @@ public class CyderFrame extends JFrame {
         });
         previousTooltipMenuLabels.clear();
 
-        tooltipMenuOpacity.set(ColorUtil.maxOpacity);
         mouseHasEnteredTooltipMenu.set(false);
 
         JLabel tooltipMenuLabel = new JLabel() {
@@ -4003,7 +4000,7 @@ public class CyderFrame extends JFrame {
                 mouseHasEnteredTooltipMenu.set(true);
                 enterExitCounter.incrementAndGet();
                 int count = enterExitCounter.get();
-                if (count != 0) return;
+                if (count != 2) return;
                 CyderThreadRunner.submit(() -> {
                     ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
                             - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get())));
@@ -4036,9 +4033,8 @@ public class CyderFrame extends JFrame {
             // todo implement me, frame level public method
         }, tooltipMenuLabel));
         /* Last print should be print and not println */
-        stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size", () -> {
-            // todo implement me, frame level public method
-        }, tooltipMenuLabel));
+        stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size",
+                this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
 
         menuScroll.setBounds(tooltipMenuBorderLength, tooltipMenuBorderLength,
                 tooltipMenuWidth - 2 * tooltipMenuBorderLength,
@@ -4161,6 +4157,8 @@ public class CyderFrame extends JFrame {
         CyderThreadRunner.submit(() -> {
             Arrays.stream(tooltipMenuLabel.getComponents()).forEach(component -> component.setVisible(false));
 
+            tooltipMenuOpacity.set(ColorUtil.maxOpacity);
+
             for (int i = tooltipMenuOpacity.get() ; i >= tooltipMenuLabelOpacityDecrement
                     ; i -= tooltipMenuLabelOpacityDecrement) {
                 tooltipMenuOpacity.set(tooltipMenuOpacity.get() - tooltipMenuLabelOpacityDecrement);
@@ -4173,6 +4171,95 @@ public class CyderFrame extends JFrame {
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
             previousTooltipMenuLabels.remove(tooltipMenuLabel);
+
         }, tooltipMenuLabelAnimationThreadName);
+    }
+
+    /**
+     * The getter util for getting the frame size input from the user.
+     */
+    private final GetterUtil tooltipMenuItemFrameSizeGetterUtil = GetterUtil.getInstance();
+
+    /**
+     * The name of the thread which waits for the user input size to set the frame to. Triggered via
+     * the tooltip menu item.
+     */
+    private static final String setFrameSizeTooltipMenuWaiterThreadName = "CyderFrame size setter waiter";
+
+    /**
+     * The actions to invoke when the frame size tooltip menu item is pressed.
+     */
+    private void onFrameSizeTooltipMenuItemPressed() {
+        CyderThreadRunner.submit(() -> {
+            tooltipMenuItemFrameSizeGetterUtil.closeAllGetFrames();
+
+            GetInputBuilder builder = new GetInputBuilder("Frame size",
+                    "Enter the requested frame size in the format: \"width,height\"")
+                    .setRelativeTo(this)
+                    .setInitialFieldText(getWidth() + "," + getHeight());
+
+            Optional<String> optionalWidthHeight = tooltipMenuItemFrameSizeGetterUtil.getInput(builder);
+            if (optionalWidthHeight.isEmpty()) return;
+
+            String widthHeight = optionalWidthHeight.get();
+            if (!widthHeight.contains(",")) {
+                notify("Could not parse width and height"
+                        + " from input: \"" + widthHeight + "\"");
+                return;
+            }
+
+            String[] parts = widthHeight.split(",");
+            if (parts.length != 2) {
+                notify("Could not parse width and height"
+                        + " from input: \"" + widthHeight + "\"");
+                return;
+            }
+
+            String widthString = parts[0].trim();
+            String heightString = parts[1].trim();
+
+            int requestedWidth;
+            try {
+                requestedWidth = Integer.parseInt(widthString);
+            } catch (NumberFormatException e) {
+                notify("Could not parse width from: \"" + widthString + "\"");
+                return;
+            }
+
+            int requestedHeight;
+            try {
+                requestedHeight = Integer.parseInt(heightString);
+            } catch (NumberFormatException e) {
+                notify("Could not parse width from: \"" + heightString + "\"");
+                return;
+            }
+
+            System.out.println(minimumSize);
+            System.out.println(maximumSize);
+
+            if (requestedWidth < minimumSize.getWidth()) {
+                notify("Requested width \"" + requestedWidth + "\" is less than the minimum allowable width: \""
+                        + minimumSize.getWidth() + "\"");
+                return;
+            } else if (requestedHeight < minimumSize.getHeight()) {
+                notify("Requested height \"" + requestedHeight + "\" is less than the minimum allowable height: \""
+                        + minimumSize.getHeight() + "\"");
+                return;
+            } else if (requestedWidth > maximumSize.getWidth()) {
+                notify("Requested width \"" + requestedWidth + "\" is greater than the maximum allowable width: \""
+                        + maximumSize.getWidth() + "\"");
+                return;
+            } else if (requestedHeight > maximumSize.getHeight()) {
+                notify("Requested height \"" + requestedHeight + "\" is greater than the maximum allowable height: \""
+                        + maximumSize.getHeight() + "\"");
+                return;
+            }
+
+            Point center = getCenterPointOnScreen();
+            setSize(requestedWidth, requestedHeight);
+            setCenterPoint(center);
+            refreshBackground();
+            notify("Set frame size to request: \"" + requestedWidth + "," + requestedHeight + "\"");
+        }, setFrameSizeTooltipMenuWaiterThreadName);
     }
 }

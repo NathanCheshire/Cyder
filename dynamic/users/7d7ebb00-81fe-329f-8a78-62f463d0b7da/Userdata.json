@@ -18,7 +18,7 @@
   "clockOnConsole": "1",
   "showSeconds": "1",
   "filterChat": "0",
-  "lastStart": "1668132028942",
+  "lastStart": "1668137570772",
   "minimizeOnClose": "0",
   "typingAnimation": "1",
   "showBusyIcon": "1",
@@ -28,7 +28,7 @@
   "typingSound": "0",
   "youtubeUuid": "aaaaaaaaaaa",
   "capsMode": "0",
-  "loggedIn": "0",
+  "loggedIn": "1",
   "audioLength": "1",
   "persistentNotifications": "0",
   "doAnimations": "1",
@@ -39,13 +39,13 @@
   "paintClockLabels": "0",
   "showSecondHand": "1",
   "screenStat": {
-    "consoleX": 1245,
-    "consoleY": 283,
+    "consoleX": 1434,
+    "consoleY": 395,
     "consoleWidth": 800,
     "consoleHeight": 800,
     "monitor": 0,
     "consoleOnTop": false,
-    "consoleDirection": "RIGHT"
+    "consoleDirection": "TOP"
   },
   "executables": []
 }
