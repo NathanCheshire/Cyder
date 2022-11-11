@@ -3991,7 +3991,7 @@ public class CyderFrame extends JFrame {
     private void installTooltipMenuLabelScroll(JLabel tooltipMenuLabel) {
         JTextPane menuPane = UiUtil.generateJTextPaneWithInvisibleHorizontalScrollbar();
 
-        AtomicLong visibleTime = new AtomicLong();
+        AtomicLong tooltipMenuOriginallyVisibleTime = new AtomicLong();
         AtomicInteger enterExitCounter = new AtomicInteger();
         menuPane.setEditable(false);
         menuPane.setFocusable(false);
@@ -4000,19 +4000,18 @@ public class CyderFrame extends JFrame {
         menuPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
+                mouseHasEnteredTooltipMenu.set(true);
                 enterExitCounter.incrementAndGet();
                 int count = enterExitCounter.get();
-                if (count == 0) return;
-                if (count == 2) {
-                    CyderThreadRunner.submit(() -> {
-                        ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
-                                - (System.currentTimeMillis() - visibleTime.get())));
-                        fadeOutTooltipMenu(tooltipMenuLabel);
-                    }, tooltipMenuMouseExitedWaiterThreadName);
-                }
+                if (count != 0) return;
+                CyderThreadRunner.submit(() -> {
+                    ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
+                            - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get())));
+                    fadeOutTooltipMenu(tooltipMenuLabel);
+                }, tooltipMenuMouseExitedWaiterThreadName);
             }
         });
-        visibleTime.set(System.currentTimeMillis());
+        tooltipMenuOriginallyVisibleTime.set(System.currentTimeMillis());
 
         StyledDocument doc = menuPane.getStyledDocument();
         SimpleAttributeSet alignment = new SimpleAttributeSet();
@@ -4033,11 +4032,11 @@ public class CyderFrame extends JFrame {
         StringUtil stringUtil = new StringUtil(new CyderOutputPane(menuPane));
 
         stringUtil.printlnComponent(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
-        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Left monitor", () -> {
+        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Frame location", () -> {
             // todo implement me, frame level public method
         }, tooltipMenuLabel));
         /* Last print should be print and not println */
-        stringUtil.printComponent(generateTooltipMenuItemLabel("Right monitor", () -> {
+        stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size", () -> {
             // todo implement me, frame level public method
         }, tooltipMenuLabel));
 
