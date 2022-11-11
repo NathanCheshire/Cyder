@@ -3907,7 +3907,7 @@ public class CyderFrame extends JFrame {
     /**
      * The timeout before fading out the tooltip menu label if the user never interacts with the label.
      */
-    private static final int noInteractionFadeOutTimeout = 1000;
+    private static final int noInteractionFadeOutTimeout = 2000;
 
     /**
      * The list of previous tooltip menu labels generated that have yet to be removed.
@@ -3952,6 +3952,8 @@ public class CyderFrame extends JFrame {
         previousTooltipMenuLabels.clear();
 
         mouseHasEnteredTooltipMenu.set(false);
+
+        tooltipMenuOpacity.set(ColorUtil.maxOpacity);
 
         JLabel tooltipMenuLabel = new JLabel() {
             @Override
@@ -4029,9 +4031,8 @@ public class CyderFrame extends JFrame {
         StringUtil stringUtil = new StringUtil(new CyderOutputPane(menuPane));
 
         stringUtil.printlnComponent(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
-        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Frame location", () -> {
-            // todo implement me, frame level public method
-        }, tooltipMenuLabel));
+        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Frame location",
+                this::onFrameLocationTooltipMenuItemPressed, tooltipMenuLabel));
         /* Last print should be print and not println */
         stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size",
                 this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
@@ -4171,8 +4172,95 @@ public class CyderFrame extends JFrame {
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);
             previousTooltipMenuLabels.remove(tooltipMenuLabel);
-
         }, tooltipMenuLabelAnimationThreadName);
+    }
+
+    /**
+     * The getter util for getting the frame location input from the user.
+     */
+    private final GetterUtil tooltipMenuItemFrameLocationGetterUtil = GetterUtil.getInstance();
+
+    /**
+     * The name of the thread which waits for the user input location to set the frame to. Triggered via
+     * the tooltip menu item.
+     */
+    private static final String setFrameLocationTooltipMenuWaiterThreadName = "CyderFrame location setter waiter";
+
+    /**
+     * The actions to invoke when the frame location tooltip menu item is pressed.
+     */
+    private void onFrameLocationTooltipMenuItemPressed() {
+        CyderThreadRunner.submit(() -> {
+            tooltipMenuItemFrameLocationGetterUtil.closeAllGetFrames();
+
+            GetInputBuilder builder = new GetInputBuilder("Frame location",
+                    "Enter the requested top left frame location in the format: \"x,y\"<br/>"
+                            + "Note this is absolute meaning if multiple monitors are being used,"
+                            + " they should be treated as a coalesced singular entity")
+                    .setRelativeTo(this)
+                    .setInitialFieldText(getX() + "," + getY());
+
+            Optional<String> optionalLocation = tooltipMenuItemFrameLocationGetterUtil.getInput(builder);
+            if (optionalLocation.isEmpty()) return;
+
+            String location = optionalLocation.get();
+            if (!location.contains(",")) {
+                notify("Could not parse location"
+                        + " from input: \"" + location + "\"");
+                return;
+            }
+
+            String[] parts = location.split(",");
+            if (parts.length != 2) {
+                notify("Could not parse x and y"
+                        + " from input: \"" + location + "\"");
+                return;
+            }
+
+            String xString = parts[0].trim();
+            String yString = parts[1].trim();
+
+            int requestedX;
+            try {
+                requestedX = Integer.parseInt(xString);
+            } catch (NumberFormatException e) {
+                notify("Could not parse x from: \"" + xString + "\"");
+                return;
+            }
+
+            int requestedY;
+            try {
+                requestedY = Integer.parseInt(yString);
+            } catch (NumberFormatException e) {
+                notify("Could not parse x from: \"" + yString + "\"");
+                return;
+            }
+
+            Rectangle absoluteMonitorBounds = UiUtil.getMergedMonitors();
+
+            if (requestedX < absoluteMonitorBounds.getX()) {
+                notify("Requested x \"" + requestedX
+                        + "\" is less than the absolute minimum: \"" + absoluteMonitorBounds.getX() + "\"");
+                return;
+            } else if (requestedY < absoluteMonitorBounds.getY()) {
+                notify("Requested y \"" + requestedY
+                        + "\" is less than the absolute minimum: \"" + absoluteMonitorBounds.getY() + "\"");
+                return;
+            } else if (requestedX > absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) {
+                notify("Requested x \"" + requestedX
+                        + "\" is greater than the absolute maximum: \""
+                        + (absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) + "\"");
+                return;
+            } else if (requestedY > absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) {
+                notify("Requested y \"" + requestedY
+                        + "\" is greater than the absolute maximum: \""
+                        + (absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) + "\"");
+                return;
+            }
+
+            UiUtil.requestFramePosition(requestedX, requestedY, this);
+            notify("Set frame size to request: \"" + requestedX + "," + requestedY + "\"");
+        }, setFrameLocationTooltipMenuWaiterThreadName);
     }
 
     /**
@@ -4233,9 +4321,6 @@ public class CyderFrame extends JFrame {
                 notify("Could not parse width from: \"" + heightString + "\"");
                 return;
             }
-
-            System.out.println(minimumSize);
-            System.out.println(maximumSize);
 
             if (requestedWidth < minimumSize.getWidth()) {
                 notify("Requested width \"" + requestedWidth + "\" is less than the minimum allowable width: \""

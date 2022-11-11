@@ -345,7 +345,7 @@ public enum Console {
      * Initializes the console busy icon.
      */
     private void initializeBusyIcon() {
-        Preconditions.checkState(!busyIconInitialized);
+        if (busyIconInitialized) return;
         busyIconInitialized = true;
 
         int busyIconWidth = consoleCyderFrame.getWidth() / busyIconToConsoleWidthRatio;
