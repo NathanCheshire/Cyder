@@ -49,6 +49,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -3896,11 +3897,6 @@ public class CyderFrame extends JFrame {
     private static final int tooltipMenuWidth = 120;
 
     /**
-     * The tooltip menu height.
-     */
-    private static final int tooltipMenuHeight = 100;
-
-    /**
      * The tooltip menu border length
      */
     private static final int tooltipMenuBorderLength = 5;
@@ -3941,8 +3937,6 @@ public class CyderFrame extends JFrame {
      */
     private static final int tooltipMenuMouseExitAdditionalVisibleTime = 800;
 
-    // todo height of tooltip menu label needs to be dynamic
-
     /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
      *
@@ -3969,17 +3963,16 @@ public class CyderFrame extends JFrame {
             @Override
             public void paint(Graphics g) {
                 g.setColor(ColorUtil.setColorOpacity(tooltipMenuBorderColor, tooltipMenuOpacity.get()));
-                g.fillRect(0, 0, tooltipMenuWidth, tooltipMenuHeight);
+                g.fillRect(0, 0, tooltipMenuWidth, tooltipMenuLabelHeight.get());
                 g.setColor(ColorUtil.setColorOpacity(CyderColors.getGuiThemeColor(), tooltipMenuOpacity.get()));
                 g.fillRect(tooltipMenuBorderLength, tooltipMenuBorderLength,
                         tooltipMenuWidth - 2 * tooltipMenuBorderLength,
-                        tooltipMenuHeight - 2 * tooltipMenuBorderLength);
+                        tooltipMenuLabelHeight.get() - 2 * tooltipMenuBorderLength);
                 super.paint(g);
             }
         };
-        tooltipMenuLabel.setSize(tooltipMenuWidth, tooltipMenuHeight);
         installTooltipMenuLabelScroll(tooltipMenuLabel);
-        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel));
+        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel, tooltipMenuLabel));
         contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
 
         CyderThreadRunner.submit(() -> {
@@ -3991,6 +3984,11 @@ public class CyderFrame extends JFrame {
 
         previousTooltipMenuLabels.add(tooltipMenuLabel);
     }
+
+    /**
+     * The height necessary for a single tooltip menu item.
+     */
+    private static final int tooltipMenuItemLabelHeight = 30;
 
     /**
      * Installs the menu scroll with label options on the provided tooltip menu label.
@@ -4040,19 +4038,42 @@ public class CyderFrame extends JFrame {
 
         StringUtil stringUtil = new StringUtil(new CyderOutputPane(menuPane));
 
-        stringUtil.printlnComponent(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
-        stringUtil.printlnComponent(generateTooltipMenuItemLabel("Frame location",
-                this::onFrameLocationTooltipMenuItemPressed, tooltipMenuLabel));
-        /* Last print should be print and not println */
-        if (cyderComponentResizer != null && cyderComponentResizer.isResizingEnabled()) {
-            stringUtil.printComponent(generateTooltipMenuItemLabel("Frame size",
-                    this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
-        }
+        ImmutableList<JLabel> menuItems = getTooltipMenuItems(tooltipMenuLabel);
+        IntStream.range(0, menuItems.size()).forEach(index -> {
+            if (index == menuItems.size() - 1) {
+                stringUtil.printComponent(menuItems.get(index));
+            } else {
+                stringUtil.printlnComponent(menuItems.get(index));
+            }
+        });
 
         menuScroll.setBounds(tooltipMenuBorderLength, tooltipMenuBorderLength,
                 tooltipMenuWidth - 2 * tooltipMenuBorderLength,
-                tooltipMenuHeight - 2 * tooltipMenuBorderLength);
+                tooltipMenuItemLabelHeight * menuItems.size());
+        tooltipMenuLabelHeight.set(menuScroll.getHeight() + 2 * tooltipMenuBorderLength);
+        tooltipMenuLabel.setSize(tooltipMenuWidth, menuScroll.getHeight() + 2 * tooltipMenuBorderLength);
         tooltipMenuLabel.add(menuScroll);
+    }
+
+    private final AtomicInteger tooltipMenuLabelHeight = new AtomicInteger();
+
+    /**
+     * Returns a list of tooltip menu items for this frame.
+     *
+     * @param tooltipMenuLabel the tooltip menu label
+     * @return the list of tooltip menu labels
+     */
+    private ImmutableList<JLabel> getTooltipMenuItems(JLabel tooltipMenuLabel) {
+        ArrayList<JLabel> ret = new ArrayList<>();
+        ret.add(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
+        ret.add(generateTooltipMenuItemLabel("Frame location",
+                this::onFrameLocationTooltipMenuItemPressed, tooltipMenuLabel));
+        if (cyderComponentResizer != null && cyderComponentResizer.isResizingEnabled()) {
+            ret.add(generateTooltipMenuItemLabel("Frame size",
+                    this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -4091,11 +4112,16 @@ public class CyderFrame extends JFrame {
     /**
      * Calculates the point to place the tooltip menu label at based on the generating event and drag label.
      *
-     * @param generatingEvent the event which generated the invocation of the menu generation method
-     * @param generatingLabel the label which generated the generating event
+     * @param generatingEvent  the event which generated the invocation of the menu generation method
+     * @param generatingLabel  the label which generated the generating event
+     * @param tooltipMenuLabel the tooltip menu label
      * @return the point to place the tooltip menu label at on this frame
      */
-    private Point calculateTooltipMenuLocation(MouseEvent generatingEvent, CyderDragLabel generatingLabel) {
+    private Point calculateTooltipMenuLocation(MouseEvent generatingEvent,
+                                               CyderDragLabel generatingLabel,
+                                               JLabel tooltipMenuLabel) {
+        int tooltipMenuHeight = tooltipMenuLabel.getHeight();
+
         int x;
         int y;
 
