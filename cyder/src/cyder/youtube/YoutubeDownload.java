@@ -526,10 +526,8 @@ public class YoutubeDownload {
 
         downloadProgressLabel = new JLabel(CyderStrings.quote + downloadableName + CyderStrings.quote);
         downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
-        downloadProgressLabel.setForeground(CyderColors.vanilla);
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
         downloadProgressLabel.setForeground(Console.INSTANCE.getInputField().getForeground());
-        downloadProgressLabel.setFont(Console.INSTANCE.getInputField().getFont());
 
         inputHandler.println(downloadProgressBar);
         inputHandler.println(downloadProgressLabel);
