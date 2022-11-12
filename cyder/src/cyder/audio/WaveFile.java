@@ -1,8 +1,11 @@
-package cyder.messaging;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
+import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -79,13 +82,20 @@ public class WaveFile {
     private final File wavFile;
 
     /**
+     * Suppress default constructor.
+     */
+    private WaveFile() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
      * Constructs a new WaveFile object.
      *
      * @param file the wave file
      */
     public WaveFile(File file) {
         Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists(), "File does not exist");
+        Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.WAV.getExtension()));
 
         wavFile = file;
@@ -96,7 +106,6 @@ public class WaveFile {
      * Performs setup for common wav file props after the object
      * has been constructed and the file validated.
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")  // read() is for validation
     private void setup() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(wavFile);
@@ -110,7 +119,10 @@ public class WaveFile {
             long dataLength = numFrames * audioFormat.getSampleSizeInBits() * audioFormat.getChannels() / 8;
 
             data = new byte[(int) dataLength];
-            audioInputStream.read(data);
+            int bytesRead = audioInputStream.read(data);
+            if (bytesRead == -1) {
+                throw new FatalException("Failed to read bytes from fis constructed from: " + wavFile);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -122,7 +134,7 @@ public class WaveFile {
             isPlayable = true;
             clip = null;
         } catch (Exception e) {
-            // non 16-bit or 8-bit audio file
+            // non 16/8-bit audio file
             isPlayable = false;
             ExceptionHandler.handle(e);
         }
@@ -138,16 +150,15 @@ public class WaveFile {
      * @return the amplitude at the sample point
      */
     public int getSample(int samplePoint) {
-        Preconditions.checkArgument(samplePoint >= 0,
-                "Invalid negative sample point: " + samplePoint);
-        Preconditions.checkArgument(samplePoint <= data.length / sampleSize,
-                "Invalid sample point: " + samplePoint + ", data length = "
-                        + data.length + ", sample size = " + sampleSize);
+        Preconditions.checkArgument(samplePoint >= 0);
+        Preconditions.checkArgument(samplePoint <= data.length / sampleSize);
 
         byte[] sampleBytes = new byte[INT_SIZE];
 
-        if (sampleSize >= 0)
-            System.arraycopy(data, samplePoint * sampleSize * numChannels, sampleBytes, 0, sampleSize);
+        if (sampleSize >= 0) {
+            System.arraycopy(data, samplePoint * sampleSize * numChannels,
+                    sampleBytes, 0, sampleSize);
+        }
 
         return ByteBuffer.wrap(sampleBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
