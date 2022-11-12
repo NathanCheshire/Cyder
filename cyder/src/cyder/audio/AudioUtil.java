@@ -498,7 +498,9 @@ public final class AudioUtil {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
             String command = Program.PYTHON.getProgramName()
                     + CyderStrings.space + functionsScriptPath
+                    + CyderStrings.space + "--command"
                     + CyderStrings.space + AUDIO_LENGTH
+                    + CyderStrings.space + "--input"
                     + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);

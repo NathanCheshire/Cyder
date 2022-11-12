@@ -1,3 +1,17 @@
+"""
+python_fucntions.py
+
+python functions utilized by Cyder. 
+These exist purely because it is simpler to create an API to 
+wrap this script in Java and parse the results than to implement 
+the functionality in Java since I couldn't find a good library to do these operations.
+"""
+
+import argparse
+import os
+from PIL import Image, ImageFilter
+from mutagen.mp3 import MP3
+
 
 def gaussian_blur(image_path: str, radius: int) -> str:
     """ 
@@ -9,16 +23,13 @@ def gaussian_blur(image_path: str, radius: int) -> str:
     :type radius: int
     :return: the path to the blurred image
     """
-    import os
     filename, extension = os.path.basename(image_path).rsplit(".", 1)
 
     save_filename = filename + "_blurred_" + str(radius) \
         + "." + extension
 
-    save_as = os.path.join(os.path.split(os.path.abspath(image_path))[0], save_filename)
-
-    from PIL import Image
-    from PIL import ImageFilter
+    save_as = os.path.join(os.path.split(
+        os.path.abspath(image_path))[0], save_filename)
 
     gaussImage = Image.open(image_path).filter(
         ImageFilter.GaussianBlur(radius))
@@ -37,23 +48,58 @@ def get_audio_length(path: str) -> float:
     :return: how long the audio file is in seconds
     :rtype: float
     """
-    from mutagen.mp3 import MP3
     return MP3(path).info.length
 
-if __name__ == '__main__':
-    import sys
 
-    args = sys.argv
-    command = args[1]
+# The commands supported by python_functions
+COMMANDS = ['blur', 'audio_length']
 
-    if command == "blur":
-        image_path = args[2]
-        radius = args[3]
-        save_as = gaussian_blur(image_path, int(radius))
+
+def main():
+    parser = argparse.ArgumentParser(prog='Cyder Python Utility Functions',
+                                     description="Cyder Python Utility Functions")
+    parser.add_argument('-c', '--command', required=True,
+                        help='the command to invoke')
+    parser.add_argument('-i', '--input', required=True, help='the input file')
+    parser.add_argument('-r', '--radius', help='the radius of the kernel for " \
+        + "the Gaussian blur command (must be an odd number)')
+
+    args = parser.parse_args()
+
+    input_file = args.input
+
+    if not os.path.exists(input_file):
+        print("Provided input file does not exist: \"" + input_file + "\"")
+        return
+
+    if args.command == COMMANDS[0]:
+        if not args.radius:
+            print("Missing kernel radius for Gaussian blur command, use --radius")
+            return
+        
+        radius = -1
+
+        try:
+            radius = int(args.radius)
+        except Exception:
+            print("Failed to parse radius as an odd integer, input: \"" + args.radius + "\"")
+            return
+
+        if not radius % 2:
+            print("Gaussian blur radius must be an odd number")
+            return
+
+        save_as = gaussian_blur(input_file, radius)
         print("Blurred: ", save_as)
-    elif command == "audio_length":
-        path = args[2]
-        length = str(get_audio_length(path))
+                
+    elif args.command == COMMANDS[1]:
+        length = str(get_audio_length(input_file))
         print("Audio length: " + length)
+
     else:
-        raise Exception("Invalid command")
+        print("Supported commands:")
+        for command in COMMANDS:
+            print("•", command)
+
+if __name__ == '__main__':
+    main()

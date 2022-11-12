@@ -961,6 +961,8 @@ public final class ImageUtil {
         return false;
     }
 
+    // todo extract APIs for python to a python util class? something to encapsulate the api
+
     /**
      * The name of the python functions script.
      */
@@ -994,7 +996,8 @@ public final class ImageUtil {
                 new CyderThreadFactory(GAUSSIAN_IMAGE_BLURER_THREAD_NAME)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
             String command = Program.PYTHON.getProgramName() + space + functionsScriptPath
-                    + space + BLUR + space + quote + imageFile.getAbsolutePath() + quote + space + radius;
+                    + space + "--command" + space + BLUR + space + "--input" + space + quote +
+                    imageFile.getAbsolutePath() + quote + space + "--radius" + space + radius;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
             while (!futureResult.isDone()) Thread.onSpinWait();
