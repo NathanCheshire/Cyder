@@ -1,11 +1,13 @@
 package cyder.messaging;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.CyderTest;
 import cyder.audio.AudioUtil;
 import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -46,7 +48,6 @@ public final class MessagingUtils {
 
     /**
      * The default small height for waveform image generation.
-     * "Gave 'em 44, now here's 44 more."
      */
     public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
 
@@ -76,8 +77,7 @@ public final class MessagingUtils {
      */
     public static Future<BufferedImage> generateLargeWaveform(File wavOrMp3File) {
         Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, Extension.MP3.getExtension())
-                || FileUtil.validateExtension(wavOrMp3File, Extension.WAV.getExtension()));
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
 
         return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
     }
@@ -91,33 +91,35 @@ public final class MessagingUtils {
      */
     public static Future<BufferedImage> generateSmallWaveform(File wavOrMp3File) {
         Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, Extension.MP3.getExtension())
-                || FileUtil.validateExtension(wavOrMp3File, Extension.WAV.getExtension()));
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
 
         return generateWaveform(wavOrMp3File, DEFAULT_SMALL_WAVEFORM_WIDTH, DEFAULT_SMALL_WAVEFORM_HEIGHT);
     }
 
-    private static Future<BufferedImage> generateWaveform(File wavOrMp3File, int width, int height) {
+    /**
+     * The name of the executor service which waits for the waveform image to finish generation.
+     */
+    private static final String waveformGeneratorThreadName = "Waveform Generator Waiter";
+
+    /**
+     * @param wavOrMp3File the wav or mp3 file to generate a waveform image for
+     * @param width        the width of the waveform image
+     * @param height       the height of the waveform image
+     * @return the waveform image
+     */
+    public static Future<BufferedImage> generateWaveform(File wavOrMp3File, int width, int height) {
         Preconditions.checkNotNull(wavOrMp3File);
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
 
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Waveform generator")).submit(() -> {
-
-            // init effectively final var for usage
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(waveformGeneratorThreadName)).submit(() -> {
             File usageWav = wavOrMp3File;
 
-            // if it's an mp3, convert to wav before passing off
             if (FileUtil.validateExtension(usageWav, Extension.MP3.getExtension())) {
-                Future<Optional<File>> waitFor = AudioUtil.mp3ToWav(usageWav);
+                Future<Optional<File>> futureWav = AudioUtil.mp3ToWav(usageWav);
+                while (!futureWav.isDone()) Thread.onSpinWait();
 
-                // wait for conversion
-                while (!waitFor.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                if (waitFor.get().isPresent()) {
-                    usageWav = waitFor.get().get();
-                }
+                if (futureWav.get().isPresent()) usageWav = futureWav.get().get();
             }
 
             return generateWaveform(usageWav, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
@@ -129,132 +131,33 @@ public final class MessagingUtils {
      */
     private static final int interpolationNeededValue = -69;
 
-    /**
-     * Generates a buffered image depicting the local waveform of the provided wav file.
-     *
-     * @param wav             the wav file to sample
-     * @param startFrame      the starting frame of the wav file
-     * @param numSamples      the number of samples to take/the resulting width of the image
-     * @param height          the height of the image
-     * @param backgroundColor the background color of the image
-     * @param waveColor       the wave color to draw
-     * @return a buffered image depicting the local waveform of the provided wav file
-     */
-    public static BufferedImage generate1DWaveformInRange(WaveFile wav, int startFrame,
-                                                          int numSamples, int height,
-                                                          Color backgroundColor, Color waveColor) {
-        Preconditions.checkNotNull(wav);
-        Preconditions.checkArgument(startFrame >= 0);
-        Preconditions.checkArgument(startFrame < wav.getNumFrames());
-        Preconditions.checkArgument(numSamples < wav.getNumFrames());
-        Preconditions.checkArgument(startFrame + numSamples < wav.getNumFrames());
-
-        Preconditions.checkNotNull(backgroundColor);
-        Preconditions.checkNotNull(waveColor);
-
-        // now standard algorithm
-        int[] nonNormalizedSamples = new int[numSamples];
-        int localMax = 0;
-
-        // get local non-normalized samples and find local max
-        int index = 0;
-        for (int i = startFrame ; i < startFrame + numSamples ; i++) {
-            int sample = wav.getSample(i);
-
-            localMax = Math.max(sample, localMax);
-
-            nonNormalizedSamples[index] = sample;
-            index++;
-        }
-
-        int[] normalizedSamples = new int[nonNormalizedSamples.length];
-
-        // normalize values and skip ones which exceeding tol
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            int normalizedValue = (int) ((nonNormalizedSamples[i] / (float) localMax) * height);
-
-            if (normalizedValue >= height * 0.9) {
-                normalizedValue = interpolationNeededValue;
-            }
-
-            normalizedSamples[i] = normalizedValue;
-        }
-
-        // interpolate between surrounding values where
-        // the amplitude was set to the interpolation value
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            // if a true zero amplitude don't interpolate
-            if (normalizedSamples[i] == 0) {
-                continue;
-            }
-            // at a value that needs interpolation
-            else if (normalizedSamples[i] == interpolationNeededValue) {
-                // find the next value that isn't a 0 or an amp that has yet to be interpolated
-                int nextNonZeroIndex = 0;
-                for (int j = i ; j < normalizedSamples.length ; j++) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
-                        nextNonZeroIndex = j;
-                        break;
-                    }
-                }
-                // find the previous value that isn't 0 or an amp that has yet to be interpolated
-                int lastNonZeroIndex = 0;
-                for (int j = i ; j >= 0 ; j--) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
-                        lastNonZeroIndex = j;
-                        break;
-                    }
-                }
-
-                // average the surrounding values for the interpolated value
-                int avg = (normalizedSamples[nextNonZeroIndex] + normalizedSamples[lastNonZeroIndex]) / 2;
-
-                // update current value
-                normalizedSamples[i] = avg;
-            }
-        }
-
-        BufferedImage ret = new BufferedImage(numSamples, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = ret.createGraphics();
-
-        // draw background
-        g2d.setColor(backgroundColor);
-        g2d.fillRect(0, 0, numSamples, height);
-
-        g2d.setColor(waveColor);
-
-        // draw samples
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            g2d.drawLine(i, height, i, height - normalizedSamples[i]);
-            g2d.drawLine(i, height, i, height - 1);
-        }
-
-        return ret;
+    @CyderTest
+    public void testImageGeneration() {
+        File mp3 = new File("C:/users/nathan/downloads/badapple.mp3");
+        ImageUtil.drawImage(generateWaveform(mp3, 200, 50, CyderColors.vanilla, CyderColors.navy));
     }
-
-    // todo could consolidate these methods
 
     /**
      * Generates a png depicting the waveform of the provided wav file.
      *
      * @param wavFile         the wav file
-     * @param width           the width of the requested image
-     * @param height          the height of the requested image
+     * @param width           the width of the image
+     * @param height          the height of the image
      * @param backgroundColor the background color of the image
      * @param waveColor       the color of the waveform
-     * @return the generated image
+     * @return the generated waveform image
      */
-    public static BufferedImage generateWaveform(File wavFile, int width, int height,
+    public static BufferedImage generateWaveform(File wavFile,
+                                                 int width, int height,
                                                  Color backgroundColor, Color waveColor) {
         Preconditions.checkNotNull(wavFile);
         Preconditions.checkArgument(wavFile.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, Extension.WAV.getExtension()));
-
-        Preconditions.checkArgument(width >= DEFAULT_SMALL_WAVEFORM_WIDTH);
-        Preconditions.checkArgument(height >= DEFAULT_SMALL_WAVEFORM_HEIGHT);
-
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(backgroundColor);
         Preconditions.checkNotNull(waveColor);
+        Preconditions.checkArgument(!backgroundColor.equals(waveColor));
 
         BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();
@@ -262,36 +165,30 @@ public final class MessagingUtils {
         WaveFile wav = new WaveFile(wavFile);
 
         int numFrames = (int) wav.getNumFrames();
+        if (width < numFrames) width = numFrames;
+
         int[] nonNormalizedSamples = new int[width];
 
-        Preconditions.checkArgument(width <= numFrames,
-                "Samples to take is greater than num frames: "
-                        + "samples = " + width + ", frames = " + numFrames
-                        + CyderStrings.newline + CyderStrings.EUROPEAN_TOY_MAKER);
-
-        int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
+        int sampleLocationIncrement = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;
         int currentSampleIndex = 0;
 
-        int maxAmp = 0;
+        int maxAmplitude = 0;
 
         // find the max and add to the samples at the same time
         for (int i = 0 ; i < wav.getNumFrames() ; i++) {
-            maxAmp = Math.max(maxAmp, wav.getSample(i));
+            maxAmplitude = Math.max(maxAmplitude, wav.getSample(i));
 
             if (i == currentSampleLoc) {
                 nonNormalizedSamples[currentSampleIndex] = wav.getSample(i);
 
-                currentSampleLoc += sampleLocIncrementer;
+                currentSampleLoc += sampleLocationIncrement;
                 currentSampleIndex++;
             }
         }
 
-        // paint background of image
         g2d.setPaint(backgroundColor);
         g2d.fillRect(0, 0, width, height);
-
-        // set to line color
         g2d.setColor(waveColor);
 
         // actual y values for painting
@@ -299,7 +196,7 @@ public final class MessagingUtils {
 
         // normalize raw samples and mark values to interpolate
         for (int i = 0 ; i < width ; i++) {
-            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * height);
+            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmplitude) * height);
 
             // if extending beyond bounds of our image, paint as zero and don't interpolate
             if (normalizedValue > height / 2)
@@ -342,22 +239,15 @@ public final class MessagingUtils {
             }
         }
 
-        // draw center line to ensure every y value on
-        // the image contains at least one pixel
+        // Draw center line
         for (int i = 0 ; i < width ; i++) {
-            // from the center line extending downwards
             g2d.drawLine(i, height / 2, i, height / 2);
         }
 
-        // paint the amplitude wave
+        // Paint wave extending upwards and downwards
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            // from the center line extending downwards
-            g2d.drawLine(i, height / 2, i,
-                    height / 2 + normalizedSamples[i]);
-
-            // from the center line extending upwards
-            g2d.drawLine(i, height / 2 - normalizedSamples[i],
-                    i, height / 2);
+            g2d.drawLine(i, height / 2, i, height / 2 + normalizedSamples[i]);
+            g2d.drawLine(i, height / 2 - normalizedSamples[i], i, height / 2);
         }
 
         return ret;
@@ -399,10 +289,8 @@ public final class MessagingUtils {
     public static Future<JLabel> generateAudioPreviewLabel(File mp3OrWavFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(mp3OrWavFile);
         Preconditions.checkArgument(mp3OrWavFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(mp3OrWavFile));
         Preconditions.checkNotNull(onSaveRunnable);
-
-        Preconditions.checkArgument(FileUtil.validateExtension(mp3OrWavFile, Extension.MP3.getExtension())
-                || FileUtil.validateExtension(mp3OrWavFile, Extension.WAV.getExtension()));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio file preview generator")).submit(() -> {
@@ -479,41 +367,42 @@ public final class MessagingUtils {
      *
      * @param imageFile      the image file
      * @param onSaveRunnable the runnable to invoke when the save button is pressed
-     * @return the label with the image preview and save button
+     * @return the label with an image preview and save button
      */
     public static JLabel generateImagePreviewLabel(File imageFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedImageExtension(imageFile));
         Preconditions.checkNotNull(onSaveRunnable);
 
-        JLabel ret = null;
-
+        BufferedImage readImage = null;
         try {
-            Preconditions.checkArgument(FileUtil.isSupportedImageExtension(imageFile));
-
-            ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(ImageUtil.read(imageFile)),
-                    IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
-
-            JLabel imagePreviewLabel = new JLabel();
-            imagePreviewLabel.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
-            imagePreviewLabel.setIcon(resized);
-            imagePreviewLabel.setBorder(new LineBorder(CyderColors.navy, 5));
-
-            CyderButton saveButton = new CyderButton(SAVE);
-            saveButton.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_BUTTON_HEIGHT);
-            saveButton.setBackground(CyderColors.regularPurple);
-            saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
-
-            ret = new JLabel(IMAGE_PREVIEW_LABEL_TEXT);
-            imagePreviewLabel.setLocation(0, 0);
-            ret.add(imagePreviewLabel);
-
-            saveButton.setLocation(0, IMAGE_PREVIEW_LEN - 5);
-            ret.add(saveButton);
-
+            readImage = ImageUtil.read(imageFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        if (readImage == null) throw new FatalException("Failed to read image: " + imageFile.getAbsolutePath());
+
+        ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(readImage),
+                IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
+
+        JLabel imagePreviewLabel = new JLabel();
+        imagePreviewLabel.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
+        imagePreviewLabel.setIcon(resized);
+        imagePreviewLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+
+        CyderButton saveButton = new CyderButton(SAVE);
+        saveButton.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_BUTTON_HEIGHT);
+        saveButton.setBackground(CyderColors.regularPurple);
+        saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
+
+        JLabel ret = new JLabel(IMAGE_PREVIEW_LABEL_TEXT);
+        imagePreviewLabel.setLocation(0, 0);
+        ret.add(imagePreviewLabel);
+
+        saveButton.setLocation(0, IMAGE_PREVIEW_LEN - 5);
+        ret.add(saveButton);
 
         return ret;
     }
