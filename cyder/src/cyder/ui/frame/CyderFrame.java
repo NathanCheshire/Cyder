@@ -3938,6 +3938,54 @@ public class CyderFrame extends JFrame {
     private static final int tooltipMenuMouseExitAdditionalVisibleTime = 800;
 
     /**
+     * The opacity decrement for the tooltip menu label fade-out animation.
+     */
+    private static final int tooltipMenuLabelOpacityDecrement = 2;
+
+    /**
+     * The animation timeout for the tooltip menu label fade-out animation.
+     */
+    private static final int tooltipMenuLabelAnimationTimeout = 2;
+
+    /**
+     * The thread name for the tooltip menu label fade-out animation.
+     */
+    private static final String tooltipMenuLabelAnimationThreadName = "CyderFrame tooltip menu"
+            + " label fade-out animation";
+
+    /**
+     * The height necessary for a single tooltip menu item.
+     */
+    private static final int tooltipMenuItemLabelHeight = 30;
+
+    /**
+     * The currently computed menu label height.
+     */
+    private final AtomicInteger tooltipMenuLabelHeight = new AtomicInteger();
+
+    /**
+     * The getter util for getting the frame location input from the user.
+     */
+    private final GetterUtil tooltipMenuItemFrameLocationGetterUtil = GetterUtil.getInstance();
+
+    /**
+     * The name of the thread which waits for the user input location to set the frame to. Triggered via
+     * the tooltip menu item.
+     */
+    private static final String setFrameLocationTooltipMenuWaiterThreadName = "CyderFrame location setter waiter";
+
+    /**
+     * The getter util for getting the frame size input from the user.
+     */
+    private final GetterUtil tooltipMenuItemFrameSizeGetterUtil = GetterUtil.getInstance();
+
+    /**
+     * The name of the thread which waits for the user input size to set the frame to. Triggered via
+     * the tooltip menu item.
+     */
+    private static final String setFrameSizeTooltipMenuWaiterThreadName = "CyderFrame size setter waiter";
+
+    /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
      *
      * @param generatingEvent the {@link MouseEvent} which caused this method to be invoked
@@ -3986,16 +4034,13 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The height necessary for a single tooltip menu item.
-     */
-    private static final int tooltipMenuItemLabelHeight = 30;
-
-    /**
      * Installs the menu scroll with label options on the provided tooltip menu label.
      *
      * @param tooltipMenuLabel the tooltip menu label.
      */
     private void installTooltipMenuLabelScroll(JLabel tooltipMenuLabel) {
+        Preconditions.checkNotNull(tooltipMenuLabel);
+
         JTextPane menuPane = UiUtil.generateJTextPaneWithInvisibleHorizontalScrollbar();
 
         AtomicLong tooltipMenuOriginallyVisibleTime = new AtomicLong();
@@ -4055,8 +4100,6 @@ public class CyderFrame extends JFrame {
         tooltipMenuLabel.add(menuScroll);
     }
 
-    private final AtomicInteger tooltipMenuLabelHeight = new AtomicInteger();
-
     /**
      * Returns a list of tooltip menu items for this frame.
      *
@@ -4064,6 +4107,8 @@ public class CyderFrame extends JFrame {
      * @return the list of tooltip menu labels
      */
     private ImmutableList<JLabel> getTooltipMenuItems(JLabel tooltipMenuLabel) {
+        Preconditions.checkNotNull(tooltipMenuLabel);
+
         ArrayList<JLabel> ret = new ArrayList<>();
         ret.add(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
         ret.add(generateTooltipMenuItemLabel("Frame location",
@@ -4084,7 +4129,14 @@ public class CyderFrame extends JFrame {
      * @param currentTooltipMenuLabel the current tooltip menu label
      * @return the tooltip menu item
      */
-    private JLabel generateTooltipMenuItemLabel(String text, Runnable clickRunnable, JLabel currentTooltipMenuLabel) {
+    private JLabel generateTooltipMenuItemLabel(String text,
+                                                Runnable clickRunnable,
+                                                JLabel currentTooltipMenuLabel) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(clickRunnable);
+        Preconditions.checkNotNull(currentTooltipMenuLabel);
+
         JLabel ret = new JLabel(text);
         ret.setForeground(CyderColors.vanilla);
         ret.setFont(CyderFonts.DEFAULT_FONT_SMALL);
@@ -4120,6 +4172,10 @@ public class CyderFrame extends JFrame {
     private Point calculateTooltipMenuLocation(MouseEvent generatingEvent,
                                                CyderDragLabel generatingLabel,
                                                JLabel tooltipMenuLabel) {
+        Preconditions.checkNotNull(generatingEvent);
+        Preconditions.checkNotNull(generatingLabel);
+        Preconditions.checkNotNull(tooltipMenuLabel);
+
         int tooltipMenuHeight = tooltipMenuLabel.getHeight();
 
         int x;
@@ -4169,22 +4225,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The opacity decrement for the tooltip menu label fade-out animation.
-     */
-    private static final int tooltipMenuLabelOpacityDecrement = 2;
-
-    /**
-     * The animation timeout for the tooltip menu label fade-out animation.
-     */
-    private static final int tooltipMenuLabelAnimationTimeout = 2;
-
-    /**
-     * The thread name for the tooltip menu label fade-out animation.
-     */
-    private static final String tooltipMenuLabelAnimationThreadName = "CyderFrame tooltip menu"
-            + " label fade-out animation";
-
-    /**
      * Performs the fade out on the tooltip menu label.
      *
      * @param tooltipMenuLabel the label to fade out
@@ -4214,17 +4254,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The getter util for getting the frame location input from the user.
-     */
-    private final GetterUtil tooltipMenuItemFrameLocationGetterUtil = GetterUtil.getInstance();
-
-    /**
-     * The name of the thread which waits for the user input location to set the frame to. Triggered via
-     * the tooltip menu item.
-     */
-    private static final String setFrameLocationTooltipMenuWaiterThreadName = "CyderFrame location setter waiter";
-
-    /**
      * The actions to invoke when the frame location tooltip menu item is pressed.
      */
     private void onFrameLocationTooltipMenuItemPressed() {
@@ -4236,22 +4265,21 @@ public class CyderFrame extends JFrame {
                             + "Note this is absolute meaning if multiple monitors are being used,"
                             + " they should be treated as a coalesced singular entity")
                     .setRelativeTo(this)
-                    .setInitialFieldText(getX() + "," + getY());
+                    .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
+                    .setInitialFieldText(getX() + comma + getY());
 
             Optional<String> optionalLocation = tooltipMenuItemFrameLocationGetterUtil.getInput(builder);
             if (optionalLocation.isEmpty()) return;
 
             String location = optionalLocation.get();
-            if (!location.contains(",")) {
-                notify("Could not parse location"
-                        + " from input: \"" + location + "\"");
+            if (!location.contains(comma)) {
+                notify("Could not parse location" + " from input: " + quote + location + quote);
                 return;
             }
 
-            String[] parts = location.split(",");
+            String[] parts = location.split(comma);
             if (parts.length != 2) {
-                notify("Could not parse x and y"
-                        + " from input: \"" + location + "\"");
+                notify("Could not parse x and y" + " from input: " + quote + location + quote);
                 return;
             }
 
@@ -4262,7 +4290,7 @@ public class CyderFrame extends JFrame {
             try {
                 requestedX = Integer.parseInt(xString);
             } catch (NumberFormatException e) {
-                notify("Could not parse x from: \"" + xString + "\"");
+                notify("Could not parse x from: " + quote + xString + quote);
                 return;
             }
 
@@ -4270,47 +4298,37 @@ public class CyderFrame extends JFrame {
             try {
                 requestedY = Integer.parseInt(yString);
             } catch (NumberFormatException e) {
-                notify("Could not parse x from: \"" + yString + "\"");
+                notify("Could not parse x from: " + quote + yString + quote);
                 return;
             }
 
             Rectangle absoluteMonitorBounds = UiUtil.getMergedMonitors();
 
             if (requestedX < absoluteMonitorBounds.getX()) {
-                notify("Requested x \"" + requestedX
-                        + "\" is less than the absolute minimum: \"" + absoluteMonitorBounds.getX() + "\"");
+                notify("Requested x " + quote + requestedX + quote
+                        + " is less than the absolute minimum: " + quote + absoluteMonitorBounds.getX() + quote);
                 return;
             } else if (requestedY < absoluteMonitorBounds.getY()) {
-                notify("Requested y \"" + requestedY
-                        + "\" is less than the absolute minimum: \"" + absoluteMonitorBounds.getY() + "\"");
+                notify("Requested y " + quote + requestedY + quote
+                        + " is less than the absolute minimum: " + quote + absoluteMonitorBounds.getY() + quote);
                 return;
             } else if (requestedX > absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) {
-                notify("Requested x \"" + requestedX
-                        + "\" is greater than the absolute maximum: \""
-                        + (absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) + "\"");
+                notify("Requested x " + quote + requestedX + quote
+                        + " is greater than the absolute maximum: " + quote
+                        + (absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) + quote);
                 return;
             } else if (requestedY > absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) {
-                notify("Requested y \"" + requestedY
-                        + "\" is greater than the absolute maximum: \""
-                        + (absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) + "\"");
+                notify("Requested y " + quote + requestedY + quote
+                        + " is greater than the absolute maximum: " + quote
+                        + (absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) + quote);
                 return;
             }
 
+            if (requestedX == getX() && requestedY == getY()) return;
             UiUtil.requestFramePosition(requestedX, requestedY, this);
-            notify("Set frame size to request: \"" + requestedX + "," + requestedY + "\"");
+            notify("Set frame size to request: " + quote + requestedX + comma + requestedY + quote);
         }, setFrameLocationTooltipMenuWaiterThreadName);
     }
-
-    /**
-     * The getter util for getting the frame size input from the user.
-     */
-    private final GetterUtil tooltipMenuItemFrameSizeGetterUtil = GetterUtil.getInstance();
-
-    /**
-     * The name of the thread which waits for the user input size to set the frame to. Triggered via
-     * the tooltip menu item.
-     */
-    private static final String setFrameSizeTooltipMenuWaiterThreadName = "CyderFrame size setter waiter";
 
     /**
      * The actions to invoke when the frame size tooltip menu item is pressed.
@@ -4320,24 +4338,24 @@ public class CyderFrame extends JFrame {
             tooltipMenuItemFrameSizeGetterUtil.closeAllGetFrames();
 
             GetInputBuilder builder = new GetInputBuilder("Frame size",
-                    "Enter the requested frame size in the format: \"width,height\"")
+                    "Enter the requested frame size in the format: "
+                            + quote + "width" + comma + "height" + quote)
                     .setRelativeTo(this)
-                    .setInitialFieldText(getWidth() + "," + getHeight());
+                    .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
+                    .setInitialFieldText(getWidth() + comma + getHeight());
 
             Optional<String> optionalWidthHeight = tooltipMenuItemFrameSizeGetterUtil.getInput(builder);
             if (optionalWidthHeight.isEmpty()) return;
 
             String widthHeight = optionalWidthHeight.get();
-            if (!widthHeight.contains(",")) {
-                notify("Could not parse width and height"
-                        + " from input: \"" + widthHeight + "\"");
+            if (!widthHeight.contains(comma)) {
+                notify("Could not parse width and height" + " from input: " + quote + widthHeight + quote);
                 return;
             }
 
-            String[] parts = widthHeight.split(",");
+            String[] parts = widthHeight.split(comma);
             if (parts.length != 2) {
-                notify("Could not parse width and height"
-                        + " from input: \"" + widthHeight + "\"");
+                notify("Could not parse width and height" + " from input: " + quote + widthHeight + quote);
                 return;
             }
 
@@ -4348,7 +4366,7 @@ public class CyderFrame extends JFrame {
             try {
                 requestedWidth = Integer.parseInt(widthString);
             } catch (NumberFormatException e) {
-                notify("Could not parse width from: \"" + widthString + "\"");
+                notify("Could not parse width from: " + quote + widthString + quote);
                 return;
             }
 
@@ -4356,33 +4374,35 @@ public class CyderFrame extends JFrame {
             try {
                 requestedHeight = Integer.parseInt(heightString);
             } catch (NumberFormatException e) {
-                notify("Could not parse width from: \"" + heightString + "\"");
+                notify("Could not parse width from: " + quote + heightString + quote);
                 return;
             }
 
             if (requestedWidth < minimumSize.getWidth()) {
-                notify("Requested width \"" + requestedWidth + "\" is less than the minimum allowable width: \""
-                        + minimumSize.getWidth() + "\"");
+                notify("Requested width " + quote + requestedWidth + quote
+                        + " is less than the minimum allowable width: " + quote + minimumSize.getWidth() + quote);
                 return;
             } else if (requestedHeight < minimumSize.getHeight()) {
-                notify("Requested height \"" + requestedHeight + "\" is less than the minimum allowable height: \""
-                        + minimumSize.getHeight() + "\"");
+                notify("Requested height " + quote + requestedHeight + quote
+                        + " is less than the minimum allowable height: " + quote + minimumSize.getHeight() + quote);
                 return;
             } else if (requestedWidth > maximumSize.getWidth()) {
-                notify("Requested width \"" + requestedWidth + "\" is greater than the maximum allowable width: \""
-                        + maximumSize.getWidth() + "\"");
+                notify("Requested width " + quote + requestedWidth + quote
+                        + " is greater than the maximum allowable width: " + quote + maximumSize.getWidth() + quote);
                 return;
             } else if (requestedHeight > maximumSize.getHeight()) {
-                notify("Requested height \"" + requestedHeight + "\" is greater than the maximum allowable height: \""
-                        + maximumSize.getHeight() + "\"");
+                notify("Requested height " + quote + requestedHeight + quote
+                        + " is greater than the maximum allowable height: " + quote + maximumSize.getHeight() + quote);
                 return;
             }
+
+            if (requestedWidth == getWidth() && requestedHeight == getHeight()) return;
 
             Point center = getCenterPointOnScreen();
             setSize(requestedWidth, requestedHeight);
             setCenterPoint(center);
             refreshBackground();
-            notify("Set frame size to request: \"" + requestedWidth + "," + requestedHeight + "\"");
+            notify("Set frame size to request: " + quote + requestedWidth + comma + requestedHeight + quote);
         }, setFrameSizeTooltipMenuWaiterThreadName);
     }
 }
