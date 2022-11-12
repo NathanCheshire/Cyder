@@ -1,7 +1,6 @@
 package cyder.messaging;
 
 import com.google.common.base.Preconditions;
-import cyder.annotations.CyderTest;
 import cyder.audio.AudioUtil;
 import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
@@ -12,7 +11,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
@@ -51,13 +49,6 @@ public final class MessagingUtils {
     public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
 
     /**
-     * Suppress default constructor.
-     */
-    private MessagingUtils() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The default background color.
      */
     private static final Color DEFAULT_BACKGROUND_COLOR = CyderColors.vanilla;
@@ -66,6 +57,78 @@ public final class MessagingUtils {
      * The default wave color.
      */
     private static final Color DEFAULT_WAVE_COLOR = CyderColors.navy;
+
+    /**
+     * The text used for the audio preview label component.
+     */
+    private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT =
+            StringUtil.generateTextForCustomComponent(6);
+
+    /**
+     * The border length for generated audio preview.
+     */
+    private static final int AUDIO_PREVIEW_BORDER_LEN = 5;
+
+    /**
+     * The button height for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_BUTTON_HEIGHT = 40;
+
+    /**
+     * The container width for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_CONTAINER_WIDTH = 150;
+
+    /**
+     * The container height for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_CONTAINER_HEIGHT =
+            DEFAULT_SMALL_WAVEFORM_HEIGHT + AUDIO_PREVIEW_BUTTON_HEIGHT + 2 * AUDIO_PREVIEW_BORDER_LEN;
+
+    /**
+     * The length of the image for the generated image previews.
+     */
+    private static final int IMAGE_PREVIEW_LEN = 150;
+
+    /**
+     * The height for the image preview save button.
+     */
+    private static final int IMAGE_PREVIEW_BUTTON_HEIGHT = 40;
+
+    /**
+     * The text used for generated image preview labels.
+     */
+    private static final String IMAGE_PREVIEW_LABEL_TEXT
+            = StringUtil.generateTextForCustomComponent(12);
+
+    /**
+     * The save text for generated image and audio preview labels.
+     */
+    private static final String SAVE = "Save";
+
+    /**
+     * The number denoting a value should be interpolated.
+     */
+    private static final int interpolationNeededValue = -69;
+
+    /**
+     * The name of the executor service which waits for the waveform image to finish generation.
+     */
+    private static final String waveformGeneratorThreadName = "Waveform Generator Waiter";
+
+    /**
+     * The name of the executor service which waits for the waveform image to
+     * finish generation when generating an image preview label.
+     */
+    private static final String audioWaveformPreviewLabelGeneratorThreadName =
+            "Audio waveform preview label generator";
+
+    /**
+     * Suppress default constructor.
+     */
+    private MessagingUtils() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Generates a png depicting the waveform of the provided mp3/wav file.
@@ -96,11 +159,6 @@ public final class MessagingUtils {
     }
 
     /**
-     * The name of the executor service which waits for the waveform image to finish generation.
-     */
-    private static final String waveformGeneratorThreadName = "Waveform Generator Waiter";
-
-    /**
      * @param wavOrMp3File the wav or mp3 file to generate a waveform image for
      * @param width        the width of the waveform image
      * @param height       the height of the waveform image
@@ -117,34 +175,11 @@ public final class MessagingUtils {
             if (FileUtil.validateExtension(usageWav, Extension.MP3.getExtension())) {
                 Future<Optional<File>> futureWav = AudioUtil.mp3ToWav(usageWav);
                 while (!futureWav.isDone()) Thread.onSpinWait();
-
                 if (futureWav.get().isPresent()) usageWav = futureWav.get().get();
             }
 
             return generateWaveform(usageWav, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
         });
-    }
-
-    /**
-     * The number denoting a value should be interpolated.
-     */
-    private static final int interpolationNeededValue = -69;
-
-    @CyderTest
-    public static void testImageGeneration() {
-        CyderThreadRunner.submit(() -> {
-            try {
-                File mp3 = new File("C:/users/nathan/downloads/badapple.mp3");
-                long start = System.currentTimeMillis();
-                Future<BufferedImage> image = generateWaveform(mp3, 1000, 150);
-                while (!image.isDone()) Thread.onSpinWait();
-                long end = System.currentTimeMillis();
-                System.out.println("Time to generate: " + (end - start) + "ms");
-                ImageUtil.drawImage(image.get());
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "asdfasdf");
     }
 
     /**
@@ -180,73 +215,51 @@ public final class MessagingUtils {
         int[] nonNormalizedSamples = new int[width];
 
         int sampleLocationIncrement = (int) Math.ceil(numFrames / (double) width);
-        int currentSampleLoc = 0;
-        int currentSampleIndex = 0;
 
         int maxAmplitude = 0;
-
-        // find the max and add to the samples at the same time
-        for (int i = 0 ; i < wav.getNumFrames() ; i++) {
+        int inc = 0;
+        for (int i = 0 ; i < numFrames ; i += sampleLocationIncrement) {
             maxAmplitude = Math.max(maxAmplitude, wav.getSample(i));
-
-            if (i == currentSampleLoc) {
-                nonNormalizedSamples[currentSampleIndex] = wav.getSample(i);
-
-                currentSampleLoc += sampleLocationIncrement;
-                currentSampleIndex++;
-            }
+            nonNormalizedSamples[inc] = wav.getSample(i);
+            inc++;
         }
 
         g2d.setPaint(backgroundColor);
         g2d.fillRect(0, 0, width, height);
         g2d.setColor(waveColor);
 
-        // actual y values for painting
         int[] normalizedSamples = new int[width];
-
-        // normalize raw samples and mark values to interpolate
-        for (int i = 0 ; i < width ; i++) {
+        for (int i = 0 ; i < nonNormalizedSamples.length ; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmplitude) * height);
-
-            // if extending beyond bounds of our image, paint as zero and don't interpolate
-            if (normalizedValue > height / 2)
-                normalizedValue = interpolationNeededValue;
-
+            if (normalizedValue > height / 2) normalizedValue = interpolationNeededValue;
             normalizedSamples[i] = normalizedValue;
         }
 
-        // interpolate between surrounding values where the amplitude is 0
+        // Loop through samples and interpolate where needed
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            // if a true zero amplitude don't paint it
-            if (normalizedSamples[i] == 0)
-                continue;
+            int currentSample = normalizedSamples[i];
+            if (currentSample != interpolationNeededValue) continue;
 
-                // at a value that needs interpolation
-            else if (normalizedSamples[i] == interpolationNeededValue) {
-                // find the next value that isn't a 0 or an amp that has yet to be interpolated
-                int nextNonZeroIndex = 0;
-                for (int j = i ; j < normalizedSamples.length ; j++) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
-                        nextNonZeroIndex = j;
-                        break;
-                    }
+            int nextValue = 0;
+            for (int j = i ; j < normalizedSamples.length ; j++) {
+                int currentNextValue = normalizedSamples[j];
+                if (currentNextValue != interpolationNeededValue) {
+                    nextValue = currentNextValue;
+                    break;
                 }
-
-                // find the previous value that isn't 0 or an amp that has yet to be interpolated
-                int lastNonZeroIndex = 0;
-                for (int j = i ; j >= 0 ; j--) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
-                        lastNonZeroIndex = j;
-                        break;
-                    }
-                }
-
-                // average surrounding non zero values
-                int avg = (normalizedSamples[nextNonZeroIndex] + normalizedSamples[lastNonZeroIndex]) / 2;
-
-                // update current value
-                normalizedSamples[i] = avg;
             }
+
+            // Last value that isn't an interpolation value
+            int lastValue = 0;
+            for (int j = i ; j >= 0 ; j--) {
+                int currentLastValue = normalizedSamples[j];
+                if (currentLastValue != interpolationNeededValue) {
+                    lastValue = currentLastValue;
+                    break;
+                }
+            }
+
+            normalizedSamples[i] = (nextValue + lastValue) / 2;
         }
 
         // Draw center line
@@ -264,32 +277,6 @@ public final class MessagingUtils {
     }
 
     /**
-     * The text used for the audio preview label component.
-     */
-    private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
-
-    /**
-     * The border length for generated audio preview.
-     */
-    private static final int AUDIO_PREVIEW_BORDER_LEN = 5;
-
-    /**
-     * The button height for generated audio previews.
-     */
-    private static final int AUDIO_PREVIEW_BUTTON_HEIGHT = 40;
-
-    /**
-     * The container width for generated audio previews.
-     */
-    private static final int AUDIO_PREVIEW_CONTAINER_WIDTH = 150;
-
-    /**
-     * The container height for generated audio previews.
-     */
-    private static final int AUDIO_PREVIEW_CONTAINER_HEIGHT = DEFAULT_SMALL_WAVEFORM_HEIGHT
-            + AUDIO_PREVIEW_BUTTON_HEIGHT + 2 * AUDIO_PREVIEW_BORDER_LEN;
-
-    /**
      * Generates and returns a file preview for the provided audio file.
      *
      * @param mp3OrWavFile   the wav or mp3 file
@@ -303,7 +290,7 @@ public final class MessagingUtils {
         Preconditions.checkNotNull(onSaveRunnable);
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Audio file preview generator")).submit(() -> {
+                new CyderThreadFactory(audioWaveformPreviewLabelGeneratorThreadName)).submit(() -> {
             Future<BufferedImage> image = generateSmallWaveform(mp3OrWavFile);
 
             while (!image.isDone()) {
@@ -351,26 +338,6 @@ public final class MessagingUtils {
             return containerLabel;
         });
     }
-
-    /**
-     * The length of the image for the generated image previews.
-     */
-    private static final int IMAGE_PREVIEW_LEN = 150;
-
-    /**
-     * The height for the image preview save button.
-     */
-    private static final int IMAGE_PREVIEW_BUTTON_HEIGHT = 40;
-
-    /**
-     * The text used for generated image preview labels.
-     */
-    private static final String IMAGE_PREVIEW_LABEL_TEXT = StringUtil.generateTextForCustomComponent(12);
-
-    /**
-     * The save text for generated image and audio preview labels.
-     */
-    private static final String SAVE = "Save";
 
     /**
      * Generates and returns a file preview for the provided image file.
