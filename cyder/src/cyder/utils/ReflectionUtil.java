@@ -308,6 +308,18 @@ public final class ReflectionUtil {
     }
 
     /**
+     * Returns whether the provided method returns a {@link Void} type.
+     *
+     * @param method the method
+     * @return whether the method returns a void type
+     */
+    public static boolean returnsVoid(Method method) {
+        Preconditions.checkNotNull(method);
+
+        return method.getReturnType().equals(Void.TYPE);
+    }
+
+    /**
      * Returns whether the provided method is public, static, and returns a boolean type.
      *
      * @param method the method

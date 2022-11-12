@@ -130,12 +130,6 @@ public final class MessagingUtils {
      */
     private static final int interpolationNeededValue = -69;
 
-    // todo when looking for these need to ensure static and void and public
-    // todo also always invoke these in a separate thread
-
-    // todo when these are invoked say what, where, and when
-    // invoking testImageGeneration in MessagingUtils.java at 1:31:23am
-
     @CyderTest
     public static void testImageGeneration() {
         CyderThreadRunner.submit(() -> {
@@ -146,7 +140,7 @@ public final class MessagingUtils {
                 while (!image.isDone()) Thread.onSpinWait();
                 long end = System.currentTimeMillis();
                 System.out.println("Time to generate: " + (end - start) + "ms");
-                ImageUtil.drawImage(image.get()); // todo this should return a frame reference, annotate with can ignore
+                ImageUtil.drawImage(image.get());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

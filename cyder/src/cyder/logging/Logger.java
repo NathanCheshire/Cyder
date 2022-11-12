@@ -374,6 +374,10 @@ public final class Logger {
                 logBuilder.append(LogTag.GUI_TEST_WARNING.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
+            case CYDER_TEST_WARNING:
+                logBuilder.append(LogTag.CYDER_TEST_WARNING.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
             default:
                 throw new IllegalArgumentException(MISSING_TAG_CASE_ERROR_MESSAGE + tag);
         }

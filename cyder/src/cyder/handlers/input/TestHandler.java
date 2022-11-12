@@ -9,6 +9,9 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
@@ -30,7 +33,7 @@ public class TestHandler extends InputHandler {
     }
 
     /**
-     * Invokes all tests with the default trigger of "test".
+     * Invokes all tests with the default trigger of {@link #VALUE}.
      */
     public static void invokeDefaultTests() {
         Class<?> clazz = CyderTest.class;
@@ -87,14 +90,38 @@ public class TestHandler extends InputHandler {
 
             for (Method method : classer.getMethods()) {
                 if (method.isAnnotationPresent(CyderTest.class)) {
+                    if (!ReflectionUtil.isStatic(method)) {
+                        Logger.log(LogTag.CYDER_TEST_WARNING, "CyderTest method"
+                                + " found not static: " + method.getName());
+                        continue;
+                    }
+                    if (!ReflectionUtil.isPublic(method)) {
+                        Logger.log(LogTag.CYDER_TEST_WARNING, "CyderTest method"
+                                + " found not public: " + method.getName());
+                        continue;
+                    }
+                    if (!ReflectionUtil.returnsVoid(method)) {
+                        Logger.log(LogTag.CYDER_TEST_WARNING, "CyderTest method"
+                                + " found not void return: " + method.getName());
+                        continue;
+                    }
+
                     String testTrigger = method.getAnnotation(CyderTest.class).value();
                     if (trigger.equalsIgnoreCase(testTrigger)) {
-                        try {
-                            method.invoke(classer);
-                            ret = true;
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        String threadName = "CyderTest thread runner, method: " + CyderStrings.quote
+                                + method.getName() + CyderStrings.quote;
+                        CyderThreadRunner.submit(() -> {
+                            try {
+                                Logger.log(LogTag.DEBUG, "Invoking CyderTest "
+                                        + CyderStrings.quote + method.getName() + CyderStrings.quote
+                                        + " in " + ReflectionUtil.getBottomLevelClass(classer));
+                                method.invoke(classer);
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
+                        }, threadName);
+
+                        ret = true;
                     }
                 }
             }

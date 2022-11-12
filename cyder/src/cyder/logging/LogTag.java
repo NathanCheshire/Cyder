@@ -182,7 +182,12 @@ public enum LogTag {
     /**
      * A get call was invoked on a user object.
      */
-    USER_GET("USER GET");
+    USER_GET("USER GET"),
+
+    /**
+     * A warning related to a {@link cyder.annotations.CyderTest} method not constructed properly.
+     */
+    CYDER_TEST_WARNING("CYDER TEST WARNING");
 
     /**
      * The name to be written to the log file when this tag is logged
