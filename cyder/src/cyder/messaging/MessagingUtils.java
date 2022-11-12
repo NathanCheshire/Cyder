@@ -12,6 +12,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
@@ -24,8 +25,6 @@ import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-// todo move to other utils
 
 /**
  * Utilities related to the messaging client.
@@ -131,10 +130,27 @@ public final class MessagingUtils {
      */
     private static final int interpolationNeededValue = -69;
 
+    // todo when looking for these need to ensure static and void and public
+    // todo also always invoke these in a separate thread
+
+    // todo when these are invoked say what, where, and when
+    // invoking testImageGeneration in MessagingUtils.java at 1:31:23am
+
     @CyderTest
-    public void testImageGeneration() {
-        File mp3 = new File("C:/users/nathan/downloads/badapple.mp3");
-        ImageUtil.drawImage(generateWaveform(mp3, 200, 50, CyderColors.vanilla, CyderColors.navy));
+    public static void testImageGeneration() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                File mp3 = new File("C:/users/nathan/downloads/badapple.mp3");
+                long start = System.currentTimeMillis();
+                Future<BufferedImage> image = generateWaveform(mp3, 1000, 150);
+                while (!image.isDone()) Thread.onSpinWait();
+                long end = System.currentTimeMillis();
+                System.out.println("Time to generate: " + (end - start) + "ms");
+                ImageUtil.drawImage(image.get()); // todo this should return a frame reference, annotate with can ignore
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "asdfasdf");
     }
 
     /**
@@ -165,7 +181,7 @@ public final class MessagingUtils {
         WaveFile wav = new WaveFile(wavFile);
 
         int numFrames = (int) wav.getNumFrames();
-        if (width < numFrames) width = numFrames;
+        if (numFrames < width) width = numFrames;
 
         int[] nonNormalizedSamples = new int[width];
 

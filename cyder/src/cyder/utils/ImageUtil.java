@@ -14,6 +14,7 @@ import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
 import cyder.process.Program;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 
 import javax.imageio.ImageIO;
@@ -412,14 +413,21 @@ public final class ImageUtil {
     }
 
     /**
+     * The title of the draw buffered image frame.
+     */
+    private static final String defaultDrawBufferedImageTitle = "BufferedImage";
+
+    /**
      * Draws the provided buffered image to a CyderFrame and displays it.
      *
      * @param bi the buffered image to display
+     * @return the frame reference
      */
-    public static void drawImage(BufferedImage bi) {
+    @CanIgnoreReturnValue
+    public static CyderFrame drawImage(BufferedImage bi) {
         Preconditions.checkNotNull(bi);
 
-        drawImage(new ImageIcon(bi), "BufferedImage");
+        return drawImage(new ImageIcon(bi), defaultDrawBufferedImageTitle);
     }
 
     /**
@@ -427,24 +435,33 @@ public final class ImageUtil {
      *
      * @param bi         the buffered image to display
      * @param frameTitle the title of the frame
+     * @return the frame reference
      */
-    public static void drawImage(BufferedImage bi, String frameTitle) {
+    @CanIgnoreReturnValue
+    public static CyderFrame drawImage(BufferedImage bi, String frameTitle) {
         Preconditions.checkNotNull(bi);
         Preconditions.checkNotNull(frameTitle);
         Preconditions.checkArgument(!frameTitle.isEmpty());
 
-        drawImage(new ImageIcon(bi), frameTitle);
+        return drawImage(new ImageIcon(bi), frameTitle);
     }
+
+    /**
+     * The title of the draw image icon frame.
+     */
+    private static final String defaultDrawImageIconTitle = "ImageIcon";
 
     /**
      * Draws the provided image icon to a CyderFrame and displays it.
      *
      * @param icon the icon to display
+     * @return the frame reference
      */
-    public static void drawImage(ImageIcon icon) {
+    @CanIgnoreReturnValue
+    public static CyderFrame drawImage(ImageIcon icon) {
         Preconditions.checkNotNull(icon);
 
-        drawImage(icon, "ImageIcon");
+        return drawImage(icon, defaultDrawImageIconTitle);
     }
 
     /**
@@ -452,21 +469,29 @@ public final class ImageUtil {
      *
      * @param icon       the icon to display
      * @param frameTitle the title of the frame
+     * @return the frame reference
      */
-    public static void drawImage(ImageIcon icon, String frameTitle) {
+    @CanIgnoreReturnValue
+    public static CyderFrame drawImage(ImageIcon icon, String frameTitle) {
         Preconditions.checkNotNull(icon);
         Preconditions.checkNotNull(frameTitle);
         Preconditions.checkArgument(!frameTitle.isEmpty());
 
-        CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight());
+        int iconWidth = icon.getIconWidth();
+        int iconHeight = icon.getIconHeight();
+
+        CyderFrame frame = new CyderFrame(iconWidth + 2 * CyderFrame.BORDER_LEN,
+                icon.getIconHeight() + CyderFrame.BORDER_LEN + CyderDragLabel.DEFAULT_HEIGHT);
         frame.setTitle(CyderStrings.openingBracket + icon.getIconWidth() + "x" + icon.getIconHeight()
                 + CyderStrings.closingBracket + space + frameTitle);
 
         JLabel label = new JLabel(icon);
-        label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        label.setBounds(CyderFrame.BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT, iconWidth, iconHeight);
         frame.getContentPane().add(label);
 
         frame.finalizeAndShow();
+
+        return frame;
     }
 
     /**
