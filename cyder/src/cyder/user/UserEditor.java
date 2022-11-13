@@ -1411,6 +1411,22 @@ public final class UserEditor {
     private static final String FONT_METRIC = "font_metric";
 
     /**
+     * Returns the font metric from the props, {@link Font#BOLD} if absent.
+     *
+     * @return the font metric from the props
+     */
+    public static int getFontMetricFromProps() {
+        String fontMetricString = PropLoader.getString(FONT_METRIC);
+
+        return switch (fontMetricString.toLowerCase()) {
+            case "bold" -> Font.BOLD;
+            case "italic" -> Font.ITALIC;
+            case "bold italic", "italic bold" -> Font.BOLD + Font.ITALIC;
+            default -> Font.PLAIN;
+        };
+    }
+
+    /**
      * The action listener for the apply font button.
      */
     @SuppressWarnings("MagicConstant") /* font metrics are always checked */
@@ -1425,7 +1441,7 @@ public final class UserEditor {
         if (selectedFont != null) {
             UserUtil.getCyderUser().setFont(selectedFont);
 
-            int requestedFontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+            int requestedFontMetric = getFontMetricFromProps();
             if (!NumberUtil.isValidFontMetric(requestedFontMetric)) {
                 requestedFontMetric = Font.BOLD;
             }

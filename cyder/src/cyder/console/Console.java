@@ -2387,11 +2387,6 @@ public enum Console {
     private static final String MIN_FONT_SIZE = "min_font_size";
 
     /**
-     * The key to use for the font metric prop.
-     */
-    private static final String FONT_METRIC = "font_metric";
-
-    /**
      * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
      */
     private static final int WHEEL_UP = -1;
@@ -2409,16 +2404,19 @@ public enum Console {
         }
 
         int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
-        fontSize += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
-
-        if (fontSize > PropLoader.getInteger(MAX_FONT_SIZE)
-                || fontSize < PropLoader.getInteger(MIN_FONT_SIZE)) {
-            return;
+        if (e.getWheelRotation() == WHEEL_UP) {
+            fontSize++;
+        } else {
+            fontSize--;
         }
+
+        int maxFontSize = PropLoader.getInteger(MAX_FONT_SIZE);
+        int minFontSize = PropLoader.getInteger(MIN_FONT_SIZE);
+        if (fontSize > maxFontSize || fontSize < minFontSize) return;
 
         try {
             String fontName = UserUtil.getCyderUser().getFont();
-            int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+            int fontMetric = UserEditor.getFontMetricFromProps();
 
             Font newFont = new Font(fontName, fontMetric, fontSize);
             if (NumberUtil.isValidFontMetric(fontMetric)) {
@@ -2467,7 +2465,7 @@ public enum Console {
     @SuppressWarnings("MagicConstant") // Font metric is always checked before use
     public Font generateUserFont() {
         String fontName = UserUtil.getCyderUser().getFont();
-        int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+        int fontMetric = UserEditor.getFontMetricFromProps();
         int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
 
         if (!NumberUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
