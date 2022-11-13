@@ -23,16 +23,14 @@ import static cyder.props.PropConstants.*;
  */
 public final class PropLoader {
     /**
+     * The character a line must end with to interpret the next line as being the same prop.
+     */
+    private static final String multiLinePropSuffix = "\\";
+
+    /**
      * The props immutable list.
      */
     private static ImmutableList<Prop> props;
-
-    /**
-     * Whether to log the next prop that is loaded.
-     * Props which should not be logged when loaded should be
-     * annotated with the {@link Annotation#NO_LOG} annotation.
-     */
-    private static boolean logNextProp = true;
 
     /**
      * Whether the props have been loaded.
@@ -219,6 +217,9 @@ public final class PropLoader {
                     ExceptionHandler.handle(e);
                 }
 
+                boolean logNextProp = true;
+                StringBuilder previousLinesOfMultilineProp = new StringBuilder();
+
                 for (String line : lines) {
                     if (isComment(line)) {
                         continue;
@@ -227,19 +228,25 @@ public final class PropLoader {
                     } else if (isNoLogAnnotation(line)) {
                         logNextProp = false;
                         continue;
+                    } else if (line.endsWith(multiLinePropSuffix)) {
+                        previousLinesOfMultilineProp.append(line.substring(0, line.length() - 1).trim());
+                        continue;
                     }
 
-                    Prop addProp = extractProp(line);
+                    String fullLine = previousLinesOfMultilineProp.toString();
+                    fullLine += fullLine.isEmpty() ? line : StringUtil.trimLeft(line);
+
+                    Prop addProp = extractProp(fullLine);
                     if (propsList.contains(addProp)) {
                         throw new FatalException("Duplicate prop found: " + addProp);
                     }
 
                     propsList.add(addProp);
-
-                    Logger.log(LogTag.PROPS_ACTION, "[key = " + addProp.key()
-                            + (logNextProp ? ", value = " + addProp.value() : "") + CyderStrings.closingBracket);
+                    Logger.log(LogTag.PROPS_ACTION, "[key: " + addProp.key()
+                            + (logNextProp ? ", value: " + addProp.value() : "") + CyderStrings.closingBracket);
 
                     logNextProp = true;
+                    previousLinesOfMultilineProp = new StringBuilder();
                 }
             });
 

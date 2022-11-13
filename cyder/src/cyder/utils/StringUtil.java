@@ -1443,4 +1443,24 @@ public class StringUtil {
         return ReflectionUtil.getBottomLevelClass(object.getClass()) + ", hash: " + object.hashCode()
                 + ", reflection data: " + reflectedFields;
     }
+
+    /**
+     * Trims the whitespace from the left of the provided string.
+     *
+     * @param string the string to trim the left side of
+     * @return the left-trimmed string
+     */
+    public static String trimLeft(String string) {
+        Preconditions.checkNotNull(string);
+
+        char[] chars = string.toCharArray();
+
+        int startIndex = 0;
+        for (char aChar : chars) {
+            if (aChar != ' ') break;
+            startIndex++;
+        }
+
+        return string.substring(startIndex);
+    }
 }
