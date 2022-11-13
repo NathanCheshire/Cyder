@@ -11,15 +11,15 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
-import cyder.process.ProcessResult;
-import cyder.process.ProcessUtil;
 import cyder.process.Program;
+import cyder.snakes.PythonArgument;
+import cyder.snakes.PythonCommand;
+import cyder.snakes.PythonFunctionsWrapper;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
-import cyder.utils.StaticUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -458,21 +458,6 @@ public final class AudioUtil {
     }
 
     /**
-     * The command for querying an audio's length from the python functions script.
-     */
-    private static final String AUDIO_LENGTH = "audio_length";
-
-    /**
-     * The name of the python functions script.
-     */
-    private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
-
-    /**
-     * The prefix output by the python functions audio length function.
-     */
-    private static final String audioLengthProcessReturnPrefix = "Audio length: ";
-
-    /**
      * A map of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
@@ -492,43 +477,19 @@ public final class AudioUtil {
             return Futures.immediateFuture(milliTimes.get(audioFile));
         }
 
-        String threadName = "getMillisMutagen thread, audioFile: " + quote + audioFile + quote;
+        String threadName = "getMillisMutagen, file: " + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
-            String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-            String command = Program.PYTHON.getProgramName()
-                    + CyderStrings.space + functionsScriptPath
-                    + CyderStrings.space + "--command"
-                    + CyderStrings.space + AUDIO_LENGTH
-                    + CyderStrings.space + "--input"
+            String command = PythonArgument.COMMAND.getFullArgument()
+                    + CyderStrings.space + PythonCommand.AUDIO_LENGTH.getCommand()
+                    + CyderStrings.space + PythonArgument.INPUT.getFullArgument()
                     + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
-
-            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+            Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
             while (!futureResult.isDone()) Thread.onSpinWait();
+            String result = futureResult.get();
 
-            ProcessResult result = null;
-            try {
-                result = futureResult.get();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            if (result == null || result.hasErrors()) {
-                return 0;
-            }
-
-            ImmutableList<String> standardOutput = result.getStandardOutput();
-            if (standardOutput.isEmpty()) {
-                return 0;
-            }
-            String firstResult = standardOutput.get(0);
-
-            if (!firstResult.startsWith(audioLengthProcessReturnPrefix)) {
-                return 0;
-            }
-
-            firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
-            int millis = (int) (Float.parseFloat(firstResult) * TimeUtil.MILLISECONDS_IN_SECOND);
+            String parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(result);
+            int millis = (int) (Float.parseFloat(parsedResult) * TimeUtil.MILLISECONDS_IN_SECOND);
             milliTimes.put(audioFile, millis);
             return millis;
         });

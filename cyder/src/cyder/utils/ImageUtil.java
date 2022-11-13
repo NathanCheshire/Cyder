@@ -10,9 +10,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
 import cyder.network.NetworkUtil;
-import cyder.process.ProcessResult;
-import cyder.process.ProcessUtil;
 import cyder.process.Program;
+import cyder.snakes.PythonArgument;
+import cyder.snakes.PythonCommand;
+import cyder.snakes.PythonFunctionsWrapper;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
@@ -961,23 +962,6 @@ public final class ImageUtil {
         return false;
     }
 
-    // todo extract APIs for python to a python util class? something to encapsulate the api
-
-    /**
-     * The name of the python functions script.
-     */
-    private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
-
-    /**
-     * The blur command for the python Gaussian blur function script.
-     */
-    private static final String BLUR = "blur";
-
-    /**
-     * The prefix of the blur process success output.
-     */
-    private static final String blurProcessReturnPrefix = "Blurred: ";
-
     /**
      * Returns the provided image file after applying a gaussian blur to it.
      *
@@ -994,25 +978,22 @@ public final class ImageUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(GAUSSIAN_IMAGE_BLURER_THREAD_NAME)).submit(() -> {
-            String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-            String command = Program.PYTHON.getProgramName() + space + functionsScriptPath
-                    + space + "--command" + space + BLUR + space + "--input" + space + quote +
-                    imageFile.getAbsolutePath() + quote + space + "--radius" + space + radius;
-
-            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
-            while (!futureResult.isDone()) Thread.onSpinWait();
-
             try {
-                ProcessResult result = futureResult.get();
-                if (!result.hasErrors()) {
-                    for (String line : result.getStandardOutput()) {
-                        if (line.startsWith(blurProcessReturnPrefix)) {
-                            String filePath = line.substring(blurProcessReturnPrefix.length()).trim();
-                            File ret = new File(filePath);
-                            if (ret.exists()) return Optional.of(ret);
-                            break;
-                        }
-                    }
+                String command = PythonArgument.COMMAND.getFullArgument()
+                        + space + PythonCommand.BLUR.getCommand()
+                        + space + PythonArgument.INPUT.getFullArgument()
+                        + space + quote + imageFile.getAbsolutePath() + quote
+                        + space + PythonArgument.RADIUS.getFullArgument()
+                        + space + radius;
+                Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
+                while (!futureResult.isDone()) Thread.onSpinWait();
+                String result = futureResult.get();
+
+                String parsedResult = PythonCommand.BLUR.parseResponse(result);
+
+                File resultingBlurredImage = new File(parsedResult);
+                if (resultingBlurredImage.exists()) {
+                    return Optional.of(resultingBlurredImage);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

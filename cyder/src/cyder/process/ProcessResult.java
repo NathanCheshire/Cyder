@@ -1,5 +1,6 @@
 package cyder.process;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class ProcessResult {
      * @param errorOutput    the error output
      */
     public ProcessResult(ArrayList<String> standardOutput, ArrayList<String> errorOutput) {
+        Preconditions.checkNotNull(standardOutput);
+        Preconditions.checkNotNull(errorOutput);
+
         this.standardOutput = ImmutableList.copyOf(standardOutput);
         this.errorOutput = ImmutableList.copyOf(errorOutput);
     }

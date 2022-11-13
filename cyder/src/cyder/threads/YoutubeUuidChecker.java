@@ -81,18 +81,12 @@ public class YoutubeUuidChecker {
             int numRuns = 0;
             long startTime = System.currentTimeMillis();
 
-            JLabel printLabel = new JLabel();
-            printLabel.setForeground(Console.INSTANCE.getInputField().getForeground());
-            printLabel.setFont(Console.INSTANCE.getInputField().getFont());
-            stringUtil.printlnComponent(printLabel);
-            Console.INSTANCE.getInputHandler().addPrintedLabel(printLabel);
-
             while (!exit) {
                 MasterYoutubeThread.incrementUrlsChecked();
 
                 try {
                     MasterYoutubeThread.getSemaphore().acquire();
-                    printLabel.setText("Checked uuid: " + youtubeUuid);
+                    stringUtil.println("Checked uuid: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
                     String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
 
@@ -103,7 +97,7 @@ public class YoutubeUuidChecker {
                     MasterYoutubeThread.killAll();
 
                     MasterYoutubeThread.getSemaphore().acquire();
-                    printLabel.setText("YouTube script found valid video with uuid: " + youtubeUuid);
+                    stringUtil.println("YouTube script found valid video with uuid: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
 
                     CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),
