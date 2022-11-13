@@ -479,12 +479,11 @@ public class CyderTextField extends JTextField {
      */
     @Override
     public void setHorizontalAlignment(int alignment) {
-        if (alignment == JTextField.LEFT) {
-            setHintTextAlignment(HintTextAlignment.LEFT);
-        } else if (alignment == JTextField.RIGHT) {
-            setHintTextAlignment(HintTextAlignment.RIGHT);
-        } else if (alignment == JTextField.CENTER) {
-            setHintTextAlignment(HintTextAlignment.CENTER);
+        switch (alignment) {
+            case JTextField.LEFT -> setHintTextAlignment(HintTextAlignment.LEFT);
+            case JTextField.CENTER -> setHintTextAlignment(HintTextAlignment.CENTER);
+            case JTextField.RIGHT -> setHintTextAlignment(HintTextAlignment.RIGHT);
+            default -> {}
         }
 
         super.setHorizontalAlignment(alignment);

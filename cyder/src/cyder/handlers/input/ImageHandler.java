@@ -11,6 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.SecurityUtil;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 import java.io.File;
@@ -28,7 +29,7 @@ public class ImageHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"java", "msu", "nathan", "nate", "html", "css", "docker", "redis", "blur"})
+    @Handle({"java", "msu", "nathan", "nate", "html", "css", "docker", "redis", "blur", "unicorn"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -57,6 +58,8 @@ public class ImageHandler extends InputHandler {
             } else {
                 getInputHandler().println("Blur command usage: blur [GAUSSIAN BLUR RADIUS]");
             }
+        } else if (getInputHandler().commandIs("unicorn")) {
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("unicorn.png")));
         } else {
             ret = false;
         }
