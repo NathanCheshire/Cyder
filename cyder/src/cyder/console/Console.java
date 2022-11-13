@@ -2416,7 +2416,7 @@ public enum Console {
 
         try {
             String fontName = UserUtil.getCyderUser().getFont();
-            int fontMetric = UserEditor.getFontMetricFromProps();
+            int fontMetric = FontUtil.getFontMetricFromProps();
 
             Font newFont = new Font(fontName, fontMetric, fontSize);
             if (NumberUtil.isValidFontMetric(fontMetric)) {
@@ -2462,10 +2462,10 @@ public enum Console {
      *
      * @return the font to use for the input and output areas
      */
-    @SuppressWarnings("MagicConstant") // Font metric is always checked before use
+    @SuppressWarnings("MagicConstant") /* Font metric is always checked before use */
     public Font generateUserFont() {
         String fontName = UserUtil.getCyderUser().getFont();
-        int fontMetric = UserEditor.getFontMetricFromProps();
+        int fontMetric = FontUtil.getFontMetricFromProps();
         int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
 
         if (!NumberUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;

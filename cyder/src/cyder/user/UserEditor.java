@@ -2,6 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
@@ -30,7 +31,6 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
@@ -948,8 +948,7 @@ public final class UserEditor {
         JLabel parentBorderLabel = new JLabel();
         parentBorderLabel.setSize(FILES_SCROLL_WIDTH + 2 * 5, FILES_SCROLL_HEIGHT + 2 * 5);
         parentBorderLabel.setOpaque(true);
-        parentBorderLabel.setBackground(CyderColors.vanilla);
-        parentBorderLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        parentBorderLabel.setBackground(CyderColors.navy);
         parentBorderLabel.add(filesLabel);
 
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
@@ -1378,18 +1377,29 @@ public final class UserEditor {
     }
 
     /**
+     * The name of the thread which loads the fonts
+     */
+    private static final String FONT_LOADER_THREAD_NAME = "Preferences Font Loader";
+
+    /**
+     * The
+     */
+    private static ImmutableList<String> fontNames = ImmutableList.of();
+
+    /**
      * Loads the fonts from the local {@link GraphicsEnvironment} and updates the fonts scroll list.
      */
     private static void loadFonts() {
         CyderThreadRunner.submit(() -> {
             fontScrollReference.get().removeAllElements();
 
-            LinkedList<String> fontList = new LinkedList<>();
-            Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getAvailableFontFamilyNames());
+            if (fontNames.isEmpty()) {
+                fontNames = ImmutableList.copyOf(GraphicsEnvironment.getLocalGraphicsEnvironment()
+                        .getAvailableFontFamilyNames());
+            }
 
             CyderScrollList reference = fontScrollReference.get();
-            fontList.forEach(fontName -> reference.addElementWithSingleClickAction(fontName,
+            fontNames.forEach(fontName -> reference.addElementWithSingleClickAction(fontName,
                     () -> {
                         applyFontButton.setToolTipText("Apply font: " + fontName);
                         fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelFontSize));
@@ -1402,46 +1412,23 @@ public final class UserEditor {
                 fontLabel.setSize(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT);
                 fontPartitionedLayout.setComponent(fontLabel, 2);
             }
-        }, "Preferences Font Loader");
-    }
-
-    /**
-     * The key for retrieving the font metric from the props.
-     */
-    private static final String FONT_METRIC = "font_metric";
-
-    /**
-     * Returns the font metric from the props, {@link Font#BOLD} if absent.
-     *
-     * @return the font metric from the props
-     */
-    public static int getFontMetricFromProps() {
-        String fontMetricString = PropLoader.getString(FONT_METRIC);
-
-        return switch (fontMetricString.toLowerCase()) {
-            case "bold" -> Font.BOLD;
-            case "italic" -> Font.ITALIC;
-            case "bold italic", "italic bold" -> Font.BOLD + Font.ITALIC;
-            default -> Font.PLAIN;
-        };
+        }, FONT_LOADER_THREAD_NAME);
     }
 
     /**
      * The action listener for the apply font button.
      */
-    @SuppressWarnings("MagicConstant") /* font metrics are always checked */
+    @SuppressWarnings("MagicConstant") /* Font metrics are always checked */
     private static final ActionListener applyFontButtonActionListener = e -> {
         CyderScrollList reference = fontScrollReference.get();
-        if (reference == null || reference.getSelectedElements().isEmpty()) {
-            return;
-        }
+        if (reference == null || reference.getSelectedElements().isEmpty()) return;
 
         String selectedFont = reference.getSelectedElements().get(0);
 
         if (selectedFont != null) {
             UserUtil.getCyderUser().setFont(selectedFont);
 
-            int requestedFontMetric = getFontMetricFromProps();
+            int requestedFontMetric = FontUtil.getFontMetricFromProps();
             if (!NumberUtil.isValidFontMetric(requestedFontMetric)) {
                 requestedFontMetric = Font.BOLD;
             }

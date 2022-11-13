@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Utilities to color operations and conversions.
  */
-public class ColorUtil {
+public final class ColorUtil {
     /**
      * Suppress default constructor.
      */

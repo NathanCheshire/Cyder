@@ -42,7 +42,7 @@ import static cyder.constants.CyderStrings.*;
  * which bundles a JTextPane, StringUtil, and Semaphore.
  */
 @SuppressWarnings("SpellCheckingInspection") /* urls */
-public class StringUtil {
+public final class StringUtil {
     /**
      * The output pane to print to in the case an object is created.
      */

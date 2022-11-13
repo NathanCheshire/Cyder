@@ -5,13 +5,13 @@ import cyder.logging.Logger;
 
 /**
  * Class for generated OpenSimplexNoise. I obviously didn't write this since I
- * have somewhat of a life (as much as a full-time employed software engineer with
- * massive passion projects can have).
+ * have somewhat of a life (as much as a full-time employed software engineer with a
+ * massive passion project like Cyder can have).
  *
  * @author Kurt Spencer
  * @see <a href="https://gist.github.com/KdotJPG/b1270127455a94ac5d19">Source gist</a>
  */
-public class SimplexNoiseUtil {
+public final class SimplexNoiseUtil {
     /**
      * (1 / Math.sqrt(2 + 1) - 1) / 2;
      */
