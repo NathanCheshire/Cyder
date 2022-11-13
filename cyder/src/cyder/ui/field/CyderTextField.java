@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -20,20 +21,51 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
- * A Cyder implementation of a text field.
+ * A Cyder TextField component.
  */
 public class CyderTextField extends JTextField {
     /**
+     * The padding for the hint text label.
+     */
+    private static final int hintTextLabelPadding = 5;
+
+    /**
+     * The padding for the left and right icon labels.
+     */
+    private static final int iconLabelPadding = 5;
+
+    /**
+     * The padding between the border and left or right icon label and the start of the field input.
+     */
+    private static final int iconLabelFieldTextPadding = 5;
+
+    /**
+     * The flash color.
+     */
+    private static final Color flashColor = CyderColors.regularRed;
+
+    /**
+     * The time a flash animation takes.
+     */
+    private static final int flashDurationMs = 500;
+
+    /**
+     * The name of the flash animation thread.
+     */
+    private static final String flashAnimationThreadName = "Cyder Text Field Flash Animator";
+
+    /**
      * The character limit.
      */
-    private int limit;
+    private int characterLimit;
 
     /**
      * The background color of the field.
@@ -51,37 +83,78 @@ public class CyderTextField extends JTextField {
     private Pattern keyEventRegexPattern;
 
     /**
-     * The default border for Cyder text fields.
-     */
-    private static final LineBorder DEFAULT_BORDER = new LineBorder(CyderColors.navy, 5, false);
-
-    /**
      * The border currently set on this text field.
      */
-    private Border border = DEFAULT_BORDER;
+    private Border border = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
+     * Whether auto capitalization is enabled.
+     */
+    private final AtomicBoolean autoCapitalizationEnabled = new AtomicBoolean(false);
+
+    /**
+     * Whether this field is currently flashing.
+     */
+    private final AtomicBoolean fieldFlashing = new AtomicBoolean();
+
+    /**
+     * The hint text for the field.
+     */
+    private String hintText;
+
+    /**
+     * The hint text label for the field.
+     */
+    private JLabel hintTextLabel;
+
+    /**
+     * The hint text alignment for this field.
+     */
+    private HintTextAlignment hintTextAlignment = HintTextAlignment.LEFT;
+
+    /**
+     * The label to hold the left icon.
+     */
+    private JLabel leftIconLabel;
+
+    /**
+     * The left icon.
+     */
+    private ImageIcon leftIcon;
+
+    /**
+     * The label to hold the right icon.
+     */
+    private JLabel rightIconLabel;
+
+    /**
+     * The right icon.
+     */
+    private ImageIcon rightIcon;
 
     /**
      * Constructs a new Cyder TextField object with no character limit.
      */
     public CyderTextField() {
-        this(0);
+        this(Integer.MAX_VALUE);
     }
 
     /**
-     * Constructs a new Cyder TextField object.
+     * Constructs a new CyderTextField object.
      *
-     * @param charLimit the character limit for the text field
+     * @param characterLimit the character limit for the text field
      */
-    public CyderTextField(int charLimit) {
-        super(charLimit == 0 ? Integer.MAX_VALUE : charLimit);
+    public CyderTextField(int characterLimit) {
+        super(characterLimit);
 
-        this.limit = charLimit == 0 ? Integer.MAX_VALUE : charLimit;
+        this.characterLimit = characterLimit;
         this.keyEventRegexMatcher = null;
 
-        addKeyListener(regexAndLimitKeyListener);
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addRegexAndCharLimitKeyListener();
         addHintTextFocusListener();
         addHintTextKeyListener();
+        addAutoCapitalizationKeyListener();
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
@@ -95,48 +168,42 @@ public class CyderTextField extends JTextField {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    KeyListener regexAndLimitKeyListener = new KeyAdapter() {
-        public void keyTyped(KeyEvent evt) {
-            regexAndLimitMatcherLogic();
-        }
-
-        public void keyPressed(KeyEvent evt) {
-            regexAndLimitMatcherLogic();
-        }
-
-        public void keyReleased(KeyEvent evt) {
-            regexAndLimitMatcherLogic();
-        }
-    };
-
-    @ForReadability
-    private void regexAndLimitMatcherLogic() {
-        if (getText().length() > limit) {
-            setText(getText().substring(0, getText().length() - 1));
-            Toolkit.getDefaultToolkit().beep();
-        } else if (keyEventRegexMatcher != null
-                && !keyEventRegexMatcher.isEmpty()
-                && getText() != null
-                && !getText().isEmpty()) {
-            if (!currentTextMatchesPattern()) {
-                setText(getText().substring(0, getText().length() - 1));
-                Toolkit.getDefaultToolkit().beep();
+    /**
+     * Adds the regex and char limit key listener to this text field.
+     */
+    private void addRegexAndCharLimitKeyListener() {
+        addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent event) {
+                regexAndLimitMatcherLogic();
             }
-        }
+
+            public void keyPressed(KeyEvent event) {
+                regexAndLimitMatcherLogic();
+            }
+
+            public void keyReleased(KeyEvent event) {
+                regexAndLimitMatcherLogic();
+            }
+        });
     }
 
     /**
-     * Returns whether the current text matches the currently set pattern.
-     *
-     * @return whether the current text matches the currently set pattern
+     * The logic for keyTyped, keyPressed,and keyReleased events from the regex and char limit listener.
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean currentTextMatchesPattern() {
-        checkNotNull(getText());
-        checkNotNull(keyEventRegexMatcher);
-        checkNotNull(keyEventRegexPattern);
+    @ForReadability
+    private void regexAndLimitMatcherLogic() {
+        String currentText = getText();
 
-        return keyEventRegexPattern.matcher(getText()).matches();
+        if (currentText.length() > characterLimit) {
+            setText(currentText.substring(0, currentText.length() - 1));
+            Toolkit.getDefaultToolkit().beep();
+        } else if (keyEventRegexMatcher != null
+                && !keyEventRegexMatcher.isEmpty()
+                && !currentText.isEmpty() &&
+                !keyEventRegexPattern.matcher(currentText).matches()) {
+            setText(currentText.substring(0, currentText.length() - 1));
+            Toolkit.getDefaultToolkit().beep();
+        }
     }
 
     /**
@@ -166,21 +233,19 @@ public class CyderTextField extends JTextField {
      * @param regex the regex to restrict the input to
      */
     public void setKeyEventRegexMatcher(String regex) {
+        Preconditions.checkNotNull(regex);
+        Preconditions.checkArgument(!regex.isEmpty());
+
         keyEventRegexMatcher = regex;
         keyEventRegexPattern = Pattern.compile(keyEventRegexMatcher);
     }
 
     /**
-     * The hex color matcher compiled pattern.
-     */
-    private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("[A-Fa-f0-9]{0,6}");
-
-    /**
      * Sets the regex matcher to only accept hex color codes
      */
     public void setHexColorRegexMatcher() {
-        keyEventRegexMatcher = HEX_COLOR_PATTERN.pattern();
-        keyEventRegexPattern = HEX_COLOR_PATTERN;
+        keyEventRegexMatcher = CyderRegexPatterns.hexPattern.pattern();
+        keyEventRegexPattern = CyderRegexPatterns.hexPattern;
     }
 
     /**
@@ -215,7 +280,9 @@ public class CyderTextField extends JTextField {
      * @param limit the character limit
      */
     public void setCharLimit(int limit) {
-        this.limit = limit;
+        Preconditions.checkArgument(limit >= 0);
+
+        this.characterLimit = limit;
 
         if (getText().length() > limit) {
             setText(getText().substring(0, limit + 1));
@@ -228,20 +295,15 @@ public class CyderTextField extends JTextField {
      * @return the character limit for the text field
      */
     public int getCharLimit() {
-        return limit;
+        return characterLimit;
     }
-
-    /**
-     * The padding between the border and left or right icon label and the start of the field input.
-     */
-    private static final int ADDITIONAL_ICON_LABEL_ADDING = 5;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void setBorder(Border border) {
-        int len = getHeight() - 2 * ICON_LABEL_PADDING + ADDITIONAL_ICON_LABEL_ADDING;
+        int len = getHeight() - 2 * iconLabelPadding + iconLabelFieldTextPadding;
         int leftInsets = leftIcon != null ? len : 0;
         int rightInsets = rightIcon != null ? len : 0;
 
@@ -251,85 +313,43 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * The key listener used to auto-capitalize the first letter of the field.
-     */
-    private final KeyAdapter autoCapitalizeListener = new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            if (getText().length() == 1) {
-                setText(getText().toUpperCase());
-            }
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (getText().length() == 1) {
-                setText(getText().toUpperCase());
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            if (getText().length() == 1) {
-                setText(getText().toUpperCase());
-            }
-        }
-    };
-
-    /**
-     * Whether auto capitalization is on.
-     */
-    private boolean autoCapitalize;
-
-    /**
      * Sets whether to capitalize the first letter of the form.
      *
      * @param enable whether to capitalize the first letter of the form
      */
     public void setAutoCapitalization(boolean enable) {
-        if (enable && !autoCapitalize) {
-            addKeyListener(autoCapitalizeListener);
-        } else {
-            removeKeyListener(autoCapitalizeListener);
-        }
-
-        autoCapitalize = enable;
+        autoCapitalizationEnabled.set(enable);
     }
 
     /**
-     * Adds auto capitalization to the provided text field.
-     *
-     * @param textField the text field to add auto capitalization to
+     * Adds auto capitalization to this text field.
      */
-    public static void addAutoCapitalizationAdapter(JTextField textField) {
-        textField.addKeyListener(new KeyAdapter() {
+    public void addAutoCapitalizationKeyListener() {
+        addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                autoCapitalizationLogic(textField);
+                if (autoCapitalizationEnabled.get()) autoCapitalizationLogic();
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                autoCapitalizationLogic(textField);
+                if (autoCapitalizationEnabled.get()) autoCapitalizationLogic();
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                autoCapitalizationLogic(textField);
+                if (autoCapitalizationEnabled.get()) autoCapitalizationLogic();
             }
         });
     }
 
     /**
-     * The logic for performing auto capitalization on a text field.
-     *
-     * @param textField the text field
+     * The logic for performing auto capitalization on this text field.
      */
     @ForReadability
-    private static void autoCapitalizationLogic(JTextField textField) {
-        if (textField.getText().length() == 1) {
-            textField.setText(textField.getText().toUpperCase());
-        }
+    private void autoCapitalizationLogic() {
+        String text = getText();
+        if (text.length() == 1) setText(text.toUpperCase());
     }
 
     /**
@@ -343,26 +363,6 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * The default flash color.
-     */
-    private static final Color DEFAULT_FLASH_COLOR = CyderColors.regularRed;
-
-    /**
-     * The time a flash animation takes.
-     */
-    private static final int flashDurationMs = 500;
-
-    /**
-     * The name of the flash animation thread.
-     */
-    private static final String FLASH_ANIMATION_THREAD_NAME = "Cyder Text Field Flash Animator";
-
-    /**
-     * Whether this field is currently flashing.
-     */
-    private final AtomicBoolean fieldFlashing = new AtomicBoolean();
-
-    /**
      * Performs a flash on the field.
      */
     public void flashField() {
@@ -370,7 +370,7 @@ public class CyderTextField extends JTextField {
         fieldFlashing.set(true);
 
         Color startingColor = getForeground();
-        ImmutableList<Color> flashColors = ColorUtil.getFlashColors(DEFAULT_FLASH_COLOR, startingColor);
+        ImmutableList<Color> flashColors = ColorUtil.getFlashColors(flashColor, startingColor);
         int timeout = flashDurationMs / flashColors.size();
 
         CyderThreadRunner.submit(() -> {
@@ -382,22 +382,12 @@ public class CyderTextField extends JTextField {
 
             fieldFlashing.set(false);
             setForeground(startingColor);
-        }, FLASH_ANIMATION_THREAD_NAME);
+        }, flashAnimationThreadName);
     }
 
     // ---------------
     // Hint text logic
     // ---------------
-
-    /**
-     * The hint text for the field.
-     */
-    private String hintText;
-
-    /**
-     * The hint text label for the field.
-     */
-    private JLabel hintTextLabel;
 
     /**
      * Possible hint text alignments.
@@ -407,11 +397,6 @@ public class CyderTextField extends JTextField {
         CENTER,
         RIGHT
     }
-
-    /**
-     * The hint text alignment for this field.
-     */
-    private HintTextAlignment hintTextAlignment = HintTextAlignment.LEFT;
 
     /**
      * Returns the hint text alignment for this field.
@@ -428,6 +413,8 @@ public class CyderTextField extends JTextField {
      * @param hintTextAlignment the hint text alignment for this field
      */
     public void setHintTextAlignment(HintTextAlignment hintTextAlignment) {
+        Preconditions.checkNotNull(hintTextAlignment);
+
         this.hintTextAlignment = hintTextAlignment;
         refreshHintText();
     }
@@ -450,25 +437,31 @@ public class CyderTextField extends JTextField {
      * Refreshes the hint text and label visibility.
      */
     private void refreshHintText() {
-        if (hintTextLabel == null) addHintTextLabel();
+        if (hintTextLabel == null) {
+            hintTextLabel = new JLabel();
+            add(hintTextLabel);
+            refreshHintText();
+            hintTextLabel.setVisible(true);
+        }
+
         hintTextLabel.setText(hintText);
 
         Dimension size = getSize();
-        int iconLen = getHeight() - 2 * ICON_LABEL_PADDING;
+        int iconLen = getHeight() - 2 * iconLabelPadding;
 
-        int start = HINT_LABEL_PADDING;
+        int start = hintTextLabelPadding;
         if (leftIcon != null) {
-            start = iconLen + ADDITIONAL_ICON_LABEL_ADDING + HINT_LABEL_PADDING;
+            start = iconLen + iconLabelFieldTextPadding + hintTextLabelPadding;
         }
 
         int end = getWidth();
         if (rightIcon != null) {
-            end = getWidth() - iconLen - HINT_LABEL_PADDING;
+            end = getWidth() - iconLen - hintTextLabelPadding;
         }
 
         int width = end - start;
-        int defaultHeight = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
-        hintTextLabel.setBounds(start, HINT_LABEL_PADDING, width, defaultHeight);
+        int defaultHeight = (int) size.getHeight() - 2 * hintTextLabelPadding;
+        hintTextLabel.setBounds(start, hintTextLabelPadding, width, defaultHeight);
 
         switch (hintTextAlignment) {
             case LEFT -> hintTextLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -500,7 +493,6 @@ public class CyderTextField extends JTextField {
     /**
      * Adds the hint text focus listener to this field.
      */
-    @ForReadability
     private void addHintTextFocusListener() {
         addFocusListener(new FocusAdapter() {
             @Override
@@ -522,7 +514,6 @@ public class CyderTextField extends JTextField {
     /**
      * Adds the hint text key listener to this field.
      */
-    @ForReadability
     private void addHintTextKeyListener() {
         addKeyListener(new KeyAdapter() {
             @Override
@@ -537,36 +528,9 @@ public class CyderTextField extends JTextField {
         });
     }
 
-    /**
-     * The padding for the hint text label on this component.
-     */
-    private static final int HINT_LABEL_PADDING = 5;
-
-    /**
-     * Adds the hint text label to this component.
-     */
-    private void addHintTextLabel() {
-        hintTextLabel = new JLabel();
-        add(hintTextLabel);
-        refreshHintText();
-        hintTextLabel.setVisible(true);
-    }
-
     // ---------
     // Left icon
     // ---------
-
-    private static final int ICON_LABEL_PADDING = 5;
-
-    /**
-     * The label to hold the left icon.
-     */
-    private JLabel leftIconLabel;
-
-    /**
-     * The left icon.
-     */
-    private ImageIcon leftIcon;
 
     /**
      * Sets the left icon for this text field.
@@ -574,7 +538,9 @@ public class CyderTextField extends JTextField {
      * @param leftIcon the left icon for this text field
      */
     public void setLeftIcon(ImageIcon leftIcon) {
-        this.leftIcon = Preconditions.checkNotNull(leftIcon);
+        Preconditions.checkNotNull(leftIcon);
+
+        this.leftIcon = leftIcon;
         refreshLeftIcon();
     }
 
@@ -592,9 +558,13 @@ public class CyderTextField extends JTextField {
      */
     private void refreshLeftIcon() {
         if (leftIcon == null) return;
-        if (leftIconLabel == null) addLeftIconLabel();
 
-        int len = getHeight() - 2 * ICON_LABEL_PADDING;
+        if (leftIconLabel == null) {
+            leftIconLabel = new JLabel();
+            add(leftIconLabel);
+        }
+
+        int len = getHeight() - 2 * iconLabelPadding;
         if (leftIcon.getIconWidth() > len || leftIcon.getIconHeight() > len) {
             leftIcon = ImageUtil.resizeImage(leftIcon, len, len);
         }
@@ -602,15 +572,7 @@ public class CyderTextField extends JTextField {
         setBorder(border);
         leftIconLabel.setIcon(leftIcon);
         leftIconLabel.setVisible(true);
-        leftIconLabel.setBounds(ICON_LABEL_PADDING, ICON_LABEL_PADDING, len, len);
-    }
-
-    /**
-     * Creates and adds the left icon label to this component.
-     */
-    private void addLeftIconLabel() {
-        leftIconLabel = new JLabel();
-        add(leftIconLabel);
+        leftIconLabel.setBounds(iconLabelPadding, iconLabelPadding, len, len);
     }
 
     // ----------
@@ -618,22 +580,14 @@ public class CyderTextField extends JTextField {
     // ----------
 
     /**
-     * The label to hold the right icon.
-     */
-    private JLabel rightIconLabel;
-
-    /**
-     * The right icon.
-     */
-    private ImageIcon rightIcon;
-
-    /**
      * Sets the right icon for this text field.
      *
      * @param rightIcon the right icon for this text field
      */
     public void setRightIcon(ImageIcon rightIcon) {
-        this.rightIcon = Preconditions.checkNotNull(rightIcon);
+        Preconditions.checkNotNull(rightIcon);
+
+        this.rightIcon = rightIcon;
         refreshRightIcon();
     }
 
@@ -651,9 +605,13 @@ public class CyderTextField extends JTextField {
      */
     private void refreshRightIcon() {
         if (rightIcon == null) return;
-        if (rightIconLabel == null) addRightIconLabel();
 
-        int len = getHeight() - 2 * ICON_LABEL_PADDING;
+        if (rightIconLabel == null) {
+            rightIconLabel = new JLabel();
+            add(rightIconLabel);
+        }
+
+        int len = getHeight() - 2 * iconLabelPadding;
         if (rightIcon.getIconWidth() > len || rightIcon.getIconHeight() > len) {
             rightIcon = ImageUtil.resizeImage(rightIcon, len, len);
         }
@@ -661,15 +619,7 @@ public class CyderTextField extends JTextField {
         setBorder(border);
         rightIconLabel.setIcon(rightIcon);
         rightIconLabel.setVisible(true);
-        rightIconLabel.setBounds(getWidth() - ICON_LABEL_PADDING - len, ICON_LABEL_PADDING, len, len);
-    }
-
-    /**
-     * Creates and adds the right icon label to this component.
-     */
-    private void addRightIconLabel() {
-        rightIconLabel = new JLabel();
-        add(rightIconLabel);
+        rightIconLabel.setBounds(getWidth() - iconLabelPadding - len, iconLabelPadding, len, len);
     }
 
     /**
