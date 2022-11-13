@@ -1133,6 +1133,20 @@ public final class ImageUtil {
     }
 
     /**
+     * Returns a new ImageIcon resized to fit within the provided dimension.
+     *
+     * @param icon      the image to ensure fits in the provided dimension
+     * @param dimension the width and height the image must fit in
+     * @return a new image image resized to fit within the provided dimension
+     */
+    public static ImageIcon ensureFitsInBounds(ImageIcon icon, Dimension dimension) {
+        Preconditions.checkNotNull(icon);
+        Preconditions.checkNotNull(dimension);
+
+        return toImageIcon(ensureFitsInBounds(toBufferedImage(icon), dimension));
+    }
+
+    /**
      * Returns a copy of the provided image, leaving the reference untouched.
      *
      * @param image the image to copy

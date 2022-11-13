@@ -554,7 +554,7 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Refreshes the left icon bounds, border, icon, and visibility.
+     * Refreshes the bounds, border, icon, and visibility of the left icon.
      */
     private void refreshLeftIcon() {
         if (leftIcon == null) return;
@@ -566,7 +566,7 @@ public class CyderTextField extends JTextField {
 
         int len = getHeight() - 2 * iconLabelPadding;
         if (leftIcon.getIconWidth() > len || leftIcon.getIconHeight() > len) {
-            leftIcon = ImageUtil.resizeImage(leftIcon, len, len);
+            leftIcon = ImageUtil.ensureFitsInBounds(leftIcon, new Dimension(len, len));
         }
 
         setBorder(border);
@@ -601,7 +601,7 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Refreshes the right icon bounds, border, icon, and visibility.
+     * Refreshes the bounds, border, icon, and visibility of the right icon.
      */
     private void refreshRightIcon() {
         if (rightIcon == null) return;
@@ -613,7 +613,7 @@ public class CyderTextField extends JTextField {
 
         int len = getHeight() - 2 * iconLabelPadding;
         if (rightIcon.getIconWidth() > len || rightIcon.getIconHeight() > len) {
-            rightIcon = ImageUtil.resizeImage(rightIcon, len, len);
+            rightIcon = ImageUtil.ensureFitsInBounds(rightIcon, new Dimension(len, len));
         }
 
         setBorder(border);
