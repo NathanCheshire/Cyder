@@ -1043,6 +1043,7 @@ public enum Console {
         consoleCyderFrame.setResizable(true);
         consoleCyderFrame.setBackgroundResizing(true);
         consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
+        consoleCyderFrame.setSnapSize(SNAP_SIZE);
 
         refreshConsoleMaxSize();
     }
@@ -1101,14 +1102,9 @@ public enum Console {
     }
 
     /**
-     * The name of the chime file.
-     */
-    private final String CHIME = "chime.mp3";
-
-    /**
      * The path to the chime mp3 file.
      */
-    private final String CHIME_PATH = StaticUtil.getStaticPath(CHIME);
+    private final String CHIME_PATH = StaticUtil.getStaticPath("chime.mp3");
 
     /**
      * The last hour a chime sound was played at.

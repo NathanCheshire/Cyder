@@ -38,7 +38,8 @@ public final class PythonFunctionsWrapper {
     }
 
     /**
-     * Invokes the provided python command.
+     * Invokes the provided command with the python functions script.
+     * For example, "--command audio_length --input "path/to/my/file.mp3".
      *
      * @param command the python command
      * @return the result of invoking the python command using the input file

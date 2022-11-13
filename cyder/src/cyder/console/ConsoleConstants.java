@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
+import cyder.props.PropLoader;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -19,6 +20,25 @@ public final class ConsoleConstants {
      * The absolute minimum size allowable for the Console.
      */
     public static final Dimension MINIMUM_SIZE = new Dimension(600, 600);
+
+    /**
+     * The key to get the console snap size from the props.
+     */
+    public static final String CONSOLE_SNAP_SIZE = "console_snap_size";
+
+    /**
+     * The console snap size.
+     */
+    public static final Dimension SNAP_SIZE;
+
+    static {
+        if (PropLoader.propExists(CONSOLE_SNAP_SIZE)) {
+            int len = PropLoader.getInteger(CONSOLE_SNAP_SIZE);
+            SNAP_SIZE = new Dimension(len, len);
+        } else {
+            SNAP_SIZE = new Dimension(1, 1);
+        }
+    }
 
     /**
      * The possible audio files to play if the starting user background is grayscale.
