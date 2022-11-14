@@ -24,6 +24,9 @@ import java.util.Optional;
 
 import static cyder.temperature.TemperatureUtil.*;
 
+/**
+ * A temperature conversion widget.
+ */
 @Vanilla
 @CyderAuthor
 public final class TemperatureWidget {
@@ -77,12 +80,15 @@ public final class TemperatureWidget {
     }
 
     /**
-     * Temperature converter widget to convert between kelvin, fahrenheit, and celsius
+     * Temperature converter widget to convert between kelvin, fahrenheit, and celsius.
      */
     private TemperatureWidget() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
+    /**
+     * The description for the widget.
+     */
     private static final String description
             = "A temperature conversion widget for the three standard temperature units";
 
@@ -115,6 +121,9 @@ public final class TemperatureWidget {
          */
         KELVIN("Kelvin");
 
+        /**
+         * The name of this temperature unit.
+         */
         private final String name;
 
         Unit(String name) {
@@ -161,7 +170,10 @@ public final class TemperatureWidget {
         getInstance().innerShowGUI();
     }
 
-    public void innerShowGUI() {
+    /**
+     * Shows the temperature widget gui.
+     */
+    private void innerShowGUI() {
         UiUtil.closeIfOpen(temperatureFrame);
 
         temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
