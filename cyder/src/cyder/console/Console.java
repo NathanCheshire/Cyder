@@ -108,11 +108,6 @@ public enum Console {
     private String uuid;
 
     /**
-     * The previous uuid used for tracking purposes.
-     */
-    private String previousUuid;
-
-    /**
      * The Console's CyderFrame instance.
      */
     private CyderFrame consoleCyderFrame;
@@ -245,7 +240,7 @@ public enum Console {
      * @throws FatalException if the Console was left open
      */
     public void launch() {
-        ExceptionHandler.checkFatalCondition(isClosed(), "Console left open, uuid: " + previousUuid);
+        ExceptionHandler.checkFatalCondition(isClosed());
 
         NetworkUtil.startHighPingChecker();
 
@@ -254,9 +249,11 @@ public enum Console {
         resetMembers();
 
         CyderColors.refreshGuiThemeColor();
+
         ConsoleIcon consoleIcon = determineConsoleIconAndDimensions();
 
         setupConsoleCyderFrame(consoleIcon);
+
         refreshConsoleSuperTitle();
 
         installConsoleResizing();
@@ -275,7 +272,9 @@ public enum Console {
 
         generateAudioMenu();
         installConsoleClock();
+
         installConsolePinnedWindowListeners();
+
         startExecutors();
 
         /*
@@ -287,13 +286,70 @@ public enum Console {
          */
         CyderSplash.INSTANCE.fastDispose();
 
-        if (!isFullscreen()) {
-            restorePreviousFrameBounds(consoleIcon);
-        }
+        if (!isFullscreen()) restorePreviousFrameBounds(consoleIcon);
+        finalizeFrameAndInputOutputBounds();
 
+        performSpecialDayChecks();
+
+        checkForDebugStats();
+
+        checkForTestingMode();
+
+        performTimingChecks();
+
+        introMusicCheck();
+    }
+
+    /**
+     * Finalizes the frame's location and bounds and the bounds/focus
+     * ownership of the input and output fields.
+     */
+    private void finalizeFrameAndInputOutputBounds() {
         consoleCyderFrame.finalizeAndShowCurrentPoint();
+        consoleCyderFrame.toFront();
 
         revalidateInputAndOutputBounds(true);
+
+        inputField.requestFocus();
+        inputField.setCaretPosition(inputField.getPassword().length);
+    }
+
+    /**
+     * Checks for whether the debug stats should be shown.
+     */
+    private void checkForDebugStats() {
+        boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
+        if (debugStats) showDebugStats();
+    }
+
+    /**
+     * Checks for testing mode from the props which will invoke all
+     * public static void methods found annotated with {@link cyder.annotations.CyderTest}.
+     */
+    private void checkForTestingMode() {
+        String currentProgramMode = ProgramModeManager.INSTANCE.getProgramMode().getName();
+        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
+                + closingBracket + space + openingBracket + currentProgramMode + closingBracket);
+        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
+    }
+
+    /**
+     * Performs timing checks when the console loads such as figuring out how long it has been
+     * since the user last started Cyder and informing them with a welcome back notification if it
+     * has been a while. The console load time is also printed to the output area.
+     */
+    private void performTimingChecks() {
+        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
+        long millisSinceLastStart = System.currentTimeMillis() - lastStart;
+        if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
+            String username = UserUtil.getCyderUser().getName();
+            consoleCyderFrame.notify("Welcome back, " + username + "!");
+        }
+        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
+
+        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
+        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
+        baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
     /**
@@ -1079,7 +1135,6 @@ public enum Console {
 
         @Override
         public void windowOpened(WindowEvent e) {
-            onConsoleWindowOpened();
         }
     };
 
@@ -1089,16 +1144,6 @@ public enum Console {
     private void onConsoleWindowDeiconified() {
         inputField.requestFocus();
         inputField.setCaretPosition(inputField.getPassword().length);
-    }
-
-    /**
-     * The actions to invoke when the console window is initially opened.
-     */
-    private void onConsoleWindowOpened() {
-        inputField.requestFocus();
-        inputField.setCaretPosition(inputField.getPassword().length);
-
-        onLaunch();
     }
 
     /**
@@ -1233,36 +1278,6 @@ public enum Console {
      * The number of days without Cyder use which can pass without a welcome back notification.
      */
     private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
-
-    /**
-     * Performs special actions on the console start such as special day events,
-     * debug properties, determining the user's last start time, auto testing, etc.
-     */
-    private void onLaunch() {
-        performSpecialDayChecks();
-
-        boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
-        if (debugStats) showDebugStats();
-
-        String currentProgramMode = ProgramModeManager.INSTANCE.getProgramMode().getName();
-        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
-                + closingBracket + space + openingBracket + currentProgramMode + closingBracket);
-        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
-
-        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
-        long millisSinceLastStart = System.currentTimeMillis() - lastStart;
-        if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
-            String username = UserUtil.getCyderUser().getName();
-            consoleCyderFrame.notify("Welcome back, " + username + "!");
-        }
-        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
-
-        introMusicCheck();
-
-        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
-        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
-        baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
-    }
 
     /**
      * Performs the special day checks.
@@ -2439,7 +2454,6 @@ public enum Console {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
 
-        previousUuid = this.uuid;
         this.uuid = uuid;
 
         UserUtil.setCyderUser(uuid);

@@ -102,6 +102,11 @@ public final class ExceptionHandler {
     private static final Font exceptionPopupFont = CyderFonts.DEFAULT_FONT_SMALL;
 
     /**
+     * The fatal exception default text.
+     */
+    private static final String FATAL_EXCEPTION = "Fatal exception";
+
+    /**
      * Suppress default constructor.
      */
     private ExceptionHandler() {
@@ -352,6 +357,17 @@ public final class ExceptionHandler {
      */
     public static void exceptionExit(String message, ExitCondition condition) {
         exceptionExit(message, condition, EXCEPTION);
+    }
+
+    /**
+     * Validates the provided condition, throwing a fatal exception if false.
+     *
+     * @param condition the condition to validate
+     */
+    public static void checkFatalCondition(boolean condition) {
+        if (!condition) {
+            throw new FatalException(FATAL_EXCEPTION);
+        }
     }
 
     /**

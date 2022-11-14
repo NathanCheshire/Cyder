@@ -173,7 +173,7 @@ public enum CyderSplash {
     /**
      * The harmonic rectangle maximum height.
      */
-    private static final int harmonicMaxHeight = 60;
+    private static final int harmonicMaxHeight = 70;
 
     /**
      * The harmonic animation increment.
@@ -183,12 +183,7 @@ public enum CyderSplash {
     /**
      * The harmonic animation delay.
      */
-    private static final int harmonicAnimationDelay = 25;
-
-    /**
-     * The timeout between starting harmonic rectangle animations.
-     */
-    private static final int harmonicRectangleSequentialAnimationStarterTimeout = 100;
+    private static final int harmonicAnimationDelay = 15;
 
     /**
      * The length of the C and Y icons.
@@ -264,6 +259,16 @@ public enum CyderSplash {
      * The name of the font for the developer signature label.
      */
     private static final String developerSignatureFontName = "Condiment";
+
+    /**
+     * The milliseconds before all harmonic rectangles will have started their animation.
+     */
+    private static final int millisToStartAllHarmonicRectangles = 1000;
+
+    /**
+     * The name of the thread which animates the harmonic rectangles together.
+     */
+    private static final String harmonicRectangleAnimationThreadName = "Splash Harmonic Rectangle Animator";
 
     /**
      * The font used for the author signature.
@@ -346,6 +351,11 @@ public enum CyderSplash {
     private ImageIcon Y_ICON = null;
 
     /**
+     * Whether the harmonic rectangles should be animating currently.
+     */
+    private final AtomicBoolean shouldAnimateHarmonicRectangles = new AtomicBoolean(false);
+
+    /**
      * Returns the point to place the console frame/login frame at.
      *
      * @return the point to place the console frame/login frame at
@@ -364,9 +374,7 @@ public enum CyderSplash {
             ExceptionHandler.handle(e);
         }
 
-        for (HarmonicRectangle rectangle : harmonicRectangles) {
-            rectangle.stopAnimation();
-        }
+        shouldAnimateHarmonicRectangles.set(false);
 
         harmonicRectangleSemaphore.release();
     }
@@ -392,7 +400,8 @@ public enum CyderSplash {
 
                 addAndUpdateLoadingLabel();
 
-                addAndAnimateHarmonicRectangles();
+                constructAndAddHarmonicRectangles();
+                animateHarmonicRectangles();
 
                 ThreadUtil.sleep(showLoadingLabelTimeout);
 
@@ -548,14 +557,21 @@ public enum CyderSplash {
     }
 
     /**
-     * Adds and animates the harmonic rectangles.
+     * The minor axis length, width, of the harmonic rectangles.
      */
-    private void addAndAnimateHarmonicRectangles() {
-        int harmonicRectangleLen = (FRAME_LEN - 2 * defaultHarmonicPadding - (numHarmonicRectangles - 1)
-                * harmonicXInnerPadding) / numHarmonicRectangles;
-        int harmonicPadding = (FRAME_LEN - harmonicRectangleLen * numHarmonicRectangles
-                - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
+    private static final int harmonicRectangleMinorAxisLength = (FRAME_LEN - 2 * defaultHarmonicPadding
+            - (numHarmonicRectangles - 1) * harmonicXInnerPadding) / numHarmonicRectangles;
 
+    /**
+     * The padding between the frame borders and the harmonic rectangles.
+     */
+    private static final int harmonicRectanglePadding = (FRAME_LEN - harmonicRectangleMinorAxisLength
+            * numHarmonicRectangles - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
+
+    /**
+     * Constructs and adds the harmonic rectangles.
+     */
+    private void constructAndAddHarmonicRectangles() {
         try {
             harmonicRectangleSemaphore.acquire();
         } catch (InterruptedException e) {
@@ -564,24 +580,49 @@ public enum CyderSplash {
 
         for (int i = 0 ; i < numHarmonicRectangles ; i++) {
             if (disposed.get()) break;
-            int x = harmonicPadding + i * harmonicRectangleLen + i * harmonicXInnerPadding;
-            HarmonicRectangle harmonicRectangle = new HarmonicRectangle(
-                    harmonicRectangleLen, harmonicMinHeight, harmonicRectangleLen, harmonicMaxHeight);
+            int currentRectangleX = harmonicRectanglePadding
+                    + i * harmonicRectangleMinorAxisLength
+                    + i * harmonicXInnerPadding;
+
+            HarmonicRectangle harmonicRectangle = new HarmonicRectangle(harmonicRectangleMinorAxisLength,
+                    harmonicMinHeight, harmonicRectangleMinorAxisLength, harmonicMaxHeight);
+
             harmonicRectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.VERTICAL);
             harmonicRectangle.setAnimationInc(harmonicAnimationInc);
             harmonicRectangle.setAnimationDelay(harmonicAnimationDelay);
-            harmonicRectangle.setLocation(x, harmonicYPadding);
+            harmonicRectangle.setLocation(currentRectangleX, harmonicYPadding);
             splashFrame.getContentPane().add(harmonicRectangle);
+
             harmonicRectangles.add(harmonicRectangle);
         }
 
         harmonicRectangleSemaphore.release();
+    }
 
-        for (int i = 0 ; i < harmonicRectangles.size() ; i++) {
-            if (disposed.get()) break;
-            harmonicRectangles.get(i).startAnimation("Harmonic Rectangle #" + i);
-            ThreadUtil.sleep(harmonicRectangleSequentialAnimationStarterTimeout);
-        }
+    /**
+     * Starts animating the harmonic rectangles
+     */
+    private void animateHarmonicRectangles() {
+        shouldAnimateHarmonicRectangles.set(true);
+
+        CyderThreadRunner.submit(() -> {
+            float harmonicRectangleStartFrequency =
+                    millisToStartAllHarmonicRectangles / (float) harmonicRectangles.size();
+            long startingTime = System.currentTimeMillis();
+
+            while (shouldAnimateHarmonicRectangles.get()) {
+                for (int i = 0 ; i < harmonicRectangles.size() ; i++) {
+                    int maxAnimateIndex = (int) ((System.currentTimeMillis() - startingTime)
+                            / harmonicRectangleStartFrequency);
+
+                    if (i <= maxAnimateIndex) {
+                        harmonicRectangles.get(i).animationStep();
+                    }
+                }
+
+                ThreadUtil.sleep(harmonicAnimationDelay);
+            }
+        }, harmonicRectangleAnimationThreadName);
     }
 
     /**

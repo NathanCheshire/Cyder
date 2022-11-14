@@ -9,7 +9,6 @@ import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.function.Function;
 
 /**
  * A simple rectangle which can grow and shrink for a simple animation.
@@ -99,12 +98,6 @@ public class HarmonicRectangle extends JLabel {
          */
         DECREASING
     }
-
-    /**
-     * The wave equation to use for this harmonic rectangle if synchronization to other rectangles is needed.
-     * This is commonly used when multiple rectangles have different phases.
-     */
-    private Function<Float, Double> waveEquation;
 
     /**
      * Suppress default constructor.
@@ -305,7 +298,7 @@ public class HarmonicRectangle extends JLabel {
     /**
      * Takes an animation step.
      */
-    private void animationStep() {
+    public void animationStep() {
         switch (harmonicDirection) {
             case HORIZONTAL:
                 switch (deltaDirection) {
@@ -380,56 +373,5 @@ public class HarmonicRectangle extends JLabel {
     public void paint(Graphics g) {
         g.setColor(backgroundColor);
         g.fillRect(0, 0, currentWidth, currentHeight);
-    }
-
-    /**
-     * Returns the wave equation for this harmonic rectangle
-     *
-     * @return the wave equation for this harmonic rectangle
-     */
-    public Function<Float, Double> getWaveEquation() {
-        return waveEquation;
-    }
-
-    /**
-     * Sets the wave equation for this harmonic rectangle.
-     * The standard form of a simple wave equation is as follows:
-     *
-     * <pre>
-     * y_value = amplitude * Math.sin(period * (x_value + phase_shift)) + vertical_shift
-     * <pre/>
-     *
-     * @param waveEquation the wave equation for this harmonic rectangle
-     */
-    public void setWaveEquation(Function<Float, Double> waveEquation) {
-        this.waveEquation = Preconditions.checkNotNull(waveEquation);
-    }
-
-    /**
-     * Calculates the result of this harmonic rectangles wave equation at the time "t".
-     *
-     * @param t the time to evaluate the wave equation at
-     * @return the wave equation evaluated at time t
-     */
-    public double calculateWaveAtPoint(float t) {
-        return waveEquation.apply(t);
-    }
-
-    /**
-     * Constructs and returns a function used to calculate a wave in the following form:
-     *
-     * <pre>
-     * y_value = amplitude * Math.sin(period * (x_value + phase_shift)) + vertical_shift
-     * <pre/>
-     *
-     * @param amplitude the amplitude of the wave
-     * @param period the period of the wave
-     * @param phaseShift the phase shift (left/right) of the wave
-     * @param verticalShift the vertical shift of the wave
-     * @return the wave function
-     */
-    public static Function<Float, Double> constructWaveEquation(float amplitude, float period,
-                                                                float phaseShift, float verticalShift) {
-        return inputFloat -> amplitude * Math.sin(period * (inputFloat + phaseShift)) + verticalShift;
     }
 }
