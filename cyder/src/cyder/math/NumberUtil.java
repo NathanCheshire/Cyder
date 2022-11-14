@@ -157,7 +157,7 @@ public final class NumberUtil {
     public static String toWords(String word) {
         Preconditions.checkNotNull(word);
         Preconditions.checkArgument(!word.isEmpty());
-        Preconditions.checkArgument(word.split(NEGATIVE_CHAR).length < 2);
+        if (word.contains(NEGATIVE_CHAR)) Preconditions.checkArgument(word.startsWith(NEGATIVE_CHAR));
 
         BigInteger num = new BigInteger(word);
 

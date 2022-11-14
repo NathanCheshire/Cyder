@@ -138,7 +138,7 @@ public final class StatUtil {
                                     + " (" + IpUtil.getIpData().getCountry_code() + CyderStrings.closingParenthesis,
                             "Latitude: " + IpUtil.getIpData().getLatitude() + " Degrees N",
                             "Longitude: " + IpUtil.getIpData().getLongitude() + " Degrees W",
-                            "latency: " + NetworkUtil.latency(10000) + " ms",
+                            "latency: " + NetworkUtil.getLatency(10000) + " ms",
                             "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
                             "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
                             "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),

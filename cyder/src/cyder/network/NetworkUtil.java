@@ -81,7 +81,7 @@ public class NetworkUtil {
      *
      * @param highLatency the value of high latency
      */
-    public static void setHighLatency(boolean highLatency) {
+    private static void setHighLatency(boolean highLatency) {
         NetworkUtil.highLatency = highLatency;
     }
 
@@ -93,7 +93,7 @@ public class NetworkUtil {
     /**
      * The function used by the high ping checker to provide to TimeUtil.
      */
-    private static final Function<Void, Boolean> shouldExit = ignored ->
+    private static final Function<Void, Boolean> shouldExitHighPingCheckerThread = ignored ->
             Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
 
     /**
@@ -105,7 +105,7 @@ public class NetworkUtil {
     /**
      * The timeout between checking for the high ping checker's exit condition.
      */
-    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 6.0f);
+    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 2.0f);
 
     /**
      * Starts the high ping checker.
@@ -118,9 +118,10 @@ public class NetworkUtil {
         CyderThreadRunner.submit(() -> {
             try {
                 while (highPingCheckerRunning.get()) {
-                    setHighLatency(!decentPing());
+                    setHighLatency(!currentConnectionHasDecentPing());
 
-                    ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK, shouldExit);
+                    ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK,
+                            shouldExitHighPingCheckerThread);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -216,7 +217,10 @@ public class NetworkUtil {
     public static boolean siteReachable(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
-        if (url.startsWith(HTTPS)) url = url.replaceAll("^" + HTTPS, HTTP);
+
+        if (url.startsWith(HTTPS)) {
+            url = url.replaceAll("^" + HTTPS, HTTP);
+        }
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -230,6 +234,11 @@ public class NetworkUtil {
 
         return false;
     }
+
+    /**
+     * The unknown string.
+     */
+    private static final String UNKNOWN = "Unknown";
 
     /**
      * The default ip to use when pinging determine a user's latency.
@@ -279,7 +288,7 @@ public class NetworkUtil {
                 Logger.log(LogTag.NETWORK, "Set latency host name as " + latencyHostName);
             } else {
                 CyderThreadRunner.submit(() -> {
-                    latencyHostName = "Unknown";
+                    latencyHostName = UNKNOWN;
 
                     try {
                         String getTitleUrl = HTTP + CyderStrings.colon + slashSlash
@@ -311,12 +320,12 @@ public class NetworkUtil {
     }
 
     /**
-     * Returns the latency of the host system to google.com.
+     * Returns the latency of the host system to {@link #latencyIp}.
      *
      * @param timeout the time in ms to wait before timing out
-     * @return the latency in ms between the host and google.com
+     * @return the latency in ms between the host system and the latency ip
      */
-    public static int latency(int timeout) {
+    public static int getLatency(int timeout) {
         Socket socket = new Socket();
         SocketAddress address = new InetSocketAddress(latencyIp, latencyPort);
         long start = System.currentTimeMillis();
@@ -345,17 +354,17 @@ public class NetworkUtil {
     }
 
     /**
-     * The default timeout to use when pinging google to determine a user's latency.
+     * The default timeout to use when pinging the latency ip to determine a user's latency.
      */
     public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
 
     /**
      * Pings {@link #defaultLatencyIp} to find the latency.
      *
-     * @return the latency of the local internet connection to google.com
+     * @return the latency of the local internet connection to the latency ip
      */
-    public int latency() {
-        return latency(DEFAULT_LATENCY_TIMEOUT);
+    public int getLatency() {
+        return getLatency(DEFAULT_LATENCY_TIMEOUT);
     }
 
     /**
@@ -364,12 +373,12 @@ public class NetworkUtil {
     public static final int DECENT_PING_MAXIMUM_LATENCY = 5000;
 
     /**
-     * Determines if the connection to the internet is usable by pinging google.com.
+     * Determines if the connection to the internet is usable by pinging {@link #latencyIp}.
      *
      * @return if the connection to the internet is usable
      */
-    public static boolean decentPing() {
-        return latency(DECENT_PING_MAXIMUM_LATENCY) < DECENT_PING_MAXIMUM_LATENCY;
+    public static boolean currentConnectionHasDecentPing() {
+        return getLatency(DECENT_PING_MAXIMUM_LATENCY) < DECENT_PING_MAXIMUM_LATENCY;
     }
 
     /**
@@ -404,7 +413,7 @@ public class NetworkUtil {
     }
 
     /**
-     * Returns the title of the provided url according to JSoup.
+     * Returns the title of the provided url according to {@link Jsoup}.
      *
      * @param url the url to get the title of
      * @return the title of the provided url
@@ -445,6 +454,8 @@ public class NetworkUtil {
 
     /**
      * Downloads the resource at the provided link and save it to the provided file.
+     * Note this method is blocking, invocation of it should be in a
+     * surrounding thread as to not block the primary thread.
      *
      * @param urlResource   the link to download the file from
      * @param referenceFile the file to save the resource to

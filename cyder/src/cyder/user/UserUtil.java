@@ -1217,7 +1217,7 @@ public final class UserUtil {
 
         BufferedImage createMe = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
 
-        int latency = NetworkUtil.latency(MAX_LATENCY);
+        int latency = NetworkUtil.getLatency(MAX_LATENCY);
         if (latency < MAX_LATENCY) {
             try {
                 createMe = ImageUtil.read(CyderUrls.DEFAULT_BACKGROUND_URL);

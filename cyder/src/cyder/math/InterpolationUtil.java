@@ -4,7 +4,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
 /**
- * Utilities related to interpolation
+ * Utilities related to interpolation.
  */
 public final class InterpolationUtil {
     /**

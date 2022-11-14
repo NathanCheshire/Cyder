@@ -9,7 +9,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.ip.IpData;
 import cyder.props.PropLoader;
 import cyder.utils.SerializationUtil;
-import cyder.utils.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +45,7 @@ public final class IpUtil {
      */
     public static IpData getIpData() {
         Preconditions.checkState(PropLoader.propExists(IP_KEY));
+
         IpData mostRecent = mostRecentIpData.get();
         if (mostRecent != null) {
             return mostRecent;
@@ -63,9 +63,10 @@ public final class IpUtil {
      *
      * @return an ip data object
      */
-    private static Optional<IpData> pullIpData() {
+    public static Optional<IpData> pullIpData() {
+        Preconditions.checkState(PropLoader.propExists(IP_KEY));
+
         String key = PropLoader.getString(IP_KEY);
-        Preconditions.checkState(!StringUtil.getTrimmedText(key).isEmpty());
 
         String url = CyderUrls.IPDATA_BASE + key;
 
