@@ -698,7 +698,7 @@ public class WeatherWidget {
      */
     private static final String changeLocationHtmlText = BoundsUtil.OPENING_HTML_TAG
             + "Enter your city, state, and country code separated by a comma. Example: "
-            + styledExampleText + BoundsUtil.CLOSING_HTML_TAG;
+            + BoundsUtil.BREAK_TAG + styledExampleText + BoundsUtil.CLOSING_HTML_TAG;
 
     /**
      * The builder for changing the current weather location.

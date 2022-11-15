@@ -1,10 +1,11 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -89,6 +90,11 @@ public final class BoundsUtil {
     }
 
     /**
+     * The number of chars to look back through to attempt to find a space to replace with a break tag.
+     */
+    private static final int numLookBackForSpaceChars = 7;
+
+    /**
      * Calculates the needed width and height necessary to display the provided string. The object returned
      * dictates the html-styled string to use which is guaranteed to fit within the provided maximum width.
      * Callers should check to ensure the height is acceptable to their purpose.
@@ -103,8 +109,6 @@ public final class BoundsUtil {
         Preconditions.checkArgument(!text.isEmpty());
         Preconditions.checkNotNull(font);
 
-        BoundsString ret;
-
         int widthAddition = 5;
 
         FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(),
@@ -112,65 +116,89 @@ public final class BoundsUtil {
         int lineHeightForFont = StringUtil.getMinHeight(text, font);
 
         if (containsHtmlStyling(text)) {
-            ImmutableList<TaggedString> taggedStrings = StringUtil.getTaggedStrings(text);
+            boolean inHtmlTag = false;
+            StringBuilder htmlBuilder = new StringBuilder();
+            StringBuilder currentLineBuilder = new StringBuilder();
+            for (char c : text.toCharArray()) {
+                if (c == '<' && !inHtmlTag) {
+                    htmlBuilder.append(currentLineBuilder);
+                    currentLineBuilder = new StringBuilder(String.valueOf(c));
+                    inHtmlTag = true;
+                    continue;
+                } else if (c == '>' && inHtmlTag) {
+                    inHtmlTag = false;
+                    currentLineBuilder.append(c);
 
-            // todo this doesn't work because split strings might not be the entire line, combine back
-            //  into actual lines, maybe a method for this?
-            // now add breaks into the lines that are needed
-            for (int i = 0 ; i < taggedStrings.size() ; i++) {
-                // if tagged as text
-                if (taggedStrings.get(i).type() == TaggedString.Type.TEXT) {
-                    // get full line width
-                    int fullLineWidth = (int) (font.getStringBounds(taggedStrings.get(i).text(),
-                            fontRenderContext).getWidth() + widthAddition);
+                    htmlBuilder.append(currentLineBuilder);
+                    currentLineBuilder = new StringBuilder();
 
-                    // evaluate if the line is too long
-                    if (fullLineWidth > maxWidth) {
-                        // line is too long, figure out how many breaks to add
-                        // first, how many multiples of current width does it take to get to max width?
-                        int neededLines = (int) Math.ceil((double) fullLineWidth / (double) maxWidth);
+                    continue;
+                }
 
-                        // if only one line is the result, ensure 2 since it is larger than allowable width
-                        neededLines = Math.max(2, neededLines);
+                if (inHtmlTag) {
+                    currentLineBuilder.append(c);
+                    continue;
+                }
 
-                        // set the tagged string text to the insertion of the text with breaks
-                        taggedStrings.set(i, new TaggedString(insertBreaks(taggedStrings.get(i).text(),
-                                neededLines), taggedStrings.get(i).type()));
+                if (currentLineBuilder.toString().endsWith(BREAK_TAG)) {
+                    htmlBuilder.append(currentLineBuilder);
+                    currentLineBuilder = new StringBuilder(String.valueOf(c));
+                    continue;
+                }
+
+                int currentLineWidth = StringUtil.getMinWidth(currentLineBuilder + String.valueOf(c), font);
+                if (currentLineWidth > maxWidth) {
+                    // Sweet, we can just replace the current char with the break tag
+                    if (c == ' ') {
+                        htmlBuilder.append(currentLineBuilder).append(BREAK_TAG);
+                        currentLineBuilder = new StringBuilder();
+                    } else {
+                        String currentLine = currentLineBuilder.toString();
+                        // Ensure we don't look back farther than we can
+                        int numLookBack = Math.min(currentLine.length(), numLookBackForSpaceChars);
+
+                        boolean insertedSpace = false;
+                        for (int i = currentLine.length() - 1 ; i > currentLine.length() - numLookBack - 1 ; i--) {
+                            if (currentLine.charAt(i) == ' ') {
+                                htmlBuilder.append(currentLine, 0, i)
+                                        .append(BREAK_TAG)
+                                        .append(currentLine.substring(i + 1 >= currentLine.length() ? i : i + 1));
+                                currentLineBuilder = new StringBuilder(String.valueOf(c));
+                                insertedSpace = true;
+                                break;
+                            }
+                        }
+
+                        // Unfortunately have to break up a word
+                        if (!insertedSpace) {
+                            htmlBuilder.append(currentLineBuilder).append(BREAK_TAG);
+                            currentLineBuilder = new StringBuilder(String.valueOf(c));
+                        }
                     }
+                } else {
+                    currentLineBuilder.append(c);
                 }
             }
 
-            StringBuilder htmlBuilder = new StringBuilder();
-            taggedStrings.forEach(taggedString -> htmlBuilder.append(taggedString.text()));
+            htmlBuilder.append(currentLineBuilder);
 
             String[] lines = htmlBuilder.toString().split(BREAK_TAG);
-
             int necessaryHeight = lineHeightForFont * lines.length;
+
             int necessaryWidth = 0;
-
-            // todo this is figuring out the width of the text strings of
-            //  the tagged strings, maybe make a method for this
-            for (TaggedString taggedString : taggedStrings) {
-                if (taggedString.type() == TaggedString.Type.HTML) continue;
-
-                int lineWidth = (int) (font.getStringBounds(taggedString.text(),
-                        fontRenderContext).getWidth() + widthAddition);
-                necessaryWidth = Math.max(lineWidth, necessaryWidth);
+            for (String line : lines) {
+                necessaryWidth = Math.max(necessaryWidth, StringUtil.getMinWidth(
+                        Jsoup.clean(line, Safelist.none()), font));
             }
 
-            String retString = htmlBuilder.toString();
-
-            // if for some reason the text is not surrounded with html tags, add them
-            if (!retString.startsWith(OPENING_HTML_TAG)) {
-                retString = OPENING_HTML_TAG + retString;
+            if (!htmlBuilder.toString().startsWith(OPENING_HTML_TAG)) {
+                htmlBuilder.insert(0, OPENING_HTML_TAG);
+            }
+            if (!htmlBuilder.toString().endsWith(CLOSING_HTML_TAG)) {
+                htmlBuilder.append(CLOSING_HTML_TAG);
             }
 
-            if (!retString.endsWith(CLOSING_HTML_TAG)) {
-                retString += CLOSING_HTML_TAG;
-            }
-
-            // now we have max line width, height for all lines, and formatted text
-            ret = new BoundsString(necessaryWidth, necessaryHeight, retString);
+            return new BoundsString(necessaryWidth, necessaryHeight, htmlBuilder.toString());
         } else {
             // Non-html so we don't have to worry about where break tags fall
             // Preferably they are not in the middle of words
@@ -231,10 +259,8 @@ public final class BoundsUtil {
                 correctedNonHtml += CLOSING_HTML_TAG;
             }
 
-            ret = new BoundsString(w, h, correctedNonHtml);
+            return new BoundsString(w, h, correctedNonHtml);
         }
-
-        return ret;
     }
 
     /**

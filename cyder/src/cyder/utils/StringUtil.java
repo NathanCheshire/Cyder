@@ -1015,68 +1015,68 @@ public final class StringUtil {
     /**
      * Returns the minimum width required for the given String using the given font.
      *
-     * @param title the text you want to determine the width of
-     * @param font  the font for the text
+     * @param text the text you want to determine the width of
+     * @param font the font for the text
      * @return an integer value determining the minimum width of
      * a string of text (10 is added to avoid ... bug)
      */
-    public static int getMinWidth(String title, Font font) {
-        Preconditions.checkNotNull(title);
+    public static int getMinWidth(String text, Font font) {
+        Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(title, frc).getWidth() + SIZE_ADDITIVE;
+        return (int) font.getStringBounds(text, frc).getWidth() + SIZE_ADDITIVE;
     }
 
     /**
      * Returns the minimum width required for the given String using the given font.
      *
-     * @param title the text you want to determine the width of
+     * @param text the text you want to determine the width of
      * @param font  the font for the text
      * @return an integer value determining the minimum width of a string of text
      */
-    public static int getAbsoluteMinWidth(String title, Font font) {
-        Preconditions.checkNotNull(title);
+    public static int getAbsoluteMinWidth(String text, Font font) {
+        Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(title, frc).getWidth();
+        return (int) font.getStringBounds(text, frc).getWidth();
     }
 
     /**
      * Returns the minimum height required for the given String using the given font.
      *
-     * @param title the text you want to determine the height of
+     * @param text the text you want to determine the height of
      * @param font  the font to use to determine the min height
      * @return an integer value determining the minimum height
      * of a string of text (10 is added to avoid ... bug)
      */
-    public static int getMinHeight(String title, Font font) {
-        Preconditions.checkNotNull(title);
+    public static int getMinHeight(String text, Font font) {
+        Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(title, frc).getHeight() + SIZE_ADDITIVE;
+        return (int) font.getStringBounds(text, frc).getHeight() + SIZE_ADDITIVE;
     }
 
     /**
      * Returns the minimum height required for the given String
      * using the given font without adding 10.
      *
-     * @param title the text you want to determine the height of
+     * @param text the text you want to determine the height of
      * @param font  the font to use to determine the min height
      * @return an integer value determining the minimum height of a string of text
      */
-    public static int getAbsoluteMinHeight(String title, Font font) {
-        Preconditions.checkNotNull(title);
+    public static int getAbsoluteMinHeight(String text, Font font) {
+        Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(title, frc).getHeight();
+        return (int) font.getStringBounds(text, frc).getHeight();
     }
 
     /**
