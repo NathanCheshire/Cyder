@@ -3,6 +3,7 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;

@@ -3,6 +3,7 @@ package cyder.weather;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.annotations.*;
+import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;

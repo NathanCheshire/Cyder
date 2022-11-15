@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.console.ConsoleConstants;
 import cyder.constants.*;
@@ -56,7 +58,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.constants.CyderStrings.*;
 
 /**
- * CyderFrame component is the primary backbone that all Cyder lies on.
+ * A custom frame component.
  */
 public class CyderFrame extends JFrame {
     /**
@@ -1138,12 +1140,12 @@ public class CyderFrame extends JFrame {
                 toBeCurrentNotification.setVisible(false);
 
                 int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
-                BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                BoundsString bs = BoundsUtil.widthHeightCalculation(
                         currentBuilder.getHtmlText(),
                         NOTIFICATION_FONT, maxWidth);
-                int notificationWidth = bs.width() + notificationPadding;
-                int notificationHeight = bs.height() + notificationPadding;
-                String brokenText = bs.text();
+                int notificationWidth = bs.getWidth() + notificationPadding;
+                int notificationHeight = bs.getHeight() + notificationPadding;
+                String brokenText = bs.getText();
 
                 // Sanity check for overflow
                 if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
@@ -1197,7 +1199,8 @@ public class CyderFrame extends JFrame {
 
                 int duration = currentBuilder.getViewDuration();
                 if (currentBuilder.isCalculateViewDuration()) {
-                    duration = msPerNotificationWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
+                    duration = msPerNotificationWord * StringUtil.countWords(
+                            Jsoup.clean(bs.getText(), Safelist.none()));
                 }
 
                 Logger.log(LogTag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));

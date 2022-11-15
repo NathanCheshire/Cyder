@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -3712,11 +3714,11 @@ public enum Console {
                 titleNotifyLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
                 titleNotifyLabel.setForeground(ColorUtil.getSuitableOverlayTextColor(bi));
 
-                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
+                BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
                         labelFont, consoleCyderFrame.getWidth());
 
-                int containerWidth = boundsString.width();
-                int containerHeight = boundsString.height();
+                int containerWidth = boundsString.getWidth();
+                int containerHeight = boundsString.getHeight();
 
                 if (containerHeight + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getHeight()
                         || containerWidth + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getWidth()) {
@@ -3726,7 +3728,7 @@ public enum Console {
 
                 Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-                titleNotifyLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.text()));
+                titleNotifyLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.getText()));
                 titleNotifyLabel.setBounds(
                         (int) (center.getX() - NOTIFICATION_PADDING - containerWidth / 2),
                         (int) (center.getY() - NOTIFICATION_PADDING - containerHeight / 2),

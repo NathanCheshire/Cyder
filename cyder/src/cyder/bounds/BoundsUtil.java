@@ -1,9 +1,10 @@
-package cyder.utils;
+package cyder.bounds;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -57,6 +58,21 @@ public final class BoundsUtil {
     public static final String CLOSING_BOLD_TAG = "</b>";
 
     /**
+     * The opening html tag char.
+     */
+    public static final char openingHtmlTagChar = '<';
+
+    /**
+     * The closing html tag char.
+     */
+    public static final char closingHtmlTagChar = '>';
+
+    /**
+     * The number of chars to look back or forward in a string to attempt to find a space to replace with a break tag.
+     */
+    private static final int numLookAroundForSpaceChars = 7;
+
+    /**
      * Suppress default constructor.
      */
     private BoundsUtil() {
@@ -90,11 +106,6 @@ public final class BoundsUtil {
     }
 
     /**
-     * The number of chars to look back through to attempt to find a space to replace with a break tag.
-     */
-    private static final int numLookBackForSpaceChars = 7;
-
-    /**
      * Calculates the needed width and height necessary to display the provided string. The object returned
      * dictates the html-styled string to use which is guaranteed to fit within the provided maximum width.
      * Callers should check to ensure the height is acceptable to their purpose.
@@ -120,12 +131,12 @@ public final class BoundsUtil {
             StringBuilder htmlBuilder = new StringBuilder();
             StringBuilder currentLineBuilder = new StringBuilder();
             for (char c : text.toCharArray()) {
-                if (c == '<' && !inHtmlTag) {
+                if (c == openingHtmlTagChar && !inHtmlTag) {
                     htmlBuilder.append(currentLineBuilder);
                     currentLineBuilder = new StringBuilder(String.valueOf(c));
                     inHtmlTag = true;
                     continue;
-                } else if (c == '>' && inHtmlTag) {
+                } else if (c == closingHtmlTagChar && inHtmlTag) {
                     inHtmlTag = false;
                     currentLineBuilder.append(c);
 
@@ -155,7 +166,7 @@ public final class BoundsUtil {
                     } else {
                         String currentLine = currentLineBuilder.toString();
                         // Ensure we don't look back farther than we can
-                        int numLookBack = Math.min(currentLine.length(), numLookBackForSpaceChars);
+                        int numLookBack = Math.min(currentLine.length(), numLookAroundForSpaceChars);
 
                         boolean insertedSpace = false;
                         for (int i = currentLine.length() - 1 ; i > currentLine.length() - numLookBack - 1 ; i--) {
@@ -198,68 +209,50 @@ public final class BoundsUtil {
                 htmlBuilder.append(CLOSING_HTML_TAG);
             }
 
-            return new BoundsString(necessaryWidth, necessaryHeight, htmlBuilder.toString());
+            return new BoundsString(htmlBuilder.toString(), necessaryWidth, necessaryHeight);
         } else {
             // Non-html so we don't have to worry about where break tags fall
             // Preferably they are not in the middle of words
 
-            // todo check for \n ?
-
-            // only contains possible line breaks so split at those
-            StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split(BREAK_TAG);
+            StringBuilder nonHtmlBuilder = new StringBuilder();
 
-            // for all lines
             for (int i = 0 ; i < lines.length ; i++) {
-                int fullLineWidth =
-                        (int) (font.getStringBounds(lines[i], fontRenderContext).getWidth() + widthAddition);
-
-                // evaluate if the line is too long
+                int fullLineWidth = StringUtil.getMinWidth(lines[i], font) + widthAddition;
                 if (fullLineWidth > maxWidth) {
-                    //line is too long, figure out how many breaks to add
-                    //first, how many multiples of current width does it take to get to max width?
-                    int neededLines = (int) Math.ceil((double) fullLineWidth / (double) maxWidth);
-
-                    //if only one line is the result somehow, ensure it's 2
+                    // Number of lines to split the current line into
+                    int neededLines = (int) Math.ceil(fullLineWidth / (double) maxWidth);
                     neededLines = Math.max(2, neededLines);
+
                     nonHtmlBuilder.append(insertBreaks(lines[i], neededLines));
-                }
-                // line isn't too long, simply append it
-                else {
+                } else {
                     nonHtmlBuilder.append(lines[i]);
                 }
 
-                // if not on the last line, add the original break to the end we split at it again
                 if (i != lines.length - 1) {
                     nonHtmlBuilder.append(BREAK_TAG);
                 }
             }
 
-            // more lines might exist now since we're done adding breaks
-            lines = nonHtmlBuilder.toString().split(BREAK_TAG);
+            String nonHtml = nonHtmlBuilder.toString();
+            String[] nonHtmlLines = nonHtml.split(BREAK_TAG);
 
-            // finally figure out the width and height based
-            // on the amount of lines
             int w = 0;
-            int h = lineHeightForFont * lines.length;
-            String correctedNonHtml = nonHtmlBuilder.toString();
-
-            for (String line : lines) {
+            for (String line : nonHtmlLines) {
                 int currentWidth = (int) (font.getStringBounds(line, fontRenderContext).getWidth() + widthAddition);
-
-                if (currentWidth > w) w = currentWidth;
+                w = Math.max(w, currentWidth);
             }
 
-            // if for some reason the text is not surrounded with html tags, add them
-            if (!correctedNonHtml.startsWith(OPENING_HTML_TAG)) {
-                correctedNonHtml = OPENING_HTML_TAG + correctedNonHtml;
+            int h = lineHeightForFont * nonHtmlLines.length;
+
+            if (!nonHtml.startsWith(OPENING_HTML_TAG)) {
+                nonHtml = OPENING_HTML_TAG + nonHtml;
+            }
+            if (!nonHtml.endsWith(CLOSING_HTML_TAG)) {
+                nonHtml += CLOSING_HTML_TAG;
             }
 
-            if (!correctedNonHtml.endsWith(CLOSING_HTML_TAG)) {
-                correctedNonHtml += CLOSING_HTML_TAG;
-            }
-
-            return new BoundsString(w, h, correctedNonHtml);
+            return new BoundsString(nonHtml, w, h);
         }
     }
 
@@ -277,94 +270,84 @@ public final class BoundsUtil {
     }
 
     /**
-     * Inserts breaks into the raw text based on the amount of lines needed.
-     * Note that break/HTML tags should NOT exist in this string and should be parsed
+     * Inserts breaks into the text based on the amount of lines needed.
+     * Note that HTML tags should NOT exist in this string and should be parsed
      * away prior to invoking this method.
      *
-     * @param rawText  the raw text
-     * @param numLines the number of lines required
+     * @param text          the raw text
+     * @param requiredLines the number of lines required
      * @return the text with html line breaks inserted
+     * @throws NullPointerException     if the provided text is null
+     * @throws IllegalArgumentException if the provided text contains html tags or
+     *                                  if the number of lines is less than 1
      */
-    public static String insertBreaks(String rawText, int numLines) {
-        Preconditions.checkNotNull(rawText);
-        Preconditions.checkArgument(!containsHtmlStyling(rawText), rawText);
-        Preconditions.checkArgument(numLines > 0);
-        if (numLines == 1) return rawText;
+    public static String insertBreaks(String text, int requiredLines) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!containsHtmlStyling(text), text);
+        Preconditions.checkArgument(requiredLines > 0);
+        if (requiredLines == 1) return text;
 
-        // The mutated string we will return
-        String ret = rawText;
+        String ret = text;
 
-        // The ideal place to split the string is the len divided by the number of chars
-        int splitEveryNthChar = (int) Math.ceil((float) rawText.length() / (float) numLines);
-        int numChars = rawText.length();
+        int splitFrequency = (int) Math.ceil((float) text.length() / (float) requiredLines);
+        int numChars = text.length();
 
-        // We can look for a space within a tolerance
-        // of 7 chars both sides of a given char
-        int breakInsertionTol = 7;
+        int currentNumLines = 1;
+        for (int i = splitFrequency ; i < numChars ; i += splitFrequency) {
+            if (currentNumLines == requiredLines) break;
 
-        // The number of lines in we currently are
-        int currentLines = 1;
-
-        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            if (currentLines == numLines) break;
-
-            // Found space at char, insert a break and replace the space
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
                 sb.insert(i, BREAK_TAG);
                 ret = sb.toString();
             } else {
-                boolean spaceFound = false;
+                boolean breakInserted = false;
 
                 // Check right for a space
-                for (int j = i ; j < i + breakInsertionTol ; j++) {
-                    // is j valid
+                for (int j = i ; j < i + numLookAroundForSpaceChars ; j++) {
                     if (j < numChars) {
-                        // is it a space
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
                             sb.insert(j, BREAK_TAG);
+
                             ret = sb.toString();
-                            spaceFound = true;
-                            currentLines++;
+
+                            breakInserted = true;
+                            currentNumLines++;
                             break;
                         }
                     }
                 }
 
-                if (spaceFound) continue;
+                if (breakInserted) continue;
 
                 // Check left for a space
-                for (int j = i ; j > i - breakInsertionTol ; j--) {
-                    // is j valid
+                for (int j = i ; j > i - numLookAroundForSpaceChars ; j--) {
                     if (j > 0) {
-                        // is it a space
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
                             sb.insert(j, BREAK_TAG);
+
                             ret = sb.toString();
-                            spaceFound = true;
-                            currentLines++;
+
+                            breakInserted = true;
+                            currentNumLines++;
                             break;
                         }
                     }
                 }
 
-                if (spaceFound) continue;
-
-                /*
-                    The final resort is to just split at the current index and add a break.
-                    There shouldn't be any html formatting at this point so this is safe to do.
-                */
-
-                StringBuilder sb = new StringBuilder(ret);
-                sb.insert(i, BREAK_TAG);
-                ret = sb.toString();
+                if (!breakInserted) {
+                    // Unfortunately have to just insert at the current index
+                    StringBuilder sb = new StringBuilder(ret);
+                    sb.insert(i, BREAK_TAG);
+                    ret = sb.toString();
+                }
             }
-            currentLines++;
+            currentNumLines++;
         }
 
         return ret;
@@ -417,30 +400,6 @@ public final class BoundsUtil {
         int g = color.getGreen();
         int b = color.getBlue();
         return "<p style=\"color:rgb(" + r + ", " + g + ", " + b + ")\">" + text + CLOSING_P_TAG;
-    }
-
-    /**
-     * Constructs a new BoundsString object.
-     * <p>
-     * A String associated with the width and height it should fit in
-     * based on it's contents which possibly contain html formatting.
-     *
-     * @param width  the width for the string
-     * @param height the height for the string
-     * @param text   the string text
-     */
-    public record BoundsString(int width, int height, String text) {}
-
-    /**
-     * A record representing a segment of text as either being raw text or an html tag
-     */
-    public record TaggedString(String text, Type type) {
-        /**
-         * The type a given String is: HTML or TEXT
-         */
-        public enum Type {
-            HTML, TEXT
-        }
     }
 
     /**

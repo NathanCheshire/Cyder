@@ -1,6 +1,8 @@
 package cyder.ui.label;
 
 import com.google.common.collect.ImmutableList;
+import cyder.bounds.TaggedString;
+import cyder.bounds.TaggedStringType;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
@@ -9,7 +11,6 @@ import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.BoundsUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
@@ -221,7 +222,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
-                ImmutableList<BoundsUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
+                ImmutableList<TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
                 //init ripple iterations list
                 LinkedList<String> rippleTextIterations = new LinkedList<>();
@@ -241,15 +242,15 @@ public class CyderLabel extends JLabel {
                     int rippled = 0;
 
                     //loop through all our tagged string
-                    for (BoundsUtil.TaggedString ts : taggedStrings) {
+                    for (TaggedString ts : taggedStrings) {
                         //if it's html simply add it to the builder
-                        if (ts.type() == BoundsUtil.TaggedString.Type.HTML) {
-                            builder.append(ts.text());
+                        if (ts.getType() == TaggedStringType.HTML) {
+                            builder.append(ts.getText());
                         }
                         //otherwise we might need to ripple some  chars
                         else {
                             //loop through all the chars of this Text tagged string
-                            for (char c : ts.text().toCharArray()) {
+                            for (char c : ts.getText().toCharArray()) {
                                 //first we need to pass as many raw chars
                                 // as the iteration "i" we are on, next we need to make sure
                                 // we haven't used up all the ripple chars for this iteration

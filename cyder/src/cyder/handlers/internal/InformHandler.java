@@ -2,6 +2,8 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -12,7 +14,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
-import cyder.utils.BoundsUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -100,12 +101,12 @@ public final class InformHandler {
             textLabel.setForeground(darkMode
                     ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor);
 
-            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
+            BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
 
-            int containerWidth = boundsString.width();
-            int containerHeight = boundsString.height();
+            int containerWidth = boundsString.getWidth();
+            int containerHeight = boundsString.getHeight();
 
-            textLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.text()));
+            textLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.getText()));
 
             builder.setContainer(textLabel);
 

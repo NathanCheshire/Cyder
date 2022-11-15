@@ -1,6 +1,8 @@
 package cyder.getter;
 
 import com.google.common.collect.ImmutableList;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -15,7 +17,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
-import cyder.utils.BoundsUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -155,14 +156,14 @@ public final class GetterUtil {
 
         String threadName = "GetInput waiter thread, title: " + quote + getInputBuilder.getFrameTitle() + quote;
         CyderThreadRunner.submit(() -> {
-            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
+            BoundsString boundsString = BoundsUtil.widthHeightCalculation(
                     getInputBuilder.getLabelText(),
                     getInputBuilder.getLabelFont(),
                     getInputMinimumFrameWidth);
 
-            int textWidth = boundsString.width() + 2 * getInputFieldAndButtonXPadding;
-            int textHeight = boundsString.height() + 2 * getInputComponentYPadding;
-            String parsedLabelText = boundsString.text();
+            int textWidth = boundsString.getWidth() + 2 * getInputFieldAndButtonXPadding;
+            int textHeight = boundsString.getHeight() + 2 * getInputComponentYPadding;
+            String parsedLabelText = boundsString.getText();
 
             int fieldAndButtonWidth = textWidth - 2 * getInputFieldAndButtonXPadding;
             int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + textHeight
@@ -179,10 +180,11 @@ public final class GetterUtil {
             CyderLabel textLabel = new CyderLabel(parsedLabelText);
             textLabel.setForeground(getInputBuilder.getLabelColor());
             textLabel.setFont(getInputBuilder.getLabelFont());
-            textLabel.setBounds(getInputFieldAndButtonXPadding, yOff, boundsString.width(), boundsString.height());
+            textLabel.setBounds(getInputFieldAndButtonXPadding, yOff,
+                    boundsString.getWidth(), boundsString.getHeight());
             inputFrame.getContentPane().add(textLabel);
 
-            yOff += getInputComponentYPadding + boundsString.height();
+            yOff += getInputComponentYPadding + boundsString.getHeight();
 
             CyderTextField inputField = new CyderTextField();
             inputField.setHorizontalAlignment(JTextField.CENTER);
@@ -839,11 +841,11 @@ public final class GetterUtil {
                 textLabel.setForeground(getConfirmationBuilder.getLabelColor());
                 textLabel.setFont(getConfirmationBuilder.getLabelFont());
 
-                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
+                BoundsString boundsString = BoundsUtil.widthHeightCalculation(
                         getConfirmationBuilder.getLabelText(), textLabel.getFont());
-                int textWidth = boundsString.width();
-                int textHeight = boundsString.height();
-                textLabel.setText(boundsString.text());
+                int textWidth = boundsString.getWidth();
+                int textHeight = boundsString.getHeight();
+                textLabel.setText(boundsString.getText());
 
                 int confirmationFrameWidth = 2 * confirmationButtonXPadding + textWidth;
                 int confirmationFrameHeight = confirmationFrameTopPadding + textHeight

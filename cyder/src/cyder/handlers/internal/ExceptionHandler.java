@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
+import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -19,7 +20,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.frame.ScreenPosition;
 import cyder.user.UserUtil;
-import cyder.utils.BoundsUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
