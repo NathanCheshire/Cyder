@@ -55,6 +55,16 @@ public final class StringUtil {
             = "Instantiation of StringUtil is not permitted without a CyderOutputPane";
 
     /**
+     * The opening char for html tags.
+     */
+    private static final String openingTagChar = "<";
+
+    /**
+     * The closing char for html tags.
+     */
+    private static final String closingTagChar = ">";
+
+    /**
      * Suppress default constructor.
      */
     private StringUtil() {
@@ -844,8 +854,6 @@ public final class StringUtil {
         return Arrays.equals(wordOneArr, wordTwoArr);
     }
 
-    // todo technically this doesn't check for escaped tag delimiters
-
     /**
      * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
      *
@@ -856,37 +864,28 @@ public final class StringUtil {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
-        LinkedList<BoundsUtil.TaggedString> taggedStrings = new LinkedList<>();
-
-        String openingTagChar = "<";
-        String closingTagChar = ">";
-
-        // Figure out tags
+        ArrayList<BoundsUtil.TaggedString> taggedStrings = new ArrayList<>();
         String textCopy = htmlText;
+
         while ((textCopy.contains(openingTagChar) && textCopy.contains(closingTagChar))) {
-            int firstOpeningTag = textCopy.indexOf(openingTagChar);
-            int firstClosingTag = textCopy.indexOf(closingTagChar);
+            int firstOpeningTagIndex = textCopy.indexOf(openingTagChar);
+            int firstClosingTagIndex = textCopy.indexOf(closingTagChar);
+            if (firstClosingTagIndex < firstOpeningTagIndex) break;
 
-            // Failsafe
-            if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag) {
-                break;
+            String nextText = textCopy.substring(0, firstOpeningTagIndex);
+            if (!nextText.isEmpty()) {
+                taggedStrings.add(new BoundsUtil.TaggedString(nextText, BoundsUtil.TaggedString.Type.TEXT));
             }
 
-            String regularText = textCopy.substring(0, firstOpeningTag);
-            String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
-
-            if (!regularText.isEmpty()) {
-                taggedStrings.add(new BoundsUtil.TaggedString(regularText, BoundsUtil.TaggedString.Type.TEXT));
+            String nextHtml = textCopy.substring(firstOpeningTagIndex, firstClosingTagIndex + 1);
+            if (!nextHtml.isEmpty()) {
+                taggedStrings.add(new BoundsUtil.TaggedString(nextHtml, BoundsUtil.TaggedString.Type.HTML));
             }
 
-            if (!firstHtml.isEmpty()) {
-                taggedStrings.add(new BoundsUtil.TaggedString(firstHtml, BoundsUtil.TaggedString.Type.HTML));
-            }
-
-            textCopy = textCopy.substring(firstClosingTag + 1);
+            textCopy = textCopy.substring(firstClosingTagIndex + 1);
         }
 
-        // If there's remaining text, it is non-html
+        // Remaining text is non-html since the textCopy doesn't contain opening nor closing tags
         if (!textCopy.isEmpty()) {
             taggedStrings.add(new BoundsUtil.TaggedString(textCopy, BoundsUtil.TaggedString.Type.TEXT));
         }

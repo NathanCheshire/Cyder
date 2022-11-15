@@ -685,7 +685,7 @@ public class WeatherWidget {
     /**
      * The example location.
      */
-    private static final String exampleChangeLocationText = "New Orleans, LA, US";
+    private static final String exampleChangeLocationText = "New Orleans, LA, USA";
 
     /**
      * The styled example change location text.

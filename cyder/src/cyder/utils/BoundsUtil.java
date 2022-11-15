@@ -1,21 +1,25 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods to calculate the needed space for a String of text.
  */
 public final class BoundsUtil {
+    /**
+     * The default maximum width for returned bounds strings.
+     */
+    private static final int DEFAULT_MAX_WIDTH = 1200;
+
     /**
      * A closing paragraph tag.
      */
@@ -59,33 +63,40 @@ public final class BoundsUtil {
     }
 
     /**
-     * The default maximum width for returned bounds strings.
-     */
-    private static final int DEFAULT_MAX_WIDTH = 1200;
-
-    /**
-     * Calculates the needed height of an inform/dialog window.
+     * Calculates the needed width and height necessary to display the provided string using
+     * the {@link CyderFonts#DEFAULT_FONT_SMALL} font. The object returned dictates the html-styled
+     * string to use which is guaranteed to fit within a max width of {@link #DEFAULT_MAX_WIDTH}.
+     * Callers should check to ensure the height is acceptable to their purpose.
      *
      * @param text the string to display
-     * @return an object composed of the width, height, and possibly corrected text to form the bounding box
-     * for the provided display string.
+     * @return an object composed of the width, height, and the html-styled text with break tags inserted if needed
      */
     public static BoundsString widthHeightCalculation(String text) {
         return widthHeightCalculation(text, CyderFonts.DEFAULT_FONT_SMALL, DEFAULT_MAX_WIDTH);
     }
 
+    /**
+     * Calculates the needed width and height necessary to display the provided string. The object returned
+     * dictates the html-styled string to use which is guaranteed to fit within a max width of
+     * {@link #DEFAULT_MAX_WIDTH}. Callers should check to ensure the height is acceptable to their purpose.
+     *
+     * @param text the string to display
+     * @param font the font to be used
+     * @return an object composed of the width, height, and the html-styled text with break tags inserted if needed
+     */
     public static BoundsString widthHeightCalculation(String text, Font font) {
         return widthHeightCalculation(text, font, DEFAULT_MAX_WIDTH);
     }
 
     /**
-     * Calculates the needed height for an inform/dialog window given the preferred width and text.
+     * Calculates the needed width and height necessary to display the provided string. The object returned
+     * dictates the html-styled string to use which is guaranteed to fit within the provided maximum width.
+     * Callers should check to ensure the height is acceptable to their purpose.
      *
      * @param text     the string to display
      * @param maxWidth the maximum width allowed
      * @param font     the font to be used
-     * @return an object composed of the width, height, and possibly corrected text to form the bounding box
-     * for the provided display string.
+     * @return an object composed of the width, height, and the html-styled text with break tags inserted if needed
      */
     public static BoundsString widthHeightCalculation(String text, Font font, int maxWidth) {
         Preconditions.checkNotNull(text);
@@ -95,74 +106,23 @@ public final class BoundsUtil {
         BoundsString ret;
 
         int widthAddition = 5;
-        int heightAddition = 2;
 
-        // find height for a single line of text
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, font.isItalic(), true);
-        int singleLineHeight = (int) font.getStringBounds(text, frc).getHeight() + heightAddition;
+        FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(),
+                font.isItalic(), true);
+        int lineHeightForFont = StringUtil.getMinHeight(text, font);
 
-        // does the string contain any html? if so we have to be
-        // careful where we insert needed line breaks
-        String[] parts = text.split(BREAK_TAG);
+        if (containsHtmlStyling(text)) {
+            ImmutableList<TaggedString> taggedStrings = StringUtil.getTaggedStrings(text);
 
-        // parse away all html except for break tags and add back in between parts
-        StringBuilder sb = new StringBuilder();
-
-        for (int j = 0 ; j < parts.length ; j++) {
-            sb.append(Jsoup.clean(parts[j], Safelist.none()));
-
-            if (j != parts.length - 1) {
-                sb.append(BREAK_TAG);
-            }
-        }
-
-        // if the regular text length is not equal to the
-        // parsed text aside from line breaks then the string is html formatted
-        if (text.length() != sb.toString().length()) {
-            // init tagged strings
-            LinkedList<TaggedString> taggedStrings = new LinkedList<>();
-            String textCopy = text;
-
-            // while we still have text
-            while ((textCopy.contains("<") && textCopy.contains(">"))) {
-                // get indices of the next tag
-                int firstOpeningTag = textCopy.indexOf("<");
-                int firstClosingTag = textCopy.indexOf(">");
-
-                // failsafe break
-                if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag) {
-                    break;
-                }
-
-                // get the text and html
-                String regularText = textCopy.substring(0, firstOpeningTag);
-                String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
-
-                // add tagged strings
-                if (!regularText.isEmpty()) {
-                    taggedStrings.add(new TaggedString(regularText, TaggedString.Type.TEXT));
-                }
-
-                if (!firstHtml.isEmpty()) {
-                    taggedStrings.add(new TaggedString(firstHtml, TaggedString.Type.HTML));
-                }
-
-                // move text copy along
-                textCopy = textCopy.substring(firstClosingTag + 1);
-            }
-
-            // if there's remaining text, it's non-html
-            if (!textCopy.isEmpty())
-                taggedStrings.add(new TaggedString(textCopy, TaggedString.Type.TEXT));
-
+            // todo this doesn't work because split strings might not be the entire line, combine back
+            //  into actual lines, maybe a method for this?
             // now add breaks into the lines that are needed
             for (int i = 0 ; i < taggedStrings.size() ; i++) {
                 // if tagged as text
                 if (taggedStrings.get(i).type() == TaggedString.Type.TEXT) {
                     // get full line width
                     int fullLineWidth = (int) (font.getStringBounds(taggedStrings.get(i).text(),
-                            frc).getWidth() + widthAddition);
+                            fontRenderContext).getWidth() + widthAddition);
 
                     // evaluate if the line is too long
                     if (fullLineWidth > maxWidth) {
@@ -180,39 +140,22 @@ public final class BoundsUtil {
                 }
             }
 
-            // recombine text into string
             StringBuilder htmlBuilder = new StringBuilder();
+            taggedStrings.forEach(taggedString -> htmlBuilder.append(taggedString.text()));
 
-            for (TaggedString tg : taggedStrings) {
-                htmlBuilder.append(tg.text());
-            }
-
-            // figure out the height based on the number of break tags
             String[] lines = htmlBuilder.toString().split(BREAK_TAG);
-            int h = singleLineHeight * lines.length;
 
-            // figure out the width based off of the lines after breaking
-            int w = 0;
+            int necessaryHeight = lineHeightForFont * lines.length;
+            int necessaryWidth = 0;
 
-            // for all lines
-            for (TaggedString ts : taggedStrings) {
-                // if non format text
-                if (ts.type() == TaggedString.Type.HTML) {
-                    continue;
-                }
+            // todo this is figuring out the width of the text strings of
+            //  the tagged strings, maybe make a method for this
+            for (TaggedString taggedString : taggedStrings) {
+                if (taggedString.type() == TaggedString.Type.HTML) continue;
 
-                // get breaks of the tagged string
-                String[] tsLines = ts.text().split(BREAK_TAG);
-
-                // for all lines
-                for (String line : tsLines) {
-                    int lineWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
-
-                    // if width is greatest so far
-                    if (lineWidth > w) {
-                        w = lineWidth;
-                    }
-                }
+                int lineWidth = (int) (font.getStringBounds(taggedString.text(),
+                        fontRenderContext).getWidth() + widthAddition);
+                necessaryWidth = Math.max(lineWidth, necessaryWidth);
             }
 
             String retString = htmlBuilder.toString();
@@ -227,18 +170,21 @@ public final class BoundsUtil {
             }
 
             // now we have max line width, height for all lines, and formatted text
-            ret = new BoundsString(w, h, retString);
-        }
-        // no formatting so we can just add breaks
-        // normally without having to worry where we we place them
-        else {
+            ret = new BoundsString(necessaryWidth, necessaryHeight, retString);
+        } else {
+            // Non-html so we don't have to worry about where break tags fall
+            // Preferably they are not in the middle of words
+
+            // todo check for \n ?
+
             // only contains possible line breaks so split at those
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split(BREAK_TAG);
 
             // for all lines
             for (int i = 0 ; i < lines.length ; i++) {
-                int fullLineWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
+                int fullLineWidth =
+                        (int) (font.getStringBounds(lines[i], fontRenderContext).getWidth() + widthAddition);
 
                 // evaluate if the line is too long
                 if (fullLineWidth > maxWidth) {
@@ -267,11 +213,11 @@ public final class BoundsUtil {
             // finally figure out the width and height based
             // on the amount of lines
             int w = 0;
-            int h = singleLineHeight * lines.length;
+            int h = lineHeightForFont * lines.length;
             String correctedNonHtml = nonHtmlBuilder.toString();
 
             for (String line : lines) {
-                int currentWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
+                int currentWidth = (int) (font.getStringBounds(line, fontRenderContext).getWidth() + widthAddition);
 
                 if (currentWidth > w) w = currentWidth;
             }
@@ -292,8 +238,21 @@ public final class BoundsUtil {
     }
 
     /**
+     * Returns whether the provided string contains html.
+     *
+     * @param text the text
+     * @return whether the provided string contains html
+     */
+    public static boolean containsHtmlStyling(String text) {
+        Preconditions.checkNotNull(text);
+
+        Pattern htmlPattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL);
+        return htmlPattern.matcher(text).matches();
+    }
+
+    /**
      * Inserts breaks into the raw text based on the amount of lines needed.
-     * Note that break tags may NOT exist in this string and should be parsed
+     * Note that break/HTML tags should NOT exist in this string and should be parsed
      * away prior to invoking this method.
      *
      * @param rawText  the raw text
@@ -301,6 +260,9 @@ public final class BoundsUtil {
      * @return the text with html line breaks inserted
      */
     public static String insertBreaks(String rawText, int numLines) {
+        Preconditions.checkNotNull(rawText);
+        Preconditions.checkArgument(!containsHtmlStyling(rawText), rawText);
+        Preconditions.checkArgument(numLines > 0);
         if (numLines == 1) return rawText;
 
         // The mutated string we will return
