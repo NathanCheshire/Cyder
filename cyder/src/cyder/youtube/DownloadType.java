@@ -8,14 +8,16 @@ public enum DownloadType {
      * The download is downloading the video's audio.
      */
     AUDIO("audio"),
+
     /**
      * The download is downloading the video.
      */
     VIDEO("video"),
+
     /**
      * The download is downloading the video with the audio separate.
      */
-    AUDIO_AND_VIDEO_SEPARATE("audio and video separately");
+    AUDIO_AND_VIDEO_SEPARATE("audio and video separate");
 
     /**
      * The representation of this download type

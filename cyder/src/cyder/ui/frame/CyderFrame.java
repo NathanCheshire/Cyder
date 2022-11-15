@@ -4312,21 +4312,21 @@ public class CyderFrame extends JFrame {
                 notify("Requested y " + quote + requestedY + quote
                         + " is less than the absolute minimum: " + quote + absoluteMonitorBounds.getY() + quote);
                 return;
-            } else if (requestedX > absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) {
+            } else if (requestedX > absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth() - getWidth()) {
                 notify("Requested x " + quote + requestedX + quote
                         + " is greater than the absolute maximum: " + quote
-                        + (absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth()) + quote);
+                        + (absoluteMonitorBounds.getX() + absoluteMonitorBounds.getWidth() - getWidth()) + quote);
                 return;
-            } else if (requestedY > absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) {
+            } else if (requestedY > absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight() - getHeight()) {
                 notify("Requested y " + quote + requestedY + quote
                         + " is greater than the absolute maximum: " + quote
-                        + (absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight()) + quote);
+                        + (absoluteMonitorBounds.getY() + absoluteMonitorBounds.getHeight() - getHeight()) + quote);
                 return;
             }
 
             if (requestedX == getX() && requestedY == getY()) return;
             UiUtil.requestFramePosition(requestedX, requestedY, this);
-            notify("Set frame size to request: " + quote + requestedX + comma + requestedY + quote);
+            notify("Set frame location to request: " + quote + requestedX + comma + requestedY + quote);
         }, setFrameLocationTooltipMenuWaiterThreadName);
     }
 

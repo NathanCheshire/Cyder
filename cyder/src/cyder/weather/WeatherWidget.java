@@ -706,6 +706,7 @@ public class WeatherWidget {
     private final GetInputBuilder changeLocationBuilder = new GetInputBuilder(CHANGE_LOCATION, changeLocationHtmlText)
             .setRelativeTo(weatherFrame)
             .setSubmitButtonText(CHANGE_LOCATION)
+            .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
             .setInitialFieldText(currentLocationString)
             .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 

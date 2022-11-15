@@ -166,7 +166,7 @@ public final class GetterUtil {
 
             int fieldAndButtonWidth = textWidth - 2 * getInputFieldAndButtonXPadding;
             int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + textHeight
-                    + 2 * getInputFieldAndButtonHeight + 3 * getInputComponentYPadding;
+                    + 2 * getInputFieldAndButtonHeight + 4 * getInputComponentYPadding;
 
             CyderFrame inputFrame = new CyderFrame(textWidth, frameHeight, CyderIcons.defaultBackground);
             getInputFrames.add(inputFrame);
