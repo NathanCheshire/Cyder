@@ -185,6 +185,8 @@ public final class SecurityUtil {
 
     /**
      * Returns a unique uuid that does not exist for all current Cyder users.
+     * Note it's insanely unlikely that a hash would be generated for a user which
+     * already exists but, nevertheless this method exists.
      *
      * @return a unique uuid that does not exist for all current Cyder users
      */

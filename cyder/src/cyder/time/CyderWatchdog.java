@@ -1,6 +1,7 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -14,8 +15,13 @@ import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -187,5 +193,47 @@ public final class CyderWatchdog {
     private static void bootstrap() {
         // todo spawn a new Cyder process, maybe use python if possible to invoke launching the jar?
         // todo if this fails exit with code WatchdogBootstrapFail
+
+        // boot_strap.py possible or can we just start a new process using the process api
+    }
+
+    @CyderTest
+    public static void test() {
+        try {
+            ArrayList<String> standardOutput = new ArrayList<>();
+            ArrayList<String> errorOutput = new ArrayList<>();
+
+            String javaHome = System.getProperty("java.home");
+            File f = new File(javaHome);
+            f = new File(f, "bin");
+            f = new File(f, "javaw.exe");
+            System.out.println(f + "    exists: " + f.exists());
+
+
+            // JvmUtil.getCyderJarReference();
+            File file = new File("C:/users/nathan/downloads/test.bat");
+
+            String shutdownHash = SecurityUtil.generateUuid();
+            String resumeLogHash = SecurityUtil.generateUuid();
+
+            Process process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C",
+                    file.getAbsolutePath(), shutdownHash, resumeLogHash});
+            process.waitFor();
+            process.getOutputStream().close();
+
+            String outputLine;
+            BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
+            outReader.close();
+
+            String errorLine;
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
+            errorReader.close();
+
+            int i = 0;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }
