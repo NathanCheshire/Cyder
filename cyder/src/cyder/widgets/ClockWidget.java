@@ -10,6 +10,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
@@ -165,11 +166,6 @@ public final class ClockWidget {
      * The second date pattern.
      */
     private static final String secondDatePattern = "ss";
-
-    /**
-     * An html break tag.
-     */
-    private static final String breakTag = "<br/>";
 
     /**
      * The font of the clock label.
@@ -506,7 +502,8 @@ public final class ClockWidget {
     /**
      * The label text for the getter util for setting the current location.
      */
-    private static final String locationLabelText = "Time Location<br/>Enter locations separated by commas";
+    private static final String locationLabelText = "Time Location "
+            + HtmlTags.breakTag + "Enter locations separated by commas";
 
     @ForReadability
     private static Runnable getLocationButtonClickRunnable() {
@@ -549,7 +546,8 @@ public final class ClockWidget {
                     + coord.getLon() + CyderStrings.closingBracket;
 
             clockFrame.notify("Successfully updated location to " + weatherData.getName()
-                    + breakTag + GMT + CyderStrings.colon + space + currentGmtOffset + breakTag + build);
+                    + HtmlTags.breakTag + GMT + CyderStrings.colon + space
+                    + currentGmtOffset + HtmlTags.breakTag + build);
         }, "tester");
     }
 

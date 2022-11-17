@@ -11,7 +11,6 @@ import cyder.exceptions.IllegalMethodException;
  */
 @Immutable
 public final class TaggedString {
-
     /**
      * The text of the tagged string.
      */

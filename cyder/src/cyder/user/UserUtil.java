@@ -3,11 +3,11 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.constants.HtmlTags;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -1051,11 +1051,11 @@ public final class UserUtil {
                 return;
             }
 
-            String boldPath = BoundsUtil.applyBold(Dynamic.buildDynamic(
+            String boldPath = StringUtil.applyBold(Dynamic.buildDynamic(
                     Dynamic.USERS.getDirectoryName(), uuid).toString());
             String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
                     + "The following files still exists and are associated with the user at the following "
-                    + "path:" + BoundsUtil.BREAK_TAG + boldPath + BoundsUtil.BREAK_TAG + "Files:";
+                    + "path:" + HtmlTags.breakTag + boldPath + HtmlTags.breakTag + "Files:";
 
             LinkedList<String> filenames = new LinkedList<>();
 
@@ -1079,7 +1079,7 @@ public final class UserUtil {
                 informString += "No files found associated with the corrupted user";
             } else {
                 StringBuilder builder = new StringBuilder();
-                filenames.forEach(filename -> builder.append(BoundsUtil.BREAK_TAG).append(filename));
+                filenames.forEach(filename -> builder.append(HtmlTags.breakTag).append(filename));
                 informString += builder;
             }
 

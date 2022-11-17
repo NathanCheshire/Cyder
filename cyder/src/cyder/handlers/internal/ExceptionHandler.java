@@ -3,12 +3,8 @@ package cyder.handlers.internal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -172,12 +168,12 @@ public final class ExceptionHandler {
         int lineHeight = StringUtil.getAbsoluteMinHeight(exceptionLines.get(0), exceptionPopupFont);
         int labelHeight = lineHeight * shownExceptionLines + 2 * offset;
 
-        StringBuilder builder = new StringBuilder(BoundsUtil.OPENING_HTML_TAG);
+        StringBuilder builder = new StringBuilder(HtmlTags.openingHtml);
         for (int i = 0 ; i < shownExceptionLines ; i++) {
             builder.append(exceptionLines.get(i));
-            if (i != exceptionLines.size() - 1) builder.append(BoundsUtil.BREAK_TAG);
+            if (i != exceptionLines.size() - 1) builder.append(HtmlTags.breakTag);
         }
-        builder.append(BoundsUtil.CLOSING_HTML_TAG);
+        builder.append(HtmlTags.closingHtml);
 
         int frameWidth = labelWidth + 2 * offset;
         int frameHeight = labelHeight + 2 * offset;

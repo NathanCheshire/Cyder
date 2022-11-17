@@ -6,13 +6,9 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.console.ConsoleConstants;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
+import cyder.constants.*;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
@@ -2139,7 +2135,7 @@ public final class UserEditor {
                 .append(CyderStrings.quote)
                 .append(exe.getFilepath())
                 .append(CyderStrings.quote)
-                .append(BoundsUtil.BREAK_TAG));
+                .append(HtmlTags.breakTag));
 
         String username = UserUtil.getCyderUser().getName();
         String mapsString = informationBuilder.toString();

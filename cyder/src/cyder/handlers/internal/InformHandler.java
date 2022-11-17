@@ -106,7 +106,7 @@ public final class InformHandler {
             int containerWidth = boundsString.getWidth();
             int containerHeight = boundsString.getHeight();
 
-            textLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.getText()));
+            textLabel.setText(StringUtil.addCenteringToHtml(boundsString.getText()));
 
             builder.setContainer(textLabel);
 

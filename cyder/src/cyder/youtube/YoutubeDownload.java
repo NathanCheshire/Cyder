@@ -3,11 +3,11 @@ package cyder.youtube;
 import com.google.common.base.Preconditions;
 import cyder.audio.AudioPlayer;
 import cyder.audio.AudioUtil;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.constants.HtmlTags;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
@@ -318,12 +318,12 @@ public class YoutubeDownload {
      */
     public void updateProgressLabelText() {
         downloadProgressLabel.setText(
-                BoundsUtil.OPENING_HTML_TAG + downloadableName
-                        + "<br/>File size: " + downloadableFileSize
-                        + "<br/>Progress: " + downloadableProgress + "%"
-                        + "<br/>Rate: " + downloadableRate
-                        + "<br/>Eta: " + downloadableEta
-                        + BoundsUtil.CLOSING_HTML_TAG);
+                HtmlTags.openingHtml + downloadableName
+                        + HtmlTags.breakTag + "File size: " + downloadableFileSize
+                        + HtmlTags.breakTag + "Progress: " + downloadableProgress + "%"
+                        + HtmlTags.breakTag + "Rate: " + downloadableRate
+                        + HtmlTags.breakTag + "Eta: " + downloadableEta
+                        + HtmlTags.closingHtml);
         downloadProgressLabel.revalidate();
         downloadProgressLabel.repaint();
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);

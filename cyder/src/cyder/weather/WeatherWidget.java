@@ -3,12 +3,8 @@ package cyder.weather;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.annotations.*;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.Extension;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
@@ -691,15 +687,15 @@ public class WeatherWidget {
     /**
      * The styled example change location text.
      */
-    private static final String styledExampleText = BoundsUtil.generateColoredHtmlText(
+    private static final String styledExampleText = StringUtil.generateColoredHtmlText(
             exampleChangeLocationText, exampleColor);
 
     /**
      * The complete change location html styled text to show on the string getter's label.
      */
-    private static final String changeLocationHtmlText = BoundsUtil.OPENING_HTML_TAG
+    private static final String changeLocationHtmlText = HtmlTags.openingHtml
             + "Enter your city, state, and country code separated by a comma. Example: "
-            + BoundsUtil.BREAK_TAG + styledExampleText + BoundsUtil.CLOSING_HTML_TAG;
+            + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
 
     /**
      * The builder for changing the current weather location.
@@ -845,11 +841,11 @@ public class WeatherWidget {
         currentWeatherIconLabel.setIcon(generateCurrentWeatherIcon());
 
         String centeringDivText = "<div style='text-align: center; vertical-align:bottom'>";
-        currentWeatherLabel.setText(BoundsUtil.OPENING_HTML_TAG
+        currentWeatherLabel.setText(HtmlTags.openingHtml
                 + centeringDivText
                 + StringUtil.capsFirstWords(weatherCondition)
-                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "<br/>")
-                + BoundsUtil.CLOSING_HTML_TAG);
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, HtmlTags.breakTag)
+                + HtmlTags.closingHtml);
 
         windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
                 + "deg (" + getWindDirection(windBearing) + CyderStrings.closingParenthesis);

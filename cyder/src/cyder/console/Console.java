@@ -3728,7 +3728,7 @@ public enum Console {
 
                 Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-                titleNotifyLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.getText()));
+                titleNotifyLabel.setText(StringUtil.addCenteringToHtml(boundsString.getText()));
                 titleNotifyLabel.setBounds(
                         (int) (center.getX() - NOTIFICATION_PADDING - containerWidth / 2),
                         (int) (center.getY() - NOTIFICATION_PADDING - containerHeight / 2),

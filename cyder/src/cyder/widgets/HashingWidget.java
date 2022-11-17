@@ -7,6 +7,7 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.constants.HtmlTags;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -95,11 +96,6 @@ public class HashingWidget {
     );
 
     /**
-     * An html break tag.
-     */
-    private static final String BREAK = "<br/>";
-
-    /**
      * The text of the hash result popup.
      */
     private static final String HASH_RESULT = HASH + CyderStrings.space + "Result";
@@ -178,7 +174,8 @@ public class HashingWidget {
             default -> throw new IllegalStateException("Unimplemented hash algorithm: " + algorithm);
         };
 
-        String informText = "Your hashed input is:" + BREAK + hashResult + BREAK + "Provided by " + algorithm;
+        String informText = "Your hashed input is:" + HtmlTags.breakTag + hashResult
+                + HtmlTags.breakTag + "Provided by " + algorithm;
         if (saveToClipboardCheckbox.isChecked()) {
             OsUtil.setClipboard(hashResult);
         }

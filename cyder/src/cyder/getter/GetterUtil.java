@@ -743,7 +743,7 @@ public final class GetterUtil {
      * Sets up the loading files label.
      */
     private void setupLoadingFilesLabel() {
-        loadingFilesLabel.setText(BoundsUtil.addCenteringToHtml(LOADING));
+        loadingFilesLabel.setText(StringUtil.addCenteringToHtml(LOADING));
         loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
         loadingFilesLabel.setVerticalAlignment(JLabel.CENTER);
         loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);

@@ -3,6 +3,7 @@ package cyder.bounds;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
@@ -21,41 +22,6 @@ public final class BoundsUtil {
      * The default maximum width for returned bounds strings.
      */
     private static final int DEFAULT_MAX_WIDTH = 1200;
-
-    /**
-     * A closing paragraph tag.
-     */
-    public static final String CLOSING_P_TAG = "</p>";
-
-    /**
-     * An opening html tag.
-     */
-    public static final String OPENING_HTML_TAG = "<html>";
-
-    /**
-     * A closing html tag.
-     */
-    public static final String CLOSING_HTML_TAG = "</html>";
-
-    /**
-     * A closing div tag.
-     */
-    public static final String CLOSING_DIV_TAG = "</div>";
-
-    /**
-     * A break tag.
-     */
-    public static final String BREAK_TAG = "<br/>";
-
-    /**
-     * A opening bold tag.
-     */
-    public static final String OPENING_BOLD_TAG = "<b>";
-
-    /**
-     * A closing bold tag.
-     */
-    public static final String CLOSING_BOLD_TAG = "</b>";
 
     /**
      * The opening html tag char.
@@ -151,7 +117,7 @@ public final class BoundsUtil {
                     continue;
                 }
 
-                if (currentLineBuilder.toString().endsWith(BREAK_TAG)) {
+                if (currentLineBuilder.toString().endsWith(HtmlTags.breakTag)) {
                     htmlBuilder.append(currentLineBuilder);
                     currentLineBuilder = new StringBuilder(String.valueOf(c));
                     continue;
@@ -161,7 +127,7 @@ public final class BoundsUtil {
                 if (currentLineWidth > maxWidth) {
                     // Sweet, we can just replace the current char with the break tag
                     if (c == ' ') {
-                        htmlBuilder.append(currentLineBuilder).append(BREAK_TAG);
+                        htmlBuilder.append(currentLineBuilder).append(HtmlTags.breakTag);
                         currentLineBuilder = new StringBuilder();
                     } else {
                         String currentLine = currentLineBuilder.toString();
@@ -172,7 +138,7 @@ public final class BoundsUtil {
                         for (int i = currentLine.length() - 1 ; i > currentLine.length() - numLookBack - 1 ; i--) {
                             if (currentLine.charAt(i) == ' ') {
                                 htmlBuilder.append(currentLine, 0, i)
-                                        .append(BREAK_TAG)
+                                        .append(HtmlTags.breakTag)
                                         .append(currentLine.substring(i + 1 >= currentLine.length() ? i : i + 1));
                                 currentLineBuilder = new StringBuilder(String.valueOf(c));
                                 insertedSpace = true;
@@ -182,7 +148,7 @@ public final class BoundsUtil {
 
                         // Unfortunately have to break up a word
                         if (!insertedSpace) {
-                            htmlBuilder.append(currentLineBuilder).append(BREAK_TAG);
+                            htmlBuilder.append(currentLineBuilder).append(HtmlTags.breakTag);
                             currentLineBuilder = new StringBuilder(String.valueOf(c));
                         }
                     }
@@ -193,7 +159,7 @@ public final class BoundsUtil {
 
             htmlBuilder.append(currentLineBuilder);
 
-            String[] lines = htmlBuilder.toString().split(BREAK_TAG);
+            String[] lines = htmlBuilder.toString().split(HtmlTags.breakTag);
             int necessaryHeight = lineHeightForFont * lines.length;
 
             int necessaryWidth = 0;
@@ -202,11 +168,11 @@ public final class BoundsUtil {
                         Jsoup.clean(line, Safelist.none()), font));
             }
 
-            if (!htmlBuilder.toString().startsWith(OPENING_HTML_TAG)) {
-                htmlBuilder.insert(0, OPENING_HTML_TAG);
+            if (!htmlBuilder.toString().startsWith(HtmlTags.openingHtml)) {
+                htmlBuilder.insert(0, HtmlTags.openingHtml);
             }
-            if (!htmlBuilder.toString().endsWith(CLOSING_HTML_TAG)) {
-                htmlBuilder.append(CLOSING_HTML_TAG);
+            if (!htmlBuilder.toString().endsWith(HtmlTags.closingHtml)) {
+                htmlBuilder.append(HtmlTags.closingHtml);
             }
 
             return new BoundsString(htmlBuilder.toString(), necessaryWidth, necessaryHeight);
@@ -214,7 +180,7 @@ public final class BoundsUtil {
             // Non-html so we don't have to worry about where break tags fall
             // Preferably they are not in the middle of words
 
-            String[] lines = text.split(BREAK_TAG);
+            String[] lines = text.split(HtmlTags.breakTag);
             StringBuilder nonHtmlBuilder = new StringBuilder();
 
             for (int i = 0 ; i < lines.length ; i++) {
@@ -230,12 +196,12 @@ public final class BoundsUtil {
                 }
 
                 if (i != lines.length - 1) {
-                    nonHtmlBuilder.append(BREAK_TAG);
+                    nonHtmlBuilder.append(HtmlTags.breakTag);
                 }
             }
 
             String nonHtml = nonHtmlBuilder.toString();
-            String[] nonHtmlLines = nonHtml.split(BREAK_TAG);
+            String[] nonHtmlLines = nonHtml.split(HtmlTags.breakTag);
 
             int w = 0;
             for (String line : nonHtmlLines) {
@@ -245,11 +211,11 @@ public final class BoundsUtil {
 
             int h = lineHeightForFont * nonHtmlLines.length;
 
-            if (!nonHtml.startsWith(OPENING_HTML_TAG)) {
-                nonHtml = OPENING_HTML_TAG + nonHtml;
+            if (!nonHtml.startsWith(HtmlTags.openingHtml)) {
+                nonHtml = HtmlTags.openingHtml + nonHtml;
             }
-            if (!nonHtml.endsWith(CLOSING_HTML_TAG)) {
-                nonHtml += CLOSING_HTML_TAG;
+            if (!nonHtml.endsWith(HtmlTags.closingHtml)) {
+                nonHtml += HtmlTags.closingHtml;
             }
 
             return new BoundsString(nonHtml, w, h);
@@ -262,7 +228,7 @@ public final class BoundsUtil {
      * @param text the text
      * @return whether the provided string contains html
      */
-    public static boolean containsHtmlStyling(String text) {
+    private static boolean containsHtmlStyling(String text) {
         Preconditions.checkNotNull(text);
 
         Pattern htmlPattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL);
@@ -299,7 +265,7 @@ public final class BoundsUtil {
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
-                sb.insert(i, BREAK_TAG);
+                sb.insert(i, HtmlTags.breakTag);
                 ret = sb.toString();
             } else {
                 boolean breakInserted = false;
@@ -310,7 +276,7 @@ public final class BoundsUtil {
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
-                            sb.insert(j, BREAK_TAG);
+                            sb.insert(j, HtmlTags.breakTag);
 
                             ret = sb.toString();
 
@@ -329,7 +295,7 @@ public final class BoundsUtil {
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
-                            sb.insert(j, BREAK_TAG);
+                            sb.insert(j, HtmlTags.breakTag);
 
                             ret = sb.toString();
 
@@ -343,7 +309,7 @@ public final class BoundsUtil {
                 if (!breakInserted) {
                     // Unfortunately have to just insert at the current index
                     StringBuilder sb = new StringBuilder(ret);
-                    sb.insert(i, BREAK_TAG);
+                    sb.insert(i, HtmlTags.breakTag);
                     ret = sb.toString();
                 }
             }
@@ -351,67 +317,5 @@ public final class BoundsUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the provided string after ensuring it is of the proper form.
-     * For example, providing "raspberry" as the text will return:
-     * <html><div style = 'text-align: center;'>raspberry{@link #CLOSING_DIV_TAG}{@link #CLOSING_HTML_TAG}
-     *
-     * @param html the text to insert a div style into
-     * @return the string with a div style inserted
-     */
-    public static String addCenteringToHtml(String html) {
-        Preconditions.checkNotNull(html);
-        Preconditions.checkArgument(!html.isEmpty());
-
-        StringBuilder ret = new StringBuilder();
-
-        if (html.startsWith(OPENING_HTML_TAG)) {
-            html = html.substring(OPENING_HTML_TAG.length());
-        }
-
-        if (html.endsWith(CLOSING_HTML_TAG)) {
-            html = html.substring(0, html.length() - CLOSING_HTML_TAG.length());
-        }
-
-        ret.append(OPENING_HTML_TAG);
-        ret.append("<div style='text-align: center;'>");
-        ret.append(html);
-        ret.append(CLOSING_DIV_TAG);
-        ret.append(CLOSING_HTML_TAG);
-
-        return ret.toString();
-    }
-
-    /**
-     * Returns a paragraph tag styled with the provided color for the provided text.
-     *
-     * @param text  the text to style
-     * @param color the color for the styling
-     * @return the styled paragraph
-     */
-    public static String generateColoredHtmlText(String text, Color color) {
-        Preconditions.checkNotNull(text);
-        Preconditions.checkArgument(!text.isEmpty());
-        Preconditions.checkNotNull(color);
-
-        int r = color.getRed();
-        int g = color.getGreen();
-        int b = color.getBlue();
-        return "<p style=\"color:rgb(" + r + ", " + g + ", " + b + ")\">" + text + CLOSING_P_TAG;
-    }
-
-    /**
-     * Adds bold tags to the provided string.
-     *
-     * @param string the string
-     * @return the provided string with bold tags surrounding
-     */
-    public static String applyBold(String string) {
-        Preconditions.checkNotNull(string);
-        Preconditions.checkArgument(!string.isEmpty());
-
-        return OPENING_BOLD_TAG + string + CLOSING_BOLD_TAG;
     }
 }

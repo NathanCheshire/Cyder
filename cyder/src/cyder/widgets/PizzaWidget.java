@@ -5,10 +5,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
@@ -147,11 +144,6 @@ public final class PizzaWidget {
      * The rest button text.
      */
     private static final String RESET = "Reset";
-
-    /**
-     * An html break tag.
-     */
-    private static final String BREAK_TAG = "<br/>";
 
     /**
      * The place order button text.
@@ -447,7 +439,7 @@ public final class PizzaWidget {
             pizzaFrame.notify("Please specify a size");
             return;
         }
-        String size = optionalSize.get() + BREAK_TAG;
+        String size = optionalSize.get() + HtmlTags.breakTag;
 
         String crust;
         LinkedList<String> selectedElements = crustTypeScroll.getSelectedElements();
@@ -462,7 +454,7 @@ public final class PizzaWidget {
         if (selectedToppings.isEmpty()) {
             toppingsChosen.append(PLAIN);
         } else {
-            selectedToppings.forEach(topping -> toppingsChosen.append(topping).append(BREAK_TAG));
+            selectedToppings.forEach(topping -> toppingsChosen.append(topping).append(HtmlTags.breakTag));
         }
 
         ImmutableList<String> extrasList = getExtras();
@@ -471,7 +463,7 @@ public final class PizzaWidget {
             extras = NO_EXTRAS;
         } else {
             StringBuilder extraBuilder = new StringBuilder();
-            extrasList.forEach(extra -> extraBuilder.append(extra).append(BREAK_TAG));
+            extrasList.forEach(extra -> extraBuilder.append(extra).append(HtmlTags.breakTag));
             extras = extraBuilder.toString();
         }
 
@@ -480,12 +472,12 @@ public final class PizzaWidget {
             comments = NO_COMMENTS;
         }
 
-        pizzaFrame.inform("Name: " + BREAK_TAG + name + BREAK_TAG + BREAK_TAG
-                + "Size: " + BREAK_TAG + size + BREAK_TAG + BREAK_TAG
-                + "Crust: " + BREAK_TAG + crust + BREAK_TAG + BREAK_TAG
-                + "Toppings: " + BREAK_TAG + toppingsChosen + BREAK_TAG
-                + "Extras: " + BREAK_TAG + extras + BREAK_TAG
-                + "Comments: " + BREAK_TAG + comments + BREAK_TAG, informTitle);
+        pizzaFrame.inform("Name: " + HtmlTags.breakTag + name + HtmlTags.breakTag + HtmlTags.breakTag
+                + "Size: " + HtmlTags.breakTag + size + HtmlTags.breakTag + HtmlTags.breakTag
+                + "Crust: " + HtmlTags.breakTag + crust + HtmlTags.breakTag + HtmlTags.breakTag
+                + "Toppings: " + HtmlTags.breakTag + toppingsChosen + HtmlTags.breakTag
+                + "Extras: " + HtmlTags.breakTag + extras + HtmlTags.breakTag
+                + "Comments: " + HtmlTags.breakTag + comments + HtmlTags.breakTag, informTitle);
     }
 
     /**

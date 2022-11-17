@@ -4264,7 +4264,8 @@ public class CyderFrame extends JFrame {
             tooltipMenuItemFrameLocationGetterUtil.closeAllGetFrames();
 
             GetInputBuilder builder = new GetInputBuilder("Frame location",
-                    "Enter the requested top left frame location in the format: \"x,y\"<br/>"
+                    "Enter the requested top left frame location in the format: \"x,y\""
+                            + HtmlTags.breakTag
                             + "Note this is absolute meaning if multiple monitors are being used,"
                             + " they should be treated as a coalesced singular entity")
                     .setRelativeTo(this)

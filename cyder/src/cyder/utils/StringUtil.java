@@ -3,13 +3,9 @@ package cyder.utils;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.bounds.BoundsUtil;
 import cyder.bounds.TaggedString;
 import cyder.bounds.TaggedStringType;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
+import cyder.constants.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -1036,7 +1032,7 @@ public final class StringUtil {
      * Returns the minimum width required for the given String using the given font.
      *
      * @param text the text you want to determine the width of
-     * @param font  the font for the text
+     * @param font the font for the text
      * @return an integer value determining the minimum width of a string of text
      */
     public static int getAbsoluteMinWidth(String text, Font font) {
@@ -1052,7 +1048,7 @@ public final class StringUtil {
      * Returns the minimum height required for the given String using the given font.
      *
      * @param text the text you want to determine the height of
-     * @param font  the font to use to determine the min height
+     * @param font the font to use to determine the min height
      * @return an integer value determining the minimum height
      * of a string of text (10 is added to avoid ... bug)
      */
@@ -1070,7 +1066,7 @@ public final class StringUtil {
      * using the given font without adding 10.
      *
      * @param text the text you want to determine the height of
-     * @param font  the font to use to determine the min height
+     * @param font the font to use to determine the min height
      * @return an integer value determining the minimum height of a string of text
      */
     public static int getAbsoluteMinHeight(String text, Font font) {
@@ -1251,11 +1247,11 @@ public final class StringUtil {
         Preconditions.checkArgument(numLines > 0);
 
         StringBuilder ret = new StringBuilder();
-        ret.append(BoundsUtil.OPENING_HTML_TAG);
+        ret.append(HtmlTags.openingHtml);
 
         IntStream.range(0, numLines).forEach(index
-                -> ret.append(CyderStrings.space).append(BoundsUtil.BREAK_TAG));
-        ret.append(CyderStrings.space).append(BoundsUtil.CLOSING_HTML_TAG);
+                -> ret.append(CyderStrings.space).append(HtmlTags.breakTag));
+        ret.append(CyderStrings.space).append(HtmlTags.closingHtml);
         return ret.toString();
     }
 
@@ -1464,5 +1460,67 @@ public final class StringUtil {
         }
 
         return string.substring(startIndex);
+    }
+
+    /**
+     * Adds bold tags to the provided string.
+     *
+     * @param string the string
+     * @return the provided string with bold tags surrounding
+     */
+    public static String applyBold(String string) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        return HtmlTags.openingBold + string + HtmlTags.closingBold;
+    }
+
+    /**
+     * Returns a paragraph tag styled with the provided color for the provided text.
+     *
+     * @param text  the text to style
+     * @param color the color for the styling
+     * @return the styled paragraph
+     */
+    public static String generateColoredHtmlText(String text, Color color) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(color);
+
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        return "<p style=\"color:rgb(" + r + ", " + g + ", " + b + ")\">" + text + HtmlTags.closingP;
+    }
+
+    /**
+     * Returns the provided string after ensuring it is of the proper form.
+     * For example, providing "raspberry" as the text will return:
+     * <html><div style = 'text-align: center;'>raspberry</div></html>
+     *
+     * @param html the text to insert a div style into
+     * @return the string with a div style inserted
+     */
+    public static String addCenteringToHtml(String html) {
+        Preconditions.checkNotNull(html);
+        Preconditions.checkArgument(!html.isEmpty());
+
+        StringBuilder ret = new StringBuilder();
+
+        if (html.startsWith(HtmlTags.openingHtml)) {
+            html = html.substring(HtmlTags.openingHtml.length());
+        }
+
+        if (html.endsWith(HtmlTags.closingHtml)) {
+            html = html.substring(0, html.length() - HtmlTags.closingHtml.length());
+        }
+
+        ret.append(HtmlTags.openingHtml);
+        ret.append("<div style='text-align: center;'>");
+        ret.append(html);
+        ret.append(HtmlTags.closingDiv);
+        ret.append(HtmlTags.closingHtml);
+
+        return ret.toString();
     }
 }
