@@ -154,9 +154,28 @@ public final class ConsoleConstants {
     public static final int FRAME_NORMAL = JFrame.NORMAL;
 
     /**
+     * The default font name for the console clock.
+     */
+    public static final String DEFAULT_CONSOLE_CLOCK_FONT_NAME = "Agency FB";
+
+    /**
      * The font used for the clock label.
      */
-    public static final Font CONSOLE_CLOCK_FONT = new Font("Agency FB", Font.BOLD, 25);
+    public static final Font CONSOLE_CLOCK_FONT;
+
+    /**
+     * The key to get the console clock font name from the props.
+     */
+    private static final String CONSOLE_CLOCK_FONT_NAME = "console_clock_font_name";
+
+    static {
+        if (PropLoader.propExists(CONSOLE_CLOCK_FONT_NAME)) {
+            String fontName = PropLoader.getString(CONSOLE_CLOCK_FONT_NAME);
+            CONSOLE_CLOCK_FONT = new Font(fontName, Font.BOLD, 25);
+        } else {
+            CONSOLE_CLOCK_FONT = new Font(DEFAULT_CONSOLE_CLOCK_FONT_NAME, Font.BOLD, 25);
+        }
+    }
 
     /**
      * The music file for the f17 easter egg.
