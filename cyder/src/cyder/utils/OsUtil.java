@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
@@ -141,11 +142,13 @@ public final class OsUtil {
 
     /**
      * Invokes a controlled program exit that eventually invokes {@link System#exit(int)}
-     * which will in tern invoke the shutdown hooks.
+     * which will in turn invoke the shutdown hooks.
      *
      * @param exitCondition the exiting code to describe why the program exited
      */
     public static void exit(ExitCondition exitCondition) {
+        Preconditions.checkNotNull(exitCondition);
+
         try {
             UserUtil.blockFutureIo();
             Logger.log(LogTag.EXIT, exitCondition);

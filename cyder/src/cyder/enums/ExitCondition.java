@@ -7,7 +7,8 @@ import cyder.utils.OsUtil;
  */
 public enum ExitCondition {
     SufficientSubroutineExit(-15, "A sufficient subroutine failed"),
-    WatchdogBootstrapFail(-14, "A UI freeze was detected by watchdog and the bootstrap attempt failed"),
+    WatchdogBootstrapFail(-14, "A UI freeze was detected by watchdog"
+            + " and the bootstrap attempt failed"),
     WatchdogTimeout(-13, "Watchdog Timeout"),
     NotReleased(-12, "Cyder Not Released"),
     SubroutineException(-11, "Subroutine Exception"),

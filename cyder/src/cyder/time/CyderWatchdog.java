@@ -1,8 +1,7 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
-import cyder.annotations.CyderTest;
-import cyder.annotations.ForReadability;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
@@ -18,10 +17,6 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,13 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A watchdog timer for Cyder to detect a freeze on the GUI and kill the application.
  */
 public final class CyderWatchdog {
-    /**
-     * Suppress default constructor.
-     */
-    private CyderWatchdog() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
     /**
      * The time in ms to wait between checking for the first appearance of AWT-EventQueue-0.
      */
@@ -65,12 +53,43 @@ public final class CyderWatchdog {
     /**
      * The key to get whether the watchdog should be active from the props.
      */
-    private static final String ACTIVE_WATCHDOG = "activate_watchdog";
+    private static final String ACTIVATE_WATCHDOG = "activate_watchdog";
 
     /**
      * Whether the watchdog has been initialized and started.
      */
     private static final AtomicBoolean watchdogInitialized = new AtomicBoolean();
+
+    /**
+     * The name of the windows shell executable.
+     */
+    private static final String CMD_EXE = "cmd.exe";
+
+    /**
+     * The /C command line argument.
+     */
+    private static final String SLASH_C = "/C";
+
+    /**
+     * The previous state of the awt event queue thread.
+     */
+    private static Thread.State currentAwtEventQueueThreadState;
+
+    /**
+     * Suppress default constructor.
+     */
+    private CyderWatchdog() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Returns the current state of the awt event queue thread.
+     *
+     * @return the current state of the awt event queue thread
+     */
+    public static Thread.State getCurrentAwtEventQueueThreadState() {
+        return currentAwtEventQueueThreadState;
+    }
 
     /**
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
@@ -80,33 +99,28 @@ public final class CyderWatchdog {
      * Note: the watchdog will only start if the prop value <b>activate_watchdog</b> exists and is set to true.
      */
     public static void initializeWatchDog() {
-        if (!PropLoader.getBoolean(ACTIVE_WATCHDOG)) {
+        Preconditions.checkState(!watchdogInitialized.get());
+
+        if (PropLoader.propExists(ACTIVATE_WATCHDOG)
+                && !PropLoader.getBoolean(ACTIVATE_WATCHDOG)) {
             Logger.log(LogTag.WATCHDOG, "Watchdog skipped");
             return;
         }
 
-        if (watchdogInitialized.get()) return;
         watchdogInitialized.set(true);
 
         CyderThreadRunner.submit(() -> {
-            OUTER:
             while (true) {
                 try {
                     ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
-                    // get thread group and enumerate over threads
-                    ThreadGroup group = Thread.currentThread().getThreadGroup();
-                    Thread[] currentThreads = new Thread[group.activeCount()];
-                    group.enumerate(currentThreads);
-
-                    for (Thread thread : currentThreads) {
-                        // yes, this actually can happen
+                    for (Thread thread : getCurrentThreads()) {
+                        // Yes, this actually can and has happened
                         if (thread == null) continue;
 
-                        // thread found so start actual watchdog timer and break out of initializer
                         if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
                             startWatchDog(thread);
-                            break OUTER;
+                            return;
                         }
                     }
                 } catch (Exception e) {
@@ -117,6 +131,18 @@ public final class CyderWatchdog {
     }
 
     /**
+     * Returns a list of current threads.
+     *
+     * @return a list of current threads
+     */
+    private static ImmutableList<Thread> getCurrentThreads() {
+        ThreadGroup group = Thread.currentThread().getThreadGroup();
+        Thread[] currentThreads = new Thread[group.activeCount()];
+        group.enumerate(currentThreads);
+        return ImmutableList.copyOf(currentThreads);
+    }
+
+    /**
      * Starts the watchdog checker after the AWT-EventQueue-0 thread has been started.
      *
      * @param awtEventQueueThread the AWT-EventQueue-0 thread
@@ -124,116 +150,101 @@ public final class CyderWatchdog {
      *                                  is not named {@link CyderWatchdog#AWT_EVENT_QUEUE_0_NAME}
      */
     private static void startWatchDog(Thread awtEventQueueThread) {
-        Preconditions.checkArgument(awtEventQueueThread.getName().equals(AWT_EVENT_QUEUE_0_NAME),
-                "Improper provided thread for watchdog timer");
+        Preconditions.checkArgument(awtEventQueueThread.getName().equals(AWT_EVENT_QUEUE_0_NAME));
 
         AtomicInteger maxSessionFreezeLength = new AtomicInteger();
 
+        currentAwtEventQueueThreadState = awtEventQueueThread.getState();
+
         CyderThreadRunner.submit(() -> {
             while (true) {
-                try {
-                    ThreadUtil.sleep(POLL_TIMEOUT);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
+                ThreadUtil.sleep(POLL_TIMEOUT);
 
                 attemptWatchdogReset();
 
-                Thread.State currentState = awtEventQueueThread.getState();
-                if (currentState == Thread.State.RUNNABLE) {
-                    ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
-                    if (currentCyderState != ProgramState.NORMAL) {
-                        Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
-                                + "current program state is: " + currentCyderState);
-                        continue;
-                    } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
-                        Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
-                                + "current jvm session was launched using debug");
-                        continue;
-                    }
+                currentAwtEventQueueThreadState = awtEventQueueThread.getState();
 
-                    watchdogCounter.getAndAdd(POLL_TIMEOUT);
+                ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
+                if (currentCyderState != ProgramState.NORMAL) {
+                    Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
+                            + "current program state is: " + currentCyderState);
+                    continue;
+                } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
+                    Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
+                            + "current jvm session was launched using debug");
+                    continue;
+                }
 
-                    int currentFreezeLength = watchdogCounter.get();
+                watchdogCounter.getAndAdd(POLL_TIMEOUT);
 
-                    if (currentFreezeLength > maxSessionFreezeLength.get()) {
-                        Logger.log(LogTag.WATCHDOG, "Max freeze detected by watchdog: "
-                                + currentFreezeLength + "ms");
-                        maxSessionFreezeLength.set(currentFreezeLength);
-                    }
+                int currentFreezeLength = watchdogCounter.get();
 
-                    if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                        Logger.log(LogTag.WATCHDOG, "Halt detected by watchdog");
+                if (currentFreezeLength > maxSessionFreezeLength.get()) {
+                    Logger.log(LogTag.WATCHDOG, "Max freeze detected by watchdog: "
+                            + currentFreezeLength + "ms");
+                    maxSessionFreezeLength.set(currentFreezeLength);
+                }
 
-                        if (OsUtil.JAR_MODE) {
+                if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
+                    Logger.log(LogTag.WATCHDOG, "Halt detected by watchdog");
+
+                    if (OsUtil.JAR_MODE) {
+                        if (OsUtil.OPERATING_SYSTEM == OsUtil.OperatingSystem.WINDOWS) {
                             Logger.log(LogTag.WATCHDOG, "JAR_MODE detected; attempting to "
                                     + "locate jar to boostrap from");
                             bootstrap();
                         } else {
-                            Logger.log(LogTag.WATCHDOG, "JAR_MODE is not active thus "
-                                    + "no jar can be located to boostrap from; exiting Cyder");
-                            OsUtil.exit(ExitCondition.WatchdogTimeout);
+                            Logger.log(LogTag.WATCHDOG, "Operating system is not Windows, found to be "
+                                    + OsUtil.OPERATING_SYSTEM + ". Thus bootstrap cannot occur");
+                            OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
                         }
+                    } else {
+                        Logger.log(LogTag.WATCHDOG, "JAR_MODE is not active thus "
+                                + "no jar can be located to boostrap from; exiting Cyder");
+                        OsUtil.exit(ExitCondition.WatchdogTimeout);
                     }
-                } else {
-                    watchdogCounter.set(0);
                 }
             }
         }, IgnoreThread.CyderWatchdog.getName());
     }
 
-    @ForReadability
+    /**
+     * Attempts to reset the watchdog counter using the AWT event dispatching thread.
+     * If the thread is currently blocked, the counter will not be reset.
+     */
     private static void attemptWatchdogReset() {
         SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
     }
 
     /**
-     * Attempts to boostrap Cyder by quitting and opening a new instance.
+     * Generates and returns a string array for a process to execute in order to attempt a bootstrap.
+     *
+     * @return a string array for a process to execute in order to attempt a bootstrap
      */
-    private static void bootstrap() {
-        // todo spawn a new Cyder process, maybe use python if possible to invoke launching the jar?
-        // todo if this fails exit with code WatchdogBootstrapFail
+    private static String[] getBootstrapProcessCommand() {
+        String javawPath = JvmUtil.getCurrentJavaWExe().getAbsolutePath();
+        String jarPath = JvmUtil.getCyderJarReference().getAbsolutePath();
 
-        // boot_strap.py possible or can we just start a new process using the process api
+        String shutdownHash = SecurityUtil.generateUuid();
+        String resumeLogHash = SecurityUtil.generateUuid();
+
+        return new String[]{CMD_EXE, SLASH_C, javawPath, jarPath, shutdownHash, resumeLogHash};
     }
 
-    @CyderTest
-    public static void test() {
+    /**
+     * Attempts to boostrap Cyder by quitting and opening a new instance.
+     * The same log file will be used and resumed if the bootstrap process succeeds.
+     */
+    private static void bootstrap() {
         try {
-            ArrayList<String> standardOutput = new ArrayList<>();
-            ArrayList<String> errorOutput = new ArrayList<>();
-
-            String javaHome = System.getProperty("java.home");
-            File f = new File(javaHome);
-            f = new File(f, "bin");
-            f = new File(f, "javaw.exe");
-            System.out.println(f + "    exists: " + f.exists());
-
-
-            // JvmUtil.getCyderJarReference();
-            File file = new File("C:/users/nathan/downloads/test.bat");
-
-            String shutdownHash = SecurityUtil.generateUuid();
-            String resumeLogHash = SecurityUtil.generateUuid();
-
-            Process process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C",
-                    file.getAbsolutePath(), shutdownHash, resumeLogHash});
+            Process process = Runtime.getRuntime().exec(getBootstrapProcessCommand());
             process.waitFor();
             process.getOutputStream().close();
 
-            String outputLine;
-            BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
-            outReader.close();
-
-            String errorLine;
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
-            errorReader.close();
-
-            int i = 0;
+            // todo now need part to wait to receiving shutdown hash, can test with small program
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
         }
     }
 }

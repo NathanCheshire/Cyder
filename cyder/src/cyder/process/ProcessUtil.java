@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utilities related to processes.
+ * Utilities related to processes and the Java process API.
  */
 public final class ProcessUtil {
     /**
@@ -33,7 +33,7 @@ public final class ProcessUtil {
     /**
      * The Python version command result prefix.
      */
-    private static final String pythonVersionResultPrefix = "Python ";
+    private static final String pythonVersionResultPrefix = "Python" + CyderStrings.space;
 
     /**
      * The install keyword for pip installations.
@@ -48,12 +48,12 @@ public final class ProcessUtil {
     /**
      * The prefix of the pip show output for the package name.
      */
-    private static final String namePrefix = "Name: ";
+    private static final String namePrefix = "Name" + CyderStrings.colon + CyderStrings.space;
 
     /**
      * The prefix of the pip show output for the version.
      */
-    private static final String versionPrefix = "Version: ";
+    private static final String versionPrefix = "Version" + CyderStrings.colon + CyderStrings.space;
 
     /**
      * Suppress default constructor.
@@ -216,7 +216,8 @@ public final class ProcessUtil {
      * @param pipeTo  the input handle to print the output to
      * @param builder the process builder to run
      */
-    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
+    public static void runAndPrintProcess(BaseInputHandler pipeTo,
+                                          ProcessBuilder builder) {
         checkNotNull(pipeTo);
         checkNotNull(builder);
 
@@ -241,7 +242,8 @@ public final class ProcessUtil {
      * @param pipeTo   the input handle to print the output to
      * @param builders the process builders to run
      */
-    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo, ImmutableList<ProcessBuilder> builders) {
+    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo,
+                                                      ImmutableList<ProcessBuilder> builders) {
         checkNotNull(pipeTo);
         checkNotNull(builders);
         checkArgument(!builders.isEmpty());
