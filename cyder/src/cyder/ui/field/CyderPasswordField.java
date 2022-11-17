@@ -39,9 +39,25 @@ public class CyderPasswordField extends JPasswordField {
      */
     private final AtomicBoolean shiftShowsPassword;
 
-    // -------------------
-    // Primary constructor
-    // -------------------
+    /**
+     * The image icon for the left icon.
+     */
+    private ImageIcon leftIcon;
+
+    /**
+     * The JLabel to hold the left icon.
+     */
+    private JLabel leftIconLabel;
+
+    /**
+     * The padding for the left icon label.
+     */
+    private static final int iconLabelPadding = 5;
+
+    /**
+     * The padding between the border and left icon label and the start of the field text.
+     */
+    private static final int iconLabelFieldTextPadding = 5;
 
     /**
      * Constructs a new CyderPasswordField.
@@ -112,12 +128,12 @@ public class CyderPasswordField extends JPasswordField {
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                refresh();
+                refreshUi();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                refresh();
+                refreshUi();
             }
         });
     }
@@ -125,7 +141,7 @@ public class CyderPasswordField extends JPasswordField {
     /**
      * Refreshes the caret position, caret, and echo character of this password field.
      */
-    public void refresh() {
+    public void refreshUi() {
         setEchoChar(CyderStrings.ECHO_CHAR);
         setCaret(getCaret());
         setCaretPosition(getPassword().length);
@@ -186,24 +202,6 @@ public class CyderPasswordField extends JPasswordField {
         passwordField.addKeyListener(generateShiftShowsPasswordKeyListener(passwordField, localEnabled));
         return localEnabled;
     }
-
-    // ---------------
-    // Left icon logic
-    // ---------------
-
-    private ImageIcon leftIcon;
-
-    private JLabel leftIconLabel;
-
-    /**
-     * The padding for the left icon label.
-     */
-    private static final int iconLabelPadding = 5;
-
-    /**
-     * The padding between the border and left icon label and the start of the field text.
-     */
-    private static final int iconLabelFieldTextPadding = 5;
 
     /**
      * Sets the left icon for this text field.

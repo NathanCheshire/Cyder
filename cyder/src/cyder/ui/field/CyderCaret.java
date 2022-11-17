@@ -1,6 +1,8 @@
 package cyder.ui.field;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
@@ -11,7 +13,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * A custom caret used for CyderTextFields and CyderPasswordFields.
+ * A custom caret used for {@link CyderTextField}s and other text containers.
  */
 public class CyderCaret extends DefaultCaret {
     /**
@@ -20,30 +22,43 @@ public class CyderCaret extends DefaultCaret {
     private final Color caretColor;
 
     /**
-     * Constructs a new CyderCaret.
-     *
-     * @param caretColor the color for the caret
-     */
-    public CyderCaret(Color caretColor) {
-        this.caretColor = Preconditions.checkNotNull(caretColor);
-        setBlinkRate(500);
-
-        Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
      * The character to use for computing the width of the caret.
      */
     private static final String WIDTH_CHAR = ">";
 
     /**
+     * The default blink rate of Cyder carets.
+     */
+    private static final int defaultBlinkRate = 500;
+
+    /**
+     * Suppress default constructor.
+     */
+    private CyderCaret() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Constructs a new CyderCaret.
+     *
+     * @param caretColor the color for the caret
+     */
+    public CyderCaret(Color caretColor) {
+        Preconditions.checkNotNull(caretColor);
+
+        this.caretColor = caretColor;
+
+        setBlinkRate(defaultBlinkRate);
+
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
-    protected synchronized void damage(Rectangle r) {
-        if (r == null) {
-            return;
-        }
+    protected synchronized void damage(Rectangle rectangle) {
+        if (rectangle == null) return;
 
         JTextComponent comp = getComponent();
         FontMetrics fm = comp.getFontMetrics(comp.getFont());
@@ -51,8 +66,8 @@ public class CyderCaret extends DefaultCaret {
         int textWidth = fm.stringWidth(WIDTH_CHAR);
         int textHeight = fm.getHeight();
 
-        x = r.x;
-        y = r.y;
+        x = rectangle.x;
+        y = rectangle.y;
 
         width = textWidth;
         height = textHeight;
@@ -66,7 +81,6 @@ public class CyderCaret extends DefaultCaret {
     @Override
     public void paint(Graphics g) {
         JTextComponent comp = getComponent();
-
         if (comp == null) return;
 
         int currentPosition = getDot();

@@ -167,10 +167,10 @@ public final class Logger {
             case CONSOLE_OUT:
                 logBuilder.append(LogTag.CONSOLE_OUT.constructLogTagPrepend());
                 if (representation instanceof String) {
-                    logBuilder.append(ConsoleOut.STRING.getLogTag());
+                    logBuilder.append(ConsoleOutType.STRING.getLogTag());
                     logBuilder.append(representation);
                 } else if (representation instanceof ImageIcon icon) {
-                    logBuilder.append(ConsoleOut.IMAGE.getLogTag());
+                    logBuilder.append(ConsoleOutType.IMAGE.getLogTag());
 
                     int width = icon.getIconWidth();
                     int height = icon.getIconHeight();
@@ -180,7 +180,7 @@ public final class Logger {
                             .append(height).append("], dominant color: ")
                             .append(dominantColor);
                 } else if (representation instanceof JComponent) {
-                    logBuilder.append(ConsoleOut.J_COMPONENT.getLogTag());
+                    logBuilder.append(ConsoleOutType.J_COMPONENT.getLogTag());
                     logBuilder.append(representation);
                 } else {
                     logBuilder.append(LogTag.constructLogTagPrepend(
