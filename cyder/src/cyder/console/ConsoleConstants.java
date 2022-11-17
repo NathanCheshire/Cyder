@@ -159,6 +159,11 @@ public final class ConsoleConstants {
     public static final String DEFAULT_CONSOLE_CLOCK_FONT_NAME = "Agency FB";
 
     /**
+     * The default font size for the console clock.
+     */
+    public static final int DEFAULT_CONSOLE_CLOCK_FONT_SIZE = 25;
+
+    /**
      * The font used for the clock label.
      */
     public static final Font CONSOLE_CLOCK_FONT;
@@ -168,13 +173,23 @@ public final class ConsoleConstants {
      */
     private static final String CONSOLE_CLOCK_FONT_NAME = "console_clock_font_name";
 
+    /**
+     * The key to get the console clock font size from the props.
+     */
+    private static final String CONSOLE_CLOCK_FONT_SIZE = "console_clock_font_size";
+
     static {
+        String fontName = DEFAULT_CONSOLE_CLOCK_FONT_NAME;
         if (PropLoader.propExists(CONSOLE_CLOCK_FONT_NAME)) {
-            String fontName = PropLoader.getString(CONSOLE_CLOCK_FONT_NAME);
-            CONSOLE_CLOCK_FONT = new Font(fontName, Font.BOLD, 25);
-        } else {
-            CONSOLE_CLOCK_FONT = new Font(DEFAULT_CONSOLE_CLOCK_FONT_NAME, Font.BOLD, 25);
+            fontName = PropLoader.getString(CONSOLE_CLOCK_FONT_NAME);
         }
+
+        int fontSize = DEFAULT_CONSOLE_CLOCK_FONT_SIZE;
+        if (PropLoader.propExists(CONSOLE_CLOCK_FONT_SIZE)) {
+            fontSize = PropLoader.getInteger(CONSOLE_CLOCK_FONT_SIZE);
+        }
+
+        CONSOLE_CLOCK_FONT = new Font(fontName, Font.BOLD, fontSize);
     }
 
     /**
