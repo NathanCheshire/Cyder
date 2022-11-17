@@ -2,17 +2,15 @@ package cyder.genesis;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
-import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.subroutines.NecessarySubroutines;
 import cyder.genesis.subroutines.SufficientSubroutines;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
-import cyder.threads.CyderThreadRunner;
 import cyder.time.CyderWatchdog;
 import cyder.time.TimeUtil;
-import cyder.utils.OsUtil;
+import cyder.utils.JvmUtil;
 
 import javax.swing.*;
 
@@ -31,20 +29,6 @@ public final class Cyder {
     }
 
     /**
-     * The Jvm arguments provided when Cyder was started.
-     */
-    private static ImmutableList<String> jvmArguments;
-
-    /**
-     * Returns the Jvm arguments provided when Cyder was started.
-     *
-     * @return the Jvm arguments provided when Cyder was started
-     */
-    public static ImmutableList<String> getJvmArguments() {
-        return jvmArguments;
-    }
-
-    /**
      * Setup and start the best program ever made :D
      *
      * @param arguments possible command line args passed in. Currently, these serve no purpose,
@@ -53,7 +37,7 @@ public final class Cyder {
     public static void main(String[] arguments) {
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
-        jvmArguments = ImmutableList.copyOf(arguments);
+        JvmUtil.setJvmArgs(ImmutableList.copyOf(arguments));
 
         PropLoader.loadProps();
 
@@ -84,8 +68,6 @@ public final class Cyder {
         UIManager.put(TOOLTIP_FOREGROUND, tooltipForegroundColor);
     }
 
-    private static final String SLIDER_ONLY_LEFT_MOUSE_DRAG = "Slider.onlyLeftMouseButtonDrag";
-
     /**
      * Initializes all system and ui-manager toolkit key-value props.
      */
@@ -104,15 +86,6 @@ public final class Cyder {
         System.setProperty(SUN_UI_SCALE, PropLoader.getString(UI_SCALE));
         System.setProperty(IDE_SCALE, PropLoader.getString(UI_SCALE));
     }
-
-    /**
-     * The list of shutdown hooks to be added to this instance of Cyder.
-     */
-    private static final ImmutableList<Thread> shutdownHooks = ImmutableList.of(
-            CyderThreadRunner.createThread(() -> OsUtil.deleteFile(
-                            Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName()), false),
-                    REMOVE_TEMP_DIRECTORY_HOOK_NAME)
-    );
 
     /**
      * Adds the exit hooks to this Jvm.

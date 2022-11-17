@@ -13,7 +13,6 @@ import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
-import cyder.genesis.GenesisConstants;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
@@ -709,7 +708,7 @@ public final class PaintWidget {
             CyderColors.regularOrange,
             CyderColors.regularGreen,
             CyderColors.regularBlue,
-            GenesisConstants.tooltipForegroundColor
+            CyderColors.regularPurple
     );
 
     /**

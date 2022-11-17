@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.Cyder;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -14,6 +13,7 @@ import cyder.process.ProcessUtil;
 import cyder.process.PythonPackage;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.IoUtil;
+import cyder.utils.JvmUtil;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -104,7 +104,7 @@ public final class SufficientSubroutines {
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-                IoUtil.logArgs(Cyder.getJvmArguments());
+                IoUtil.logArgs(JvmUtil.getJvmArgs());
             }, JVM_LOGGER),
             new SufficientSubroutine(() -> Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
                 String threadName = "Python Package Installed Ensurer, package = " + pythonPackage.getPackageName();

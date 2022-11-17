@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
@@ -38,10 +39,38 @@ public final class JvmUtil {
             .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
 
     /**
+     * The JVM args.
+     */
+    private static ImmutableList<String> jvmArgs;
+
+    /**
      * Suppress default constructor.
      */
     private JvmUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Sets the Cyder JVM args.
+     *
+     * @param args the JVM args
+     */
+    public static void setJvmArgs(ImmutableList<String> args) {
+        Preconditions.checkNotNull(args);
+        Preconditions.checkState(jvmArgs == null);
+
+        jvmArgs = ImmutableList.copyOf(args);
+    }
+
+    /**
+     * Returns the Cyder JVM args.
+     *
+     * @return the Cyder JVM args
+     */
+    public static ImmutableList<String> getJvmArgs() {
+        Preconditions.checkNotNull(jvmArgs);
+
+        return jvmArgs;
     }
 
     /**
