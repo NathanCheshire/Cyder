@@ -35,7 +35,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
 
     comment_percent = round(comment_lines / float(total) * 100.0, 1)
     code_percent = round(code_lines / float(total) * 100.0, 1)
-    blank_percent = 100.0 - comment_percent - code_percent
+    blank_percent = round(100.0 - comment_percent - code_percent, 1)
 
     export_font = ImageFont.truetype(FONT_PATH, font_size)
 
