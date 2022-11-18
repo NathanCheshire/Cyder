@@ -132,6 +132,11 @@ public class CyderModernTextField extends JTextField {
     private final AtomicBoolean shouldEnforceCharacterLimit = new AtomicBoolean(false);
 
     /**
+     * The field regex to enforce entered characters to adhere to if enforcement is enabled.
+     */
+    private String fieldRegex = "";
+
+    /**
      * Constructs a new modern text field.
      */
     public CyderModernTextField() {
@@ -149,6 +154,7 @@ public class CyderModernTextField extends JTextField {
         addRippleFocusListener();
         addAutoCapitalizationKeyListener();
         addCharacterLimitKeyListener();
+        addFieldRegexKeyListener();
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
@@ -644,9 +650,88 @@ public class CyderModernTextField extends JTextField {
         }
     }
 
-    // todo regex listener
+    /**
+     * Whether the field regex should be enforced.
+     */
+    private final AtomicBoolean shouldEnforceFieldRegex = new AtomicBoolean(false);
+
+    /**
+     * Returns whether the field regex should be enforced.
+     *
+     * @return whether the field regex should be enforced
+     */
+    public boolean shouldEnforceFieldRegex() {
+        return shouldEnforceFieldRegex.get();
+    }
+
+    /**
+     * Sets whether the field regex should be enforced.
+     *
+     * @param shouldEnforceFieldRegex whether the field regex should be enforced
+     */
+    public void setShouldEnforceFieldRegex(boolean shouldEnforceFieldRegex) {
+        this.shouldEnforceFieldRegex.set(shouldEnforceFieldRegex);
+    }
+
+    /**
+     * Returns the field regex.
+     *
+     * @return the field regex
+     */
+    public String getFieldRegex() {
+        return fieldRegex;
+    }
+
+    /**
+     * Sets the field regex.
+     *
+     * @param fieldRegex the field regex
+     */
+    public void setFieldRegex(String fieldRegex) {
+        Preconditions.checkNotNull(fieldRegex);
+
+        this.fieldRegex = fieldRegex;
+    }
+
+    /**
+     * Adds the regex key listener to this field.
+     */
+    private void addFieldRegexKeyListener() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                fieldRegexKeyListenerLogic();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                fieldRegexKeyListenerLogic();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                fieldRegexKeyListenerLogic();
+            }
+        });
+    }
+
+    /**
+     * The logic to invoke on key events from the regex key listener.
+     */
+    @ForReadability
+    private void fieldRegexKeyListenerLogic() {
+        if (shouldEnforceFieldRegex.get() && !fieldRegex.isEmpty()) {
+            String text = getText();
+            if (!text.matches(fieldRegex) && !text.isEmpty()) {
+                setText(text.substring(0, text.length() - 1));
+                Toolkit.getDefaultToolkit().beep();
+            }
+        }
+    }
 
     // todo flash
+
+    // todo bottom label default color, will be other label just always present
 
     // todo hint text
 
