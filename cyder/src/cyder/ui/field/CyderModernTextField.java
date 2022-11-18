@@ -20,6 +20,8 @@ import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -115,6 +117,21 @@ public class CyderModernTextField extends JTextField {
     private final AtomicBoolean inRippleIncrementAnimation = new AtomicBoolean(false);
 
     /**
+     * The background color of this text field.
+     */
+    private Color backgroundColor = CyderColors.vanilla;
+
+    /**
+     * Whether auto-capitalization should be performed.
+     */
+    private final AtomicBoolean shouldPerformAutoCapitalization = new AtomicBoolean(true);
+
+    /**
+     * Whether the character limit should be enforced on key events.
+     */
+    private final AtomicBoolean shouldEnforceCharacterLimit = new AtomicBoolean(false);
+
+    /**
      * Constructs a new modern text field.
      */
     public CyderModernTextField() {
@@ -130,8 +147,10 @@ public class CyderModernTextField extends JTextField {
         super(text);
 
         addRippleFocusListener();
+        addAutoCapitalizationKeyListener();
+        addCharacterLimitKeyListener();
 
-        setBackground(CyderColors.vanilla);
+        setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
         setFont(CyderFonts.DEFAULT_FONT_SMALL);
 
@@ -469,4 +488,167 @@ public class CyderModernTextField extends JTextField {
         super.setBorder(BorderFactory.createEmptyBorder(topLeftRightBorderInsets, topLeftRightBorderInsets,
                 rippleLabelThickness, topLeftRightBorderInsets));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBackground(Color newBackgroundColor) {
+        Preconditions.checkNotNull(newBackgroundColor);
+
+        super.setBackground(newBackgroundColor);
+        backgroundColor = newBackgroundColor;
+        setOpaque(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Color getBackground() {
+        return backgroundColor;
+    }
+
+    /**
+     * Returns whether auto-capitalization should be performed.
+     *
+     * @return whether auto-capitalization should be performed
+     */
+    private boolean shouldPerformAutoCapitalization() {
+        return shouldPerformAutoCapitalization.get();
+    }
+
+    /**
+     * Sets whether auto-capitalization should be performed.
+     *
+     * @param shouldPerformAutoCapitalization whether auto-capitalization should be performed
+     */
+    private void setShouldPerformAutoCapitalization(boolean shouldPerformAutoCapitalization) {
+        this.shouldPerformAutoCapitalization.set(shouldPerformAutoCapitalization);
+        autoCapitalizationLogic();
+    }
+
+    /**
+     * Adds the auto-capitalization key listener to this text field.
+     */
+    private void addAutoCapitalizationKeyListener() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                autoCapitalizationLogic();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                autoCapitalizationLogic();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                autoCapitalizationLogic();
+            }
+        });
+    }
+
+    /**
+     * The logic to perform on key events from the auto capitalization listener.
+     */
+    @ForReadability
+    private void autoCapitalizationLogic() {
+        if (shouldPerformAutoCapitalization.get()) {
+            String text = getText();
+            if (text.length() == 0) {
+                setText(text.toUpperCase());
+            }
+        }
+    }
+
+    /**
+     * Sets whether the character limit should be enforced.
+     *
+     * @return whether the character limit should be enforced
+     */
+    public boolean shouldEnforceCharacterLimit() {
+        return shouldEnforceCharacterLimit.get();
+    }
+
+    /**
+     * Sets whether the character limit should be enforced.
+     *
+     * @param shouldEnforceCharacterLimit whether the character limit should be enforced
+     */
+    public void setShouldEnforceCharacterLimit(boolean shouldEnforceCharacterLimit) {
+        this.shouldEnforceCharacterLimit.set(shouldEnforceCharacterLimit);
+        characterLimitLogic();
+    }
+
+    /**
+     * The character limit for this field.
+     */
+    private int characterLimit = Integer.MAX_VALUE;
+
+    /**
+     * Returns the character limit for this text field.
+     *
+     * @return the character limit for this text field
+     */
+    public int getCharacterLimit() {
+        return characterLimit;
+    }
+
+    /**
+     * Sets the character limit for this text field.
+     *
+     * @param characterLimit the character limit for this text field
+     */
+    public void setCharacterLimit(int characterLimit) {
+        Preconditions.checkArgument(characterLimit > -1);
+
+        this.characterLimit = characterLimit;
+        characterLimitLogic();
+    }
+
+    /**
+     * Adds the character limit key listener to this text field.
+     */
+    private void addCharacterLimitKeyListener() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                characterLimitLogic();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                characterLimitLogic();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                characterLimitLogic();
+            }
+        });
+    }
+
+    /**
+     * The logic to perform one key events of the character limit listener.
+     */
+    @ForReadability
+    private void characterLimitLogic() {
+        if (shouldEnforceCharacterLimit.get()) {
+            String text = getText();
+            if (text.length() > characterLimit) {
+                setText(text.substring(0, characterLimit));
+                Toolkit.getDefaultToolkit().beep();
+            }
+        }
+    }
+
+    // todo regex listener
+
+    // todo flash
+
+    // todo hint text
+
+    // todo override set size and bounds, need to refresh ripple label bounds
 }
