@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 /**
  * A modern looking text field.
@@ -60,6 +61,21 @@ public class CyderModernTextField extends JTextField {
      * The default ripple label thickness.
      */
     private static final int defaultRippleLabelThickness = 4;
+
+    /**
+     * The default number of iterations to flash for.
+     */
+    private static final int DEFAULT_FLASH_ITERATIONS = 8;
+
+    /**
+     * The default delay in ms between flash iterations.
+     */
+    private static final int DEFAULT_FLASH_DELAY = 400;
+
+    /**
+     * The name of the thread to flash the field.
+     */
+    private static final String FLASH_FIELD_THREAD_NAME = "CyderModernTextField Field Flasher";
 
     /**
      * The current ripple label thickness.
@@ -135,6 +151,11 @@ public class CyderModernTextField extends JTextField {
      * The field regex to enforce entered characters to adhere to if enforcement is enabled.
      */
     private String fieldRegex = "";
+
+    /**
+     * Whether the flash animation is currently underway.
+     */
+    private final AtomicBoolean inFlashAnimation = new AtomicBoolean(false);
 
     /**
      * Constructs a new modern text field.
@@ -729,11 +750,82 @@ public class CyderModernTextField extends JTextField {
         }
     }
 
-    // todo flash
+    /**
+     * Flashes the field for the default number of iterations.
+     */
+    public void flash() {
+        flash(DEFAULT_FLASH_ITERATIONS, DEFAULT_FLASH_DELAY);
+    }
+
+    /**
+     * Returns whether the flash animation is currently underway.
+     *
+     * @return the flash animation is currently underway
+     */
+    public boolean getInFlashAnimation() {
+        return inFlashAnimation.get();
+    }
+
+    /**
+     * Flashes the field for the provided number of iterations.
+     *
+     * @param iterations the number of flash iterations
+     * @param msDelay    the delay between flash iterations
+     */
+    public void flash(int iterations, int msDelay) {
+        Preconditions.checkState(!inFlashAnimation.get());
+        Preconditions.checkArgument(iterations > 0);
+        Preconditions.checkArgument(msDelay > 1);
+
+        inFlashAnimation.set(true);
+        CyderThreadRunner.submit(() -> {
+            // todo store original color
+
+            IntStream.range(0, iterations).forEach(index -> {
+                // todo set color
+                // todo repaint
+                ThreadUtil.sleep(msDelay / 2);
+                // todo set default color
+                // todo repaint
+                ThreadUtil.sleep(msDelay / 2);
+            });
+
+            // todo set original color
+            inFlashAnimation.set(false);
+        }, FLASH_FIELD_THREAD_NAME);
+    }
+
+    /**
+     * Refreshes the hint text label position, alignment, location, and color
+     */
+    private void refreshHintText() {
+        // todo
+    }
 
     // todo bottom label default color, will be other label just always present
 
-    // todo hint text
+    // todo hint text and enforce keep up to date with text alignment
+    //  todo also ripple direction should be kept up to date with text alignment
 
-    // todo override set size and bounds, need to refresh ripple label bounds
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+        refreshBorder();
+        refreshRippleLabelBounds();
+        refreshHintText();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+        refreshBorder();
+        refreshRippleLabelBounds();
+        refreshHintText();
+    }
 }
