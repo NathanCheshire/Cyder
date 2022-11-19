@@ -473,7 +473,7 @@ public class CyderModernTextField extends JTextField {
         }, rippleAnimationDecrementerThreadName);
     }
 
-    @CyderTest
+    @CyderTest("null")
     public static void test() {
         CyderFrame frame = new CyderFrame(600, 400);
         frame.setTitle("Test");
@@ -806,6 +806,8 @@ public class CyderModernTextField extends JTextField {
 
     // todo hint text and enforce keep up to date with text alignment
     //  todo also ripple direction should be kept up to date with text alignment
+
+    // todo focus loss animation broken
 
     /**
      * {@inheritDoc}
