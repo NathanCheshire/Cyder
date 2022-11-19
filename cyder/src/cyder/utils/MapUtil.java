@@ -23,40 +23,97 @@ public final class MapUtil {
     }
 
     /**
-     * The height of the mapbox watermark.
-     */
-    private static final int MAP_BOX_WATERMARK_HEIGHT = 25;
-
-    /**
      * The map quest api url header.
      */
-    private static final String MAP_QUEST_HEADER = "http://www.mapquestapi.com/staticmap/v5/map?key=";
-
-    /**
-     * The map quest map type parameter.
-     */
-    private static final String MAP_TYPE_PARAMETER = "&type=map";
-
-    /**
-     * The map quest size parameter.
-     */
-    private static final String MAP_SIZE_PARAMETER = "&size=";
-
-    /**
-     * The map quest location parameter.
-     */
-    private static final String MAP_LOCATIONS_PARAMETER = "&locations=";
-
-    // todo extract params
-    /**
-     * The map quest api footer.
-     */
-    private static final String MAP_QUEST_FOOTER = "%7Cmarker-sm-50318A-1&scalebar=true&zoom=15&rand=286585877";
+    private static final String mapQuestHeader = "http://www.mapquestapi.com/staticmap/v5/map?";
 
     /**
      * The map quest api key.
      */
     private static final String MAP_QUEST_API_KEY = "map_quest_api_key";
+
+    /**
+     * The height of the mapbox watermark.
+     */
+    private static final int MAP_BOX_WATERMARK_HEIGHT = 25;
+
+    /**
+     * Url parameters for a MapBox API request.
+     */
+    private enum mapboxUrlParameter {
+        /**
+         * The API key.
+         */
+        KEY,
+
+        /**
+         * The map type.
+         */
+        TYPE,
+
+        /**
+         * The map size, comma separated.
+         */
+        SIZE,
+
+        /**
+         * Whether the scalebar should be displayed and if so, a possible location
+         * with a pipe separating the true and the scalebar location.
+         */
+        SCALEBAR,
+
+        /**
+         * The map locations, comma separated.
+         */
+        LOCATIONS,
+    }
+
+    /**
+     * The scalebar locations for the map scale.
+     */
+    public enum ScaleBarLocation {
+        /**
+         * The scalebar will be located at the top of the map.
+         */
+        TOP,
+
+        /**
+         * The scalebar will be located at the bottom of the map.
+         */
+        BOTTOM
+    }
+
+    // todo use a request for when asking where they are show an image with a dot?
+
+    /**
+     * The possible map types accepted by the MapQuest API.
+     */
+    public enum MapType {
+        /**
+         * The standard map type.
+         */
+        MAP,
+
+        /**
+         * A hybrid map with satellite imaging.
+         */
+        HYB,
+
+        /**
+         * A purely satellite map.
+         */
+        SAT,
+
+        /**
+         * A light mode digital map.
+         */
+        LIGHT,
+
+        /**
+         * A dark mode digital map.
+         */
+        DARK
+    }
 
     /**
      * Returns an ImageIcon with the provided dimensions of an
@@ -88,15 +145,13 @@ public final class MapUtil {
     public static ImageIcon getMapView(double lat, double lon,
                                        int width, int height,
                                        boolean filterWatermark) throws UnknownHostException {
-        // todo accept builder
-
         int requestHeight = height;
         if (filterWatermark) requestHeight += MAP_BOX_WATERMARK_HEIGHT;
 
-        String string = MAP_QUEST_HEADER + PropLoader.getString(MAP_QUEST_API_KEY)
-                + MAP_TYPE_PARAMETER
-                + MAP_SIZE_PARAMETER + width + CyderStrings.comma + requestHeight
-                + MAP_LOCATIONS_PARAMETER + lat + CyderStrings.comma + lon
+        String string = mapQuestHeader + PropLoader.getString(MAP_QUEST_API_KEY)
+                + TYPE_PARAMETER
+                + SIZE_PARAMETER + width + CyderStrings.comma + requestHeight
+                + LOCATIONS_PARAMETER + lat + CyderStrings.comma + lon
                 + "&type=hyb" + "&scalebar=true|top";
         // todo show scalebar on weather widget, add map widget eventually?
 
@@ -116,46 +171,15 @@ public final class MapUtil {
     }
 
     /**
-     * The scalebar locations for the map scale.
+     * Returns an {@link ImageIcon} of the geographical location requested by the provided builder.
+     *
+     * @param builder thd builder
+     * @return the geographical top-down image
      */
-    public enum ScaleBarLocation {
-        /**
-         * The scalebar will be located at the top of the map.
-         */
-        TOP,
+    public static ImageIcon getMapView(Builder builder) {
+        Preconditions.checkNotNull(builder);
 
-        /**
-         * The scalebar will be located at the bottom of the map.
-         */
-        BOTTOM
-    }
 
-    // todo use a request for when asking where they are show an image with a dot?
-    public enum MapType {
-        /**
-         * The standard map type.
-         */
-        MAP,
-
-        /**
-         * A hybrid map with satellite imaging.
-         */
-        HYB,
-
-        /**
-         * A purely satellite map.
-         */
-        SAT,
-
-        /**
-         * A light mode digital map.
-         */
-        LIGHT,
-
-        /**
-         * A dark mode digital map.
-         */
-        DARK
     }
 
     /**
@@ -187,16 +211,50 @@ public final class MapUtil {
          */
         private static final Range<Integer> zoomRange = Range.closed(0, 20);
 
+        /**
+         * The latitude of the map image.
+         */
         private final double lat;
+
+        /**
+         * The longitude of the map image.
+         */
         private final double lon;
+
+        /**
+         * The width of the map image.
+         */
         private final int width;
+
+        /**
+         * The height of the map image.
+         */
         private final int height;
 
+        /**
+         * Whether the watermark should be filtered out of the image.
+         */
         private boolean filterWaterMark = true;
+
+        /**
+         * Whether the scalebar should be shown on the map.
+         */
         private boolean scaleBar = true;
+
+        /**
+         * The location of the scalebar if it should be displayed.
+         */
         private ScaleBarLocation scaleBarLocation = ScaleBarLocation.TOP;
+
+        /**
+         * The type of map the map image will be.
+         */
         private MapType mapType = MapType.MAP;
-        private int zoomLevel = 12;
+
+        /**
+         * The zoom level of the map image.
+         */
+        private int zoomLevel = 15;
 
         /**
          * Constructs a new MapQuestApi request builder.
@@ -279,6 +337,87 @@ public final class MapUtil {
             Preconditions.checkArgument(zoomRange.contains(zoomLevel));
             this.zoomLevel = zoomLevel;
             return this;
+        }
+
+        /**
+         * Returns the latitude of the map.
+         *
+         * @return the latitude of the map
+         */
+        public double getLat() {
+            return lat;
+        }
+
+        /**
+         * Returns the longitude of the map.
+         *
+         * @return the longitude of the map
+         */
+        public double getLon() {
+            return lon;
+        }
+
+        /**
+         * Returns the width of the map.
+         *
+         * @return the width of the map
+         */
+        public int getWidth() {
+            return width;
+        }
+
+        /**
+         * Returns the height of the map.
+         *
+         * @return the height of the map
+         */
+        public int getHeight() {
+            return height;
+        }
+
+        /**
+         * Returns whether the watermark should be filtered out.
+         *
+         * @return whether the watermark should be filtered out
+         */
+        public boolean isFilterWaterMark() {
+            return filterWaterMark;
+        }
+
+        /**
+         * Returns whether the scalebar should be displayed.
+         *
+         * @return whether the scalebar should be displayed
+         */
+        public boolean isScaleBar() {
+            return scaleBar;
+        }
+
+        /**
+         * Returns the scalebar location.
+         *
+         * @return the scalebar location
+         */
+        public ScaleBarLocation getScaleBarLocation() {
+            return scaleBarLocation;
+        }
+
+        /**
+         * Returns the map type.
+         *
+         * @return the map type
+         */
+        public MapType getMapType() {
+            return mapType;
+        }
+
+        /**
+         * Returns the zoom level.
+         *
+         * @return the zoom level
+         */
+        public int getZoomLevel() {
+            return zoomLevel;
         }
     }
 }
