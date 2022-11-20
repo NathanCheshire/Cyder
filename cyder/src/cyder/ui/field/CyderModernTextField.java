@@ -63,14 +63,19 @@ public class CyderModernTextField extends JTextField {
     private static final int defaultRippleLabelThickness = 4;
 
     /**
+     * The default thickness of the underline label.
+     */
+    private static final int defaultUnderlineLabelThickness = 4;
+
+    /**
      * The default number of iterations to flash for.
      */
-    private static final int DEFAULT_FLASH_ITERATIONS = 8;
+    private static final int DEFAULT_FLASH_ITERATIONS = 5;
 
     /**
      * The default delay in ms between flash iterations.
      */
-    private static final int DEFAULT_FLASH_DELAY = 400;
+    private static final int DEFAULT_FLASH_DELAY = 600;
 
     /**
      * The name of the thread to flash the field.
@@ -81,6 +86,11 @@ public class CyderModernTextField extends JTextField {
      * The current ripple label thickness.
      */
     private int rippleLabelThickness = defaultRippleLabelThickness;
+
+    /**
+     * The thickness of the underline label.
+     */
+    private int underlineLabelThickness = defaultUnderlineLabelThickness;
 
     /**
      * Whether the ripple animation should be performed
@@ -158,6 +168,16 @@ public class CyderModernTextField extends JTextField {
     private final AtomicBoolean inFlashAnimation = new AtomicBoolean(false);
 
     /**
+     * The underline color of the text field.
+     */
+    private Color underlineColor = CyderColors.navy;
+
+    /**
+     * The label for hint text.
+     */
+    private final JLabel hintTextLabel = new JLabel();
+
+    /**
      * Constructs a new modern text field.
      */
     public CyderModernTextField() {
@@ -176,6 +196,8 @@ public class CyderModernTextField extends JTextField {
         addAutoCapitalizationKeyListener();
         addCharacterLimitKeyListener();
         addFieldRegexKeyListener();
+        addHintTextKeyListener();
+        addHintTextFocusListener();
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
@@ -186,9 +208,14 @@ public class CyderModernTextField extends JTextField {
         setCaret(new CyderCaret(CyderColors.navy));
 
         refreshBorder();
-        add(rippleLabel);
+        add(underLineLabel);
+        refreshUnderlineLabelBounds();
+        underLineLabel.add(rippleLabel);
 
         setOpaque(true);
+
+        add(hintTextLabel);
+        refreshHintLabel();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -313,6 +340,18 @@ public class CyderModernTextField extends JTextField {
             }
         });
     }
+
+    /**
+     * The label for the underline.
+     */
+    private final JLabel underLineLabel = new JLabel() {
+        @Override
+        public void paint(Graphics g) {
+            g.setColor(underlineColor);
+            g.fillRect(0, 0, getWidth(), underlineLabelThickness);
+            super.paint(g);
+        }
+    };
 
     /**
      * The label for the ripple animation.
@@ -478,7 +517,9 @@ public class CyderModernTextField extends JTextField {
         CyderFrame frame = new CyderFrame(600, 400);
         frame.setTitle("Test");
 
-        CyderModernTextField cyderModernTextField = new CyderModernTextField("test");
+        CyderModernTextField cyderModernTextField = new CyderModernTextField();
+        cyderModernTextField.setHintText("hint");
+        cyderModernTextField.setHorizontalAlignment(JTextField.CENTER);
         cyderModernTextField.setBounds(100, 100, 400, 40);
         frame.getContentPane().add(cyderModernTextField);
 
@@ -490,12 +531,21 @@ public class CyderModernTextField extends JTextField {
     }
 
     /**
+     * Refreshes the underline label bounds.
+     */
+    private void refreshUnderlineLabelBounds() {
+        // Three because top and bottom of empty border and the bottom line border (this)
+        underLineLabel.setBounds(0, getHeight() - 3 * underlineLabelThickness,
+                getWidth(), underlineLabelThickness);
+        underLineLabel.repaint();
+    }
+
+    /**
      * Refreshes the ripple label bounds.
      */
     private void refreshRippleLabelBounds() {
-        // Three because top and bottom of empty border and the bottom line border (this ripple border)
-        rippleLabel.setBounds(0, getHeight() - 3 * rippleLabelThickness,
-                rippleLabelWidth.get(), rippleLabelThickness);
+        rippleLabel.setBounds(0, 0, rippleLabelWidth.get(), rippleLabelThickness);
+        rippleLabel.repaint();
     }
 
     /**
@@ -513,7 +563,7 @@ public class CyderModernTextField extends JTextField {
      */
     public void setBorder(Border ignored) {
         super.setBorder(BorderFactory.createEmptyBorder(topLeftRightBorderInsets, topLeftRightBorderInsets,
-                rippleLabelThickness, topLeftRightBorderInsets));
+                underlineLabelThickness, topLeftRightBorderInsets));
     }
 
     /**
@@ -779,35 +829,140 @@ public class CyderModernTextField extends JTextField {
 
         inFlashAnimation.set(true);
         CyderThreadRunner.submit(() -> {
-            // todo store original color
+            Color restoreColor = underlineColor;
 
             IntStream.range(0, iterations).forEach(index -> {
-                // todo set color
-                // todo repaint
+                underlineColor = CyderColors.regularRed;
+                underLineLabel.repaint();
                 ThreadUtil.sleep(msDelay / 2);
-                // todo set default color
-                // todo repaint
+                underlineColor = restoreColor;
+                underLineLabel.repaint();
                 ThreadUtil.sleep(msDelay / 2);
             });
 
-            // todo set original color
+            underlineColor = restoreColor;
             inFlashAnimation.set(false);
         }, FLASH_FIELD_THREAD_NAME);
     }
 
     /**
-     * Refreshes the hint text label position, alignment, location, and color
+     * Returns the color of the underline label.
+     *
+     * @return the color of the underline label
      */
-    private void refreshHintText() {
-        // todo
+    public Color getUnderlineColor() {
+        return underlineColor;
     }
 
-    // todo bottom label default color, will be other label just always present
+    /**
+     * Sets the color of the underline label.
+     *
+     * @param underlineColor the color of the underline label
+     */
+    public void setUnderlineColor(Color underlineColor) {
+        Preconditions.checkNotNull(underlineColor);
 
-    // todo hint text and enforce keep up to date with text alignment
-    //  todo also ripple direction should be kept up to date with text alignment
+        this.underlineColor = underlineColor;
+        underLineLabel.repaint();
+    }
 
-    // todo focus loss animation broken
+    /**
+     * Returns the underline label thickness.
+     *
+     * @return the underline label thickness
+     */
+    public int getUnderlineLabelThickness() {
+        return underlineLabelThickness;
+    }
+
+    /**
+     * Sets the underline label thickness.
+     *
+     * @param underlineLabelThickness the underline label thickness
+     */
+    public void setUnderlineLabelThickness(int underlineLabelThickness) {
+        Preconditions.checkArgument(underlineLabelThickness > 0);
+
+        this.underlineLabelThickness = underlineLabelThickness;
+        refreshUnderlineLabelBounds();
+    }
+
+    private String hintText = "";
+
+    public void setHintText(String hintText) {
+        Preconditions.checkNotNull(hintText);
+        this.hintText = hintText;
+        refreshHintLabel();
+    }
+
+    /**
+     * Refreshes the hint text label position, alignment, location, and color
+     */
+    private void refreshHintLabel() {
+        String text = getText();
+        hintTextLabel.setVisible(text.isEmpty());
+        if (!text.isEmpty()) return;
+
+        hintTextLabel.setBounds(0, 0, getWidth(), getHeight() - underlineLabelThickness);
+        hintTextLabel.setBackground(getBackground());
+        hintTextLabel.setFont(getFont());
+        hintTextLabel.setForeground(CyderColors.regularRed);
+        hintTextLabel.setHorizontalAlignment(getHorizontalAlignment());
+        hintTextLabel.setText(hintText);
+    }
+
+    /**
+     * Adds the hint text key listener to this text field.
+     */
+    private void addHintTextKeyListener() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                refreshHintLabel();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                refreshHintLabel();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                refreshHintLabel();
+            }
+        });
+    }
+
+    /**
+     * Adds the hint text focus listener to this text field.
+     */
+    private void addHintTextFocusListener() {
+        addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                hintTextFocusListenerLogic();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                hintTextFocusListenerLogic();
+            }
+        });
+    }
+
+    /**
+     * The logic to perform on hint text focus listener events.
+     */
+    private void hintTextFocusListenerLogic() {
+        if (!hasFocus()) {
+            hintTextLabel.setVisible(false);
+        } else {
+            String text = getText();
+            hintTextLabel.setVisible(text.isEmpty());
+        }
+    }
+
+    // todo need to ripple depending on horizontal text alignment
 
     /**
      * {@inheritDoc}
@@ -817,7 +972,8 @@ public class CyderModernTextField extends JTextField {
         super.setSize(width, height);
         refreshBorder();
         refreshRippleLabelBounds();
-        refreshHintText();
+        refreshUnderlineLabelBounds();
+        refreshHintLabel();
     }
 
     /**
@@ -828,6 +984,7 @@ public class CyderModernTextField extends JTextField {
         super.setBounds(x, y, width, height);
         refreshBorder();
         refreshRippleLabelBounds();
-        refreshHintText();
+        refreshUnderlineLabelBounds();
+        refreshHintLabel();
     }
 }
