@@ -115,7 +115,7 @@ public class CyderModernTextField extends JTextField {
     /**
      * The minimum percentage of the width the ripple label can be.
      */
-    private float minRippleLabelLengthPercentage = percentageRange.lowerEndpoint();
+    private float minRippleLabelWidthPercentage = percentageRange.lowerEndpoint();
 
     /**
      * The maximum percentage of the width the ripple label can be.
@@ -186,7 +186,7 @@ public class CyderModernTextField extends JTextField {
         setCaret(new CyderCaret(CyderColors.navy));
 
         refreshBorder();
-        CyderModernTextField.this.add(rippleLabel);
+        add(rippleLabel);
 
         setOpaque(true);
 
@@ -288,7 +288,7 @@ public class CyderModernTextField extends JTextField {
                 refreshRippleLabelBounds();
 
                 if (!shouldPerformFocusRipple.get()) {
-                    rippleLabelWidth.set((int) (getWidth() * maxRippleLabelWidthPercentage));
+                    rippleLabelWidth.set((int) (getWidth() * maxRippleLabelWidthPercentage / 100.0f));
                     rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
                     rippleLabel.repaint();
                     return;
@@ -303,7 +303,7 @@ public class CyderModernTextField extends JTextField {
                 refreshRippleLabelBounds();
 
                 if (!shouldPerformFocusRipple.get()) {
-                    rippleLabelWidth.set((int) (getWidth() * minRippleLabelLengthPercentage));
+                    rippleLabelWidth.set((int) (getWidth() * minRippleLabelWidthPercentage / 100.0f));
                     rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
                     rippleLabel.repaint();
                     return;
@@ -391,7 +391,7 @@ public class CyderModernTextField extends JTextField {
                 ThreadUtil.sleep(rippleAnimationTimeout);
             }
 
-            rippleLabelWidth.set((int) (getWidth() * maxRippleLabelWidthPercentage));
+            rippleLabelWidth.set((int) (getWidth() * maxRippleLabelWidthPercentage / 100.0f));
             rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
             rippleLabel.repaint();
 
@@ -404,19 +404,19 @@ public class CyderModernTextField extends JTextField {
      *
      * @return the minimum percentage of the width the ripple label can be
      */
-    public float getMinRippleLabelLengthPercentage() {
-        return minRippleLabelLengthPercentage;
+    public float getMinRippleLabelWidthPercentage() {
+        return minRippleLabelWidthPercentage;
     }
 
     /**
      * Sets the minimum percentage of the width the ripple label can be.
      *
-     * @param minRippleLabelLengthPercentage the minimum percentage of the width the ripple label can be
+     * @param minRippleLabelWidthPercentage the minimum percentage of the width the ripple label can be
      */
-    public void setMinRippleLabelLengthPercentage(float minRippleLabelLengthPercentage) {
-        Preconditions.checkArgument(percentageRange.contains(minRippleLabelLengthPercentage));
+    public void setMinRippleLabelWidthPercentage(float minRippleLabelWidthPercentage) {
+        Preconditions.checkArgument(percentageRange.contains(minRippleLabelWidthPercentage));
 
-        this.minRippleLabelLengthPercentage = minRippleLabelLengthPercentage;
+        this.minRippleLabelWidthPercentage = minRippleLabelWidthPercentage;
     }
 
     /**
@@ -465,7 +465,7 @@ public class CyderModernTextField extends JTextField {
                 ThreadUtil.sleep(rippleAnimationTimeout);
             }
 
-            rippleLabelWidth.set((int) (getWidth() * minRippleLabelLengthPercentage));
+            rippleLabelWidth.set((int) (getWidth() * minRippleLabelWidthPercentage / 100.0f));
             rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
             rippleLabel.repaint();
 
@@ -473,7 +473,7 @@ public class CyderModernTextField extends JTextField {
         }, rippleAnimationDecrementerThreadName);
     }
 
-    @CyderTest("null")
+    @CyderTest()
     public static void test() {
         CyderFrame frame = new CyderFrame(600, 400);
         frame.setTitle("Test");
