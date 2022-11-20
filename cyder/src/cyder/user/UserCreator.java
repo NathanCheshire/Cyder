@@ -17,8 +17,8 @@ import cyder.layouts.CyderPartitionedLayout;
 import cyder.login.LoginHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
-import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
@@ -62,7 +62,7 @@ public final class UserCreator {
     /**
      * The field for the new user's name.
      */
-    private static CyderTextField newUserNameField;
+    private static CyderModernTextField newUserNameField;
 
     /**
      * The background chosen by the user as their initial background.
@@ -112,13 +112,13 @@ public final class UserCreator {
 
         createNewUserButton = new CyderButton("Create User");
 
-        newUserNameField = new CyderTextField();
+        newUserNameField = new CyderModernTextField();
         newUserNameField.setHorizontalAlignment(JTextField.CENTER);
         newUserNameField.setBackground(Color.white);
         newUserNameField.setFont(CyderFonts.SEGOE_20);
-        newUserNameField.setBorder(new LineBorder(Color.black));
+        newUserNameField.setUnderlineColor(CyderColors.navy);
+        newUserNameField.setForeground(CyderColors.navy);
         newUserNameField.addKeyListener(newUserNameFieldListener);
-        newUserNameField.setBorder(BORDER);
         newUserNameField.setSize(240, 40);
 
         if (!defaultCyderUserAlreadyExists()) {
