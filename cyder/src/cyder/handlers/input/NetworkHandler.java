@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
@@ -13,10 +14,12 @@ import cyder.network.UsbDevice;
 import cyder.network.UsbUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
+import cyder.utils.MapUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.StringUtil;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -173,6 +176,21 @@ public class NetworkHandler extends InputHandler {
             getInputHandler().println("Your ip is: " + result.ip());
             getInputHandler().println("Your isp is: " + result.isp());
             getInputHandler().println("Your hostname is: " + result.hostname());
+
+            MapUtil.Builder builder = new MapUtil.Builder(400, 400);
+            builder.setScaleBar(false);
+            builder.setLocationString(result.city().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
+                    + "," + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
+                    + "," + result.country().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
+            builder.setZoomLevel(8);
+            builder.setFilterWaterMark(true);
+
+            try {
+                ImageIcon icon = MapUtil.getMapView(builder);
+                getInputHandler().println(icon);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkdevices")) {
             OsUtil.getNetworkDevices().forEach(networkDevice -> {
                 getInputHandler().println("Name: " + networkDevice.name());

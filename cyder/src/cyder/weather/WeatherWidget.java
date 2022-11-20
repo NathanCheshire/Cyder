@@ -1082,7 +1082,9 @@ public class WeatherWidget {
             boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
 
             if (displayMap) {
-                MapUtil.Builder builder = new MapUtil.Builder(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                MapUtil.Builder builder = new MapUtil.Builder(FRAME_WIDTH, FRAME_HEIGHT);
+                builder.setLat(lat);
+                builder.setLon(lon);
                 builder.setFilterWaterMark(true);
                 builder.setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
 

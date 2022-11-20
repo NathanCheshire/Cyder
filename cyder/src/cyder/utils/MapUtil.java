@@ -101,8 +101,6 @@ public final class MapUtil {
         BOTTOM
     }
 
-    // todo use a request for when asking where they are show an image with a dot?
-
     /**
      * The possible map types accepted by the MapQuest API.
      */
@@ -130,7 +128,7 @@ public final class MapUtil {
         /**
          * A dark mode digital map.
          */
-        DARK;
+        DARK
     }
 
     /**
@@ -149,10 +147,20 @@ public final class MapUtil {
         requestUrlBuilder.append(MapBoxUrlParameter.KEY.constructAsFirstParameter());
         requestUrlBuilder.append(key);
 
-        requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
-        requestUrlBuilder.append(builder.getLat());
-        requestUrlBuilder.append(CyderStrings.comma);
-        requestUrlBuilder.append(builder.getLon());
+        if (builder.getLat() != Integer.MIN_VALUE && builder.getLon() != Integer.MIN_VALUE) {
+            requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
+            requestUrlBuilder.append(builder.getLat());
+            requestUrlBuilder.append(CyderStrings.comma);
+            requestUrlBuilder.append(builder.getLon());
+        } else {
+            String locationString = builder.getLocationString();
+            if (StringUtil.isNullOrEmpty(locationString)) {
+                throw new IllegalStateException("Must provide latitude/longitude or location");
+            }
+
+            requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
+            requestUrlBuilder.append(builder.getLocationString());
+        }
 
         requestUrlBuilder.append(MapBoxUrlParameter.TYPE.construct());
         requestUrlBuilder.append(builder.getMapType().name().toLowerCase());
@@ -228,14 +236,19 @@ public final class MapUtil {
         private static final Range<Integer> zoomRange = Range.closed(0, 20);
 
         /**
+         * The location string to use if latitude and longitude are not provided.
+         */
+        private String locationString;
+
+        /**
          * The latitude of the map image.
          */
-        private final double lat;
+        private double lat = Integer.MIN_VALUE;
 
         /**
          * The longitude of the map image.
          */
-        private final double lon;
+        private double lon = Integer.MIN_VALUE;
 
         /**
          * The width of the map image.
@@ -275,21 +288,53 @@ public final class MapUtil {
         /**
          * Constructs a new MapQuestApi request builder.
          *
-         * @param lat    the latitude to center the map on
-         * @param lon    the longitude to center the map on
          * @param width  the width of the final image
          * @param height the height of the final image
          */
-        public Builder(double lat, double lon, int width, int height) {
-            Preconditions.checkArgument(latitudeRange.contains(lat));
-            Preconditions.checkArgument(longitudeRange.contains(lon));
+        public Builder(int width, int height) {
             Preconditions.checkArgument(widthRange.contains(width));
             Preconditions.checkArgument(heightRange.contains(height));
 
-            this.lat = lat;
-            this.lon = lon;
             this.width = width;
             this.height = height;
+        }
+
+        /**
+         * returns the location string for this builder.
+         *
+         * @param locationString the location string for this builder
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setLocationString(String locationString) {
+            this.locationString = locationString;
+            return this;
+        }
+
+        /**
+         * Sets the latitude of this builder.
+         *
+         * @param lat the latitude of this builder
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setLat(double lat) {
+            Preconditions.checkArgument(latitudeRange.contains(lat));
+            this.lat = lat;
+            return this;
+        }
+
+        /**
+         * Sets the longitude of this builder.
+         *
+         * @param lon the longitude of this builder
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setLon(double lon) {
+            Preconditions.checkArgument(longitudeRange.contains(lon));
+            this.lon = lon;
+            return this;
         }
 
         /**
@@ -435,6 +480,15 @@ public final class MapUtil {
          */
         public int getZoomLevel() {
             return zoomLevel;
+        }
+
+        /**
+         * Returns the location string for this builder.
+         *
+         * @return the location string for this builder
+         */
+        public String getLocationString() {
+            return locationString;
         }
     }
 }
