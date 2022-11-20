@@ -2,7 +2,6 @@ package cyder.ui.field;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -12,7 +11,6 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -178,6 +176,34 @@ public class CyderModernTextField extends JTextField {
     private final JLabel hintTextLabel = new JLabel();
 
     /**
+     * The hint text for this field.
+     */
+    private String hintText = "";
+
+    /**
+     * The label for the underline.
+     */
+    private final JLabel underLineLabel = new JLabel() {
+        @Override
+        public void paint(Graphics g) {
+            g.setColor(underlineColor);
+            g.fillRect(0, 0, getWidth(), underlineLabelThickness);
+            super.paint(g);
+        }
+    };
+
+    /**
+     * The label for the ripple animation.
+     */
+    private final JLabel rippleLabel = new JLabel() {
+        @Override
+        public void paint(Graphics g) {
+            g.setColor(rippleColor);
+            g.fillRect(0, 0, rippleLabelWidth.get(), rippleLabelThickness);
+        }
+    };
+
+    /**
      * Constructs a new modern text field.
      */
     public CyderModernTextField() {
@@ -316,6 +342,7 @@ public class CyderModernTextField extends JTextField {
 
                 if (!shouldPerformFocusRipple.get()) {
                     rippleLabelWidth.set((int) (getWidth() * maxRippleLabelWidthPercentage / 100.0f));
+                    refreshRippleLabelBounds();
                     rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
                     rippleLabel.repaint();
                     return;
@@ -331,6 +358,7 @@ public class CyderModernTextField extends JTextField {
 
                 if (!shouldPerformFocusRipple.get()) {
                     rippleLabelWidth.set((int) (getWidth() * minRippleLabelWidthPercentage / 100.0f));
+                    refreshRippleLabelBounds();
                     rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
                     rippleLabel.repaint();
                     return;
@@ -340,29 +368,6 @@ public class CyderModernTextField extends JTextField {
             }
         });
     }
-
-    /**
-     * The label for the underline.
-     */
-    private final JLabel underLineLabel = new JLabel() {
-        @Override
-        public void paint(Graphics g) {
-            g.setColor(underlineColor);
-            g.fillRect(0, 0, getWidth(), underlineLabelThickness);
-            super.paint(g);
-        }
-    };
-
-    /**
-     * The label for the ripple animation.
-     */
-    private final JLabel rippleLabel = new JLabel() {
-        @Override
-        public void paint(Graphics g) {
-            g.setColor(rippleColor);
-            g.fillRect(0, 0, rippleLabelWidth.get(), rippleLabelThickness);
-        }
-    };
 
     /**
      * Returns the increment/decrement for the ripple animation.
@@ -425,8 +430,7 @@ public class CyderModernTextField extends JTextField {
         CyderThreadRunner.submit(() -> {
             while (rippleLabelWidth.get() < getWidth() && focused.get() && shouldPerformFocusRipple.get()) {
                 rippleLabelWidth.getAndAdd(rippleAnimationDelta);
-                rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
-                rippleLabel.repaint();
+                refreshRippleLabelBounds();
                 ThreadUtil.sleep(rippleAnimationTimeout);
             }
 
@@ -436,6 +440,10 @@ public class CyderModernTextField extends JTextField {
 
             inRippleIncrementAnimation.set(false);
         }, rippleAnimationIncrementerThreadName);
+    }
+
+    private void addToRippleLabelLength() {
+
     }
 
     /**
@@ -499,8 +507,7 @@ public class CyderModernTextField extends JTextField {
         CyderThreadRunner.submit(() -> {
             while (rippleLabelWidth.get() > 0 && !focused.get() && shouldPerformFocusRipple.get()) {
                 rippleLabelWidth.getAndAdd(-rippleAnimationDelta);
-                rippleLabel.setSize(rippleLabelWidth.get(), rippleLabelThickness);
-                rippleLabel.repaint();
+                refreshRippleLabelBounds();
                 ThreadUtil.sleep(rippleAnimationTimeout);
             }
 
@@ -510,24 +517,6 @@ public class CyderModernTextField extends JTextField {
 
             inRippleDecrementAnimation.set(false);
         }, rippleAnimationDecrementerThreadName);
-    }
-
-    @CyderTest()
-    public static void test() {
-        CyderFrame frame = new CyderFrame(600, 400);
-        frame.setTitle("Test");
-
-        CyderModernTextField cyderModernTextField = new CyderModernTextField();
-        cyderModernTextField.setHintText("hint");
-        cyderModernTextField.setHorizontalAlignment(JTextField.CENTER);
-        cyderModernTextField.setBounds(100, 100, 400, 40);
-        frame.getContentPane().add(cyderModernTextField);
-
-        CyderModernTextField cyderModernTextField2 = new CyderModernTextField("test 2");
-        cyderModernTextField2.setBounds(100, 200, 400, 40);
-        frame.getContentPane().add(cyderModernTextField2);
-
-        frame.finalizeAndShow();
     }
 
     /**
@@ -544,7 +533,14 @@ public class CyderModernTextField extends JTextField {
      * Refreshes the ripple label bounds.
      */
     private void refreshRippleLabelBounds() {
-        rippleLabel.setBounds(0, 0, rippleLabelWidth.get(), rippleLabelThickness);
+        switch (getHorizontalAlignment()) {
+            case JTextField.CENTER -> rippleLabel.setBounds((getWidth() - rippleLabelWidth.get()) / 2,
+                    0, rippleLabelWidth.get(), rippleLabelThickness);
+            case JTextField.RIGHT -> rippleLabel.setBounds(getWidth() - rippleLabelWidth.get(),
+                    0, rippleLabelWidth.get(), rippleLabelThickness);
+            case JTextField.LEFT, default -> rippleLabel.setBounds(0, 0, rippleLabelWidth.get(), rippleLabelThickness);
+        }
+
         rippleLabel.repaint();
     }
 
@@ -835,6 +831,7 @@ public class CyderModernTextField extends JTextField {
                 underlineColor = CyderColors.regularRed;
                 underLineLabel.repaint();
                 ThreadUtil.sleep(msDelay / 2);
+
                 underlineColor = restoreColor;
                 underLineLabel.repaint();
                 ThreadUtil.sleep(msDelay / 2);
@@ -887,12 +884,25 @@ public class CyderModernTextField extends JTextField {
         refreshUnderlineLabelBounds();
     }
 
-    private String hintText = "";
-
+    /**
+     * Sets the hint text for this field.
+     *
+     * @param hintText the hint text for this field
+     */
     public void setHintText(String hintText) {
         Preconditions.checkNotNull(hintText);
+
         this.hintText = hintText;
         refreshHintLabel();
+    }
+
+    /**
+     * Returns the hint text for this field.
+     *
+     * @return the hint text for this field
+     */
+    public String getHintText() {
+        return hintText;
     }
 
     /**
@@ -953,6 +963,7 @@ public class CyderModernTextField extends JTextField {
     /**
      * The logic to perform on hint text focus listener events.
      */
+    @ForReadability
     private void hintTextFocusListenerLogic() {
         if (!hasFocus()) {
             hintTextLabel.setVisible(false);
@@ -961,8 +972,6 @@ public class CyderModernTextField extends JTextField {
             hintTextLabel.setVisible(text.isEmpty());
         }
     }
-
-    // todo need to ripple depending on horizontal text alignment
 
     /**
      * {@inheritDoc}

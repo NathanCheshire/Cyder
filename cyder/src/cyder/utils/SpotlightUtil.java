@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 
 /**
  * Utility methods revolving around stealing the spotlight images for on the Windows file system.
@@ -35,6 +36,36 @@ public final class SpotlightUtil {
     public static final String CONTENT_DELIVERY_MANAGER_SUFFIX = "cw5n1h2txyewy";
 
     /**
+     * The users directory string.
+     */
+    private static final String USERS = "users";
+
+    /**
+     * The app data directory string.
+     */
+    private static final String APP_DATA = "AppData";
+
+    /**
+     * The local directory string.
+     */
+    private static final String LOCAL = "Local";
+
+    /**
+     * The packages directory string.
+     */
+    private static final String PACKAGES = "Packages";
+
+    /**
+     * The local state directory string.
+     */
+    private static final String LOCAL_STATE = "LocalState";
+
+    /**
+     * The assets directory string.
+     */
+    private static final String ASSETS = "Assets";
+
+    /**
      * Wipes the windows spotlight directory. Windows will download new ones eventually.
      */
     public static void wipeSpotlights() {
@@ -54,9 +85,7 @@ public final class SpotlightUtil {
                 Console.INSTANCE.getInputHandler().println("Spotlights found: " + length);
 
                 if (files != null && files.length > 0) {
-                    for (File spotlight : files) {
-                        OsUtil.deleteFile(spotlight);
-                    }
+                    Arrays.stream(files).forEach(OsUtil::deleteFile);
                 }
 
                 files = spotlightDirectory.listFiles();
@@ -75,9 +104,9 @@ public final class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, "users",
-                OsUtil.getOsUsername(), "AppData", "Local", "Packages",
-                CONTENT_DELIVERY_MANAGER_PREFIX + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets");
+        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, USERS, OsUtil.getOsUsername(),
+                APP_DATA, LOCAL, PACKAGES, CONTENT_DELIVERY_MANAGER_PREFIX + CONTENT_DELIVERY_MANAGER_SUFFIX,
+                LOCAL_STATE, ASSETS);
     }
 
     /**
@@ -85,6 +114,7 @@ public final class SpotlightUtil {
      */
     public static final int MINIMUM_SIZE = 600;
 
+    // todo use me
     /**
      * Saves the Windows spotlights to the provided directory.
      *
