@@ -1082,7 +1082,11 @@ public class WeatherWidget {
             boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
 
             if (displayMap) {
-                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                MapUtil.Builder builder = new MapUtil.Builder(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                builder.setFilterWaterMark(true);
+                builder.setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
+
+                ImageIcon newMapBackground = MapUtil.getMapView(builder);
                 weatherFrame.setBackground(newMapBackground);
             } else {
                 weatherFrame.setBackground(defaultBackground);

@@ -35,12 +35,17 @@ public final class MapUtil {
     /**
      * The height of the mapbox watermark.
      */
-    private static final int MAP_BOX_WATERMARK_HEIGHT = 25;
+    private static final int MAP_BOX_WATERMARK_HEIGHT = 20;
+
+    /**
+     * The pipe character for requesting scalebar location.
+     */
+    private static final String PIPE = "|";
 
     /**
      * Url parameters for a MapBox API request.
      */
-    private enum mapboxUrlParameter {
+    private enum MapBoxUrlParameter {
         /**
          * The API key.
          */
@@ -66,6 +71,19 @@ public final class MapUtil {
          * The map locations, comma separated.
          */
         LOCATIONS,
+
+        /**
+         * The zoom level of the returned map image.
+         */
+        ZOOM;
+
+        public String constructAsFirstParameter() {
+            return this.name().toLowerCase() + "=";
+        }
+
+        public String construct() {
+            return "&" + constructAsFirstParameter();
+        }
     }
 
     /**
@@ -100,7 +118,7 @@ public final class MapUtil {
         HYB,
 
         /**
-         * A purely satellite map.
+         * A pure satellite map.
          */
         SAT,
 
@@ -112,74 +130,72 @@ public final class MapUtil {
         /**
          * A dark mode digital map.
          */
-        DARK
-    }
-
-    /**
-     * Returns an ImageIcon with the provided dimensions of an
-     * aerial map view centered at the provided lat, lon.
-     *
-     * @param lat    the center lat point
-     * @param lon    the center lon point
-     * @param width  the width of the resulting image
-     * @param height the height of the resulting image
-     * @return the requested image
-     * @throws UnknownHostException if the resource cannot be located
-     */
-    public static ImageIcon getMapView(double lat, double lon, int width, int height) throws UnknownHostException {
-        return getMapView(lat, lon, width, height, true);
-    }
-
-    /**
-     * Returns an ImageIcon with the provided dimensions of an
-     * aerial map view centered at the provided lat, lon.
-     *
-     * @param lat             the center lat point
-     * @param lon             the center lon point
-     * @param width           the width of the resulting image
-     * @param height          the height of the resulting image
-     * @param filterWatermark whether the mapbox logo and watermark should be filtered out
-     * @return the requested image
-     * @throws UnknownHostException if the resource cannot be located
-     */
-    public static ImageIcon getMapView(double lat, double lon,
-                                       int width, int height,
-                                       boolean filterWatermark) throws UnknownHostException {
-        int requestHeight = height;
-        if (filterWatermark) requestHeight += MAP_BOX_WATERMARK_HEIGHT;
-
-        String string = mapQuestHeader + PropLoader.getString(MAP_QUEST_API_KEY)
-                + TYPE_PARAMETER
-                + SIZE_PARAMETER + width + CyderStrings.comma + requestHeight
-                + LOCATIONS_PARAMETER + lat + CyderStrings.comma + lon
-                + "&type=hyb" + "&scalebar=true|top";
-        // todo show scalebar on weather widget, add map widget eventually?
-
-        try {
-            ImageIcon ret = ImageUtil.toImageIcon(ImageUtil.read(string));
-
-            if (filterWatermark) {
-                return ImageUtil.cropImage(ret, 0, 0, width, height);
-            } else {
-                return ret;
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        throw new UnknownHostException("Could not get resource for provided lat: " + lat + ", lon: " + lon);
+        DARK;
     }
 
     /**
      * Returns an {@link ImageIcon} of the geographical location requested by the provided builder.
      *
      * @param builder thd builder
-     * @return the geographical top-down image
+     * @return the geographical top-down image with the requested parameters fulfilled
      */
-    public static ImageIcon getMapView(Builder builder) {
+    public static ImageIcon getMapView(Builder builder) throws UnknownHostException {
+        Preconditions.checkState(PropLoader.propExists(MAP_QUEST_API_KEY));
         Preconditions.checkNotNull(builder);
 
+        String key = PropLoader.getString(MAP_QUEST_API_KEY);
 
+        StringBuilder requestUrlBuilder = new StringBuilder(mapQuestHeader);
+        requestUrlBuilder.append(MapBoxUrlParameter.KEY.constructAsFirstParameter());
+        requestUrlBuilder.append(key);
+
+        requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
+        requestUrlBuilder.append(builder.getLat());
+        requestUrlBuilder.append(CyderStrings.comma);
+        requestUrlBuilder.append(builder.getLon());
+
+        requestUrlBuilder.append(MapBoxUrlParameter.TYPE.construct());
+        requestUrlBuilder.append(builder.getMapType().name().toLowerCase());
+
+        boolean showScalebar = builder.isScaleBar();
+        requestUrlBuilder.append(MapBoxUrlParameter.SCALEBAR.construct());
+        requestUrlBuilder.append(showScalebar);
+        if (showScalebar) {
+            requestUrlBuilder.append(PIPE);
+            requestUrlBuilder.append(builder.getScaleBarLocation().name().toLowerCase());
+        }
+
+        requestUrlBuilder.append(MapBoxUrlParameter.ZOOM.construct());
+        requestUrlBuilder.append(builder.getZoomLevel());
+
+        int height = builder.getHeight();
+        if (builder.isFilterWaterMark()) {
+            height += MAP_BOX_WATERMARK_HEIGHT;
+        }
+
+        requestUrlBuilder.append(MapBoxUrlParameter.SIZE.construct());
+        requestUrlBuilder.append(builder.getWidth());
+        requestUrlBuilder.append(CyderStrings.comma);
+        requestUrlBuilder.append(height);
+
+        ImageIcon returnedInitialImage = null;
+        try {
+            returnedInitialImage = ImageUtil.toImageIcon(ImageUtil.read(requestUrlBuilder.toString()));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        if (returnedInitialImage == null) {
+            throw new UnknownHostException("Could not get resource for provided builder: " + builder);
+        }
+
+        ImageIcon ret = returnedInitialImage;
+
+        if (builder.isFilterWaterMark()) {
+            ret = ImageUtil.cropImage(ret, 0, 0, builder.getWidth(), builder.getHeight());
+        }
+
+        return ret;
     }
 
     /**
@@ -310,6 +326,7 @@ public final class MapUtil {
         public Builder setScaleBarLocation(ScaleBarLocation scaleBarLocation) {
             Preconditions.checkNotNull(scaleBarLocation);
             this.scaleBarLocation = scaleBarLocation;
+            this.scaleBar = true;
             return this;
         }
 
