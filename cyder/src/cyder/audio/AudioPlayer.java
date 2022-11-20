@@ -34,7 +34,7 @@ import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.ChangeSizeButton;
 import cyder.ui.field.CyderCaret;
-import cyder.ui.field.CyderTextField;
+import cyder.ui.field.CyderModernTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.MenuType;
 import cyder.ui.frame.NotificationBuilder;
@@ -2146,7 +2146,7 @@ public final class AudioPlayer {
     /**
      * The search field for downloading audio.
      */
-    private static CyderTextField searchField;
+    private static CyderModernTextField searchField;
 
     /**
      * The previously searched text.
@@ -2199,13 +2199,15 @@ public final class AudioPlayer {
 
         audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
-        searchField = new CyderTextField();
-        searchField.setFont(new Font("Agency FB", Font.BOLD, 26));
+        searchField = new CyderModernTextField();
+        searchField.setHorizontalAlignment(JTextField.CENTER);
+        searchField.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         searchField.setForeground(CyderColors.vanilla);
+        searchField.setUnderlineColor(CyderColors.vanilla);
+        searchField.setRippleColor(CyderColors.regularPurple);
         searchField.setCaret(new CyderCaret(CyderColors.vanilla));
         searchField.setBackground(BACKGROUND_COLOR);
         searchField.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
-        searchField.setToolTipText("Search");
         searchField.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.vanilla));
         audioPlayerFrame.getContentPane().add(searchField);
 

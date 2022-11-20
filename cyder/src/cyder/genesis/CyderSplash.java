@@ -353,7 +353,7 @@ public enum CyderSplash {
     /**
      * Whether the harmonic rectangles should be animating currently.
      */
-    private final AtomicBoolean shouldAnimateHarmonicRectangles = new AtomicBoolean(false);
+    private final AtomicBoolean shouldAnimateHarmonicRectangles = new AtomicBoolean(true);
 
     /**
      * Returns the point to place the console frame/login frame at.
@@ -603,8 +603,6 @@ public enum CyderSplash {
      * Starts animating the harmonic rectangles
      */
     private void animateHarmonicRectangles() {
-        shouldAnimateHarmonicRectangles.set(true);
-
         CyderThreadRunner.submit(() -> {
             float harmonicRectangleStartFrequency =
                     millisToStartAllHarmonicRectangles / (float) harmonicRectangles.size();
@@ -618,6 +616,8 @@ public enum CyderSplash {
                     if (i <= maxAnimateIndex) {
                         harmonicRectangles.get(i).animationStep();
                     }
+
+                    if (!shouldAnimateHarmonicRectangles.get()) break;
                 }
 
                 ThreadUtil.sleep(harmonicAnimationDelay);
