@@ -2,7 +2,6 @@ package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -19,7 +18,6 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
-import java.lang.management.ManagementFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -205,26 +203,13 @@ public final class CyderWatchdog {
         SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
     }
 
-    @CyderTest
-    public static void test() {
-        // todo if this is present use it? if not use
-        ManagementFactory.getRuntimeMXBean().getInputArguments();
-        ManagementFactory.getRuntimeMXBean().getClassPath();
-    }
-
-    // todo don't bootstrap if in debug mode
-
+    // todo go away
     /**
      * Generates and returns a string array for a process to execute in order to attempt a bootstrap.
      *
      * @return a string array for a process to execute in order to attempt a bootstrap
      */
     private static String[] getBootstrapProcessCommand() {
-        // todo can we some how get ALL of the arguments IntelliJ passes and just invoke that as a command?
-
-        String javawPath = JvmUtil.getCurrentJavaWExe().getAbsolutePath();
-        String jarPath = JvmUtil.getCyderJarReference().getAbsolutePath();
-
         String shutdownHash = SecurityUtil.generateUuid();
         String resumeLogHash = SecurityUtil.generateUuid();
 

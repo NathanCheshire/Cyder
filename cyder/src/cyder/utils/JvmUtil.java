@@ -167,7 +167,7 @@ public final class JvmUtil {
      * @throws FatalException if the found file does not exist or is not a file
      */
     public static File getCurrentJavaWExe() {
-        File javaw = new File(getCurrentJavaHome(), JAVAW);
+        File javaw = new File(getCurrentJavaBin(), JAVAW);
 
         if (!javaw.exists()) {
             throw new FatalException("Found javaw file does not exist: " + javaw.getAbsolutePath());
@@ -177,5 +177,41 @@ public final class JvmUtil {
         }
 
         return javaw;
+    }
+
+    /**
+     * The classpath argument.
+     */
+    private static final String CLASSPATH_ARGUMENT = "--classpath";
+
+    /**
+     * Returns the full command used to invoke the current JVM instance.
+     * This includes the javaw.exe path, input arguments from the runtime MX bean,
+     * the class path, and the main method arguments.
+     *
+     * @return the full command used to invoke the current JVM instance.
+     */
+    private static String getFullJvmInvocationCommand() {
+        String javaW = getCurrentJavaWExe().getAbsolutePath();
+
+        ImmutableList<String> inputArguments =
+                ImmutableList.copyOf(ManagementFactory.getRuntimeMXBean().getInputArguments());
+        StringBuilder inputArgumentsBuilder = new StringBuilder();
+        inputArguments.forEach(arg -> inputArgumentsBuilder.append(arg).append(CyderStrings.space));
+        String inputArgs = inputArgumentsBuilder.toString().trim();
+
+        String classPath = ManagementFactory.getRuntimeMXBean().getClassPath();
+        String sunJavaCommand = SystemPropertyKey.SUN_JAVA_COMMAND.getProperty();
+
+        StringBuilder mainMethodArgumentsBuilder = new StringBuilder();
+        getJvmArgs().forEach(arg -> mainMethodArgumentsBuilder.append(arg).append(CyderStrings.space));
+        String mainMethodArgs = mainMethodArgumentsBuilder.toString().trim();
+
+        return javaW + CyderStrings.space
+                + inputArgs + CyderStrings.space
+                + CLASSPATH_ARGUMENT + CyderStrings.space
+                + classPath + CyderStrings.space
+                + sunJavaCommand + CyderStrings.space
+                + mainMethodArgs;
     }
 }
