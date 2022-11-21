@@ -114,7 +114,6 @@ public final class SpotlightUtil {
      */
     public static final int MINIMUM_SIZE = 600;
 
-    // todo use me
     /**
      * Saves the Windows spotlights to the provided directory.
      *

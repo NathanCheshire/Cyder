@@ -217,6 +217,11 @@ public final class CyderWatchdog {
     }
 
     /**
+     * The last generated shutdown hash.
+     */
+    private static String lastGeneratedShutdownHash;
+
+    /**
      * Generates and returns a string array for a process to execute in order to attempt a bootstrap.
      *
      * @return a string array for a process to execute in order to attempt a bootstrap
@@ -226,7 +231,12 @@ public final class CyderWatchdog {
         String jarPath = JvmUtil.getCyderJarReference().getAbsolutePath();
 
         String shutdownHash = SecurityUtil.generateUuid();
+        lastGeneratedShutdownHash = shutdownHash;
+
         String resumeLogHash = SecurityUtil.generateUuid();
+
+        // todo need bootstrapper manager
+        // todo start server socket on a specific port, prop configurable port
 
         return new String[]{CMD_EXE, SLASH_C, javawPath, jarPath, shutdownHash, resumeLogHash};
     }

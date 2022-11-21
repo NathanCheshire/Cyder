@@ -8,9 +8,11 @@ import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.SecurityUtil;
+import cyder.utils.SpotlightUtil;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -29,7 +31,7 @@ public class ImageHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"java", "msu", "nathan", "nate", "html", "css", "docker", "redis", "blur", "unicorn"})
+    @Handle({"java", "msu", "nathan", "nate", "html", "css", "docker", "redis", "blur", "unicorn", "spotlight"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -60,12 +62,25 @@ public class ImageHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("unicorn")) {
             getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("unicorn.png")));
+        } else if (getInputHandler().inputIgnoringSpacesMatches("spotlight")) {
+            CyderThreadRunner.submit(() -> {
+                getInputHandler().println("Saving backgrounds to your backgrounds directory...");
+                SpotlightUtil.saveSpotlights(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(),
+                        UserFile.BACKGROUNDS.getName()));
+                getInputHandler().println("Saved images to your backgrounds directory");
+            }, spotlightStealerThreadName);
         } else {
             ret = false;
         }
 
         return ret;
     }
+
+    /**
+     * The name of the thread which saves the spotlights to the current user's backgrounds directory.
+     */
+    private static final String spotlightStealerThreadName = "Spotlight Saver";
 
     /**
      * The minimum allowable radius when blurring the background.
