@@ -2,6 +2,8 @@ package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.CyderTest;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
@@ -17,6 +19,7 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
+import java.lang.management.ManagementFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -186,23 +189,9 @@ public final class CyderWatchdog {
                 }
 
                 if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                    Logger.log(LogTag.WATCHDOG, "Halt detected by watchdog");
-
-                    if (OsUtil.JAR_MODE) {
-                        if (OsUtil.OPERATING_SYSTEM == OsUtil.OperatingSystem.WINDOWS) {
-                            Logger.log(LogTag.WATCHDOG, "JAR_MODE detected; attempting to "
-                                    + "locate jar to boostrap from");
-                            bootstrap();
-                        } else {
-                            Logger.log(LogTag.WATCHDOG, "Operating system is not Windows, found to be "
-                                    + OsUtil.OPERATING_SYSTEM + ". Thus bootstrap cannot occur");
-                            OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
-                        }
-                    } else {
-                        Logger.log(LogTag.WATCHDOG, "JAR_MODE is not active thus "
-                                + "no jar can be located to boostrap from; exiting Cyder");
-                        OsUtil.exit(ExitCondition.WatchdogTimeout);
-                    }
+                    Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog;"
+                            + " checking if bootstrap is possible");
+                    checkIfBoostrapPossible();
                 }
             }
         }, IgnoreThread.CyderWatchdog.getName());
@@ -216,10 +205,14 @@ public final class CyderWatchdog {
         SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
     }
 
-    /**
-     * The last generated shutdown hash.
-     */
-    private static String lastGeneratedShutdownHash;
+    @CyderTest
+    public static void test() {
+        // todo if this is present use it? if not use
+        ManagementFactory.getRuntimeMXBean().getInputArguments();
+        ManagementFactory.getRuntimeMXBean().getClassPath();
+    }
+
+    // todo don't bootstrap if in debug mode
 
     /**
      * Generates and returns a string array for a process to execute in order to attempt a bootstrap.
@@ -227,34 +220,72 @@ public final class CyderWatchdog {
      * @return a string array for a process to execute in order to attempt a bootstrap
      */
     private static String[] getBootstrapProcessCommand() {
+        // todo can we some how get ALL of the arguments IntelliJ passes and just invoke that as a command?
+
         String javawPath = JvmUtil.getCurrentJavaWExe().getAbsolutePath();
         String jarPath = JvmUtil.getCyderJarReference().getAbsolutePath();
 
         String shutdownHash = SecurityUtil.generateUuid();
-        lastGeneratedShutdownHash = shutdownHash;
-
         String resumeLogHash = SecurityUtil.generateUuid();
 
         // todo need bootstrapper manager
         // todo start server socket on a specific port, prop configurable port
 
-        return new String[]{CMD_EXE, SLASH_C, javawPath, jarPath, shutdownHash, resumeLogHash};
+        // todo use official --args for shutdown hash and resume log hash
+        return new String[]{CMD_EXE, SLASH_C, "todo other stuff", shutdownHash, resumeLogHash};
     }
 
     /**
-     * Attempts to boostrap Cyder by quitting and opening a new instance.
-     * The same log file will be used and resumed if the bootstrap process succeeds.
+     * Checks for whether a boostrap can be attempted and if possible, attempts to bootstrap.
+     * The following conditions must be met in order for a boostrap to be attempted:
+     *
+     * <ul>
+     *     <li>The JVM instance was launched from a jar file</li>
+     *     <li>The operating system is {@link cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
+     *     <li>The current JVM instance was not launched with JDWP args (debug mode)</li>
+     * </ul>
      */
-    private static void bootstrap() {
+    private static void checkIfBoostrapPossible() {
         try {
-            Process process = Runtime.getRuntime().exec(getBootstrapProcessCommand());
-            process.waitFor();
-            process.getOutputStream().close();
-
-            // todo now need part to wait to receiving shutdown hash, can test with small program
+            if (!OsUtil.JAR_MODE) {
+                // todo probably don't want to boostrap if launched from an IDE but see what happens
+                onFailedBoostrap("Cyder was not launched from a jar file");
+            } else if (!OsUtil.isWindows()) {
+                // todo test on Kali, Process API might act different
+                onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
+            } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
+                onFailedBoostrap("Current JVM was launched with JDWP args");
+            } else {
+                onBootstrapConditionsMet();
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
+            onFailedBoostrap(e.getMessage());
         }
+    }
+
+    /**
+     * Invokes a boostrap attempt after all of the proper conditions
+     * outlined in {@link #checkIfBoostrapPossible()} are met.
+     */
+    private static void onBootstrapConditionsMet() {
+        Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
+
+
+    }
+
+    /**
+     * Logs a watchdog tagged log message with the provided reason and exits
+     * with the exit condition of {@link ExitCondition#WatchdogBootstrapFail}.
+     *
+     * @param reason
+     */
+    @ForReadability
+    private static void onFailedBoostrap(String reason) {
+        Preconditions.checkNotNull(reason);
+        Preconditions.checkArgument(!reason.isEmpty());
+
+        Logger.log(LogTag.WATCHDOG, "Failed to boostrap: " + reason);
+        OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
     }
 }

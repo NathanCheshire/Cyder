@@ -48,26 +48,6 @@ public final class GenesisConstants {
     static final String TOOLTIP_FOREGROUND = "ToolTip.foreground";
 
     /**
-     * The key for getting the ui scale prop key.
-     */
-    static final String UI_SCALE = "ui_scale";
-
-    /**
-     * The java 2s sun ui scaling enabled prop key.
-     */
-    static final String UI_SCALE_ENABLED = "sun.java2d.uiScale.enabled";
-
-    /**
-     * The java 2s sun ui scaling prop key.
-     */
-    static final String SUN_UI_SCALE = "sun.java2d.uiScale";
-
-    /**
-     * The ide ui scaling prop key.
-     */
-    static final String IDE_SCALE = "ide.ui.scale";
-
-    /**
      * The name to use for the temporary directory cleaning exit hook.
      */
     static final String REMOVE_TEMP_DIRECTORY_HOOK_NAME = "cyder-temporary-directory-cleaner-exit-hook";

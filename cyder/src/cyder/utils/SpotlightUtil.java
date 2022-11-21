@@ -9,6 +9,7 @@ import cyder.handlers.internal.ExceptionHandler;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -66,6 +67,12 @@ public final class SpotlightUtil {
     private static final String ASSETS = "Assets";
 
     /**
+     * The minimum length each dimension of a spotlight must have in order
+     * to be saved by the {@link #saveSpotlights(File)} method.
+     */
+    public static final int minimumSpotlightImageLength = 600;
+
+    /**
      * Wipes the windows spotlight directory. Windows will download new ones eventually.
      */
     public static void wipeSpotlights() {
@@ -104,15 +111,15 @@ public final class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, USERS, OsUtil.getOsUsername(),
-                APP_DATA, LOCAL, PACKAGES, CONTENT_DELIVERY_MANAGER_PREFIX + CONTENT_DELIVERY_MANAGER_SUFFIX,
-                LOCAL_STATE, ASSETS);
+        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, USERS,
+                OsUtil.getOsUsername(),
+                APP_DATA,
+                LOCAL,
+                PACKAGES,
+                CONTENT_DELIVERY_MANAGER_PREFIX + CONTENT_DELIVERY_MANAGER_SUFFIX,
+                LOCAL_STATE,
+                ASSETS);
     }
-
-    /**
-     * The minimum savable size of a spotlight.
-     */
-    public static final int MINIMUM_SIZE = 600;
 
     /**
      * Saves the Windows spotlights to the provided directory.
@@ -120,33 +127,35 @@ public final class SpotlightUtil {
      * @param saveDir the directory o save the files to
      */
     public static void saveSpotlights(File saveDir) {
+        Preconditions.checkState(OsUtil.isWindows());
         Preconditions.checkNotNull(saveDir);
-        Preconditions.checkArgument(saveDir.isDirectory(), "Destination directory is not a folder");
-        Preconditions.checkArgument(saveDir.exists(), "Destination directory does not exists");
-        Preconditions.checkArgument(OsUtil.isWindows(), "Host OS is not Windows");
+        Preconditions.checkArgument(saveDir.exists());
+        Preconditions.checkArgument(saveDir.isDirectory());
 
         try {
-            int acc = 0;
-
             File[] files = getSpotlightsDirectory().listFiles();
 
-            if (files == null || files.length == 0) {
-                return;
-            }
+            if (files == null || files.length == 0) return;
+
+            int spotlightIndex = 0;
 
             for (File spotlight : files) {
                 ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
 
-                // skip small previews and the weird vertical ones
-                if (isPortrait(icon) || icon.getIconWidth() < MINIMUM_SIZE
-                        || icon.getIconHeight() < MINIMUM_SIZE) {
-                    continue;
+                if (isPortrait(icon)) continue;
+                if (icon.getIconWidth() < minimumSpotlightImageLength) continue;
+                if (icon.getIconHeight() < minimumSpotlightImageLength) continue;
+
+                String savePath = OsUtil.buildPath(saveDir.getAbsolutePath(),
+                        spotlightIndex + Extension.PNG.getExtension());
+
+                try {
+                    Files.copy(spotlight.toPath(), Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    ExceptionHandler.handle(e);
                 }
 
-                Files.copy(spotlight.toPath(), Paths.get(saveDir + OsUtil.FILE_SEP
-                                + acc + Extension.PNG.getExtension()),
-                        StandardCopyOption.REPLACE_EXISTING);
-                acc++;
+                spotlightIndex++;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

@@ -69,22 +69,12 @@ public final class Cyder {
     }
 
     /**
-     * Initializes all system and ui-manager toolkit key-value props.
+     * Initializes all ui-manager look and feel key-value props.
      */
     private static void initUiAndSystemProps() {
         initUiManagerTooltipProps();
-        initSystemProps();
 
         UIManager.put(SLIDER_ONLY_LEFT_MOUSE_DRAG, Boolean.TRUE);
-    }
-
-    /**
-     * Initializes System.getProperty key/value pairs such as the ui scale.
-     */
-    private static void initSystemProps() {
-        System.setProperty(UI_SCALE_ENABLED, Boolean.TRUE.toString());
-        System.setProperty(SUN_UI_SCALE, PropLoader.getString(UI_SCALE));
-        System.setProperty(IDE_SCALE, PropLoader.getString(UI_SCALE));
     }
 
     /**
