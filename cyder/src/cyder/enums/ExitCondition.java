@@ -11,7 +11,7 @@ public enum ExitCondition {
             + " and the bootstrap attempt failed"),
     WatchdogTimeout(-13, "Watchdog Timeout"),
     NotReleased(-12, "Cyder Not Released"),
-    SubroutineException(-11, "Subroutine Exception"),
+    NecessarySubroutineExit(-11, "A necessary subroutine failed"),
     MultipleInstancesExit(-10, "Multiple Instances Exit"),
     ExternalStop(-9, "External Stop"),
     JsonParsingException(-8, "JSON Parsing Exception"),

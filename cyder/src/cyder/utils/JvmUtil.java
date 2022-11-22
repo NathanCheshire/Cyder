@@ -231,10 +231,6 @@ public final class JvmUtil {
         return SystemPropertyKey.JAVA_CLASS_PATH.getProperty();
     }
 
-    // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
-
-    // todo use javaw.exe over java.exe for bootstrap prop config item?
-
     /**
      * Returns the full command used to invoke the current JVM instance.
      * This includes java.exe path, input arguments from the runtime MX bean,

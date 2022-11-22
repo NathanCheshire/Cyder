@@ -30,7 +30,7 @@ public final class PropLoader {
     /**
      * The props immutable list.
      */
-    private static ImmutableList<Prop> props;
+    private static ImmutableList<Prop> props = ImmutableList.of();
 
     /**
      * Whether the props have been loaded.
@@ -79,7 +79,6 @@ public final class PropLoader {
      * @return whether a prop with the provided key can be found
      */
     public static boolean propExists(String key) {
-        Preconditions.checkArgument(propsLoaded);
         Preconditions.checkNotNull(key);
 
         return props.stream().anyMatch(prop -> prop.key().equals(key));

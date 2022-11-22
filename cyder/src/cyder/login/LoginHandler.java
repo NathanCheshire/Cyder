@@ -583,13 +583,21 @@ public final class LoginHandler {
      */
     public static void showProperStartupFrame() {
         boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
+
         if (autoCypher) {
-            // todo test for props even exiting
-            String name = PropLoader.getString(DEBUG_HASH_NAME);
-            String password = PropLoader.getString(DEBUG_HASH_PASSWORD);
-            startedViaAutoCypher = recognize(name, password, true);
-            ProgramModeManager.INSTANCE.refreshProgramMode();
-            if (!startedViaAutoCypher) showGui();
+            boolean debugHashNamePresent = PropLoader.propExists(DEBUG_HASH_NAME);
+            boolean debugHashPasswordPresent = PropLoader.propExists(DEBUG_HASH_PASSWORD);
+
+            if (debugHashNamePresent && debugHashPasswordPresent) {
+                String name = PropLoader.getString(DEBUG_HASH_NAME);
+                String password = PropLoader.getString(DEBUG_HASH_PASSWORD);
+
+                startedViaAutoCypher = recognize(name, password, true);
+                ProgramModeManager.INSTANCE.refreshProgramMode();
+                if (startedViaAutoCypher) return;
+            }
+
+            showGui();
             return;
         }
 
@@ -600,16 +608,16 @@ public final class LoginHandler {
         }
 
         Optional<String> optionalUuid = UserUtil.getFirstLoggedInUser();
-        if (optionalUuid.isEmpty()) {
-            showGui();
+        if (optionalUuid.isPresent()) {
+            String loggedInUuid = optionalUuid.get();
+            Logger.log(LogTag.CONSOLE_LOAD, "Found previously logged in user: " + loggedInUuid);
+            UserUtil.logoutAllUsers();
+            Console.INSTANCE.setUuid(loggedInUuid);
+            Console.INSTANCE.launch();
             return;
         }
 
-        String loggedInUuid = optionalUuid.get();
-        Logger.log(LogTag.CONSOLE_LOAD, "Found previously logged in user: " + loggedInUuid);
-        UserUtil.logoutAllUsers();
-        Console.INSTANCE.setUuid(loggedInUuid);
-        Console.INSTANCE.launch();
+        showGui();
     }
 
     /**

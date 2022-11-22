@@ -1123,7 +1123,6 @@ public final class StringUtil {
      */
     public static LinkedList<String> split(String string, Pattern pattern) {
         Preconditions.checkNotNull(string);
-        Preconditions.checkArgument(!string.isEmpty());
         Preconditions.checkNotNull(pattern);
 
         Matcher m = pattern.matcher(string);

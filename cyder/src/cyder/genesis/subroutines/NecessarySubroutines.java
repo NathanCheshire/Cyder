@@ -5,6 +5,7 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
+import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
@@ -13,44 +14,21 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.threads.CyderThreadRunner;
-import cyder.threads.IgnoreThread;
-import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.ReflectionUtil;
-import cyder.utils.StaticUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.constants.CyderStrings.space;
 
-@SuppressWarnings("BooleanMethodIsAlwaysInverted") /* Readability */
+/**
+ * Subroutines which must complete in order for Cyder to start.
+ */
 public final class NecessarySubroutines {
-    /**
-     * The socket used to ensure only one instance of Cyder ever exists.
-     */
-    private static Socket serverSocket;
-
-    /**
-     * The timeout to wait for the server socket to connect/fail.
-     */
-    private static final long SINGLE_INSTANCE_ENSURER_TIMEOUT = 500;
-
-    /**
-     * The port to ensure one instance of Cyder is ever active.
-     * Note this should never be configurable.
-     */
-    private static final int INSTANCE_SOCKET_PORT = 5150;
-
     /**
      * The test key word to validate tests.
      */
@@ -65,10 +43,7 @@ public final class NecessarySubroutines {
      * The vanilla developer names.
      */
     private static final ImmutableList<String> DEVELOPER_NAMES = ImmutableList.of(
-            "Nathan Cheshire",
-            "Natche",
-            "Cypher",
-            "Nate Cheshire");
+            "Nathan Cheshire", "Nate Cheshire", "Natche", "Cypher");
 
     /**
      * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
@@ -83,56 +58,52 @@ public final class NecessarySubroutines {
     }
 
     /**
-     * Returns the server socket used to ensure only one instance of Cyder exists.
-     *
-     * @return the server socket used to ensure only one instance of Cyder exists
-     */
-    public static Socket getServerSocket() {
-        // This is currently exposed for future addition of remote shutdown API
-        return serverSocket;
-    }
-
-    /**
      * Executes the necessary subroutines on the main thread.
-     *
-     * @throws FatalException if any necessary subroutines fail
+     * If any fail then the program is exited with the exit condition of {@link ExitCondition#NecessarySubroutineExit}.
      */
     public static void execute() {
-        CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
-        if (!registerFonts()) {
-            throw new FatalException("Registering fonts failed");
+        try {
+            CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
+            if (!registerFonts()) {
+                throw new FatalException("Registering fonts failed");
+            }
+
+            CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
+            if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
+                throw new FatalException("Could not bind to instance socket port: "
+                        + InstanceSocketUtil.getInstanceSocketPort());
+            }
+            InstanceSocketUtil.bind();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
+            if (OsUtil.isOsx()) {
+                throw new FatalException("Unsupported OS");
+            }
+
+            CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
+            OsUtil.ensureDynamicsCreated();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Validating users");
+            UserUtil.validateUsers();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
+            UserUtil.cleanUsers();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
+            validateWidgets();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Tests");
+            validateTests();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
+            validateVanillaWidgets();
+
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
+            validateHandles();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            OsUtil.exit(ExitCondition.NecessarySubroutineExit);
         }
-
-        CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
-        if (!ensureSingularInstance()) {
-            throw new FatalException("Multiple instances detected");
-        }
-
-        CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
-        if (OsUtil.isOsx()) {
-            throw new FatalException("Unsupported OS");
-        }
-
-        CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
-        OsUtil.ensureDynamicsCreated();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating users");
-        UserUtil.validateUsers();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
-        UserUtil.cleanUsers();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
-        validateWidgets();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Tests");
-        validateTests();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
-        validateVanillaWidgets();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
-        validateHandles();
     }
 
     /**
@@ -161,29 +132,6 @@ public final class NecessarySubroutines {
         }
 
         return true;
-    }
-
-    /**
-     * Returns whether this instance of Cyder is the only instance on the host OS.
-     *
-     * @return whether this instance of Cyder is the only instance on the host OS
-     */
-    private static boolean ensureSingularInstance() {
-        AtomicBoolean singularInstance = new AtomicBoolean(true);
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                Logger.log(LogTag.NETWORK, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
-                serverSocket = new ServerSocket(INSTANCE_SOCKET_PORT).accept();
-            } catch (Exception ignored) {
-                Logger.log(LogTag.NETWORK, "Failed to start singular instance socket");
-                singularInstance.set(false);
-            }
-        }, IgnoreThread.SingularInstanceEnsurer.getName());
-
-        ThreadUtil.sleep(SINGLE_INSTANCE_ENSURER_TIMEOUT);
-
-        return singularInstance.get();
     }
 
     /**

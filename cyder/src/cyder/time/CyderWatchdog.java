@@ -18,10 +18,8 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
-import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -261,21 +259,14 @@ public final class CyderWatchdog {
             System.out.println("Awaiting data on shutdown socket...");
             Socket newCyderInstance = shutdownSocket.accept(); // blocking
 
-            int red = -1;
-            byte[] buffer = new byte[1024];
-            byte[] redData;
-            StringBuilder clientData = new StringBuilder();
-            String redDataText;
-            while ((red = newCyderInstance.getInputStream().read(buffer)) > -1) {
-                redData = new byte[red];
-                System.arraycopy(buffer, 0, redData, 0, red);
-                redDataText = new String(redData, StandardCharsets.UTF_8);
-                System.out.println("Message part received:" + redDataText);
-                clientData.append(redDataText);
-            }
-            System.out.println("Data From Client :" + clientData);
-            if (clientData.toString().contains("Apple")) {
-                // todo this doesn't work, it prints but then throws for some reason? why the hell
+            // todo design json schema for messages coming from clients
+            // message: shutdown, password: hash of Vexento or whatever the prop says
+
+            String receivedHash = "hash";
+            String hashedLocalhostShutdownRequestPassword = "hash";
+            if (hashedLocalhostShutdownRequestPassword.contains(receivedHash)) {
+                // todo end the other socket, half of this stuff should always be waiting anyway and started
+                //  via a
                 shutdownSocket.close();
                 OsUtil.exit(ExitCondition.BootstrapExit);
             }
@@ -284,28 +275,23 @@ public final class CyderWatchdog {
         }
 
         // todo get command, generate hashes, send, and start socket in sep process
+
+        // todo need to make local host shutdown request api for purposes of testing bootstrap
+        // localhost_shutdown_requests_enabled : true
+        // auto_comply_to_localhost_shutdown_requests : false
+        // localhost_shutdown_request_password : Vexento todo we should definitely hash this before sending it over the socket
     }
 
-    public static void main(String[] args) {
-        try {
-            Socket socket = new Socket("127.0.0.1", 8888);
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+    // instance_socket_port : 8888
+    // auto_attempt_bootstrap: true
+    // prefer_javaw_over_java_when_bootstrapping: false
 
-            // Send first message
-            dataOutputStream.flush();
-            dataOutputStream.writeUTF("Apple");
-            dataOutputStream.flush(); // Send off the data
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // todo prop for should attempt boostrap, default to true
-    // todo prop for bootstrap socket port should default to 8888
-    // todo change singular instance port, shouldn't be prop configurable ever I think
     // todo should receive a hash on the boostrap socket port and then log the EOS (end of session) and then
     //  let the new instance draw some kind of a separator, maybe like Cyder art but BOOSTRAP instead and then
     //  write all of it's stuff down and say something about successfully bootstrapped
+
+    // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
+    // todo key util with validation and getter methods?
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits

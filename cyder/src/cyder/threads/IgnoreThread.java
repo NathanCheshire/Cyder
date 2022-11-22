@@ -18,7 +18,8 @@ public enum IgnoreThread {
     CyderWatchdog("Cyder Watchdog"),
     WatchdogInitializer("Watchdog Initializer"),
     LatencyHostnameFinder("Latency Hostname finder"),
-    ConsoleBusyAnimation("Console Busy Animation");
+    ConsoleBusyAnimation("Console Busy Animation"),
+    InstanceSocket("Instance Socket");
 
     /**
      * The name associated with the thread to ignore.
