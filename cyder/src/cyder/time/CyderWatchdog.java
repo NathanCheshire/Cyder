@@ -203,23 +203,6 @@ public final class CyderWatchdog {
         SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
     }
 
-    // todo go away
-    /**
-     * Generates and returns a string array for a process to execute in order to attempt a bootstrap.
-     *
-     * @return a string array for a process to execute in order to attempt a bootstrap
-     */
-    private static String[] getBootstrapProcessCommand() {
-        String shutdownHash = SecurityUtil.generateUuid();
-        String resumeLogHash = SecurityUtil.generateUuid();
-
-        // todo need bootstrapper manager
-        // todo start server socket on a specific port, prop configurable port
-
-        // todo use official --args for shutdown hash and resume log hash
-        return new String[]{CMD_EXE, SLASH_C, "todo other stuff", shutdownHash, resumeLogHash};
-    }
-
     /**
      * Checks for whether a boostrap can be attempted and if possible, attempts to bootstrap.
      * The following conditions must be met in order for a boostrap to be attempted:
@@ -232,10 +215,7 @@ public final class CyderWatchdog {
      */
     private static void checkIfBoostrapPossible() {
         try {
-            if (!OsUtil.JAR_MODE) {
-                // todo probably don't want to boostrap if launched from an IDE but see what happens
-                onFailedBoostrap("Cyder was not launched from a jar file");
-            } else if (!OsUtil.isWindows()) {
+            if (!OsUtil.isWindows()) {
                 // todo test on Kali, Process API might act different
                 onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
             } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
@@ -256,14 +236,31 @@ public final class CyderWatchdog {
     private static void onBootstrapConditionsMet() {
         Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
 
+        String shutdownHash = SecurityUtil.generateUuid();
+        String resumeLogHash = SecurityUtil.generateUuid();
 
+        // todo need bootstrapper manager
+        // todo start server socket on a specific port, prop configurable port
+
+        // todo use official --args for shutdown hash and resume log hash
+        String[] str = new String[]{CMD_EXE, SLASH_C, "todo other stuff", shutdownHash, resumeLogHash};
+
+        try {
+            Runtime.getRuntime().exec(new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand()});
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        // todo get command, generate hashes, send, and start socket in sep process
     }
+
+    // todo prop for should attempt boostrap, default to true
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits
      * with the exit condition of {@link ExitCondition#WatchdogBootstrapFail}.
      *
-     * @param reason
+     * @param reason the reason the bootstrap  failed
      */
     @ForReadability
     private static void onFailedBoostrap(String reason) {
