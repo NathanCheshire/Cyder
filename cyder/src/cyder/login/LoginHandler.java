@@ -584,6 +584,7 @@ public final class LoginHandler {
     public static void showProperStartupFrame() {
         boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
         if (autoCypher) {
+            // todo test for props even exiting
             String name = PropLoader.getString(DEBUG_HASH_NAME);
             String password = PropLoader.getString(DEBUG_HASH_PASSWORD);
             startedViaAutoCypher = recognize(name, password, true);

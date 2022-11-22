@@ -18,6 +18,10 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -240,13 +244,41 @@ public final class CyderWatchdog {
         String resumeLogHash = SecurityUtil.generateUuid();
 
         // todo need bootstrapper manager
-        // todo start server socket on a specific port, prop configurable port
 
         // todo use official --args for shutdown hash and resume log hash
         String[] str = new String[]{CMD_EXE, SLASH_C, "todo other stuff", shutdownHash, resumeLogHash};
 
         try {
+            // todo need a method in process util to run a string array command and get output from
             Runtime.getRuntime().exec(new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand()});
+
+            int shutdownSocketPort = 8888;
+            if (PropLoader.propExists("shutdown_socket_port")) {
+                shutdownSocketPort = PropLoader.getInteger("shutdown_socket_port");
+            }
+
+            ServerSocket shutdownSocket = new ServerSocket(shutdownSocketPort);
+            System.out.println("Awaiting data on shutdown socket...");
+            Socket newCyderInstance = shutdownSocket.accept(); // blocking
+
+            int red = -1;
+            byte[] buffer = new byte[1024];
+            byte[] redData;
+            StringBuilder clientData = new StringBuilder();
+            String redDataText;
+            while ((red = newCyderInstance.getInputStream().read(buffer)) > -1) {
+                redData = new byte[red];
+                System.arraycopy(buffer, 0, redData, 0, red);
+                redDataText = new String(redData, StandardCharsets.UTF_8);
+                System.out.println("Message part received:" + redDataText);
+                clientData.append(redDataText);
+            }
+            System.out.println("Data From Client :" + clientData);
+            if (clientData.toString().contains("Apple")) {
+                // todo this doesn't work, it prints but then throws for some reason? why the hell
+                shutdownSocket.close();
+                OsUtil.exit(ExitCondition.BootstrapExit);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -254,7 +286,26 @@ public final class CyderWatchdog {
         // todo get command, generate hashes, send, and start socket in sep process
     }
 
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("127.0.0.1", 8888);
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+            // Send first message
+            dataOutputStream.flush();
+            dataOutputStream.writeUTF("Apple");
+            dataOutputStream.flush(); // Send off the data
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // todo prop for should attempt boostrap, default to true
+    // todo prop for bootstrap socket port should default to 8888
+    // todo change singular instance port, shouldn't be prop configurable ever I think
+    // todo should receive a hash on the boostrap socket port and then log the EOS (end of session) and then
+    //  let the new instance draw some kind of a separator, maybe like Cyder art but BOOSTRAP instead and then
+    //  write all of it's stuff down and say something about successfully bootstrapped
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits

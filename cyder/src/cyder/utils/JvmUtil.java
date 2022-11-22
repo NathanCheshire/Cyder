@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.CyderTest;
 import cyder.constants.CyderStrings;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
@@ -232,12 +231,9 @@ public final class JvmUtil {
         return SystemPropertyKey.JAVA_CLASS_PATH.getProperty();
     }
 
-    // todo use javaw.exe over java.exe for bootstrap prop config item?
+    // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
 
-    @CyderTest
-    public static void test() {
-        System.out.println(getFullJvmInvocationCommand());
-    }
+    // todo use javaw.exe over java.exe for bootstrap prop config item?
 
     /**
      * Returns the full command used to invoke the current JVM instance.

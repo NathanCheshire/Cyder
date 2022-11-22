@@ -36,7 +36,12 @@ public enum ExitCondition {
     /**
      * The exit was schedule by a Cyder user.
      */
-    ScheduledExit(1, "Genesis Controlled Exit");
+    ScheduledExit(1, "Genesis Controlled Exit"),
+
+    /**
+     * The exit was requested by a new Cyder instance started via the current instance.
+     */
+    BootstrapExit(2, "Bootstrap Requested Exit");
 
     /**
      * The code associated with this ExitCondition.

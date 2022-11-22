@@ -1145,7 +1145,6 @@ public final class StringUtil {
      */
     public static String stripNewLinesAndTrim(String line) {
         Preconditions.checkNotNull(line);
-        Preconditions.checkArgument(!line.isEmpty());
 
         return line.replace(CyderStrings.newline, CyderStrings.space)
                 .replace("\r", CyderStrings.space).trim();
