@@ -2,6 +2,8 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
+import cyder.comms.CyderCommunicationMessage;
+import cyder.comms.CyderRemoteShutdownMessage;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
@@ -133,29 +135,31 @@ public final class InstanceSocketUtil {
                 while (true) {
                     try {
                         Socket client = instanceSocket.accept();
-
-                        PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-
+                        PrintWriter sendWriter = new PrintWriter(client.getOutputStream(), true);
                         BufferedReader inputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                        String endHash = inputReader.readLine();
 
-                        StringBuilder sb = new StringBuilder();
+                        String startAndEndHash = inputReader.readLine();
+
+                        StringBuilder inputBuilder = new StringBuilder();
                         String line;
-                        while (!(line = inputReader.readLine()).equals(endHash)) {
-                            sb.append(line);
+                        while (!(line = inputReader.readLine()).equals(startAndEndHash)) {
+                            inputBuilder.append(line);
                         }
 
-                        System.out.println("SB: " + sb);
-                        MyClass myClass = SerializationUtil.fromJson(sb.toString(), MyClass.class);
+                        CyderCommunicationMessage receivedMessage =
+                                CyderCommunicationMessage.fromJson(inputBuilder.toString());
+
+                        CyderRemoteShutdownMessage responseMessage =
+                                new CyderRemoteShutdownMessage("Shutting down instance: instance id here");
 
                         // todo send a response with a confirmation that we're about to shutdown
                         //  then sending client can wait for the port to be free, that's the queue to start
-                        out.println("ACK");
+                        sendWriter.println(responseMessage);
 
                         // todo need an instance session id api now...
 
                         // todo now use my class to determine course of action
-                        if (myClass.getContent().equals("my hash")) {
+                        if (receivedMessage.getContent().equals("my content")) { // todo prop hash
                             // todo remote shutdown
                             Logger.log(LogTag.DEBUG, "Shutdown requested from instance: todo instance");
                             OsUtil.exit(ExitCondition.RemoteShutdown);
@@ -172,32 +176,6 @@ public final class InstanceSocketUtil {
         }, IgnoreThread.InstanceSocket.getName());
     }
 
-    private static final class MyClass {
-        private String message;
-        private String content;
-
-        public MyClass(String message, String content) {
-            this.message = message;
-            this.content = content;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         String host = "localhost";
         int port = 8888;
@@ -212,7 +190,7 @@ public final class InstanceSocketUtil {
                 .append(CyderStrings.quote)
                 .append(CyderStrings.colon);
         sendBuilder.append(CyderStrings.quote)
-                .append("shutdown")
+                .append("Remote shutdown")
                 .append(CyderStrings.quote)
                 .append(CyderStrings.comma);
         sendBuilder.append(CyderStrings.quote)
@@ -220,7 +198,7 @@ public final class InstanceSocketUtil {
                 .append(CyderStrings.quote)
                 .append(CyderStrings.colon);
         sendBuilder.append(CyderStrings.quote)
-                .append("my hash")
+                .append("my content")
                 .append(CyderStrings.quote)
                 .append("}");
 
