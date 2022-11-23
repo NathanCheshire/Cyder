@@ -39,9 +39,9 @@ public enum ExitCondition {
     ScheduledExit(1, "Genesis Controlled Exit"),
 
     /**
-     * The exit was requested by a new Cyder instance started via the current instance.
+     * A remote shutdown was requested by a new instance of Cyder.
      */
-    BootstrapExit(2, "Bootstrap Requested Exit");
+    RemoteShutdown(2, "Remote Shutdown");
 
     /**
      * The code associated with this ExitCondition.

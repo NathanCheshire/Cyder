@@ -265,10 +265,7 @@ public final class CyderWatchdog {
             String receivedHash = "hash";
             String hashedLocalhostShutdownRequestPassword = "hash";
             if (hashedLocalhostShutdownRequestPassword.contains(receivedHash)) {
-                // todo end the other socket, half of this stuff should always be waiting anyway and started
-                //  via a
-                shutdownSocket.close();
-                OsUtil.exit(ExitCondition.BootstrapExit);
+
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

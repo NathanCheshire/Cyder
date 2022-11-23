@@ -3,8 +3,11 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
@@ -142,12 +145,21 @@ public final class InstanceSocketUtil {
                             sb.append(line);
                         }
 
-
                         System.out.println("SB: " + sb);
                         MyClass myClass = SerializationUtil.fromJson(sb.toString(), MyClass.class);
-                        System.out.println(myClass);
 
+                        // todo send a response with a confirmation that we're about to shutdown
+                        //  then sending client can wait for the port to be free, that's the queue to start
                         out.println("ACK");
+
+                        // todo need an instance session id api now...
+
+                        // todo now use my class to determine course of action
+                        if (myClass.getContent().equals("my hash")) {
+                            // todo remote shutdown
+                            Logger.log(LogTag.DEBUG, "Shutdown requested from instance: todo instance");
+                            OsUtil.exit(ExitCondition.RemoteShutdown);
+                        }
 
                         // todo need to read messages some how defined by some schema
                     } catch (Exception e) {
@@ -187,18 +199,36 @@ public final class InstanceSocketUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        Socket clientSocket = new Socket("localhost", 8888);
+        String host = "localhost";
+        int port = 8888;
+        Socket clientSocket = new Socket(host, port);
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
+        StringBuilder sendBuilder = new StringBuilder();
+        sendBuilder.append("{");
+        sendBuilder.append(CyderStrings.quote)
+                .append("message")
+                .append(CyderStrings.quote)
+                .append(CyderStrings.colon);
+        sendBuilder.append(CyderStrings.quote)
+                .append("shutdown")
+                .append(CyderStrings.quote)
+                .append(CyderStrings.comma);
+        sendBuilder.append(CyderStrings.quote)
+                .append("content")
+                .append(CyderStrings.quote)
+                .append(CyderStrings.colon);
+        sendBuilder.append(CyderStrings.quote)
+                .append("my hash")
+                .append(CyderStrings.quote)
+                .append("}");
+
         out.println("ending hash");
-        out.println("{");
-        out.println("\"message\":\"shutdown\",");
-        out.println("\"content\":\"shutdownhash\"");
-        out.println("}");
+        out.println(sendBuilder);
         out.println("ending hash");
         String response = in.readLine(); // while loop
-        System.out.println("response: " + response);
+        System.out.println("response: " + response); // todo ensure it was an ack or maybe an actual json message
     }
 
     /**
