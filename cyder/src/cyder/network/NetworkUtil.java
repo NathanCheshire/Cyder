@@ -36,6 +36,16 @@ import java.util.function.Function;
 @SuppressWarnings("unused") /* Response codes */
 public class NetworkUtil {
     /**
+     * The local host string.
+     */
+    public static final String LOCALHOST = "localhost";
+
+    /**
+     * The range a port must fall into.
+     */
+    public static final Range<Integer> portRange = Range.closed(1024, 65535);
+
+    /**
      * The string used to represent a space in a url.
      */
     public static final String URL_SPACE = "%20";
@@ -632,5 +642,23 @@ public class NetworkUtil {
     private static String filterHostname(String rawClassResult) {
         rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
         return rawClassResult.substring(0, rawClassResult.indexOf("'"));
+    }
+
+    /**
+     * Returns whether the local port is available for binding.
+     *
+     * @param port the local port
+     * @return whether the local port is available for binding
+     */
+    public static boolean localPortAvailable(int port) {
+        Preconditions.checkArgument(portRange.contains(port));
+
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(false);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(LOCALHOST), port), 1);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }

@@ -115,6 +115,7 @@ public final class CyderWatchdog {
                 try {
                     ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
+                    // todo apparently this can be null?
                     for (Thread thread : getCurrentThreads()) {
                         // Yes, this actually can and has happened
                         if (thread == null) continue;

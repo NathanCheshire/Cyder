@@ -1,7 +1,6 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
@@ -9,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
@@ -19,8 +19,6 @@ import cyder.utils.SecurityUtil;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
@@ -44,16 +42,6 @@ public final class InstanceSocketUtil {
     private static final String LOCALHOST_SHUTDOWN_REQUEST_PASSWORD = "localhost_shutdown_request_password";
 
     /**
-     * The local host string.
-     */
-    private static final String LOCALHOST = "localhost";
-
-    /**
-     * The range a port must fall into.
-     */
-    private static final Range<Integer> portRange = Range.closed(1024, 65535);
-
-    /**
      * The default instance socket port.
      */
     private static final int DEFAULT_INSTANCE_SOCKET_PORT = 8888;
@@ -74,7 +62,7 @@ public final class InstanceSocketUtil {
         if (propPresent) {
             int requestedPort = PropLoader.getInteger(INSTANCE_SOCKET_PORT);
 
-            if (localPortAvailable(requestedPort)) {
+            if (NetworkUtil.localPortAvailable(requestedPort)) {
                 instanceSocketPort = requestedPort;
             } else {
                 instanceSocketPort = DEFAULT_INSTANCE_SOCKET_PORT;
@@ -100,33 +88,13 @@ public final class InstanceSocketUtil {
         return instanceSocketPort;
     }
 
-    // todo network util
-
-    /**
-     * Returns whether the local port is available for binding.
-     *
-     * @param port the local port
-     * @return whether the local port is available for binding
-     */
-    public static boolean localPortAvailable(int port) {
-        Preconditions.checkArgument(portRange.contains(port));
-
-        try (ServerSocket serverSocket = new ServerSocket()) {
-            serverSocket.setReuseAddress(false);
-            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(LOCALHOST), port), 1);
-            return true;
-        } catch (Exception ignored) {
-            return false;
-        }
-    }
-
     /**
      * Returns whether the instance socket port is currently available.
      *
      * @return whether the instance socket port is currently available
      */
     public static boolean instanceSocketPortAvailable() {
-        return localPortAvailable(instanceSocketPort);
+        return NetworkUtil.localPortAvailable(instanceSocketPort);
     }
 
     /**
@@ -200,7 +168,6 @@ public final class InstanceSocketUtil {
         throw new FatalException("Failed to read communication message from: " + inputReader);
     }
 
-
     /**
      * The actions to invoke when a message is received in the instance socket.
      *
@@ -233,9 +200,14 @@ public final class InstanceSocketUtil {
         Preconditions.checkNotNull(message);
         Preconditions.checkNotNull(responseWriter);
 
-        boolean shouldComply = true;
+        Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
+
+        boolean shouldComply = false;
         if (PropLoader.propExists(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
-            if (!PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+            if (PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+                shouldComply = true;
+                Logger.log(LogTag.DEBUG, "Shutdown request accepted, auto comply is enabled");
+            } else {
                 boolean passwordExists = PropLoader.propExists(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
 
                 if (passwordExists) {
@@ -244,23 +216,26 @@ public final class InstanceSocketUtil {
                             SecurityUtil.getSha256(remoteShutdownPassword.toCharArray()));
                     String receivedHash = message.getContent();
 
-                    shouldComply = receivedHash.equals(hashedShutdownRequestPassword);
+                    if (receivedHash.equals(hashedShutdownRequestPassword)) {
+                        shouldComply = true;
+                        Logger.log(LogTag.DEBUG, "Shutdown request accepted, password correct");
+                    } else {
+                        Logger.log(LogTag.DEBUG, "Shutdown request denied, password not correct");
+                    }
+                } else {
+                    Logger.log(LogTag.DEBUG, "Shutdown request denied, password not found");
                 }
             }
         }
 
         if (shouldComply) {
             try {
-                Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
                 instanceSocket.close();
                 sendCommunicationMessage("Remote shutdown response", "Shutting down", responseWriter);
                 responseWriter.close();
             } catch (Exception ignored) {} finally {
                 OsUtil.exit(ExitCondition.RemoteShutdown);
             }
-        } else {
-            Logger.log(LogTag.DEBUG, "Shutdown request from instance "
-                    + message.getSessionId() + " failed to provide the appropriate password");
         }
     }
 
@@ -280,8 +255,6 @@ public final class InstanceSocketUtil {
         CyderCommunicationMessage responseShutdownMessage = new CyderCommunicationMessage(
                 message, content, SessionManager.getSessionId());
 
-        System.out.println("Sending: " + responseShutdownMessage);
-
         String sendHash = SecurityUtil.generateUuid();
         responseWriter.println(sendHash);
         responseWriter.println(responseShutdownMessage);
@@ -291,13 +264,15 @@ public final class InstanceSocketUtil {
     public static void main(String[] args) throws Exception {
         int port = 8888;
         Future<CyderCommunicationMessage> futureResponse =
-                sendRemoteShutdownRequest(LOCALHOST, port, "doesn't matter");
+                sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, "Vexento");
         while (!futureResponse.isDone()) Thread.onSpinWait();
         CyderCommunicationMessage response = futureResponse.get();
         System.out.println(response);
 
-        while (!localPortAvailable(port)) Thread.onSpinWait();
+        while (!NetworkUtil.localPortAvailable(port)) Thread.onSpinWait();
         System.out.println("Continue Session normally");
+
+        System.exit(0);
 
         // todo now wait for instance socket to be free, have max allowable time to wait of course
     }
@@ -316,7 +291,7 @@ public final class InstanceSocketUtil {
                                                                               String shutdownPassword) {
         Preconditions.checkNotNull(host);
         Preconditions.checkArgument(!host.isEmpty());
-        Preconditions.checkArgument(portRange.contains(port));
+        Preconditions.checkArgument(NetworkUtil.portRange.contains(port));
         Preconditions.checkNotNull(shutdownPassword);
         Preconditions.checkArgument(!shutdownPassword.isEmpty());
 
