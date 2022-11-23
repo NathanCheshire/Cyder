@@ -9,9 +9,14 @@ import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -108,11 +113,11 @@ public final class InstanceSocketUtil {
     private static ServerSocket instanceSocket;
 
     /**
-     * Binds the instance socket to the instance socket port.
+     * Binds the instance socket to the instance socket port and starts listening for a connection.
      *
      * @throws cyder.exceptions.FatalException if an exception occurs
      */
-    public static void bind() {
+    public static void startListening() {
         Preconditions.checkState(instanceSocketPortAvailable());
         Preconditions.checkState(!instanceSocketBindAttempted.get());
 
@@ -121,10 +126,90 @@ public final class InstanceSocketUtil {
         CyderThreadRunner.submit(() -> {
             try {
                 instanceSocket = new ServerSocket(instanceSocketPort, 1);
-                instanceSocket.accept();
+
+                while (true) {
+                    try {
+                        Socket client = instanceSocket.accept();
+
+                        PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+
+                        BufferedReader inputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        String endHash = inputReader.readLine();
+
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while (!(line = inputReader.readLine()).equals(endHash)) {
+                            sb.append(line);
+                        }
+
+
+                        System.out.println("SB: " + sb);
+                        MyClass myClass = SerializationUtil.fromJson(sb.toString(), MyClass.class);
+                        System.out.println(myClass);
+
+                        out.println("ACK");
+
+                        // todo need to read messages some how defined by some schema
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             } catch (Exception e) {
                 throw new FatalException(e);
             }
         }, IgnoreThread.InstanceSocket.getName());
+    }
+
+    private static final class MyClass {
+        private String message;
+        private String content;
+
+        public MyClass(String message, String content) {
+            this.message = message;
+            this.content = content;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Socket clientSocket = new Socket("localhost", 8888);
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        out.println("ending hash");
+        out.println("{");
+        out.println("\"message\":\"shutdown\",");
+        out.println("\"content\":\"shutdownhash\"");
+        out.println("}");
+        out.println("ending hash");
+        String response = in.readLine(); // while loop
+        System.out.println("response: " + response);
+    }
+
+    /**
+     * The actions to invoke when a message is received from the instance socket.
+     *
+     * @param message the received message
+     */
+    private static void onInstanceSocketMessageReceived(String message) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkArgument(!message.isEmpty());
+
+
     }
 }

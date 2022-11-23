@@ -73,7 +73,7 @@ public final class NecessarySubroutines {
                 throw new FatalException("Could not bind to instance socket port: "
                         + InstanceSocketUtil.getInstanceSocketPort());
             }
-            InstanceSocketUtil.bind();
+            InstanceSocketUtil.startListening();
 
             CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
             if (OsUtil.isOsx()) {
