@@ -18,8 +18,6 @@ import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -250,23 +248,7 @@ public final class CyderWatchdog {
             // todo need a method in process util to run a string array command and get output from
             Runtime.getRuntime().exec(new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand()});
 
-            int shutdownSocketPort = 8888;
-            if (PropLoader.propExists("shutdown_socket_port")) {
-                shutdownSocketPort = PropLoader.getInteger("shutdown_socket_port");
-            }
-
-            ServerSocket shutdownSocket = new ServerSocket(shutdownSocketPort);
-            System.out.println("Awaiting data on shutdown socket...");
-            Socket newCyderInstance = shutdownSocket.accept(); // blocking
-
-            // todo design json schema for messages coming from clients
-            // message: shutdown, password: hash of Vexento or whatever the prop says
-
-            String receivedHash = "hash";
-            String hashedLocalhostShutdownRequestPassword = "hash";
-            if (hashedLocalhostShutdownRequestPassword.contains(receivedHash)) {
-
-            }
+            // todo send and be done, new client should request to end this session
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -279,9 +261,6 @@ public final class CyderWatchdog {
         // localhost_shutdown_request_password : Vexento todo we should definitely hash this before sending it over the socket
     }
 
-    // instance_socket_port : 8888
-    // auto_attempt_bootstrap: true
-    // prefer_javaw_over_java_when_bootstrapping: false
 
     // todo should receive a hash on the boostrap socket port and then log the EOS (end of session) and then
     //  let the new instance draw some kind of a separator, maybe like Cyder art but BOOSTRAP instead and then

@@ -1,9 +1,7 @@
-package cyder.utils;
+package cyder.session;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import cyder.comms.CyderCommunicationMessage;
-import cyder.comms.CyderRemoteShutdownMessage;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
@@ -15,6 +13,8 @@ import cyder.props.PropLoader;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,6 +31,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Utilities related to the singular instance socket and API calls which use the instance socket.
  */
 public final class InstanceSocketUtil {
+    /**
+     * The key for obtaining whether localhost shutdown requests
+     * should be completed without a valid password from the props.
+     */
+    private static final String AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS =
+            "auto_comply_to_localhost_shutdown_requests";
+
+    /**
+     * The key for obtaining the localhost shutdown request password from the props.
+     */
+    private static final String LOCALHOST_SHUTDOWN_REQUEST_PASSWORD = "localhost_shutdown_request_password";
+
+    /**
+     * The local host string.
+     */
+    private static final String LOCALHOST = "localhost";
+
     /**
      * The range a port must fall into.
      */
@@ -83,6 +100,7 @@ public final class InstanceSocketUtil {
         return instanceSocketPort;
     }
 
+    // todo network util
     /**
      * Returns whether the local port is available for binding.
      *
@@ -94,7 +112,7 @@ public final class InstanceSocketUtil {
 
         try (ServerSocket serverSocket = new ServerSocket()) {
             serverSocket.setReuseAddress(false);
-            serverSocket.bind(new InetSocketAddress(InetAddress.getByName("localhost"), port), 1);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(LOCALHOST), port), 1);
             return true;
         } catch (Exception ignored) {
             return false;
@@ -138,49 +156,22 @@ public final class InstanceSocketUtil {
                 while (true) {
                     try {
                         Socket client = instanceSocket.accept();
-                        PrintWriter sendWriter = new PrintWriter(client.getOutputStream(), true);
+                        PrintWriter responseWriter = new PrintWriter(client.getOutputStream(), true);
                         BufferedReader inputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
+                        // todo method to accept reader and get message?
                         String startAndEndHash = inputReader.readLine();
-
                         StringBuilder inputBuilder = new StringBuilder();
                         String line;
                         while (!(line = inputReader.readLine()).equals(startAndEndHash)) {
                             inputBuilder.append(line);
                         }
-
-                        // todo
-                        String instanceId = SecurityUtil.generateUuid();
-
                         CyderCommunicationMessage receivedMessage =
                                 CyderCommunicationMessage.fromJson(inputBuilder.toString());
 
-                        CyderRemoteShutdownMessage responseMessage =
-                                new CyderRemoteShutdownMessage("Shutting down instance: " + instanceId);
-
-                        // todo send a response with a confirmation that we're about to shutdown
-                        //  then sending client can wait for the port to be free, that's the queue to start
-                        String sendHash = SecurityUtil.generateUuid();
-                        sendWriter.println(sendHash);
-                        sendWriter.println(responseMessage);
-                        sendWriter.println(sendHash);
-                        // todo on reception of this client can wait until port is free and then proceed
-                        //  after logging, client shutdown properly
-
-                        // todo need an instance session id api now...
-
-                        String receivedHash = receivedMessage.getContent();
-                        String systemShutdownPasswordHash = SecurityUtil.toHexString(
-                                SecurityUtil.getSha256("my content".toCharArray())); // todo from props
-                        if (receivedHash.equals(systemShutdownPasswordHash)) {
-                            Logger.log(LogTag.DEBUG, "Shutdown requested from instance: todo requesting instance");
-                            instanceSocket.close();
-                            OsUtil.exit(ExitCondition.RemoteShutdown);
-                        }
+                        onInstanceSocketMessageReceived(receivedMessage, responseWriter);
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
-                    } finally {
-                        OsUtil.exit(ExitCondition.RemoteShutdownFailure);
                     }
                 }
             } catch (Exception e) {
@@ -189,14 +180,95 @@ public final class InstanceSocketUtil {
         }, IgnoreThread.InstanceSocket.getName());
     }
 
+    /**
+     * The actions to invoke when a message is received in the instance socket.
+     *
+     * @param message        the message received
+     * @param responseWriter the writer to use to send a response message
+     */
+    private static void onInstanceSocketMessageReceived(CyderCommunicationMessage message,
+                                                        PrintWriter responseWriter) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkNotNull(responseWriter);
+
+        String messageType = message.getMessage();
+
+        // todo will be instanceof ideally if we can figure it out
+        if (messageType.equals(CyderRemoteShutdownMessage.MESSAGE)) {
+            onInstanceSocketCyderRemoteShutdownMessageReceived(message, responseWriter);
+        } else {
+            throw new FatalException("Unknown CyderCommunicationMessage: " + messageType);
+        }
+    }
+
+    /**
+     * The actions to invoke when a Cyder remote shutdown message is received.
+     *
+     * @param message        the message received
+     * @param responseWriter the print writer to send a response to the sending client
+     */
+    private static void onInstanceSocketCyderRemoteShutdownMessageReceived(CyderCommunicationMessage message,
+                                                                           PrintWriter responseWriter) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkNotNull(responseWriter);
+
+        boolean shouldComply = true;
+        if (PropLoader.propExists(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+            if (!PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+                boolean passwordExists = PropLoader.propExists(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+
+                if (passwordExists) {
+                    String remoteShutdownPassword = PropLoader.getString(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+                    String hashedShutdownRequestPassword = SecurityUtil.toHexString(
+                            SecurityUtil.getSha256(remoteShutdownPassword.toCharArray()));
+                    String receivedHash = message.getContent();
+
+                    shouldComply = receivedHash.equals(hashedShutdownRequestPassword);
+                }
+            }
+        }
+
+        if (shouldComply) {
+            try {
+                Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
+                instanceSocket.close();
+                sendResponse("Shutting down", responseWriter);
+            } catch (Exception ignored) {} finally {
+                OsUtil.exit(ExitCondition.RemoteShutdown);
+            }
+        } else {
+            Logger.log(LogTag.DEBUG, "Shutdown request from instance "
+                    + message.getSessionId() + " failed to provide the appropriate password");
+        }
+    }
+
+    /**
+     * Sends a {@link CyderCommunicationMessage} using the provided print writer.
+     *
+     * @param responseMessage the response message string for the {@link CyderCommunicationMessage}s content field.
+     * @param responseWriter  the print writer to use to send the response
+     */
+    private static void sendResponse(String responseMessage, PrintWriter responseWriter) {
+        CyderRemoteShutdownMessage responseShutdownMessage =
+                new CyderRemoteShutdownMessage(responseMessage, SessionManager.INSTANCE.getSessionId());
+
+        String sendHash = SecurityUtil.generateUuid();
+        responseWriter.println(sendHash);
+        responseWriter.println(responseShutdownMessage);
+        responseWriter.println(sendHash);
+    }
+
     public static void main(String[] args) throws Exception {
-        String host = "localhost";
         int port = 8888;
         Future<CyderCommunicationMessage> futureResponse =
-                sendRemoteShutdownRequest(host, port, "my content");
+                sendRemoteShutdownRequest(LOCALHOST, port, "my content");
         while (!futureResponse.isDone()) Thread.onSpinWait();
         CyderCommunicationMessage response = futureResponse.get();
         System.out.println(response);
+
+        while (!localPortAvailable(port)) Thread.onSpinWait();
+        System.out.println("Continue Session normally");
+        // todo now wait for instance socket to be free, have max allowable time to wait of course
     }
 
     /**
@@ -228,7 +300,7 @@ public final class InstanceSocketUtil {
 
                 String startEndHash = SecurityUtil.generateUuid();
                 out.println(startEndHash);
-                out.println(new CyderRemoteShutdownMessage(hash));
+                out.println(new CyderRemoteShutdownMessage(hash, SessionManager.INSTANCE.getSessionId()));
                 out.println(startEndHash);
 
                 String responseStartEndHash = in.readLine();
@@ -245,17 +317,5 @@ public final class InstanceSocketUtil {
 
             throw new FatalException("Failed to perform remote shutdown request");
         });
-    }
-
-    /**
-     * The actions to invoke when a message is received from the instance socket.
-     *
-     * @param message the received message
-     */
-    private static void onInstanceSocketMessageReceived(String message) {
-        Preconditions.checkNotNull(message);
-        Preconditions.checkArgument(!message.isEmpty());
-
-
     }
 }

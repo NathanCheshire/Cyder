@@ -1,4 +1,4 @@
-package cyder.comms;
+package cyder.session;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
@@ -19,6 +19,11 @@ public class CyderCommunicationMessage {
     private static final String CONTENT = "content";
 
     /**
+     * The session id json identifier.
+     */
+    private static final String SESSION_ID = "session_id";
+
+    /**
      * The type of message.
      */
     private String message;
@@ -29,26 +34,34 @@ public class CyderCommunicationMessage {
     private String content;
 
     /**
-     * Constructs a new Cyder communication message.
+     * The Cyder instance session ID.
      */
-    private CyderCommunicationMessage() {
-        // Exposed for usage by GSON
-    }
+    private String sessionId;
+
+    /**
+     * Constructs a new Cyder communication message.
+     * Method exposed for usage by {@link SerializationUtil}.
+     */
+    private CyderCommunicationMessage() {}
 
     /**
      * Constructs a new Cyder communication message.
      *
-     * @param message the message type
-     * @param content the content of the message
+     * @param message   the message type
+     * @param content   the content of the message
+     * @param sessionId the Cyder session ID
      */
-    public CyderCommunicationMessage(String message, String content) {
+    public CyderCommunicationMessage(String message, String content, String sessionId) {
         Preconditions.checkNotNull(message);
         Preconditions.checkNotNull(content);
+        Preconditions.checkNotNull(sessionId);
         Preconditions.checkArgument(!message.isEmpty());
         Preconditions.checkArgument(!content.isEmpty());
+        Preconditions.checkArgument(!sessionId.isEmpty());
 
         this.message = message;
         this.content = content;
+        this.sessionId = sessionId;
     }
 
     /**
@@ -67,6 +80,15 @@ public class CyderCommunicationMessage {
      */
     public String getContent() {
         return content;
+    }
+
+    /**
+     * Returns the session ID of the instance of Cyder this message originated from.
+     *
+     * @return the session ID of the instance of Cyder this message originated from
+     */
+    public String getSessionId() {
+        return sessionId;
     }
 
     /**
@@ -94,6 +116,18 @@ public class CyderCommunicationMessage {
     }
 
     /**
+     * Sets the session ID of the instance of Cyder this message originated from.
+     *
+     * @param sessionId the session ID of the instance of Cyder this message originated from
+     */
+    public void setSessionId(String sessionId) {
+        Preconditions.checkNotNull(sessionId);
+        Preconditions.checkArgument(!sessionId.isEmpty());
+
+        this.sessionId = sessionId;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -105,7 +139,9 @@ public class CyderCommunicationMessage {
         }
 
         CyderCommunicationMessage other = (CyderCommunicationMessage) o;
-        return getMessage().equals(other.getMessage()) && getContent().equals(other.getContent());
+        return getMessage().equals(other.getMessage())
+                && getContent().equals(other.getContent())
+                && getSessionId().equals(other.getSessionId());
     }
 
     /**
@@ -115,6 +151,7 @@ public class CyderCommunicationMessage {
     public int hashCode() {
         int ret = message.hashCode();
         ret = 31 * ret + content.hashCode();
+        ret = 31 * ret + sessionId.hashCode();
         return ret;
     }
 
@@ -132,6 +169,10 @@ public class CyderCommunicationMessage {
                 + CyderStrings.quote + CONTENT + CyderStrings.quote
                 + CyderStrings.colon
                 + CyderStrings.quote + getContent() + CyderStrings.quote
+                + CyderStrings.comma
+                + CyderStrings.quote + SESSION_ID + CyderStrings.quote
+                + CyderStrings.colon
+                + CyderStrings.quote + getSessionId() + CyderStrings.quote
                 + "}";
     }
 
