@@ -101,6 +101,7 @@ public final class InstanceSocketUtil {
     }
 
     // todo network util
+
     /**
      * Returns whether the local port is available for binding.
      *
@@ -156,18 +157,11 @@ public final class InstanceSocketUtil {
                 while (true) {
                     try {
                         Socket client = instanceSocket.accept();
+
                         PrintWriter responseWriter = new PrintWriter(client.getOutputStream(), true);
                         BufferedReader inputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-                        // todo method to accept reader and get message?
-                        String startAndEndHash = inputReader.readLine();
-                        StringBuilder inputBuilder = new StringBuilder();
-                        String line;
-                        while (!(line = inputReader.readLine()).equals(startAndEndHash)) {
-                            inputBuilder.append(line);
-                        }
-                        CyderCommunicationMessage receivedMessage =
-                                CyderCommunicationMessage.fromJson(inputBuilder.toString());
+                        CyderCommunicationMessage receivedMessage = readInputMessage(inputReader);
 
                         onInstanceSocketMessageReceived(receivedMessage, responseWriter);
                     } catch (Exception e) {
@@ -179,6 +173,33 @@ public final class InstanceSocketUtil {
             }
         }, IgnoreThread.InstanceSocket.getName());
     }
+
+    /**
+     * Reads a Cyder communication message from the provided buffered reader.
+     *
+     * @param inputReader the buffered reader
+     * @return the communication message
+     */
+    private static CyderCommunicationMessage readInputMessage(BufferedReader inputReader) {
+        Preconditions.checkNotNull(inputReader);
+
+        try {
+            String startAndEndHash = inputReader.readLine();
+            StringBuilder inputBuilder = new StringBuilder();
+
+            String line;
+            while ((line = inputReader.readLine()) != null && !line.equals(startAndEndHash)) {
+                inputBuilder.append(line);
+            }
+
+            return CyderCommunicationMessage.fromJson(inputBuilder.toString());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        throw new FatalException("Failed to read communication message from: " + inputReader);
+    }
+
 
     /**
      * The actions to invoke when a message is received in the instance socket.
@@ -232,7 +253,8 @@ public final class InstanceSocketUtil {
             try {
                 Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
                 instanceSocket.close();
-                sendResponse("Shutting down", responseWriter);
+                sendCommunicationMessage("Remote shutdown response", "Shutting down", responseWriter);
+                responseWriter.close();
             } catch (Exception ignored) {} finally {
                 OsUtil.exit(ExitCondition.RemoteShutdown);
             }
@@ -243,14 +265,22 @@ public final class InstanceSocketUtil {
     }
 
     /**
-     * Sends a {@link CyderCommunicationMessage} using the provided print writer.
+     * Sends a Cyder communication message using the provided print writer.
      *
-     * @param responseMessage the response message string for the {@link CyderCommunicationMessage}s content field.
-     * @param responseWriter  the print writer to use to send the response
+     * @param message        the response message string for the {@link CyderCommunicationMessage}s content field.
+     * @param responseWriter the print writer to use to send the response
      */
-    private static void sendResponse(String responseMessage, PrintWriter responseWriter) {
-        CyderRemoteShutdownMessage responseShutdownMessage =
-                new CyderRemoteShutdownMessage(responseMessage, SessionManager.INSTANCE.getSessionId());
+    private static void sendCommunicationMessage(String message, String content, PrintWriter responseWriter) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkNotNull(content);
+        Preconditions.checkNotNull(responseWriter);
+        Preconditions.checkArgument(!message.isEmpty());
+        Preconditions.checkArgument(!content.isEmpty());
+
+        CyderCommunicationMessage responseShutdownMessage = new CyderCommunicationMessage(
+                message, content, SessionManager.getSessionId());
+
+        System.out.println("Sending: " + responseShutdownMessage);
 
         String sendHash = SecurityUtil.generateUuid();
         responseWriter.println(sendHash);
@@ -261,13 +291,14 @@ public final class InstanceSocketUtil {
     public static void main(String[] args) throws Exception {
         int port = 8888;
         Future<CyderCommunicationMessage> futureResponse =
-                sendRemoteShutdownRequest(LOCALHOST, port, "my content");
+                sendRemoteShutdownRequest(LOCALHOST, port, "doesn't matter");
         while (!futureResponse.isDone()) Thread.onSpinWait();
         CyderCommunicationMessage response = futureResponse.get();
         System.out.println(response);
 
         while (!localPortAvailable(port)) Thread.onSpinWait();
         System.out.println("Continue Session normally");
+
         // todo now wait for instance socket to be free, have max allowable time to wait of course
     }
 
@@ -297,20 +328,9 @@ public final class InstanceSocketUtil {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 String hash = SecurityUtil.toHexString(SecurityUtil.getSha256(shutdownPassword.toCharArray()));
+                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE, hash, out);
 
-                String startEndHash = SecurityUtil.generateUuid();
-                out.println(startEndHash);
-                out.println(new CyderRemoteShutdownMessage(hash, SessionManager.INSTANCE.getSessionId()));
-                out.println(startEndHash);
-
-                String responseStartEndHash = in.readLine();
-                StringBuilder responseBuilder = new StringBuilder();
-                String line;
-                while ((line = in.readLine()) != null && !line.equals(responseStartEndHash)) {
-                    responseBuilder.append(line);
-                }
-
-                return CyderCommunicationMessage.fromJson(responseBuilder.toString());
+                return readInputMessage(in);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

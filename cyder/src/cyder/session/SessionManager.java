@@ -1,29 +1,23 @@
 package cyder.session;
 
-import cyder.logging.LogTag;
-import cyder.logging.Logger;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.utils.SecurityUtil;
 
 /**
  * The session manager for this instance of Cyder.
  */
-public enum SessionManager {
-    /**
-     * The session manager instance.
-     */
-    INSTANCE;
-
+public final class SessionManager {
     /**
      * The ID of this session of Cyder.
      */
-    private final String sessionId = SecurityUtil.generateUuid();
+    private static final String sessionId = SecurityUtil.generateUuid();
 
     /**
      * Suppress default constructor.
      */
-    SessionManager() {
-        Logger.log(LogTag.OBJECT_CREATION, "Session manager instance constructed");
-        Logger.log(LogTag.OBJECT_CREATION, "Session ID generated and set to: " + sessionId);
+    private SessionManager() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -31,7 +25,7 @@ public enum SessionManager {
      *
      * @return the session ID for this instance of Cyder
      */
-    public String getSessionId() {
+    public static String getSessionId() {
         return sessionId;
     }
 }

@@ -1,6 +1,7 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.utils.SerializationUtil;
 
@@ -36,6 +37,7 @@ public class CyderCommunicationMessage {
     /**
      * The Cyder instance session ID.
      */
+    @SerializedName("session_id")
     private String sessionId;
 
     /**
