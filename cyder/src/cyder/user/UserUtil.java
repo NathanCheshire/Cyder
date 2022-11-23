@@ -652,6 +652,11 @@ public final class UserUtil {
      * @param value the new value
      */
     public static void setUserDataById(String name, String value) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(value);
+        Preconditions.checkArgument(!name.isEmpty());
+        Preconditions.checkArgument(!value.isEmpty());
+
         try {
             for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith(SET)
@@ -689,7 +694,7 @@ public final class UserUtil {
     /**
      * The comma splitter.
      */
-    private static final Splitter commaSplitter = Splitter.on(",");
+    private static final Splitter commaSplitter = Splitter.on(CyderStrings.comma);
 
     static {
         IGNORE_USER_DATA = ImmutableList.copyOf(commaSplitter.splitToList(PropLoader.getString(IGNORE_DATA)));

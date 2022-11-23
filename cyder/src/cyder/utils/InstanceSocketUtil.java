@@ -8,20 +8,23 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.PropLoader;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -146,28 +149,38 @@ public final class InstanceSocketUtil {
                             inputBuilder.append(line);
                         }
 
+                        // todo
+                        String instanceId = SecurityUtil.generateUuid();
+
                         CyderCommunicationMessage receivedMessage =
                                 CyderCommunicationMessage.fromJson(inputBuilder.toString());
 
                         CyderRemoteShutdownMessage responseMessage =
-                                new CyderRemoteShutdownMessage("Shutting down instance: instance id here");
+                                new CyderRemoteShutdownMessage("Shutting down instance: " + instanceId);
 
                         // todo send a response with a confirmation that we're about to shutdown
                         //  then sending client can wait for the port to be free, that's the queue to start
+                        String sendHash = SecurityUtil.generateUuid();
+                        sendWriter.println(sendHash);
                         sendWriter.println(responseMessage);
+                        sendWriter.println(sendHash);
+                        // todo on reception of this client can wait until port is free and then proceed
+                        //  after logging, client shutdown properly
 
                         // todo need an instance session id api now...
 
-                        // todo now use my class to determine course of action
-                        if (receivedMessage.getContent().equals("my content")) { // todo prop hash
-                            // todo remote shutdown
-                            Logger.log(LogTag.DEBUG, "Shutdown requested from instance: todo instance");
+                        String receivedHash = receivedMessage.getContent();
+                        String systemShutdownPasswordHash = SecurityUtil.toHexString(
+                                SecurityUtil.getSha256("my content".toCharArray())); // todo from props
+                        if (receivedHash.equals(systemShutdownPasswordHash)) {
+                            Logger.log(LogTag.DEBUG, "Shutdown requested from instance: todo requesting instance");
+                            instanceSocket.close();
                             OsUtil.exit(ExitCondition.RemoteShutdown);
                         }
-
-                        // todo need to read messages some how defined by some schema
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        ExceptionHandler.handle(e);
+                    } finally {
+                        OsUtil.exit(ExitCondition.RemoteShutdownFailure);
                     }
                 }
             } catch (Exception e) {
@@ -176,37 +189,62 @@ public final class InstanceSocketUtil {
         }, IgnoreThread.InstanceSocket.getName());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         String host = "localhost";
         int port = 8888;
-        Socket clientSocket = new Socket(host, port);
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        Future<CyderCommunicationMessage> futureResponse =
+                sendRemoteShutdownRequest(host, port, "my content");
+        while (!futureResponse.isDone()) Thread.onSpinWait();
+        CyderCommunicationMessage response = futureResponse.get();
+        System.out.println(response);
+    }
 
-        StringBuilder sendBuilder = new StringBuilder();
-        sendBuilder.append("{");
-        sendBuilder.append(CyderStrings.quote)
-                .append("message")
-                .append(CyderStrings.quote)
-                .append(CyderStrings.colon);
-        sendBuilder.append(CyderStrings.quote)
-                .append("Remote shutdown")
-                .append(CyderStrings.quote)
-                .append(CyderStrings.comma);
-        sendBuilder.append(CyderStrings.quote)
-                .append("content")
-                .append(CyderStrings.quote)
-                .append(CyderStrings.colon);
-        sendBuilder.append(CyderStrings.quote)
-                .append("my content")
-                .append(CyderStrings.quote)
-                .append("}");
+    /**
+     * Sends a remote shutdown request to the Cyder instance using the provided host and port.
+     *
+     * @param host             the host of the remote Cyder instance
+     * @param port             the port of the remote Cyder instance
+     * @param shutdownPassword the password to prove this instance has the
+     *                         authority to request the remote instance to perform a shutdown
+     * @return the response message from the remote instance
+     */
+    public static Future<CyderCommunicationMessage> sendRemoteShutdownRequest(String host,
+                                                                              int port,
+                                                                              String shutdownPassword) {
+        Preconditions.checkNotNull(host);
+        Preconditions.checkArgument(!host.isEmpty());
+        Preconditions.checkArgument(portRange.contains(port));
+        Preconditions.checkNotNull(shutdownPassword);
+        Preconditions.checkArgument(!shutdownPassword.isEmpty());
 
-        out.println("ending hash");
-        out.println(sendBuilder);
-        out.println("ending hash");
-        String response = in.readLine(); // while loop
-        System.out.println("response: " + response); // todo ensure it was an ack or maybe an actual json message
+        String executorName = "Remote Shutdown Request, host: " + host + ", port: " + port;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(executorName)).submit(() -> {
+            try {
+                Socket clientSocket = new Socket(host, port);
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                String hash = SecurityUtil.toHexString(SecurityUtil.getSha256(shutdownPassword.toCharArray()));
+
+                String startEndHash = SecurityUtil.generateUuid();
+                out.println(startEndHash);
+                out.println(new CyderRemoteShutdownMessage(hash));
+                out.println(startEndHash);
+
+                String responseStartEndHash = in.readLine();
+                StringBuilder responseBuilder = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null && !line.equals(responseStartEndHash)) {
+                    responseBuilder.append(line);
+                }
+
+                return CyderCommunicationMessage.fromJson(responseBuilder.toString());
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            throw new FatalException("Failed to perform remote shutdown request");
+        });
     }
 
     /**

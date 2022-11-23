@@ -6,6 +6,7 @@ import cyder.utils.OsUtil;
  * Cyder exit codes and their corresponding meanings.
  */
 public enum ExitCondition {
+    RemoteShutdownFailure(-16, "Remote Shutdown Failure"),
     SufficientSubroutineExit(-15, "A sufficient subroutine failed"),
     WatchdogBootstrapFail(-14, "A UI freeze was detected by watchdog"
             + " and the bootstrap attempt failed"),
@@ -36,7 +37,7 @@ public enum ExitCondition {
     /**
      * The exit was schedule by a Cyder user.
      */
-    ScheduledExit(1, "Genesis Controlled Exit"),
+    ScheduledExit(1, "Scheduled Exit"),
 
     /**
      * A remote shutdown was requested by a new instance of Cyder.
