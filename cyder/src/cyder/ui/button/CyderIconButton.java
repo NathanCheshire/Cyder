@@ -8,6 +8,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -174,7 +175,8 @@ public class CyderIconButton extends JButton {
             });
 
             setIcon(originalIcon);
-        }, FLASH_THREAD_NAME + ", iterations: " + iterations + ", delay: " + msDelay + "ms");
+        }, FLASH_THREAD_NAME + ", iterations: " + iterations
+                + ", delay: " + msDelay + TimeUtil.MILLISECOND_ABBREVIATION);
     }
 
     private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";

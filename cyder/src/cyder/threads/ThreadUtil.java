@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -162,5 +163,24 @@ public final class ThreadUtil {
                 break;
             }
         }
+    }
+
+    /**
+     * Returns a list of non-null threads in the current thread group.
+     * Note this method takes precautions to not return null values or null list.
+     *
+     * @return a list of non-null threads in the current thread group
+     */
+    public static ImmutableList<Thread> getCurrentThreads() {
+        ThreadGroup group = Thread.currentThread().getThreadGroup();
+        Thread[] currentThreads = new Thread[group.activeCount()];
+        group.enumerate(currentThreads);
+
+        ArrayList<Thread> ret = new ArrayList<>();
+        for (Thread thread : currentThreads) {
+            if (thread != null) ret.add(thread);
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }

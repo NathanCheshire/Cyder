@@ -1,7 +1,6 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -33,7 +32,7 @@ public final class CyderWatchdog {
     /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
      */
-    public static final int POLL_TIMEOUT = 100;
+    public static final int POLL_TIMEOUT = 100; // todo make prop configurable
 
     /**
      * The standard name of the AWT-EventQueue-0 thread.
@@ -95,16 +94,17 @@ public final class CyderWatchdog {
     /**
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
      * every {@link CyderWatchdog#POLL_TIMEOUT} checking to ensure the thread is not frozen.
-     * Upon a possible freeze event, the user will be informed and prompted to exit or restart Cyder.
-     * <p>
-     * Note: the watchdog will only start if the prop value <b>activate_watchdog</b> exists and is set to true.
+     * Upon a possible freeze event, the system will exit and attempt to bootstrap if possible.
+     * Note: the Watchdog will only start if the prop value <b>activate_watchdog</b> exists and is set to true.
      */
     public static void initializeWatchDog() {
         Preconditions.checkState(!watchdogInitialized.get());
 
-        if (PropLoader.propExists(ACTIVATE_WATCHDOG)
-                && !PropLoader.getBoolean(ACTIVATE_WATCHDOG)) {
-            Logger.log(LogTag.WATCHDOG, "Watchdog skipped");
+        if (PropLoader.propExists(ACTIVATE_WATCHDOG) && !PropLoader.getBoolean(ACTIVATE_WATCHDOG)) {
+            Logger.log(LogTag.WATCHDOG, "Watchdog skipped as prop is not set");
+            return;
+        } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
+            Logger.log(LogTag.WATCHDOG, "Watchdog skipped as current JVM session was launched using debug");
             return;
         }
 
@@ -115,16 +115,9 @@ public final class CyderWatchdog {
                 try {
                     ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
-                    // todo apparently this can be null?
-                    for (Thread thread : getCurrentThreads()) {
-                        // Yes, this actually can and has happened
-                        if (thread == null) continue;
-
-                        if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
-                            startWatchDog(thread);
-                            return;
-                        }
-                    }
+                    ThreadUtil.getCurrentThreads().stream()
+                            .filter(thread -> thread.getName().equals(AWT_EVENT_QUEUE_0_NAME))
+                            .forEach(CyderWatchdog::startWatchDog);
                 } catch (Exception e) {
                     Logger.log(LogTag.WATCHDOG, ExceptionHandler.getPrintableException(e));
                 }
@@ -132,16 +125,53 @@ public final class CyderWatchdog {
         }, IgnoreThread.WatchdogInitializer.getName());
     }
 
-    /**
-     * Returns a list of current threads.
-     *
-     * @return a list of current threads
-     */
-    private static ImmutableList<Thread> getCurrentThreads() {
-        ThreadGroup group = Thread.currentThread().getThreadGroup();
-        Thread[] currentThreads = new Thread[group.activeCount()];
-        group.enumerate(currentThreads);
-        return ImmutableList.copyOf(currentThreads);
+    private enum WatchdogActionForThreadState {
+        RUNNABLE(true, false),
+        BLOCKED(false, true),
+        WAITING(true, false),
+        TIME_WAITING(false, true),
+        UNKNOWN(true, false);
+
+        /**
+         * Whether an increment should be attempted.
+         */
+        private final boolean shouldIncrement;
+
+        /**
+         * Whether an exception should be thrown.
+         */
+        private final boolean shouldThrow;
+
+        WatchdogActionForThreadState(boolean shouldIncrement, boolean shouldThrow) {
+            this.shouldIncrement = shouldIncrement;
+            this.shouldThrow = shouldThrow;
+        }
+
+        public boolean isShouldIncrement() {
+            return shouldIncrement;
+        }
+
+        public boolean isShouldThrow() {
+            return shouldThrow;
+        }
+
+        /**
+         * Returns the watchdog action for the thread state provided.
+         *
+         * @param state the state
+         * @return the watchdog action for the thread state provided.
+         */
+        public static WatchdogActionForThreadState getWatchdogActionForThreadState(Thread.State state) {
+            Preconditions.checkNotNull(state);
+
+            return switch (state) {
+                case NEW, TERMINATED -> UNKNOWN;
+                case RUNNABLE -> RUNNABLE;
+                case BLOCKED -> BLOCKED;
+                case WAITING -> WAITING;
+                case TIMED_WAITING -> TIME_WAITING;
+            };
+        }
     }
 
     /**
@@ -165,33 +195,34 @@ public final class CyderWatchdog {
                 attemptWatchdogReset();
 
                 currentAwtEventQueueThreadState = awtEventQueueThread.getState();
+                WatchdogActionForThreadState action = WatchdogActionForThreadState
+                        .getWatchdogActionForThreadState(currentAwtEventQueueThreadState);
+                // todo switch on this
 
+                // todo lets have a map of thread states to log messages and a last thread state stored here
+                // todo should increment watchdog prop in program state enum
                 ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
-                if (currentCyderState != ProgramState.NORMAL) {
+                if (currentCyderState.isShouldIncrementWatchdog()) {
+                    Logger.log(LogTag.WATCHDOG, "Watchdog incremented as "
+                            + "Cyder program state is: " + currentCyderState);
+                } else {
                     Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
-                            + "current program state is: " + currentCyderState);
-                    continue;
-                } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
-                    // todo if this was the last thing logged don't say it again?
-                    // todo need to store a cache of last tag as well as last representation
-                    Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
-                            + "current jvm session was launched using debug");
-                    continue;
+                            + "Cyder program state is: " + currentCyderState);
                 }
 
+                // todo will be determined above
                 watchdogCounter.getAndAdd(POLL_TIMEOUT);
 
                 int currentFreezeLength = watchdogCounter.get();
 
                 if (currentFreezeLength > maxSessionFreezeLength.get()) {
-                    Logger.log(LogTag.WATCHDOG, "Max freeze detected by watchdog: "
-                            + currentFreezeLength + "ms");
+                    Logger.log("New max freeze detected by watchdog: " + currentFreezeLength
+                            + TimeUtil.MILLISECOND_ABBREVIATION);
                     maxSessionFreezeLength.set(currentFreezeLength);
                 }
 
                 if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                    Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog;"
-                            + " checking if bootstrap is possible");
+                    Logger.log("UI halt detected by watchdog; checking if bootstrap is possible");
                     checkIfBoostrapPossible();
                 }
             }
@@ -243,6 +274,7 @@ public final class CyderWatchdog {
 
         // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
 
+        // todo need some kind of an argument to request to shutdown other instances if not singular instance
         String[] executionParams = new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand(),
                 "--resume-log-file", resumeLogHash};
 
@@ -260,10 +292,8 @@ public final class CyderWatchdog {
         // todo get command, generate hashes, send, and start socket in sep process
     }
 
-
-    // todo should receive a hash on the boostrap socket port and then log the EOS (end of session) and then
-    //  let the new instance draw some kind of a separator, maybe like Cyder art but BOOSTRAP instead and then
-    //  write all of it's stuff down and say something about successfully bootstrapped
+    // todo start writing to resume log file if present, insert bootstrap into it and then a debug call
+    //  or actually bootstrap log tag and say bootstrap successful, if log file couldn't be used log that too
 
     // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
     // todo key util with validation and getter methods?
