@@ -4,7 +4,7 @@ package cyder.threads;
  * Thread names to ignore when determining if Cyder should be classified as busy.
  */
 public enum IgnoreThread {
-    /* non-cyder threads */
+    /* Java and AWT/Swing threads */
     AwtEventQueue0("AWT-EventQueue-0", false),
     DestroyJavaVm("DestroyJavaVM", false),
 

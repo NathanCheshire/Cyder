@@ -73,6 +73,21 @@ public final class InstanceSocketUtil {
     }
 
     /**
+     * The number of clients which can be waiting for the instance socket to free up and connect.
+     */
+    private static final int instanceSocketBacklog = 1;
+
+    /**
+     * Whether the instance socket bind was attempted.
+     */
+    private static final AtomicBoolean instanceSocketBindAttempted = new AtomicBoolean(false);
+
+    /**
+     * The instance socket.
+     */
+    private static ServerSocket instanceSocket;
+
+    /**
      * Suppress default constructor.
      */
     private InstanceSocketUtil() {
@@ -98,16 +113,6 @@ public final class InstanceSocketUtil {
     }
 
     /**
-     * Whether the instance socket bind was attempted.
-     */
-    private static final AtomicBoolean instanceSocketBindAttempted = new AtomicBoolean(false);
-
-    /**
-     * The instance socket.
-     */
-    private static ServerSocket instanceSocket;
-
-    /**
      * Binds the instance socket to the instance socket port and starts listening for a connection.
      *
      * @throws cyder.exceptions.FatalException if an exception occurs
@@ -120,7 +125,7 @@ public final class InstanceSocketUtil {
 
         CyderThreadRunner.submit(() -> {
             try {
-                instanceSocket = new ServerSocket(instanceSocketPort, 1);
+                instanceSocket = new ServerSocket(instanceSocketPort, instanceSocketBacklog);
 
                 while (true) {
                     try {
@@ -165,7 +170,7 @@ public final class InstanceSocketUtil {
             ExceptionHandler.handle(e);
         }
 
-        throw new FatalException("Failed to read communication message from: " + inputReader);
+        throw new FatalException("Failed to read communication message from reader: " + inputReader);
     }
 
     /**
@@ -181,11 +186,80 @@ public final class InstanceSocketUtil {
 
         String messageType = message.getMessage();
 
-        // todo will be instanceof ideally if we can figure it out
+        // todo will be instanceof ideally if we can figure it out, from working base
         if (messageType.equals(CyderRemoteShutdownMessage.MESSAGE)) {
             onInstanceSocketCyderRemoteShutdownMessageReceived(message, responseWriter);
         } else {
             throw new FatalException("Unknown CyderCommunicationMessage: " + messageType);
+        }
+    }
+
+    /**
+     * Results after determining whether a remote shutdown request should be denied or complied to.
+     */
+    private enum RemoteShutdownRequestResult {
+        /**
+         * The password was not found.
+         */
+        PASSWORD_NOT_FOUND(false),
+
+        /**
+         * The password was incorrect.
+         */
+        PASSWORD_INCORRECT(false),
+
+        /**
+         * The password was correct.
+         */
+        PASSWORD_CORRECT(true),
+
+        /**
+         * The auto compliance prop for remote shutdown requests is enabled.
+         */
+        AUTO_COMPLIANCE_ENABLED(true);
+
+        /**
+         * Whether this result indicates compliance.
+         */
+        private final boolean shouldComply;
+
+        RemoteShutdownRequestResult(boolean shouldComply) {
+            this.shouldComply = shouldComply;
+        }
+
+        /**
+         * Returns whether this result is indicative of a compliance.
+         *
+         * @return whether this result is indicative of a compliance
+         */
+        public boolean isShouldComply() {
+            return shouldComply;
+        }
+    }
+
+    /**
+     * Returns whether the shutdown request should be denied or complied to and the reasoning for the decision.
+     *
+     * @param receivedHash the hash received from the shutdown request message
+     * @return whether the shutdown request should be denied or complied to and the reasoning
+     */
+    private static RemoteShutdownRequestResult determineRemoteShutdownRequestResult(String receivedHash) {
+        if (PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+            return RemoteShutdownRequestResult.AUTO_COMPLIANCE_ENABLED;
+        } else {
+            boolean passwordExists = PropLoader.propExists(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+
+            if (passwordExists) {
+                String remoteShutdownPassword = PropLoader.getString(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+                String hashedShutdownRequestPassword = SecurityUtil.toHexString(
+                        SecurityUtil.getSha256(remoteShutdownPassword.toCharArray()));
+
+                return receivedHash.equals(hashedShutdownRequestPassword)
+                        ? RemoteShutdownRequestResult.PASSWORD_CORRECT
+                        : RemoteShutdownRequestResult.PASSWORD_INCORRECT;
+            } else {
+                return RemoteShutdownRequestResult.PASSWORD_NOT_FOUND;
+            }
         }
     }
 
@@ -202,33 +276,17 @@ public final class InstanceSocketUtil {
 
         Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
 
-        boolean shouldComply = false;
-        if (PropLoader.propExists(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
-            if (PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
-                shouldComply = true;
-                Logger.log(LogTag.DEBUG, "Shutdown request accepted, auto comply is enabled");
-            } else {
-                boolean passwordExists = PropLoader.propExists(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+        RemoteShutdownRequestResult result = determineRemoteShutdownRequestResult(message.getContent());
 
-                if (passwordExists) {
-                    String remoteShutdownPassword = PropLoader.getString(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
-                    String hashedShutdownRequestPassword = SecurityUtil.toHexString(
-                            SecurityUtil.getSha256(remoteShutdownPassword.toCharArray()));
-                    String receivedHash = message.getContent();
+        String logRepresentation = switch (result) {
+            case PASSWORD_NOT_FOUND -> "Shutdown request denied, password not found";
+            case PASSWORD_INCORRECT -> "Shutdown request denied, password incorrect";
+            case PASSWORD_CORRECT -> "Shutdown request accepted, password correct";
+            case AUTO_COMPLIANCE_ENABLED -> "Shutdown request accepted, auto comply is enabled";
+        };
+        Logger.log(LogTag.DEBUG, logRepresentation);
 
-                    if (receivedHash.equals(hashedShutdownRequestPassword)) {
-                        shouldComply = true;
-                        Logger.log(LogTag.DEBUG, "Shutdown request accepted, password correct");
-                    } else {
-                        Logger.log(LogTag.DEBUG, "Shutdown request denied, password not correct");
-                    }
-                } else {
-                    Logger.log(LogTag.DEBUG, "Shutdown request denied, password not found");
-                }
-            }
-        }
-
-        if (shouldComply) {
+        if (result.isShouldComply()) {
             try {
                 instanceSocket.close();
                 sendCommunicationMessage("Remote shutdown response", "Shutting down", responseWriter);
@@ -270,11 +328,9 @@ public final class InstanceSocketUtil {
         System.out.println(response);
 
         while (!NetworkUtil.localPortAvailable(port)) Thread.onSpinWait();
-        System.out.println("Continue Session normally");
+        System.out.println("Port " + port + " is free continue new session normally");
 
         System.exit(0);
-
-        // todo now wait for instance socket to be free, have max allowable time to wait of course
     }
 
     /**
@@ -286,8 +342,7 @@ public final class InstanceSocketUtil {
      *                         authority to request the remote instance to perform a shutdown
      * @return the response message from the remote instance
      */
-    public static Future<CyderCommunicationMessage> sendRemoteShutdownRequest(String host,
-                                                                              int port,
+    public static Future<CyderCommunicationMessage> sendRemoteShutdownRequest(String host, int port,
                                                                               String shutdownPassword) {
         Preconditions.checkNotNull(host);
         Preconditions.checkArgument(!host.isEmpty());
@@ -299,18 +354,20 @@ public final class InstanceSocketUtil {
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(executorName)).submit(() -> {
             try {
                 Socket clientSocket = new Socket(host, port);
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter outputWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                String hash = SecurityUtil.toHexString(SecurityUtil.getSha256(shutdownPassword.toCharArray()));
-                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE, hash, out);
+                // todo this is common throughout, make method in SecurityUtil
+                String hashedShutdownPassword = SecurityUtil.toHexString(
+                        SecurityUtil.getSha256(shutdownPassword.toCharArray()));
+                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE, hashedShutdownPassword, outputWriter);
 
-                return readInputMessage(in);
+                return readInputMessage(inputReader);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
 
-            throw new FatalException("Failed to perform remote shutdown request");
+            throw new FatalException("Failed to send remote shutdown request");
         });
     }
 }

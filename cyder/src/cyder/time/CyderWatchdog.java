@@ -172,6 +172,8 @@ public final class CyderWatchdog {
                             + "current program state is: " + currentCyderState);
                     continue;
                 } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
+                    // todo if this was the last thing logged don't say it again?
+                    // todo need to store a cache of last tag as well as last representation
                     Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
                             + "current jvm session was launched using debug");
                     continue;
@@ -237,29 +239,25 @@ public final class CyderWatchdog {
     private static void onBootstrapConditionsMet() {
         Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
 
-        String shutdownHash = SecurityUtil.generateUuid();
         String resumeLogHash = SecurityUtil.generateUuid();
 
-        // todo need bootstrapper manager
+        // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
 
-        // todo use official --args for shutdown hash and resume log hash
-        String[] str = new String[]{CMD_EXE, SLASH_C, "todo other stuff", shutdownHash, resumeLogHash};
+        String[] executionParams = new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand(),
+                "--resume-log-file", resumeLogHash};
 
         try {
             // todo need a method in process util to run a string array command and get output from
-            Runtime.getRuntime().exec(new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand()});
 
-            // todo send and be done, new client should request to end this session
+            // todo remove --resume-log-file if present and pass in reference to current log file
+            Runtime.getRuntime().exec(executionParams);
+
+            // todo send and be done, new client should request to end this session and we should comply
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         // todo get command, generate hashes, send, and start socket in sep process
-
-        // todo need to make local host shutdown request api for purposes of testing bootstrap
-        // localhost_shutdown_requests_enabled : true
-        // auto_comply_to_localhost_shutdown_requests : false
-        // localhost_shutdown_request_password : Vexento todo we should definitely hash this before sending it over the socket
     }
 
 
