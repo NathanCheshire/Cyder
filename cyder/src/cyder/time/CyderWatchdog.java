@@ -215,6 +215,8 @@ public final class CyderWatchdog {
 
                 int currentFreezeLength = watchdogCounter.get();
 
+                System.out.println(currentFreezeLength);
+                System.out.println(maxSessionFreezeLength.get());
                 if (currentFreezeLength > maxSessionFreezeLength.get()) {
                     Logger.log("New max freeze detected by watchdog: " + currentFreezeLength
                             + TimeUtil.MILLISECOND_ABBREVIATION);
