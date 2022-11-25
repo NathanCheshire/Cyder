@@ -61,6 +61,7 @@ public class Preference {
     public static final String PERSISTENT_NOTIFICATIONS = "persistentnotifications";
     public static final String DO_ANIMATIONS = "doanimations";
     public static final String COMPACT_TEXT_MODE = "compacttextmode";
+    // todo remove me?
     public static final String FONT_METRIC = "fontmetric";
     public static final String FONT_SIZE = "fontsize";
     public static final String WRAP_SHELL = "wrapshell";

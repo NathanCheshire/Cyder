@@ -7,7 +7,6 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
-import cyder.props.PropLoader;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.utils.StringUtil;
 
@@ -19,6 +18,11 @@ import java.util.concurrent.Semaphore;
  * A class used to perform bletchy animations on a specific JTextPane.
  */
 public final class BletchyThread {
+    /**
+     * The number of iterations per char of the bletchy animation.
+     */
+    private static final int ITERATIONS_PER_CHAR = 5;
+
     /**
      * Suppress default constructor.
      */
@@ -249,16 +253,6 @@ public final class BletchyThread {
 
         UNICODE_CHARS = ImmutableList.copyOf(ret);
     }
-
-    /**
-     * The key to get the bletchy animation iterations per char from the props.
-     */
-    private static final String BLETCHY_ANIMATION_ITERATIONS_PER_CHAR = "bletchy_animation_iterations_per_char";
-
-    /**
-     * The number of bletchy animation iterations per decode character.
-     */
-    private static final int ITERATIONS_PER_CHAR = PropLoader.getInteger(BLETCHY_ANIMATION_ITERATIONS_PER_CHAR);
 
     /**
      * Returns an array of Strings abiding by the parameters for a bletchy thread to print.

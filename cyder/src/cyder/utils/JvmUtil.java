@@ -53,7 +53,7 @@ public final class JvmUtil {
             .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
 
     /**
-     * The JVM args.
+     * The JVM args passed to the main method. todo rename to something to do with main to make it explicit
      */
     private static ImmutableList<String> jvmArgs;
 
