@@ -30,9 +30,22 @@ public final class CyderWatchdog {
     public static final int INITIALIZE_TIMEOUT_MS = 3000;
 
     /**
+     * The default poll timeout for the watchdog.
+     */
+    public static final int DEFAULT_POLL_TIMEOUT = 100;
+
+    /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
      */
-    public static final int POLL_TIMEOUT = 100; // todo make prop configurable
+    public static final int POLL_TIMEOUT;
+
+    static {
+        if (PropLoader.propExists("watchdog_poll_timeout")) {
+            POLL_TIMEOUT = PropLoader.getInteger("watchdog_poll_timeout");
+        } else {
+            POLL_TIMEOUT = DEFAULT_POLL_TIMEOUT;
+        }
+    }
 
     /**
      * The standard name of the AWT-EventQueue-0 thread.
