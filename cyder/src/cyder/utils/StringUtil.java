@@ -1521,4 +1521,16 @@ public final class StringUtil {
 
         return ret.toString();
     }
+
+    /**
+     * Escapes all the quotes in the provided string.
+     *
+     * @param string the string
+     * @return the string with quotes escaped
+     */
+    public static String escapeQuotes(String string) {
+        Preconditions.checkNotNull(string);
+
+        return string.replaceAll("\"", "\\\"");
+    }
 }

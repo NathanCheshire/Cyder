@@ -198,40 +198,41 @@ public final class CyderWatchdog {
                 attemptWatchdogReset();
 
                 currentAwtEventQueueThreadState = awtEventQueueThread.getState();
-                WatchdogActionForThreadState action = WatchdogActionForThreadState
-                        .getWatchdogActionForThreadState(currentAwtEventQueueThreadState);
 
-                // todo lets have a map of thread states to log messages and a last thread state stored here
-                // todo should increment watchdog prop in program state enum
                 ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
+
                 if (currentCyderState.isShouldIncrementWatchdog()) {
-                    // todo in here check the state of awt event queue 0
-                    Logger.log(LogTag.WATCHDOG, "Watchdog incremented as "
-                            + "Cyder program state is: " + currentCyderState);
+                    if (WatchdogActionForThreadState.getWatchdogActionForThreadState(currentAwtEventQueueThreadState)
+                            .isShouldIncrement()) {
+                        watchdogCounter.getAndAdd(POLL_TIMEOUT);
+                    }
                 } else {
                     Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
                             + "Cyder program state is: " + currentCyderState);
                 }
 
-                // todo this is bugged here
-                // todo will be determined above
-                watchdogCounter.getAndAdd(POLL_TIMEOUT);
-
                 int currentFreezeLength = watchdogCounter.get();
 
                 if (currentFreezeLength > maxSessionFreezeLength.get()) {
-                    Logger.log(LogTag.WATCHDOG, "New max freeze detected by watchdog: " + currentFreezeLength
-                            + TimeUtil.MILLISECOND_ABBREVIATION);
+                    Logger.log(LogTag.WATCHDOG, "New max freeze detected by watchdog: "
+                            + currentFreezeLength + TimeUtil.MILLISECOND_ABBREVIATION);
                     maxSessionFreezeLength.set(currentFreezeLength);
                 }
 
-                // todo on max freeze method
                 if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                    Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
-                    checkIfBoostrapPossible();
+                    onUiHaltDetected();
+                    break;
                 }
             }
         }, IgnoreThread.CyderWatchdog.getName());
+    }
+
+    /**
+     * The actions to invoke when a UI halt is detected by the watchdog.
+     */
+    private static void onUiHaltDetected() {
+        Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
+        checkIfBoostrapPossible();
     }
 
     /**
@@ -274,6 +275,9 @@ public final class CyderWatchdog {
      */
     private static void onBootstrapConditionsMet() {
         Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
+
+        // todo remove me
+        if (true) return;
 
         String resumeLogHash = SecurityUtil.generateUuid();
 

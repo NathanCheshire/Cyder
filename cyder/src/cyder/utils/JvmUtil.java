@@ -53,9 +53,9 @@ public final class JvmUtil {
             .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
 
     /**
-     * The JVM args passed to the main method. todo rename to something to do with main to make it explicit
+     * The JVM args passed to the main method.
      */
-    private static ImmutableList<String> jvmArgs;
+    private static ImmutableList<String> jvmMainMethodArgs;
 
     /**
      * Suppress default constructor.
@@ -65,26 +65,26 @@ public final class JvmUtil {
     }
 
     /**
-     * Sets the Cyder JVM args.
+     * Sets the main method JVM args.
      *
-     * @param args the JVM args
+     * @param jvmMainMethodArgs the main method JVM args
      */
-    public static void setJvmArgs(ImmutableList<String> args) {
-        Preconditions.checkNotNull(args);
-        Preconditions.checkState(jvmArgs == null);
+    public static void setJvmMainMethodArgs(ImmutableList<String> jvmMainMethodArgs) {
+        Preconditions.checkNotNull(jvmMainMethodArgs);
+        Preconditions.checkState(JvmUtil.jvmMainMethodArgs == null);
 
-        jvmArgs = ImmutableList.copyOf(args);
+        JvmUtil.jvmMainMethodArgs = ImmutableList.copyOf(jvmMainMethodArgs);
     }
 
     /**
-     * Returns the Cyder JVM args.
+     * Returns the main method JVM args.
      *
-     * @return the Cyder JVM args
+     * @return the main method JVM args
      */
-    public static ImmutableList<String> getJvmArgs() {
-        Preconditions.checkNotNull(jvmArgs);
+    public static ImmutableList<String> getJvmMainMethodArgs() {
+        Preconditions.checkNotNull(jvmMainMethodArgs);
 
-        return jvmArgs;
+        return jvmMainMethodArgs;
     }
 
     /**
@@ -248,17 +248,16 @@ public final class JvmUtil {
         String safeInputArguments = inputArgumentsBuilder.toString().trim();
 
         StringBuilder mainMethodArgumentsBuilder = new StringBuilder();
-        getJvmArgs().forEach(arg -> mainMethodArgumentsBuilder
+        getJvmMainMethodArgs().forEach(arg -> mainMethodArgumentsBuilder
                 .append(quote)
                 .append(arg)
                 .append(quote)
                 .append(CyderStrings.space));
         String mainMethodArgs = mainMethodArgumentsBuilder.toString().trim();
 
-        // todo string util escape quotes method?
-        String executablePath = getCurrentJavaExe().getAbsolutePath().replaceAll("\"", "\\\"");
-        String classpath = getClassPath().replaceAll("\"", "\\\"");
-        String sunJavaCommand = SystemPropertyKey.SUN_JAVA_COMMAND.getProperty().replaceAll("\"", "\\\"");
+        String executablePath = StringUtil.escapeQuotes(getCurrentJavaExe().getAbsolutePath());
+        String classpath = StringUtil.escapeQuotes(getClassPath());
+        String sunJavaCommand = StringUtil.escapeQuotes(SystemPropertyKey.SUN_JAVA_COMMAND.getProperty());
 
         return quote + executablePath + quote + CyderStrings.space
                 + safeInputArguments + CyderStrings.space

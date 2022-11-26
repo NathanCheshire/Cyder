@@ -89,6 +89,12 @@ public final class CyderRegexPatterns {
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     /**
+     * A pattern for the start of a standard log line.
+     */
+    public static final Pattern standardLogLinePattern =
+            Pattern.compile("\\s*\\[\\d+-\\d+-\\d+\\.\\d+]\\s*.*");
+
+    /**
      * The regex used to match 1-n whitespace.
      */
     public static final String whiteSpaceRegex = "\\s+";

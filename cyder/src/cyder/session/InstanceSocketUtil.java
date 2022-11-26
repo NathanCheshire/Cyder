@@ -244,6 +244,9 @@ public final class InstanceSocketUtil {
      * @return whether the shutdown request should be denied or complied to and the reasoning
      */
     private static RemoteShutdownRequestResult determineRemoteShutdownRequestResult(String receivedHash) {
+        Preconditions.checkNotNull(receivedHash);
+        Preconditions.checkArgument(!receivedHash.isEmpty());
+
         if (PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
             return RemoteShutdownRequestResult.AUTO_COMPLIANCE_ENABLED;
         } else {

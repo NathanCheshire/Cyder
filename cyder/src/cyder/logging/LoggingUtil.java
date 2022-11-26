@@ -2,6 +2,7 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -43,19 +44,14 @@ public final class LoggingUtil {
      * @param logLine2 the second log line
      * @return whether the two log lines are equivalent
      */
-    static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
+    public static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
-        // if not full line tags, directly compare
-        if (!logLine1.startsWith(openingBracket)
-                || !logLine1.contains(closingBracket)
-                || !logLine2.contains(closingBracket)
-                || !logLine2.startsWith(openingBracket))
+        if (!matchesStandardLogLine(logLine1) || !matchesStandardLogLine(logLine2)) {
             return logLine1.equals(logLine2);
+        }
 
-        // todo ensure if for some reason lines are empty or not enough chars that we don't throw her
-        // guaranteed to have square braces now
         String timeTag1 = logLine1.substring(logLine1.indexOf(openingBracket),
                 logLine2.indexOf(closingBracket) + 1).trim();
         String timeTag2 = logLine2.substring(logLine2.indexOf(openingBracket),
@@ -64,8 +60,28 @@ public final class LoggingUtil {
         logLine1 = logLine1.replace(timeTag1, "");
         logLine2 = logLine2.replace(timeTag2, "");
 
-        return !StringUtil.isNullOrEmpty(logLine1) && !StringUtil.isNullOrEmpty(logLine2) &&
-                logLine1.equalsIgnoreCase(logLine2);
+        return !StringUtil.isNullOrEmpty(logLine1)
+                && !StringUtil.isNullOrEmpty(logLine2)
+                && logLine1.equalsIgnoreCase(logLine2);
+    }
+
+    /**
+     * Returns whether the provided line is a standard log line.
+     *
+     * @param line the line
+     * @return whether the provided line is a standard log line.
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* Readability */
+    public static boolean matchesStandardLogLine(String line) {
+        Preconditions.checkNotNull(line);
+
+        if (!line.startsWith(openingBracket)) {
+            return false;
+        } else if (!line.contains(closingBracket)) {
+            return false;
+        }
+
+        return CyderRegexPatterns.standardLogLinePattern.matcher(line).matches();
     }
 
     /**

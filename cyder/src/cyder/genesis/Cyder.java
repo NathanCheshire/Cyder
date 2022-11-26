@@ -37,7 +37,7 @@ public final class Cyder {
     public static void main(String[] arguments) {
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
-        JvmUtil.setJvmArgs(ImmutableList.copyOf(arguments));
+        JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
 
         PropLoader.loadProps();
 

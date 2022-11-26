@@ -104,7 +104,7 @@ public final class SufficientSubroutines {
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-                IoUtil.logArgs(JvmUtil.getJvmArgs());
+                IoUtil.logArgs(JvmUtil.getJvmMainMethodArgs());
             }, JVM_LOGGER),
             new SufficientSubroutine(() -> Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
                 String threadName = "Python Package Installed Ensurer, package = " + pythonPackage.getPackageName();

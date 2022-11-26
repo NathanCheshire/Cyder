@@ -2,6 +2,7 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -30,7 +31,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 import static java.lang.System.out;
 
@@ -145,6 +145,7 @@ public final class Logger {
      */
     public static <T> void log(T statement) {
         // todo use bottom level class name as tag
+        System.out.println(statement);
     }
 
     /**
@@ -652,12 +653,6 @@ public final class Logger {
     }
 
     /**
-     * A pattern for the start of a standard log line used to find the time of the log call.
-     */
-    private static final Pattern standardLogLinePattern =
-            Pattern.compile("\\s*\\[\\d+-\\d+-\\d+\\.\\d+]\\s*.*");
-
-    /**
      * Consolidates duplicate lines next to each other of the provided file.
      *
      * @param file the file to consolidate duplicate lines of
@@ -682,7 +677,7 @@ public final class Logger {
                     lines.add(line);
                 }
 
-                if (standardLogLinePattern.matcher(line).matches()) {
+                if (CyderRegexPatterns.standardLogLinePattern.matcher(line).matches()) {
                     beforeFirstTimeTag = false;
                 }
             }
