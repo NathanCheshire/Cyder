@@ -653,12 +653,18 @@ public class NetworkUtil {
     public static boolean localPortAvailable(int port) {
         Preconditions.checkArgument(portRange.contains(port));
 
-        try (ServerSocket serverSocket = new ServerSocket()) {
-            serverSocket.setReuseAddress(false);
-            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(LOCALHOST), port), 1);
-            return true;
-        } catch (Exception ignored) {
-            return false;
-        }
+        AtomicBoolean ret = new AtomicBoolean(false);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                ServerSocket socket = new ServerSocket(port);
+                ret.set(true);
+                socket.close();
+            } catch (Exception ignored) {}
+        }, "Local Port Available Finder, port: " + port);
+
+        ThreadUtil.sleep(400);
+
+        return ret.get();
     }
 }

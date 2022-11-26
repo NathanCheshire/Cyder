@@ -66,49 +66,45 @@ public final class NecessarySubroutines {
      * If any fail then the program is exited with the exit condition of {@link ExitCondition#NecessarySubroutineExit}.
      */
     public static void execute() {
-        try {
-            CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
-            if (!registerFonts()) {
-                throw new FatalException("Registering fonts failed");
-            }
-
-            CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
-            if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
-                throw new FatalException("Could not bind to instance socket port: "
-                        + InstanceSocketUtil.getInstanceSocketPort());
-            }
-
-            InstanceSocketUtil.startListening();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
-            if (OsUtil.isOsx()) {
-                throw new FatalException("Unsupported OS");
-            }
-
-            CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
-            OsUtil.ensureDynamicsCreated();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating users");
-            UserUtil.validateUsers();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
-            UserUtil.cleanUsers();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
-            validateWidgets();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Tests");
-            validateTests();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
-            validateVanillaWidgets();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
-            validateHandles();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            OsUtil.exit(ExitCondition.NecessarySubroutineExit);
+        CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
+        if (!registerFonts()) {
+            throw new FatalException("Registering fonts failed");
         }
+
+        CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
+        if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
+            ExceptionHandler.exceptionExit("Multiple instances of Cyder not allowed",
+                    ExitCondition.MultipleInstancesExit, "Instances");
+            throw new FatalException("Multiple instances of Cyder are not allowed");
+        }
+
+        InstanceSocketUtil.startListening();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
+        if (OsUtil.isOsx()) {
+            throw new FatalException("Unsupported OS");
+        }
+
+        CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
+        OsUtil.ensureDynamicsCreated();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Validating users");
+        UserUtil.validateUsers();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
+        UserUtil.cleanUsers();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
+        validateWidgets();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Validating Tests");
+        validateTests();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
+        validateVanillaWidgets();
+
+        CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
+        validateHandles();
     }
 
     /**

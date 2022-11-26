@@ -118,7 +118,6 @@ public final class InstanceSocketUtil {
      * @throws cyder.exceptions.FatalException if an exception occurs
      */
     public static void startListening() {
-        Preconditions.checkState(instanceSocketPortAvailable());
         Preconditions.checkState(!instanceSocketBindAttempted.get());
 
         instanceSocketBindAttempted.set(true);

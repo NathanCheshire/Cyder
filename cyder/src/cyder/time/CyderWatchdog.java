@@ -74,6 +74,7 @@ public final class CyderWatchdog {
     private static final AtomicBoolean watchdogInitialized = new AtomicBoolean();
 
     /**
+     * // todo OS dependent, make OsUtil method to execute command using OS shell
      * The name of the windows shell executable.
      */
     private static final String CMD_EXE = "cmd.exe";
@@ -269,7 +270,6 @@ public final class CyderWatchdog {
     private static void checkIfBoostrapPossible() {
         try {
             if (!OsUtil.isWindows()) {
-                // todo test on Kali, Process API might act different
                 onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
             } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
                 onFailedBoostrap("Current JVM was launched with JDWP args");
@@ -319,6 +319,10 @@ public final class CyderWatchdog {
 
     // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
     // todo key util with validation and getter methods?
+
+    // todo Prop class <T> of some type such as boolean, hold default value,
+    // instead of get(String string) we'll accept this prop class and have overloaded methods for return type
+    // if not exist in props, we return the default value
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits
