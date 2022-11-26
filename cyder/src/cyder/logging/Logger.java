@@ -144,7 +144,7 @@ public final class Logger {
      * @param <T>       the type of statement
      */
     public static <T> void log(T statement) {
-        // todo use calling class as log tag
+        // todo use bottom level class name as tag
     }
 
     /**
@@ -643,7 +643,10 @@ public final class Logger {
                     File[] logFiles = subLogDir.listFiles();
 
                     if (logFiles != null && logFiles.length > 0) {
-                        Arrays.stream(logFiles).forEach(Logger::consolidateLines);
+                        Arrays.stream(logFiles).forEach(logFile -> {
+                            Logger.consolidateLines(logFile);
+                            Logger.log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
+                        });
                     }
                 });
     }

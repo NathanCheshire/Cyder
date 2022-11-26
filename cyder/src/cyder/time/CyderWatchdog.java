@@ -40,8 +40,8 @@ public final class CyderWatchdog {
     public static final String AWT_EVENT_QUEUE_0_NAME = "AWT-EventQueue-0";
 
     /**
-     * The actual watchdog timer to detect a halt if it is not reset by the time a certain
-     * value is reached.
+     * The watchdog counter to detect a halt if it is not reset by the time
+     * {@link #MAX_WATCHDOG_FREEZE_MS} value is reached.
      */
     private static final AtomicInteger watchdogCounter = new AtomicInteger();
 
@@ -101,7 +101,7 @@ public final class CyderWatchdog {
         Preconditions.checkState(!watchdogInitialized.get());
 
         if (PropLoader.propExists(ACTIVATE_WATCHDOG) && !PropLoader.getBoolean(ACTIVATE_WATCHDOG)) {
-            Logger.log(LogTag.WATCHDOG, "Watchdog skipped as prop is not set");
+            Logger.log(LogTag.WATCHDOG, "Watchdog deactivated from props");
             return;
         } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
             Logger.log(LogTag.WATCHDOG, "Watchdog skipped as current JVM session was launched using debug");
@@ -125,34 +125,37 @@ public final class CyderWatchdog {
         }, IgnoreThread.WatchdogInitializer.getName());
     }
 
+    /**
+     * A mapping of {@link Thread.State}s to whether the watchdog counter should be incremented if the
+     * AWT event queue 0 thread is in this state.
+     */
     private enum WatchdogActionForThreadState {
-        RUNNABLE(true, false),
-        BLOCKED(false, true),
-        WAITING(true, false),
-        TIME_WAITING(false, true),
-        UNKNOWN(true, false);
+        RUNNABLE(),
+        BLOCKED(),
+        WAITING(false),
+        TIME_WAITING(),
+        UNKNOWN(false);
 
         /**
-         * Whether an increment should be attempted.
+         * Whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented.
          */
         private final boolean shouldIncrement;
 
-        /**
-         * Whether an exception should be thrown.
-         */
-        private final boolean shouldThrow;
-
-        WatchdogActionForThreadState(boolean shouldIncrement, boolean shouldThrow) {
-            this.shouldIncrement = shouldIncrement;
-            this.shouldThrow = shouldThrow;
+        WatchdogActionForThreadState() {
+            this(true);
         }
 
+        WatchdogActionForThreadState(boolean shouldIncrement) {
+            this.shouldIncrement = shouldIncrement;
+        }
+
+        /**
+         * Returns whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented.
+         *
+         * @return whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented
+         */
         public boolean isShouldIncrement() {
             return shouldIncrement;
-        }
-
-        public boolean isShouldThrow() {
-            return shouldThrow;
         }
 
         /**
@@ -197,12 +200,12 @@ public final class CyderWatchdog {
                 currentAwtEventQueueThreadState = awtEventQueueThread.getState();
                 WatchdogActionForThreadState action = WatchdogActionForThreadState
                         .getWatchdogActionForThreadState(currentAwtEventQueueThreadState);
-                // todo switch on this
 
                 // todo lets have a map of thread states to log messages and a last thread state stored here
                 // todo should increment watchdog prop in program state enum
                 ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
                 if (currentCyderState.isShouldIncrementWatchdog()) {
+                    // todo in here check the state of awt event queue 0
                     Logger.log(LogTag.WATCHDOG, "Watchdog incremented as "
                             + "Cyder program state is: " + currentCyderState);
                 } else {
@@ -210,21 +213,21 @@ public final class CyderWatchdog {
                             + "Cyder program state is: " + currentCyderState);
                 }
 
+                // todo this is bugged here
                 // todo will be determined above
                 watchdogCounter.getAndAdd(POLL_TIMEOUT);
 
                 int currentFreezeLength = watchdogCounter.get();
 
-                System.out.println(currentFreezeLength);
-                System.out.println(maxSessionFreezeLength.get());
                 if (currentFreezeLength > maxSessionFreezeLength.get()) {
-                    Logger.log("New max freeze detected by watchdog: " + currentFreezeLength
+                    Logger.log(LogTag.WATCHDOG, "New max freeze detected by watchdog: " + currentFreezeLength
                             + TimeUtil.MILLISECOND_ABBREVIATION);
                     maxSessionFreezeLength.set(currentFreezeLength);
                 }
 
+                // todo on max freeze method
                 if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                    Logger.log("UI halt detected by watchdog; checking if bootstrap is possible");
+                    Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
                     checkIfBoostrapPossible();
                 }
             }

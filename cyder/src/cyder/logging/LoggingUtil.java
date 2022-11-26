@@ -54,6 +54,7 @@ public final class LoggingUtil {
                 || !logLine2.startsWith(openingBracket))
             return logLine1.equals(logLine2);
 
+        // todo ensure if for some reason lines are empty or not enough chars that we don't throw her
         // guaranteed to have square braces now
         String timeTag1 = logLine1.substring(logLine1.indexOf(openingBracket),
                 logLine2.indexOf(closingBracket) + 1).trim();
