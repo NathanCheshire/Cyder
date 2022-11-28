@@ -12,7 +12,9 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.StringUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -201,8 +203,6 @@ public final class PropLoader {
             }
         });
 
-        Arrays.stream(propFilesArray).forEach(PropLoader::injectAnnotations);
-
         try {
             ArrayList<Prop> propsList = new ArrayList<>();
 
@@ -349,77 +349,5 @@ public final class PropLoader {
         Preconditions.checkNotNull(part);
 
         return part.endsWith(escapeSequence);
-    }
-
-    /**
-     * Injects necessary annotations into the provided prop file.
-     *
-     * @param file the file to inject annotations into.
-     */
-    private static void injectAnnotations(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-
-        injectNoLogAnnotations(file);
-    }
-
-    /**
-     * Injects {@link Annotation#NO_LOG} annotations for
-     * props found which end in {@link PropConstants#KEY_PROP_SUFFIX}.
-     *
-     * @param file the prop file to insert annotations if needed
-     */
-    private static void injectNoLogAnnotations(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-
-        ArrayList<String> originalLines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                originalLines.add(line);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            String previousLine = "";
-
-            for (String line : originalLines) {
-                try {
-                    Prop extractedProp = extractProp(line);
-                    if (extractedProp.key().trim().endsWith(KEY_PROP_SUFFIX)
-                            && !previousLine.trim().equals(Annotation.NO_LOG.getAnnotation())) {
-                        writer.write(Annotation.NO_LOG.getAnnotation());
-                        writer.newLine();
-
-                        logInjection(Annotation.NO_LOG.getAnnotation(), extractedProp, file);
-                    }
-                } catch (Exception ignored) {}
-
-                writer.write(line);
-                writer.newLine();
-
-                previousLine = line;
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Logs an injection.
-     *
-     * @param line the line an injection was performed above
-     * @param prop the prop the injection was performed for
-     * @param file the file the injection was performed on
-     */
-    @ForReadability
-    private static void logInjection(String line, Prop prop, File file) {
-        String log = "Injected " + line + " for prop: " + prop.key()
-                + ", prop file = " + file.getName();
-        Logger.log(LogTag.PROPS_ACTION, log);
     }
 }
