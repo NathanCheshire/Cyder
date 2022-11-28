@@ -1533,4 +1533,25 @@ public final class StringUtil {
 
         return string.replaceAll("\"", "\\\"");
     }
+
+    /**
+     * Returns a string of the parts combined with the "between" string inserted between the parts.
+     *
+     * @param parts   the parts
+     * @param between the string to insert between the parts
+     * @return a string of the parts combined with the "between" string inserted between the parts
+     */
+    public static String joinParts(String[] parts, String between) {
+        Preconditions.checkNotNull(parts);
+        Preconditions.checkNotNull(between);
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0 ; i < parts.length ; i++) {
+            ret.append(parts[i]);
+            if (i != parts.length - 1) ret.append(between);
+        }
+
+        return ret.toString();
+    }
 }

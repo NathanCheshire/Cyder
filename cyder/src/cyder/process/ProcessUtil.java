@@ -10,10 +10,12 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.OsUtil;
+import cyder.utils.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -22,7 +24,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utilities related to processes and the Java process API.
+ * Utilities related to processes and the Java {@link Process} API.
  */
 public final class ProcessUtil {
     /**
@@ -65,6 +67,65 @@ public final class ProcessUtil {
     /**
      * Returns the output as a result of the running the provided command using a {@link Process}.
      *
+     * @param command the command list
+     * @return the process result
+     */
+    @CanIgnoreReturnValue
+    public static Future<ProcessResult> getProcessOutput(List<String> command) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(!command.isEmpty());
+
+        String[] passThrough = new String[command.size()];
+        for (int i = 0 ; i < command.size() ; i++) {
+            passThrough[i] = command.get(i);
+        }
+
+        return getProcessOutput(passThrough);
+    }
+
+    // todo list of strings method for get process output as well
+
+    /**
+     * Returns the output as a result of the running the provided command using a {@link Process}.
+     *
+     * @param command the command string array to run
+     * @return the process result
+     */
+    @CanIgnoreReturnValue
+    public static Future<ProcessResult> getProcessOutput(String[] command) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(command.length == 0);
+
+        String threadName = "getProcessOutput thread, command: "
+                + CyderStrings.quote + StringUtil.joinParts(command, CyderStrings.space) + CyderStrings.quote;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
+            ArrayList<String> standardOutput = new ArrayList<>();
+            ArrayList<String> errorOutput = new ArrayList<>();
+
+            try {
+                Process process = Runtime.getRuntime().exec(command);
+                process.getOutputStream().close();
+
+                String outputLine;
+                BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
+                outReader.close();
+
+                String errorLine;
+                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
+                errorReader.close();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            return new ProcessResult(standardOutput, errorOutput);
+        });
+    }
+
+    /**
+     * Returns the output as a result of the running the provided command using a {@link Process}.
+     *
      * @param command the command to run
      * @return the process result
      */
@@ -73,9 +134,9 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        String threadName = "getProcessOutput thread, command = \"" + command + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory(threadName)).submit(() -> {
+        String threadName = "getProcessOutput thread, command: "
+                + CyderStrings.quote + command + CyderStrings.quote;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             ArrayList<String> standardOutput = new ArrayList<>();
             ArrayList<String> errorOutput = new ArrayList<>();
 
@@ -111,8 +172,8 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        getProcessOutput(Program.PIP.getProgramName() + CyderStrings.space + INSTALL
-                + CyderStrings.space + packageName);
+        getProcessOutput(Program.PIP.getProgramName()
+                + CyderStrings.space + INSTALL + CyderStrings.space + packageName);
     }
 
     /**
@@ -127,9 +188,9 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        String threadName = "isPipDependencyPresent thread, packageName = \"" + packageName + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory(threadName)).submit(() -> {
+        String threadName = "isPipDependencyPresent thread, packageName: "
+                + CyderStrings.quote + packageName + CyderStrings.quote;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
                     + CyderStrings.space + SHOW + CyderStrings.space + packageName);
             while (!futureResult.isDone()) Thread.onSpinWait();
@@ -158,9 +219,9 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        String threadName = "getPipDependencyVersion thread, packageName = \"" + packageName + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory(threadName)).submit(() -> {
+        String threadName = "getPipDependencyVersion thread, packageName: "
+                + CyderStrings.quote + packageName + CyderStrings.quote;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
                     + CyderStrings.space + SHOW + CyderStrings.space + packageName);
             while (!futureResult.isDone()) Thread.onSpinWait();
@@ -216,8 +277,7 @@ public final class ProcessUtil {
      * @param pipeTo  the input handle to print the output to
      * @param builder the process builder to run
      */
-    public static void runAndPrintProcess(BaseInputHandler pipeTo,
-                                          ProcessBuilder builder) {
+    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
         checkNotNull(pipeTo);
         checkNotNull(builder);
 

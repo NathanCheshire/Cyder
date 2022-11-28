@@ -46,10 +46,19 @@ public class UsbDevice {
      * @param instanceId   the instance id of the device
      */
     public UsbDevice(String status, String type, String friendlyName, String instanceId) {
-        this.status = Preconditions.checkNotNull(status);
-        this.type = Preconditions.checkNotNull(type);
-        this.friendlyName = Preconditions.checkNotNull(friendlyName);
-        this.instanceId = Preconditions.checkNotNull(instanceId);
+        Preconditions.checkNotNull(status);
+        Preconditions.checkNotNull(type);
+        Preconditions.checkNotNull(friendlyName);
+        Preconditions.checkNotNull(instanceId);
+        Preconditions.checkArgument(!status.isEmpty());
+        Preconditions.checkArgument(!type.isEmpty());
+        Preconditions.checkArgument(!friendlyName.isEmpty());
+        Preconditions.checkArgument(!instanceId.isEmpty());
+
+        this.status = status;
+        this.type = type;
+        this.friendlyName = friendlyName;
+        this.instanceId = instanceId;
     }
 
     /**

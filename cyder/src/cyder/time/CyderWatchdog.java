@@ -130,55 +130,18 @@ public final class CyderWatchdog {
     }
 
     /**
-     * A mapping of {@link Thread.State}s to whether the watchdog counter should be incremented if the
-     * AWT event queue 0 thread is in this state.
+     * Returns whether the watchdog counter should be incremented if the watch thread is in a particular state.
+     *
+     * @param threadState the state
+     * @return whether the watchdog counter should be incremented if the watch thread is in a particular state
      */
-    private enum WatchdogActionForThreadState {
-        RUNNABLE(),
-        BLOCKED(),
-        WAITING(false),
-        TIME_WAITING(),
-        UNKNOWN(false);
+    public static boolean shouldIncrementWatchdogForThreadState(Thread.State threadState) {
+        Preconditions.checkNotNull(threadState);
 
-        /**
-         * Whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented.
-         */
-        private final boolean shouldIncrement;
-
-        WatchdogActionForThreadState() {
-            this(true);
-        }
-
-        WatchdogActionForThreadState(boolean shouldIncrement) {
-            this.shouldIncrement = shouldIncrement;
-        }
-
-        /**
-         * Returns whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented.
-         *
-         * @return whether the AWT event queue 0 thread is frozen and the watchdog counter should be incremented
-         */
-        public boolean isShouldIncrement() {
-            return shouldIncrement;
-        }
-
-        /**
-         * Returns the watchdog action for the thread state provided.
-         *
-         * @param state the state
-         * @return the watchdog action for the thread state provided.
-         */
-        public static WatchdogActionForThreadState getWatchdogActionForThreadState(Thread.State state) {
-            Preconditions.checkNotNull(state);
-
-            return switch (state) {
-                case NEW, TERMINATED -> UNKNOWN;
-                case RUNNABLE -> RUNNABLE;
-                case BLOCKED -> BLOCKED;
-                case WAITING -> WAITING;
-                case TIMED_WAITING -> TIME_WAITING;
-            };
-        }
+        return switch (threadState) {
+            case NEW, WAITING, TERMINATED -> false;
+            case RUNNABLE, BLOCKED, TIMED_WAITING -> true;
+        };
     }
 
     /**
@@ -206,13 +169,12 @@ public final class CyderWatchdog {
                 ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
 
                 if (currentCyderState.isShouldIncrementWatchdog()) {
-                    if (WatchdogActionForThreadState.getWatchdogActionForThreadState(currentAwtEventQueueThreadState)
-                            .isShouldIncrement()) {
+                    if (shouldIncrementWatchdogForThreadState(currentAwtEventQueueThreadState)) {
                         watchdogCounter.getAndAdd(POLL_TIMEOUT);
                     }
                 } else {
-                    Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
-                            + "Cyder program state is: " + currentCyderState);
+                    Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as"
+                            + " Cyder program state is: " + currentCyderState);
                 }
 
                 int currentFreezeLength = watchdogCounter.get();
@@ -236,7 +198,7 @@ public final class CyderWatchdog {
      */
     private static void onUiHaltDetected() {
         Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
-        checkIfBoostrapPossible();
+        invokeBoostrapIfConditionsMet();
     }
 
     /**
@@ -252,21 +214,22 @@ public final class CyderWatchdog {
      * The following conditions must be met in order for a boostrap to be attempted:
      *
      * <ul>
-     *     <li>The JVM instance was launched from a jar file</li>
      *     <li>The operating system is {@link cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
+     *     <li>The attempt_boostrap prop is true if present</li>
      *     <li>The current JVM instance was not launched with JDWP args (debug mode)</li>
      * </ul>
      *
      * @return whether a bootstrap was possible and invoked
      */
     @CanIgnoreReturnValue
-    private static boolean checkIfBoostrapPossible() {
+    private static boolean invokeBoostrapIfConditionsMet() {
         try {
             if (!OsUtil.isWindows()) {
                 onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
             } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
                 onFailedBoostrap("Current JVM was launched with JDWP args");
-            } else if (PropLoader.propExists("attempt_bootstrap") && !PropLoader.getBoolean("attempt_bootstrap")) {
+            } else if (PropLoader.propExists("attempt_bootstrap")
+                    && !PropLoader.getBoolean("attempt_bootstrap")) {
                 onFailedBoostrap("attempt_boostrap prop set to false");
             } else {
                 onBootstrapConditionsMet();
@@ -282,7 +245,7 @@ public final class CyderWatchdog {
 
     /**
      * Invokes a boostrap attempt after all of the proper conditions
-     * outlined in {@link #checkIfBoostrapPossible()} are met.
+     * outlined in {@link #invokeBoostrapIfConditionsMet()} are met.
      */
     private static void onBootstrapConditionsMet() {
         Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
