@@ -1,6 +1,7 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -72,17 +73,6 @@ public final class CyderWatchdog {
      * Whether the watchdog has been initialized and started.
      */
     private static final AtomicBoolean watchdogInitialized = new AtomicBoolean();
-
-    /**
-     * // todo OS dependent, make OsUtil method to execute command using OS shell
-     * The name of the windows shell executable.
-     */
-    private static final String CMD_EXE = "cmd.exe";
-
-    /**
-     * The /C command line argument.
-     */
-    private static final String SLASH_C = "/C";
 
     /**
      * The previous state of the awt event queue thread.
@@ -266,20 +256,28 @@ public final class CyderWatchdog {
      *     <li>The operating system is {@link cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
      *     <li>The current JVM instance was not launched with JDWP args (debug mode)</li>
      * </ul>
+     *
+     * @return whether a bootstrap was possible and invoked
      */
-    private static void checkIfBoostrapPossible() {
+    @CanIgnoreReturnValue
+    private static boolean checkIfBoostrapPossible() {
         try {
             if (!OsUtil.isWindows()) {
                 onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
             } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
                 onFailedBoostrap("Current JVM was launched with JDWP args");
+            } else if (PropLoader.propExists("attempt_bootstrap") && !PropLoader.getBoolean("attempt_bootstrap")) {
+                onFailedBoostrap("attempt_boostrap prop set to false");
             } else {
                 onBootstrapConditionsMet();
+                return true;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             onFailedBoostrap(e.getMessage());
         }
+
+        return false;
     }
 
     /**
@@ -297,14 +295,15 @@ public final class CyderWatchdog {
         // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
 
         // todo need some kind of an argument to request to shutdown other instances if not singular instance
-        String[] executionParams = new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand(),
-                "--resume-log-file", resumeLogHash};
+        //        String[] executionParams = new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand(),
+        //                "--resume-log-file", resumeLogHash};
+        // todo use OS util method to execute
 
         try {
             // todo need a method in process util to run a string array command and get output from
 
             // todo remove --resume-log-file if present and pass in reference to current log file
-            Runtime.getRuntime().exec(executionParams);
+            // Runtime.getRuntime().exec(executionParams);
 
             // todo send and be done, new client should request to end this session and we should comply
         } catch (Exception e) {

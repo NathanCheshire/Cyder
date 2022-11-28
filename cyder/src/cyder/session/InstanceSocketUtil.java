@@ -359,10 +359,8 @@ public final class InstanceSocketUtil {
                 PrintWriter outputWriter = new PrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                // todo this is common throughout, make method in SecurityUtil
-                String hashedShutdownPassword = SecurityUtil.toHexString(
-                        SecurityUtil.getSha256(shutdownPassword.toCharArray()));
-                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE, hashedShutdownPassword, outputWriter);
+                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE,
+                        SecurityUtil.hashAndHex(shutdownPassword), outputWriter);
 
                 return readInputMessage(inputReader);
             } catch (Exception e) {

@@ -191,11 +191,11 @@ public final class SecurityUtil {
      * @return a unique uuid that does not exist for all current Cyder users
      */
     public static String generateUuidForUser() {
-        String uuid = SecurityUtil.generateUuid();
+        String uuid = generateUuid();
         File userFolder = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid);
 
         while (userFolder.exists()) {
-            uuid = SecurityUtil.generateUuid();
+            uuid = generateUuid();
             userFolder = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid);
         }
 
@@ -211,7 +211,18 @@ public final class SecurityUtil {
     public static String doubleHashToHex(char[] password) {
         Preconditions.checkNotNull(password);
 
-        return SecurityUtil.toHexString(SecurityUtil.getSha256(
-                SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray()));
+        return toHexString(getSha256(toHexString(getSha256(password)).toCharArray()));
+    }
+
+    /**
+     * Hashes the provided input using SHA256 and converts the output to hex representation.
+     *
+     * @param input the input to hash
+     * @return the hashed input converted to a hex string
+     */
+    public static String hashAndHex(String input) {
+        Preconditions.checkNotNull(input);
+
+        return toHexString(getSha256(input.toCharArray()));
     }
 }

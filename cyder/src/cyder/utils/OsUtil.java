@@ -22,6 +22,7 @@ import cyder.user.UserUtil;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
@@ -316,18 +317,32 @@ public final class OsUtil {
     }
 
     /**
+     * Executes the provided command using the operating system's shell.
+     *
+     * @param command the command to execute using the Java {@link Runtime} API.
+     * @throws IOException if an IO exception occurs
+     */
+    public static void executeShellCommand(String command) throws IOException {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(!command.isEmpty());
+
+        switch (OPERATING_SYSTEM) {
+            case OSX, UNIX, SOLARIS -> Runtime.getRuntime().exec(new String[]{"sh", "-c", command});
+            case WINDOWS -> Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C", command});
+            case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
+        }
+    }
+
+    /**
      * Opens the command shell for the operating system.
      */
     public static void openShell() {
         try {
             switch (OPERATING_SYSTEM) {
-                case WINDOWS -> Runtime.getRuntime().exec("cmd");
-                case UNIX, OSX -> {
-                    String[] args = {"/bin/bash", "-c"};
-                    new ProcessBuilder(args).start();
-                }
-                case UNKNOWN, default -> throw new UnsupportedOsException(
-                        "Unknown operating system type: " + OPERATING_SYSTEM);
+                case OSX, UNIX, SOLARIS -> throw new IllegalStateException("Operating system not yet supported: "
+                        + OPERATING_SYSTEM);
+                case WINDOWS -> executeShellCommand("start");
+                case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
