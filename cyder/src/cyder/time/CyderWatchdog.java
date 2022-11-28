@@ -18,6 +18,7 @@ import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -232,7 +233,8 @@ public final class CyderWatchdog {
                     && !PropLoader.getBoolean("attempt_bootstrap")) {
                 onFailedBoostrap("attempt_boostrap prop set to false");
             } else {
-                onBootstrapConditionsMet();
+                Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
+                bootstrap();
                 return true;
             }
         } catch (Exception e) {
@@ -243,27 +245,29 @@ public final class CyderWatchdog {
         return false;
     }
 
+    // todo need handling of this, Logger needs to be re-done
     /**
-     * Invokes a boostrap attempt after all of the proper conditions
-     * outlined in {@link #invokeBoostrapIfConditionsMet()} are met.
+     * The log file argument when starting an instance of Cyder.
      */
-    private static void onBootstrapConditionsMet() {
-        Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
+    private static final String LOG_FILE_ARGUMENT = "--log-file";
 
-        // todo remove me
-        if (true) return;
-
+    /**
+     * Invokes a boostrap attempt. This will request this instance of
+     * Cyder to shutdown after the new instance starts.
+     */
+    private static void bootstrap() {
         ImmutableList<String> command = ImmutableList.of(
                 JvmUtil.getFullJvmInvocationCommand(),
-                "--log-file",
+                LOG_FILE_ARGUMENT,
                 Logger.getCurrentLogFile().getAbsolutePath()
         );
 
         try {
-            OsUtil.executeShellCommand(command);
+            // todo remove when ready to test
+            if (false) OsUtil.executeShellCommand(command);
 
             // todo send and be done, new client should request to end this session and we should comply
-        } catch (Exception e) {
+        } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
 

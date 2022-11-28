@@ -429,7 +429,7 @@ public final class Logger {
         }
 
         generateAndSetLogFile();
-        writeCyderAsciiArt();
+        writeCyderAsciiArtToCurrentLogFile();
         log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
         startObjectCreationLogger();
         concludeLogs();
@@ -458,17 +458,24 @@ public final class Logger {
     }
 
     /**
+     * The number of new lines to write after ascii art is written to a log file.
+     */
+    private static final int numNewLinesAfterAsciiArt = 2;
+
+    /**
      * Writes the lines contained in static/txt/cyder.txt to the current log file.
      */
-    private static void writeCyderAsciiArt() {
+    private static void writeCyderAsciiArtToCurrentLogFile() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (String line : LoggingUtil.getHeaderLogoLines()) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
 
-            bufferedWriter.newLine();
-            bufferedWriter.newLine();
+            for (int i = 0 ; i < numNewLinesAfterAsciiArt ; i++) {
+                bufferedWriter.newLine();
+            }
+
             bufferedWriter.flush();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
