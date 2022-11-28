@@ -12,9 +12,8 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.StringUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -207,12 +206,11 @@ public final class PropLoader {
             ArrayList<Prop> propsList = new ArrayList<>();
 
             propFiles.forEach(propFile -> {
-                ArrayList<String> lines = new ArrayList<>();
+                ImmutableList<String> lines = ImmutableList.of();
 
-                try (BufferedReader reader = new BufferedReader(new FileReader(propFile))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) lines.add(line);
-                } catch (Exception e) {
+                try {
+                    lines = ImmutableList.copyOf(FileUtil.readFileContents(propFile).split(splitPropFileContentsAt));
+                } catch (IOException e) {
                     ExceptionHandler.handle(e);
                 }
 
@@ -267,6 +265,8 @@ public final class PropLoader {
      */
     @ForReadability
     private static boolean isComment(String line) {
+        Preconditions.checkNotNull(line);
+
         return line.trim().startsWith(COMMENT_PATTERN);
     }
 
@@ -278,6 +278,8 @@ public final class PropLoader {
      */
     @ForReadability
     private static boolean isNoLogAnnotation(String line) {
+        Preconditions.checkNotNull(line);
+
         return line.trim().equals(Annotation.NO_LOG.getAnnotation());
     }
 
@@ -302,7 +304,7 @@ public final class PropLoader {
         // Figure out where key ends and value starts
         int lastKeyIndex = -1;
         for (int i = 0 ; i < parts.length - 1 ; i++) {
-            if (partIsEscaped(parts[i])) {
+            if (parts[i].endsWith(escapeSequence)) {
                 parts[i] = parts[i].substring(0, parts[i].length() - 1);
                 continue;
             }
@@ -336,18 +338,5 @@ public final class PropLoader {
         String key = keyBuilder.toString().trim();
         String value = valueBuilder.toString().trim();
         return new Prop(key, value);
-    }
-
-    /**
-     * Returns whether the provided part ends with the escape pattern.
-     *
-     * @param part the part
-     * @return whether the provided part ends with the escape pattern
-     */
-    @ForReadability
-    private static boolean partIsEscaped(String part) {
-        Preconditions.checkNotNull(part);
-
-        return part.endsWith(escapeSequence);
     }
 }

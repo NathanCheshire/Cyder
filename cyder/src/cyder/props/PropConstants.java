@@ -47,11 +47,6 @@ public final class PropConstants {
     }
 
     /**
-     * The suffix a key must have for a no log annotation to be injected.
-     */
-    static final String KEY_PROP_SUFFIX = "_key";
-
-    /**
      * The name of the props directory.
      */
     static final String PROPS_DIR_NAME = "props";
@@ -75,6 +70,11 @@ public final class PropConstants {
      * The escape char for comma.
      */
     static final String escapeSequence = CyderStrings.backSlash;
+
+    /**
+     * The string to split a prop file contents at to separate the raw file master string into separate lines.
+     */
+    static final String splitPropFileContentsAt = "\r\n";
 
     /**
      * Suppress default constructor.
