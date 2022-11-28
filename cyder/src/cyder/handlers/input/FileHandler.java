@@ -34,9 +34,9 @@ public class FileHandler extends InputHandler {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
-            IoUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
+            IoUtil.openFileOutsideProgram(Logger.getCurrentLogFile().getAbsolutePath());
         } else if (getInputHandler().inputIgnoringSpacesMatches("open last log")) {
-            File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
+            File[] logs = Logger.getCurrentLogFile().getParentFile().listFiles();
 
             if (logs != null) {
                 if (logs.length == 1) {

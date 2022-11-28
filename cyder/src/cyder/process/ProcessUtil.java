@@ -83,8 +83,6 @@ public final class ProcessUtil {
         return getProcessOutput(passThrough);
     }
 
-    // todo list of strings method for get process output as well
-
     /**
      * Returns the output as a result of the running the provided command using a {@link Process}.
      *

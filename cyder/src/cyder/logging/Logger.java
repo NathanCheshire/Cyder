@@ -453,7 +453,7 @@ public final class Logger {
      *
      * @return the log file associated with the current session
      */
-    public static File getCurrentLog() {
+    public static File getCurrentLogFile() {
         return currentLog;
     }
 
@@ -532,7 +532,7 @@ public final class Logger {
 
     @ForReadability
     private static boolean logFileDeletedMidRuntime() {
-        return !getCurrentLog().exists();
+        return !getCurrentLogFile().exists();
     }
 
     /**
@@ -760,7 +760,7 @@ public final class Logger {
                 if (logs == null || logs.length == 0) return;
 
                 for (File log : logs) {
-                    if (!log.equals(getCurrentLog())) {
+                    if (!log.equals(getCurrentLogFile())) {
                         BufferedReader reader = new BufferedReader(new FileReader(log));
                         String line;
                         boolean containsEOL = false;

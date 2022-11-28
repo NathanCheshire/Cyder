@@ -104,7 +104,7 @@ public class StatHandler extends InputHandler {
                     if (logDirFiles != null && logDirFiles.length > 0) {
                         for (File log : logDirFiles) {
                             if (FileUtil.getExtension(log).equals(Extension.LOG.getExtension())
-                                    && !logDir.equals(Logger.getCurrentLog())) {
+                                    && !logDir.equals(Logger.getCurrentLogFile())) {
                                 count++;
                             }
                         }

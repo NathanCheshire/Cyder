@@ -27,6 +27,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -317,6 +318,46 @@ public final class OsUtil {
     }
 
     /**
+     * The length of the prefixes for running a system command.
+     * For windows this is "cmd.exe" and "/C" and for Unix systems
+     * this is "sh" and "-c".
+     */
+    private static final int commandPrefixLength = 2;
+
+    /**
+     * Executes the provided command using the operating system's shell.
+     *
+     * @param commandParts the command parts to execute using the Java {@link Runtime} API.
+     * @throws IOException if an IO exception occurs
+     */
+    public static void executeShellCommand(List<String> commandParts) throws IOException {
+        Preconditions.checkNotNull(commandParts);
+        Preconditions.checkArgument(!commandParts.isEmpty());
+
+        String[] commandPartsArr = new String[commandParts.size() + commandPrefixLength];
+
+        switch (OPERATING_SYSTEM) {
+            case OSX, UNIX, SOLARIS -> {
+                commandPartsArr[0] = "sh";
+                commandPartsArr[1] = "-c";
+            }
+            case WINDOWS -> {
+                commandPartsArr[0] = "cmd.exe";
+                commandPartsArr[1] = "/C";
+            }
+            case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
+        }
+
+        int index = commandPrefixLength;
+        for (String part : commandParts) {
+            commandPartsArr[index] = part;
+            index++;
+        }
+
+        Runtime.getRuntime().exec(commandPartsArr);
+    }
+
+    /**
      * Executes the provided command using the operating system's shell.
      *
      * @param command the command to execute using the Java {@link Runtime} API.
@@ -334,6 +375,11 @@ public final class OsUtil {
     }
 
     /**
+     * The start keyword for launching the Windows command shell.
+     */
+    private static final String START = "start";
+
+    /**
      * Opens the command shell for the operating system.
      */
     public static void openShell() {
@@ -341,7 +387,7 @@ public final class OsUtil {
             switch (OPERATING_SYSTEM) {
                 case OSX, UNIX, SOLARIS -> throw new IllegalStateException("Operating system not yet supported: "
                         + OPERATING_SYSTEM);
-                case WINDOWS -> executeShellCommand("start");
+                case WINDOWS -> executeShellCommand(START);
                 case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
             }
         } catch (Exception e) {

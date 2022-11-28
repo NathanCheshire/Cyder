@@ -1,6 +1,7 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
@@ -15,7 +16,6 @@ import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -253,27 +253,21 @@ public final class CyderWatchdog {
         // todo remove me
         if (true) return;
 
-        String resumeLogHash = SecurityUtil.generateUuid();
-
-        // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
-
-        // todo need some kind of an argument to request to shutdown other instances if not singular instance
-        //        String[] executionParams = new String[]{CMD_EXE, SLASH_C, JvmUtil.getFullJvmInvocationCommand(),
-        //                "--resume-log-file", resumeLogHash};
-        // todo use OS util method to execute
+        ImmutableList<String> command = ImmutableList.of(
+                JvmUtil.getFullJvmInvocationCommand(),
+                "--log-file",
+                Logger.getCurrentLogFile().getAbsolutePath()
+        );
 
         try {
-            // todo need a method in process util to run a string array command and get output from
-
-            // todo remove --resume-log-file if present and pass in reference to current log file
-            // Runtime.getRuntime().exec(executionParams);
+            OsUtil.executeShellCommand(command);
 
             // todo send and be done, new client should request to end this session and we should comply
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        // todo get command, generate hashes, send, and start socket in sep process
+        // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
     }
 
     // todo start writing to resume log file if present, insert bootstrap into it and then a debug call
