@@ -147,6 +147,42 @@ public final class InstanceSocketUtil {
     }
 
     /**
+     * Sends a remote shutdown request to the Cyder instance using the provided host and port.
+     *
+     * @param host             the host of the remote Cyder instance
+     * @param port             the port of the remote Cyder instance
+     * @param shutdownPassword the password to prove this instance has the
+     *                         authority to request the remote instance to perform a shutdown
+     * @return the response message from the remote instance
+     */
+    public static Future<CyderCommunicationMessage> sendRemoteShutdownRequest(String host, int port,
+                                                                              String shutdownPassword) {
+        Preconditions.checkNotNull(host);
+        Preconditions.checkArgument(!host.isEmpty());
+        Preconditions.checkArgument(NetworkUtil.portRange.contains(port));
+        Preconditions.checkNotNull(shutdownPassword);
+        Preconditions.checkArgument(!shutdownPassword.isEmpty());
+
+        String executorName = "Remote Shutdown Request, host: " + host + ", port: " + port;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(executorName)).submit(() -> {
+            try {
+                Socket clientSocket = new Socket(host, port);
+                PrintWriter outputWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE,
+                        SecurityUtil.hashAndHex(shutdownPassword), outputWriter);
+
+                return readInputMessage(inputReader);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            throw new FatalException("Failed to send remote shutdown request");
+        });
+    }
+
+    /**
      * Reads a Cyder communication message from the provided buffered reader.
      *
      * @param inputReader the buffered reader
@@ -321,53 +357,17 @@ public final class InstanceSocketUtil {
         responseWriter.println(sendHash);
     }
 
+    // todo use me
     public static void main(String[] args) throws Exception {
-        int port = 8888;
+        int port = PropLoader.getInteger("instance_port");
+        String password = PropLoader.getString("remote_shutdown_password");
         Future<CyderCommunicationMessage> futureResponse =
-                sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, "Vexento");
+                sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, password);
         while (!futureResponse.isDone()) Thread.onSpinWait();
         CyderCommunicationMessage response = futureResponse.get();
         System.out.println(response);
 
         while (!NetworkUtil.localPortAvailable(port)) Thread.onSpinWait();
-        System.out.println("Port " + port + " is free continue new session normally");
-
-        System.exit(0);
-    }
-
-    /**
-     * Sends a remote shutdown request to the Cyder instance using the provided host and port.
-     *
-     * @param host             the host of the remote Cyder instance
-     * @param port             the port of the remote Cyder instance
-     * @param shutdownPassword the password to prove this instance has the
-     *                         authority to request the remote instance to perform a shutdown
-     * @return the response message from the remote instance
-     */
-    public static Future<CyderCommunicationMessage> sendRemoteShutdownRequest(String host, int port,
-                                                                              String shutdownPassword) {
-        Preconditions.checkNotNull(host);
-        Preconditions.checkArgument(!host.isEmpty());
-        Preconditions.checkArgument(NetworkUtil.portRange.contains(port));
-        Preconditions.checkNotNull(shutdownPassword);
-        Preconditions.checkArgument(!shutdownPassword.isEmpty());
-
-        String executorName = "Remote Shutdown Request, host: " + host + ", port: " + port;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(executorName)).submit(() -> {
-            try {
-                Socket clientSocket = new Socket(host, port);
-                PrintWriter outputWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                sendCommunicationMessage(CyderRemoteShutdownMessage.MESSAGE,
-                        SecurityUtil.hashAndHex(shutdownPassword), outputWriter);
-
-                return readInputMessage(inputReader);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            throw new FatalException("Failed to send remote shutdown request");
-        });
+        // port is free and now may bind current instance
     }
 }
