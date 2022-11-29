@@ -150,9 +150,9 @@ public final class Prop<T> {
     @Override
     public int hashCode() {
         int ret = key.hashCode();
-        ret += 31 * ret + getValue().hashCode();
-        ret += 31 * ret + type.hashCode();
-        ret += 31 * ret + defaultValue.hashCode();
+        ret = 31 * ret + getValue().hashCode();
+        ret = 31 * ret + type.hashCode();
+        ret = 31 * ret + defaultValue.hashCode();
         return ret;
     }
 
