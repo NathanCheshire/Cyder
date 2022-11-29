@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/60986919/171057466-8197f0c7-f908-4cb0-8978-deab86a79eac.png" alt="Logo" width="150">
+<img src="https://user-images.githubusercontent.com/60986919/204333713-85b00112-bbd8-4ddb-9f7a-432e5da7888b.png" alt="Logo" width="150">
 
 ![](actions/output/tagline.png)
 
