@@ -2,7 +2,7 @@ package cyder.ui.drag;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -13,11 +13,6 @@ import java.awt.event.MouseMotionListener;
  * A mouse motion listener to allow a component to be dragged during runtime.
  */
 public class CyderDraggableComponent implements MouseMotionListener {
-    /**
-     * The key to obtain whether the components are relocatable from the props.
-     */
-    private static final String COMPONENTS_RELOCATABLE = "components_relocatable";
-
     /**
      * The current x location of the mouse relative to the parent component\.
      */
@@ -40,7 +35,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
      */
     @Override
     public final void mouseDragged(MouseEvent e) {
-        if (!PropLoader.getBoolean(COMPONENTS_RELOCATABLE)) return;
+        if (!Props.componentsRelocatable.getValue()) return;
 
         JFrame refFrame = (JFrame) SwingUtilities.windowForComponent(e.getComponent());
         int x = (int) (e.getLocationOnScreen().getX() - refFrame.getX() - xMouse);

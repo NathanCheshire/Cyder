@@ -5,7 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
@@ -25,12 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A drag label to be used for CyderFrames borders.
  */
 public class CyderDragLabel extends JLabel {
-
-    /**
-     * The key to get the drag label height from the props if present.
-     */
-    private static final String DRAG_LABEL_HEIGHT = "drag_label_height";
-
     /**
      * The default height for drag labels.
      * The Cyder standard is set for top drag labels and is 30px.
@@ -38,11 +32,7 @@ public class CyderDragLabel extends JLabel {
     public static final int DEFAULT_HEIGHT;
 
     static {
-        if (PropLoader.propExists(DRAG_LABEL_HEIGHT)) {
-            DEFAULT_HEIGHT = PropLoader.getInteger(DRAG_LABEL_HEIGHT);
-        } else {
-            DEFAULT_HEIGHT = 30;
-        }
+        DEFAULT_HEIGHT = Props.dragLabelHeight.getValue();
     }
 
     /**

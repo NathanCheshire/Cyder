@@ -20,7 +20,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.math.AngleUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
@@ -221,26 +221,12 @@ public class CyderFrame extends JFrame {
     public static final int FRAME_RESIZING_LEN = 2;
 
     /**
-     * The default border length.
-     */
-    private static final int DEFAULT_BORDER_LEN = 5;
-
-    /**
      * The size of the border drawn around the frame.
      */
     public static final int BORDER_LEN;
 
-    /**
-     * The key to get the frame border length from the props.
-     */
-    private static final String FRAME_BORDER_LENGTH = "frame_border_length";
-
     static {
-        if (PropLoader.propExists(FRAME_BORDER_LENGTH)) {
-            BORDER_LEN = PropLoader.getInteger(FRAME_BORDER_LENGTH);
-        } else {
-            BORDER_LEN = DEFAULT_BORDER_LEN;
-        }
+        BORDER_LEN = Props.frameBorderLength.getValue();
     }
 
     /**

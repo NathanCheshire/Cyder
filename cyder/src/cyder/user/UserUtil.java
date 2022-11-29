@@ -1,7 +1,6 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
@@ -20,7 +19,7 @@ import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
@@ -686,18 +685,8 @@ public final class UserUtil {
         return IGNORE_USER_DATA;
     }
 
-    /**
-     * The key to obtain the user data keys to ignore when logging.
-     */
-    private static final String IGNORE_DATA = "ignore_data";
-
-    /**
-     * The comma splitter.
-     */
-    private static final Splitter commaSplitter = Splitter.on(CyderStrings.comma);
-
     static {
-        IGNORE_USER_DATA = ImmutableList.copyOf(commaSplitter.splitToList(PropLoader.getString(IGNORE_DATA)));
+        IGNORE_USER_DATA = ImmutableList.copyOf(Props.ignoreData.getValue());
     }
 
     /**
@@ -1440,23 +1429,13 @@ public final class UserUtil {
     }
 
     /**
-     * The key to use to obtain the ip data key from the props.
-     */
-    private static final String IP_KEY = "ip_key";
-
-    /**
-     * The key to use to obtain the YouTube API v3 key from the props.
-     */
-    private static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
-
-    /**
      * Validates the ip key from the propkeys.ini file.
      *
      * @return whether the ip key was valid
      */
     private static boolean validateIpKey() {
         try {
-            URL url = new URL(CyderUrls.IPDATA_BASE + PropLoader.getString(IP_KEY));
+            URL url = new URL(CyderUrls.IPDATA_BASE + Props.ipKey.getValue());
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             reader.close();
             return true;
@@ -1483,7 +1462,7 @@ public final class UserUtil {
      * @return whether the youtube key was valid
      */
     private static boolean validateYoutubeApiKey() {
-        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
+        String key = Props.youtubeApi3key.getValue();
 
         if (!key.isEmpty()) {
             try {

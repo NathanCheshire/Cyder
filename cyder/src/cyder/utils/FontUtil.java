@@ -2,7 +2,7 @@ package cyder.utils;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 
 import java.awt.*;
 
@@ -10,11 +10,6 @@ import java.awt.*;
  * Utilities related to {@link java.awt.Font}s.
  */
 public final class FontUtil {
-    /**
-     * The key for retrieving the font metric from the props.
-     */
-    private static final String FONT_METRIC = "font_metric";
-
     /**
      * Suppress default constructor.
      */
@@ -28,7 +23,7 @@ public final class FontUtil {
      * @return the font metric from the props
      */
     public static int getFontMetricFromProps() {
-        String fontMetricString = PropLoader.getString(FONT_METRIC);
+        String fontMetricString = Props.fontMetric.getValue();
 
         return switch (fontMetricString.toLowerCase()) {
             case "bold" -> Font.BOLD;
