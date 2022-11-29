@@ -9,7 +9,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
@@ -30,26 +30,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class InstanceSocketUtil {
     /**
-     * The key for obtaining whether localhost shutdown requests
-     * should be completed without a valid password from the props.
-     */
-    private static final String AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS =
-            "auto_comply_to_localhost_shutdown_requests";
-
-    /**
-     * The key for obtaining the localhost shutdown request password from the props.
-     */
-    private static final String LOCALHOST_SHUTDOWN_REQUEST_PASSWORD = "localhost_shutdown_request_password";
-
-    /**
      * The default instance socket port.
      */
     private static final int DEFAULT_INSTANCE_SOCKET_PORT = 8888;
-
-    /**
-     * The key to get the instance socket port from the props.
-     */
-    private static final String INSTANCE_SOCKET_PORT = "instance_socket_port";
 
     /**
      * The port to start the instance socket on.
@@ -57,10 +40,10 @@ public final class InstanceSocketUtil {
     private static final int instanceSocketPort;
 
     static {
-        boolean propPresent = PropLoader.propExists(INSTANCE_SOCKET_PORT);
+        boolean propPresent = Props.instanceSocketPort.valuePresent();
 
         if (propPresent) {
-            int requestedPort = PropLoader.getInteger(INSTANCE_SOCKET_PORT);
+            int requestedPort = Props.instanceSocketPort.getValue();
 
             if (NetworkUtil.localPortAvailable(requestedPort)) {
                 instanceSocketPort = requestedPort;
@@ -282,13 +265,13 @@ public final class InstanceSocketUtil {
         Preconditions.checkNotNull(receivedHash);
         Preconditions.checkArgument(!receivedHash.isEmpty());
 
-        if (PropLoader.getBoolean(AUTO_COMPLY_TO_LOCALHOST_SHUTDOWN_REQUESTS)) {
+        if (Props.autoComplyToLocalhostShutdownRequests.getValue()) {
             return RemoteShutdownRequestResult.AUTO_COMPLIANCE_ENABLED;
         } else {
-            boolean passwordExists = PropLoader.propExists(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+            boolean passwordExists = Props.localhostShutdownRequestPassword.valuePresent();
 
             if (passwordExists) {
-                String remoteShutdownPassword = PropLoader.getString(LOCALHOST_SHUTDOWN_REQUEST_PASSWORD);
+                String remoteShutdownPassword = Props.localhostShutdownRequestPassword.getValue();
                 String hashedShutdownRequestPassword = SecurityUtil.toHexString(
                         SecurityUtil.getSha256(remoteShutdownPassword.toCharArray()));
 
@@ -359,8 +342,8 @@ public final class InstanceSocketUtil {
 
     // todo use me
     public static void main(String[] args) throws Exception {
-        int port = PropLoader.getInteger("instance_port");
-        String password = PropLoader.getString("remote_shutdown_password");
+        int port = Props.instanceSocketPort.getDefaultValue();
+        String password = Props.localhostShutdownRequestPassword.getValue();
         Future<CyderCommunicationMessage> futureResponse =
                 sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, password);
         while (!futureResponse.isDone()) Thread.onSpinWait();

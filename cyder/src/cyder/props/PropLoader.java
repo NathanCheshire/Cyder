@@ -13,6 +13,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.StringUtil;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,14 +25,9 @@ import java.util.Optional;
 import static cyder.props.PropConstants.*;
 
 /**
- * A class for loading ini props from props.ini used throughout Cyder.
+ * A class for loading props from prop files from the props directory for usage throughout Cyder.
  */
 public final class PropLoader {
-    /**
-     * The props immutable list.
-     */
-    private static ImmutableList<Prop> props = ImmutableList.of();
-
     /**
      * The new props map of keys to the string values which require casting.
      */
@@ -54,7 +50,7 @@ public final class PropLoader {
      */
     public static void reloadProps() {
         propsLoaded = false;
-        props = ImmutableList.of();
+        newProps = ImmutableMap.of();
         loadProps();
     }
 
@@ -64,114 +60,7 @@ public final class PropLoader {
      * @return the props list
      */
     public static int getNumProps() {
-        return props.size();
-    }
-
-    /**
-     * Returns whether a prop with the provided key can be found.
-     *
-     * @param key the key
-     * @return whether a prop with the provided key can be found
-     */
-    public static boolean propExists(String key) {
-        Preconditions.checkNotNull(key);
-
-        return props.stream().anyMatch(prop -> prop.key().equals(key));
-    }
-
-    /**
-     * Returns the prop value with the provided key.
-     *
-     * @param key the key to get the prop value of
-     * @return the prop value with the provided key
-     */
-    public static String getString(String key) {
-        Preconditions.checkArgument(propsLoaded);
-        Preconditions.checkNotNull(key);
-
-        for (Prop prop : props) {
-            if (prop.key().equals(key)) {
-                return prop.value();
-            }
-        }
-
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
-    }
-
-    /**
-     * Returns the prop value with the provided key.
-     *
-     * @param key the key to get the prop value of
-     * @return the prop value with the provided key
-     */
-    public static boolean getBoolean(String key) {
-        Preconditions.checkArgument(propsLoaded);
-        Preconditions.checkNotNull(key);
-
-        for (Prop prop : props) {
-            if (prop.key().equals(key)) {
-                return prop.value().equals("1") || prop.value().equalsIgnoreCase("true");
-            }
-        }
-
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
-    }
-
-    /**
-     * Returns the prop value with the provided key.
-     *
-     * @param key the key to get the prop value of
-     * @return the prop value with the provided key
-     */
-    public static int getInteger(String key) {
-        Preconditions.checkArgument(propsLoaded);
-        Preconditions.checkNotNull(key);
-
-        for (Prop prop : props) {
-            if (prop.key().equals(key)) {
-                return Integer.parseInt(prop.value());
-            }
-        }
-
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
-    }
-
-    /**
-     * Returns the prop value with the provided key.
-     *
-     * @param key the key to get the prop value of
-     * @return the prop value with the provided key
-     */
-    public static float getFloat(String key) {
-        Preconditions.checkArgument(propsLoaded);
-        Preconditions.checkNotNull(key);
-
-        for (Prop prop : props) {
-            if (prop.key().equals(key)) {
-                return Float.parseFloat(prop.value());
-            }
-        }
-
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
-    }
-
-    /**
-     * Returns the prop value with the provided key.
-     *
-     * @param key the key to get the prop value of
-     * @return the prop value with the provided key
-     */
-    public static double getDouble(String key) {
-        Preconditions.checkArgument(propsLoaded);
-        Preconditions.checkNotNull(key);
-
-        for (Prop prop : props) {
-            if (prop.key().equals(key)) {
-                return Double.parseDouble(prop.value());
-            }
-        }
-
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
+        return newProps.size();
     }
 
     /**
@@ -181,7 +70,7 @@ public final class PropLoader {
      * @return the prop value string from the located prop file is present. Empty optional else
      */
     @CheckReturnValue
-    static Optional<String> getStringProp(String key) {
+    static Optional<String> getStringPropFromFile(String key) {
         Preconditions.checkNotNull(key);
         Preconditions.checkArgument(!key.isEmpty());
 
@@ -197,28 +86,29 @@ public final class PropLoader {
     /**
      * Loads the props from all discovered prop files.
      */
-    public static void loadProps() {
+    static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
 
         ArrayList<File> propFiles = new ArrayList<>();
 
-        File propsDirectory = new File(PROPS_DIR_NAME);
+        File propsDirectory = new File(propDirectoryName);
         File[] propFilesArray = propsDirectory.listFiles();
 
-        // todo this shouldn't be an exception, they're optional
-        if (propFilesArray == null || propFilesArray.length == 1) {
-            throw new FatalException("Could not find any prop files");
+        if (propFilesArray == null || propFilesArray.length == 0) {
+            newProps = ImmutableMap.of();
+            propsLoaded = false;
+            return;
         }
 
         Arrays.stream(propFilesArray).forEach(file -> {
-            if (file.getName().startsWith(PROP_FILE_PREFIX) && FileUtil.validateExtension(file, PROP_EXTENSION)) {
+            if (file.getName().startsWith(propFilePrefix) && FileUtil.validateExtension(file, propExtension)) {
                 propFiles.add(file);
                 Logger.log(LogTag.PROPS_ACTION, "Found prop file: " + file);
             }
         });
 
         try {
-            ArrayList<Prop> propsList = new ArrayList<>();
+            ArrayList<Pair<String, String>> propsList = new ArrayList<>();
             LinkedHashMap<String, String> newPropsList = new LinkedHashMap<>();
 
             propFiles.forEach(propFile -> {
@@ -250,31 +140,27 @@ public final class PropLoader {
                     String fullLine = previousLinesOfMultilineProp.toString();
                     fullLine += fullLine.isEmpty() ? line : StringUtil.trimLeft(line);
 
-                    Prop addProp = extractProp(fullLine);
+                    Pair<String, String> addProp = extractProp(fullLine);
                     if (propsList.contains(addProp)) {
                         throw new FatalException("Duplicate prop found: " + addProp);
                     }
 
                     propsList.add(addProp);
-                    newPropsList.put(addProp.key(), addProp.value());
-                    Logger.log(LogTag.PROPS_ACTION, "[key: " + addProp.key()
-                            + (logNextProp ? ", value: " + addProp.value() : "") + CyderStrings.closingBracket);
+                    newPropsList.put(addProp.getKey(), addProp.getValue());
+                    Logger.log(LogTag.PROPS_ACTION, "[key: " + addProp.getKey()
+                            + (logNextProp ? ", value: " + addProp.getValue() : "") + CyderStrings.closingBracket);
 
                     logNextProp = true;
                     previousLinesOfMultilineProp = new StringBuilder();
                 }
             });
 
-            props = ImmutableList.copyOf(propsList);
             newProps = ImmutableMap.copyOf(newPropsList);
-
             propsLoaded = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
 
-            props = ImmutableList.of();
             newProps = ImmutableMap.of();
-
             propsLoaded = false;
         }
     }
@@ -289,7 +175,7 @@ public final class PropLoader {
     private static boolean isComment(String line) {
         Preconditions.checkNotNull(line);
 
-        return line.trim().startsWith(COMMENT_PATTERN);
+        return line.trim().startsWith(commentPrefix);
     }
 
     /**
@@ -311,16 +197,17 @@ public final class PropLoader {
      * @param line the line to extract the prop from
      * @return the extracted prop
      */
-    private static Prop extractProp(String line) {
+    private static Pair<String, String> extractProp(String line) {
         Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
 
-        String[] parts = line.split(KEY_VALUE_SEPARATOR);
+        String[] parts = line.split(keyValueSeparator);
         Preconditions.checkArgument(parts.length > 1);
 
         if (parts.length == 2) {
             String key = parts[0].trim();
             String value = parts[1].trim();
-            return new Prop(key, value);
+            return Pair.of(key, value);
         }
 
         // Figure out where key ends and value starts
@@ -343,7 +230,7 @@ public final class PropLoader {
             keyBuilder.append(parts[i]);
 
             if (i != lastKeyIndex) {
-                keyBuilder.append(KEY_VALUE_SEPARATOR);
+                keyBuilder.append(keyValueSeparator);
             }
         }
 
@@ -353,12 +240,12 @@ public final class PropLoader {
             valueBuilder.append(parts[i]);
 
             if (i != parts.length - 1) {
-                valueBuilder.append(KEY_VALUE_SEPARATOR);
+                valueBuilder.append(keyValueSeparator);
             }
         }
 
         String key = keyBuilder.toString().trim();
         String value = valueBuilder.toString().trim();
-        return new Prop(key, value);
+        return Pair.of(key, value);
     }
 }

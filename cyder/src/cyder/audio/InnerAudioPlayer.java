@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 /**
  * An inner class for easily playing a single audio file
  */
-class InnerAudioPlayer {
+public class InnerAudioPlayer {
     /**
      * The one and only file this audio player can play.
      */

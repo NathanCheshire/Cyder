@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -22,22 +22,13 @@ public final class ConsoleConstants {
     public static final Dimension MINIMUM_SIZE = new Dimension(600, 600);
 
     /**
-     * The key to get the console snap size from the props.
-     */
-    public static final String CONSOLE_SNAP_SIZE = "console_snap_size";
-
-    /**
      * The console snap size.
      */
     public static final Dimension SNAP_SIZE;
 
     static {
-        if (PropLoader.propExists(CONSOLE_SNAP_SIZE)) {
-            int len = PropLoader.getInteger(CONSOLE_SNAP_SIZE);
-            SNAP_SIZE = new Dimension(len, len);
-        } else {
-            SNAP_SIZE = new Dimension(1, 1);
-        }
+        int len = Props.consoleSnapSize.getValue();
+        SNAP_SIZE = new Dimension(len, len);
     }
 
     /**
@@ -154,40 +145,13 @@ public final class ConsoleConstants {
     public static final int FRAME_NORMAL = JFrame.NORMAL;
 
     /**
-     * The default font name for the console clock.
-     */
-    public static final String DEFAULT_CONSOLE_CLOCK_FONT_NAME = "Agency FB";
-
-    /**
-     * The default font size for the console clock.
-     */
-    public static final int DEFAULT_CONSOLE_CLOCK_FONT_SIZE = 25;
-
-    /**
      * The font used for the clock label.
      */
     public static final Font CONSOLE_CLOCK_FONT;
 
-    /**
-     * The key to get the console clock font name from the props.
-     */
-    private static final String CONSOLE_CLOCK_FONT_NAME = "console_clock_font_name";
-
-    /**
-     * The key to get the console clock font size from the props.
-     */
-    private static final String CONSOLE_CLOCK_FONT_SIZE = "console_clock_font_size";
-
     static {
-        String fontName = DEFAULT_CONSOLE_CLOCK_FONT_NAME;
-        if (PropLoader.propExists(CONSOLE_CLOCK_FONT_NAME)) {
-            fontName = PropLoader.getString(CONSOLE_CLOCK_FONT_NAME);
-        }
-
-        int fontSize = DEFAULT_CONSOLE_CLOCK_FONT_SIZE;
-        if (PropLoader.propExists(CONSOLE_CLOCK_FONT_SIZE)) {
-            fontSize = PropLoader.getInteger(CONSOLE_CLOCK_FONT_SIZE);
-        }
+        String fontName = Props.consoleClockFontName.getValue();
+        int fontSize = Props.consoleClockFontSize.getValue();
 
         CONSOLE_CLOCK_FONT = new Font(fontName, Font.BOLD, fontSize);
     }

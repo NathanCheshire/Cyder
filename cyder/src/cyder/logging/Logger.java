@@ -11,7 +11,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -405,12 +405,6 @@ public final class Logger {
     }
 
     /**
-     * The key used to obtain the prop value for whether past
-     * logs should be deleted on the start of a new Cyder session.
-     */
-    private static final String WIPE_LOGS_ON_START = "wipe_logs_on_start";
-
-    /**
      * Initializes the logger for logging by invoking the following actions:
      *
      * <ul>
@@ -424,7 +418,7 @@ public final class Logger {
      * </ul>
      */
     public static void initialize() {
-        if (PropLoader.propExists(WIPE_LOGS_ON_START) && PropLoader.getBoolean(WIPE_LOGS_ON_START)) {
+        if (Props.wipeLogsOnStart.getValue()) {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
         }
 

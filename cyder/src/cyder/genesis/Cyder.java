@@ -39,7 +39,7 @@ public final class Cyder {
 
         JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
 
-        PropLoader.loadProps();
+        PropLoader.reloadProps();
 
         addExitHooks();
 

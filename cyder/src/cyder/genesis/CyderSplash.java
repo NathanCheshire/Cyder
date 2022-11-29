@@ -10,7 +10,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
@@ -68,16 +68,6 @@ public enum CyderSplash {
      * The frame title.
      */
     private static final String FRAME_TITLE = "Cyder Splash";
-
-    /**
-     * The key for getting the allow_splash_completion prop.
-     */
-    private static final String ALLOW_SPLASH_COMPLETION = "allow_splash_completion";
-
-    /**
-     * The key for whether to dispose the splash frame.
-     */
-    private static final String DISPOSE_SPLASH_KEY = "dispose_splash";
 
     /**
      * The main splash animator thread name.
@@ -408,7 +398,7 @@ public enum CyderSplash {
                 loadingLabel.setText(loadingMessage.get());
                 loadingLabel.repaint();
 
-                if (!disposed.get() && PropLoader.getBoolean(DISPOSE_SPLASH_KEY)) {
+                if (!disposed.get() && Props.disposeSplash.getValue()) {
                     fatalError();
                 }
             }, SPLASH_ANIMATOR);
@@ -653,10 +643,10 @@ public enum CyderSplash {
      */
     public void fastDispose() {
         if (disposed.get()) return;
-        if (!PropLoader.getBoolean(DISPOSE_SPLASH_KEY)) return;
+        if (!Props.disposeSplash.getValue()) return;
 
         CyderThreadRunner.submit(() -> {
-            if (PropLoader.getBoolean(ALLOW_SPLASH_COMPLETION)) {
+            if (Props.allowSplashCompletion.getValue()) {
                 while (!splashAnimationCompleted.get()) {
                     Thread.onSpinWait();
                 }

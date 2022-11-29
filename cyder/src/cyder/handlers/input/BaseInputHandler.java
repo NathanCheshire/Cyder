@@ -15,7 +15,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.*;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserFile;
@@ -368,19 +368,9 @@ public class BaseInputHandler {
     private static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
-     * The key for getting the tolerance value from the props.
-     */
-    private static final String AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY = "auto_trigger_similar_command_tolerance";
-
-    /**
      * The name of the thread for handling unknown input.
      */
     private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
-
-    /**
-     * The key for whether a command should be auto-invoked if the specified tolerance is met.
-     */
-    private static final String AUTO_TRIGGER_SIMILAR_COMMANDS_KEY = "auto_trigger_similar_commands";
 
     /**
      * The final handle method for if all other handle methods failed.
@@ -401,9 +391,8 @@ public class BaseInputHandler {
                             + ", command: " + CyderStrings.quote + similarCommand + CyderStrings.quote);
 
                     if (!wrapShell) {
-                        boolean autoTrigger = PropLoader.getBoolean(AUTO_TRIGGER_SIMILAR_COMMANDS_KEY);
-                        boolean toleranceMet =
-                                tolerance >= PropLoader.getFloat(AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY);
+                        boolean autoTrigger = Props.autoTriggerSimilarCommands.getValue();
+                        boolean toleranceMet = tolerance >= Props.autoTriggerSimilarCommandTolerance.getValue();
 
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (autoTrigger && toleranceMet) {
@@ -648,11 +637,6 @@ public class BaseInputHandler {
     private static final int USER_DATA_POLL_FREQUENCY_MS = 3000;
 
     /**
-     * The key for getting the timeout between printing lines from the props file.
-     */
-    private static final String PRINATING_ANIMATION_LINE_KEY = "printing_animation_line_timeout";
-
-    /**
      * Returns whether the typing animation should be performed.
      *
      * @return whether the typing animation should be performed
@@ -680,7 +664,7 @@ public class BaseInputHandler {
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
             boolean shouldDoTypingSound = shouldDoTypingSound();
             long lastPollTime = System.currentTimeMillis();
-            int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
+            int lineTimeout = Props.printingAnimationLineTimeout.getValue();
 
             while (!Console.INSTANCE.isClosed() && !listsEmpty()) {
                 if (System.currentTimeMillis() - lastPollTime > USER_DATA_POLL_FREQUENCY_MS) {
@@ -819,15 +803,9 @@ public class BaseInputHandler {
     // ---------------------------
 
     /**
-     * The key to get the printing animatino sound frequency from the props.
-     */
-    private static final String PRINTING_ANIMATION_SOUND_FREQUENCY = "printing_animation_sound_frequency";
-
-    /**
      * The frequency at which to play a typing sound effect if enabled.
      */
-    private static final int TYPING_ANIMATION_SOUND_FREQUENCY
-            = PropLoader.getInteger(PRINTING_ANIMATION_SOUND_FREQUENCY);
+    private static final int TYPING_ANIMATION_SOUND_FREQUENCY = Props.printingAnimationSoundFrequency.getValue();
 
     /**
      * The number of characters appended for the the current printing animation.
@@ -839,12 +817,6 @@ public class BaseInputHandler {
      * The path to the typing sound effect.
      */
     private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
-
-    /**
-     * The key for getting the timeout between printing characters
-     * to the output area if printing animation is enabled.
-     */
-    private static final String PRINTING_ANIMATION_CHAR_TIMEOUT_KEY = "printing_animation_char_timeout";
 
     /**
      * Prints the string to the output area checking for
@@ -883,7 +855,7 @@ public class BaseInputHandler {
                 }
 
                 if (!shouldFinishPrinting) {
-                    ThreadUtil.sleep(PropLoader.getInteger(PRINTING_ANIMATION_CHAR_TIMEOUT_KEY));
+                    ThreadUtil.sleep(Props.printingAnimationCharTimeout.getValue());
                 }
             }
 

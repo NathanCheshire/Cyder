@@ -6,6 +6,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.PropLoader;
+import cyder.props.Props;
 
 /**
  * A handler for utilities related to props.
@@ -18,20 +19,12 @@ public class PropHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The key for determining if props are runtime reloadable.
-     */
-    private static final String RELOAD_PROPS_KEY = "props_reloadable";
-
     @Handle("reload props")
     public static boolean handle() {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("reloadprops")) {
-            if (!PropLoader.propExists(RELOAD_PROPS_KEY)) {
-                getInputHandler().println("Reload prop key not found");
-            }
-            if (!PropLoader.getBoolean(RELOAD_PROPS_KEY)) {
+            if (!Props.propsReloadable.getValue()) {
                 getInputHandler().println("Reloading props is currently disabled"
                         + " during runtime, check your props file");
             } else {

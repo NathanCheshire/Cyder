@@ -8,14 +8,17 @@ enum FrameView {
      * All ui elements visible.
      */
     FULL,
+
     /**
      * Album art hidden.
      */
     HIDDEN_ART,
+
     /**
      * Mini audio player mode.
      */
     MINI,
+
     /**
      * Searching YouTube for a video's audio to download.
      */

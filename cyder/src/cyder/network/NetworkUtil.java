@@ -12,7 +12,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -49,21 +49,6 @@ public class NetworkUtil {
      * The string used to represent a space in a url.
      */
     public static final String URL_SPACE = "%20";
-
-    /**
-     * The key for obtaining the latency ip prop.
-     */
-    public static final String LATENCY_IP_KEY = "latency_ip";
-
-    /**
-     * The key for obtaining the latency port prop.
-     */
-    public static final String LATENCY_PORT_KEY = "latency_port";
-
-    /**
-     * The key for obtaining the latency name prop.
-     */
-    public static final String LATENCY_NAME = "latency_name";
 
     /**
      * Suppress default constructor.
@@ -282,19 +267,19 @@ public class NetworkUtil {
     private static String latencyHostName;
 
     static {
-        boolean customLatencyIpPresent = PropLoader.propExists(LATENCY_IP_KEY);
-        boolean customLatencyPortPreset = PropLoader.propExists(LATENCY_PORT_KEY);
-        boolean customLatencyNamePresent = PropLoader.propExists(LATENCY_NAME);
+        boolean customLatencyIpPresent = Props.latencyIp.valuePresent();
+        boolean customLatencyPortPreset = Props.latencyPort.valuePresent();
+        boolean customLatencyNamePresent = Props.latencyName.valuePresent();
 
         if (customLatencyIpPresent) {
-            latencyIp = PropLoader.getString(LATENCY_IP_KEY);
+            latencyIp = Props.latencyIp.getValue();
             Logger.log(LogTag.NETWORK, "Set latency ip as " + latencyIp);
 
-            latencyPort = customLatencyPortPreset ? PropLoader.getInteger(LATENCY_PORT_KEY) : defaultLatencyPort;
+            latencyPort = customLatencyPortPreset ? Props.latencyPort.getValue() : defaultLatencyPort;
             Logger.log(LogTag.NETWORK, "Set latency port as " + latencyPort);
 
             if (customLatencyNamePresent) {
-                latencyHostName = PropLoader.getString(LATENCY_NAME);
+                latencyHostName = Props.latencyName.getValue();
                 Logger.log(LogTag.NETWORK, "Set latency host name as " + latencyHostName);
             } else {
                 CyderThreadRunner.submit(() -> {

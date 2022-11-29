@@ -30,6 +30,7 @@ import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -332,7 +333,7 @@ public enum Console {
         String currentProgramMode = ProgramModeManager.INSTANCE.getProgramMode().getName();
         Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
                 + closingBracket + space + openingBracket + currentProgramMode + closingBracket);
-        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
+        if (Props.testingMode.getValue()) TestHandler.invokeDefaultTests();
     }
 
     /**
@@ -2427,8 +2428,8 @@ public enum Console {
             fontSize--;
         }
 
-        int maxFontSize = PropLoader.getInteger(MAX_FONT_SIZE);
-        int minFontSize = PropLoader.getInteger(MIN_FONT_SIZE);
+        int maxFontSize = Props.maxFontSize.getValue();
+        int minFontSize = Props.minFontSize.getValue();
         if (fontSize > maxFontSize || fontSize < minFontSize) return;
 
         try {

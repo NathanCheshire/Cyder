@@ -10,7 +10,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -32,22 +32,9 @@ public final class CyderWatchdog {
     public static final int INITIALIZE_TIMEOUT_MS = 3000;
 
     /**
-     * The default poll timeout for the watchdog.
-     */
-    public static final int DEFAULT_POLL_TIMEOUT = 100;
-
-    /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
      */
-    public static final int POLL_TIMEOUT;
-
-    static {
-        if (PropLoader.propExists("watchdog_poll_timeout")) {
-            POLL_TIMEOUT = PropLoader.getInteger("watchdog_poll_timeout");
-        } else {
-            POLL_TIMEOUT = DEFAULT_POLL_TIMEOUT;
-        }
-    }
+    public static final int POLL_TIMEOUT = Props.watchdogPollTimeout.getValue();
 
     /**
      * The standard name of the AWT-EventQueue-0 thread.
@@ -64,11 +51,6 @@ public final class CyderWatchdog {
      * The maximum number the watchdog counter can achieve before triggering a fatal reset.
      */
     public static final int MAX_WATCHDOG_FREEZE_MS = 5000;
-
-    /**
-     * The key to get whether the watchdog should be active from the props.
-     */
-    private static final String ACTIVATE_WATCHDOG = "activate_watchdog";
 
     /**
      * Whether the watchdog has been initialized and started.
@@ -105,7 +87,7 @@ public final class CyderWatchdog {
     public static void initializeWatchDog() {
         Preconditions.checkState(!watchdogInitialized.get());
 
-        if (PropLoader.propExists(ACTIVATE_WATCHDOG) && !PropLoader.getBoolean(ACTIVATE_WATCHDOG)) {
+        if (!Props.activateWatchdog.getValue()) {
             Logger.log(LogTag.WATCHDOG, "Watchdog deactivated from props");
             return;
         } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
@@ -229,8 +211,7 @@ public final class CyderWatchdog {
                 onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
             } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
                 onFailedBoostrap("Current JVM was launched with JDWP args");
-            } else if (PropLoader.propExists("attempt_bootstrap")
-                    && !PropLoader.getBoolean("attempt_bootstrap")) {
+            } else if (!Props.attemptBootstrap.getValue()) {
                 onFailedBoostrap("attempt_boostrap prop set to false");
             } else {
                 Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");

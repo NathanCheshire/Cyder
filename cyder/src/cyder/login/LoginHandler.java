@@ -14,6 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.field.CyderCaret;
@@ -582,15 +583,15 @@ public final class LoginHandler {
      * the console, the login frame, or an exception pane.
      */
     public static void showProperStartupFrame() {
-        boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
+        boolean autoCypher = Props.autocypher.getValue();
 
         if (autoCypher) {
-            boolean debugHashNamePresent = PropLoader.propExists(DEBUG_HASH_NAME);
-            boolean debugHashPasswordPresent = PropLoader.propExists(DEBUG_HASH_PASSWORD);
+            boolean debugHashNamePresent = Props.debugHashName.valuePresent();
+            boolean debugHashPasswordPresent = Props.debugHashPassword.valuePresent();
 
             if (debugHashNamePresent && debugHashPasswordPresent) {
-                String name = PropLoader.getString(DEBUG_HASH_NAME);
-                String password = PropLoader.getString(DEBUG_HASH_PASSWORD);
+                String name = Props.debugHashName.getValue();
+                String password = Props.debugHashPassword.getValue();
 
                 startedViaAutoCypher = recognize(name, password, true);
                 ProgramModeManager.INSTANCE.refreshProgramMode();

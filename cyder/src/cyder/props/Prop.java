@@ -2,7 +2,9 @@ package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
+import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
+import cyder.ui.drag.DragLabelButtonSize;
 
 import java.util.Optional;
 
@@ -12,7 +14,8 @@ import java.util.Optional;
  * @param <T> the type of the value of the prop
  */
 @Immutable
-public final class Proper<T> {
+@SuppressWarnings("ClassCanBeRecord") /* No */
+public final class Prop<T> {
     /**
      * The key for the prop.
      */
@@ -35,7 +38,7 @@ public final class Proper<T> {
      * @param defaultValue the default value of the prop
      * @param type         the type of this prop
      */
-    public Proper(String key, T defaultValue, Class<T> type) {
+    public Prop(String key, T defaultValue, Class<T> type) {
         Preconditions.checkNotNull(key);
         Preconditions.checkArgument(!key.isEmpty());
         Preconditions.checkNotNull(defaultValue);
@@ -56,12 +59,29 @@ public final class Proper<T> {
     }
 
     /**
-     * Returns the default value of the prop.
+     * Returns the default value of this prop.
      *
-     * @return the default value of the prop
+     * @return the default value of this prop
      */
     public T getDefaultValue() {
-        return type.cast(defaultValue);
+        return defaultValue;
+    }
+
+    /**
+     * Returns the type of this prop.
+     *
+     * @return the type of this prop
+     */
+    public Class<T> getType() {
+        return type;
+    }
+
+    public boolean valuePresent() {
+        if (type == String.class) {
+            return !getValue().toString().isEmpty();
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -71,12 +91,13 @@ public final class Proper<T> {
      * @return the prop value
      */
     public T getValue() {
-        Optional<String> optionalStringValue = PropLoader.getStringProp(getKey());
+        Optional<String> optionalStringValue = PropLoader.getStringPropFromFile(getKey());
         if (optionalStringValue.isPresent()) {
             String stringValue = optionalStringValue.get();
 
+            // todo extract comma to prop var such as splitListsAtChar
             if (type == String[].class) {
-                return type.cast(stringValue.split(","));
+                return type.cast(stringValue.split(CyderStrings.comma));
             } else if (type == String.class) {
                 return type.cast(stringValue);
             } else if (type == Boolean.class) {
@@ -95,6 +116,8 @@ public final class Proper<T> {
                 return type.cast(Long.valueOf(stringValue));
             } else if (type == Character.class) {
                 return type.cast(stringValue.charAt(0));
+            } else if (type == DragLabelButtonSize.class) {
+                return type.cast(stringValue); // todo will this one work?
             } else {
                 throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }
@@ -110,14 +133,15 @@ public final class Proper<T> {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (!(o instanceof Proper)) {
+        } else if (!(o instanceof Prop)) {
             return false;
         }
 
-        Proper<?> other = (Proper<?>) o;
+        Prop<?> other = (Prop<?>) o;
         return getKey().equals(other.getKey())
                 && getValue().equals(other.getValue())
-                && getDefaultValue().equals(other.getDefaultValue());
+                && getType().equals(other.getType())
+                && defaultValue.equals(other.getDefaultValue());
     }
 
     /**
@@ -125,9 +149,10 @@ public final class Proper<T> {
      */
     @Override
     public int hashCode() {
-        int ret = getKey().hashCode();
+        int ret = key.hashCode();
         ret += 31 * ret + getValue().hashCode();
-        ret += 31 * ret + getDefaultValue().hashCode();
+        ret += 31 * ret + type.hashCode();
+        ret += 31 * ret + defaultValue.hashCode();
         return ret;
     }
 
@@ -137,9 +162,10 @@ public final class Proper<T> {
     @Override
     public String toString() {
         return "Proper{"
-                + "name=" + getKey()
+                + "key=" + key
                 + ", value=" + getValue()
-                + ", defaultValue=" + getDefaultValue()
+                + ", type=" + type
+                + ", defaultValue=" + defaultValue
                 + "}";
     }
 }

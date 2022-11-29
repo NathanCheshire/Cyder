@@ -7,7 +7,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.ip.IpData;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
@@ -34,17 +34,12 @@ public final class IpUtil {
     private static final AtomicReference<IpData> mostRecentIpData = new AtomicReference<>();
 
     /**
-     * The key for the ip data.
-     */
-    private static final String IP_KEY = "ip_key";
-
-    /**
      * Updates the ip data object encapsulated and returns it.
      *
      * @return the encapsulated ip data object
      */
     public static IpData getIpData() {
-        Preconditions.checkState(PropLoader.propExists(IP_KEY));
+        Preconditions.checkState(Props.ipKey.valuePresent());
 
         IpData mostRecent = mostRecentIpData.get();
         if (mostRecent != null) {
@@ -64,9 +59,9 @@ public final class IpUtil {
      * @return an ip data object
      */
     public static Optional<IpData> pullIpData() {
-        Preconditions.checkState(PropLoader.propExists(IP_KEY));
+        Preconditions.checkState(Props.ipKey.valuePresent());
 
-        String key = PropLoader.getString(IP_KEY);
+        String key = Props.ipKey.getValue();
 
         String url = CyderUrls.IPDATA_BASE + key;
 
