@@ -7,6 +7,7 @@ import cyder.ui.drag.DragLabelButtonSize;
 /**
  * The props recognized by Cyder.
  */
+@SuppressWarnings("unused") /* Readability */
 public final class Props {
     /**
      * Suppress default constructor.
@@ -37,7 +38,6 @@ public final class Props {
     public static final Proper<String> defaultLocation =
             new Proper<>("default_location", "Tampa,FL,USA", String.class);
 
-    // todo will this work?
     /**
      * The data stored within a User object which should not be logged on access.
      */

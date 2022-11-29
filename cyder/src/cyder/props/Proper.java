@@ -2,6 +2,7 @@ package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
+import cyder.exceptions.FatalException;
 
 import java.util.Optional;
 
@@ -76,8 +77,26 @@ public final class Proper<T> {
 
             if (type == String[].class) {
                 return type.cast(stringValue.split(","));
-            } else {
+            } else if (type == String.class) {
                 return type.cast(stringValue);
+            } else if (type == Boolean.class) {
+                return type.cast(Boolean.valueOf(stringValue));
+            } else if (type == Integer.class) {
+                return type.cast(Integer.valueOf(stringValue));
+            } else if (type == Double.class) {
+                return type.cast(Double.valueOf(stringValue));
+            } else if (type == Float.class) {
+                return type.cast(Float.valueOf(stringValue));
+            } else if (type == Byte.class) {
+                return type.cast(Byte.valueOf(stringValue));
+            } else if (type == Short.class) {
+                return type.cast(Short.valueOf(stringValue));
+            } else if (type == Long.class) {
+                return type.cast(Long.valueOf(stringValue));
+            } else if (type == Character.class) {
+                return type.cast(stringValue.charAt(0));
+            } else {
+                throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }
         }
 
