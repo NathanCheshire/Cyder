@@ -9,9 +9,16 @@ import cyder.exceptions.IllegalMethodException;
  */
 public final class PropConstants {
     /**
+     * The character a line must end with to interpret the next line as being the same prop.
+     */
+    static final String multiLinePropSuffix = "\\";
+
+    /**
      * Lines which start with this are marked as a comment and not parsed as props.
      */
     static final String COMMENT_PATTERN = CyderStrings.hash;
+
+    // todo remove me
 
     /**
      * A prop object mapping a key to a value of the props.ini file.

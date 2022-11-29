@@ -2,6 +2,8 @@ package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CheckReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
@@ -16,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 import static cyder.props.PropConstants.*;
 
@@ -24,14 +28,14 @@ import static cyder.props.PropConstants.*;
  */
 public final class PropLoader {
     /**
-     * The character a line must end with to interpret the next line as being the same prop.
-     */
-    private static final String multiLinePropSuffix = "\\";
-
-    /**
      * The props immutable list.
      */
     private static ImmutableList<Prop> props = ImmutableList.of();
+
+    /**
+     * The new props map of keys to the string values which require casting.
+     */
+    private static ImmutableMap<String, String> newProps = ImmutableMap.of();
 
     /**
      * Whether the props have been loaded.
@@ -55,22 +59,12 @@ public final class PropLoader {
     }
 
     /**
-     * Returns the props list.
+     * Returns the props list size.
      *
      * @return the props list
      */
-    public static ImmutableList<Prop> getProps() {
-        return props;
-    }
-
-    /**
-     * Returns whether the props have been loaded.
-     *
-     * @return whether the props have been loaded
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public static boolean arePropsLoaded() {
-        return propsLoaded;
+    public static int getNumProps() {
+        return props.size();
     }
 
     /**
@@ -181,6 +175,26 @@ public final class PropLoader {
     }
 
     /**
+     * Returns the string for the prop with the provided key from the props list if found. Empty optional else.
+     *
+     * @param key the key of the prop to find within the present prop files
+     * @return the prop value string from the located prop file is present. Empty optional else
+     */
+    @CheckReturnValue
+    static Optional<String> getStringProp(String key) {
+        Preconditions.checkNotNull(key);
+        Preconditions.checkArgument(!key.isEmpty());
+
+        if (newProps.containsKey(key)) {
+            String value = newProps.get(key);
+            assert value != null;
+            return Optional.of(value);
+        }
+
+        return Optional.empty();
+    }
+
+    /**
      * Loads the props from all discovered prop files.
      */
     public static void loadProps() {
@@ -191,6 +205,7 @@ public final class PropLoader {
         File propsDirectory = new File(PROPS_DIR_NAME);
         File[] propFilesArray = propsDirectory.listFiles();
 
+        // todo this shouldn't be an exception, they're optional
         if (propFilesArray == null || propFilesArray.length == 1) {
             throw new FatalException("Could not find any prop files");
         }
@@ -204,12 +219,14 @@ public final class PropLoader {
 
         try {
             ArrayList<Prop> propsList = new ArrayList<>();
+            LinkedHashMap<String, String> newPropsList = new LinkedHashMap<>();
 
             propFiles.forEach(propFile -> {
-                ImmutableList<String> lines = ImmutableList.of();
+                ImmutableList<String> currentFileLines = ImmutableList.of();
 
                 try {
-                    lines = ImmutableList.copyOf(FileUtil.readFileContents(propFile).split(splitPropFileContentsAt));
+                    String fileContents = FileUtil.readFileContents(propFile);
+                    currentFileLines = ImmutableList.copyOf(fileContents.split(splitPropFileContentsAt));
                 } catch (IOException e) {
                     ExceptionHandler.handle(e);
                 }
@@ -217,7 +234,7 @@ public final class PropLoader {
                 boolean logNextProp = true;
                 StringBuilder previousLinesOfMultilineProp = new StringBuilder();
 
-                for (String line : lines) {
+                for (String line : currentFileLines) {
                     if (isComment(line)) {
                         continue;
                     } else if (StringUtil.isNullOrEmpty(line)) {
@@ -239,6 +256,7 @@ public final class PropLoader {
                     }
 
                     propsList.add(addProp);
+                    newPropsList.put(addProp.key(), addProp.value());
                     Logger.log(LogTag.PROPS_ACTION, "[key: " + addProp.key()
                             + (logNextProp ? ", value: " + addProp.value() : "") + CyderStrings.closingBracket);
 
@@ -248,12 +266,16 @@ public final class PropLoader {
             });
 
             props = ImmutableList.copyOf(propsList);
-        } catch (Exception e) {
-            // Props aren't loaded if this isn't a reloading meaning ExceptionHandler won't help us :/
-            e.printStackTrace();
-            props = ImmutableList.of();
-        } finally {
+            newProps = ImmutableMap.copyOf(newPropsList);
+
             propsLoaded = true;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+
+            props = ImmutableList.of();
+            newProps = ImmutableMap.of();
+
+            propsLoaded = false;
         }
     }
 
