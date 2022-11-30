@@ -33,7 +33,7 @@ public enum CyderVersionManager {
     /**
      * The date of release.
      */
-    private final String releaseDate = "4.20.23";
+    private final String releaseDate = "Not Yet Determined";
 
     /**
      * Whether this release is publicly available.

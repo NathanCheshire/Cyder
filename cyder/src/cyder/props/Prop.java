@@ -2,9 +2,7 @@ package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
-import cyder.ui.drag.DragLabelButtonSize;
 
 import java.util.Optional;
 
@@ -100,9 +98,8 @@ public final class Prop<T> {
         if (optionalStringValue.isPresent()) {
             String stringValue = optionalStringValue.get();
 
-            // todo extract comma to prop var such as splitListsAtChar
             if (type == String[].class) {
-                return type.cast(stringValue.split(CyderStrings.comma));
+                return type.cast(stringValue.split(PropConstants.splitListsAtChar));
             } else if (type == String.class) {
                 return type.cast(stringValue);
             } else if (type == Boolean.class) {
@@ -121,8 +118,6 @@ public final class Prop<T> {
                 return type.cast(Long.valueOf(stringValue));
             } else if (type == Character.class) {
                 return type.cast(stringValue.charAt(0));
-            } else if (type == DragLabelButtonSize.class) {
-                return type.cast(stringValue); // todo will this one work?
             } else {
                 throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }

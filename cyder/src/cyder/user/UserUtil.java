@@ -674,7 +674,8 @@ public final class UserUtil {
     /**
      * The list of userdata to ignore when logging.
      */
-    private static final ImmutableList<String> IGNORE_USER_DATA;
+    private static final ImmutableList<String> IGNORE_USER_DATA =
+            ImmutableList.copyOf((String[]) Props.ignoreData.getValue());
 
     /**
      * Returns the list of user data keys to ignore when logging.
@@ -683,10 +684,6 @@ public final class UserUtil {
      */
     public static ImmutableList<String> getIgnoreUserData() {
         return IGNORE_USER_DATA;
-    }
-
-    static {
-        IGNORE_USER_DATA = ImmutableList.copyOf(Props.ignoreData.getValue());
     }
 
     /**

@@ -9,11 +9,11 @@ import cyder.constants.CyderColors;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.CyderVersionManager;
 import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropLoader;
 import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -144,39 +144,9 @@ public final class LoginHandler {
     private static LoginMode loginMode = LoginMode.INPUT;
 
     /**
-     * The key used to obtain the value of the auto cypher prop.
-     */
-    private static final String AUTOCYPHER = "autocypher";
-
-    /**
-     * The key used to obtain the value of the released prop.
-     */
-    private static final String RELEASED = "released";
-
-    /**
-     * The key used to pull the auto cypher username from the props.
-     */
-    private static final String DEBUG_HASH_NAME = "debug_hash_name";
-
-    /**
-     * The key used to pull the auto cypher password from the props (already SHA256 singly hashed).
-     */
-    private static final String DEBUG_HASH_PASSWORD = "debug_hash_password";
-
-    /**
-     * The key to get the version of Cyder from the props.
-     */
-    private static final String VERSION = "version";
-
-    /**
      * The echo char to use when a password field's text should be visible and not obfuscated.
      */
     private static final char DEFAULT_FIELD_ECHO_CHAR = (char) 0;
-
-    /**
-     * The key to get the release date prop.
-     */
-    private static final String RELEASE_DATE = "release_date";
 
     /**
      * The timeout in ms between char prints.
@@ -191,7 +161,7 @@ public final class LoginHandler {
     /**
      * The name for the login printing animation thread.
      */
-    private static final String LOGIN_PRINTING_ANIMATION_THREAD_NAME = "Login printing animation";
+    private static final String LOGIN_PRINTING_ANIMATION_THREAD_NAME = "Login Printing Animation";
 
     /**
      * The create command trigger.
@@ -221,7 +191,7 @@ public final class LoginHandler {
     /**
      * The prefix for when the login mode is username.
      */
-    private static final String usernameModePrefix = "Username: ";
+    private static final String usernameModePrefix = "Username" + colon + space;
 
     /**
      * The prefix for the login frame title.
@@ -234,19 +204,14 @@ public final class LoginHandler {
     private static String recognizedUuid = "";
 
     /**
-     * A newline character.
-     */
-    private static final char newline = '\n';
-
-    /**
      * Begins the login typing animation and printing thread.
      */
     private static void startTypingAnimation() {
         doLoginAnimations = true;
         printingList.clear();
 
-        String cyderVersion = PropLoader.getString(VERSION);
-        String cyderReleaseDate = PropLoader.getString(RELEASE_DATE);
+        String cyderVersion = CyderVersionManager.INSTANCE.getVersion();
+        String cyderReleaseDate = CyderVersionManager.INSTANCE.getReleaseDate();
         ImmutableList<String> standardPrints = ImmutableList.of(
                 "Cyder version: " + cyderVersion + newline,
                 "Type " + quote + "help" + quote + " for a list of valid commands" + newline,
@@ -316,7 +281,9 @@ public final class LoginHandler {
             public void windowClosed(WindowEvent e) {
                 loginFrameClosed = true;
                 doLoginAnimations = false;
-                if (Console.INSTANCE.isClosed()) OsUtil.exit(ExitCondition.GenesisControlledExit);
+                if (Console.INSTANCE.isClosed()) {
+                    OsUtil.exit(ExitCondition.GenesisControlledExit);
+                }
             }
 
             public void windowOpened(WindowEvent e) {
@@ -407,7 +374,7 @@ public final class LoginHandler {
      */
     @ForReadability
     public static String getLoginFrameTitle() {
-        String cyderVersion = PropLoader.getString(VERSION);
+        String cyderVersion = CyderVersionManager.INSTANCE.getVersion();
         return titlePrefix + openingBracket + cyderVersion + space + "Build" + closingBracket;
     }
 
@@ -446,7 +413,9 @@ public final class LoginHandler {
             return;
         }
 
-        if (keyChar != newline) return;
+        if (keyChar != newline.charAt(0)) {
+            return;
+        }
 
         String userInput = "";
         char[] fieldInput = loginField.getPassword();
@@ -586,12 +555,12 @@ public final class LoginHandler {
         boolean autoCypher = Props.autocypher.getValue();
 
         if (autoCypher) {
-            boolean debugHashNamePresent = Props.debugHashName.valuePresent();
-            boolean debugHashPasswordPresent = Props.debugHashPassword.valuePresent();
+            boolean debugHashNamePresent = Props.autocypherName.valuePresent();
+            boolean debugHashPasswordPresent = Props.autocypherPassword.valuePresent();
 
             if (debugHashNamePresent && debugHashPasswordPresent) {
-                String name = Props.debugHashName.getValue();
-                String password = Props.debugHashPassword.getValue();
+                String name = Props.autocypherName.getValue();
+                String password = Props.autocypherPassword.getValue();
 
                 startedViaAutoCypher = recognize(name, password, true);
                 ProgramModeManager.INSTANCE.refreshProgramMode();
@@ -602,7 +571,7 @@ public final class LoginHandler {
             return;
         }
 
-        boolean released = PropLoader.getBoolean(RELEASED);
+        boolean released = CyderVersionManager.INSTANCE.isReleased();
         if (!released) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder", ExitCondition.NotReleased);
             return;

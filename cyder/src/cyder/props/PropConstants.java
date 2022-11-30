@@ -77,6 +77,11 @@ public final class PropConstants {
     static final String splitPropFileContentsAt = "\r\n";
 
     /**
+     * The token to split a string into a list of strings at.
+     */
+    static final String splitListsAtChar = CyderStrings.comma;
+
+    /**
      * Suppress default constructor.
      */
     private PropConstants() {

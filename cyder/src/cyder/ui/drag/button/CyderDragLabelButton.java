@@ -3,6 +3,7 @@ package cyder.ui.drag.button;
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
@@ -25,7 +26,16 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
     public static final DragLabelButtonSize DEFAULT_SIZE;
 
     static {
-        DEFAULT_SIZE = Props.dragLabelButtonSize.getValue();
+        // todo method for this, in UiUtil maybe
+        String size = Props.dragLabelButtonSize.getValue();
+
+        DEFAULT_SIZE = switch (size) {
+            case "small" -> DragLabelButtonSize.SMALL;
+            case "medium" -> DragLabelButtonSize.MEDIUM;
+            case "large" -> DragLabelButtonSize.LARGE;
+            case "full_drag_label" -> DragLabelButtonSize.FULL_DRAG_LABEL;
+            default -> throw new FatalException("Invalid drag label button size specified by prop: " + size);
+        };
     }
 
     /**

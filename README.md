@@ -33,7 +33,7 @@ Some examples of what you can do with Cyder include:
 
 ## Screenshots
 
-<details open>
+<details>
 <summary><b>Cyder Console</b></summary>
 <br>
 <img src="https://user-images.githubusercontent.com/60986919/201505433-b2e866ab-e7bb-4eb2-93b9-57f8047f5ec2.png" alt="Liminal Cyder" width="800">
@@ -88,18 +88,18 @@ https://user-images.githubusercontent.com/60986919/190872371-323bb51d-f678-4965-
 ## Usage and Setup
 
 To get started with Cyder, first download your favorite Java IDE such as IntelliJ, NetBeans, Eclipse, etc. You'll then
-want to make sure the IDE supports gradle operations. Next, clone Cyder via `git clone https://github.com/NathanCheshire/Cyder.git --depth 1`.
-If you don't absolutely require the entire git history, I highly recommend shallow cloning as the extensive git history is quit large.
-Now load the project in your IDE and allow the gradle setup task to run and the IDE to synchronize. 
-Now you'll be able to run Cyder by a runtime configuration which invokes the
-main method inside of `Cyder.java` which is located in the `genesis` package. Once started, Cyder should recognize there
-are no users found and prompt for the creation of a user. Go ahead and create an account now.
+want to make sure the IDE supports gradle operations. Next, clone Cyder
+via `git clone https://github.com/NathanCheshire/Cyder.git --depth 1`. If you don't absolutely require the entire git
+history, I highly recommend shallow cloning as the extensive git history is quit large. Now load the project in your IDE
+and allow the gradle setup task to run and the IDE to synchronize. Now you'll be able to run Cyder by a runtime
+configuration which invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once
+started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
+account now.
 
-For development purposes, you may want to add two props within a props file (you may create your own if you choose).
-Within the chosen props file, set `debug_hash_name` to the value of your username and `debug_hash_password` to the value
-of your password, hashed once using SHA256 (hint: you can hash your password inside of Cyder using the hashing widget).
-Follow the ini key-value format or copy from `props.ini` if creating your own props file. You may name your props file
-whatever you wish, just make sure you tell Cyder to load it by ensuring the filename starts with `prop` and is an `ini`
-file located inside of the `props` directory. One last thing, make sure that you annotate these key props and any other
-props whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from writing
-the value to the log file when props are loaded at runtime.
+For development purposes, you may want to add three props within a props file:
+
+1. `autocypher` set to true.
+2. `autocypher_name` set to your user's username.
+3. `autocypher_password` set to your user's hashed password (hash your password once using SHA256).
+
+These props should be annotated with the `@no_log` annotation to ensure their values do not appear in any log files.

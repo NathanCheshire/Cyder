@@ -1371,13 +1371,14 @@ public enum Console {
     }
 
     /**
-     * Plays intro music, from the user's music folder if file are present. Otherwise the default intro music.
+     * Plays music from the user's music folder if a file is present. Otherwise the default intro music is played.
      */
     @ForReadability
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), getUuid(), UserFile.MUSIC.getName());
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                getUuid(), UserFile.MUSIC.getName());
 
         File[] files = userMusicDir.listFiles();
         if (files != null && files.length > 0) {

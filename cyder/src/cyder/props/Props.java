@@ -2,7 +2,6 @@ package cyder.props;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.drag.DragLabelButtonSize;
 
 /**
  * The props recognized by Cyder.
@@ -77,8 +76,8 @@ public final class Props {
             new Prop<>("testing_mode", false, Boolean.class);
 
     /**
-     * Whether an auto-cypher should be attempted (Requires {@link #debugHashName}
-     * and {@link #debugHashPassword} props).
+     * Whether an auto-cypher should be attempted (Requires {@link #autocypherName}
+     * and {@link #autocypherPassword} props).
      */
     public static final Prop<Boolean> autocypher =
             new Prop<>("autocypher", false, Boolean.class);
@@ -99,7 +98,7 @@ public final class Props {
      * Whether the splash animation should complete before disposal.
      */
     public static final Prop<Boolean> allowSplashCompletion =
-            new Prop<>("allow_splash_completion", false, Boolean.class);
+            new Prop<>("allow_splash_completion", true, Boolean.class);
 
     /**
      * The preferred audio output format when FFMPEG wrappers are used.
@@ -158,10 +157,10 @@ public final class Props {
             new Prop<>("latency_name", "Google", String.class);
 
     /**
-     * The size of drag label buttons.
+     * The size of drag label buttons (One of: small, medium, large, full_drag_label).
      */
-    public static final Prop<DragLabelButtonSize> dragLabelButtonSize =
-            new Prop<>("drag_label_button_size", DragLabelButtonSize.SMALL, DragLabelButtonSize.class);
+    public static final Prop<String> dragLabelButtonSize =
+            new Prop<>("drag_label_button_size", "small", String.class);
 
     /**
      * The length of the frame borders (left, right, and bottom drag labels).
@@ -263,13 +262,13 @@ public final class Props {
     /**
      * The username used for an autocypher if {@link #autocypher} is true.
      */
-    public static final Prop<String> debugHashName = new Prop<>("debug_hash_name", EMPTY, String.class);
+    public static final Prop<String> autocypherName = new Prop<>("autocypher_name", EMPTY, String.class);
 
     /**
      * The password used for an autocypher if {@link #autocypher} is true.
      */
-    public static final Prop<String> debugHashPassword =
-            new Prop<>("debug_hash_password", EMPTY, String.class);
+    public static final Prop<String> autocypherPassword =
+            new Prop<>("autocypher_password", EMPTY, String.class);
 
     /**
      * Suppress default constructor.
