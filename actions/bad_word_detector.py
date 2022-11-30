@@ -1,3 +1,9 @@
+"""
+Bad_word_detector.py
+
+A script to detect blocked words from a provided filter file.
+"""
+
 import argparse
 import sys
 import os
@@ -75,9 +81,6 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
             continue
 
         print(f"Searching file {file}")
-
-        if file == filter_path:
-            continue
 
         file_lines = get_stripped_lines(file)
 

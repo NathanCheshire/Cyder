@@ -1,3 +1,9 @@
+"""
+New_line_detector.py
+
+A detection script to detect and output any blocks of newlines greater than 1 in length.
+"""
+
 import argparse
 import sys
 from stat_generator import find_files

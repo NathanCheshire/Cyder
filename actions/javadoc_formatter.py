@@ -1,5 +1,5 @@
 """
-javadoc-formatter
+Javadoc_formatter.py
 
 A formatter to convert multi-line javadoc comments which could be expressed on a single line, to a single line.
 """
