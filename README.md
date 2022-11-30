@@ -103,3 +103,6 @@ For development purposes, you may want to add three props within a props file:
 3. `autocypher_password` set to your user's hashed password (hash your password once using SHA256).
 
 These props should be annotated with the `@no_log` annotation to ensure their values do not appear in any log files.
+Additionally, your the props file containing your password should be added to your .gitignore file to avoid VCS
+tracking. Cyder double hashes passwords to help prevent rainbow table lookups. However, leaving your singly-hashed
+SHA256 autocypher password exposed leaves you more prone to attacks.

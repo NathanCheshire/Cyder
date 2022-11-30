@@ -10,11 +10,6 @@ public final class CyderStrings {
     public static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
 
     /**
-     * A string used as a an error message for when a method has failed to be overridden and implemented.
-     */
-    public static final String NOT_IMPLEMENTED = "Method not implemented";
-
-    /**
      * General renowned sentence in English for using all 26 latin chars.
      */
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
@@ -133,6 +128,11 @@ public final class CyderStrings {
      * The NUL string.
      */
     public static final String NUL = "NUL";
+
+    /**
+     * The empty string.
+     */
+    public static final String EMPTY = "";
 
     /**
      * Suppress default constructor.

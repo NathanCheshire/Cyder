@@ -3,16 +3,13 @@ package cyder.props;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
+import static cyder.constants.CyderStrings.EMPTY;
+
 /**
  * The props recognized by Cyder.
  */
 @SuppressWarnings("unused") /* Readability */
 public final class Props {
-    /**
-     * The empty string, used for default key values to indicate there is no default value present.
-     */
-    private static final String EMPTY = "";
-
     /*
     Regular props.
      */
@@ -34,8 +31,17 @@ public final class Props {
      * The data stored within a User object which should not be logged on access.
      */
     public static final Prop<?> ignoreData = new Prop<>("ignore_data", new String[]{
-            "typinganimation", "showseconds", "roundedwindows", "windowcolor", "audiolength", "capsmode",
-            "typingsound", "showbusyicon", "clockonconsole", "consoleclockformat", "doanimations"},
+            "typinganimation",
+            "showseconds",
+            "roundedwindows",
+            "windowcolor",
+            "audiolength",
+            "capsmode",
+            "typingsound",
+            "showbusyicon",
+            "clockonconsole",
+            "consoleclockformat",
+            "doanimations"},
             String[].class);
 
     /**

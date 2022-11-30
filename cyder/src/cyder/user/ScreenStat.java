@@ -60,13 +60,15 @@ public class ScreenStat {
     public ScreenStat(int consoleX, int consoleY, int consoleWidth,
                       int consoleHeight, int monitor,
                       boolean consoleOnTop, Direction consoleDirection) {
+        Preconditions.checkNotNull(consoleDirection);
+
         this.consoleX = consoleX;
         this.consoleY = consoleY;
         this.consoleWidth = consoleWidth;
         this.consoleHeight = consoleHeight;
         this.monitor = monitor;
         this.consoleOnTop = consoleOnTop;
-        this.consoleDirection = Preconditions.checkNotNull(consoleDirection);
+        this.consoleDirection = consoleDirection;
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -236,15 +238,15 @@ public class ScreenStat {
      */
     @Override
     public String toString() {
-        return "ScreenStat{" +
-                "consoleX=" + consoleX +
-                ", consoleY=" + consoleY +
-                ", consoleWidth=" + consoleWidth +
-                ", consoleHeight=" + consoleHeight +
-                ", monitor=" + monitor +
-                ", consoleOnTop=" + consoleOnTop +
-                ", consoleDirection=" + consoleDirection +
-                '}';
+        return "ScreenStat{"
+                + "consoleX=" + consoleX
+                + ", consoleY=" + consoleY
+                + ", consoleWidth=" + consoleWidth
+                + ", consoleHeight=" + consoleHeight
+                + ", monitor=" + monitor
+                + ", consoleOnTop=" + consoleOnTop
+                + ", consoleDirection=" + consoleDirection
+                + "}";
     }
 
     /**
@@ -254,21 +256,19 @@ public class ScreenStat {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
+        } else if (!(o instanceof ScreenStat)) {
             return false;
         }
 
-        ScreenStat that = (ScreenStat) o;
+        ScreenStat other = (ScreenStat) o;
 
-        return consoleX == that.consoleX
-                && consoleY == that.consoleY
-                && consoleWidth == that.consoleWidth
-                && consoleHeight == that.consoleHeight
-                && monitor == that.monitor
-                && consoleOnTop == that.consoleOnTop
-                && consoleDirection == that.consoleDirection;
+        return consoleX == other.consoleX
+                && consoleY == other.consoleY
+                && consoleWidth == other.consoleWidth
+                && consoleHeight == other.consoleHeight
+                && monitor == other.monitor
+                && consoleOnTop == other.consoleOnTop
+                && consoleDirection == other.consoleDirection;
     }
 
     /**

@@ -1040,6 +1040,7 @@ public class User {
      * @param value the current value of the user data
      */
     private static void getterHook(String id, Object value) {
+        // todo should have a method for this in case user specifies "all"
         if (!StringUtil.in(id, true, UserUtil.getIgnoreUserData())) {
             Logger.log(LogTag.USER_GET, "key = " + id + ", value = " + value);
         }

@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.enums.Dynamic;
 
@@ -99,5 +100,15 @@ public enum UserFile {
 
         return Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), name);
+    }
+
+    /**
+     * Returns whether the file referenced by this user file exists.
+     *
+     * @return whether the file referenced by this user file exists
+     */
+    @CanIgnoreReturnValue /* Can be used as a Precondition */
+    public boolean exists() {
+        return getFilePointer().exists();
     }
 }

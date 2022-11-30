@@ -1,9 +1,6 @@
 package cyder.user;
 
-import cyder.annotations.CyderAuthor;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Vanilla;
-import cyder.annotations.Widget;
+import cyder.annotations.*;
 import cyder.constants.*;
 import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
@@ -36,6 +33,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
+
+import static cyder.constants.CyderStrings.space;
 
 /**
  * A widget to create a Cyder user.
@@ -90,12 +89,20 @@ public final class UserCreator {
     private static final LineBorder BORDER = new LineBorder(CyderColors.navy, 5, false);
 
     /**
+     * The create string.
+     */
+    private static final String CREATE = "Create";
+
+    /**
      * Suppress default constructor.
      */
     private UserCreator() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * Shows the GUI for this widget.
+     */
     @Widget(triggers = {"create user", "create"}, description = "A widget for creating new users")
     public static void showGui() {
         UiUtil.closeIfOpen(createUserFrame);
@@ -121,7 +128,7 @@ public final class UserCreator {
         newUserNameField.addKeyListener(newUserNameFieldListener);
         newUserNameField.setSize(240, 40);
 
-        if (!defaultCyderUserAlreadyExists()) {
+        if (!cyderUserWithOsUsernameExists()) {
             newUserNameField.setText(OsUtil.getOsUsername());
         }
 
@@ -130,7 +137,7 @@ public final class UserCreator {
         passwordLabel.setForeground(CyderColors.navy);
         passwordLabel.setSize(240, 30);
 
-        informationLabel = new JLabel("Passwords match", SwingConstants.CENTER);
+        informationLabel = new JLabel("", SwingConstants.CENTER);
 
         newUserPasswordField = new CyderPasswordField();
         newUserPasswordField.addKeyListener(passwordFieldKeyListener);
@@ -199,22 +206,28 @@ public final class UserCreator {
     private static final KeyListener newUserNameFieldListener = new KeyListener() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent e) {
-            createNewUserButton.setText("Create " + newUserNameField.getText().trim());
-            updateInformationLabel();
+            newUserNameFieldKeyListenerLogic();
         }
 
         @Override
         public void keyReleased(java.awt.event.KeyEvent e) {
-            createNewUserButton.setText("Create " + newUserNameField.getText().trim());
-            updateInformationLabel();
+            newUserNameFieldKeyListenerLogic();
         }
 
         @Override
         public void keyTyped(java.awt.event.KeyEvent e) {
-            createNewUserButton.setText("Create " + newUserNameField.getText().trim());
-            updateInformationLabel();
+            newUserNameFieldKeyListenerLogic();
         }
     };
+
+    /**
+     * The logic to invoke on an event from the new username field.
+     */
+    @ForReadability
+    private static void newUserNameFieldKeyListenerLogic() {
+        createNewUserButton.setText(CREATE + space + newUserNameField.getText().trim());
+        updateInformationLabel();
+    }
 
     /**
      * Whether the currently entered new user credentials are valid
@@ -341,27 +354,19 @@ public final class UserCreator {
     private static final MouseAdapter chooseBackgroundButtonMouseListener = new MouseAdapter() {
         @Override
         public void mouseEntered(MouseEvent e) {
-            try {
-                if (newUserBackgroundFile != null) {
-                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
-                } else {
-                    chooseBackgroundButton.setText(NO_BACKGROUND);
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
+            if (newUserBackgroundFile != null) {
+                chooseBackgroundButton.setText(newUserBackgroundFile.getName());
+            } else {
+                chooseBackgroundButton.setText(NO_BACKGROUND);
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            try {
-                if (newUserBackgroundFile != null) {
-                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
-                } else {
-                    chooseBackgroundButton.setText(CHOOSE_BACKGROUND);
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
+            if (newUserBackgroundFile != null) {
+                chooseBackgroundButton.setText(newUserBackgroundFile.getName());
+            } else {
+                chooseBackgroundButton.setText(CHOOSE_BACKGROUND);
             }
         }
     };
@@ -371,7 +376,7 @@ public final class UserCreator {
      *
      * @return whether the user with the user name of {@link  OsUtil#getOsUsername()} exists
      */
-    private static boolean defaultCyderUserAlreadyExists() {
+    private static boolean cyderUserWithOsUsernameExists() {
         String osUsername = OsUtil.getOsUsername();
 
         for (File userJson : UserUtil.getUserJsons()) {
@@ -383,6 +388,11 @@ public final class UserCreator {
 
         return false;
     }
+
+    /**
+     * The thread name for the background file chooser.
+     */
+    private static final String newUserCreatorBackgroundChooserThreadName = "New user creator background chooser";
 
     /**
      * Initializes the new user's background.
@@ -403,7 +413,7 @@ public final class UserCreator {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "wait thread for GetterUtil().getFile()");
+        }, newUserCreatorBackgroundChooserThreadName);
     }
 
     /**

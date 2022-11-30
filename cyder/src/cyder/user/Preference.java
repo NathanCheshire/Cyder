@@ -3,17 +3,20 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import static cyder.constants.CyderStrings.EMPTY;
 
 /**
  * Preference class used to hold user data in the form of strings.
@@ -52,17 +55,12 @@ public class Preference {
     public static final String WINDOW_COLOR = "windowcolor";
     public static final String CONSOLE_CLOCK_FORMAT = "consoleclockformat";
     public static final String YOUTUBE_UUID = "youtubeuuid";
-    public static final String IP_KEY = "ipkey";
-    public static final String WEATHER_KEY = "weatherkey";
-    public static final String YOUTUBE_API_3_KEY = "youtubeapi3key";
     public static final String CAPS_MODE = "capsmode";
     public static final String LOGGED_IN = "loggedin";
     public static final String AUDIO_LENGTH = "audiolength";
     public static final String PERSISTENT_NOTIFICATIONS = "persistentnotifications";
     public static final String DO_ANIMATIONS = "doanimations";
     public static final String COMPACT_TEXT_MODE = "compacttextmode";
-    // todo remove me?
-    public static final String FONT_METRIC = "fontmetric";
     public static final String FONT_SIZE = "fontsize";
     public static final String WRAP_SHELL = "wrapshell";
     public static final String DARK_MODE = "darkmode";
@@ -75,7 +73,6 @@ public class Preference {
      */
 
     private static final String IGNORE = "IGNORE";
-    private static final String EMPTY = "";
 
     /**
      * The immutable collection of preference objects.
@@ -247,18 +244,6 @@ public class Preference {
                     () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_UUID))
                     .setIgnoreForToggleSwitches(),
 
-            new Preference(IP_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE, IP_KEY))
-                    .setIgnoreForToggleSwitches(),
-
-            new Preference(WEATHER_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE, WEATHER_KEY))
-                    .setIgnoreForToggleSwitches(),
-
-            new Preference(YOUTUBE_API_3_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_API_3_KEY))
-                    .setIgnoreForToggleSwitches(),
-
             new Preference(CAPS_MODE, "Capital Letters Mode", "Capitalize all console output",
                     "0", () -> Logger.log(LogTag.PREFERENCE, CAPS_MODE)),
 
@@ -285,13 +270,6 @@ public class Preference {
                 Console.INSTANCE.revalidateMenu();
                 CyderScrollList.refreshAllLists();
             }),
-
-            new Preference(FONT_METRIC, IGNORE, EMPTY, "1", () -> {
-                Logger.log(LogTag.PREFERENCE, FONT_METRIC);
-
-                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
-                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-            }).setIgnoreForToggleSwitches(),
 
             new Preference(FONT_SIZE, IGNORE, EMPTY, "30", () -> {
                 Logger.log(LogTag.PREFERENCE, FONT_SIZE);
@@ -354,27 +332,21 @@ public class Preference {
      * @param preferenceID the onChangeFunction() of the preference with the provided ID
      */
     public static void invokeRefresh(String preferenceID) {
-        boolean invoked = false;
-
         for (Preference preference : preferences) {
             if (preference.getID().equals(preferenceID)) {
                 preference.getOnChangeFunction().run();
-                postPreferenceOnChangeFunctionHook();
-                invoked = true;
-                break;
+                onPreferenceRefresh();
+                return;
             }
         }
 
-        if (!invoked) {
-            Logger.log(LogTag.PREFERENCE, "Failed to invoke preference refresh."
-                    + " Provided id: " + preferenceID);
-        }
+        throw new FatalException("Failed to invoke preference refresh, failed to find id: " + preferenceID);
     }
 
     /**
      * A hook to be ran after all preference on change function invocations.
      */
-    private static void postPreferenceOnChangeFunctionHook() {
+    private static void onPreferenceRefresh() {
         UserEditor.revalidatePreferencesIfOpen();
     }
 
@@ -422,6 +394,17 @@ public class Preference {
      * The method to run when a change of the preference occurs.
      */
     private final Runnable onChangeFunction;
+
+    /**
+     * Whether this preference should be ignored when creating the user preference toggle switches.
+     */
+    private boolean ignoreForToggleSwitches = false;
+
+    /**
+     * Whether this preference should be ignored when creating a new user.
+     * Typically this is only username and password.
+     */
+    private boolean ignoreForUserCreation = false;
 
     /**
      * Constructs a preference object.
@@ -496,11 +479,6 @@ public class Preference {
     }
 
     /**
-     * Whether this preference should be ignored when creating the user preference toggle switches.
-     */
-    private boolean ignoreForToggleSwitches = false;
-
-    /**
      * Returns whether this preference should be ignored when setting up the toggle switches for the user editor.
      *
      * @return whether this preference should be ignored when setting up the toggle switches for the user editor
@@ -518,12 +496,6 @@ public class Preference {
         this.ignoreForToggleSwitches = true;
         return this;
     }
-
-    /**
-     * Whether this preference should be ignored when creating a new user.
-     * Typically this is only username and password.
-     */
-    private boolean ignoreForUserCreation = false;
 
     /**
      * Returns whether this preference should be ignored when building a default/new user.
@@ -550,7 +522,15 @@ public class Preference {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return "Preference{"
+                + "id=" + CyderStrings.quote + id + CyderStrings.quote
+                + ", displayName=" + CyderStrings.quote + displayName + CyderStrings.quote
+                + ", tooltip=" + CyderStrings.quote + tooltip + CyderStrings.quote
+                + ", defaultValue=" + defaultValue
+                + ", onChangeFunction=" + onChangeFunction
+                + ", ignoreForToggleSwitches=" + ignoreForToggleSwitches
+                + ", ignoreForUserCreation=" + ignoreForUserCreation
+                + "}";
     }
 
     /**
@@ -564,7 +544,13 @@ public class Preference {
             return false;
         }
 
-        return ((Preference) o).getID().equals(getID());
+        Preference other = (Preference) o;
+
+        return getID().equals(other.getID())
+                && getDisplayName().equals(other.getDisplayName())
+                && getTooltip().equals(other.getTooltip())
+                && getDefaultValue().equals(other.getDefaultValue())
+                && getOnChangeFunction().equals(other.getOnChangeFunction());
     }
 
     /**

@@ -1453,8 +1453,7 @@ public final class UserEditor {
         Color defaultWindowColor = ColorUtil.hexStringToColor(defaultWindow);
 
         String defaultFontName = Preference.get(Preference.FONT).getDefaultValue().toString();
-        int defaultFontMetric =
-                Integer.parseInt(Preference.get(Preference.FONT_METRIC).getDefaultValue().toString());
+        int defaultFontMetric = FontUtil.getFontMetricFromProps();
         int defaultFontSize = Integer.parseInt(Preference.get(Preference.FONT_SIZE).getDefaultValue().toString());
 
         UserUtil.getCyderUser().setForeground(defaultForeground);

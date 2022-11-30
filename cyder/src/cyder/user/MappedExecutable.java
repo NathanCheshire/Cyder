@@ -31,8 +31,13 @@ public class MappedExecutable {
      * @param filepath the path to the file to open
      */
     public MappedExecutable(String name, String filepath) {
-        this.name = Preconditions.checkNotNull(name);
-        this.filepath = Preconditions.checkNotNull(filepath);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(filepath);
+        Preconditions.checkArgument(!name.isEmpty());
+        Preconditions.checkArgument(!filepath.isEmpty());
+
+        this.name = name;
+        this.filepath = filepath;
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -59,6 +64,8 @@ public class MappedExecutable {
      * Displays a notification on the console informing the user that this mapped exe was invoked.
      */
     public void displayInvokedNotification() {
+        Preconditions.checkState(!Console.INSTANCE.isClosed());
+
         Console.INSTANCE.getConsoleCyderFrame().notify("Invoking mapped exe: " + name);
     }
 
@@ -75,7 +82,8 @@ public class MappedExecutable {
 
         MappedExecutable other = (MappedExecutable) o;
 
-        return other.getName().equals(getName()) && other.getFilepath().equals(getFilepath());
+        return other.getName().equals(getName())
+                && other.getFilepath().equals(getFilepath());
     }
 
     /**
