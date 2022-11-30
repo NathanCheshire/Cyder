@@ -2,9 +2,7 @@ package cyder.parsers.remote.youtube;
 
 import java.util.LinkedList;
 
-/**
- * The master serialization class for a youtube api 3 search query returned result.
- */
+/** The master serialization class for a youtube api 3 search query returned result. */
 public class YoutubeSearchResultPage {
     private String kind;
     private String etag;

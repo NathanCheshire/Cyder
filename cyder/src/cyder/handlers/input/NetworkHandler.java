@@ -28,18 +28,12 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-/**
- * A handler for things which require internet access and may reach out to external domains for data.
- */
+/** A handler for things which require internet access and may reach out to external domains for data. */
 public class NetworkHandler extends InputHandler {
-    /**
-     * The name of the waiter thread for getting the usb devices.
-     */
+    /** The name of the waiter thread for getting the usb devices. */
     private static final String USB_DEVICE_WAITER_THREAD_NAME = "Usb Device Waiter";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private NetworkHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

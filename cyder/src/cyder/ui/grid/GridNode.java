@@ -7,28 +7,18 @@ import cyder.logging.Logger;
 
 import java.awt.*;
 
-/**
- * A node component for a {@link CyderGrid}.
- */
+/** A node component for a {@link CyderGrid}. */
 public final class GridNode {
-    /**
-     * The default color of a GridNode.
-     */
+    /** The default color of a GridNode. */
     private static final Color DEFAULT_COLOR = CyderColors.navy;
 
-    /**
-     * The color of this node.
-     */
+    /** The color of this node. */
     private Color color;
 
-    /**
-     * The x value of this node.
-     */
+    /** The x value of this node. */
     private int x;
 
-    /**
-     * The y value of this node.
-     */
+    /** The y value of this node. */
     private int y;
 
     /**
@@ -119,9 +109,7 @@ public final class GridNode {
         return new Point(x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object node) {
         if (node == this) {
@@ -134,9 +122,7 @@ public final class GridNode {
         return (x == other.x && y == other.y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = Integer.hashCode(x);
@@ -145,9 +131,7 @@ public final class GridNode {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "GridNode{" + "color=" + color

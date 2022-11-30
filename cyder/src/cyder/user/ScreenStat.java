@@ -5,9 +5,7 @@ import cyder.enums.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
-/**
- * A class to store statistics about the Console and where it is.
- */
+/** A class to store statistics about the Console and where it is. */
 public class ScreenStat {
     /**
      * The x coordinate the console is at. This value may seem out of bounds due to
@@ -21,29 +19,19 @@ public class ScreenStat {
      */
     private int consoleY;
 
-    /**
-     * The width of the console.
-     */
+    /** The width of the console. */
     private int consoleWidth;
 
-    /**
-     * The height of the console.
-     */
+    /** The height of the console. */
     private int consoleHeight;
 
-    /**
-     * The integer id of the monitor the console is on.
-     */
+    /** The integer id of the monitor the console is on. */
     private int monitor;
 
-    /**
-     * Whether the console is in always on top mode.
-     */
+    /** Whether the console is in always on top mode. */
     private boolean consoleOnTop;
 
-    /**
-     * The direction the console is currently oriented in.
-     */
+    /** The direction the console is currently oriented in. */
     private Direction consoleDirection;
 
     /**
@@ -73,34 +61,22 @@ public class ScreenStat {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * The default x and y value of a screen stat.
-     */
+    /** The default x and y value of a screen stat. */
     private static final int DEFAULT_X_Y_VALUE = Integer.MIN_VALUE;
 
-    /**
-     * The default width and height of a screen stat.
-     */
+    /** The default width and height of a screen stat. */
     private static final int DEFAULT_WIDTH_HEIGHT = Integer.MAX_VALUE;
 
-    /**
-     * The default monitor of a screen stat.
-     */
+    /** The default monitor of a screen stat. */
     private static final int DEFAULT_MONITOR = Integer.MAX_VALUE;
 
-    /**
-     * The default stat of the on top member of a screen stat.
-     */
+    /** The default stat of the on top member of a screen stat. */
     private static final boolean DEFAULT_ON_TOP_VALUE = false;
 
-    /**
-     * The default direction of a scree stat.
-     */
+    /** The default direction of a scree stat. */
     private static final Direction DEFAULT_DIRECTION = Direction.TOP;
 
-    /**
-     * Constructs a default invalid screen stat object.
-     */
+    /** Constructs a default invalid screen stat object. */
     public ScreenStat() {
         this(DEFAULT_X_Y_VALUE, DEFAULT_X_Y_VALUE,
                 DEFAULT_WIDTH_HEIGHT, DEFAULT_WIDTH_HEIGHT,
@@ -233,9 +209,7 @@ public class ScreenStat {
         this.consoleDirection = Preconditions.checkNotNull(consoleDirection);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ScreenStat{"
@@ -249,9 +223,7 @@ public class ScreenStat {
                 + "}";
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -271,9 +243,7 @@ public class ScreenStat {
                 && consoleDirection == other.consoleDirection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = Integer.hashCode(consoleX);

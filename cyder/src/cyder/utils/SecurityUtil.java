@@ -16,13 +16,9 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.UUID;
 
-/**
- * Static utility class containing methods related to security.
- */
+/** Static utility class containing methods related to security. */
 public final class SecurityUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private SecurityUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -50,19 +46,13 @@ public final class SecurityUtil {
         return bytes;
     }
 
-    /**
-     * The string used for a SHA256 digest.
-     */
+    /** The string used for a SHA256 digest. */
     private static final String SHA256 = "SHA-256";
 
-    /**
-     * The string used for a SHA1 digest.
-     */
+    /** The string used for a SHA1 digest. */
     private static final String SHA1 = "SHA-1";
 
-    /**
-     * The string used for an MD5 digest.
-     */
+    /** The string used for an MD5 digest. */
     private static final String MD5 = "MD5";
 
     /**

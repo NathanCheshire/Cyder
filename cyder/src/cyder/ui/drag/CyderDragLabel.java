@@ -21,9 +21,7 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A drag label to be used for CyderFrames borders.
- */
+/** A drag label to be used for CyderFrames borders. */
 public class CyderDragLabel extends JLabel {
     /**
      * The default height for drag labels.
@@ -35,49 +33,31 @@ public class CyderDragLabel extends JLabel {
         DEFAULT_HEIGHT = Props.dragLabelHeight.getValue();
     }
 
-    /**
-     * The width of this DragLabel.
-     */
+    /** The width of this DragLabel. */
     private int width;
 
-    /**
-     * The height of this DragLabel.
-     */
+    /** The height of this DragLabel. */
     private int height;
 
-    /**
-     * The associated frame for this label.
-     */
+    /** The associated frame for this label. */
     private final CyderFrame effectFrame;
 
-    /**
-     * The x offset used for dragging.
-     */
+    /** The x offset used for dragging. */
     private final AtomicInteger xOffset;
 
-    /**
-     * The y offset used for dragging.
-     */
+    /** The y offset used for dragging. */
     private final AtomicInteger yOffset;
 
-    /**
-     * The background color of this drag label.
-     */
+    /** The background color of this drag label. */
     private Color backgroundColor;
 
-    /**
-     * Whether dragging is currently enabled.
-     */
+    /** Whether dragging is currently enabled. */
     private final AtomicBoolean draggingEnabled;
 
-    /**
-     * The pin button for this drag label.
-     */
+    /** The pin button for this drag label. */
     private PinButton pinButton;
 
-    /**
-     * The list of buttons to paint on the right of the drag label.
-     */
+    /** The list of buttons to paint on the right of the drag label. */
     private LinkedList<Component> rightButtonList;
 
     /**
@@ -87,9 +67,7 @@ public class CyderDragLabel extends JLabel {
      */
     private LinkedList<Component> leftButtonList;
 
-    /**
-     * The type of drag label this drag label is.
-     */
+    /** The type of drag label this drag label is. */
     private final DragLabelType type;
 
     /**
@@ -338,16 +316,12 @@ public class CyderDragLabel extends JLabel {
         return effectFrame;
     }
 
-    /**
-     * Disables dragging.
-     */
+    /** Disables dragging. */
     public void disableDragging() {
         draggingEnabled.set(false);
     }
 
-    /**
-     * Enables dragging.
-     */
+    /** Enables dragging. */
     public void enableDragging() {
         draggingEnabled.set(true);
     }
@@ -361,17 +335,13 @@ public class CyderDragLabel extends JLabel {
         return draggingEnabled.get();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = Integer.hashCode(width);
@@ -386,9 +356,7 @@ public class CyderDragLabel extends JLabel {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -671,9 +639,7 @@ public class CyderDragLabel extends JLabel {
         refreshLeftButtons();
     }
 
-    /**
-     * Removes all buttons from the right button list from this drag label.
-     */
+    /** Removes all buttons from the right button list from this drag label. */
     public void removeRightButtons() {
         if (rightButtonList == null) return;
 
@@ -682,9 +648,7 @@ public class CyderDragLabel extends JLabel {
         }
     }
 
-    /**
-     * Removes all buttons from the left button list from this drag label.
-     */
+    /** Removes all buttons from the left button list from this drag label. */
     public void removeLeftButtons() {
         if (leftButtonList == null) return;
 
@@ -693,27 +657,19 @@ public class CyderDragLabel extends JLabel {
         }
     }
 
-    /**
-     * Refreshes and repaints the button list.
-     */
+    /** Refreshes and repaints the button list. */
     public void refreshButtons() {
         refreshRightButtons();
         refreshLeftButtons();
     }
 
-    /**
-     * The spacing between drag label buttons.
-     */
+    /** The spacing between drag label buttons. */
     private static final int BUTTON_SPACING = 2;
 
-    /**
-     * The padding between the left and right of the drag label buttons.
-     */
+    /** The padding between the left and right of the drag label buttons. */
     private static final int BUTTON_PADDING = 5;
 
-    /**
-     * Refreshes all right buttons and their positions.
-     */
+    /** Refreshes all right buttons and their positions. */
     public void refreshRightButtons() {
         if (rightButtonList == null) return;
 
@@ -744,9 +700,7 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    /**
-     * Refreshes all left buttons and their positions.
-     */
+    /** Refreshes all left buttons and their positions. */
     public void refreshLeftButtons() {
         if (leftButtonList == null) return;
 

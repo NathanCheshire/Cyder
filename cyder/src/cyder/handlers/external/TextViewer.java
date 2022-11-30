@@ -26,69 +26,43 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * A handler for viewing text files.
- */
+/** A handler for viewing text files. */
 public class TextViewer {
-    /**
-     * The file currently being displayed.
-     */
+    /** The file currently being displayed. */
     private File file;
 
-    /**
-     * The default frame width.
-     */
+    /** The default frame width. */
     private static final int defaultFrameWidth = 600;
 
-    /**
-     * The default frame height.
-     */
+    /** The default frame height. */
     private static final int defaultFrameHeight = 680;
 
-    /**
-     * The font for the name field.
-     */
+    /** The font for the name field. */
     private static final Font nameFieldFont = new Font("Agency FB", Font.BOLD, 26);
 
-    /**
-     * The border for the name field.
-     */
+    /** The border for the name field. */
     private static final Border nameFieldBorder
             = BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.navy);
 
-    /**
-     * The padding between the frame and the contents scrolls.
-     */
+    /** The padding between the frame and the contents scrolls. */
     private static final int scrollPadding = 25;
 
-    /**
-     * The length of the scroll.
-     */
+    /** The length of the scroll. */
     private static final int scrollLength = defaultFrameWidth - 2 * scrollPadding;
 
-    /**
-     * The height of the scroll.
-     */
+    /** The height of the scroll. */
     private static final int scrollHeight = scrollLength - 50;
 
-    /**
-     * The save button text.
-     */
+    /** The save button text. */
     private static final String SAVE = "Save";
 
-    /**
-     * The file contents area.
-     */
+    /** The file contents area. */
     private static JTextPane contentsArea;
 
-    /**
-     * The file name field.
-     */
+    /** The file name field. */
     private static CyderTextField nameField;
 
-    /**
-     * The frame for this text editor.
-     */
+    /** The frame for this text editor. */
     private CyderFrame textFrame;
 
     /**
@@ -110,9 +84,7 @@ public class TextViewer {
         this.file = Preconditions.checkNotNull(file);
     }
 
-    /**
-     * Opens the text viewer gui.
-     */
+    /** Opens the text viewer gui. */
     public void showGui() {
         textFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
 
@@ -183,9 +155,7 @@ public class TextViewer {
         throw new IllegalStateException("Could not read contents of current note file");
     }
 
-    /**
-     * The actions to invoke when the save button is pressed.
-     */
+    /** The actions to invoke when the save button is pressed. */
     private void saveButtonAction() {
         String nameContents = nameField.getTrimmedText();
         if (nameContents.toLowerCase().endsWith(Extension.TXT.getExtension())) {
@@ -220,9 +190,7 @@ public class TextViewer {
         textFrame.notify("Saved file and contents under: \"" + requestedName + CyderStrings.quote);
     }
 
-    /**
-     * Revalidates the title of the frame.
-     */
+    /** Revalidates the title of the frame. */
     private void revalidateTitle() {
         textFrame.setTitle(FileUtil.getFilename(file));
     }

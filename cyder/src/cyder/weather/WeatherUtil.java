@@ -14,39 +14,25 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Optional;
 
-/**
- * Utilities related to weather and the weather API, that of Open Weather Map, utilized by Cyder.
- */
+/** Utilities related to weather and the weather API, that of Open Weather Map, utilized by Cyder. */
 public final class WeatherUtil {
-    /**
-     * The app id argument.
-     */
+    /** The app id argument. */
     private static final String APP_ID = "&appid=";
 
-    /**
-     * The units argument for the weather data.
-     */
+    /** The units argument for the weather data. */
     private static final String UNITS_ARG = "&units=";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private WeatherUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * Possible measurement scales, that of imperial or metric.
-     */
+    /** Possible measurement scales, that of imperial or metric. */
     public enum MeasurementScale {
-        /**
-         * The imperial measurement scale.
-         */
+        /** The imperial measurement scale. */
         IMPERIAL("imperial"),
 
-        /**
-         * The metric measurement scale.
-         */
+        /** The metric measurement scale. */
         METRIC("metric");
 
         private final String weatherDataRepresentation;

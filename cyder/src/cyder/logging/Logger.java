@@ -39,21 +39,15 @@ import static java.lang.System.out;
  * runtime to exit at JVM termination.
  */
 public final class Logger {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private Logger() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The counter used to log the number of objects created each deltaT seconds.
-     */
+    /** The counter used to log the number of objects created each deltaT seconds. */
     private static final AtomicInteger objectCreationCounter = new AtomicInteger();
 
-    /**
-     * The total number of objects created for an instance of Cyder.
-     */
+    /** The total number of objects created for an instance of Cyder. */
     private static int totalObjectsCreated = 0;
 
     /**
@@ -62,9 +56,7 @@ public final class Logger {
      */
     private static final AtomicInteger exceptionsCounter = new AtomicInteger();
 
-    /**
-     * The rate at which to log the amount of objects created since the last log.
-     */
+    /** The rate at which to log the amount of objects created since the last log. */
     private static final int OBJECT_LOG_FREQUENCY = 5000;
 
     @ForReadability
@@ -76,14 +68,10 @@ public final class Logger {
      */
     private static final int NEWLINE_SPACE_OFFSET = TimeUtil.getLogLineTime().length() + BRACKETS_SPACE_LEN;
 
-    /**
-     * Whether the current log should not be written to again.
-     */
+    /** Whether the current log should not be written to again. */
     private static boolean logConcluded;
 
-    /**
-     * Whether the logger has been initialized.
-     */
+    /** Whether the logger has been initialized. */
     private static final AtomicBoolean logStarted = new AtomicBoolean();
 
     /**
@@ -92,14 +80,10 @@ public final class Logger {
      */
     private static final ArrayList<AwaitingLog> awaitingLogCalls = new ArrayList<>();
 
-    /**
-     * The file that is currently being written to on log calls.
-     */
+    /** The file that is currently being written to on log calls. */
     private static File currentLog;
 
-    /**
-     * The absolute start time of Cyder, initialized at runtime.
-     */
+    /** The absolute start time of Cyder, initialized at runtime. */
     public static final long START_TIME = System.currentTimeMillis();
 
     /**
@@ -108,9 +92,7 @@ public final class Logger {
      */
     private record AwaitingLog(String line, LogTag tag) {}
 
-    /**
-     * The prefix for the missing tag error message.
-     */
+    /** The prefix for the missing tag error message. */
     private static final String MISSING_TAG_CASE_ERROR_MESSAGE = "Handle case not found; "
             + "you're probably an idiot and added an enum to LoggerTag but forgot to handle it Logger.log(), Tag = ";
 
@@ -132,9 +114,7 @@ public final class Logger {
         out.println(string);
     }
 
-    /**
-     * The text for when a log call was invoked after the log had concluded.
-     */
+    /** The text for when a log call was invoked after the log had concluded. */
     private static final String LOG_CONCLUDED = "LOG CALL AFTER LOG CONCLUDED";
 
     /**
@@ -431,9 +411,7 @@ public final class Logger {
         zipPastLogs();
     }
 
-    /**
-     * Logs the calls within awaitingLogCalls.
-     */
+    /** Logs the calls within awaitingLogCalls. */
     private static void logAwaitingLogCalls() {
         for (AwaitingLog awaitingLog : awaitingLogCalls) {
             formatAndWriteLine(awaitingLog.line, awaitingLog.tag);
@@ -451,14 +429,10 @@ public final class Logger {
         return currentLog;
     }
 
-    /**
-     * The number of new lines to write after ascii art is written to a log file.
-     */
+    /** The number of new lines to write after ascii art is written to a log file. */
     private static final int numNewLinesAfterAsciiArt = 2;
 
-    /**
-     * Writes the lines contained in static/txt/cyder.txt to the current log file.
-     */
+    /** Writes the lines contained in static/txt/cyder.txt to the current log file. */
     private static void writeCyderAsciiArtToCurrentLogFile() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (String line : LoggingUtil.getHeaderLogoLines()) {
@@ -597,9 +571,7 @@ public final class Logger {
         return TimeUtil.formatMillis(System.currentTimeMillis() - START_TIME);
     }
 
-    /**
-     * Zips the log files of the past.
-     */
+    /** Zips the log files of the past. */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void zipPastLogs() {
         File topLevelLogsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
@@ -627,9 +599,7 @@ public final class Logger {
         });
     }
 
-    /**
-     * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
-     */
+    /** Consolidates the lines of all non-zipped files within the logs/SubLogDir directory. */
     public static void consolidateLogLines() {
         File logsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
@@ -740,9 +710,7 @@ public final class Logger {
         }
     }
 
-    /**
-     * Fixes any logs lacking/not ending in an EOL tag.
-     */
+    /** Fixes any logs lacking/not ending in an EOL tag. */
     public static void concludeLogs() {
         try {
             File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
@@ -802,14 +770,10 @@ public final class Logger {
         }
     }
 
-    /**
-     * The delay between JVM entry and starting the object creation logging thread.
-     */
+    /** The delay between JVM entry and starting the object creation logging thread. */
     private static final int INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT = 3000;
 
-    /**
-     * Starts the object creation logger to log object creation calls every deltaT seconds.
-     */
+    /** Starts the object creation logger to log object creation calls every deltaT seconds. */
     private static void startObjectCreationLogger() {
         CyderThreadRunner.submit(() -> {
             try {

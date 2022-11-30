@@ -1,4 +1,2 @@
-/**
- * Custom structures implemented for use in Cyder.
- */
+/** Custom structures implemented for use in Cyder. */
 package cyder.structures;

@@ -28,24 +28,16 @@ import java.util.Arrays;
  * Using a single thread, this has about a 1 in 92,233,720,368 chance of succeeding every iteration.
  */
 public class YoutubeUuidChecker {
-    /**
-     * Boolean used for killing the YouTube threads.
-     */
+    /** Boolean used for killing the YouTube threads. */
     private boolean exit;
 
-    /**
-     * StringUtil to append text to the linked JTextPane.
-     */
+    /** StringUtil to append text to the linked JTextPane. */
     private final StringUtil stringUtil;
 
-    /**
-     * The uuid we are currently on
-     */
+    /** The uuid we are currently on */
     private String youtubeUuid;
 
-    /**
-     * YouTube's base 64 system used for UUID construction.
-     */
+    /** YouTube's base 64 system used for UUID construction. */
     public static final ImmutableList<Character> validChars = ImmutableList.of(
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -53,9 +45,7 @@ public class YoutubeUuidChecker {
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_');
 
-    /**
-     * Suppress default constructor. Requires two parameters for instantiation.
-     */
+    /** Suppress default constructor. Requires two parameters for instantiation. */
     private YoutubeUuidChecker() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -219,9 +209,7 @@ public class YoutubeUuidChecker {
         return -1;
     }
 
-    /**
-     * Kills this YouTube thread and writes the last checked UUID to system data.
-     */
+    /** Kills this YouTube thread and writes the last checked UUID to system data. */
     public void kill() {
         exit = true;
         UserUtil.getCyderUser().setYoutubeUuid(youtubeUuid);

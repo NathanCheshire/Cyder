@@ -6,13 +6,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.threads.MasterYoutubeThread;
 import cyder.utils.IoUtil;
 
-/**
- * A handler to handle things related to thread ops.
- */
+/** A handler to handle things related to thread ops. */
 public class ThreadHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ThreadHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

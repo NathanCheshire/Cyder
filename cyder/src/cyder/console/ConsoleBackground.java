@@ -13,13 +13,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-/**
- * A background for the Console.
- */
+/** A background for the Console. */
 public class ConsoleBackground {
-    /**
-     * the file referenced by this object.
-     */
+    /** the file referenced by this object. */
     private File referenceFile;
 
     /**
@@ -59,9 +55,7 @@ public class ConsoleBackground {
         this.referenceFile = referenceFile;
     }
 
-    /**
-     * The error message for the fatal exception to throw if a buffered image cannot be generated.
-     */
+    /** The error message for the fatal exception to throw if a buffered image cannot be generated. */
     private static final String COULD_NOT_GENERATE = "Could not general buffered image from reference file: ";
 
     /**

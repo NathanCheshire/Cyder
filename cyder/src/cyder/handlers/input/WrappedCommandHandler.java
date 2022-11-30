@@ -5,13 +5,9 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
-/**
- * A handler for inner commands wrapped with arguments such as size(x), floor(x, y), etc.
- */
+/** A handler for inner commands wrapped with arguments such as size(x), floor(x, y), etc. */
 public class WrappedCommandHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private WrappedCommandHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

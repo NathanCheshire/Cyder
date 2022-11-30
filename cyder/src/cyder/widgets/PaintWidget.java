@@ -53,47 +53,31 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 
-/**
- * A painting widget, not currently intended to be able to edit/markup images.
- */
+/** A painting widget, not currently intended to be able to edit/markup images. */
 @Vanilla
 @CyderAuthor
 public final class PaintWidget {
-    /**
-     * The length of the frame.
-     */
+    /** The length of the frame. */
     public static final int frameLength = 800;
 
-    /**
-     * The master painting frame.
-     */
+    /** The master painting frame. */
     private static CyderFrame paintFrame;
 
-    /**
-     * The painting grid.
-     */
+    /** The painting grid. */
     private static CyderGrid cyderGrid;
 
-    /**
-     * The button for selecting a region.
-     */
+    /** The button for selecting a region. */
     private static CyderIconButton selectionTool;
 
-    /**
-     * The button for selecting a color.
-     */
+    /** The button for selecting a color. */
     private static CyderIconButton selectColor;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PaintWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * ShowGUI method standard.
-     */
+    /** ShowGUI method standard. */
     @Widget(triggers = {"paint", "draw"}, description =
             "A painting widget")
     public static void showGui() {
@@ -337,39 +321,25 @@ public final class PaintWidget {
         return ((double) img.getWidth() / (double) img.getHeight());
     }
 
-    /**
-     * The controls frame.
-     */
+    /** The controls frame. */
     private static CyderFrame paintControlsFrame;
 
-    /**
-     * The list of recently used colors.
-     */
+    /** The list of recently used colors. */
     private static ArrayList<Color> recentColors;
 
-    /**
-     * The custom component with an overridden paint component.
-     */
+    /** The custom component with an overridden paint component. */
     private static JLabel recentColorsBlock;
 
-    /**
-     * The current color.
-     */
+    /** The current color. */
     private static Color currentPaintColor = CyderColors.regularPink;
 
-    /**
-     * The hex field that displays the current color value.
-     */
+    /** The hex field that displays the current color value. */
     private static CyderTextField colorHexField;
 
-    /**
-     * The add nodes checkbox.
-     */
+    /** The add nodes checkbox. */
     private static CyderCheckbox add;
 
-    /**
-     * Opens the paint controls frame.
-     */
+    /** Opens the paint controls frame. */
     private static void installControlFrames() {
         UiUtil.closeIfOpen(paintControlsFrame);
 
@@ -699,9 +669,7 @@ public final class PaintWidget {
         paintFrame.setVisible(true);
     }
 
-    /**
-     * The default pallet colors.
-     */
+    /** The default pallet colors. */
     private static final ImmutableList<Color> defaultPallet = ImmutableList.of(
             CyderColors.navy,
             CyderColors.regularPink,
@@ -711,33 +679,23 @@ public final class PaintWidget {
             CyderColors.regularPurple
     );
 
-    /**
-     * Sets up the default paint colors in the pallet.
-     */
+    /** Sets up the default paint colors in the pallet. */
     private static void installDefaultPaintColors() {
         for (Color paintColor : defaultPallet) {
             setNewPaintColor(paintColor);
         }
     }
 
-    /**
-     * The default brush width.
-     */
+    /** The default brush width. */
     public static final int DEFAULT_BRUSH_WIDTH = 2;
 
-    /**
-     * The maximum brush width.
-     */
+    /** The maximum brush width. */
     public static final int MAX_BRUSH_WIDTH = 20;
 
-    /**
-     * The minimum brush width.
-     */
+    /** The minimum brush width. */
     public static final int MIN_BRUSH_WIDTH = 1;
 
-    /**
-     * The default brush width.
-     */
+    /** The default brush width. */
     private static int brushWidth = DEFAULT_BRUSH_WIDTH;
 
     /**
@@ -788,9 +746,7 @@ public final class PaintWidget {
         selectionTool.reset();
     }
 
-    /**
-     * Handles the button press for selection mode.
-     */
+    /** Handles the button press for selection mode. */
     private static void toggleSelectionMode() {
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.SELECTION;
@@ -813,21 +769,15 @@ public final class PaintWidget {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    /**
-     * The icon used for color selection mode
-     */
+    /** The icon used for color selection mode */
     private static final ImageIcon colorSelectionIcon =
             new ImageIcon("static/pictures/paint/select_color.png");
 
-    /**
-     * The cursor used when color selection is toggled on.
-     */
+    /** The cursor used when color selection is toggled on. */
     private static final Cursor eyedropperCursor = Toolkit.getDefaultToolkit()
             .createCustomCursor(colorSelectionIcon.getImage(), new Point(0, 30), "eyedropper");
 
-    /**
-     * Toggles between states for color mode selection.
-     */
+    /** Toggles between states for color mode selection. */
     private static void toggleColorSelection() {
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.COLOR_SELECTION;

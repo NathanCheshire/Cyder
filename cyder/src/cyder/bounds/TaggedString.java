@@ -11,19 +11,13 @@ import cyder.exceptions.IllegalMethodException;
  */
 @Immutable
 public final class TaggedString {
-    /**
-     * The text of the tagged string.
-     */
+    /** The text of the tagged string. */
     private final String text;
 
-    /**
-     * The tag of the string.
-     */
+    /** The tag of the string. */
     private final TaggedStringType type;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private TaggedString() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

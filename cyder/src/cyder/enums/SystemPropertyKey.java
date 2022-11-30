@@ -1,8 +1,6 @@
 package cyder.enums;
 
-/**
- * {@link System#getProperty(String)} keys.
- */
+/** {@link System#getProperty(String)} keys. */
 public enum SystemPropertyKey {
     JAVA_VERSION("java.version", "Java Runtime Environment version"),
     JAVA_VENDOR("java.vendor", "Java Runtime Environment vendor"),
@@ -36,14 +34,10 @@ public enum SystemPropertyKey {
     SUN_JAVA_COMMAND("sun.java.command", "The command used to invoke the"
             + " Java program's main method. For Cyder this would resemble cyder.genesis.Cyder");
 
-    /**
-     * The key of this system property.
-     */
+    /** The key of this system property. */
     private final String key;
 
-    /**
-     * The description of this system property.
-     */
+    /** The description of this system property. */
     private final String description;
 
     SystemPropertyKey(String key, String description) {

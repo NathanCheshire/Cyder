@@ -10,73 +10,45 @@ import cyder.ui.frame.CyderFrame;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * A builder for a get confirmation getter method.
- */
+/** A builder for a get confirmation getter method. */
 public final class GetConfirmationBuilder extends GetBuilder {
-    /**
-     * The frame title.
-     */
+    /** The frame title. */
     private final String frameTitle;
 
-    /**
-     * The prompt label text.
-     */
+    /** The prompt label text. */
     private final String labelText;
 
-    /**
-     * The prompt label font.
-     */
+    /** The prompt label font. */
     private Font labelFont = CyderFonts.DEFAULT_FONT_SMALL;
 
-    /**
-     * The prompt label foreground color.
-     */
+    /** The prompt label foreground color. */
     private Color labelColor = CyderColors.navy;
 
-    /**
-     * The text of the yes button.
-     */
+    /** The text of the yes button. */
     private String yesButtonText = "Yes";
 
-    /**
-     * The color of the yes button.
-     */
+    /** The color of the yes button. */
     private Color yesButtonColor = CyderColors.regularRed;
 
-    /**
-     * The font of the yes button.
-     */
+    /** The font of the yes button. */
     private Font yesButtonFont = CyderFonts.SEGOE_20;
 
-    /**
-     * The text of the no button.
-     */
+    /** The text of the no button. */
     private String noButtonText = "No";
 
-    /**
-     * The foreground color of the no button
-     */
+    /** The foreground color of the no button */
     private Color noButtonColor = CyderColors.regularRed;
 
-    /**
-     * The font of the no button.
-     */
+    /** The font of the no button. */
     private Font noButtonFont = CyderFonts.SEGOE_20;
 
-    /**
-     * The component to set the frame relative to.
-     */
+    /** The component to set the frame relative to. */
     private CyderFrame relativeTo;
 
-    /**
-     * Whether the relativeTo component should be disabled while the get frame is active.
-     */
+    /** Whether the relativeTo component should be disabled while the get frame is active. */
     private boolean disableRelativeTo;
 
-    /**
-     * The list of actions to invoke when the get frame is disposed.
-     */
+    /** The list of actions to invoke when the get frame is disposed. */
     private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
 
     /**

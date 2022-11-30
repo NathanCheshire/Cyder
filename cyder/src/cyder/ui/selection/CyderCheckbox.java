@@ -19,98 +19,60 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
-/**
- * A custom styled checkbox for use throughout Cyder.
- */
+/** A custom styled checkbox for use throughout Cyder. */
 public class CyderCheckbox extends JLabel {
-    /**
-     * The arc length for rounded corners.
-     */
+    /** The arc length for rounded corners. */
     public static final int ARC_LEN = 20;
 
-    /**
-     * The stroke width for a hollow circle check mark.
-     */
+    /** The stroke width for a hollow circle check mark. */
     private float hollowCircleCheckStrokeWidth = 4.0f;
 
-    /**
-     * The possible shapes to indicate a checkbox is selected.
-     */
+    /** The possible shapes to indicate a checkbox is selected. */
     public enum CheckShape {
-        /**
-         * The standard check mark.
-         */
+        /** The standard check mark. */
         CHECK,
 
-        /**
-         * A fill circle check mark.
-         */
+        /** A fill circle check mark. */
         FILLED_CIRCLE,
 
-        /**
-         * A hollow circle check mark.
-         */
+        /** A hollow circle check mark. */
         HOLLOW_CIRCLE
     }
 
-    /**
-     * The check shape of this checkbox.
-     */
+    /** The check shape of this checkbox. */
     private CheckShape checkShape = CheckShape.CHECK;
 
-    /**
-     * The length of the border for the checkbox.
-     */
+    /** The length of the border for the checkbox. */
     private int borderLen = 3;
 
-    /**
-     * Whether the checkbox is checked.
-     */
+    /** Whether the checkbox is checked. */
     private boolean isChecked;
 
-    /**
-     * Whether the checkbox is enabled.
-     */
+    /** Whether the checkbox is enabled. */
     private boolean enabled = true;
 
-    /**
-     * The side length of checkbox.
-     */
+    /** The side length of checkbox. */
     public int sideLength = 50;
 
-    /**
-     * The background color of the checkbox.
-     */
+    /** The background color of the checkbox. */
     private Color background = new Color(21, 23, 24);
 
-    /**
-     * The color used for the checkbox checks.
-     */
+    /** The color used for the checkbox checks. */
     private Color checkColor = CyderColors.regularPink;
 
-    /**
-     * Whether the checkbox has rounded corners.
-     */
+    /** Whether the checkbox has rounded corners. */
     private boolean roundedCorners = true;
 
-    /**
-     * The associated checkbox group.
-     */
+    /** The associated checkbox group. */
     private CyderCheckboxGroup cyderCheckboxGroup;
 
-    /**
-     * The function to invoke to update the checked state of this checkbox.
-     */
+    /** The function to invoke to update the checked state of this checkbox. */
     private Runnable refreshStateFunction;
 
-    /**
-     * Whether this checkbox is currently showing the check animation.
-     */
+    /** Whether this checkbox is currently showing the check animation. */
     private final AtomicBoolean inCheckAnimation = new AtomicBoolean();
 
-    /**
-     * Constructs a new checkbox.
-     */
+    /** Constructs a new checkbox. */
     public CyderCheckbox() {
         this(false);
     }
@@ -197,9 +159,7 @@ public class CyderCheckbox extends JLabel {
         return isChecked;
     }
 
-    /**
-     * Sets the checkbox to be checked.
-     */
+    /** Sets the checkbox to be checked. */
     public void setChecked() {
         if (inCheckAnimation.get()) return;
 
@@ -215,9 +175,7 @@ public class CyderCheckbox extends JLabel {
         }
     }
 
-    /**
-     * Sets the checkbox to not be checked
-     */
+    /** Sets the checkbox to not be checked */
     public void setNotChecked() {
         if (inCheckAnimation.get()) return;
 
@@ -259,45 +217,31 @@ public class CyderCheckbox extends JLabel {
         repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int getWidth() {
         return sideLength;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int getHeight() {
         return sideLength;
     }
 
-    /**
-     * The delay between check animation increments.
-     */
+    /** The delay between check animation increments. */
     private static final int CHECK_ANIMATION_DELAY = 25;
 
-    /**
-     * The delay between background animation increments.
-     */
+    /** The delay between background animation increments. */
     private static final int BACKGROUND_ANIMATION_DELAY = 1;
 
-    /**
-     * The name of the checkbox animation thread.
-     */
+    /** The name of the checkbox animation thread. */
     private static final String CHECK_ANIMATION_THREAD_NAME = "Checkbox Check Animation";
 
-    /**
-     * The current side length when in the background expanding animation.
-     */
+    /** The current side length when in the background expanding animation. */
     private int expandingSideLength = sideLength;
 
-    /**
-     * Animates the filling and checking of the checkbox.
-     */
+    /** Animates the filling and checking of the checkbox. */
     private void animateCheck() {
         inCheckAnimation.set(true);
 
@@ -329,9 +273,7 @@ public class CyderCheckbox extends JLabel {
         }, CHECK_ANIMATION_THREAD_NAME);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -440,17 +382,13 @@ public class CyderCheckbox extends JLabel {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean isEnabled() {
         return enabled;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -546,9 +484,7 @@ public class CyderCheckbox extends JLabel {
         this.refreshStateFunction = Preconditions.checkNotNull(refreshStateFunction);
     }
 
-    /**
-     * Refreshes the state of the checkbox using the refresh state function.
-     */
+    /** Refreshes the state of the checkbox using the refresh state function. */
     public void refreshState() {
         if (inCheckAnimation.get()) return;
 
@@ -557,25 +493,19 @@ public class CyderCheckbox extends JLabel {
         repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override /* To ensure setLocation calls work same as set bounds */
     public void setLocation(int x, int y) {
         super.setBounds(x, y, getWidth(), getHeight());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override /* To ensure length is not changed via get bounds */
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, sideLength, sideLength);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override /* To ensure same len */
     public void setSize(int width, int height) {
         Preconditions.checkArgument(width == height);
@@ -583,9 +513,7 @@ public class CyderCheckbox extends JLabel {
         super.setSize(width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override /* To ensure same len */
     public void setSize(Dimension dimension) {
         Preconditions.checkArgument(dimension.width == dimension.height);
@@ -593,9 +521,7 @@ public class CyderCheckbox extends JLabel {
         super.setSize(dimension);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "CyderCheckbox{"

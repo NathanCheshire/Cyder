@@ -14,40 +14,26 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
-/**
- * A class used to perform bletchy animations on a specific JTextPane.
- */
+/** A class used to perform bletchy animations on a specific JTextPane. */
 public final class BletchyThread {
-    /**
-     * The number of iterations per char of the bletchy animation.
-     */
+    /** The number of iterations per char of the bletchy animation. */
     private static final int ITERATIONS_PER_CHAR = 5;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private BletchyThread() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The inner animator class.
-     */
+    /** The inner animator class. */
     private static BletchyAnimator bletchyAnimator;
 
-    /**
-     * Whether this animator is active.
-     */
+    /** Whether this animator is active. */
     private static boolean isActive;
 
-    /**
-     * Common printing methods Cyder uses for JTextPane access.
-     */
+    /** Common printing methods Cyder uses for JTextPane access. */
     private static StringUtil stringUtil;
 
-    /**
-     * Semaphore for the linked JTextPane to block other print calls during an animation.
-     */
+    /** Semaphore for the linked JTextPane to block other print calls during an animation. */
     private static Semaphore printingSemaphore;
 
     /**
@@ -89,18 +75,12 @@ public final class BletchyThread {
         }
     }
 
-    /**
-     * Inner class used to invoke the bletchy animation.
-     */
+    /** Inner class used to invoke the bletchy animation. */
     private static class BletchyAnimator {
-        /**
-         * The sequential strings to print between delays.
-         */
+        /** The sequential strings to print between delays. */
         private final String[] prints;
 
-        /**
-         * The delay in ms between prints.
-         */
+        /** The delay in ms between prints. */
         private final int milliDelay;
 
         /**
@@ -117,9 +97,7 @@ public final class BletchyThread {
             this.milliDelay = milliDelay;
         }
 
-        /**
-         * Starts the bletchy animation this animator is setup to perform.
-         */
+        /** Starts the bletchy animation this animator is setup to perform. */
         public void start() {
             String threadName = "Bletchy printing thread, finalString: "
                     + CyderStrings.quote + prints[prints.length - 1] + CyderStrings.quote;
@@ -154,9 +132,7 @@ public final class BletchyThread {
             }, threadName);
         }
 
-        /**
-         * Kills this bletchy thread.
-         */
+        /** Kills this bletchy thread. */
         public void kill() {
             isActive = false;
         }
@@ -180,43 +156,31 @@ public final class BletchyThread {
         return isActive;
     }
 
-    /**
-     * Kills any and all bletchy printing threads
-     */
+    /** Kills any and all bletchy printing threads */
     public static void kill() {
         if (bletchyAnimator != null) {
             bletchyAnimator.kill();
         }
     }
 
-    /**
-     * Character list of all lowercase latin characters.
-     */
+    /** Character list of all lowercase latin characters. */
     private static final ImmutableList<Character> LOWERCASE_ALPHABET
             = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 
-    /**
-     * Character list of all lowercase latin characters and the base 10 numbers.
-     */
+    /** Character list of all lowercase latin characters and the base 10 numbers. */
     private static final ImmutableList<Character> LOWERCASE_ALPHABET_AND_NUMBERS
             = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-    /**
-     * The Unicode index of the starting card suite character.
-     */
+    /** The Unicode index of the starting card suite character. */
     private static final int minCardSuiteIndex = 9824;
 
-    /**
-     * The Unicode index of the ending card suite character.
-     */
+    /** The Unicode index of the ending card suite character. */
     private static final int maxCardSuiteIndex = 9835;
 
-    /**
-     * Character list of all unicode card suit characters.
-     */
+    /** Character list of all unicode card suit characters. */
     private static final ImmutableList<Character> CARD_SUITS;
 
     static {
@@ -229,19 +193,13 @@ public final class BletchyThread {
         CARD_SUITS = ImmutableList.copyOf(ret);
     }
 
-    /**
-     * Character list of unicode chars used for bletchy animations.
-     */
+    /** Character list of unicode chars used for bletchy animations. */
     private static final ImmutableList<Character> UNICODE_CHARS;
 
-    /**
-     * The starting index of the unicode chars to use for bletchy animations.
-     */
+    /** The starting index of the unicode chars to use for bletchy animations. */
     private static final int UNICODE_START_INDEX = 880;
 
-    /**
-     * The ending index of the unicode chars to use for bletchy animations.
-     */
+    /** The ending index of the unicode chars to use for bletchy animations. */
     private static final int UNICODE_END_INDEX = 1023;
 
     static {

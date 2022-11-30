@@ -20,13 +20,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-/**
- * A handler for commands which change color/font throughout Cyder.
- */
+/** A handler for commands which change color/font throughout Cyder. */
 public class ColorHandler extends InputHandler {
-    /**
-     * Suppress default constructor
-     */
+    /** Suppress default constructor */
     private ColorHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

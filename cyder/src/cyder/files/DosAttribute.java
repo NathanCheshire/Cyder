@@ -9,63 +9,39 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 
-/**
- * DOS attributes as referenced from {@link java.nio.file.attribute.DosFileAttributes}.
- */
+/** DOS attributes as referenced from {@link java.nio.file.attribute.DosFileAttributes}. */
 public enum DosAttribute {
-    /**
-     * The is archive dos attribute.
-     */
+    /** The is archive dos attribute. */
     IS_ARCHIVE("isArchive"),
 
-    /**
-     * The is hidden dos attribute.
-     */
+    /** The is hidden dos attribute. */
     IS_HIDDEN("isHidden"),
 
-    /**
-     * The is read only dos attribute.
-     */
+    /** The is read only dos attribute. */
     IS_READ_ONLY("isReadOnly"),
 
-    /**
-     * The is system dos attribute.
-     */
+    /** The is system dos attribute. */
     IS_SYSTEM("isSystem"),
 
-    /**
-     * The is creation time dos attribute.
-     */
+    /** The is creation time dos attribute. */
     CREATION_TIME("creationTime"),
 
-    /**
-     * The is directory dos attribute.
-     */
+    /** The is directory dos attribute. */
     IS_DIRECTORY("isDirectory"),
 
-    /**
-     * The is hidden dos attribute.
-     */
+    /** The is hidden dos attribute. */
     IS_OTHER("isOther"),
 
-    /**
-     * The is symbolic link dos attribute.
-     */
+    /** The is symbolic link dos attribute. */
     IS_SYMBOLIC_LINK("isSymbolicLink"),
 
-    /**
-     * The last access time dos attribute.
-     */
+    /** The last access time dos attribute. */
     LAST_ACCESS_TIME("lastAccessTime"),
 
-    /**
-     * The last modified time dos attribute.
-     */
+    /** The last modified time dos attribute. */
     LAST_MODIFIED_TIME("lastModifiedTime");
 
-    /**
-     * The method name for this DOS attribute.
-     */
+    /** The method name for this DOS attribute. */
     private final String methodName;
 
     DosAttribute(String methodName) {

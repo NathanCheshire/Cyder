@@ -1,37 +1,23 @@
 package cyder.genesis;
 
-/**
- * Possible modes Cyder can exist in for a certain instance.
- */
+/** Possible modes Cyder can exist in for a certain instance. */
 public enum ProgramMode {
-    /**
-     * The normal, user mode for Cyder, started from a JAR file.
-     */
+    /** The normal, user mode for Cyder, started from a JAR file. */
     NORMAL("Normal", 0),
 
-    /**
-     * Cyder was started from an IDE and not a JAR file.
-     */
+    /** Cyder was started from an IDE and not a JAR file. */
     IDE_NORMAL("IDE Normal", 1),
 
-    /**
-     * Cyder was started in a debug mode by an IDE.
-     */
+    /** Cyder was started in a debug mode by an IDE. */
     IDE_DEBUG("IDE Debug", 2),
 
-    /**
-     * Cyder was started via an AutoCypher.
-     */
+    /** Cyder was started via an AutoCypher. */
     DEVELOPER_DEBUG("Developer Debug", 3);
 
-    /**
-     * The name of the program mode.
-     */
+    /** The name of the program mode. */
     private final String name;
 
-    /**
-     * The level of priority of the program mode.
-     */
+    /** The level of priority of the program mode. */
     private final int priorityLevel;
 
     ProgramMode(String name, int priorityLevel) {

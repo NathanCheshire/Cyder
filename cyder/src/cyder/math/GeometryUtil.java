@@ -6,13 +6,9 @@ import cyder.exceptions.IllegalMethodException;
 
 import java.awt.*;
 
-/**
- * Utilities related to geometry.
- */
+/** Utilities related to geometry. */
 public final class GeometryUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private GeometryUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

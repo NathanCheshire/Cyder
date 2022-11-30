@@ -29,20 +29,14 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Utilities related to local computer IO.
- */
+/** Utilities related to local computer IO. */
 public final class IoUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private IoUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * Player used to play general audio files that may be user terminated.
-     */
+    /** Player used to play general audio files that may be user terminated. */
     private static Player player;
 
     /**
@@ -117,9 +111,7 @@ public final class IoUtil {
         }
     }
 
-    /**
-     * The thread name for the jvm args logger.
-     */
+    /** The thread name for the jvm args logger. */
     private static final String JVM_ARGS_LOGGER_THREAD_NAME = "JVM Args Logger";
 
     /**
@@ -195,9 +187,7 @@ public final class IoUtil {
         openFile(new File(filePath));
     }
 
-    /**
-     * The name of the thread for playing general audio.
-     */
+    /** The name of the thread for playing general audio. */
     private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IoUtil General Audio";
 
     /**
@@ -289,9 +279,7 @@ public final class IoUtil {
         playSystemAudio(filePath, true);
     }
 
-    /**
-     * The thread name for the system audio player.
-     */
+    /** The thread name for the system audio player. */
     private static final String SYSTEM_AUDIO_PLAYER_THREAD_NAME = "System Audio Player";
 
     /**
@@ -350,9 +338,7 @@ public final class IoUtil {
         }
     }
 
-    /**
-     * Stops any and all audio playing either through the audio player or the general player.
-     */
+    /** Stops any and all audio playing either through the audio player or the general player. */
     public static void stopAllAudio() {
         if (isGeneralAudioPlaying()) {
             stopGeneralAudio();
@@ -363,9 +349,7 @@ public final class IoUtil {
         }
     }
 
-    /**
-     * Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped.
-     */
+    /** Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped. */
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) {
             AudioPlayer.handlePlayPauseButtonClick();

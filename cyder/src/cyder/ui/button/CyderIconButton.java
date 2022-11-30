@@ -14,18 +14,12 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.stream.IntStream;
 
-/**
- * A button with an image icon as the content.
- */
+/** A button with an image icon as the content. */
 public class CyderIconButton extends JButton {
-    /**
-     * The builder this cyder icon button was constructed from.
-     */
+    /** The builder this cyder icon button was constructed from. */
     private final Builder builder;
 
-    /**
-     * Whether this button is toggled on if the button is a toggle icon button.
-     */
+    /** Whether this button is toggled on if the button is a toggle icon button. */
     private boolean toggledOn;
 
     /**
@@ -55,9 +49,7 @@ public class CyderIconButton extends JButton {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * Adds the builder's focus listener or generates and adds the default focus listener if not set.
-     */
+    /** Adds the builder's focus listener or generates and adds the default focus listener if not set. */
     @ForReadability
     private void addFocusListener() {
         if (builder.getFocusListener() == null) {
@@ -81,9 +73,7 @@ public class CyderIconButton extends JButton {
         }
     }
 
-    /**
-     * Adds the builder's mouse listener or generates and adds the default mouse listener if not set.
-     */
+    /** Adds the builder's mouse listener or generates and adds the default mouse listener if not set. */
     @ForReadability
     private void addMouseListener() {
         if (builder.getMouseListener() == null) {
@@ -136,9 +126,7 @@ public class CyderIconButton extends JButton {
         }
     }
 
-    /**
-     * Resets the state/icon of this cyder icon button.
-     */
+    /** Resets the state/icon of this cyder icon button. */
     public void reset() {
         toggledOn = false;
         setIcon(builder.defaultIcon);
@@ -181,30 +169,20 @@ public class CyderIconButton extends JButton {
 
     private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private CyderIconButton() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * A builder pattern for constructing a Cyder icon button.
-     */
+    /** A builder pattern for constructing a Cyder icon button. */
     public static final class Builder {
-        /**
-         * The tooltip for the button.
-         */
+        /** The tooltip for the button. */
         private final String tooltip;
 
-        /**
-         * The default icon for the button.
-         */
+        /** The default icon for the button. */
         private final ImageIcon defaultIcon;
 
-        /**
-         * The hover and focus icon for the button.
-         */
+        /** The hover and focus icon for the button. */
         private final ImageIcon hoverAndFocusIcon;
 
         /**
@@ -219,14 +197,10 @@ public class CyderIconButton extends JButton {
          */
         private MouseListener mouseListener;
 
-        /**
-         * The action to invoke when the mouse is pressed.
-         */
+        /** The action to invoke when the mouse is pressed. */
         private Runnable clickAction;
 
-        /**
-         * Whether clicking the button toggles the state, and thus the icon.
-         */
+        /** Whether clicking the button toggles the state, and thus the icon. */
         private boolean toggleButton;
 
         /**

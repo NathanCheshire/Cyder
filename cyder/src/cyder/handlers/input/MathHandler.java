@@ -6,20 +6,14 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.utils.StringUtil;
 
-/**
- * A handler for handling mathematical expressions.
- */
+/** A handler for handling mathematical expressions. */
 public class MathHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private MathHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The evaluator for evaluating mathematical expressions
-     */
+    /** The evaluator for evaluating mathematical expressions */
     private static final DoubleEvaluator evaluator;
 
     static {

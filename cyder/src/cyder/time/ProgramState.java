@@ -1,12 +1,8 @@
 package cyder.time;
 
-/**
- * The program states of Cyder.
- */
+/** The program states of Cyder. */
 public enum ProgramState {
-    /**
-     * The default state of Cyder, where the AWT event queue 0 thread is reasonably accessible.
-     */
+    /** The default state of Cyder, where the AWT event queue 0 thread is reasonably accessible. */
     NORMAL(true),
 
     /**
@@ -16,9 +12,7 @@ public enum ProgramState {
      */
     DANCING(false);
 
-    /**
-     * Whether the watchdog counter should be incremented for this current state.
-     */
+    /** Whether the watchdog counter should be incremented for this current state. */
     private final boolean shouldIncrementWatchdog;
 
     ProgramState(boolean shouldIncrementWatchdog) {

@@ -2,9 +2,7 @@ package cyder.handlers.input;
 
 import cyder.console.Console;
 
-/**
- * A base class for InputHandlers to extend in order to enhance readability.
- */
+/** A base class for InputHandlers to extend in order to enhance readability. */
 public abstract class InputHandler {
     /**
      * Returns the Console's input handler.

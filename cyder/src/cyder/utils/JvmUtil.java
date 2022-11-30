@@ -13,13 +13,9 @@ import java.lang.management.ManagementFactory;
 
 import static cyder.constants.CyderStrings.quote;
 
-/**
- * Utilities related to the JVM.
- */
+/** Utilities related to the JVM. */
 public final class JvmUtil {
-    /**
-     * The bin string.
-     */
+    /** The bin string. */
     private static final String BIN = "bin";
 
     /**
@@ -28,9 +24,7 @@ public final class JvmUtil {
      */
     private static final String JAVAW = "javaw.exe";
 
-    /**
-     * The name of the java.exe executable.
-     */
+    /** The name of the java.exe executable. */
     private static final String JAVA = "java.exe";
 
     /**
@@ -46,20 +40,14 @@ public final class JvmUtil {
      */
     private static final String CLASSPATH_ARGUMENT = "-classpath";
 
-    /**
-     * Whether the current jvm session is in debug mode meaning threads could be externally suspended.
-     */
+    /** Whether the current jvm session is in debug mode meaning threads could be externally suspended. */
     private static final boolean JVM_LAUNCHED_IN_DEBUG_MODE = ManagementFactory.getRuntimeMXBean()
             .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
 
-    /**
-     * The JVM args passed to the main method.
-     */
+    /** The JVM args passed to the main method. */
     private static ImmutableList<String> jvmMainMethodArgs;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private JvmUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

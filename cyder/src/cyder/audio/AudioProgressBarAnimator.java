@@ -7,48 +7,30 @@ import cyder.ui.slider.CyderSliderUi;
 
 import javax.swing.*;
 
-/**
- * An encapsulation class for incrementing the audio progress bar's animation increment.
- */
+/** An encapsulation class for incrementing the audio progress bar's animation increment. */
 public class AudioProgressBarAnimator {
-    /**
-     * The possible states for this animator.
-     */
+    /** The possible states for this animator. */
     public enum State {
-        /**
-         * Not running; the animation will not update.
-         */
+        /** Not running; the animation will not update. */
         STOPPED,
 
-        /**
-         * Running; the animation is updated after every delay.
-         */
+        /** Running; the animation is updated after every delay. */
         RUNNING,
 
-        /**
-         * The animation is paused and can be resumed from the current point.
-         */
+        /** The animation is paused and can be resumed from the current point. */
         PAUSED,
     }
 
-    /**
-     * The current state of the animator.
-     */
+    /** The current state of the animator. */
     private State state = State.STOPPED;
 
-    /**
-     * The delay between update calls while the animation is in the {@link State#RUNNING} state.
-     */
+    /** The delay between update calls while the animation is in the {@link State#RUNNING} state. */
     private int delay = 2;
 
-    /**
-     * The slider this progress bar animator controls.
-     */
+    /** The slider this progress bar animator controls. */
     private final JSlider slider;
 
-    /**
-     * The ui belonging to the slider.
-     */
+    /** The ui belonging to the slider. */
     private final CyderSliderUi sliderUi;
 
     /**
@@ -128,9 +110,7 @@ public class AudioProgressBarAnimator {
         }
     }
 
-    /**
-     * Starts the animation of the controlled slider.
-     */
+    /** Starts the animation of the controlled slider. */
     private void startAnimation() {
         CyderThreadRunner.submit(() -> {
             while (state == State.RUNNING) {

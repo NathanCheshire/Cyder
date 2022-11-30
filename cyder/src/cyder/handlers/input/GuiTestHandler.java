@@ -10,13 +10,9 @@ import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 
-/**
- * A handler for invoking {@link GuiTest}s.
- */
+/** A handler for invoking {@link GuiTest}s. */
 public class GuiTestHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private GuiTestHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

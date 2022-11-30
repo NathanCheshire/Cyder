@@ -20,13 +20,9 @@ import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-/**
- * A handler for images and console background manipulation
- */
+/** A handler for images and console background manipulation */
 public class ImageHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ImageHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -77,24 +73,16 @@ public class ImageHandler extends InputHandler {
         return ret;
     }
 
-    /**
-     * The name of the thread which saves the spotlights to the current user's backgrounds directory.
-     */
+    /** The name of the thread which saves the spotlights to the current user's backgrounds directory. */
     private static final String spotlightStealerThreadName = "Spotlight Saver";
 
-    /**
-     * The minimum allowable radius when blurring the background.
-     */
+    /** The minimum allowable radius when blurring the background. */
     private static final int MIN_BLUR_SIZE = 3;
 
-    /**
-     * The name of the thread that attempts to blur the current background.
-     */
+    /** The name of the thread that attempts to blur the current background. */
     private static final String BACKGROUND_BLUR_ATTEMPT_THREAD_NAME = "Background Blur Attempt Thread";
 
-    /**
-     * Attempts to validate a blur command and if valid, blur the current console background.
-     */
+    /** Attempts to validate a blur command and if valid, blur the current console background. */
     private static void attemptToBlurBackground() {
         CyderThreadRunner.submit(() -> {
             try {

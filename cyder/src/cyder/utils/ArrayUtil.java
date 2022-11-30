@@ -4,13 +4,9 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
-/**
- * Utilities related to arrays.
- */
+/** Utilities related to arrays. */
 public final class ArrayUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ArrayUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

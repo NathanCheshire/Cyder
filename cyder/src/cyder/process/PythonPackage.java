@@ -3,23 +3,15 @@ package cyder.process;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-/**
- * Python packages utilized by Cyder.
- */
+/** Python packages utilized by Cyder. */
 public enum PythonPackage {
-    /**
-     * Pillow package for image utilities.
-     */
+    /** Pillow package for image utilities. */
     PILLOW("Pillow"),
 
-    /**
-     * Mutagen package for audio metadata.
-     */
+    /** Mutagen package for audio metadata. */
     MUTAGEN("Mutagen");
 
-    /**
-     * The package name for this python package.
-     */
+    /** The package name for this python package. */
     private final String packageName;
 
     PythonPackage(String packageName) {
@@ -35,9 +27,7 @@ public enum PythonPackage {
         return packageName;
     }
 
-    /**
-     * Installs this python package using pip if not already present.
-     */
+    /** Installs this python package using pip if not already present. */
     public void install() {
         ProcessUtil.installPipDependency(packageName);
     }

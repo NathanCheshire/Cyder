@@ -11,49 +11,31 @@ import cyder.props.Props;
 import javax.swing.*;
 import java.net.UnknownHostException;
 
-/**
- * Utilities for MapBox, MapQuest, OpenRouteService, etc.
- */
+/** Utilities for MapBox, MapQuest, OpenRouteService, etc. */
 public final class MapUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private MapUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The map quest api url header.
-     */
+    /** The map quest api url header. */
     private static final String mapQuestHeader = "http://www.mapquestapi.com/staticmap/v5/map?";
 
-    /**
-     * The height of the mapbox watermark.
-     */
+    /** The height of the mapbox watermark. */
     private static final int MAP_BOX_WATERMARK_HEIGHT = 20;
 
-    /**
-     * The pipe character for requesting scalebar location.
-     */
+    /** The pipe character for requesting scalebar location. */
     private static final String PIPE = "|";
 
-    /**
-     * Url parameters for a MapBox API request.
-     */
+    /** Url parameters for a MapBox API request. */
     private enum MapBoxUrlParameter {
-        /**
-         * The API key.
-         */
+        /** The API key. */
         KEY,
 
-        /**
-         * The map type.
-         */
+        /** The map type. */
         TYPE,
 
-        /**
-         * The map size, comma separated.
-         */
+        /** The map size, comma separated. */
         SIZE,
 
         /**
@@ -62,14 +44,10 @@ public final class MapUtil {
          */
         SCALEBAR,
 
-        /**
-         * The map locations, comma separated.
-         */
+        /** The map locations, comma separated. */
         LOCATIONS,
 
-        /**
-         * The zoom level of the returned map image.
-         */
+        /** The zoom level of the returned map image. */
         ZOOM;
 
         public String constructAsFirstParameter() {
@@ -81,48 +59,30 @@ public final class MapUtil {
         }
     }
 
-    /**
-     * The scalebar locations for the map scale.
-     */
+    /** The scalebar locations for the map scale. */
     public enum ScaleBarLocation {
-        /**
-         * The scalebar will be located at the top of the map.
-         */
+        /** The scalebar will be located at the top of the map. */
         TOP,
 
-        /**
-         * The scalebar will be located at the bottom of the map.
-         */
+        /** The scalebar will be located at the bottom of the map. */
         BOTTOM
     }
 
-    /**
-     * The possible map types accepted by the MapQuest API.
-     */
+    /** The possible map types accepted by the MapQuest API. */
     public enum MapType {
-        /**
-         * The standard map type.
-         */
+        /** The standard map type. */
         MAP,
 
-        /**
-         * A hybrid map with satellite imaging.
-         */
+        /** A hybrid map with satellite imaging. */
         HYB,
 
-        /**
-         * A pure satellite map.
-         */
+        /** A pure satellite map. */
         SAT,
 
-        /**
-         * A light mode digital map.
-         */
+        /** A light mode digital map. */
         LIGHT,
 
-        /**
-         * A dark mode digital map.
-         */
+        /** A dark mode digital map. */
         DARK
     }
 
@@ -201,83 +161,51 @@ public final class MapUtil {
         return ret;
     }
 
-    /**
-     * A builder for a MapQuestApi request.
-     */
+    /** A builder for a MapQuestApi request. */
     public static final class Builder {
-        /**
-         * The range a latitude value must fall into.
-         */
+        /** The range a latitude value must fall into. */
         private static final Range<Double> latitudeRange = Range.closed(-90.0, 90.0);
 
-        /**
-         * The range a longitude value must fall into.
-         */
+        /** The range a longitude value must fall into. */
         private static final Range<Double> longitudeRange = Range.closed(-180.0, 180.0);
 
-        /**
-         * The range the width must fall into.
-         */
+        /** The range the width must fall into. */
         private static final Range<Integer> widthRange = Range.closed(170, 1920);
 
-        /**
-         * The range the height must fall into.
-         */
+        /** The range the height must fall into. */
         private static final Range<Integer> heightRange = Range.closed(30, 1920);
 
-        /**
-         * The range a zoom value must fall into.
-         */
+        /** The range a zoom value must fall into. */
         private static final Range<Integer> zoomRange = Range.closed(0, 20);
 
-        /**
-         * The location string to use if latitude and longitude are not provided.
-         */
+        /** The location string to use if latitude and longitude are not provided. */
         private String locationString;
 
-        /**
-         * The latitude of the map image.
-         */
+        /** The latitude of the map image. */
         private double lat = Integer.MIN_VALUE;
 
-        /**
-         * The longitude of the map image.
-         */
+        /** The longitude of the map image. */
         private double lon = Integer.MIN_VALUE;
 
-        /**
-         * The width of the map image.
-         */
+        /** The width of the map image. */
         private final int width;
 
-        /**
-         * The height of the map image.
-         */
+        /** The height of the map image. */
         private final int height;
 
-        /**
-         * Whether the watermark should be filtered out of the image.
-         */
+        /** Whether the watermark should be filtered out of the image. */
         private boolean filterWaterMark = true;
 
-        /**
-         * Whether the scalebar should be shown on the map.
-         */
+        /** Whether the scalebar should be shown on the map. */
         private boolean scaleBar = true;
 
-        /**
-         * The location of the scalebar if it should be displayed.
-         */
+        /** The location of the scalebar if it should be displayed. */
         private ScaleBarLocation scaleBarLocation = ScaleBarLocation.TOP;
 
-        /**
-         * The type of map the map image will be.
-         */
+        /** The type of map the map image will be. */
         private MapType mapType = MapType.MAP;
 
-        /**
-         * The zoom level of the map image.
-         */
+        /** The zoom level of the map image. */
         private int zoomLevel = 15;
 
         /**

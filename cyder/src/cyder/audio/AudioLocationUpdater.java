@@ -14,58 +14,36 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * The class to update the audio location label and progress bar.
- */
+/** The class to update the audio location label and progress bar. */
 public class AudioLocationUpdater {
-    /**
-     * The thread for setting up the props during object construction.
-     */
+    /** The thread for setting up the props during object construction. */
     private static final String SETUP_PROPS_THREAD_NAME = "AudioLocationUpdater setupProps Thread";
 
-    /**
-     * Whether this AudioLocationUpdater has been killed.
-     */
+    /** Whether this AudioLocationUpdater has been killed. */
     private boolean killed;
 
-    /**
-     * The label this AudioLocationUpdater should update to display the seconds in.
-     */
+    /** The label this AudioLocationUpdater should update to display the seconds in. */
     private final JLabel secondsInLabel;
 
-    /**
-     * The label this AudioLocationUpdater should update to display the seconds remaining.
-     */
+    /** The label this AudioLocationUpdater should update to display the seconds remaining. */
     private final JLabel secondsLeftLabel;
 
-    /**
-     * The current frame view the audio player is in.
-     */
+    /** The current frame view the audio player is in. */
     private final AtomicReference<FrameView> currentFrameView;
 
-    /**
-     * The current audio file of the audio player.
-     */
+    /** The current audio file of the audio player. */
     private final AtomicReference<File> currentAudioFile;
 
-    /**
-     * Whether the slider is currently under a mouse pressed event.
-     */
+    /** Whether the slider is currently under a mouse pressed event. */
     private final AtomicBoolean sliderPressed;
 
-    /**
-     * The slider value to update.
-     */
+    /** The slider value to update. */
     private final JSlider slider;
 
-    /**
-     * The total milliseconds of the audio file this location updater was given.
-     */
+    /** The total milliseconds of the audio file this location updater was given. */
     private long totalMilliSeconds;
 
-    /**
-     * The number of milliseconds in to the audio file.
-     */
+    /** The number of milliseconds in to the audio file. */
     private long milliSecondsIn;
 
     /**
@@ -91,9 +69,7 @@ public class AudioLocationUpdater {
         setupProps();
     }
 
-    /**
-     * Determines the audio total length and updates the label in preparation for the update thread to start.
-     */
+    /** Determines the audio total length and updates the label in preparation for the update thread to start. */
     private void setupProps() {
         secondsInLabel.setText("");
         secondsLeftLabel.setText("");
@@ -116,14 +92,10 @@ public class AudioLocationUpdater {
         }, SETUP_PROPS_THREAD_NAME);
     }
 
-    /**
-     * Whether the update thread has been started yet.
-     */
+    /** Whether the update thread has been started yet. */
     private boolean started;
 
-    /**
-     * The timeout between progress label and slider updates.
-     */
+    /** The timeout between progress label and slider updates. */
     private static final int TIMEOUT = 100;
 
     /**
@@ -155,28 +127,20 @@ public class AudioLocationUpdater {
         }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
     }
 
-    /**
-     * Whether the seconds in value should be updated.
-     */
+    /** Whether the seconds in value should be updated. */
     private boolean timerPaused = true;
 
-    /**
-     * Ends the updation of the label text.
-     */
+    /** Ends the updation of the label text. */
     public void kill() {
         killed = true;
     }
 
-    /**
-     * Stops incrementing the secondsIn value.
-     */
+    /** Stops incrementing the secondsIn value. */
     public void pauseTimer() {
         timerPaused = true;
     }
 
-    /**
-     * Starts incrementing the secondsIn value.
-     */
+    /** Starts incrementing the secondsIn value. */
     public void resumeTimer() {
         timerPaused = false;
     }
@@ -191,9 +155,7 @@ public class AudioLocationUpdater {
         updateSlider();
     }
 
-    /**
-     * The value passed to the updateEffectLabel method last.
-     */
+    /** The value passed to the updateEffectLabel method last. */
     private int lastSecondsIn;
 
     /**
@@ -222,9 +184,7 @@ public class AudioLocationUpdater {
         }
     }
 
-    /**
-     * Updates the reference slider's value.
-     */
+    /** Updates the reference slider's value. */
     private void updateSlider() {
         float percentIn = (float) milliSecondsIn / totalMilliSeconds;
 

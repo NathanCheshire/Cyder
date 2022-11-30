@@ -34,20 +34,14 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
-/**
- * Utilities regarding a user, their json file, and IO to/from that json file.
- */
+/** Utilities regarding a user, their json file, and IO to/from that json file. */
 public final class UserUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private UserUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The semaphore to use when reading or writing user data.
-     */
+    /** The semaphore to use when reading or writing user data. */
     private static final Semaphore userIoSemaphore = new Semaphore(1);
 
     /**
@@ -56,9 +50,7 @@ public final class UserUtil {
      */
     private static User cyderUser;
 
-    /**
-     * The corresponding file for cyderUser.
-     */
+    /** The corresponding file for cyderUser. */
     private static File cyderUserFile;
 
     /**
@@ -82,19 +74,13 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The last serialized string that was written to the current user file.
-     */
+    /** The last serialized string that was written to the current user file. */
     private static String previousSerializedUser = "";
 
-    /**
-     * The current levenshtein distance between the last and current write to the user json file.
-     */
+    /** The current levenshtein distance between the last and current write to the user json file. */
     private static int currentLevenshteinDistance;
 
-    /**
-     * The json write tag.
-     */
+    /** The json write tag. */
     private static final String JSON_WRITE = "[JSON WRITE]";
 
     /**
@@ -205,9 +191,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The backup directory.
-     */
+    /** The backup directory. */
     public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName());
 
     /**
@@ -301,14 +285,10 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The number to indicate a backup time was not found.
-     */
+    /** The number to indicate a backup time was not found. */
     private static final int noBackupTime = -1;
 
-    /**
-     * The separator between the user uuid and the unix time a backup occurred at.
-     */
+    /** The separator between the user uuid and the unix time a backup occurred at. */
     private static final String uuidTimeSeparator = "_";
 
     /**
@@ -354,9 +334,7 @@ public final class UserUtil {
         return Optional.empty();
     }
 
-    /**
-     * The maximum number of times to attempt to create a file/directory.
-     */
+    /** The maximum number of times to attempt to create a file/directory. */
     public static final int MAX_CREATION_ATTEMPTS = 1000;
 
     /**
@@ -400,9 +378,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The maximum number of times to attempt to invoke the getter/setter validator on a file.
-     */
+    /** The maximum number of times to attempt to invoke the getter/setter validator on a file. */
     public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
 
     /**
@@ -632,14 +608,10 @@ public final class UserUtil {
         return ret;
     }
 
-    /**
-     * The method prefix to locate mutator methods reflectively.
-     */
+    /** The method prefix to locate mutator methods reflectively. */
     private static final String SET = "set";
 
-    /**
-     * The method prefix to locate accessor methods reflectively.
-     */
+    /** The method prefix to locate accessor methods reflectively. */
     private static final String GET = "get";
 
     /**
@@ -671,9 +643,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The list of userdata to ignore when logging.
-     */
+    /** The list of userdata to ignore when logging. */
     private static final ImmutableList<String> IGNORE_USER_DATA =
             ImmutableList.copyOf((String[]) Props.ignoreData.getValue());
 
@@ -916,9 +886,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * Removes any backup jsons from dynamic/backup not liked to current Cyder users.
-     */
+    /** Removes any backup jsons from dynamic/backup not liked to current Cyder users. */
     private static void cleanBackupJsons() {
         File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName());
 
@@ -943,9 +911,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The linked list of invalid users which this instance of Cyder will ignore.
-     */
+    /** The linked list of invalid users which this instance of Cyder will ignore. */
     private static final LinkedList<String> invalidUUIDs = new LinkedList<>() {
         @Override
         public boolean remove(Object o) {
@@ -964,14 +930,10 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * The backup failure string.
-     */
+    /** The backup failure string. */
     private static final String backupFailure = "[BACKUP FAILURE]";
 
-    /**
-     * The resulting popup string.
-     */
+    /** The resulting popup string. */
     private static final String resultingPopup = "[Resulting Popup]";
 
     /**
@@ -1162,9 +1124,7 @@ public final class UserUtil {
         return userFiles;
     }
 
-    /**
-     * Logs out all users.
-     */
+    /** Logs out all users. */
     public static void logoutAllUsers() {
         getUserJsons().forEach(jsonFile -> {
             User user = extractUser(jsonFile);
@@ -1188,14 +1148,10 @@ public final class UserUtil {
         return Optional.empty();
     }
 
-    /**
-     * The maximum latency to allow when attempting to download the default user background.
-     */
+    /** The maximum latency to allow when attempting to download the default user background. */
     private static final int maxLatencyToDownloadDefaultBackground = 2000;
 
-    /**
-     * The name of the default background, if generation is required.
-     */
+    /** The name of the default background, if generation is required. */
     private static final String defaultBackgroundName = "Default";
 
     /**
@@ -1310,29 +1266,19 @@ public final class UserUtil {
         });
     }
 
-    /**
-     * User details are valid.
-     */
+    /** User details are valid. */
     private static final String VALID = "Valid details";
 
-    /**
-     * No username was provided.
-     */
+    /** No username was provided. */
     private static final String NO_USERNAME = "No username";
 
-    /**
-     * The username provided contains invalid characters.
-     */
+    /** The username provided contains invalid characters. */
     private static final String INVALID_NAME = "Invalid name";
 
-    /**
-     * The username provided is already in use.
-     */
+    /** The username provided is already in use. */
     private static final String NAME_IN_USE = "Username already in use";
 
-    /**
-     * A validation wrapper for whether something is valid and an explanation message.
-     */
+    /** A validation wrapper for whether something is valid and an explanation message. */
     public record Validation(boolean valid, String message) {}
 
     /**
@@ -1355,34 +1301,22 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * No password was provided.
-     */
+    /** No password was provided. */
     private static final String NO_PASSWORD = "No password";
 
-    /**
-     * No confirmation password was provided.
-     */
+    /** No confirmation password was provided. */
     private static final String NO_CONFIRMATION = "No confirmation password";
 
-    /**
-     * The provided passwords do not match.
-     */
+    /** The provided passwords do not match. */
     private static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
 
-    /**
-     * The password contains no letter.
-     */
+    /** The password contains no letter. */
     private static final String NO_LETTER = "Password needs a letter";
 
-    /**
-     * The password is not of length at least 5.
-     */
+    /** The password is not of length at least 5. */
     private static final String INVALID_LENGTH = "Password is not > 4";
 
-    /**
-     * The password does not contain a number.
-     */
+    /** The password does not contain a number. */
     private static final String NO_NUMBER = "Password needs a number";
 
     /**
@@ -1462,9 +1396,7 @@ public final class UserUtil {
     private static final String part = "snippet";
     private static final String type = "video"; // one of video, channel, playlist
 
-    /**
-     * The header for the url to validate a provided YouTube API 3 key.
-     */
+    /** The header for the url to validate a provided YouTube API 3 key. */
     private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER =
             CyderUrls.YOUTUBE_API_V3_SEARCH
                     + "?part=" + part

@@ -16,25 +16,17 @@ import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 
-/**
- * A handler for invoking {@link cyder.annotations.CyderTest}s.
- */
+/** A handler for invoking {@link cyder.annotations.CyderTest}s. */
 public class TestHandler extends InputHandler {
-    /**
-     * The name of the default parameter.
-     */
+    /** The name of the default parameter. */
     private static final String VALUE = "value";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private TestHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * Invokes all tests with the default trigger of {@link #VALUE}.
-     */
+    /** Invokes all tests with the default trigger of {@link #VALUE}. */
     public static void invokeDefaultTests() {
         Class<?> clazz = CyderTest.class;
 

@@ -1,27 +1,17 @@
 package cyder.youtube;
 
-/**
- * The types of downloads available by {@link YoutubeDownload}.
- */
+/** The types of downloads available by {@link YoutubeDownload}. */
 public enum DownloadType {
-    /**
-     * The download is downloading the video's audio.
-     */
+    /** The download is downloading the video's audio. */
     AUDIO("audio"),
 
-    /**
-     * The download is downloading the video.
-     */
+    /** The download is downloading the video. */
     VIDEO("video"),
 
-    /**
-     * The download is downloading the video with the audio separate.
-     */
+    /** The download is downloading the video with the audio separate. */
     AUDIO_AND_VIDEO_SEPARATE("audio and video separate");
 
-    /**
-     * The representation of this download type
-     */
+    /** The representation of this download type */
     private final String representation;
 
     DownloadType(String representation) {

@@ -29,303 +29,185 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-/**
- * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
- */
+/** A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise. */
 @Vanilla
 @CyderAuthor
 public final class PerlinWidget {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PerlinWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The button which starts the animation for the noise.
-     */
+    /** The button which starts the animation for the noise. */
     private static CyderButton animateButton;
 
-    /**
-     * The button which iterates to the next iteration of the noise.
-     */
+    /** The button which iterates to the next iteration of the noise. */
     private static CyderButton stepButton;
 
-    /**
-     * The button to regenerate the noise.
-     */
+    /** The button to regenerate the noise. */
     private static CyderButton regenerateButton;
 
-    /**
-     * The frame used for animation
-     */
+    /** The frame used for animation */
     private static CyderFrame perlinFrame;
 
-    /**
-     * The overridden label to paint the noise calculations on.
-     */
+    /** The overridden label to paint the noise calculations on. */
     private static JLabel noiseLabel;
 
-    /**
-     * The minimum feature size for open simplex noise.
-     */
+    /** The minimum feature size for open simplex noise. */
     public static final double MINIMUM_FEATURE_SIZE = 24.0;
 
-    /**
-     * The default feature size for open simplex noise.
-     */
+    /** The default feature size for open simplex noise. */
     public static final double DEFAULT_FEATURE_SIZE = 24.0;
 
-    /**
-     * The maximum feature size for open simplex noise.
-     */
+    /** The maximum feature size for open simplex noise. */
     public static final double MAXIMUM_FEATURE_SIZE = MINIMUM_FEATURE_SIZE * 2.0;
 
-    /**
-     * The feature size for open simplex noise.
-     */
+    /** The feature size for open simplex noise. */
     private static double featureSize = DEFAULT_FEATURE_SIZE;
 
-    /**
-     * The open simplex noise object.
-     */
+    /** The open simplex noise object. */
     private static SimplexNoiseUtil noise = new SimplexNoiseUtil(0);
 
-    /**
-     * The time step current at.
-     */
+    /** The time step current at. */
     private static double timeStep;
 
-    /**
-     * The slider used to change the open simplex noise feature size.
-     */
+    /** The slider used to change the open simplex noise feature size. */
     private static JSlider featureSlider;
 
-    /**
-     * The dimension switch.
-     */
+    /** The dimension switch. */
     private static CyderSwitch dimensionSwitch;
 
-    /**
-     * The slider used to determine the speed of the animation.
-     */
+    /** The slider used to determine the speed of the animation. */
     private static JSlider speedSlider;
 
-    /**
-     * The default value for the speed slider.
-     */
+    /** The default value for the speed slider. */
     private static int speedSliderValue = 400;
 
-    /**
-     * The maximum value for the speed slider.
-     */
+    /** The maximum value for the speed slider. */
     private static final int speedSliderMaxValue = 500;
 
-    /**
-     * The minimum value for the speed slider.
-     */
+    /** The minimum value for the speed slider. */
     private static final int speedSliderMinValue = 0;
 
-    /**
-     * The resolution of open simplex noise.
-     */
+    /** The resolution of open simplex noise. */
     private static final int resolution = 600;
 
-    /**
-     * The node array to store the open simplex noise.
-     */
+    /** The node array to store the open simplex noise. */
     private static GridNode[][] noise3D;
 
-    /**
-     * The array to store the perlin noise.
-     */
+    /** The array to store the perlin noise. */
     private static float[] noise2D;
 
-    /**
-     * The random object used for randomizing the noise seeds.
-     */
+    /** The random object used for randomizing the noise seeds. */
     private static final Random random = new Random();
 
-    /**
-     * The animation timer.
-     */
+    /** The animation timer. */
     private static Timer timer;
 
-    /**
-     * The seeding value to use for open simplex noise.
-     */
+    /** The seeding value to use for open simplex noise. */
     private static float[][] instanceSeed;
 
-    /**
-     * The number of octaves for open simplex (iterations).
-     */
+    /** The number of octaves for open simplex (iterations). */
     private static int octaves = 1;
 
-    /**
-     * The maximum number of octaves (iterations).
-     */
+    /** The maximum number of octaves (iterations). */
     private static final int maxOctaves = 10;
 
-    /**
-     * Determines whether the frame has been requested to close or is already closed.
-     */
+    /** Determines whether the frame has been requested to close or is already closed. */
     private static boolean closed = true;
 
-    /**
-     * The frame title string.
-     */
+    /** The frame title string. */
     private static final String PERLIN = "Perlin Noise";
 
-    /**
-     * The stroke for drawing on the noise label.
-     */
+    /** The stroke for drawing on the noise label. */
     private static final BasicStroke stroke = new BasicStroke(2);
 
-    /**
-     * The text for the step button.
-     */
+    /** The text for the step button. */
     private static final String STEP = "Step";
 
-    /**
-     * The time step increment.
-     */
+    /** The time step increment. */
     private static final double timeStepIncrement = 0.1;
 
-    /**
-     * The stop string.
-     */
+    /** The stop string. */
     private static final String STOP = "Stop";
 
-    /**
-     * Half of the limit for 8-bit color values.
-     */
+    /** Half of the limit for 8-bit color values. */
     private static final float halfEightBitColorLimit = 127.5f;
 
-    /**
-     * The feature slider tooltip text.
-     */
+    /** The feature slider tooltip text. */
     private static final String THREE_D_FEATURE_SIZE = "3D Feature Size";
 
-    /**
-     * The animate string.
-     */
+    /** The animate string. */
     private static final String ANIMATE = "Animate";
 
-    /**
-     * The tooltip for the speed slider.
-     */
+    /** The tooltip for the speed slider. */
     private static final String ANIMATE_TIMEOUT = "Animation Timeout";
 
-    /**
-     * The height of the sliders.
-     */
+    /** The height of the sliders. */
     private static final int sliderHeight = 40;
 
-    /**
-     * The maximum feature slider value.
-     */
+    /** The maximum feature slider value. */
     private static final int maxFeatureSliderValue = 1000;
 
-    /**
-     * The minimum feature slider value.
-     */
+    /** The minimum feature slider value. */
     private static final int minFeatureSliderValue = 0;
 
-    /**
-     * The default feature slider value.
-     */
+    /** The default feature slider value. */
     private static final int defaultFeatureSliderValue = (maxFeatureSliderValue - minFeatureSliderValue) / 2;
 
-    /**
-     * The grayscale multiplier value.
-     */
+    /** The grayscale multiplier value. */
     private static final int grayscaleMultiplier = 0x010101;
 
-    /**
-     * The length of the top line for 2D noise.
-     */
+    /** The length of the top line for 2D noise. */
     private static final int topLineLength = 2;
 
-    /**
-     * The length of the grass for 2D noise.
-     */
+    /** The length of the grass for 2D noise. */
     private static final int grassLength = 10;
 
-    /**
-     * The length of the dirt for 2D noise.
-     */
+    /** The length of the dirt for 2D noise. */
     private static final int dirtLength = 20;
 
-    /**
-     * The text for the off state of the dimension switch button.
-     */
+    /** The text for the off state of the dimension switch button. */
     private static final String TWO_D = "2D";
 
-    /**
-     * The text for the on state of the dimension switch button.
-     */
+    /** The text for the on state of the dimension switch button. */
     private static final String THREE_D = "3D";
 
-    /**
-     * The text for the speed label.
-     */
+    /** The text for the speed label. */
     private static final String SPEED = "Speed";
 
-    /**
-     * The text for the feature size label.
-     */
+    /** The text for the feature size label. */
     private static final String FEATURE_SIZE = "Feature size";
 
-    /**
-     * The padding between the frame and the start of components.
-     */
+    /** The padding between the frame and the start of components. */
     private static final int framePadding = 25;
 
-    /**
-     * The width of the frame.
-     */
+    /** The width of the frame. */
     private static final int frameWidth = resolution + 2 * framePadding;
 
-    /**
-     * The height of the bottom control components.
-     */
+    /** The height of the bottom control components. */
     private static final int interactionComponentsHeight = 240;
 
-    /**
-     * The frame height.
-     */
+    /** The frame height. */
     private static final int frameHeight = resolution + 2 * framePadding
             + CyderDragLabel.DEFAULT_HEIGHT + interactionComponentsHeight;
 
-    /**
-     * The regenerate button text.
-     */
+    /** The regenerate button text. */
     private static final String REGENERATE = "Regenerate";
 
-    /**
-     * The size of the dimension switch button
-     */
+    /** The size of the dimension switch button */
     private static final Dimension dimensionSwitchSize = new Dimension(180, 55);
 
-    /**
-     * The size of the slider labels.
-     */
+    /** The size of the slider labels. */
     private static final Dimension sliderLabelSize = new Dimension(200, 40);
 
-    /**
-     * The size of the buttons.
-     */
+    /** The size of the buttons. */
     private static final Dimension buttonSize = new Dimension(180, 40);
 
-    /**
-     * The length of the noise label border.
-     */
+    /** The length of the noise label border. */
     private static final int noiseLabelBorderLength = 5;
 
-    /**
-     * Shows the perlin noise widget.
-     */
+    /** Shows the perlin noise widget. */
     @Widget(triggers = {"perlin", "noise"}, description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGui() {
         UiUtil.closeIfOpen(perlinFrame);
@@ -480,9 +362,7 @@ public final class PerlinWidget {
         perlinFrame.finalizeAndShow();
     }
 
-    /**
-     * The actions to invoke when the dimension switch button is pressed.
-     */
+    /** The actions to invoke when the dimension switch button is pressed. */
     @ForReadability
     private static void dimensionSwitchButtonAction() {
         regenerateButtonAction();
@@ -499,9 +379,7 @@ public final class PerlinWidget {
         return dimensionSwitch.getState().equals(CyderSwitchState.OFF);
     }
 
-    /**
-     * The actions to invoke when the regenerate button is clicked.
-     */
+    /** The actions to invoke when the regenerate button is clicked. */
     private static void regenerateButtonAction() {
         if (twoDimensionalMode()) {
             if (timer.isRunning()) {
@@ -529,9 +407,7 @@ public final class PerlinWidget {
         noiseLabel.repaint();
     }
 
-    /**
-     * Initializes the 2D and 3D noise.
-     */
+    /** Initializes the 2D and 3D noise. */
     @ForReadability
     private static void initializeNoise() {
         noise2D = new float[resolution];
@@ -545,9 +421,7 @@ public final class PerlinWidget {
         }
     }
 
-    /**
-     * The actions to invoke on a feature slider value change.
-     */
+    /** The actions to invoke on a feature slider value change. */
     @ForReadability
     private static void featureSliderChangeAction() {
         featureSize = (featureSlider.getValue() / (float) maxFeatureSliderValue)
@@ -571,9 +445,7 @@ public final class PerlinWidget {
         }
     }
 
-    /**
-     * The pre close action to invoke when the frame's dispose function has been called.
-     */
+    /** The pre close action to invoke when the frame's dispose function has been called. */
     @ForReadability
     private static void preCloseActions() {
         noise2D = null;
@@ -583,9 +455,7 @@ public final class PerlinWidget {
         stopTimerIfRunning();
     }
 
-    /**
-     * The actions to invoke on a speed slider value change.
-     */
+    /** The actions to invoke on a speed slider value change. */
     @ForReadability
     private static void speedSliderChangeAction() {
         speedSliderValue = speedSlider.getValue();
@@ -645,9 +515,7 @@ public final class PerlinWidget {
         }
     }
 
-    /**
-     * Stops the timer if running.
-     */
+    /** Stops the timer if running. */
     @ForReadability
     private static void stopTimerIfRunning() {
         if (timer != null && timer.isRunning()) {
@@ -655,9 +523,7 @@ public final class PerlinWidget {
         }
     }
 
-    /**
-     * Generates new noise based on the current random seed.
-     */
+    /** Generates new noise based on the current random seed. */
     private static void generate() {
         if (closed) return;
 
@@ -672,9 +538,7 @@ public final class PerlinWidget {
         }
     }
 
-    /**
-     * Generates the new iteration of noise from the current noise.
-     */
+    /** Generates the new iteration of noise from the current noise. */
     private static void nextIteration() {
         if (closed) return;
 
@@ -746,9 +610,7 @@ public final class PerlinWidget {
         return ret;
     }
 
-    /**
-     * The function for the timer to invoke when noise animation is enabled.
-     */
+    /** The function for the timer to invoke when noise animation is enabled. */
     private static final ActionListener animationAction = evt -> {
         if (closed) return;
 
@@ -798,9 +660,7 @@ public final class PerlinWidget {
         return new Color(grayscaleMultiplier * (int) ((value + 1) * halfEightBitColorLimit));
     }
 
-    /**
-     * Locks the perlin UI.
-     */
+    /** Locks the perlin UI. */
     private static void lockUI() {
         regenerateButton.setEnabled(false);
         stepButton.setEnabled(false);
@@ -808,9 +668,7 @@ public final class PerlinWidget {
         featureSlider.setEnabled(false);
     }
 
-    /**
-     * Unlocks the perlin UI.
-     */
+    /** Unlocks the perlin UI. */
     private static void unlockUI() {
         regenerateButton.setEnabled(true);
         stepButton.setEnabled(true);

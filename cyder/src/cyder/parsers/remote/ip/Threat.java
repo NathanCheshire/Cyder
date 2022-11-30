@@ -1,8 +1,6 @@
 package cyder.parsers.remote.ip;
 
-/**
- * An object for parsing returned ip data threat objects.
- */
+/** An object for parsing returned ip data threat objects. */
 public class Threat {
     private boolean is_tor;
     private boolean is_proxy;

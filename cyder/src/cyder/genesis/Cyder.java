@@ -21,9 +21,7 @@ import static cyder.genesis.GenesisConstants.*;
  * environment variables to ensure a successful start can happen.
  */
 public final class Cyder {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private Cyder() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -58,9 +56,7 @@ public final class Cyder {
         LoginHandler.showProperStartupFrame();
     }
 
-    /**
-     * Initializes UIManager tooltip key-value props.
-     */
+    /** Initializes UIManager tooltip key-value props. */
     private static void initUiManagerTooltipProps() {
         UIManager.put(TOOLTIP_BACKGROUND, tooltipBackgroundColor);
         UIManager.put(TOOLTIP_BORDER, TOOLTIP_BORDER_RESOURCE);
@@ -68,18 +64,14 @@ public final class Cyder {
         UIManager.put(TOOLTIP_FOREGROUND, tooltipForegroundColor);
     }
 
-    /**
-     * Initializes all ui-manager look and feel key-value props.
-     */
+    /** Initializes all ui-manager look and feel key-value props. */
     private static void initUiAndSystemProps() {
         initUiManagerTooltipProps();
 
         UIManager.put(SLIDER_ONLY_LEFT_MOUSE_DRAG, Boolean.TRUE);
     }
 
-    /**
-     * Adds the exit hooks to this Jvm.
-     */
+    /** Adds the exit hooks to this Jvm. */
     private static void addExitHooks() {
         shutdownHooks.forEach(hook -> Runtime.getRuntime().addShutdownHook(hook));
     }

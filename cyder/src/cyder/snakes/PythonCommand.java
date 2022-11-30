@@ -2,16 +2,12 @@ package cyder.snakes;
 
 import com.google.common.base.Preconditions;
 
-/**
- * Supported commands for the python_functions script.
- */
+/** Supported commands for the python_functions script. */
 public enum PythonCommand {
     BLUR("blur", "Blurred: "),
     AUDIO_LENGTH("audio_length", "Audio length: ");
 
-    /**
-     * The command for this python functions command.
-     */
+    /** The command for this python functions command. */
     private final String command;
 
     /**

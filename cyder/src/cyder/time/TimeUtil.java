@@ -24,95 +24,59 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * Static utility class for things related to time/date queries and conversions.
- */
+/** Static utility class for things related to time/date queries and conversions. */
 public final class TimeUtil {
-    /**
-     * The number of milliseconds in a single second.
-     */
+    /** The number of milliseconds in a single second. */
     public static final double MILLISECONDS_IN_SECOND = 1000.0;
 
-    /**
-     * The number of seconds in a single minute.
-     */
+    /** The number of seconds in a single minute. */
     public static final double SECONDS_IN_MINUTE = 60.0;
 
-    /**
-     * The number of minutes in a single hour.
-     */
+    /** The number of minutes in a single hour. */
     public static final double MINUTES_IN_HOUR = 60.0;
 
-    /**
-     * The number of hours in a single day.
-     */
+    /** The number of hours in a single day. */
     public static final double HOURS_IN_DAY = 24.0;
 
-    /**
-     * The number of days in a single month.
-     */
+    /** The number of days in a single month. */
     public static final double DAYS_IN_MONTH = 30.0;
 
-    /**
-     * The number of months in a single year.
-     */
+    /** The number of months in a single year. */
     public static final double MONTHS_IN_YEAR = 12.0;
 
-    /**
-     * The number of seconds in a single hour.
-     */
+    /** The number of seconds in a single hour. */
     public static final int SECONDS_IN_HOUR = 3600;
 
-    /**
-     * The abbreviation for a year.
-     */
+    /** The abbreviation for a year. */
     public static final String YEAR_ABBREVIATION = "y";
 
-    /**
-     * The abbreviation for a month.
-     */
+    /** The abbreviation for a month. */
     public static final String MONTH_ABBREVIATION = "mo";
 
-    /**
-     * The abbreviation for a day.
-     */
+    /** The abbreviation for a day. */
     public static final String DAY_ABBREVIATION = "d";
 
-    /**
-     * The abbreviation for an hour.
-     */
+    /** The abbreviation for an hour. */
     public static final String HOUR_ABBREVIATION = "h";
 
-    /**
-     * The abbreviation for a minute.
-     */
+    /** The abbreviation for a minute. */
     public static final String MINUTE_ABBREVIATION = "m";
 
-    /**
-     * The abbreviation for a second.
-     */
+    /** The abbreviation for a second. */
     public static final String SECOND_ABBREVIATION = "s";
 
-    /**
-     * The abbreviation for a millisecond.
-     */
+    /** The abbreviation for a millisecond. */
     public static final String MILLISECOND_ABBREVIATION = "ms";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private TimeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The calendar instance to use for calculations within this class.
-     */
+    /** The calendar instance to use for calculations within this class. */
     private static final Calendar calendarInstance = Calendar.getInstance();
 
-    /**
-     * The date formatter to use when the weather time is requested.
-     */
+    /** The date formatter to use when the weather time is requested. */
     @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat weatherFormat
             = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
@@ -126,9 +90,7 @@ public final class TimeUtil {
         return getFormattedTime(weatherFormat);
     }
 
-    /**
-     * The date formatter to use when the log sub dir time is requested.
-     */
+    /** The date formatter to use when the log sub dir time is requested. */
     public static final SimpleDateFormat logSubDirFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -140,9 +102,7 @@ public final class TimeUtil {
         return getFormattedTime(logSubDirFormat);
     }
 
-    /**
-     * The date formatter to use when the year is requested.
-     */
+    /** The date formatter to use when the year is requested. */
     public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     /**
@@ -154,9 +114,7 @@ public final class TimeUtil {
         return Integer.parseInt(getFormattedTime(yearFormat));
     }
 
-    /**
-     * The date formatter to use when the log line time is requested.
-     */
+    /** The date formatter to use when the log line time is requested. */
     public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
 
     /**
@@ -168,9 +126,7 @@ public final class TimeUtil {
         return getFormattedTime(LOG_TIME_FORMAT);
     }
 
-    /**
-     * The date formatter used for when a log line is being written to the log file.
-     */
+    /** The date formatter used for when a log line is being written to the log file. */
     public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss.SSS");
 
     /**
@@ -182,9 +138,7 @@ public final class TimeUtil {
         return getFormattedTime(LOG_LINE_TIME_FORMAT);
     }
 
-    /**
-     * The date formatter to use when formatting a date object to the notified at time.
-     */
+    /** The date formatter to use when formatting a date object to the notified at time. */
     public static final SimpleDateFormat notificationFormat = new SimpleDateFormat("HH:mm:ss");
 
     /**
@@ -196,9 +150,7 @@ public final class TimeUtil {
         return getFormattedTime(notificationFormat);
     }
 
-    /**
-     * The date formatter to use when formatting a date object to the console clock time format.
-     */
+    /** The date formatter to use when formatting a date object to the console clock time format. */
     @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat userFormat
             = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
@@ -226,9 +178,7 @@ public final class TimeUtil {
         return getTime(UserUtil.getCyderUser().getConsoleClockFormat());
     }
 
-    /**
-     * The date formatter to use when formatting a date object to the console clock time format.
-     */
+    /** The date formatter to use when formatting a date object to the console clock time format. */
     @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
 
@@ -241,9 +191,7 @@ public final class TimeUtil {
         return getFormattedTime(consoleSecondFormat);
     }
 
-    /**
-     * The date formatter to use when formatting a date object to the console clock time format without seconds.
-     */
+    /** The date formatter to use when formatting a date object to the console clock time format without seconds. */
     @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat consoleNoSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mmaa");
 
@@ -376,9 +324,7 @@ public final class TimeUtil {
         return (Month == 6 && Date == 2);
     }
 
-    /**
-     * A record used to represent a month and date such as June 2nd.
-     */
+    /** A record used to represent a month and date such as June 2nd. */
     public record MonthDay(int month, int date) {}
 
     /**
@@ -495,9 +441,7 @@ public final class TimeUtil {
         return AFTERNOON_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
 
-    /**
-     * The decimal formatter for the {@link #formatMillis(long)} method.
-     */
+    /** The decimal formatter for the {@link #formatMillis(long)} method. */
     private static final DecimalFormat milliFormatter = new DecimalFormat("#.##");
 
     /**
@@ -662,14 +606,10 @@ public final class TimeUtil {
     // Relative timing methods and members
     // -----------------------------------
 
-    /**
-     * The time at which Cyder was first started.
-     */
+    /** The time at which Cyder was first started. */
     private static final AtomicLong absoluteStartTime = new AtomicLong(0);
 
-    /**
-     * The time at which the console was first shown.
-     */
+    /** The time at which the console was first shown. */
     private static final AtomicLong consoleFirstShownTime = new AtomicLong(0);
 
     /**
@@ -681,9 +621,7 @@ public final class TimeUtil {
         return absoluteStartTime.get();
     }
 
-    /**
-     * The error message for when the start time has already been set.
-     */
+    /** The error message for when the start time has already been set. */
     private static final String SET_START_TIME_ERROR_MESSAGE = "Absolute start time already set";
 
     /**
@@ -722,39 +660,25 @@ public final class TimeUtil {
     // End relative timing methods and members
     // ---------------------------------------
 
-    /**
-     * The url to query for moon phase data.
-     */
+    /** The url to query for moon phase data. */
     private static final String MOON_PHASE_URL = "https://www.timeanddate.com/moon/phases/";
 
-    /**
-     * The html moon element id.
-     */
+    /** The html moon element id. */
     private static final String CURRENT_MOON_ID = "cur-moon";
 
-    /**
-     * The html moon percent element id.
-     */
+    /** The html moon percent element id. */
     private static final String CURRENT_MOON_PERCENT_ID = "cur-moon-percent";
 
-    /**
-     * The html moon phase element id.
-     */
+    /** The html moon phase element id. */
     private static final String PHASE_ID = "qlook";
 
-    /**
-     * The src constant.
-     */
+    /** The src constant. */
     private static final String SRC = "SRC";
 
-    /**
-     * The img constant for extracting the moon phase image.
-     */
+    /** The img constant for extracting the moon phase image. */
     private static final String IMG = "img";
 
-    /**
-     * The a tag constant.
-     */
+    /** The a tag constant. */
     private static final String A_TAG = "a";
 
     /**

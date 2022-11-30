@@ -15,26 +15,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * A text button for a {@link CyderDragLabel}.
- */
+/** A text button for a {@link CyderDragLabel}. */
 public class DragLabelTextButton extends JLabel {
-    /**
-     * Whether this drag label text button is currently hovered.
-     */
+    /** Whether this drag label text button is currently hovered. */
     private final AtomicBoolean hovered;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private DragLabelTextButton() {
         Logger.log(LogTag.OBJECT_CREATION, this);
         this.hovered = new AtomicBoolean();
     }
 
-    /**
-     * The builder for this drag label text button.
-     */
+    /** The builder for this drag label text button. */
     private Builder builder;
 
     /**
@@ -95,9 +87,7 @@ public class DragLabelTextButton extends JLabel {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void repaint() {
         if (builder == null) return;
@@ -127,68 +117,42 @@ public class DragLabelTextButton extends JLabel {
         super.repaint();
     }
 
-    /**
-     * A builder for a drag label text button.
-     */
+    /** A builder for a drag label text button. */
     public static class Builder {
-        /**
-         * The default font for a drag label text button.
-         */
+        /** The default font for a drag label text button. */
         public static final Font DEFAULT_FONT = CyderFonts.DEFAULT_FONT_SMALL;
 
-        /**
-         * The default foreground of a drag label text button.
-         */
+        /** The default foreground of a drag label text button. */
         public static final Color DEFAULT_FOREGROUND = CyderColors.vanilla;
 
-        /**
-         * The default hover color of a drag label text button.
-         */
+        /** The default hover color of a drag label text button. */
         public static final Color DEFAULT_HOVER_COLOR = CyderColors.regularRed;
 
-        /**
-         * The text contents of a drag label text button.
-         */
+        /** The text contents of a drag label text button. */
         private final String text;
 
-        /**
-         * The action to invoke on a click event.
-         */
+        /** The action to invoke on a click event. */
         private Runnable clickAction;
 
-        /**
-         * The action to invoke on a mouse enter event.
-         */
+        /** The action to invoke on a mouse enter event. */
         private Runnable mouseEnterAction;
 
-        /**
-         * The action to invoke on a mouse exit event.
-         */
+        /** The action to invoke on a mouse exit event. */
         private Runnable mouseExitAction;
 
-        /**
-         * The font for this button. Changing this is highly discouraged.
-         */
+        /** The font for this button. Changing this is highly discouraged. */
         private Font font = DEFAULT_FONT;
 
-        /**
-         * The default color for this button. Changing this is highly discouraged.
-         */
+        /** The default color for this button. Changing this is highly discouraged. */
         private Color defaultColor = DEFAULT_FOREGROUND;
 
-        /**
-         * The hover color for this button. Changing this is highly discouraged.
-         */
+        /** The hover color for this button. Changing this is highly discouraged. */
         private Color hoverColor = DEFAULT_HOVER_COLOR;
 
-        /**
-         * The text for the tooltip of the button.
-         */
+        /** The text for the tooltip of the button. */
         private String tooltip;
 
-        /**
-         * Whether this drag label text button should be painted as selected.
-         */
+        /** Whether this drag label text button should be painted as selected. */
         private AtomicBoolean stateSelected;
 
         /**

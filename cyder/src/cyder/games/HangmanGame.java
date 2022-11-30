@@ -27,66 +27,42 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-/**
- * A java implementation of the classic Hangman game.
- */
+/** A java implementation of the classic Hangman game. */
 @CyderAuthor
 @Vanilla
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class HangmanGame {
-    /**
-     * The frame object.
-     */
+    /** The frame object. */
     private static CyderFrame hangmanFrame;
 
-    /**
-     * The current word.
-     */
+    /** The current word. */
     private static String hangmanWord;
 
-    /**
-     * The reset button.
-     */
+    /** The reset button. */
     private static CyderButton resetButton;
 
-    /**
-     * The field the user enters a letter in.
-     */
+    /** The field the user enters a letter in. */
     private static CyderTextField letterField;
 
-    /**
-     * The label the current hangman image is appended to
-     */
+    /** The label the current hangman image is appended to */
     private static JLabel imageLabel;
 
-    /**
-     * The label displaying the current hangman word.
-     */
+    /** The label displaying the current hangman word. */
     private static CyderLabel currentWordLabel;
 
-    /**
-     * The number of wrong guesses.
-     */
+    /** The number of wrong guesses. */
     private static int numWrongGuesses;
 
-    /**
-     * The letters that have been already guessed.
-     */
+    /** The letters that have been already guessed. */
     private static final ArrayList<String> chosenLetters = new ArrayList<>();
 
-    /**
-     * The placeholder used for the characters on the current word label.
-     */
+    /** The placeholder used for the characters on the current word label. */
     private static final String wordLabelCharPlaceholder = " _ ";
 
-    /**
-     * The name of the file containing the hangman words.
-     */
+    /** The name of the file containing the hangman words. */
     private static final String wordsFile = "hangman.txt";
 
-    /**
-     * The list of words used for hangman.
-     */
+    /** The list of words used for hangman. */
     private static final ImmutableList<String> words;
 
     static {
@@ -106,59 +82,37 @@ public final class HangmanGame {
         words = ImmutableList.copyOf(ret);
     }
 
-    /**
-     * The reset text for the reset button.
-     */
+    /** The reset text for the reset button. */
     private static final String RESET = "Reset";
 
-    /**
-     * The play again text for the reset button.
-     */
+    /** The play again text for the reset button. */
     private static final String PLAY_AGAIN = "Play again";
 
-    /**
-     * The default hangman icon.
-     */
+    /** The default hangman icon. */
     private static final ImageIcon defaultHangmanIcon = new ImageIcon(StaticUtil.getStaticPath("hangman.png"));
 
-    /**
-     * The frame title.
-     */
+    /** The frame title. */
     private static final String HANGMAN = "Hangman";
 
-    /**
-     * The width of the hangman frame.
-     */
+    /** The width of the hangman frame. */
     private static final int FRAME_WIDTH = 600;
 
-    /**
-     * The height of the hangman frame.
-     */
+    /** The height of the hangman frame. */
     private static final int FRAME_HEIGHT = 800;
 
-    /**
-     * The font for the word label.
-     */
+    /** The font for the word label. */
     private static final Font wordLabelFont = CyderFonts.SEGOE_30.deriveFont(26f);
 
-    /**
-     * The length of the image label.
-     */
+    /** The length of the image label. */
     private static final int imageLabelLen = 512;
 
-    /**
-     * The spacing partition between components.
-     */
+    /** The spacing partition between components. */
     private static final int spacingLen = 3;
 
-    /**
-     * The height of the primary components, not including the image label.
-     */
+    /** The height of the primary components, not including the image label. */
     private static final int componentHeight = 40;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private HangmanGame() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -247,9 +201,7 @@ public final class HangmanGame {
         letterChosen(code);
     }
 
-    /**
-     * Sets up the hangman game.
-     */
+    /** Sets up the hangman game. */
     private static void setup() {
         resetButton.setText(RESET);
         letterField.setEnabled(true);
@@ -262,9 +214,7 @@ public final class HangmanGame {
         numWrongGuesses = 0;
     }
 
-    /**
-     * Chooses a new hangman word.
-     */
+    /** Chooses a new hangman word. */
     private static void chooseHangmanWord() {
         hangmanWord = words.get(NumberUtil.randInt(words.size() - 1)).toLowerCase();
     }

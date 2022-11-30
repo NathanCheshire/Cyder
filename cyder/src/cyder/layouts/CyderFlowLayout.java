@@ -17,59 +17,37 @@ import java.util.ArrayList;
  * visibility on the frame provided the frame is big enough.
  */
 public class CyderFlowLayout extends CyderLayout {
-    /**
-     * The horizontal alignment of this layout.
-     */
+    /** The horizontal alignment of this layout. */
     private final HorizontalAlignment horizontalAlignment;
 
-    /**
-     * The vertical alignment of this layout.
-     */
+    /** The vertical alignment of this layout. */
     private final VerticalAlignment verticalAlignment;
 
-    /**
-     * The default horizontal gap between components.
-     */
+    /** The default horizontal gap between components. */
     private static final int DEFAULT_HORIZONTAL_GAP = 5;
 
-    /**
-     * The default vertical gap between components.
-     */
+    /** The default vertical gap between components. */
     private static final int DEFAULT_VERTICAL_GAP = 5;
 
-    /**
-     * The horizontal gap of this layout between components.
-     */
+    /** The horizontal gap of this layout between components. */
     private int horizontalGap;
 
-    /**
-     * The vertical gap of this layout between components.
-     */
+    /** The vertical gap of this layout between components. */
     private int verticalGap;
 
-    /**
-     * The default horizontal padding between the frame left and right.
-     */
+    /** The default horizontal padding between the frame left and right. */
     private static final int DEFAULT_HORIZONTAL_PADDING = 5;
 
-    /**
-     * The default vertical padding between the frame top and bottom.
-     */
+    /** The default vertical padding between the frame top and bottom. */
     private static final int DEFAULT_VERTICAL_PADDING = 5;
 
-    /**
-     * The horizontal padding of this layout.
-     */
+    /** The horizontal padding of this layout. */
     private int horizontalPadding = DEFAULT_HORIZONTAL_PADDING;
 
-    /**
-     * The vertical padding of this layout.
-     */
+    /** The vertical padding of this layout. */
     private int verticalPadding = DEFAULT_VERTICAL_PADDING;
 
-    /**
-     * The comprehensive list of components managed by this layout.
-     */
+    /** The comprehensive list of components managed by this layout. */
     private final ArrayList<Component> components = new ArrayList<>();
 
     /**
@@ -173,9 +151,7 @@ public class CyderFlowLayout extends CyderLayout {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void revalidateComponents() {
         if (!shouldRevalidateComponents()) return;
@@ -424,9 +400,7 @@ public class CyderFlowLayout extends CyderLayout {
         revalidateComponents();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Dimension getPackSize() {
         int maxRowWidth = 0;
@@ -466,9 +440,7 @@ public class CyderFlowLayout extends CyderLayout {
         return new Dimension(maxRowWidth, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);

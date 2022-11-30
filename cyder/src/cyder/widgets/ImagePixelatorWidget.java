@@ -38,134 +38,84 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 
-/**
- * An image pixelator widget.
- */
+/** An image pixelator widget. */
 @Vanilla
 @CyderAuthor
 public final class ImagePixelatorWidget {
-    /**
-     * The current icon that is being displayed.
-     */
+    /** The current icon that is being displayed. */
     private static ImageIcon currentDisplayImageIcon;
 
-    /**
-     * The current raw image file.
-     */
+    /** The current raw image file. */
     private static File currentFile;
 
-    /**
-     * The image pixelation preview label.
-     */
+    /** The image pixelation preview label. */
     private static JLabel previewLabel;
 
-    /**
-     * The pixelation size field.
-     */
+    /** The pixelation size field. */
     private static CyderTextField pixelSizeField;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ImagePixelatorWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The widget description
-     */
+    /** The widget description */
     private static final String description = "A simple image pixelator widget that transforms"
             + " the image into an image depicted of the specified number of pixels";
 
-    /**
-     * The width of the frame.
-     */
+    /** The width of the frame. */
     private static final int FRAME_WIDTH = 700;
 
-    /**
-     * The height of the frame.
-     */
+    /** The height of the frame. */
     private static final int FRAME_HEIGHT = 950;
 
-    /**
-     * The widget frame title.
-     */
+    /** The widget frame title. */
     private static final String IMAGE_PIXELATOR = "Image Pixelator";
 
-    /**
-     * The pixel size label text.
-     */
+    /** The pixel size label text. */
     private static final String PIXEL_SIZE = "Pixel Size";
 
-    /**
-     * The choose image button text.
-     */
+    /** The choose image button text. */
     private static final String CHOOSE_IMAGE = "Choose Image";
 
-    /**
-     * The widget frame.
-     */
+    /** The widget frame. */
     private static CyderFrame pixelFrame;
 
-    /**
-     * The border for the preview label.
-     */
+    /** The border for the preview label. */
     private static final LineBorder previewLabelBorder = new LineBorder(CyderColors.navy, 5, false);
 
-    /**
-     * The maximum length for the preview label image.
-     */
+    /** The maximum length for the preview label image. */
     private static final int previewImageMaxLen = 600;
 
-    /**
-     * The name of the waiter thread for the get file getter util instance.
-     */
+    /** The name of the waiter thread for the get file getter util instance. */
     private static final String CHOOSE_IMAGE_WAITER_THREAD_NAME = "Choose Image Waiter Thread";
 
-    /**
-     * The builder for the choose file button.
-     */
+    /** The builder for the choose file button. */
     private static final GetFileBuilder getterUtilBuilder = new GetFileBuilder("Choose file to resize")
             .setRelativeTo(pixelFrame);
 
-    /**
-     * The image files text.
-     */
+    /** The image files text. */
     private static final String IMAGE_FILES = "Image files";
 
-    /**
-     * The pixel label font.
-     */
+    /** The pixel label font. */
     private static final Font pixelLabelFont = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 28);
 
-    /**
-     * The approve image label.
-     */
+    /** The approve image label. */
     private static final String APPROVE_IMAGE = "Approve Image";
 
-    /**
-     * The pixelated pixel size part of the name when saving a pixelated image.
-     */
+    /** The pixelated pixel size part of the name when saving a pixelated image. */
     private static final String PIXELATED_PIXEL_SIZE = "_Pixelated_Pixel_Size_";
 
-    /**
-     * The regex for the pixel size field to restrict the input to numbers.
-     */
+    /** The regex for the pixel size field to restrict the input to numbers. */
     private static final String pixelSizeFieldRegexMatcher = "[0-9]*";
 
-    /**
-     * The length of primary components.
-     */
+    /** The length of primary components. */
     private static final int componentLength = 300;
 
-    /**
-     * The height of primary components.
-     */
+    /** The height of primary components. */
     private static final int componentHeight = 40;
 
-    /**
-     * The partition length for primary components.
-     */
+    /** The partition length for primary components. */
     private static final int componentPartition = 7;
 
     @Widget(triggers = {"pixelate picture", "pixelate image", "pixelator"}, description = description)
@@ -222,9 +172,7 @@ public final class ImagePixelatorWidget {
         pixelFrame.finalizeAndShow();
     }
 
-    /**
-     * The actions to invoke when the approve image button is pressed.
-     */
+    /** The actions to invoke when the approve image button is pressed. */
     private static void approveImageAction() {
         String pixelInput = pixelSizeField.getText();
         if (StringUtil.isNullOrEmpty(pixelInput)) return;
@@ -272,9 +220,7 @@ public final class ImagePixelatorWidget {
                 + " files/ directory");
     }
 
-    /**
-     * The key listener for the pixel size field.
-     */
+    /** The key listener for the pixel size field. */
     private static final KeyListener pixelSizeFieldKeyAdapter = new KeyAdapter() {
         @Override
         public void keyReleased(KeyEvent e) {
@@ -309,9 +255,7 @@ public final class ImagePixelatorWidget {
         }
     };
 
-    /**
-     * The actions to invoke when the choose image button is pressed.
-     */
+    /** The actions to invoke when the choose image button is pressed. */
     @ForReadability
     private static void chooseImageButtonAction() {
         CyderThreadRunner.submit(() -> {
@@ -356,9 +300,7 @@ public final class ImagePixelatorWidget {
         repaintPreviewLabelAndFrame();
     }
 
-    /**
-     * Refreshes the size of the preview label based on the current icon.
-     */
+    /** Refreshes the size of the preview label based on the current icon. */
     @ForReadability
     private static void refreshPreviewLabelSize() {
         ImageIcon previewIcon = (ImageIcon) previewLabel.getIcon();
@@ -369,9 +311,7 @@ public final class ImagePixelatorWidget {
         }
     }
 
-    /**
-     * Revalidates and repaints the previewLabel and pixelFrame.
-     */
+    /** Revalidates and repaints the previewLabel and pixelFrame. */
     @ForReadability
     private static void repaintPreviewLabelAndFrame() {
         previewLabel.revalidate();

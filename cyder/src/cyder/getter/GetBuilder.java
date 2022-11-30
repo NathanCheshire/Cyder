@@ -2,9 +2,7 @@ package cyder.getter;
 
 import cyder.ui.frame.CyderFrame;
 
-/**
- * A base getter util builder for all specific get method builders to extend.
- */
+/** A base getter util builder for all specific get method builders to extend. */
 public abstract class GetBuilder {
     /**
      * Returns the title of the get frame.

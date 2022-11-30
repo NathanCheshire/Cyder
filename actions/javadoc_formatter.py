@@ -4,12 +4,14 @@ javadoc-formatter
 A formatter to convert multi-line javadoc comments which could be expressed on a single line, to a single line.
 """
 
+import argparse
 import os
 import sys
 from stat_generator import find_files
 
 OPENING_JAVADOC = "/**"
 CLOSING_JAVADOC = "*/"
+
 
 def check_javadoc(file, correct: bool) -> int:
     """
@@ -70,7 +72,8 @@ def check_javadoc(file, correct: bool) -> int:
             line = lines[line_num]
             spaces = line.rfind("*")
             starting_spacer = " " * (spaces - 1)
-            replace_lines.append(starting_spacer + OPENING_JAVADOC + " " + line.strip()[2:] + " " + CLOSING_JAVADOC)
+            replace_lines.append(starting_spacer + OPENING_JAVADOC +
+                                 " " + line.strip()[2:] + " " + CLOSING_JAVADOC)
 
         write_lines = []
 
@@ -80,7 +83,8 @@ def check_javadoc(file, correct: bool) -> int:
             elif line_num + 1 in three_liners:
                 continue
             elif line_num in three_liners:
-                write_lines.append(replace_lines[three_liners.index(line_num)] + "\n")
+                write_lines.append(
+                    replace_lines[three_liners.index(line_num)] + "\n")
             else:
                 write_lines.append(line)
 
@@ -89,29 +93,41 @@ def check_javadoc(file, correct: bool) -> int:
 
     return len(three_liners)
 
+
 def main():
-    args = sys.argv
+    parser = argparse.ArgumentParser(prog='Javadoc formatter',
+                                     description="Formats three line javadocs to a singular line")
+    parser.add_argument("-sd", "--starting_directory", required=True,
+                        help="The directory to recursively find java files starting from")
+    parser.add_argument('-c', '--correct', required=True,
+                        help='Whether the three line javadocs should be corrected to a singular line')
+    parser.add_argument('-f', '--fail', required=True,
+                        help='whether the program should exit with a failure exit code " + \
+                            "if three line javadocs are found and not corrected')
 
-    if len(args) != 3:
-        print("Usage: python [should_correct: bool] [should_fail_if_found: bool]")
-        sys.exit(1)
+    args = parser.parse_args()
 
-    should_correct = args[1].lower() == 'true'
-    should_fail_if_found = args[2].lower() == 'true'
+    should_correct = args.correct.lower() == "true"
+    should_fail_if_found = args.fail.lower() == "true"
 
     three_liners = 0
 
-    for file in find_files(starting_dir="cyder", extensions=[".java"], recursive=True):
+    for file in find_files(starting_dir=args.starting_directory, extensions=[".java"], recursive=True):
         current_three_liners = check_javadoc(file, correct=should_correct)
-        print("{} found to have {} three line javadocs".format(file, current_three_liners))
+        print("{} found to have {} three line javadocs".format(
+            file, current_three_liners))
         three_liners += current_three_liners
 
-    print("{} total three line javadocs found, were corrected: {}".format(three_liners, should_correct))
+    print("{} total three line javadocs found, were corrected: {}".format(
+        three_liners, should_correct))
 
-    if should_fail_if_found:
+    if should_fail_if_found and not should_correct:
+        print ("Failed")
         sys.exit(three_liners)
     else:
+        print("Exiting normally")
         sys.exit(0)
+
 
 if __name__ == '__main__':
     main()

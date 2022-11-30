@@ -22,23 +22,15 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A watchdog timer for Cyder to detect a freeze on the GUI and kill the application.
- */
+/** A watchdog timer for Cyder to detect a freeze on the GUI and kill the application. */
 public final class CyderWatchdog {
-    /**
-     * The time in ms to wait between checking for the first appearance of AWT-EventQueue-0.
-     */
+    /** The time in ms to wait between checking for the first appearance of AWT-EventQueue-0. */
     public static final int INITIALIZE_TIMEOUT_MS = 3000;
 
-    /**
-     * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
-     */
+    /** The time in ms to wait between checking the AWT-EventQueue-0 thread for its status. */
     public static final int POLL_TIMEOUT = Props.watchdogPollTimeout.getValue();
 
-    /**
-     * The standard name of the AWT-EventQueue-0 thread.
-     */
+    /** The standard name of the AWT-EventQueue-0 thread. */
     public static final String AWT_EVENT_QUEUE_0_NAME = "AWT-EventQueue-0";
 
     /**
@@ -47,24 +39,16 @@ public final class CyderWatchdog {
      */
     private static final AtomicInteger watchdogCounter = new AtomicInteger();
 
-    /**
-     * The maximum number the watchdog counter can achieve before triggering a fatal reset.
-     */
+    /** The maximum number the watchdog counter can achieve before triggering a fatal reset. */
     public static final int MAX_WATCHDOG_FREEZE_MS = 5000;
 
-    /**
-     * Whether the watchdog has been initialized and started.
-     */
+    /** Whether the watchdog has been initialized and started. */
     private static final AtomicBoolean watchdogInitialized = new AtomicBoolean();
 
-    /**
-     * The previous state of the awt event queue thread.
-     */
+    /** The previous state of the awt event queue thread. */
     private static Thread.State currentAwtEventQueueThreadState;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private CyderWatchdog() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -176,9 +160,7 @@ public final class CyderWatchdog {
         }, IgnoreThread.CyderWatchdog.getName());
     }
 
-    /**
-     * The actions to invoke when a UI halt is detected by the watchdog.
-     */
+    /** The actions to invoke when a UI halt is detected by the watchdog. */
     private static void onUiHaltDetected() {
         Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
         invokeBoostrapIfConditionsMet();
@@ -227,9 +209,7 @@ public final class CyderWatchdog {
     }
 
     // todo need handling of this, Logger needs to be re-done
-    /**
-     * The log file argument when starting an instance of Cyder.
-     */
+    /** The log file argument when starting an instance of Cyder. */
     private static final String LOG_FILE_ARGUMENT = "--log-file";
 
     /**

@@ -28,13 +28,9 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Optional;
 
-/**
- * A handler for printing out general response strings.
- */
+/** A handler for printing out general response strings. */
 public class GeneralPrintHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private GeneralPrintHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

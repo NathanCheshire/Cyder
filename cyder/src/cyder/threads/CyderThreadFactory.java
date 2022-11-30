@@ -7,9 +7,7 @@ import cyder.utils.StringUtil;
 
 import java.util.concurrent.ThreadFactory;
 
-/**
- * A custom thread factory for Cyder.
- */
+/** A custom thread factory for Cyder. */
 public class CyderThreadFactory implements ThreadFactory {
     /**
      * Constructs a new thread factory using the provided name
@@ -21,9 +19,7 @@ public class CyderThreadFactory implements ThreadFactory {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * The name of this thread factory.
-     */
+    /** The name of this thread factory. */
     private String name;
 
     /**
@@ -54,9 +50,7 @@ public class CyderThreadFactory implements ThreadFactory {
         return new Thread(Preconditions.checkNotNull(runnable), name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderToString(this);

@@ -6,38 +6,24 @@ import cyder.constants.CyderStrings;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Tags for possible types printed to the console's text pane.
- */
+/** Tags for possible types printed to the console's text pane. */
 public enum ConsoleOutType {
-    /**
-     * A string type.
-     */
+    /** A string type. */
     STRING("STRING", ImmutableList.of(String.class)),
 
-    /**
-     * An image such as a {@link BufferedImage} or an {@link ImageIcon}.
-     */
+    /** An image such as a {@link BufferedImage} or an {@link ImageIcon}. */
     IMAGE("IMAGE", ImmutableList.of(BufferedImage.class, ImageIcon.class)),
 
-    /**
-     * A {@link JComponent}.
-     */
+    /** A {@link JComponent}. */
     J_COMPONENT("J_COMPONENT", ImmutableList.of(JComponent.class)),
 
-    /**
-     * An unknown output type.
-     */
+    /** An unknown output type. */
     UNKNOWN("UNKNOWN", ImmutableList.of(Object.class));
 
-    /**
-     * The string representation for this console out type.
-     */
+    /** The string representation for this console out type. */
     private final String stringRepresentation;
 
-    /**
-     * The class types this type tag is used for.
-     */
+    /** The class types this type tag is used for. */
     private final ImmutableList<?> types;
 
     ConsoleOutType(String stringRepresentation, ImmutableList<?> types) {

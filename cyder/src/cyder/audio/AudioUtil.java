@@ -33,42 +33,28 @@ import java.util.regex.Pattern;
 
 import static cyder.constants.CyderStrings.quote;
 
-/**
- * Utilities related to audio files, typically mp3 and wav files.
- */
+/** Utilities related to audio files, typically mp3 and wav files. */
 public final class AudioUtil {
-    /**
-     * The resource link to download the ffmpeg binary.
-     */
+    /** The resource link to download the ffmpeg binary. */
     public static final String DOWNLOAD_RESOURCE_FFMPEG
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffmpeg.zip";
 
-    /**
-     * The resource link to download the ffplay binary.
-     */
+    /** The resource link to download the ffplay binary. */
     public static final String DOWNLOAD_RESOURCE_FFPLAY
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffplay.zip";
 
-    /**
-     * The resource link to download the ffprobe binary.
-     */
+    /** The resource link to download the ffprobe binary. */
     public static final String DOWNLOAD_RESOURCE_FFPROBE
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
 
-    /**
-     * The resource link to download the youtube-dl binary.
-     */
+    /** The resource link to download the youtube-dl binary. */
     public static final String DOWNLOAD_RESOURCE_YOUTUBE_DL
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
 
-    /**
-     * The ffmpeg input flag.
-     */
+    /** The ffmpeg input flag. */
     public static final String INPUT_FLAG = "-i";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private AudioUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -154,39 +140,25 @@ public final class AudioUtil {
         });
     }
 
-    /**
-     * The dreamified file suffix to append to music files after dreamifying them.
-     */
+    /** The dreamified file suffix to append to music files after dreamifying them. */
     public static final String DREAMY_SUFFIX = "_Dreamy";
 
-    /**
-     * The highpass value for dreamifying an audio file.
-     */
+    /** The highpass value for dreamifying an audio file. */
     public static final int HIGHPASS = 2;
 
-    /**
-     * The lowpass value for dreamifying an audio file.
-     */
+    /** The lowpass value for dreamifying an audio file. */
     public static final int LOWPASS = 300;
 
-    /**
-     * The audio dreamifier thread name prefix.
-     */
+    /** The audio dreamifier thread name prefix. */
     private static final String AUDIO_DREAMIFIER = "Audio Dreamifier: ";
 
-    /**
-     * The -filter:a flag for setting high and low pass data.
-     */
+    /** The -filter:a flag for setting high and low pass data. */
     private static final String FILTER_DASH_A = "-filter:a";
 
-    /**
-     * The high and low pass argument string.
-     */
+    /** The high and low pass argument string. */
     private static final String HIGHPASS_LOWPASS_ARGS = "\"highpass=f=" + HIGHPASS + ", lowpass=f=" + LOWPASS + quote;
 
-    /**
-     * The delay between polling milliseconds when dreamifying an audio.
-     */
+    /** The delay between polling milliseconds when dreamifying an audio. */
     private static final int pollMillisDelay = 500;
 
     /**
@@ -245,9 +217,7 @@ public final class AudioUtil {
         });
     }
 
-    /**
-     * The pattern used to find the duration of an audio file from ffprobe.
-     */
+    /** The pattern used to find the duration of an audio file from ffprobe. */
     private static final Pattern durationPattern = Pattern.compile("\\s*duration=.*\\s*");
 
     /**
@@ -367,14 +337,10 @@ public final class AudioUtil {
                 Program.FFPROBE.getProgramName() + Extension.EXE.getExtension());
     }
 
-    /**
-     * The thread name for the ffmpeg downloader
-     */
+    /** The thread name for the ffmpeg downloader */
     private static final String FFMPEG_DOWNLOADER_THREAD_NAME = "FFMPEG Downloader";
 
-    /**
-     * A record to associate a destination file with a url to download the file, typically a zip archive, from.
-     */
+    /** A record to associate a destination file with a url to download the file, typically a zip archive, from. */
     private record PairedFile(File file, String url) {}
 
     /**
@@ -423,9 +389,7 @@ public final class AudioUtil {
         });
     }
 
-    /**
-     * The name of the thread that downloads youtube-dl if missing and needed.
-     */
+    /** The name of the thread that downloads youtube-dl if missing and needed. */
     private static final String YOUTUBE_DL_DOWNLOADER_THREAD_NAME = "YouTubeDl Downloader";
 
     /**
@@ -457,9 +421,7 @@ public final class AudioUtil {
         });
     }
 
-    /**
-     * A map of previously computed millisecond times from audio files.
-     */
+    /** A map of previously computed millisecond times from audio files. */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
 
     /**

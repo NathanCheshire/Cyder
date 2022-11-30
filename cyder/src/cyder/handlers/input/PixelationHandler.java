@@ -18,20 +18,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-/**
- * A handler for handling when images or the console background should be pixelated.
- */
+/** A handler for handling when images or the console background should be pixelated. */
 public class PixelationHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PixelationHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The range of allowable user-entered pixelation values.
-     */
+    /** The range of allowable user-entered pixelation values. */
     private static final Range<Integer> pixelRange = Range.closed(2, 500);
 
     @Handle({"pixelate", "pixelation"})

@@ -7,63 +7,39 @@ import cyder.logging.Logger;
 
 import java.awt.*;
 
-/**
- * A builder for constructing a theme for a {@link CyderModernButton}.
- */
+/** A builder for constructing a theme for a {@link CyderModernButton}. */
 public class ThemeBuilder {
-    /**
-     * The background color for the button.
-     */
+    /** The background color for the button. */
     private Color backgroundColor;
 
-    /**
-     * The foreground color for the button.
-     */
+    /** The foreground color for the button. */
     private Color foregroundColor;
 
-    /**
-     * The font for the button.
-     */
+    /** The font for the button. */
     private Font font;
 
-    /**
-     * The border length for the button.
-     */
+    /** The border length for the button. */
     private int borderLength = CyderModernButton.DEFAULT_BORDER_LENGTH;
 
-    /**
-     * The border color for this button.
-     */
+    /** The border color for this button. */
     private Color borderColor;
 
-    /**
-     * The hover color for this button.
-     */
+    /** The hover color for this button. */
     private Color hoverColor;
 
-    /**
-     * The pressed color for this button.
-     */
+    /** The pressed color for this button. */
     private Color pressedColor;
 
-    /**
-     * Whether this button's corners are rounded.
-     */
+    /** Whether this button's corners are rounded. */
     private boolean roundedCorners;
 
-    /**
-     * The disabled foreground color for this button.
-     */
+    /** The disabled foreground color for this button. */
     private Color disabledForeground;
 
-    /**
-     * The disabled background color for this button.
-     */
+    /** The disabled background color for this button. */
     private Color disabledBackground;
 
-    /**
-     * Constructs a new theme builder.
-     */
+    /** Constructs a new theme builder. */
     public ThemeBuilder() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }

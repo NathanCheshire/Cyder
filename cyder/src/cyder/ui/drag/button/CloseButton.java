@@ -5,25 +5,17 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 
-/**
- * A close button for CyderFrame drag labels.
- */
+/** A close button for CyderFrame drag labels. */
 public class CloseButton extends CyderDragLabelButton {
-    /**
-     * The size this close button will be painted with.
-     */
+    /** The size this close button will be painted with. */
     private DragLabelButtonSize size;
 
-    /**
-     * Constructs a new close button.
-     */
+    /** Constructs a new close button. */
     public CloseButton() {
         this(DEFAULT_SIZE);
     }
 
-    /**
-     * The text for the close button.
-     */
+    /** The text for the close button. */
     private static final String CLOSE = "Close";
 
     /**
@@ -50,24 +42,16 @@ public class CloseButton extends CyderDragLabelButton {
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
-    /**
-     * The padding between the edges of the painted close button.
-     */
+    /** The padding between the edges of the painted close button. */
     private static final int PAINT_PADDING = 4;
 
-    /**
-     * The length of the rectangles drawn for this close button.
-     */
+    /** The length of the rectangles drawn for this close button. */
     private static final int drawnRectangleLength = 2;
 
-    /**
-     * The value to subtract from the second line drawn by the rectangles.
-     */
+    /** The value to subtract from the second line drawn by the rectangles. */
     private static final int secondLineSubtrahend = 1;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paintDragLabelButton(Graphics g) {
         Preconditions.checkNotNull(g);
@@ -85,18 +69,14 @@ public class CloseButton extends CyderDragLabelButton {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getSpecificStringRepresentation() {
         return CLOSE;

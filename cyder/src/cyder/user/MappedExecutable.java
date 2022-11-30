@@ -14,14 +14,10 @@ import cyder.utils.StringUtil;
 @SuppressWarnings("ClassCanBeRecord") /* GSON serialization */
 @Immutable
 public class MappedExecutable {
-    /**
-     * The display name of the mapped executable.
-     */
+    /** The display name of the mapped executable. */
     private final String name;
 
-    /**
-     * The path to the file to open for the executable.
-     */
+    /** The path to the file to open for the executable. */
     private final String filepath;
 
     /**
@@ -60,18 +56,14 @@ public class MappedExecutable {
         return filepath;
     }
 
-    /**
-     * Displays a notification on the console informing the user that this mapped exe was invoked.
-     */
+    /** Displays a notification on the console informing the user that this mapped exe was invoked. */
     public void displayInvokedNotification() {
         Preconditions.checkState(!Console.INSTANCE.isClosed());
 
         Console.INSTANCE.getConsoleCyderFrame().notify("Invoking mapped exe: " + name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -86,17 +78,13 @@ public class MappedExecutable {
                 && other.getFilepath().equals(getFilepath());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderToString(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = name.hashCode();

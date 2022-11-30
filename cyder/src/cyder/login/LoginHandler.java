@@ -46,166 +46,102 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.constants.CyderStrings.*;
 
-/**
- * A widget to log into Cyder or any other way that the Console might be invoked.
- */
+/** A widget to log into Cyder or any other way that the Console might be invoked. */
 public final class LoginHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private LoginHandler() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The width of the login frame.
-     */
+    /** The width of the login frame. */
     public static final int LOGIN_FRAME_WIDTH = 600;
 
-    /**
-     * The height of the login frame.
-     */
+    /** The height of the login frame. */
     public static final int LOGIN_FRAME_HEIGHT = 400;
 
-    /**
-     * The frame used for logging into Cyder
-     */
+    /** The frame used for logging into Cyder */
     private static CyderFrame loginFrame;
 
-    /**
-     * The input field for the login frame.
-     */
+    /** The input field for the login frame. */
     private static JPasswordField loginField;
 
-    /**
-     * The text area for the login outputs.
-     */
+    /** The text area for the login outputs. */
     private static JTextPane loginArea;
 
-    /**
-     * Whether to perform the login frame typing animation.
-     */
+    /** Whether to perform the login frame typing animation. */
     private static boolean doLoginAnimations;
 
-    /**
-     * The username of the user trying to log in.
-     */
+    /** The username of the user trying to log in. */
     private static String username;
 
-    /**
-     * The string at the beginning of the input field.
-     */
+    /** The string at the beginning of the input field. */
     private static final String defaultBashString =
             OsUtil.getOsUsername() + "@" + OsUtil.getComputerName() + ":~$ ";
 
-    /**
-     * The BashString currently being used.
-     */
+    /** The BashString currently being used. */
     private static String currentBashString = defaultBashString;
 
-    /**
-     * Whether the login frame is closed.
-     */
+    /** Whether the login frame is closed. */
     private static boolean loginFrameClosed = true;
 
-    /**
-     * The background color of the login frame.
-     */
+    /** The background color of the login frame. */
     public static final Color backgroundColor = new Color(21, 23, 24);
 
-    /**
-     * The color used for the output area text.
-     */
+    /** The color used for the output area text. */
     public static final Color textColor = new Color(85, 181, 219);
 
-    /**
-     * The atomic boolean to control whether shift shows the password of the password field.
-     */
+    /** The atomic boolean to control whether shift shows the password of the password field. */
     private static AtomicBoolean shiftShowsPassword;
 
-    /**
-     * The regular non-priority printing list for the login frame.
-     */
+    /** The regular non-priority printing list for the login frame. */
     private static final LinkedList<String> printingList = new LinkedList<>();
 
-    /**
-     * The priority printing list for the login frame.
-     */
+    /** The priority printing list for the login frame. */
     private static final LinkedList<String> priorityPrintingList = new LinkedList<>();
 
-    /**
-     * The font for the login field.
-     */
+    /** The font for the login field. */
     private static final Font loginFieldFont = new Font("Agency FB", Font.BOLD, 26);
 
-    /**
-     * The current login mode
-     */
+    /** The current login mode */
     private static LoginMode loginMode = LoginMode.INPUT;
 
-    /**
-     * The echo char to use when a password field's text should be visible and not obfuscated.
-     */
+    /** The echo char to use when a password field's text should be visible and not obfuscated. */
     private static final char DEFAULT_FIELD_ECHO_CHAR = (char) 0;
 
-    /**
-     * The timeout in ms between char prints.
-     */
+    /** The timeout in ms between char prints. */
     private static final int charTimeout = 20;
 
-    /**
-     * The timeout in me between line prints.
-     */
+    /** The timeout in me between line prints. */
     private static final int lineTimeout = 400;
 
-    /**
-     * The name for the login printing animation thread.
-     */
+    /** The name for the login printing animation thread. */
     private static final String LOGIN_PRINTING_ANIMATION_THREAD_NAME = "Login Printing Animation";
 
-    /**
-     * The create command trigger.
-     */
+    /** The create command trigger. */
     private static final String CREATE = "create";
 
-    /**
-     * The login command trigger.
-     */
+    /** The login command trigger. */
     private static final String LOGIN = "login";
 
-    /**
-     * The quit command trigger.
-     */
+    /** The quit command trigger. */
     private static final String QUIT = "quit";
 
-    /**
-     * The help command trigger.
-     */
+    /** The help command trigger. */
     private static final String HELP = "help";
 
-    /**
-     * The valid commands.
-     */
+    /** The valid commands. */
     private static final ImmutableList<String> validCommands = ImmutableList.of(CREATE, LOGIN, QUIT, HELP);
 
-    /**
-     * The prefix for when the login mode is username.
-     */
+    /** The prefix for when the login mode is username. */
     private static final String usernameModePrefix = "Username" + colon + space;
 
-    /**
-     * The prefix for the login frame title.
-     */
+    /** The prefix for the login frame title. */
     private static final String titlePrefix = "Cyder Login" + space;
 
-    /**
-     * The uuid for the user attempting to log in.
-     */
+    /** The uuid for the user attempting to log in. */
     private static String recognizedUuid = "";
 
-    /**
-     * Begins the login typing animation and printing thread.
-     */
+    /** Begins the login typing animation and printing thread. */
     private static void startTypingAnimation() {
         doLoginAnimations = true;
         printingList.clear();
@@ -258,9 +194,7 @@ public final class LoginHandler {
         }, LOGIN_PRINTING_ANIMATION_THREAD_NAME);
     }
 
-    /**
-     * Shows the login frame.
-     */
+    /** Shows the login frame. */
     @Widget(triggers = {"login", "pin"}, description = "A widget to switch between Cyder users")
     public static void showGui() {
         priorityPrintingList.clear();
@@ -350,9 +284,7 @@ public final class LoginHandler {
         startTypingAnimation();
     }
 
-    /**
-     * Checks for the caret position in the login field being before the current bash string
-     */
+    /** Checks for the caret position in the login field being before the current bash string */
     private static void fixLoginFieldCaretPosition() {
         if (loginMode != LoginMode.PASSWORD) {
             int caretPosition = loginField.getCaretPosition();
@@ -542,9 +474,7 @@ public final class LoginHandler {
         return startedViaAutoCypher;
     }
 
-    /**
-     * Whether Cyder was initially started with a successful AutoCypher
-     */
+    /** Whether Cyder was initially started with a successful AutoCypher */
     private static boolean startedViaAutoCypher = false;
 
     /**
@@ -625,9 +555,7 @@ public final class LoginHandler {
         loginField.requestFocusInWindow();
     }
 
-    /**
-     * Handles a successful check password invocation.
-     */
+    /** Handles a successful check password invocation. */
     private static void handleSuccessfulPasswordCheck() {
         Preconditions.checkState(!recognizedUuid.isEmpty());
 

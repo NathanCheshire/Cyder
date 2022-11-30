@@ -36,73 +36,47 @@ import java.util.Optional;
 
 import static cyder.constants.CyderStrings.space;
 
-/**
- * A widget to create a Cyder user.
- */
+/** A widget to create a Cyder user. */
 @Vanilla
 @CyderAuthor
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class UserCreator {
-    /**
-     * The user creator frame.
-     */
+    /** The user creator frame. */
     private static CyderFrame createUserFrame;
 
-    /**
-     * The password field for the user's password.
-     */
+    /** The password field for the user's password. */
     private static CyderPasswordField newUserPasswordField;
 
-    /**
-     * The password field to confirm the new user's password.
-     */
+    /** The password field to confirm the new user's password. */
     private static CyderPasswordField newUserPasswordConfirmationField;
 
-    /**
-     * The field for the new user's name.
-     */
+    /** The field for the new user's name. */
     private static CyderModernTextField newUserNameField;
 
-    /**
-     * The background chosen by the user as their initial background.
-     */
+    /** The background chosen by the user as their initial background. */
     private static File newUserBackgroundFile;
 
-    /**
-     * The button to finalize the creation of a new user.
-     */
+    /** The button to finalize the creation of a new user. */
     private static CyderButton createNewUserButton;
 
-    /**
-     * The label to display information on to help the user with their account creation.
-     */
+    /** The label to display information on to help the user with their account creation. */
     private static JLabel informationLabel;
 
-    /**
-     * The button to choose a background file for the proposed user.
-     */
+    /** The button to choose a background file for the proposed user. */
     private static CyderButton chooseBackgroundButton;
 
-    /**
-     * The border used for fields and buttons.
-     */
+    /** The border used for fields and buttons. */
     private static final LineBorder BORDER = new LineBorder(CyderColors.navy, 5, false);
 
-    /**
-     * The create string.
-     */
+    /** The create string. */
     private static final String CREATE = "Create";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private UserCreator() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * Shows the GUI for this widget.
-     */
+    /** Shows the GUI for this widget. */
     @Widget(triggers = {"create user", "create"}, description = "A widget for creating new users")
     public static void showGui() {
         UiUtil.closeIfOpen(createUserFrame);
@@ -200,9 +174,7 @@ public final class UserCreator {
         newUserNameField.requestFocus();
     }
 
-    /**
-     * The key listener for the create user button.
-     */
+    /** The key listener for the create user button. */
     private static final KeyListener newUserNameFieldListener = new KeyListener() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent e) {
@@ -220,9 +192,7 @@ public final class UserCreator {
         }
     };
 
-    /**
-     * The logic to invoke on an event from the new username field.
-     */
+    /** The logic to invoke on an event from the new username field. */
     @ForReadability
     private static void newUserNameFieldKeyListenerLogic() {
         createNewUserButton.setText(CREATE + space + newUserNameField.getText().trim());
@@ -235,9 +205,7 @@ public final class UserCreator {
      */
     private static boolean validCredentials = false;
 
-    /**
-     * Updates the information label based off of the current field values.
-     */
+    /** Updates the information label based off of the current field values. */
     private static void updateInformationLabel() {
         informationLabel.setForeground(CyderColors.regularRed);
         validCredentials = false;
@@ -264,9 +232,7 @@ public final class UserCreator {
         Arrays.fill(passwordConfirmation, '\0');
     }
 
-    /**
-     * The key listener for password fields to update the information label.
-     */
+    /** The key listener for password fields to update the information label. */
     private static final KeyListener passwordFieldKeyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -283,9 +249,7 @@ public final class UserCreator {
             updateInformationLabel();
         }
     };
-    /**
-     * The action user for the create user button.
-     */
+    /** The action user for the create user button. */
     private static final ActionListener createNewUserActionListener = e -> {
         try {
             String name = newUserNameField.getText().trim();
@@ -327,24 +291,16 @@ public final class UserCreator {
         return userFiles != null && userFiles.length == 1;
     }
 
-    /**
-     * The action listener for the choose background button.
-     */
+    /** The action listener for the choose background button. */
     private static final ActionListener chooseBackgroundButtonActionListener = e -> chooseBackground();
 
-    /**
-     * The no background string.
-     */
+    /** The no background string. */
     private static final String NO_BACKGROUND = "No Background";
 
-    /**
-     * The choose background string.
-     */
+    /** The choose background string. */
     private static final String CHOOSE_BACKGROUND = "Choose Background";
 
-    /**
-     * The mouse listener for changing the text of the choose background button.
-     */
+    /** The mouse listener for changing the text of the choose background button. */
     private static final MouseAdapter chooseBackgroundButtonMouseListener = new MouseAdapter() {
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -383,14 +339,10 @@ public final class UserCreator {
         return false;
     }
 
-    /**
-     * The thread name for the background file chooser.
-     */
+    /** The thread name for the background file chooser. */
     private static final String newUserCreatorBackgroundChooserThreadName = "New user creator background chooser";
 
-    /**
-     * Initializes the new user's background.
-     */
+    /** Initializes the new user's background. */
     private static void chooseBackground() {
         CyderThreadRunner.submit(() -> {
             try {

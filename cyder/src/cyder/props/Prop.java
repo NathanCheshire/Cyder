@@ -14,19 +14,13 @@ import java.util.Optional;
 @Immutable
 @SuppressWarnings("ClassCanBeRecord") /* No */
 public final class Prop<T> {
-    /**
-     * The key for the prop.
-     */
+    /** The key for the prop. */
     private final String key;
 
-    /**
-     * The default value of the prop.
-     */
+    /** The default value of the prop. */
     private final T defaultValue;
 
-    /**
-     * The type of this prop.
-     */
+    /** The type of this prop. */
     private final Class<T> type;
 
     /**
@@ -126,9 +120,7 @@ public final class Prop<T> {
         return type.cast(defaultValue);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -144,9 +136,7 @@ public final class Prop<T> {
                 && defaultValue.equals(other.getDefaultValue());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = key.hashCode();
@@ -156,9 +146,7 @@ public final class Prop<T> {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "Proper{"

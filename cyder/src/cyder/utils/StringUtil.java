@@ -42,30 +42,20 @@ import static cyder.constants.CyderStrings.*;
  */
 @SuppressWarnings("SpellCheckingInspection") /* urls */
 public final class StringUtil {
-    /**
-     * The output pane to print to in the case an object is created.
-     */
+    /** The output pane to print to in the case an object is created. */
     private final CyderOutputPane linkedCyderPane;
 
-    /**
-     * The error message if the private constructor is invoked via reflection.
-     */
+    /** The error message if the private constructor is invoked via reflection. */
     private static final String INSTANTIATION_MESSAGE
             = "Instantiation of StringUtil is not permitted without a CyderOutputPane";
 
-    /**
-     * The opening char for html tags.
-     */
+    /** The opening char for html tags. */
     private static final String openingTagChar = "<";
 
-    /**
-     * The closing char for html tags.
-     */
+    /** The closing char for html tags. */
     private static final String closingTagChar = ">";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private StringUtil() {
         throw new IllegalMethodException(INSTANTIATION_MESSAGE);
     }
@@ -94,9 +84,7 @@ public final class StringUtil {
     // Methods which require an instance
     // ---------------------------------
 
-    /**
-     * Removes the first object from the linked pane, this could be anything from a Component to a String.
-     */
+    /** Removes the first object from the linked pane, this could be anything from a Component to a String. */
     public synchronized void removeFirst() {
         try {
             linkedCyderPane.getSemaphore().acquire();
@@ -164,9 +152,7 @@ public final class StringUtil {
         return count;
     }
 
-    /**
-     * The default number of elements of a {@link JTextPane}s {@link StyledDocument}.
-     */
+    /** The default number of elements of a {@link JTextPane}s {@link StyledDocument}. */
     private static final int defaultDocumentElements = 3;
 
     /**
@@ -311,9 +297,7 @@ public final class StringUtil {
         }
     }
 
-    /**
-     * Prints a newline to the linked JTextPane.
-     */
+    /** Prints a newline to the linked JTextPane. */
     public synchronized void newline() {
         println("");
     }
@@ -329,9 +313,7 @@ public final class StringUtil {
         }
     }
 
-    /**
-     * Prints a separator surrounded by newlines to the linked JTextPane.
-     */
+    /** Prints a separator surrounded by newlines to the linked JTextPane. */
     public synchronized void printSeparator() {
         printlnComponent(getMenuSeparator());
         newline();
@@ -341,39 +323,25 @@ public final class StringUtil {
     // End methods which require an instance
     // ------------------------------------
 
-    /**
-     * The text used to generate a menu separation label.
-     */
+    /** The text used to generate a menu separation label. */
     private static final String magicMenuSepText = "NateCheshire";
 
-    /**
-     * The starting x value for a menu separation.
-     */
+    /** The starting x value for a menu separation. */
     private static final int menuSepX = 0;
 
-    /**
-     * The starting y value for a menu separation.
-     */
+    /** The starting y value for a menu separation. */
     private static final int menuSepY = 7;
 
-    /**
-     * The width of menu separation components.
-     */
+    /** The width of menu separation components. */
     private static final int menuSepWidth = 175;
 
-    /**
-     * The height of menu separation components.
-     */
+    /** The height of menu separation components. */
     private static final int menuSepHeight = 5;
 
-    /**
-     * The bounds for a menu separation label.
-     */
+    /** The bounds for a menu separation label. */
     private static final Rectangle menuSepBounds = new Rectangle(menuSepX, menuSepY, menuSepWidth, menuSepHeight);
 
-    /**
-     * The default color of menu separator components.
-     */
+    /** The default color of menu separator components. */
     private static final Color DEFAULT_MENU_SEP_COLOR = CyderColors.vanilla;
 
     /**
@@ -653,9 +621,7 @@ public final class StringUtil {
         return false;
     }
 
-    /**
-     * The list of blocked words as found from the static file "blocked.txt".
-     */
+    /** The list of blocked words as found from the static file "blocked.txt". */
     private static final ImmutableList<String> BLOCKED_WORDS;
 
     static {
@@ -675,9 +641,7 @@ public final class StringUtil {
         BLOCKED_WORDS = ImmutableList.copyOf(blockedWords);
     }
 
-    /**
-     * A record for holding information regarding a located bad word.
-     */
+    /** A record for holding information regarding a located bad word. */
     public record BlockedWordResult(boolean failed, String triggerWord) {}
 
     /**
@@ -757,24 +721,16 @@ public final class StringUtil {
 
     }
 
-    /**
-     * The name for the element to grab from the DOM returned when getting a Dictionary.com html document.
-     */
+    /** The name for the element to grab from the DOM returned when getting a Dictionary.com html document. */
     private static final String DEFINITION_ELEMENT_NAME = "one-click-content css-nnyc96 e1q3nk1v1";
 
-    /**
-     * The dictionary base url.
-     */
+    /** The dictionary base url. */
     private static final String DICTIONARY_BASE = "https://www.dictionary.com/browse/";
 
-    /**
-     * The pad 10 class name of elements to remove from the JSoup document.
-     */
+    /** The pad 10 class name of elements to remove from the JSoup document. */
     private static final String PAD_10 = "pad_10";
 
-    /**
-     * The pad 20 class name of elements to remove from the JSoup document.
-     */
+    /** The pad 20 class name of elements to remove from the JSoup document. */
     private static final String PAD_20 = "pad_20";
 
     /**
@@ -799,14 +755,10 @@ public final class StringUtil {
         return Optional.empty();
     }
 
-    /**
-     * The additional part for a wikipedia summary scrape.
-     */
+    /** The additional part for a wikipedia summary scrape. */
     private static final String WIKI_SUM_PROP = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
 
-    /**
-     * The string to split the wikisum results on.
-     */
+    /** The string to split the wikisum results on. */
     private static final String wikiSumSplitOn = CyderStrings.quote + "extract"
             + CyderStrings.quote + CyderStrings.colon + CyderStrings.quote;
 
@@ -892,9 +844,7 @@ public final class StringUtil {
         return ImmutableList.copyOf(taggedStrings);
     }
 
-    /**
-     * The list of strings which are counted as null for comparisons by {@link #isNullOrEmpty(String)}.
-     */
+    /** The list of strings which are counted as null for comparisons by {@link #isNullOrEmpty(String)}. */
     public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
 
     /**
@@ -1289,18 +1239,12 @@ public final class StringUtil {
         return false;
     }
 
-    /**
-     * A class used for reflection to find special methods within an object.
-     */
+    /** A class used for reflection to find special methods within an object. */
     private static class GetterMethodResult {
-        /**
-         * The prefix for the method name to start with.
-         */
+        /** The prefix for the method name to start with. */
         private final String startsWith;
 
-        /**
-         * The result of invoking the getter method.
-         */
+        /** The result of invoking the getter method. */
         private String methodResult;
 
         /**

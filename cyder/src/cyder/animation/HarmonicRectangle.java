@@ -10,98 +10,60 @@ import cyder.threads.ThreadUtil;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * A simple rectangle which can grow and shrink for a simple animation.
- */
+/** A simple rectangle which can grow and shrink for a simple animation. */
 public class HarmonicRectangle extends JLabel {
-    /**
-     * The component's current width.
-     */
+    /** The component's current width. */
     private int currentWidth;
 
-    /**
-     * The component's current height.
-     */
+    /** The component's current height. */
     private int currentHeight;
 
-    /**
-     * The maximum allowable width for the component.
-     */
+    /** The maximum allowable width for the component. */
     private final int staticMaxWidth;
 
-    /**
-     * The maximum allowable height for the component.
-     */
+    /** The maximum allowable height for the component. */
     private final int staticMaxHeight;
 
-    /**
-     * The minimum allowable height for the component.
-     */
+    /** The minimum allowable height for the component. */
     private final int staticMinWidth;
 
-    /**
-     * The minimum allowable width for the component.
-     */
+    /** The minimum allowable width for the component. */
     private final int staticMinHeight;
 
-    /**
-     * The amount to increase or decrease the animation direction by.
-     */
+    /** The amount to increase or decrease the animation direction by. */
     private int animationInc = 1;
 
-    /**
-     * The delay between animation updates.
-     */
+    /** The delay between animation updates. */
     private int animationDelay = 50;
 
-    /**
-     * The background color of the drawn component.
-     */
+    /** The background color of the drawn component. */
     private Color backgroundColor = CyderColors.vanilla;
 
-    /**
-     * The current direction of harmonic oscillation.
-     */
+    /** The current direction of harmonic oscillation. */
     private HarmonicDirection harmonicDirection = HarmonicDirection.VERTICAL;
 
-    /**
-     * The position directions of harmonic oscillation.
-     */
+    /** The position directions of harmonic oscillation. */
     public enum HarmonicDirection {
-        /**
-         * The rectangle will oscillate in the vertical direction.
-         */
+        /** The rectangle will oscillate in the vertical direction. */
         VERTICAL,
 
-        /**
-         * The rectangle will oscillate in the horizontal direction.
-         */
+        /** The rectangle will oscillate in the horizontal direction. */
         HORIZONTAL
     }
 
-    /**
-     * The current state of the harmonic direction.
-     */
+    /** The current state of the harmonic direction. */
     private DeltaDirection deltaDirection = DeltaDirection.INCREASING;
 
-    /**
-     * The possible states of the harmonic direction.
-     */
+    /** The possible states of the harmonic direction. */
     public enum DeltaDirection {
-        /**
-         * The rectangle is currently increasing.
-         */
+        /** The rectangle is currently increasing. */
         INCREASING,
 
-        /**
-         * The rectangle is currently decreasing.
-         */
+        /** The rectangle is currently decreasing. */
         DECREASING
     }
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private HarmonicRectangle() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -131,25 +93,19 @@ public class HarmonicRectangle extends JLabel {
         super.setSize(staticMinWidth, staticMinHeight);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int getWidth() {
         return currentWidth;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int getHeight() {
         return currentHeight;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setSize(int width, int height) {
         currentWidth = width;
@@ -158,9 +114,7 @@ public class HarmonicRectangle extends JLabel {
         super.setSize(width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setBounds(int x, int y, int width, int height) {
         currentWidth = width;
@@ -243,9 +197,7 @@ public class HarmonicRectangle extends JLabel {
         this.animationInc = animationInc;
     }
 
-    /**
-     * Whether the rectangle is animating currently.
-     */
+    /** Whether the rectangle is animating currently. */
     private boolean isAnimating;
 
     /**
@@ -257,14 +209,10 @@ public class HarmonicRectangle extends JLabel {
         return isAnimating;
     }
 
-    /**
-     * The default animation thread name.
-     */
+    /** The default animation thread name. */
     private static final String DEFAULT_ANIMATION_THREAD_NAME = "Harmonic Rectangle Animator";
 
-    /**
-     * Starts the animation.
-     */
+    /** Starts the animation. */
     public void startAnimation() {
         startAnimation(DEFAULT_ANIMATION_THREAD_NAME);
 
@@ -285,9 +233,7 @@ public class HarmonicRectangle extends JLabel {
         CyderThreadRunner.submit(animationRunnable, threadName);
     }
 
-    /**
-     * The animation runnable used to automatically animate the rectangle.
-     */
+    /** The animation runnable used to automatically animate the rectangle. */
     private final Runnable animationRunnable = () -> {
         while (isAnimating) {
             animationStep();
@@ -295,9 +241,7 @@ public class HarmonicRectangle extends JLabel {
         }
     };
 
-    /**
-     * Takes an animation step.
-     */
+    /** Takes an animation step. */
     public void animationStep() {
         switch (harmonicDirection) {
             case HORIZONTAL:
@@ -359,16 +303,12 @@ public class HarmonicRectangle extends JLabel {
         repaint();
     }
 
-    /**
-     * Stops the animation of on-going.
-     */
+    /** Stops the animation of on-going. */
     public void stopAnimation() {
         isAnimating = false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paint(Graphics g) {
         g.setColor(backgroundColor);

@@ -10,13 +10,9 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
-/**
- * A utility class for querying threads, names, and counts.
- */
+/** A utility class for querying threads, names, and counts. */
 public final class ThreadUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ThreadUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

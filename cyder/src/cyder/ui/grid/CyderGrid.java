@@ -17,68 +17,42 @@ import java.util.Optional;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
-/**
- * A custom UI grid component.
- */
+/** A custom UI grid component. */
 public class CyderGrid extends JLabel {
-    /**
-     * The number of one dimension of nodes on the grid.
-     */
+    /** The number of one dimension of nodes on the grid. */
     private int nodes;
 
-    /**
-     * The default dimensional number of nodes.
-     */
+    /** The default dimensional number of nodes. */
     public static final int DEFAULT_MIN_NODES = 2;
 
-    /**
-     * The minimum nodes associated with the current grid.
-     */
+    /** The minimum nodes associated with the current grid. */
     private int minNodes = DEFAULT_MIN_NODES;
 
-    /**
-     * The maximum number of nodes associated with the current grid.
-     */
+    /** The maximum number of nodes associated with the current grid. */
     private int maxNodes = Integer.MAX_VALUE;
 
-    /**
-     * The dimension of nodes associated with the current grid.
-     */
+    /** The dimension of nodes associated with the current grid. */
     public static final int DEFAULT_NODES = 20;
 
-    /**
-     * The default physical length of the grid component.
-     */
+    /** The default physical length of the grid component. */
     public static final int DEFAULT_LENGTH = 400;
 
-    /**
-     * The minimum length of the grid.
-     */
+    /** The minimum length of the grid. */
     public static final int MIN_LENGTH = 50;
 
-    /**
-     * The physical length of the grid component.
-     */
+    /** The physical length of the grid component. */
     private final int gridComponentLength;
 
-    /**
-     * Whether the grid is resizable via mouse actions.
-     */
+    /** Whether the grid is resizable via mouse actions. */
     private boolean resizable;
 
-    /**
-     * The list which holds the nodes to display on the grid.
-     */
+    /** The list which holds the nodes to display on the grid. */
     private LinkedList<GridNode> grid;
 
-    /**
-     * The color to use for new nodes added to the grid.
-     */
+    /** The color to use for new nodes added to the grid. */
     private Color nodeColor = CyderColors.navy;
 
-    /**
-     * An enum for adding/removing nodes from the grid.
-     */
+    /** An enum for adding/removing nodes from the grid. */
     public enum Mode {
         ADD,
         DELETE,
@@ -87,39 +61,25 @@ public class CyderGrid extends JLabel {
         COLOR_SELECTION
     }
 
-    /**
-     * The current node placing mode.
-     */
+    /** The current node placing mode. */
     public Mode mode = Mode.ADD;
 
-    /**
-     * The width of the brush.
-     */
+    /** The width of the brush. */
     private int drawWidth = 1;
 
-    /**
-     * The list of nodes which evenly divide the grid component length.
-     */
+    /** The list of nodes which evenly divide the grid component length. */
     private final ArrayList<Integer> increments;
 
-    /**
-     * The offset of pixels by which we must translate to center the grid in it's provided area.
-     */
+    /** The offset of pixels by which we must translate to center the grid in it's provided area. */
     private float centeringDrawOffset;
 
-    /**
-     * The linked list of callables to invoke when the next node is placed.
-     */
+    /** The linked list of callables to invoke when the next node is placed. */
     private final LinkedList<Runnable> runnablesForWhenNextNodePlaced = new LinkedList<>();
 
-    /**
-     * The semaphore used to ensure thread-safety.
-     */
+    /** The semaphore used to ensure thread-safety. */
     private final Semaphore semaphore = new Semaphore(1);
 
-    /**
-     * Acquires the semaphore.
-     */
+    /** Acquires the semaphore. */
     private void lock() {
         try {
             semaphore.acquire();
@@ -128,21 +88,15 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    /**
-     * Releases the semaphore.
-     */
+    /** Releases the semaphore. */
     private void unlock() {
         semaphore.release();
     }
 
-    /**
-     * The list of callbacks to invoke when the grid is resized.
-     */
+    /** The list of callbacks to invoke when the grid is resized. */
     private final ArrayList<Runnable> onResizeCallbacks = new ArrayList<>();
 
-    /**
-     * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
-     */
+    /** Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}. */
     public CyderGrid() {
         this(DEFAULT_NODES, DEFAULT_LENGTH);
     }
@@ -304,25 +258,19 @@ public class CyderGrid extends JLabel {
         onResizeCallbacks.forEach(Runnable::run);
     }
 
-    /**
-     * Clears the grid of all nodes.
-     */
+    /** Clears the grid of all nodes. */
     public void clearGrid() {
         grid.clear();
         repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -444,16 +392,12 @@ public class CyderGrid extends JLabel {
         this.resizable = resizable;
     }
 
-    /**
-     * Adds the listener which allows nodes to be placed via click on the grid.
-     */
+    /** Adds the listener which allows nodes to be placed via click on the grid. */
     public void installClickListener() {
         addMouseListener(clickListener);
     }
 
-    /**
-     * Installs the click and drag placer to this grid.
-     */
+    /** Installs the click and drag placer to this grid. */
     public void installClickAndDragPlacer() {
         removeMouseListener(clickListener);
         removeMouseMotionListener(dragListener);
@@ -461,9 +405,7 @@ public class CyderGrid extends JLabel {
         installClickListener();
     }
 
-    /**
-     * Removes the click and drag placers from this grid.
-     */
+    /** Removes the click and drag placers from this grid. */
     public void uninstallClickAndDragPlacer() {
         removeMouseListener(clickListener);
         removeMouseMotionListener(dragListener);
@@ -570,9 +512,7 @@ public class CyderGrid extends JLabel {
         point2Selection = null;
     }
 
-    /**
-     * The listener which allows nodes to be placed on the grid via click.
-     */
+    /** The listener which allows nodes to be placed on the grid via click. */
     private final MouseAdapter clickListener = new MouseAdapter() {
         // only on click for region selection and state saving
         @Override
@@ -596,18 +536,14 @@ public class CyderGrid extends JLabel {
         }
     };
 
-    /**
-     * Adds the listener which allows nodes to be placed via drag events on the grid.
-     */
+    /** Adds the listener which allows nodes to be placed via drag events on the grid. */
     public void installDragListener() {
         addMouseMotionListener(dragListener);
     }
 
     private GridNode lastNodePlacedViaDrag;
 
-    /**
-     * The listener which allows nodes to be placed during drag events.
-     */
+    /** The listener which allows nodes to be placed during drag events. */
     private final MouseMotionListener dragListener = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -624,19 +560,13 @@ public class CyderGrid extends JLabel {
         }
     };
 
-    /**
-     * The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll in events.
-     */
+    /** The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll in events. */
     private static final int zoomingInWheelRotation = -1;
 
-    /**
-     * The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll out events.
-     */
+    /** The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll out events. */
     private static final int zoomingOutWheelRotation = 1;
 
-    /**
-     * The listener used to increase/decrease the number of nodes on the grid.
-     */
+    /** The listener used to increase/decrease the number of nodes on the grid. */
     private final MouseWheelListener zoomListener = new MouseAdapter() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
@@ -679,9 +609,7 @@ public class CyderGrid extends JLabel {
         }
     };
 
-    /**
-     * Whether grid lines should be drawn.
-     */
+    /** Whether grid lines should be drawn. */
     private boolean drawGridLines = true;
 
     /**
@@ -757,9 +685,7 @@ public class CyderGrid extends JLabel {
         return nodeColor;
     }
 
-    /**
-     * Whether grid zooming should only be allowed in increments which result in perfect divisibility.
-     */
+    /** Whether grid zooming should only be allowed in increments which result in perfect divisibility. */
     private boolean smoothScrolling;
 
     /**
@@ -843,9 +769,7 @@ public class CyderGrid extends JLabel {
     // state logic
     // -------------
 
-    /**
-     * Whether states should be saved for possible traversal.
-     */
+    /** Whether states should be saved for possible traversal. */
     private boolean saveStates = true;
 
     /**
@@ -880,19 +804,13 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    /**
-     * The forward states of the grid.
-     */
+    /** The forward states of the grid. */
     private final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
 
-    /**
-     * The backward states of the grid.
-     */
+    /** The backward states of the grid. */
     private final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
 
-    /**
-     * Sets the grid state to the next state if available.
-     */
+    /** Sets the grid state to the next state if available. */
     public void forwardState() {
         if (!forwardStates.isEmpty()) {
             // push current state backwards
@@ -906,9 +824,7 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    /**
-     * Sets the grid state to the last state if available.
-     */
+    /** Sets the grid state to the last state if available. */
     public void backwardState() {
         if (!backwardStates.isEmpty()) {
             // push current state forward
@@ -926,19 +842,13 @@ public class CyderGrid extends JLabel {
     // Cropping logic
     // --------------
 
-    /**
-     * The first point of selection.
-     */
+    /** The first point of selection. */
     private Point point1Selection;
 
-    /**
-     * The second point of selection. This point can be updated as the mouse moves if it is being held down.
-     */
+    /** The second point of selection. This point can be updated as the mouse moves if it is being held down. */
     private Point point2Selection;
 
-    /**
-     * Handles a crop action and updates the highlighted region if intended to be drawn.
-     */
+    /** Handles a crop action and updates the highlighted region if intended to be drawn. */
     private void handleCropMovement(Point node) {
         Preconditions.checkNotNull(node);
 
@@ -951,9 +861,7 @@ public class CyderGrid extends JLabel {
         point2Selection = new Point(node.x, node.y);
     }
 
-    /**
-     * Crops the grid to the currently selected region.
-     */
+    /** Crops the grid to the currently selected region. */
     public void cropToSelectedRegion() {
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
@@ -1007,9 +915,7 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    /**
-     * Delete the nodes in the selected region.
-     */
+    /** Delete the nodes in the selected region. */
     public void deleteSelectedRegion() {
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
@@ -1057,9 +963,7 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    /**
-     * Rotates the nodes in the selected region by 90 degrees to the left.
-     */
+    /** Rotates the nodes in the selected region by 90 degrees to the left. */
     @SuppressWarnings("SuspiciousNameCombination") /* parameters seem reversed for matrix rotation logic */
     public void rotateRegion() {
         int firstX = 0;
@@ -1165,9 +1069,7 @@ public class CyderGrid extends JLabel {
         repaint();
     }
 
-    /**
-     * Reflects the selected region across the horizontal axis.
-     */
+    /** Reflects the selected region across the horizontal axis. */
     public void reflectRegionHorizontally() {
         int firstX = 0;
         int firstY = 0;
@@ -1272,9 +1174,7 @@ public class CyderGrid extends JLabel {
         runnablesForWhenNextNodePlaced.add(Preconditions.checkNotNull(runnable));
     }
 
-    /**
-     * Invokes all the runnables currently added to the list.
-     */
+    /** Invokes all the runnables currently added to the list. */
     private void invokeRunnables() {
         for (Runnable runnable : runnablesForWhenNextNodePlaced) {
             runnable.run();
@@ -1283,9 +1183,7 @@ public class CyderGrid extends JLabel {
         runnablesForWhenNextNodePlaced.clear();
     }
 
-    /**
-     * Clears the runnables to invoke when the next node is placed.
-     */
+    /** Clears the runnables to invoke when the next node is placed. */
     public void removeInvokeWhenNodePlacedRunnables() {
         runnablesForWhenNextNodePlaced.clear();
     }
@@ -1372,9 +1270,7 @@ public class CyderGrid extends JLabel {
         onResizeCallbacks.remove(Preconditions.checkNotNull(callback));
     }
 
-    /**
-     * Removes all on resize callbacks.
-     */
+    /** Removes all on resize callbacks. */
     public void removeAllOnResizeCallbacks() {
         onResizeCallbacks.clear();
     }

@@ -12,39 +12,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Anything outside of the dynamic directory should not be changed by Cyder.
  */
 public enum Dynamic {
-    /**
-     * The temporary directory.
-     */
+    /** The temporary directory. */
     TEMP("tmp"),
 
-    /**
-     * The backup directory for user json backups.
-     */
+    /** The backup directory for user json backups. */
     BACKUP("backup"),
 
-    /**
-     * The users directory.
-     */
+    /** The users directory. */
     USERS("users"),
 
-    /**
-     * The logs directory.
-     */
+    /** The logs directory. */
     LOGS("logs"),
 
-    /**
-     * The executables directory.
-     */
+    /** The executables directory. */
     EXES("exes");
 
-    /**
-     * The path from the top level Cyder directory to the dynamic root.
-     */
+    /** The path from the top level Cyder directory to the dynamic root. */
     public static final String PATH = "dynamic";
 
-    /**
-     * The actual name of the directory to create.
-     */
+    /** The actual name of the directory to create. */
     private final String directoryName;
 
     /**

@@ -24,185 +24,113 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 
-/**
- * A widget for ordering pizza.
- */
+/** A widget for ordering pizza. */
 @Vanilla
 @CyderAuthor
 public final class PizzaWidget {
-    /**
-     * The widget frame.
-     */
+    /** The widget frame. */
     private static CyderFrame pizzaFrame;
 
-    /**
-     * The customer name field.
-     */
+    /** The customer name field. */
     private static CyderTextField nameField;
 
-    /**
-     * The checkbox group for the pizza size checkboxes.
-     */
+    /** The checkbox group for the pizza size checkboxes. */
     private static CyderCheckboxGroup sizeGroup;
 
-    /**
-     * The small pizza checkbox.
-     */
+    /** The small pizza checkbox. */
     private static CyderCheckbox smallCheckbox;
 
-    /**
-     * The medium pizza checkbox.
-     */
+    /** The medium pizza checkbox. */
     private static CyderCheckbox mediumCheckbox;
 
-    /**
-     * The large pizza checkbox.
-     */
+    /** The large pizza checkbox. */
     private static CyderCheckbox largeCheckbox;
 
-    /**
-     * The pizza toppings scroll list.
-     */
+    /** The pizza toppings scroll list. */
     private static CyderScrollList pizzaToppingsScroll;
 
-    /**
-     * The crust type scroll list.
-     */
+    /** The crust type scroll list. */
     private static CyderScrollList crustTypeScroll;
 
-    /**
-     * The comments area.
-     */
+    /** The comments area. */
     private static JTextArea orderComments;
 
-    /**
-     * The bread sticks checkbox.
-     */
+    /** The bread sticks checkbox. */
     private static CyderCheckbox breadSticks;
 
-    /**
-     * The salad checkbox.
-     */
+    /** The salad checkbox. */
     private static CyderCheckbox salad;
 
-    /**
-     * The soda checkbox.
-     */
+    /** The soda checkbox. */
     private static CyderCheckbox soda;
 
-    /**
-     * The title of the widget frame.
-     */
+    /** The title of the widget frame. */
     private static final String FRAME_TITLE = "Pizza";
 
-    /**
-     * The width of the widget frame.
-     */
+    /** The width of the widget frame. */
     private static final int FRAME_WIDTH = 600;
 
-    /**
-     * The height of the widget frame.
-     */
+    /** The height of the widget frame. */
     private static final int FRAME_HEIGHT = 800;
 
-    /**
-     * The text of the name label.
-     */
+    /** The text of the name label. */
     private static final String NAME = "Name:";
 
-    /**
-     * The text of the size label.
-     */
+    /** The text of the size label. */
     private static final String SIZE = "Size:";
 
-    /**
-     * The small text.
-     */
+    /** The small text. */
     private static final String SMALL = "Small";
 
-    /**
-     * The medium text.
-     */
+    /** The medium text. */
     private static final String MEDIUM = "Medium";
 
-    /**
-     * The large text.
-     */
+    /** The large text. */
     private static final String LARGE = "Large";
 
-    /**
-     * The crust type label text.
-     */
+    /** The crust type label text. */
     private static final String CRUST_TYPE = "Crust Type";
 
-    /**
-     * The toppings label text.
-     */
+    /** The toppings label text. */
     private static final String TOPPINGS = "Toppings";
 
-    /**
-     * The rest button text.
-     */
+    /** The rest button text. */
     private static final String RESET = "Reset";
 
-    /**
-     * The place order button text.
-     */
+    /** The place order button text. */
     private static final String PLACE_ORDER = "Place Order";
 
-    /**
-     * The extras label text.
-     */
+    /** The extras label text. */
     private static final String EXTRAS = "Extras:";
 
-    /**
-     * The bread sticks string.
-     */
+    /** The bread sticks string. */
     private static final String BREAD_STICKS = "Bread Sticks";
 
-    /**
-     * The salad string.
-     */
+    /** The salad string. */
     private static final String SALAD = "Salad";
 
-    /**
-     * The soda string.
-     */
+    /** The soda string. */
     private static final String SODA = "Soda";
 
-    /**
-     * The order comments string.
-     */
+    /** The order comments string. */
     private static final String ORDER_COMMENTS = "Order Comments";
 
-    /**
-     * The value for an empty topping list.
-     */
+    /** The value for an empty topping list. */
     private static final String PLAIN = "Plain";
 
-    /**
-     * The default crust type.
-     */
+    /** The default crust type. */
     private static final String THIN = "Thin";
 
-    /**
-     * The text for if no order comments are specified.
-     */
+    /** The text for if no order comments are specified. */
     private static final String NO_COMMENTS = "No comments";
 
-    /**
-     * The title of the order confirmation inform pane.
-     */
+    /** The title of the order confirmation inform pane. */
     private static final String informTitle = "Order";
 
-    /**
-     * The text for if no extras are specified.
-     */
+    /** The text for if no extras are specified. */
     private static final String NO_EXTRAS = "No extras";
 
-    /**
-     * The possible values for pizza crusts.
-     */
+    /** The possible values for pizza crusts. */
     private static final ImmutableList<String> crustTypes = ImmutableList.of(
             "Thin",
             "Thick",
@@ -211,9 +139,7 @@ public final class PizzaWidget {
             "Tavern",
             "Seasonal");
 
-    /**
-     * The possible values for pizza toppings.
-     */
+    /** The possible values for pizza toppings. */
     private static final ImmutableList<String> pizzaToppings = ImmutableList.of(
             "Pepperoni",
             "Sausage",
@@ -227,24 +153,16 @@ public final class PizzaWidget {
             "Olives",
             "Mushrooms");
 
-    /**
-     * The length of the pizza topping scroll (width and height).
-     */
+    /** The length of the pizza topping scroll (width and height). */
     private static final int pizzaToppingsScrollLength = 200;
 
-    /**
-     * The width of the crust type scroll.
-     */
+    /** The width of the crust type scroll. */
     private static final int crustScrollWidth = 160;
 
-    /**
-     * The height of the crust type scroll.
-     */
+    /** The height of the crust type scroll. */
     private static final int crustScrollHeight = 200;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PizzaWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -422,9 +340,7 @@ public final class PizzaWidget {
         pizzaFrame.finalizeAndShow();
     }
 
-    /**
-     * The action to run when the place order button is clicked.
-     */
+    /** The action to run when the place order button is clicked. */
     @ForReadability
     private static void placeOrderAction() {
         String name = nameField.getTrimmedText();
@@ -519,9 +435,7 @@ public final class PizzaWidget {
         }
     }
 
-    /**
-     * Resets the state of the pizza widget.
-     */
+    /** Resets the state of the pizza widget. */
     @ForReadability
     private static void reset() {
         nameField.setText("");

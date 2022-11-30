@@ -1,4 +1,2 @@
-/**
- * Simple games implemented in Cyder.
- */
+/** Simple games implemented in Cyder. */
 package cyder.games;

@@ -23,34 +23,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  * See <a href="https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805">Stackoverflow</a>
  */
 public class CyderScrollPane extends JScrollPane {
-    /**
-     * The maximum alpha of the scroll bar (the value for when the mouse is hovering).
-     */
+    /** The maximum alpha of the scroll bar (the value for when the mouse is hovering). */
     private int maxScrollbarAlpha = 140;
 
-    /**
-     * The minimum alpha of the scroll bar (the default value).
-     */
+    /** The minimum alpha of the scroll bar (the default value). */
     private int minScrollbarAlpha = 60;
 
-    /**
-     * The size of the thumb by default.
-     */
+    /** The size of the thumb by default. */
     private static int thumbSize = 8;
 
-    /**
-     * The size of the scrollbar.
-     */
+    /** The size of the scrollbar. */
     private static int scrollbarSize = 10;
 
-    /**
-     * The default thumb color for a scroll pane.
-     */
+    /** The default thumb color for a scroll pane. */
     private static final Color DEFAULT_THUMB_COLOR = CyderColors.regularPink;
 
-    /**
-     * The color the scroll bar.
-     */
+    /** The color the scroll bar. */
     private static Color thumbColor = DEFAULT_THUMB_COLOR;
 
     /**
@@ -138,9 +126,7 @@ public class CyderScrollPane extends JScrollPane {
         thumbColor = c;
     }
 
-    /**
-     * The view this scrollpane is for.
-     */
+    /** The view this scrollpane is for. */
     private final Component view;
 
     /**
@@ -260,49 +246,33 @@ public class CyderScrollPane extends JScrollPane {
                 && horizontalScrollBarPolicy != HORIZONTAL_SCROLLBAR_NEVER;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setHorizontalScrollBarPolicy(int policy) {
         horizontalScrollBarPolicy = policy;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setVerticalScrollBarPolicy(int policy) {
         verticalScrollBarPolicy = policy;
     }
 
-    /**
-     * Inner class extending the BasicScrollBarUI that overrides all necessary methods.
-     */
+    /** Inner class extending the BasicScrollBarUI that overrides all necessary methods. */
     private static class ModernScrollBarUI extends BasicScrollBarUI {
-        /**
-         * The scrollpane this ui is controlling.
-         */
+        /** The scrollpane this ui is controlling. */
         private final JScrollPane scrollPane;
 
-        /**
-         * The current alpha value.
-         */
+        /** The current alpha value. */
         private final AtomicInteger currentAlpha = new AtomicInteger();
 
-        /**
-         * The maximum alpha value for the scroll bar's default state.
-         */
+        /** The maximum alpha value for the scroll bar's default state. */
         private int maxScrollbarAlpha;
 
-        /**
-         * The minimum alpha value for the scroll bar's hover state.
-         */
+        /** The minimum alpha value for the scroll bar's hover state. */
         private int minScrollbarAlpha;
 
-        /**
-         * The scroll pane this ui is for.
-         */
+        /** The scroll pane this ui is for. */
         private Component parent;
 
         /**
@@ -342,36 +312,26 @@ public class CyderScrollPane extends JScrollPane {
             scrollPane = Preconditions.checkNotNull(scrollpane);
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         protected JButton createDecreaseButton(int orientation) {
             return new InvisibleScrollBarButton();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         protected JButton createIncreaseButton(int orientation) {
             return new InvisibleScrollBarButton();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         protected void paintTrack(Graphics graphics, JComponent component, Rectangle trackBounds) {}
 
-        /**
-         * The boolean for knowing when a state changes in the rollover.
-         */
+        /** The boolean for knowing when a state changes in the rollover. */
         private final AtomicBoolean mouseInsideThumb = new AtomicBoolean();
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         protected void paintThumb(Graphics graphics, JComponent component, Rectangle thumbBounds) {
             boolean currentThumbRollover = isThumbRollover();
@@ -411,38 +371,26 @@ public class CyderScrollPane extends JScrollPane {
             graphics2D.dispose();
         }
 
-        /**
-         * Ends the increment and decrement animations if on-going.
-         */
+        /** Ends the increment and decrement animations if on-going. */
         @ForReadability
         private void endAnimations() {
             alphaIncrementAnimationRunning.set(false);
             alphaDecrementAnimationRunning.set(false);
         }
 
-        /**
-         * The delay between alpha animation decrements.
-         */
+        /** The delay between alpha animation decrements. */
         private final int alphaAnimationTimeout = 5;
 
-        /**
-         * The value to change when incrementing or decrementing alpha for the alpha animation.
-         */
+        /** The value to change when incrementing or decrementing alpha for the alpha animation. */
         private final int alphaAnimationDelta = 2;
 
-        /**
-         * Whether the alpha decrement animation thread is running.
-         */
+        /** Whether the alpha decrement animation thread is running. */
         private final AtomicBoolean alphaDecrementAnimationRunning = new AtomicBoolean();
 
-        /**
-         * The alpha animation decrementer thread name.
-         */
+        /** The alpha animation decrementer thread name. */
         private static final String ALPHA_DECREMENT_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Decrementer";
 
-        /**
-         * Starts the alpha decrement animation thread for mouse enter events.
-         */
+        /** Starts the alpha decrement animation thread for mouse enter events. */
         private void startAlphaDecrementAnimation() {
             if (animationRunning()) return;
 
@@ -467,19 +415,13 @@ public class CyderScrollPane extends JScrollPane {
             }, ALPHA_DECREMENT_ANIMATION_THREAD_NAME);
         }
 
-        /**
-         * Whether the alpha increment animation thread is running.
-         */
+        /** Whether the alpha increment animation thread is running. */
         private final AtomicBoolean alphaIncrementAnimationRunning = new AtomicBoolean();
 
-        /**
-         * The alpha animation incrementer thread name.
-         */
+        /** The alpha animation incrementer thread name. */
         private static final String ALPHA_INCREMENT_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Incrementer";
 
-        /**
-         * Starts the alpha increment animation thread for mouse exit events.
-         */
+        /** Starts the alpha increment animation thread for mouse exit events. */
         private void startAlphaIncrementAnimation() {
             if (animationRunning()) return;
 
@@ -514,9 +456,7 @@ public class CyderScrollPane extends JScrollPane {
             return alphaIncrementAnimationRunning.get() || alphaDecrementAnimationRunning.get();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         protected void setThumbBounds(int x, int y, int width, int height) {
             super.setThumbBounds(x, y, width, height);
@@ -524,13 +464,9 @@ public class CyderScrollPane extends JScrollPane {
         }
     }
 
-    /**
-     * An invisible button to use for the scroll bar so that the buttons to navigate left/right/up/down are invisible.
-     */
+    /** An invisible button to use for the scroll bar so that the buttons to navigate left/right/up/down are invisible. */
     private static class InvisibleScrollBarButton extends JButton {
-        /**
-         * Constructs a new invisible scrollbar button.
-         */
+        /** Constructs a new invisible scrollbar button. */
         private InvisibleScrollBarButton() {
             setOpaque(false);
             setFocusable(false);
@@ -540,9 +476,7 @@ public class CyderScrollPane extends JScrollPane {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);

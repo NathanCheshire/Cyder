@@ -11,20 +11,14 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A class used to submit runnables and executors.
- */
+/** A class used to submit runnables and executors. */
 public final class CyderThreadRunner {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private CyderThreadRunner() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The threads ran for this session of Cyder.
-     */
+    /** The threads ran for this session of Cyder. */
     private static final AtomicInteger threadsRan = new AtomicInteger();
 
     /**

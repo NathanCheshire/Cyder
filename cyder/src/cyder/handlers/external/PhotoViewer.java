@@ -29,43 +29,27 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.Optional;
 
-/**
- * A widget which displays the images supported by Cyder in a provided directory.
- */
+/** A widget which displays the images supported by Cyder in a provided directory. */
 public class PhotoViewer {
-    /**
-     * The list of valid image files in the current directory, not recursive.
-     */
+    /** The list of valid image files in the current directory, not recursive. */
     private final LinkedList<File> validDirectoryImages = new LinkedList<>();
 
-    /**
-     * The starting directory/file.
-     */
+    /** The starting directory/file. */
     private final File photoDirectory;
 
-    /**
-     * The current index of the valid directory images list.
-     */
+    /** The current index of the valid directory images list. */
     private int currentIndex;
 
-    /**
-     * The image frame.
-     */
+    /** The image frame. */
     private CyderFrame pictureFrame;
 
-    /**
-     * The next image button.
-     */
+    /** The next image button. */
     private RightButton nextButton;
 
-    /**
-     * The last image button.
-     */
+    /** The last image button. */
     private LeftButton lastButton;
 
-    /**
-     * The watcher for the photo directory.
-     */
+    /** The watcher for the photo directory. */
     private final DirectoryWatcher photoDirectoryWatcher;
 
     /**
@@ -99,9 +83,7 @@ public class PhotoViewer {
         this.photoDirectoryWatcher = new DirectoryWatcher(watcherDirectory);
     }
 
-    /**
-     * Opens the instance of photo viewer.
-     */
+    /** Opens the instance of photo viewer. */
     public void showGui() {
         String threadName = "PhotoViewer showGui thread, initial directory: " + photoDirectory;
         CyderThreadRunner.submit(() -> {
@@ -150,14 +132,10 @@ public class PhotoViewer {
         }, threadName);
     }
 
-    /**
-     * The next keyword.
-     */
+    /** The next keyword. */
     private static final String NEXT = "Next";
 
-    /**
-     * The last keyword.
-     */
+    /** The last keyword. */
     private static final String LAST = "Last";
 
     /**
@@ -174,9 +152,7 @@ public class PhotoViewer {
         };
     }
 
-    /**
-     * Refreshes the valid files list.
-     */
+    /** Refreshes the valid files list. */
     private void refreshValidFiles() {
         validDirectoryImages.clear();
 
@@ -243,14 +219,10 @@ public class PhotoViewer {
         revalidateTitle(FileUtil.getFilename(validDirectoryImages.get(currentIndex).getName()));
     }
 
-    /**
-     * The maximum length of the photo viewer frame.
-     */
+    /** The maximum length of the photo viewer frame. */
     private static final int MAX_LEN = 800;
 
-    /**
-     * The maximum dimension of the photo viewer frame.
-     */
+    /** The maximum dimension of the photo viewer frame. */
     private static final Dimension MAX_DIMENSION = new Dimension(MAX_LEN, MAX_LEN);
 
     /**
@@ -272,9 +244,7 @@ public class PhotoViewer {
         throw new IllegalStateException("Could not generate ImageIcon for file: " + imageFile.getAbsolutePath());
     }
 
-    /**
-     * Attempts to rename the current image file if not in use by the Console.
-     */
+    /** Attempts to rename the current image file if not in use by the Console. */
     private void rename() {
         File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
         File currentBackground = Console.INSTANCE
@@ -331,9 +301,7 @@ public class PhotoViewer {
         }, "PhotoViewer Image Renamer: " + this);
     }
 
-    /**
-     * The callback to run whenever a photo is renamed.
-     */
+    /** The callback to run whenever a photo is renamed. */
     private Runnable onRenameCallback;
 
     /**
@@ -382,9 +350,7 @@ public class PhotoViewer {
         photoDirectoryWatcher.startWatching();
     }
 
-    /**
-     * Revalidates the visibility of the navigation buttons.
-     */
+    /** Revalidates the visibility of the navigation buttons. */
     private void revalidateNavigationButtonVisibility() {
         refreshValidFiles();
         setNavigationButtonsVisible(validDirectoryImages.size() > 1);

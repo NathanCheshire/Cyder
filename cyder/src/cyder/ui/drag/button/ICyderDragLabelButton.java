@@ -5,9 +5,7 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 
-/**
- * An interface for all drag label buttons to implement.
- */
+/** An interface for all drag label buttons to implement. */
 public interface ICyderDragLabelButton {
     /**
      * Sets the size of this drag label button and repaints this button.
@@ -37,14 +35,10 @@ public interface ICyderDragLabelButton {
      */
     void removeClickAction(Runnable clickAction);
 
-    /**
-     * Clears the click actions list.
-     */
+    /** Clears the click actions list. */
     void clearClickActions();
 
-    /**
-     * Invokes all click actions.
-     */
+    /** Invokes all click actions. */
     void invokeClickActions();
 
     /**
@@ -68,14 +62,10 @@ public interface ICyderDragLabelButton {
      */
     void removeMouseOverAction(Runnable mouseOverAction);
 
-    /**
-     * Clears the mouse over actions list.
-     */
+    /** Clears the mouse over actions list. */
     void clearMouseOverActions();
 
-    /**
-     * Invokes all mouse over actions.
-     */
+    /** Invokes all mouse over actions. */
     void invokeMouseOverActions();
 
     /**
@@ -99,14 +89,10 @@ public interface ICyderDragLabelButton {
      */
     void removeMouseExitAction(Runnable mouseExitAction);
 
-    /**
-     * Clears the mouse exit actions list.
-     */
+    /** Clears the mouse exit actions list. */
     void clearMouseExitActions();
 
-    /**
-     * Invokes all mouse exit actions.
-     */
+    /** Invokes all mouse exit actions. */
     void invokeMouseExitActions();
 
     /**
@@ -130,14 +116,10 @@ public interface ICyderDragLabelButton {
      */
     void removeFocusGainedAction(Runnable focusGainedAction);
 
-    /**
-     * Clears the focus gained actions list.
-     */
+    /** Clears the focus gained actions list. */
     void clearFocusGainedActions();
 
-    /**
-     * Invokes all focus gained actions.
-     */
+    /** Invokes all focus gained actions. */
     void invokeFocusGainedActions();
 
     /**
@@ -161,24 +143,16 @@ public interface ICyderDragLabelButton {
      */
     void removeFocusLostAction(Runnable focusLostAction);
 
-    /**
-     * Clears the focus lost actions list.
-     */
+    /** Clears the focus lost actions list. */
     void clearFocusLostActions();
 
-    /**
-     * Invokes all focus lost actions.
-     */
+    /** Invokes all focus lost actions. */
     void invokeFocusLostActions();
 
-    /**
-     * The default color for a non hovered or focused button.
-     */
+    /** The default color for a non hovered or focused button. */
     Color defaultColor = CyderColors.vanilla;
 
-    /**
-     * The hover and focus color.
-     */
+    /** The hover and focus color. */
     Color defaultHoverAndFocusColor = CyderColors.regularRed;
 
     /**
@@ -188,14 +162,10 @@ public interface ICyderDragLabelButton {
      */
     Color getPaintColor();
 
-    /**
-     * Adds the default mouse adapter to this button.
-     */
+    /** Adds the default mouse adapter to this button. */
     void addDefaultMouseAdapter();
 
-    /**
-     * Adds the default focus adapter to this button.
-     */
+    /** Adds the default focus adapter to this button. */
     void addDefaultFocusAdapter();
 
     /**

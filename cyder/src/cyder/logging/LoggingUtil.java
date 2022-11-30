@@ -16,13 +16,9 @@ import java.util.LinkedList;
 
 import static cyder.constants.CyderStrings.*;
 
-/**
- * Utilities necessary for the Cyder logger.
- */
+/** Utilities necessary for the Cyder logger. */
 public final class LoggingUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private LoggingUtil() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
@@ -84,9 +80,7 @@ public final class LoggingUtil {
         return CyderRegexPatterns.standardLogLinePattern.matcher(line).matches();
     }
 
-    /**
-     * The maximum number of chars per line of a log.
-     */
+    /** The maximum number of chars per line of a log. */
     public static final int MAX_LINE_LENGTH = 120;
 
     /**
@@ -95,9 +89,7 @@ public final class LoggingUtil {
      */
     private static final int BREAK_INSERTION_TOL = 10;
 
-    /**
-     * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
-     */
+    /** The chars to check to split at before splitting in between a line at whatever character a split index falls on. */
     private static final ImmutableList<Character> BREAK_CHARS
             = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',', ':');
 
@@ -208,14 +200,10 @@ public final class LoggingUtil {
         return string.isEmpty() || string.equals(CyderStrings.newline);
     }
 
-    /**
-     * The filename of the file that contains the Cyder signature to place at the top of log files.
-     */
+    /** The filename of the file that contains the Cyder signature to place at the top of log files. */
     private static final String SIGNATURE_FILE_NAME = "cyder.txt";
 
-    /**
-     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
-     */
+    /** The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo. */
     private static ImmutableList<String> headerLogoLines = ImmutableList.of();
 
     static {

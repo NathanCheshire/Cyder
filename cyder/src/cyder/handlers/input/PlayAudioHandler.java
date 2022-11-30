@@ -19,13 +19,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
-/**
- * A handler for commands that play audio.
- */
+/** A handler for commands that play audio. */
 public class PlayAudioHandler extends InputHandler {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PlayAudioHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -91,20 +87,14 @@ public class PlayAudioHandler extends InputHandler {
         return ret;
     }
 
-    /**
-     * The all the stars music file.
-     */
+    /** The all the stars music file. */
     private static final File allTheStars = StaticUtil.getStaticResource("allthestars.mp3");
 
-    /**
-     * The Beyno font.
-     */
+    /** The Beyno font. */
     private static final Font beynoFont = new CyderFonts.FontBuilder("BEYNO")
             .setSize(getInputHandler().getJTextPane().getFont().getSize()).generate();
 
-    /**
-     * The chadwick boseman bletchy text.
-     */
+    /** The chadwick boseman bletchy text. */
     private static final String chadwickBosemanBletchyText = "RIP CHADWICK BOSEMAN";
 
     /**
@@ -113,9 +103,7 @@ public class PlayAudioHandler extends InputHandler {
      */
     private static final int chadwickBosemanResetFontDelay = 4000;
 
-    /**
-     * Shows the Chadwick Boseman easter egg.
-     */
+    /** Shows the Chadwick Boseman easter egg. */
     private static void chadwickBosemanEasterEgg() {
         String threadName = "Chadwick Boseman Easter Egg Thread";
         CyderThreadRunner.submit(() -> {

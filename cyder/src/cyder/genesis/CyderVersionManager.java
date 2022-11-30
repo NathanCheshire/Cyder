@@ -3,41 +3,27 @@ package cyder.genesis;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
-/**
- * A manager for the program's name, version name, release date, released state, and similar states.
- */
+/** A manager for the program's name, version name, release date, released state, and similar states. */
 @SuppressWarnings("FieldCanBeLocal") /* Readability */
 public enum CyderVersionManager {
-    /**
-     * The version manager instance.
-     */
+    /** The version manager instance. */
     INSTANCE;
 
-    /**
-     * Constructor explicitly defined for logging purposes.
-     */
+    /** Constructor explicitly defined for logging purposes. */
     CyderVersionManager() {
         Logger.log(LogTag.OBJECT_CREATION, "Version manager constructed");
     }
 
-    /**
-     * The program name.
-     */
+    /** The program name. */
     private final String programName = "Cyder";
 
-    /**
-     * The version name.
-     */
+    /** The version name. */
     private final String version = "Liminal";
 
-    /**
-     * The date of release.
-     */
+    /** The date of release. */
     private final String releaseDate = "Not Yet Determined";
 
-    /**
-     * Whether this release is publicly available.
-     */
+    /** Whether this release is publicly available. */
     private final boolean released = false;
 
     /**

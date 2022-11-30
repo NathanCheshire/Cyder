@@ -43,46 +43,30 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @SuppressWarnings("SpellCheckingInspection") /* Cyder specific words */
 public class BaseInputHandler {
-    /**
-     * The linked CyderOutputPane.
-     */
+    /** The linked CyderOutputPane. */
     private final CyderOutputPane linkedOutputPane;
 
-    /**
-     * boolean describing whether to quickly append all remaining queued objects to the linked JTextPane.
-     */
+    /** boolean describing whether to quickly append all remaining queued objects to the linked JTextPane. */
     private boolean shouldFinishPrinting;
 
-    /**
-     * The file to redirect the outputs of a command to if redirection is enabled.
-     */
+    /** The file to redirect the outputs of a command to if redirection is enabled. */
     private File redirectionFile;
 
-    /**
-     * Boolean describing whether possible command output should be redirected to the redirectionFile.
-     */
+    /** Boolean describing whether possible command output should be redirected to the redirectionFile. */
     private boolean redirection;
 
-    /**
-     * The command that is being handled.
-     */
+    /** The command that is being handled. */
     private String command;
 
-    /**
-     * The arguments of the command.
-     */
+    /** The arguments of the command. */
     private final ArrayList<String> args = new ArrayList<>();
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The robot used for screen operations.
-     */
+    /** The robot used for screen operations. */
     private static final Robot robot;
 
     static {
@@ -129,18 +113,14 @@ public class BaseInputHandler {
         BletchyThread.initialize(linkedOutputPane);
     }
 
-    /**
-     * Clears the console printing lists.
-     */
+    /** Clears the console printing lists. */
     @ForReadability
     private void clearLists() {
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
     }
 
-    /**
-     * The handles which contain specific triggers for pre-determined commands.
-     */
+    /** The handles which contain specific triggers for pre-determined commands. */
     public static final ImmutableList<Class<? extends InputHandler>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class,
@@ -284,9 +264,7 @@ public class BaseInputHandler {
         return true;
     }
 
-    /**
-     * Parses the current command into arguments and a command.
-     */
+    /** Parses the current command into arguments and a command. */
     private void parseArgsFromCommand() {
         String[] parts = this.command.split(CyderRegexPatterns.whiteSpaceRegex);
         this.command = parts[0];
@@ -305,18 +283,14 @@ public class BaseInputHandler {
         return StringUtil.containsBlockedWords(command, true);
     }
 
-    /**
-     * Resets redirection, the redirection file, and the arguments array.
-     */
+    /** Resets redirection, the redirection file, and the arguments array. */
     private void resetMembers() {
         redirection = false;
         redirectionFile = null;
         args.clear();
     }
 
-    /**
-     * Checks for a requested redirection and attempts to create the file if valid.
-     */
+    /** Checks for a requested redirection and attempts to create the file if valid. */
     private void redirectionCheck() {
         if (args.size() < 2) return;
         String secondToLastArg = args.get(args.size() - 2);
@@ -351,9 +325,7 @@ public class BaseInputHandler {
         }
     }
 
-    /**
-     * Handles a failed redirection attempt.
-     */
+    /** Handles a failed redirection attempt. */
     private void failedRedirection() {
         redirection = false;
         redirectionFile = null;
@@ -367,14 +339,10 @@ public class BaseInputHandler {
      */
     private static final float SIMILAR_COMMAND_TOL = 0.80f;
 
-    /**
-     * The name of the thread for handling unknown input.
-     */
+    /** The name of the thread for handling unknown input. */
     private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
 
-    /**
-     * The final handle method for if all other handle methods failed.
-     */
+    /** The final handle method for if all other handle methods failed. */
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
             SimilarCommand similarCommandObj = getSimilarCommand(command);
@@ -465,9 +433,7 @@ public class BaseInputHandler {
                 : Optional.of(mostSimilarTrigger), mostSimilarRatio);
     }
 
-    /**
-     * The actions performed when it is known that a wrap shell action should be taken.
-     */
+    /** The actions performed when it is known that a wrap shell action should be taken. */
     @ForReadability
     private void performWrapShell() {
         println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName()
@@ -512,19 +478,13 @@ public class BaseInputHandler {
         return builder.start();
     }
 
-    /**
-     * Used to escape the terminal wrapper.
-     */
+    /** Used to escape the terminal wrapper. */
     private boolean escapeWrapShell;
 
-    /**
-     * The name of the thread when wrapping the shell
-     */
+    /** The name of the thread when wrapping the shell */
     private static final String WRAP_SHELL_THREAD_NAME = "Wrap Shell Thread";
 
-    /**
-     * The text to print for an unknown command.
-     */
+    /** The text to print for an unknown command. */
     private static final String UNKNOWN_COMMAND = "Unknown command";
 
     /**
@@ -545,9 +505,7 @@ public class BaseInputHandler {
         BletchyThread.kill();
     }
 
-    /**
-     * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
-     */
+    /** Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList. */
     private final Semaphore printingListAddLock = new Semaphore(1);
 
     /**
@@ -607,14 +565,10 @@ public class BaseInputHandler {
         }
     };
 
-    /**
-     * Whether the printing animation thread is running
-     */
+    /** Whether the printing animation thread is running */
     private boolean printingAnimationRunning;
 
-    /**
-     * Begins the typing animation for the Console if it has not already started.
-     */
+    /** Begins the typing animation for the Console if it has not already started. */
     private void startConsolePrintingAnimationIfNeeded() {
         if (printingAnimationRunning) return;
         printingAnimationRunning = true;
@@ -631,9 +585,7 @@ public class BaseInputHandler {
         return consolePrintingList.isEmpty() && consolePriorityPrintingList.isEmpty();
     }
 
-    /**
-     * The delay between updating the value of typing animation from the current user's userdata.
-     */
+    /** The delay between updating the value of typing animation from the current user's userdata. */
     private static final int USER_DATA_POLL_FREQUENCY_MS = 3000;
 
     /**
@@ -656,9 +608,7 @@ public class BaseInputHandler {
         return UserUtil.getCyderUser().getTypingSound().equals("1");
     }
 
-    /**
-     * The console printing animation runnable.
-     */
+    /** The console printing animation runnable. */
     private final Runnable consolePrintingRunnable = () -> {
         try {
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
@@ -802,9 +752,7 @@ public class BaseInputHandler {
     // End document insert methods
     // ---------------------------
 
-    /**
-     * The frequency at which to play a typing sound effect if enabled.
-     */
+    /** The frequency at which to play a typing sound effect if enabled. */
     private static final int TYPING_ANIMATION_SOUND_FREQUENCY = Props.printingAnimationSoundFrequency.getValue();
 
     /**
@@ -813,9 +761,7 @@ public class BaseInputHandler {
      */
     private final AtomicInteger typingAnimationCharsInserted = new AtomicInteger();
 
-    /**
-     * The path to the typing sound effect.
-     */
+    /** The path to the typing sound effect. */
     private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
 
     /**
@@ -871,14 +817,10 @@ public class BaseInputHandler {
     // Document entity removal
     // -----------------------
 
-    /**
-     * The deafult number of elements in a document.
-     */
+    /** The deafult number of elements in a document. */
     private static final int defaultDocumentEntities = 3;
 
-    /**
-     * The number of times to call {@link #removeLastElement()} from within {@link #removeLastEntity()}.
-     */
+    /** The number of times to call {@link #removeLastElement()} from within {@link #removeLastEntity()}. */
     private static final int removeLastElementCalls = 2;
 
     /**
@@ -914,9 +856,7 @@ public class BaseInputHandler {
         return linkedOutputPane.getStringUtil().getLastTextLine();
     }
 
-    /**
-     * Removes the last line added to the linked JTextPane such as a component, image icon, string, or newline.
-     */
+    /** Removes the last line added to the linked JTextPane such as a component, image icon, string, or newline. */
     private void removeLastElement() {
         linkedOutputPane.getStringUtil().removeLastElement();
     }
@@ -931,9 +871,7 @@ public class BaseInputHandler {
      */
     private final Semaphore redirectionSem = new Semaphore(1);
 
-    /**
-     * The error message to print if redirection fails.
-     */
+    /** The error message to print if redirection fails. */
     private static final String REDIRECTION_ERROR_MESSAGE = "Could not redirect output";
 
     /**
@@ -962,9 +900,7 @@ public class BaseInputHandler {
         }
     }
 
-    /**
-     * The escaped string.
-     */
+    /** The escaped string. */
     private static final String ESCAPED = "Escaped";
 
     /**
@@ -982,17 +918,13 @@ public class BaseInputHandler {
         resetHandlers();
     }
 
-    /**
-     * Resets the handle iterations and redirection handler.
-     */
+    /** Resets the handle iterations and redirection handler. */
     public void resetHandlers() {
         handleIterations = 0;
         redirectionHandler = null;
     }
 
-    /**
-     * The iteration the current handler is on.
-     */
+    /** The iteration the current handler is on. */
     private int handleIterations = 0;
 
     /**
@@ -1013,9 +945,7 @@ public class BaseInputHandler {
         this.handleIterations = handleIterations;
     }
 
-    /**
-     * The current handler to send the input to.
-     */
+    /** The current handler to send the input to. */
     private Class<?> redirectionHandler;
 
     /**
@@ -1173,14 +1103,10 @@ public class BaseInputHandler {
     // Generic print methods
     // ---------------------
 
-    /**
-     * The printing semaphore.
-     */
+    /** The printing semaphore. */
     private final Semaphore printingSemaphore = new Semaphore(1);
 
-    /**
-     * Aqquires the printing lock.
-     */
+    /** Aqquires the printing lock. */
     private void acquirePrintingLock() {
         try {
             printingSemaphore.acquire();
@@ -1189,9 +1115,7 @@ public class BaseInputHandler {
         }
     }
 
-    /**
-     * Releases the printing lock.
-     */
+    /** Releases the printing lock. */
     private void releasePrintingLock() {
         printingSemaphore.release();
     }

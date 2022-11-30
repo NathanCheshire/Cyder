@@ -26,64 +26,40 @@ import java.nio.ByteOrder;
  */
 @Immutable
 public class WaveFile {
-    /**
-     * The number of bits per sample of a wav file.
-     */
+    /** The number of bits per sample of a wav file. */
     public static final int BITS_PER_SAMPLE = 8;
 
-    /**
-     * The number of bytes for an integer primitive.
-     */
+    /** The number of bytes for an integer primitive. */
     public static final int INT_SIZE = 4;
 
-    /**
-     * The number of channels of the wav.
-     */
+    /** The number of channels of the wav. */
     private int numChannels;
 
-    /**
-     * The wav byte data.
-     */
+    /** The wav byte data. */
     private byte[] data;
 
-    /**
-     * Whether the file could be decoded and is playable.
-     */
+    /** Whether the file could be decoded and is playable. */
     private boolean isPlayable;
 
-    /**
-     * The audio format of the wav.
-     */
+    /** The audio format of the wav. */
     private AudioFormat audioFormat;
 
-    /**
-     * The clip object for the wav.
-     */
+    /** The clip object for the wav. */
     private Clip clip;
 
-    /**
-     * The sample size of the wav.
-     */
+    /** The sample size of the wav. */
     private int sampleSize = AudioSystem.NOT_SPECIFIED;
 
-    /**
-     * The number of frames of the wav.
-     */
+    /** The number of frames of the wav. */
     private long numFrames = AudioSystem.NOT_SPECIFIED;
 
-    /**
-     * The sample rate of the wav.
-     */
+    /** The sample rate of the wav. */
     private int sampleRate = AudioSystem.NOT_SPECIFIED;
 
-    /**
-     * The wrapped wav file.
-     */
+    /** The wrapped wav file. */
     private final File wavFile;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private WaveFile() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -172,16 +148,12 @@ public class WaveFile {
         return isPlayable;
     }
 
-    /**
-     * Play the clip of this wav file.
-     */
+    /** Play the clip of this wav file. */
     public void play() {
         clip.start();
     }
 
-    /**
-     * Stops the clip of this wav file.
-     */
+    /** Stops the clip of this wav file. */
     public void stop() {
         clip.stop();
     }

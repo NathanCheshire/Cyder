@@ -24,30 +24,20 @@ import java.util.Optional;
 
 import static cyder.props.PropConstants.*;
 
-/**
- * A class for loading props from prop files from the props directory for usage throughout Cyder.
- */
+/** A class for loading props from prop files from the props directory for usage throughout Cyder. */
 public final class PropLoader {
-    /**
-     * The new props map of keys to the string values which require casting.
-     */
+    /** The new props map of keys to the string values which require casting. */
     private static ImmutableMap<String, String> newProps = ImmutableMap.of();
 
-    /**
-     * Whether the props have been loaded.
-     */
+    /** Whether the props have been loaded. */
     private static boolean propsLoaded;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PropLoader() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * Reloads the props from the found prop files.
-     */
+    /** Reloads the props from the found prop files. */
     public static void reloadProps() {
         propsLoaded = false;
         newProps = ImmutableMap.of();
@@ -83,9 +73,7 @@ public final class PropLoader {
         return Optional.empty();
     }
 
-    /**
-     * Loads the props from all discovered prop files.
-     */
+    /** Loads the props from all discovered prop files. */
     static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
 

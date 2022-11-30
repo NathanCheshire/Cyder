@@ -1,17 +1,11 @@
 package cyder.ui.slider;
 
-/**
- * Slider thumb shapes for a {@link javax.swing.JSlider}.
- */
+/** Slider thumb shapes for a {@link javax.swing.JSlider}. */
 public enum ThumbShape {
-    /**
-     * A classic filled circle.
-     */
+    /** A classic filled circle. */
     CIRCLE,
 
-    /**
-     * A rectangle biased towards the opposite slider direction.
-     */
+    /** A rectangle biased towards the opposite slider direction. */
     RECTANGLE,
 
     /**
@@ -20,8 +14,6 @@ public enum ThumbShape {
      */
     HOLLOW_CIRCLE,
 
-    /**
-     * No thumb will be painted.
-     */
+    /** No thumb will be painted. */
     NONE
 }

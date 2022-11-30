@@ -33,13 +33,9 @@ import java.util.stream.IntStream;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.constants.CyderStrings.*;
 
-/**
- * A getter utility for getting strings, confirmations, files, etc. from the user.
- */
+/** A getter utility for getting strings, confirmations, files, etc. from the user. */
 public final class GetterUtil {
-    /**
-     * To obtain an instance, use {@link GetterUtil#getInstance()}.
-     */
+    /** To obtain an instance, use {@link GetterUtil#getInstance()}. */
     private GetterUtil() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -57,45 +53,31 @@ public final class GetterUtil {
     // Frame tracking logic
     // --------------------
 
-    /**
-     * All the currently active get input frames associated with this instance.
-     */
+    /** All the currently active get input frames associated with this instance. */
     private final ArrayList<CyderFrame> getInputFrames = new ArrayList<>();
 
-    /**
-     * All the currently active get file frames associated with this instance.
-     */
+    /** All the currently active get file frames associated with this instance. */
     private final ArrayList<CyderFrame> getFileFrames = new ArrayList<>();
 
-    /**
-     * All the currently active get confirmation confirmation associated with this instance.
-     */
+    /** All the currently active get confirmation confirmation associated with this instance. */
     private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
 
-    /**
-     * Closes all get input frames associated with this instance.
-     */
+    /** Closes all get input frames associated with this instance. */
     public void closeAllGetInputFrames() {
         getInputFrames.forEach(frame -> frame.dispose(true));
     }
 
-    /**
-     * Closes all get file frames associated with this instance.
-     */
+    /** Closes all get file frames associated with this instance. */
     public void closeAllGetFileFrames() {
         getFileFrames.forEach(frame -> frame.dispose(true));
     }
 
-    /**
-     * Closes all get confirmation frames associated with this instance.
-     */
+    /** Closes all get confirmation frames associated with this instance. */
     public void closeAllGetConfirmationFrames() {
         getConfirmationFrames.forEach(frame -> frame.dispose(true));
     }
 
-    /**
-     * Closes all getter frames associated with this instance.
-     */
+    /** Closes all getter frames associated with this instance. */
     public void closeAllGetFrames() {
         closeAllGetInputFrames();
         closeAllGetFileFrames();
@@ -106,24 +88,16 @@ public final class GetterUtil {
     // End frame tracking logic
     // ------------------------
 
-    /**
-     * The minimum width for a get input frame.
-     */
+    /** The minimum width for a get input frame. */
     private static final int getInputMinimumFrameWidth = 400;
 
-    /**
-     * The top and bottom padding for a get input popup.
-     */
+    /** The top and bottom padding for a get input popup. */
     private static final int getInputComponentYPadding = 10;
 
-    /**
-     * The left and right padding for a get input popup.
-     */
+    /** The left and right padding for a get input popup. */
     private static final int getInputFieldAndButtonXPadding = 40;
 
-    /**
-     * The height of the get input frame's input field and submit button.
-     */
+    /** The height of the get input frame's input field and submit button. */
     private static final int getInputFieldAndButtonHeight = 40;
 
     /**
@@ -251,191 +225,117 @@ public final class GetterUtil {
                 : Optional.of(ret);
     }
 
-    /**
-     * The label which holds the scroll.
-     */
+    /** The label which holds the scroll. */
     private JLabel directoryScrollLabel;
 
-    /**
-     * The last button for the file traversal stack.
-     */
+    /** The last button for the file traversal stack. */
     private CyderButton lastDirectory;
 
-    /**
-     * The next button for the file traversal stack.
-     */
+    /** The next button for the file traversal stack. */
     private CyderButton nextDirectory;
 
-    /**
-     * The list of strings to display for the current files.
-     */
+    /** The list of strings to display for the current files. */
     private final LinkedList<String> filesNamesList = new LinkedList<>();
 
-    /**
-     * The files which correspond to the current files.
-     */
+    /** The files which correspond to the current files. */
     private final LinkedList<File> filesList = new LinkedList<>();
 
-    /**
-     * The backward stack.
-     */
+    /** The backward stack. */
     private final Stack<File> backwardDirectories = new Stack<>();
 
-    /**
-     * The forward stack.
-     */
+    /** The forward stack. */
     private final Stack<File> forwardDirectories = new Stack<>();
 
-    /**
-     * The current location for the file getter.
-     */
+    /** The current location for the file getter. */
     private File currentDirectory;
 
-    /**
-     * The directory frame for the file getter.
-     */
+    /** The directory frame for the file getter. */
     private CyderFrame directoryFrame;
 
-    /**
-     * The scroll view for the files.
-     */
+    /** The scroll view for the files. */
     private CyderScrollList directoryScrollList;
 
-    /**
-     * The file to return once chosen.
-     */
+    /** The file to return once chosen. */
     private final AtomicReference<File> setOnFileChosen = new AtomicReference<>();
 
-    /**
-     * The thread name for the file getter threads which load the initial directory's files.
-     */
+    /** The thread name for the file getter threads which load the initial directory's files. */
     private static final String FILE_GETTER_LOADER = "File Getter Loader";
 
-    /**
-     * The initial title for file getter frames.
-     */
+    /** The initial title for file getter frames. */
     private static final String INITIAL_DIRECTORY_FRAME_TITLE = "File getter";
 
-    /**
-     * The null file.
-     */
+    /** The null file. */
     private static final File nullFile = new File(NULL);
 
-    /**
-     * The text for the last button.
-     */
+    /** The text for the last button. */
     private static final String LAST_BUTTON_TEXT = space + "<" + space;
 
-    /**
-     * The text for the next button.
-     */
+    /** The text for the next button. */
     private static final String NEXT_BUTTON_TEXT = space + ">" + space;
 
-    /**
-     * The border for the next and last buttons.
-     */
+    /** The border for the next and last buttons. */
     private static final LineBorder getFileButtonBorder
             = new LineBorder(CyderColors.navy, 5, false);
 
-    /**
-     * The width of the directory scroll component.
-     */
+    /** The width of the directory scroll component. */
     private static final int directoryScrollWidth = 600;
 
-    /**
-     * The height of the directory scroll component.
-     */
+    /** The height of the directory scroll component. */
     private static final int directoryScrollHeight = 400;
 
-    /**
-     * The padding value used for components near the get file frame.
-     */
+    /** The padding value used for components near the get file frame. */
     private static final int getFilePadding = 10;
 
-    /**
-     * The size of the navigation buttons.
-     */
+    /** The size of the navigation buttons. */
     private static final int navButtonSize = 40;
 
-    /**
-     * The y value of the directory scroll component.
-     */
+    /** The y value of the directory scroll component. */
     private static final int dirScrollYOffset = CyderDragLabel.DEFAULT_HEIGHT + navButtonSize + 2 * getFilePadding;
 
-    /**
-     * The label to let the user know the files are being loaded from the current directory for the file getter.
-     */
+    /** The label to let the user know the files are being loaded from the current directory for the file getter. */
     private final JLabel loadingFilesLabel = new JLabel();
 
-    /**
-     * The directory field.
-     */
+    /** The directory field. */
     private static CyderTextField directoryField;
 
-    /**
-     * The font for the items of the files scroll list.
-     */
+    /** The font for the items of the files scroll list. */
     private static final Font directoryScrollFont = new Font(CyderFonts.SEGOE_UI_BLACK, Font.BOLD, 16);
 
-    /**
-     * The x value of the directory field.
-     */
+    /** The x value of the directory field. */
     private static final int directoryFieldX = getFilePadding + navButtonSize + getFilePadding;
 
-    /**
-     * The directory field width.
-     */
+    /** The directory field width. */
     private static final int directoryFieldWidth = directoryScrollWidth - 2 * navButtonSize - 2 * getFilePadding;
 
-    /**
-     * The y value of the components at the top of the get file frame.
-     */
+    /** The y value of the components at the top of the get file frame. */
     private static final int getFileTopComponentY = CyderDragLabel.DEFAULT_HEIGHT + getFilePadding;
 
-    /**
-     * The padding from all other components/padding and the get file frame border.
-     */
+    /** The padding from all other components/padding and the get file frame border. */
     private static final int getFileFrameXPadding = 15;
 
-    /**
-     * The width of the file chooser frame.
-     */
+    /** The width of the file chooser frame. */
     private static final int fileChooserFrameWidth = directoryScrollWidth + 2 * getFileFrameXPadding;
 
-    /**
-     * The padding on the bottom of the file chooser frame.
-     */
+    /** The padding on the bottom of the file chooser frame. */
     private static final int fileChooserBottomFramePadding = 100;
 
-    /**
-     * The height of the file chooser frame.
-     */
+    /** The height of the file chooser frame. */
     private static final int frameHeight = directoryScrollHeight + navButtonSize
             + 2 * getFilePadding + fileChooserBottomFramePadding;
 
-    /**
-     * The y value of the submit file button.
-     */
+    /** The y value of the submit file button. */
     private static final int submitFileButtonY = frameHeight - navButtonSize - 2 * getFilePadding;
 
-    /**
-     * The submit file button.
-     */
+    /** The submit file button. */
     private CyderButton submitFileButton;
 
-    /**
-     * The submit text for the submit button.
-     */
+    /** The submit text for the submit button. */
     private static final String SUBMIT = "Submit";
 
-    /**
-     * Whether the submit button text should be updated to reflect the currently selected file/directory.
-     */
+    /** Whether the submit button text should be updated to reflect the currently selected file/directory. */
     private final AtomicBoolean shouldUpdateSubmitButtonText = new AtomicBoolean();
 
-    /**
-     * The directory text.
-     */
+    /** The directory text. */
     private static final String DIRECTORY = "Directory";
 
     /**
@@ -646,9 +546,7 @@ public final class GetterUtil {
         }
     }
 
-    /**
-     * Resets the current directory and file navigation history.
-     */
+    /** Resets the current directory and file navigation history. */
     private void resetFileHistory() {
         currentDirectory = nullFile;
         backwardDirectories.clear();
@@ -657,9 +555,7 @@ public final class GetterUtil {
         filesNamesList.clear();
     }
 
-    /**
-     * Refreshes the files scroll based off of the {@link #currentDirectory}.
-     */
+    /** Refreshes the files scroll based off of the {@link #currentDirectory}. */
     private void refreshFiles() {
         CyderThreadRunner.submit(() -> {
             if (directoryScrollLabel != null) directoryFrame.remove(directoryScrollLabel);
@@ -725,9 +621,7 @@ public final class GetterUtil {
         }, FILE_GETTER_LOADER);
     }
 
-    /**
-     * Pushes the current directory to the backwards directory if the proper conditions are met.
-     */
+    /** Pushes the current directory to the backwards directory if the proper conditions are met. */
     private void storeCurrentDirectory() {
         if (backwardDirectories.isEmpty()) {
             backwardDirectories.push(currentDirectory);
@@ -739,9 +633,7 @@ public final class GetterUtil {
         }
     }
 
-    /**
-     * Sets up the loading files label.
-     */
+    /** Sets up the loading files label. */
     private void setupLoadingFilesLabel() {
         loadingFilesLabel.setText(StringUtil.addCenteringToHtml(LOADING));
         loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -765,44 +657,28 @@ public final class GetterUtil {
         directoryField.setEnabled(enabled);
     }
 
-    /**
-     * The padding of the confirmation buttons.
-     */
+    /** The padding of the confirmation buttons. */
     private static final int confirmationButtonXPadding = 20;
 
-    /**
-     * The height of the confirmation buttons.
-     */
+    /** The height of the confirmation buttons. */
     private static final int confirmationButtonHeight = 40;
 
-    /**
-     * The padding between the top of the frame and confirmation frame components.
-     */
+    /** The padding between the top of the frame and confirmation frame components. */
     private static final int confirmationFrameTopPadding = 40;
 
-    /**
-     * The padding between the bottom of the confirmation text and the next components.
-     */
+    /** The padding between the bottom of the confirmation text and the next components. */
     private static final int confirmationTextBottomPadding = 20;
 
-    /**
-     * The padding between the confirmation buttons and the bottom of the frame.
-     */
+    /** The padding between the confirmation buttons and the bottom of the frame. */
     private static final int confirmationButtonBottomPadding = 25;
 
-    /**
-     * The padding between the frame edges and the confirmation label.
-     */
+    /** The padding between the frame edges and the confirmation label. */
     private static final int confirmationTextLabelXPadding = 10;
 
-    /**
-     * The number of confirmation buttons.
-     */
+    /** The number of confirmation buttons. */
     private static final int numConfirmationButtons = 2;
 
-    /**
-     * The padding between the confirmation buttons.
-     */
+    /** The padding between the confirmation buttons. */
     private static final int yesNoButtonPadding = 30;
 
     /**

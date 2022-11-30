@@ -9,30 +9,20 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-/**
- * A mouse motion listener to allow a component to be dragged during runtime.
- */
+/** A mouse motion listener to allow a component to be dragged during runtime. */
 public class CyderDraggableComponent implements MouseMotionListener {
-    /**
-     * The current x location of the mouse relative to the parent component\.
-     */
+    /** The current x location of the mouse relative to the parent component\. */
     private int xMouse;
 
-    /**
-     * The current y location of the mouse relative to the parent component\.
-     */
+    /** The current y location of the mouse relative to the parent component\. */
     private int yMouse;
 
-    /**
-     * Constructs a new draggable component.
-     */
+    /** Constructs a new draggable component. */
     public CyderDraggableComponent() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void mouseDragged(MouseEvent e) {
         if (!Props.componentsRelocatable.getValue()) return;
@@ -47,18 +37,14 @@ public class CyderDraggableComponent implements MouseMotionListener {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void mouseMoved(MouseEvent e) {
         xMouse = e.getX();
         yMouse = e.getY();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final String toString() {
         return StringUtil.commonCyderToString(this);

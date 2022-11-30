@@ -23,112 +23,70 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 
-/**
- * Convex hull widget that solve a convex hull problem using a CyderGrid as the drawing label.
- */
+/** Convex hull widget that solve a convex hull problem using a CyderGrid as the drawing label. */
 @Vanilla
 @CyderAuthor
 public final class ConvexHullWidget {
-    /**
-     * The CyderFrame to use for the convex hull widget.
-     */
+    /** The CyderFrame to use for the convex hull widget. */
     private static CyderFrame hullFrame;
 
-    /**
-     * The grid to use to represent points in space.
-     */
+    /** The grid to use to represent points in space. */
     private static CyderGrid gridComponent;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ConvexHullWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The title of the frame.
-     */
+    /** The title of the frame. */
     private static final String FRAME_TITLE = "Convex Hull";
 
-    /**
-     * The solve button text.
-     */
+    /** The solve button text. */
     private static final String SOLVE = "Solve";
 
-    /**
-     * The reset button text.
-     */
+    /** The reset button text. */
     private static final String RESET = "Reset";
 
-    /**
-     * The number of grid nodes.
-     */
+    /** The number of grid nodes. */
     private static final int GRID_NODES = 175;
 
-    /**
-     * The length of the grid.
-     */
+    /** The length of the grid. */
     private static final int GRID_LENGTH = 700;
 
-    /**
-     * The padding around the edges of the grid.
-     */
+    /** The padding around the edges of the grid. */
     private static final int GRID_PADDING = 3;
 
-    /**
-     * The size of the parent component for the grid.
-     */
+    /** The size of the parent component for the grid. */
     private static final int GRID_PARENT_LEN = GRID_LENGTH + 2 * GRID_PADDING;
 
-    /**
-     * The width of the frame.
-     */
+    /** The width of the frame. */
     private static final int FRAME_WIDTH = 800;
 
-    /**
-     * The height of the frame.
-     */
+    /** The height of the frame. */
     private static final int FRAME_HEIGHT = 850;
 
-    /**
-     * The size of the buttons.
-     */
+    /** The size of the buttons. */
     private static final Dimension BUTTON_SIZE = new Dimension(300, 40);
 
-    /**
-     * The top and bottom button padding.
-     */
+    /** The top and bottom button padding. */
     private static final int BUTTON_Y_PADDING = 10;
 
-    /**
-     * The color of the nodes the user places on the grid.
-     */
+    /** The color of the nodes the user places on the grid. */
     private static final Color PLACED_NODE_COLOR = CyderColors.regularPink;
 
-    /**
-     * The color of the nodes placed by the algorithm.
-     */
+    /** The color of the nodes placed by the algorithm. */
     private static final Color WALL_NODE_COLOR = CyderColors.navy;
 
-    /**
-     * The border for the grid component.
-     */
+    /** The border for the grid component. */
     private static final LineBorder GRID_PARENT_BORDER = new LineBorder(CyderColors.navy, GRID_PADDING);
 
-    /**
-     * The minimum number of points required to form a polygon in 2D space.
-     */
+    /** The minimum number of points required to form a polygon in 2D space. */
     private static final int MIN_POLYGON_POINTS = 3;
 
-    /**
-     * The text to display in a notification if the four corners of the grid are occupied.
-     */
+    /** The text to display in a notification if the four corners of the grid are occupied. */
     private static final String FOUR_CORNERS = "Congratulations, you played yourself";
 
-    /**
-     * Shows the convex hull widget.
-     */
+    /** Shows the convex hull widget. */
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"convex", "convex hull"}, description = "A convex hull algorithm visualizer")
     public static void showGui() {
@@ -182,9 +140,7 @@ public final class ConvexHullWidget {
         hullFrame.finalizeAndShow();
     }
 
-    /**
-     * The actions to invoke when the solve button is pressed.
-     */
+    /** The actions to invoke when the solve button is pressed. */
     private static void solveButtonAction() {
         gridComponent.setGridNodes(new LinkedList<>(gridComponent.getNodesOfColor(PLACED_NODE_COLOR)));
 
@@ -220,9 +176,7 @@ public final class ConvexHullWidget {
         }
     }
 
-    /**
-     * Checks to see if the four corner grid nodes have a user-placed node in them.
-     */
+    /** Checks to see if the four corner grid nodes have a user-placed node in them. */
     @ForReadability
     private static void checkFourCorners() {
         int min = 0;
@@ -340,21 +294,13 @@ public final class ConvexHullWidget {
         return min;
     }
 
-    /**
-     * The possible degrees of rotate between two points and a reference point.
-     */
+    /** The possible degrees of rotate between two points and a reference point. */
     private enum PointRotation {
-        /**
-         * The points result in a clock wise turn.
-         */
+        /** The points result in a clock wise turn. */
         CLOCK_WISE,
-        /**
-         * The points result in a counter clock wise turn.
-         */
+        /** The points result in a counter clock wise turn. */
         COUNTER_CLOCK_WISE,
-        /**
-         * The points are co-linear.
-         */
+        /** The points are co-linear. */
         CO_LINEAR
     }
 
@@ -419,9 +365,7 @@ public final class ConvexHullWidget {
         });
     }
 
-    /**
-     * Resets the convex hull state and grid.
-     */
+    /** Resets the convex hull state and grid. */
     private static void reset() {
         gridComponent.clearGrid();
     }

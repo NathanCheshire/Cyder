@@ -12,38 +12,24 @@ import javax.swing.*;
 
 import static cyder.constants.CyderStrings.quote;
 
-/**
- * A builder for a CyderFrame notification.
- */
+/** A builder for a CyderFrame notification. */
 public final class NotificationBuilder {
-    /**
-     * The html styled text to display.
-     */
+    /** The html styled text to display. */
     private final String htmlText;
 
-    /**
-     * The duration the notification should be visible for in ms not counting the animation period.
-     */
+    /** The duration the notification should be visible for in ms not counting the animation period. */
     private int viewDuration = 5000;
 
-    /**
-     * The direction to draw the notification arrow.
-     */
+    /** The direction to draw the notification arrow. */
     private Direction arrowDir = Direction.TOP;
 
-    /**
-     * The runnable to invoke upon the notification being killed by a user.
-     */
+    /** The runnable to invoke upon the notification being killed by a user. */
     private Runnable onKillAction;
 
-    /**
-     * The direction for the notification to appear/disappear from/to.
-     */
+    /** The direction for the notification to appear/disappear from/to. */
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
 
-    /**
-     * The type of notification, i.e. notification vs toast.
-     */
+    /** The type of notification, i.e. notification vs toast. */
     private CyderNotification.NotificationType notificationType = CyderNotification.NotificationType.NOTIFICATION;
 
     /**
@@ -52,14 +38,10 @@ public final class NotificationBuilder {
      */
     private JLabel container;
 
-    /**
-     * Whether the view duration should be auto-calculated.
-     */
+    /** Whether the view duration should be auto-calculated. */
     private boolean calculateViewDuration;
 
-    /**
-     * The time the notification was originally constructed at.
-     */
+    /** The time the notification was originally constructed at. */
     private final String notifyTime;
 
     /**
@@ -248,9 +230,7 @@ public final class NotificationBuilder {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -271,9 +251,7 @@ public final class NotificationBuilder {
                 && Objects.equal(container, other.container);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int ret = Integer.hashCode(viewDuration);
@@ -285,9 +263,7 @@ public final class NotificationBuilder {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "NotificationBuilder{"

@@ -49,247 +49,151 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
 
-/**
- * Conway's game of life visualizer.
- */
+/** Conway's game of life visualizer. */
 @Vanilla
 @CyderAuthor
 public final class GameOfLifeWidget {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private GameOfLifeWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The game of life frame.
-     */
+    /** The game of life frame. */
     private static CyderFrame conwayFrame;
 
-    /**
-     * The top-level grid used to display the current generation.
-     */
+    /** The top-level grid used to display the current generation. */
     private static CyderGrid conwayGrid;
 
-    /**
-     * The button to begin/stop (pause) the simulation.
-     */
+    /** The button to begin/stop (pause) the simulation. */
     private static CyderButton stopSimulationButton;
 
-    /**
-     * The combo box to cycle through the built-in presets.
-     */
+    /** The combo box to cycle through the built-in presets. */
     private static CyderComboBox presetComboBox;
 
-    /**
-     * The slider to speed up/slow down the simulation.
-     */
+    /** The slider to speed up/slow down the simulation. */
     private static JSlider iterationsPerSecondSlider;
 
-    /**
-     * The switch to toggle between detecting oscillations.
-     */
+    /** The switch to toggle between detecting oscillations. */
     private static CyderSwitch detectOscillationsSwitch;
 
-    /**
-     * Whether the simulation is running
-     */
+    /** Whether the simulation is running */
     private static boolean simulationRunning;
 
-    /**
-     * The minimum allowable iterations per second.
-     */
+    /** The minimum allowable iterations per second. */
     private static final int MIN_ITERATIONS_PER_SECOND = 1;
 
-    /**
-     * The initial and default iterations per second.
-     */
+    /** The initial and default iterations per second. */
     private static final int DEFAULT_ITERATIONS_PER_SECOND = 45;
 
-    /**
-     * The number of iterations to compute per second.
-     */
+    /** The number of iterations to compute per second. */
     private static int iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
-    /**
-     * The maximum number of iterations per second.
-     */
+    /** The maximum number of iterations per second. */
     private static final int MAX_ITERATIONS_PER_SECOND = 100;
 
-    /**
-     * The current generation the simulation is on.
-     */
+    /** The current generation the simulation is on. */
     private static int generation;
 
-    /**
-     * The current population of the current state.
-     */
+    /** The current population of the current state. */
     private static int population;
 
-    /**
-     * The maximum population encountered for this simulation.
-     */
+    /** The maximum population encountered for this simulation. */
     private static int maxPopulation;
 
-    /**
-     * The generation corresponding to the maximum population.
-     */
+    /** The generation corresponding to the maximum population. */
     private static int correspondingGeneration;
 
-    /**
-     * The first corresponding generation to achieve the current maximum population.
-     */
+    /** The first corresponding generation to achieve the current maximum population. */
     private static int firstCorrespondingGeneration;
 
-    /**
-     * The label to display which generation the simulation is on.
-     */
+    /** The label to display which generation the simulation is on. */
     private static CyderLabel currentGenerationLabel;
 
-    /**
-     * The label to display the population for the current generation.
-     */
+    /** The label to display the population for the current generation. */
     private static CyderLabel currentPopulationLabel;
 
-    /**
-     * The label to display the maximum population.
-     */
+    /** The label to display the maximum population. */
     private static CyderLabel maxPopulationLabel;
 
-    /**
-     * The label to display the generation for the maximum population.
-     */
+    /** The label to display the generation for the maximum population. */
     private static CyderLabel correspondingGenerationLabel;
 
-    /**
-     * The state the grid was in before the user last pressed start.
-     */
+    /** The state the grid was in before the user last pressed start. */
     private static LinkedList<GridNode> beforeStartingState;
 
-    /**
-     * The last state of the grid.
-     */
+    /** The last state of the grid. */
     private static LinkedList<GridNode> lastState = new LinkedList<>();
 
-    /**
-     * The conway states loaded from static/json/conway.
-     */
+    /** The conway states loaded from static/json/conway. */
     private static ArrayList<ConwayState> correspondingConwayStates;
 
-    /**
-     * The switcher states to cycle between the states loaded from static/json/conway.
-     */
+    /** The switcher states to cycle between the states loaded from static/json/conway. */
     private static ArrayList<CyderComboBox.ComboItem> comboItems;
 
-    /**
-     * The minimum dimensional node length for the inner cyder grid.
-     */
+    /** The minimum dimensional node length for the inner cyder grid. */
     private static final int MIN_NODES = 50;
 
-    /**
-     * The width of the widget frame.
-     */
+    /** The width of the widget frame. */
     private static final int FRAME_WIDTH = 600;
 
-    /**
-     * The height of the widget frame.
-     */
+    /** The height of the widget frame. */
     private static final int FRAME_HEIGHT = 920;
 
-    /**
-     * The reset string.
-     */
+    /** The reset string. */
     private static final String RESET = "Reset";
 
-    /**
-     * The simulate string.
-     */
+    /** The simulate string. */
     private static final String SIMULATE = "Simulate";
 
-    /**
-     * The widget frame title.
-     */
+    /** The widget frame title. */
     private static final String TITLE = "Conway's Game of Life";
 
-    /**
-     * The load string.
-     */
+    /** The load string. */
     private static final String LOAD = "Load";
 
-    /**
-     * The save string.
-     */
+    /** The save string. */
     private static final String SAVE = "Save";
 
-    /**
-     * The clear string.
-     */
+    /** The clear string. */
     private static final String CLEAR = "Clear";
 
-    /**
-     * The conway string.
-     */
+    /** The conway string. */
     private static final String CONWAY = "conway";
 
-    /**
-     * The name of the thread which loads conway states.
-     */
+    /** The name of the thread which loads conway states. */
     private static final String CONWAY_STATE_LOADER_THREAD_NAME = "Conway State Loader";
 
-    /**
-     * The stop text.
-     */
+    /** The stop text. */
     private static final String STOP = "Stop";
 
-    /**
-     * The length of the grid.
-     */
+    /** The length of the grid. */
     private static final int gridLength = 550;
 
-    /**
-     * The initial node length on the grid.
-     */
+    /** The initial node length on the grid. */
     private static final int gridNodes = 50;
 
-    /**
-     * The size of the primary widget controls.
-     */
+    /** The size of the primary widget controls. */
     private static final Dimension primaryControlSize = new Dimension(160, 40);
 
-    /**
-     * The size of the labels above the grid.
-     */
+    /** The size of the labels above the grid. */
     private static final Dimension topLabelSize = new Dimension(240, 30);
 
-    /**
-     * The size of the Cyder switches.
-     */
+    /** The size of the Cyder switches. */
     private static final Dimension switchSize = new Dimension(200, 55);
 
-    /**
-     * The delay in ms between preset combo box actions.
-     */
+    /** The delay in ms between preset combo box actions. */
     private static final int presetComboBoxDelay = 800;
 
-    /**
-     * The last time a preset combo action was invoked.
-     */
+    /** The last time a preset combo action was invoked. */
     private static long lastPresetComboBoxAction = 0;
 
-    /**
-     * The left and right padding for the slider.
-     */
+    /** The left and right padding for the slider. */
     private static final int sliderPadding = 25;
 
-    /**
-     * The border length for the grid.
-     */
+    /** The border length for the grid. */
     private static final int gridBorderLength = 3;
 
-    /**
-     * The length of the grid parent.
-     */
+    /** The length of the grid parent. */
     private static final int gridParentLength = gridLength + 2 * gridBorderLength;
 
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
@@ -446,17 +350,13 @@ public final class GameOfLifeWidget {
         conwayFrame.finalizeAndShow();
     }
 
-    /**
-     * The actions to invoke when a change of the iterations slider is encountered.
-     */
+    /** The actions to invoke when a change of the iterations slider is encountered. */
     @ForReadability
     private static void iterationsSliderChangeAction() {
         iterationsPerSecond = iterationsPerSecondSlider.getValue();
     }
 
-    /**
-     * The actions to invoke when the present combo box button is clicked.
-     */
+    /** The actions to invoke when the present combo box button is clicked. */
     @ForReadability
     private static void presetComboBoxAction() {
         long now = System.currentTimeMillis();
@@ -483,9 +383,7 @@ public final class GameOfLifeWidget {
         resetToPreviousState();
     }
 
-    /**
-     * The actions to invoke when the load button is pressed.
-     */
+    /** The actions to invoke when the load button is pressed. */
     @ForReadability
     private static void loadButtonAction() {
         CyderThreadRunner.submit(() -> {
@@ -500,9 +398,7 @@ public final class GameOfLifeWidget {
         }, CONWAY_STATE_LOADER_THREAD_NAME);
     }
 
-    /**
-     * The actions to invoke when the stop simulation button is clicked.
-     */
+    /** The actions to invoke when the stop simulation button is clicked. */
     @ForReadability
     private static void stopSimulationButtonAction() {
         if (simulationRunning) {
@@ -518,9 +414,7 @@ public final class GameOfLifeWidget {
         }
     }
 
-    /**
-     * Resets the simulation and all values back to their default.
-     */
+    /** Resets the simulation and all values back to their default. */
     private static void resetSimulation() {
         stopSimulation();
 
@@ -539,9 +433,7 @@ public final class GameOfLifeWidget {
         resetStats();
     }
 
-    /**
-     * Resets the population/generation statistics and labels.
-     */
+    /** Resets the population/generation statistics and labels. */
     private static void resetStats() {
         generation = 0;
         population = 0;
@@ -552,9 +444,7 @@ public final class GameOfLifeWidget {
         updateLabels();
     }
 
-    /**
-     * Updates the statistic labels based on the currently set values.
-     */
+    /** Updates the statistic labels based on the currently set values. */
     public static void updateLabels() {
         currentGenerationLabel.setText("Generation: " + generation);
         currentPopulationLabel.setText("Population: " + population);
@@ -568,9 +458,7 @@ public final class GameOfLifeWidget {
         }
     }
 
-    /**
-     * Sets the grid to the state it was in before beginning the simulation.
-     */
+    /** Sets the grid to the state it was in before beginning the simulation. */
     private static void resetToPreviousState() {
         if (beforeStartingState == null) return;
 
@@ -584,9 +472,7 @@ public final class GameOfLifeWidget {
         updateLabels();
     }
 
-    /**
-     * Performs any stopping actions needed to properly stop the simulation.
-     */
+    /** Performs any stopping actions needed to properly stop the simulation. */
     private static void stopSimulation() {
         simulationRunning = false;
         stopSimulationButton.setText(SIMULATE);
@@ -594,14 +480,10 @@ public final class GameOfLifeWidget {
         conwayGrid.setResizable(true);
     }
 
-    /**
-     * The name of the conway simulation thread.
-     */
+    /** The name of the conway simulation thread. */
     private static final String CONWAY_SIMULATOR_THREAD_NAME = "Conway Simulator";
 
-    /**
-     * Starts the simulation.
-     */
+    /** Starts the simulation. */
     private static void start() {
         beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
 
@@ -698,14 +580,10 @@ public final class GameOfLifeWidget {
         }
     }
 
-    /**
-     * The name of the thread to save a conway grid state.
-     */
+    /** The name of the thread to save a conway grid state. */
     private static final String CONWAY_STATE_SAVER_THREAD_NAME = "Conway State Saver";
 
-    /**
-     * Saves the current grid state to a json which can be loaded.
-     */
+    /** Saves the current grid state to a json which can be loaded. */
     private static void toFile() {
         CyderThreadRunner.submit(() -> {
             if (conwayGrid.getNodeCount() == 0) {
@@ -806,9 +684,7 @@ public final class GameOfLifeWidget {
         return ret;
     }
 
-    /**
-     * Loads the preset conway states from static/json/conway.
-     */
+    /** Loads the preset conway states from static/json/conway. */
     private static void loadConwayStates() {
         comboItems = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
@@ -841,25 +717,17 @@ public final class GameOfLifeWidget {
         }
     }
 
-    /**
-     * An object used to store a Conway's game of life grid state.
-     */
+    /** An object used to store a Conway's game of life grid state. */
     @SuppressWarnings("ClassCanBeRecord") /* GSON */
     @Immutable
     private static class ConwayState {
-        /**
-         * The name of the conway state.
-         */
+        /** The name of the conway state. */
         private final String name;
 
-        /**
-         * The grid length for the saved state.
-         */
+        /** The grid length for the saved state. */
         private final int gridSize;
 
-        /**
-         * The list of nodes for the saves state.
-         */
+        /** The list of nodes for the saves state. */
         private final LinkedList<Point> nodes;
 
         /**

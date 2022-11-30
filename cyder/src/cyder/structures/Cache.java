@@ -13,19 +13,13 @@ import java.util.function.Function;
  * @param <T> the type of cache.
  */
 public class Cache<T> {
-    /**
-     * The current cache value.
-     */
+    /** The current cache value. */
     private T cachedValue;
 
-    /**
-     * The function to invoke to update the currently cached value if requested.
-     */
+    /** The function to invoke to update the currently cached value if requested. */
     private Function<Void, T> cachedValueUpdater;
 
-    /**
-     * Constructs a new cache.
-     */
+    /** Constructs a new cache. */
     public Cache() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -61,9 +55,7 @@ public class Cache<T> {
         return cachedValue;
     }
 
-    /**
-     * Clears the current cache value.
-     */
+    /** Clears the current cache value. */
     public void clear() {
         cachedValue = null;
     }

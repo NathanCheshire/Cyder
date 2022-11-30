@@ -22,14 +22,10 @@ public class CyderPanel extends JLabel {
      * for a CyderFrame or act like a regular component.
      */
 
-    /**
-     * The message to show as an error if the default constructor is invoked.
-     */
+    /** The message to show as an error if the default constructor is invoked. */
     private static final String INSTANTIATION_ERROR_MESSAGE = "Cannot instantiate cyder panel without a valid layout";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private CyderPanel() {
         throw new IllegalMethodException(INSTANTIATION_ERROR_MESSAGE);
     }
@@ -47,9 +43,7 @@ public class CyderPanel extends JLabel {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * The layout which we are wrapping with this panel.
-     */
+    /** The layout which we are wrapping with this panel. */
     private final CyderLayout cyderLayout;
 
     /**
@@ -63,9 +57,7 @@ public class CyderPanel extends JLabel {
         super.setLayout(null);
     }
 
-    /**
-     * Whether the content pane should be repainted.
-     */
+    /** Whether the content pane should be repainted. */
     private boolean disableContentRepainting;
 
     /**
@@ -86,9 +78,7 @@ public class CyderPanel extends JLabel {
         this.disableContentRepainting = disableContentRepainting;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void repaint() {
         if (!disableContentRepainting) {
@@ -97,18 +87,14 @@ public class CyderPanel extends JLabel {
         }
     }
 
-    /**
-     * Revalidates the components managed by the linked layout.
-     */
+    /** Revalidates the components managed by the linked layout. */
     public void revalidateComponents() {
         if (cyderLayout != null) {
             cyderLayout.revalidateComponents();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);

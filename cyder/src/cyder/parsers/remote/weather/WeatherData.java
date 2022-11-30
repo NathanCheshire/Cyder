@@ -2,9 +2,7 @@ package cyder.parsers.remote.weather;
 
 import java.util.LinkedList;
 
-/**
- * The json schema for weather data.
- */
+/** The json schema for weather data. */
 public class WeatherData {
     private Coord coord;
     private LinkedList<JsonWeather> weather;

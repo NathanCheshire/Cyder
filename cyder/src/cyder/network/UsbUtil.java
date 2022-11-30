@@ -13,41 +13,27 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/**
- * Utility methods related to usb devices.
- */
+/** Utility methods related to usb devices. */
 public final class UsbUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private UsbUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The power shell executable name.
-     */
+    /** The power shell executable name. */
     private static final String POWER_SHELL = "powershell.exe";
 
-    /**
-     * The command to list USB devices connected to the host computer.
-     */
+    /** The command to list USB devices connected to the host computer. */
     private static final String usbConnectedDevicesCommand
             = "Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }";
 
-    /**
-     * The number of lines from the usb query output to ignore.
-     */
+    /** The number of lines from the usb query output to ignore. */
     private static final int headerLines = 2;
 
-    /**
-     * The number of members contained in a {@link UsbDevice}.
-     */
+    /** The number of members contained in a {@link UsbDevice}. */
     private static final int usbDeviceMemberLength = 4;
 
-    /**
-     * The name for the executor service returned by {@link #getUsbDevices()}.
-     */
+    /** The name for the executor service returned by {@link #getUsbDevices()}. */
     private static final String USB_DEVICE_THREAD_NAME = "USB Device Getter";
 
     /**

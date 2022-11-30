@@ -14,27 +14,19 @@ import java.util.concurrent.Semaphore;
  * Note that this does not make the provided objects immutable or thread-safe.
  */
 public class CyderOutputPane {
-    /**
-     * The linked JTextPane.
-     */
+    /** The linked JTextPane. */
     private final JTextPane jTextPane;
 
-    /**
-     * The StringUtil object to perform common operations on the JTextPane.
-     */
+    /** The StringUtil object to perform common operations on the JTextPane. */
     private final StringUtil stringUtil;
 
-    /**
-     * The linked Semaphore to make appending/removing to/from the JTextPane thread-safe.
-     */
+    /** The linked Semaphore to make appending/removing to/from the JTextPane thread-safe. */
     private final Semaphore semaphore;
 
     private static final String INSTANTIATION_MESSAGE = "Instances of CyderOutputPane are not allowed "
             + "unless all parameters are given at once";
 
-    /**
-     * Instantiation not allowed unless all three arguments are provided
-     */
+    /** Instantiation not allowed unless all three arguments are provided */
     private CyderOutputPane() {
         throw new IllegalStateException(INSTANTIATION_MESSAGE);
     }

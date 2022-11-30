@@ -33,302 +33,184 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.constants.CyderStrings.colon;
 
-/**
- * A widget for showing the weather for a local area.
- */
+/** A widget for showing the weather for a local area. */
 @Vanilla
 @CyderAuthor
 public class WeatherWidget {
-    /**
-     * The current location label.
-     */
+    /** The current location label. */
     private JLabel locationLabel;
 
-    /**
-     * The current weather description label.
-     */
+    /** The current weather description label. */
     private JLabel currentWeatherLabel;
 
-    /**
-     * The custom painted temperature label container to hold the min, current, and max temperatures.
-     */
+    /** The custom painted temperature label container to hold the min, current, and max temperatures. */
     private JLabel customTempLabel;
 
-    /**
-     * The wind speed label.
-     */
+    /** The wind speed label. */
     private JLabel windSpeedLabel;
 
-    /**
-     * The custom painted wind direction label.
-     */
+    /** The custom painted wind direction label. */
     private JLabel windDirectionLabel;
 
-    /**
-     * The humidity label.
-     */
+    /** The humidity label. */
     private JLabel humidityLabel;
 
-    /**
-     * The pressure label.
-     */
+    /** The pressure label. */
     private JLabel pressureLabel;
 
-    /**
-     * The sunset label.
-     */
+    /** The sunset label. */
     private JLabel sunsetLabel;
 
-    /**
-     * The sunrise label.
-     */
+    /** The sunrise label. */
     private JLabel sunriseLabel;
 
-    /**
-     * The timezone label.
-     */
+    /** The timezone label. */
     private JLabel timezoneLabel;
 
-    /**
-     * The current time label.
-     */
+    /** The current time label. */
     private JLabel currentTimeLabel;
 
-    /**
-     * The current weather icon label.
-     */
+    /** The current weather icon label. */
     private JLabel currentWeatherIconLabel;
 
-    /**
-     * The current temperature label
-     */
+    /** The current temperature label */
     private JLabel currentTempLabel;
 
-    /**
-     * The min temperature label.
-     */
+    /** The min temperature label. */
     private JLabel minTempLabel;
 
-    /**
-     * The max temperature label.
-     */
+    /** The max temperature label. */
     private JLabel maxTempLabel;
 
-    /**
-     * The sunrise time in unix time format.
-     */
+    /** The sunrise time in unix time format. */
     private String sunriseMillis = "0";
 
-    /**
-     * The sunset time in unix time format.
-     */
+    /** The sunset time in unix time format. */
     private String sunsetMillis = "0";
 
-    /**
-     * The sunrise time to display on the label.
-     */
+    /** The sunrise time to display on the label. */
     private String sunriseFormatted = "";
 
-    /**
-     * The sunset time to display on the label.
-     */
+    /** The sunset time to display on the label. */
     private String sunsetFormatted = "";
 
-    /**
-     * The current weather icon resource.
-     */
+    /** The current weather icon resource. */
     private String weatherIconId = "01d";
 
-    /**
-     * The current weather condition.
-     */
+    /** The current weather condition. */
     private String weatherCondition = "";
 
-    /**
-     * The current wind speed.
-     */
+    /** The current wind speed. */
     private float windSpeed = 0f;
 
-    /**
-     * The current temperature.
-     */
+    /** The current temperature. */
     private float temperature = 0f;
 
-    /**
-     * The current humidity.
-     */
+    /** The current humidity. */
     private float humidity = 0f;
 
-    /**
-     * The current pressure.
-     */
+    /** The current pressure. */
     private float pressure = 0f;
 
-    /**
-     * The current wind direction.
-     */
+    /** The current wind direction. */
     private float windBearing = 0f;
 
-    /**
-     * The current latitude.
-     */
+    /** The current latitude. */
     private double lat = 0d;
 
-    /**
-     * The current longitude.
-     */
+    /** The current longitude. */
     private double lon = 0d;
 
-    /**
-     * The current location.
-     */
+    /** The current location. */
     private String currentLocationString = "";
 
-    /**
-     * The previous location.
-     */
+    /** The previous location. */
     private String previousLocationString = "";
 
-    /**
-     * The currently set city.
-     */
+    /** The currently set city. */
     private String userCity = "";
 
-    /**
-     * The currently set state.
-     */
+    /** The currently set state. */
     private String userState = "";
 
-    /**
-     * The currently set country.
-     */
+    /** The currently set country. */
     private String userCountry = "";
 
-    /**
-     * The weather frame.
-     */
+    /** The weather frame. */
     private CyderFrame weatherFrame;
 
-    /**
-     * Whether to use the custom location.
-     */
+    /** Whether to use the custom location. */
     private boolean useCustomLoc;
 
-    /**
-     * Whether to repull weather data every updateFrequency minutes.
-     */
+    /** Whether to repull weather data every updateFrequency minutes. */
     private final AtomicBoolean stopUpdating = new AtomicBoolean(false);
 
-    /**
-     * The frequency at which to update the weather data at in minutes.
-     */
+    /** The frequency at which to update the weather data at in minutes. */
     private final int updateFrequency = 5;
 
-    /**
-     * The maximum temperature
-     */
+    /** The maximum temperature */
     private float minTemp;
 
-    /**
-     * The minimum temperature.
-     */
+    /** The minimum temperature. */
     private float maxTemp;
 
-    /**
-     * The gmt offset for the current location.
-     */
+    /** The gmt offset for the current location. */
     private int parsedGmtOffset;
 
-    /**
-     * The last gmt offset returned when parsing weather data.
-     */
+    /** The last gmt offset returned when parsing weather data. */
     private String weatherDataGmtOffset = "0";
 
-    /**
-     * Whether the gmt offset has been set.
-     */
+    /** Whether the gmt offset has been set. */
     private boolean isGmtSet;
 
-    /**
-     * The width of the frame.
-     */
+    /** The width of the frame. */
     private static final int FRAME_WIDTH = 480;
 
-    /**
-     * The height of the frame.
-     */
+    /** The height of the frame. */
     private static final int FRAME_HEIGHT = 640;
 
-    /**
-     * The weather keyword.
-     */
+    /** The weather keyword. */
     private static final String WEATHER = "weather";
 
-    /**
-     * The default frame title.
-     */
+    /** The default frame title. */
     private static final String DEFAULT_TITLE = WEATHER;
 
-    /**
-     * The shade color for the default background.
-     */
+    /** The shade color for the default background. */
     private static final Color shadeColor = new Color(89, 85, 161);
 
-    /**
-     * The primary color for the default background.
-     */
+    /** The primary color for the default background. */
     private static final Color primaryColorOne = new Color(205, 119, 130);
 
-    /**
-     * The primary color for the default background.
-     */
+    /** The primary color for the default background. */
     private static final Color primaryColorTwo = new Color(38, 21, 75);
 
-    /**
-     * The default frame background.
-     */
+    /** The default frame background. */
     private static final BufferedImage defaultBackground = ImageUtil.getImageGradient(FRAME_WIDTH, FRAME_HEIGHT,
             primaryColorOne, primaryColorTwo, shadeColor);
 
-    /**
-     * The number of seconds in a singular hour.
-     */
+    /** The number of seconds in a singular hour. */
     private static final int SECONDS_IN_HOUR = 3600;
 
-    /**
-     * The post meridiem string
-     */
+    /** The post meridiem string */
     private static final String PM = "pm";
 
-    /**
-     * The ante meridiem string.
-     */
+    /** The ante meridiem string. */
     private static final String AM = "am";
 
-    /**
-     * The component width for the custom temperature label.
-     */
+    /** The component width for the custom temperature label. */
     private static final int customTempLabelWidth = 400;
 
-    /**
-     * The name for the waiting thread for changing the widget's location.
-     */
+    /** The name for the waiting thread for changing the widget's location. */
     private static final String WEATHER_LOCATION_CHANGER_THREAD_NAME = "Weather Location Changer";
 
-    /**
-     * The description for the @Widget annotation.
-     */
+    /** The description for the @Widget annotation. */
     private static final String widgetDescription = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable";
 
-    /**
-     * The getter util instance for changing the weather location.
-     */
+    /** The getter util instance for changing the weather location. */
     private final GetterUtil getterUtilInstance = GetterUtil.getInstance();
 
-    /**
-     * The instances of weather widget for this Cyder session.
-     */
+    /** The instances of weather widget for this Cyder session. */
     private static final LinkedList<WeatherWidget> instances = new LinkedList<>();
 
     /**
@@ -342,9 +224,7 @@ public class WeatherWidget {
         return instance;
     }
 
-    /**
-     * Creates a new weather widget initialized to the user's current location.
-     */
+    /** Creates a new weather widget initialized to the user's current location. */
     private WeatherWidget() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -571,14 +451,10 @@ public class WeatherWidget {
                 paintCustomBorder(g);
             }
 
-            /**
-             * The length of the border around this component.
-             */
+            /** The length of the border around this component. */
             private static final int borderLen = 3;
 
-            /**
-             * The height of this component
-             */
+            /** The height of this component */
             public static final int componentHeight = 40;
 
             @ForReadability
@@ -664,37 +540,25 @@ public class WeatherWidget {
         startUpdatingClock();
     }
 
-    /**
-     * The change location text.
-     */
+    /** The change location text. */
     private static final String CHANGE_LOCATION = "Change Location";
 
-    /**
-     * The color for the styled text for the example location.
-     */
+    /** The color for the styled text for the example location. */
     private static final Color exampleColor = new Color(45, 100, 220);
 
-    /**
-     * The example location.
-     */
+    /** The example location. */
     private static final String exampleChangeLocationText = "New Orleans, LA, USA";
 
-    /**
-     * The styled example change location text.
-     */
+    /** The styled example change location text. */
     private static final String styledExampleText = StringUtil.generateColoredHtmlText(
             exampleChangeLocationText, exampleColor);
 
-    /**
-     * The complete change location html styled text to show on the string getter's label.
-     */
+    /** The complete change location html styled text to show on the string getter's label. */
     private static final String changeLocationHtmlText = HtmlTags.openingHtml
             + "Enter your city, state, and country code separated by a comma. Example: "
             + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
 
-    /**
-     * The builder for changing the current weather location.
-     */
+    /** The builder for changing the current weather location. */
     private final GetInputBuilder changeLocationBuilder = new GetInputBuilder(CHANGE_LOCATION, changeLocationHtmlText)
             .setRelativeTo(weatherFrame)
             .setSubmitButtonText(CHANGE_LOCATION)
@@ -702,19 +566,13 @@ public class WeatherWidget {
             .setInitialFieldText(currentLocationString)
             .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 
-    /**
-     * The thread name for the weather stats updater.
-     */
+    /** The thread name for the weather stats updater. */
     private static final String WEATHER_STATS_UPDATER_THREAD_NAME = "Weather Stats Updater";
 
-    /**
-     * The thread name for the weather clock updater.
-     */
+    /** The thread name for the weather clock updater. */
     private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
 
-    /**
-     * Starts the thread to update the current time label.
-     */
+    /** Starts the thread to update the current time label. */
     @ForReadability
     private void startUpdatingClock() {
         CyderThreadRunner.submit(() -> {
@@ -725,9 +583,7 @@ public class WeatherWidget {
         }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
     }
 
-    /**
-     * Starts the thread to update the weather stats.
-     */
+    /** Starts the thread to update the weather stats. */
     @ForReadability
     private void startWeatherStatsUpdater() {
         CyderThreadRunner.submit(() -> {
@@ -761,9 +617,7 @@ public class WeatherWidget {
         return (value - oldRangeMin) * (float) customTempLabelWidth / (oldRangeMax - oldRangeMin);
     }
 
-    /**
-     * The gmt keyword.
-     */
+    /** The gmt keyword. */
     private static final String GMT = "GMT";
 
     /**
@@ -786,19 +640,13 @@ public class WeatherWidget {
         return dateFormatter.format(calendar.getTime());
     }
 
-    /**
-     * The length for a string with two commas containing city, state, and country.
-     */
+    /** The length for a string with two commas containing city, state, and country. */
     private static final int cityStateCountryFormatLen = 3;
 
-    /**
-     * The index of the state abbreviation in a city state country string.
-     */
+    /** The index of the state abbreviation in a city state country string. */
     private static final int stateIndex = 1;
 
-    /**
-     * The length of USA state abbreviations.
-     */
+    /** The length of USA state abbreviations. */
     private static final int stateAbbrLen = 2;
 
     @ForReadability
@@ -808,9 +656,7 @@ public class WeatherWidget {
                 && part.length() == stateAbbrLen;
     }
 
-    /**
-     * Refreshes the weather labels based off of the current vars.
-     */
+    /** Refreshes the weather labels based off of the current vars. */
     private void refreshWeatherLabels() {
         if (currentLocationString.length() > 1) {
             String[] parts = currentLocationString.split(CyderStrings.comma);
@@ -871,14 +717,10 @@ public class WeatherWidget {
                 new NotificationBuilder(REFRESHED).setViewDuration(1000));
     }
 
-    /**
-     * The day time identifier.
-     */
+    /** The day time identifier. */
     private static final String D = "d";
 
-    /**
-     * The night time identifier.
-     */
+    /** The night time identifier. */
     private static final String N = "n";
 
     @ForReadability
@@ -894,9 +736,7 @@ public class WeatherWidget {
                 weatherIconIdAndTime + Extension.PNG.getExtension()));
     }
 
-    /**
-     * The value to add to the center x value for the temperature label within the custom painted component.
-     */
+    /** The value to add to the center x value for the temperature label within the custom painted component. */
     private static final int temperatureLineCenterAdditive = 5;
 
     @ForReadability
@@ -921,9 +761,7 @@ public class WeatherWidget {
         return temperatureLineCenter;
     }
 
-    /**
-     * The refreshed keyword.
-     */
+    /** The refreshed keyword. */
     private static final String REFRESHED = "Refreshed";
 
     /**
@@ -945,9 +783,7 @@ public class WeatherWidget {
         }
     }
 
-    /**
-     * The dst active bracketed text.
-     */
+    /** The dst active bracketed text. */
     private static final String DST_ACTIVE = "[DST Active]";
 
     /**
@@ -984,9 +820,7 @@ public class WeatherWidget {
         return hour + colon + formatMinutes(minute);
     }
 
-    /**
-     * The range a minute value must fall within.
-     */
+    /** The range a minute value must fall within. */
     private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
 
     /**
@@ -1006,9 +840,7 @@ public class WeatherWidget {
         }
     }
 
-    /**
-     * Refreshes the weather stat variables.
-     */
+    /** Refreshes the weather stat variables. */
     protected void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
 
@@ -1120,16 +952,12 @@ public class WeatherWidget {
         }
     }
 
-    /**
-     * Refreshes the map background of all weather instances.
-     */
+    /** Refreshes the map background of all weather instances. */
     public static void refreshAllMapBackgrounds() {
         instances.forEach(WeatherWidget::refreshMapBackground);
     }
 
-    /**
-     * Calculates the timezone offset from GMT0/Zulu time if not yet performed.
-     */
+    /** Calculates the timezone offset from GMT0/Zulu time if not yet performed. */
     @ForReadability
     private void setGmtIfNotSet() {
         if (!isGmtSet) {
@@ -1138,24 +966,16 @@ public class WeatherWidget {
         }
     }
 
-    /**
-     * The north cardinal direction abbreviation.
-     */
+    /** The north cardinal direction abbreviation. */
     private static final String NORTH = "N";
 
-    /**
-     * The south cardinal direction abbreviation.
-     */
+    /** The south cardinal direction abbreviation. */
     private static final String SOUTH = "S";
 
-    /**
-     * The east cardinal direction abbreviation.
-     */
+    /** The east cardinal direction abbreviation. */
     private static final String EAST = "E";
 
-    /**
-     * The west cardinal direction abbreviation.
-     */
+    /** The west cardinal direction abbreviation. */
     private static final String WEST = "W";
 
     /**
@@ -1224,9 +1044,7 @@ public class WeatherWidget {
         return bearing == AngleUtil.ONE_EIGHTY_DEGREES;
     }
 
-    /**
-     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
-     */
+    /** The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}. */
     private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
 
     /**

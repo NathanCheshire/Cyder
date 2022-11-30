@@ -4,23 +4,15 @@ import com.google.common.base.Preconditions;
 
 import java.awt.*;
 
-/**
- * A class for holding a component with its assigned alignment within the {@link CyderPartitionedLayout}.
- */
+/** A class for holding a component with its assigned alignment within the {@link CyderPartitionedLayout}. */
 public class PartitionedComponent {
-    /**
-     * The component.
-     */
+    /** The component. */
     private Component component;
 
-    /**
-     * The alignment for the component.
-     */
+    /** The alignment for the component. */
     private CyderPartitionedLayout.PartitionAlignment alignment;
 
-    /**
-     * The partition for this component.
-     */
+    /** The partition for this component. */
     private float partition;
 
     /**

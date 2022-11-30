@@ -2,9 +2,7 @@ package cyder.enums;
 
 import cyder.utils.OsUtil;
 
-/**
- * Cyder exit codes and their corresponding meanings.
- */
+/** Cyder exit codes and their corresponding meanings. */
 public enum ExitCondition {
     RemoteShutdownFailure(-16, "Remote Shutdown Failure"),
     SufficientSubroutineExit(-15, "A sufficient subroutine failed"),
@@ -23,25 +21,17 @@ public enum ExitCondition {
     UserDeleted(-3, "User Deleted"),
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
 
-    /**
-     * Reserved as this indicates something specific to JVM exits.
-     */
+    /** Reserved as this indicates something specific to JVM exits. */
     @Deprecated
     TrueExternalStop(-1, "DO NOT USE"),
 
-    /**
-     * The standard Cyder exit.
-     */
+    /** The standard Cyder exit. */
     GenesisControlledExit(0, "Genesis Controlled Exit"),
 
-    /**
-     * The exit was schedule by a Cyder user.
-     */
+    /** The exit was schedule by a Cyder user. */
     ScheduledExit(1, "Scheduled Exit"),
 
-    /**
-     * A remote shutdown was requested by a new instance of Cyder.
-     */
+    /** A remote shutdown was requested by a new instance of Cyder. */
     RemoteShutdown(2, "Remote Shutdown");
 
     /**
@@ -50,9 +40,7 @@ public enum ExitCondition {
      */
     private final int code;
 
-    /**
-     * The description of the exit used for logging.
-     */
+    /** The description of the exit used for logging. */
     private final String description;
 
     ExitCondition(int code, String description) {

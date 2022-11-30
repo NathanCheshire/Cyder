@@ -1,8 +1,6 @@
 package cyder.parsers.remote.youtube;
 
-/**
- * A class used to serialize a YouTube API 3 search result.
- */
+/** A class used to serialize a YouTube API 3 search result. */
 public class YoutubeVideo {
     private String kind;
     private String etag;

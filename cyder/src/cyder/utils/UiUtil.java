@@ -27,13 +27,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Utilities to control, update, modify, and create CyderFrames and ui components.
- */
+/** Utilities to control, update, modify, and create CyderFrames and ui components. */
 public final class UiUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private UiUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -81,9 +77,7 @@ public final class UiUtil {
         return ImmutableList.copyOf(ret);
     }
 
-    /**
-     * Saves a screenshot of all CyderFrames to the user's Files/ directory.
-     */
+    /** Saves a screenshot of all CyderFrames to the user's Files/ directory. */
     public static void screenshotCyderFrames() {
         for (CyderFrame frame : getCyderFrames()) {
             if (frame.isVisible() && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
@@ -109,9 +103,7 @@ public final class UiUtil {
         return false;
     }
 
-    /**
-     * The max allowable length when including a frame's title in a filename.
-     */
+    /** The max allowable length when including a frame's title in a filename. */
     public static final int MAX_FRAME_TITLE_FILE_LENGTH = 15;
 
     /**
@@ -268,9 +260,7 @@ public final class UiUtil {
         throw new DeviceNotFoundException("Could not find device with id: " + id);
     }
 
-    /**
-     * Closes all instances of {@link Frame} by invoking {@link Frame#dispose()} on all instances.
-     */
+    /** Closes all instances of {@link Frame} by invoking {@link Frame#dispose()} on all instances. */
     public static void closeAllFrames() {
         for (Frame frame : Frame.getFrames()) {
             frame.dispose();
@@ -318,9 +308,7 @@ public final class UiUtil {
         }
     }
 
-    /**
-     * Repaints all valid instances of CyderFrame.
-     */
+    /** Repaints all valid instances of CyderFrame. */
     public static void repaintCyderFrames() {
         for (CyderFrame frame : getCyderFrames()) {
             frame.repaint();
@@ -359,9 +347,7 @@ public final class UiUtil {
         };
     }
 
-    /**
-     * The index which determines which color to choose for the border color.
-     */
+    /** The index which determines which color to choose for the border color. */
     private static int colorIndex;
 
     /**

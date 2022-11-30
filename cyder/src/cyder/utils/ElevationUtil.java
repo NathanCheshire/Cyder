@@ -12,25 +12,17 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Optional;
 
-/**
- * A utility class for elevation queries.
- */
+/** A utility class for elevation queries. */
 public final class ElevationUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ElevationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The base string for queries.
-     */
+    /** The base string for queries. */
     private static final String BASE = "https://nationalmap.gov/epqs/pqs.php?";
 
-    /**
-     * The units tag for a url.
-     */
+    /** The units tag for a url. */
     private static final String UNITS_TAG = "&units=";
 
     /**
@@ -61,22 +53,16 @@ public final class ElevationUtil {
         return Optional.empty();
     }
 
-    /**
-     * The standard length units.
-     */
+    /** The standard length units. */
     public enum LengthUnit {
-        /**
-         * The SI unit for length.
-         */
+        /** The SI unit for length. */
         METERS("METERS"),
         /*
          * The English unit for length.
          */
         FEET("FEET");
 
-        /**
-         * The name of the length unit
-         */
+        /** The name of the length unit */
         private final String name;
 
         /**

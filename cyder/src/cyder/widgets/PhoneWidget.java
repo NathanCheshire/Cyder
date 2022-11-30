@@ -24,66 +24,44 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.constants.CyderStrings.*;
 
-/**
- * A phone number dialing widget.
- */
+/** A phone number dialing widget. */
 @Vanilla
 @CyderAuthor
 public final class PhoneWidget {
-    /**
-     * The field numbers are stored in.
-     */
+    /** The field numbers are stored in. */
     private static CyderTextField numberField;
 
-    /**
-     * The current number.
-     */
+    /** The current number. */
     private static String currentPhoneNumber;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PhoneWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The widget title.
-     */
+    /** The widget title. */
     private static final String TITLE = "Phone";
 
-    /**
-     * The button theme.
-     */
+    /** The button theme. */
     private static final ThemeBuilder theme = new ThemeBuilder()
             .setFont(CyderFonts.SEGOE_30)
             .setBackgroundColor(CyderColors.regularOrange)
             .setBorderColor(CyderColors.navy)
             .setBorderLength(5);
 
-    /**
-     * The widget frame.
-     */
+    /** The widget frame. */
     private static CyderFrame phoneFrame;
 
-    /**
-     * A regex for targeting anything that is not a digit.
-     */
+    /** A regex for targeting anything that is not a digit. */
     private static final String NON_DIGITS_REGEX = "[^\\d.]";
 
-    /**
-     * The suicide hotline special runnable.
-     */
+    /** The suicide hotline special runnable. */
     private static final String SUICIDE_HOTLINE = "18002738255";
 
-    /**
-     * The 223s special runnable.
-     */
+    /** The 223s special runnable. */
     private static final String TWO_TWO_THREES = "223";
 
-    /**
-     * The map of special numbers to runnables.
-     */
+    /** The map of special numbers to runnables. */
     private static final ImmutableMap<String, Runnable> specialNumbers = ImmutableMap.of(
             SUICIDE_HOTLINE, () -> IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3")),
             TWO_TWO_THREES, () -> IoUtil.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"))
@@ -91,24 +69,16 @@ public final class PhoneWidget {
 
     private static final String DIALING = "Dialing: ";
 
-    /**
-     * The width of the widget frame.
-     */
+    /** The width of the widget frame. */
     private static final int FRAME_WIDTH = 320;
 
-    /**
-     * The height of the widget frame.
-     */
+    /** The height of the widget frame. */
     private static final int FRAME_HEIGHT = 500;
 
-    /**
-     * The string for the back button.
-     */
+    /** The string for the back button. */
     private static final String backText = "<<";
 
-    /**
-     * The call string.
-     */
+    /** The call string. */
     private static final String CALL = "Call";
 
     @Widget(triggers = "phone", description = "A phone emulating widget")
@@ -237,9 +207,7 @@ public final class PhoneWidget {
         phoneFrame.finalizeAndShow();
     }
 
-    /**
-     * The actions to take when the dial number button is pressed.
-     */
+    /** The actions to take when the dial number button is pressed. */
     @ForReadability
     private static void dialNumberAction() {
         if (currentPhoneNumber.isEmpty()) return;

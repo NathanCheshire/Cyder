@@ -1,4 +1,2 @@
-/**
- * General utility classes.
- */
+/** General utility classes. */
 package cyder.utils;

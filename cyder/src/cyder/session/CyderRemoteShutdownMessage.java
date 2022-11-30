@@ -1,12 +1,8 @@
 package cyder.session;
 
-/**
- * A serialization class for messages which pertain to the remote shutdown API.
- */
+/** A serialization class for messages which pertain to the remote shutdown API. */
 public class CyderRemoteShutdownMessage extends CyderCommunicationMessage {
-    /**
-     * The message type for this Cyder communication message.
-     */
+    /** The message type for this Cyder communication message. */
     public static final String MESSAGE = "Remote shutdown";
 
     /**

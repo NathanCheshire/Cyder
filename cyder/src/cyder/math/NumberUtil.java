@@ -17,29 +17,21 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-/**
- * A util for working with numbers and not necessarily math.
- */
+/** A util for working with numbers and not necessarily math. */
 public final class NumberUtil {
-    /**
-     * The map of the base 10 limits of one, two, and three bytes.
-     */
+    /** The map of the base 10 limits of one, two, and three bytes. */
     public static final ImmutableMap<Integer, Integer> BIT_LIMITS = ImmutableMap.of(
             8, 255,
             16, 65535,
             24, 16777215
     );
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private NumberUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The random instance used for inner methods.
-     */
+    /** The random instance used for inner methods. */
     private static final Random random = new Random();
 
     /**
@@ -133,19 +125,13 @@ public final class NumberUtil {
         return toWords(String.valueOf(num));
     }
 
-    /**
-     * The negative string.
-     */
+    /** The negative string. */
     private static final String NEGATIVE = "Negative";
 
-    /**
-     * The zero string.
-     */
+    /** The zero string. */
     private static final String ZERO = "Zero";
 
-    /**
-     * The character to denote a negative number.
-     */
+    /** The character to denote a negative number. */
     private static final String NEGATIVE_CHAR = CyderStrings.dash;
 
     /**
@@ -214,14 +200,10 @@ public final class NumberUtil {
         return ImmutableList.copyOf(ret);
     }
 
-    /**
-     * The range a trio must be in.
-     */
+    /** The range a trio must be in. */
     private static final Range<Integer> THOUSAND_RANGE = Range.closedOpen(0, 1000);
 
-    /**
-     * The hundreds word.
-     */
+    /** The hundreds word. */
     private static final String HUNDRED = "hundred";
 
     /**
@@ -251,14 +233,10 @@ public final class NumberUtil {
         return StringUtil.getTrimmedText((hundredsString + CyderStrings.space + belowOneHundredString));
     }
 
-    /**
-     * The range for an integer to be in to be in the teen range.
-     */
+    /** The range for an integer to be in to be in the teen range. */
     private static final Range<Integer> TEENS_RANGE = Range.closedOpen(10, 20);
 
-    /**
-     * String representations for all digits in the one's place.
-     */
+    /** String representations for all digits in the one's place. */
     private static final ImmutableList<String> ONES_STRINGS = ImmutableList.of(
             "",
             "one",
@@ -283,9 +261,7 @@ public final class NumberUtil {
         return ONES_STRINGS.get(num);
     }
 
-    /**
-     * String representations for all digits in the ten's place in base 10.
-     */
+    /** String representations for all digits in the ten's place in base 10. */
     private static final ImmutableList<String> TENS_STRINGS = ImmutableList.of(
             "",
             "",
@@ -298,9 +274,7 @@ public final class NumberUtil {
             "eighty",
             "ninety");
 
-    /**
-     * String representations for numbers in the range [10, 19].
-     */
+    /** String representations for numbers in the range [10, 19]. */
     private static final ImmutableList<String> TEEN_STRINGS = ImmutableList.of(
             "ten",
             "eleven",
@@ -313,9 +287,7 @@ public final class NumberUtil {
             "eighteen",
             "nineteen");
 
-    /**
-     * String prefixes for digit trios in base 10.
-     */
+    /** String prefixes for digit trios in base 10. */
     private static final ImmutableList<String> THOUSAND_PREFIXES = ImmutableList.of(
             "",
             "-thousand",

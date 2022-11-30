@@ -12,58 +12,36 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A ui layer for {@link JSlider}s utilized by Cyder.
- */
+/** A ui layer for {@link JSlider}s utilized by Cyder. */
 public class CyderSliderUi extends BasicSliderUI {
-    /**
-     * The default stroke width for the slider and thumb strokes.
-     */
+    /** The default stroke width for the slider and thumb strokes. */
     public static final float DEFAULT_STROKE_WIDTH = 3.0f;
 
-    /**
-     * The stroke for painting the slider track.
-     */
+    /** The stroke for painting the slider track. */
     private BasicStroke sliderStroke = new BasicStroke(DEFAULT_STROKE_WIDTH);
 
-    /**
-     * The stroke for painting the thumb.
-     */
+    /** The stroke for painting the thumb. */
     private BasicStroke thumbStroke = new BasicStroke(DEFAULT_STROKE_WIDTH);
 
-    /**
-     * The track color left of the thumb.
-     */
+    /** The track color left of the thumb. */
     private Color leftThumbColor;
 
-    /**
-     * The track color right of the thumb.
-     */
+    /** The track color right of the thumb. */
     private Color rightThumbColor;
 
-    /**
-     * The color to fill the thumb with.
-     */
+    /** The color to fill the thumb with. */
     private Color thumbFillColor;
 
-    /**
-     * The outline color for the thumb.
-     */
+    /** The outline color for the thumb. */
     private Color thumbOutlineColor;
 
-    /**
-     * The thumb radius when the slider shape is an ellipse.
-     */
+    /** The thumb radius when the slider shape is an ellipse. */
     private int thumbRadius = 10;
 
-    /**
-     * The slider this ui manager is controlling.
-     */
+    /** The slider this ui manager is controlling. */
     private final JSlider slider;
 
-    /**
-     * The shape of the thumb.
-     */
+    /** The shape of the thumb. */
     private ThumbShape thumbShape = ThumbShape.RECTANGLE;
 
     /**
@@ -160,26 +138,20 @@ public class CyderSliderUi extends BasicSliderUI {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected void calculateThumbSize() {
         super.calculateThumbSize();
         thumbRect.setSize(thumbRect.width, thumbRect.height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected void calculateThumbLocation() {
         super.calculateThumbLocation();
@@ -226,9 +198,7 @@ public class CyderSliderUi extends BasicSliderUI {
         slider.repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected Dimension getThumbSize() {
         return super.getThumbSize();
@@ -245,19 +215,13 @@ public class CyderSliderUi extends BasicSliderUI {
         return new Rectangle2D.Double(0, 0, width, height);
     }
 
-    /**
-     * The atomic holder for the current x value start of the animated color line to be drawn if enabled.
-     */
+    /** The atomic holder for the current x value start of the animated color line to be drawn if enabled. */
     private final AtomicInteger animationStart = new AtomicInteger(Integer.MIN_VALUE);
 
-    /**
-     * The length of the animation bar to draw if enabled.
-     */
+    /** The length of the animation bar to draw if enabled. */
     private int animationLen = 0;
 
-    /**
-     * Whether the animation bar should be drawn and animated.
-     */
+    /** Whether the animation bar should be drawn and animated. */
     private boolean animationEnabled;
 
     /**
@@ -296,9 +260,7 @@ public class CyderSliderUi extends BasicSliderUI {
         this.animationEnabled = animationEnabled;
     }
 
-    /**
-     * The color used for the animation segment.
-     */
+    /** The color used for the animation segment. */
     private Color animationColor = CyderColors.regularPink;
 
     /**
@@ -319,9 +281,7 @@ public class CyderSliderUi extends BasicSliderUI {
         this.animationColor = animationColor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paintTrack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -392,9 +352,7 @@ public class CyderSliderUi extends BasicSliderUI {
         }
     }
 
-    /**
-     * Resets the animation start value to the reset value.
-     */
+    /** Resets the animation start value to the reset value. */
     public void resetAnimation() {
         animationStart.set(trackRect.x - animationLen);
     }
@@ -411,9 +369,7 @@ public class CyderSliderUi extends BasicSliderUI {
                         * ((float) slider.getValue() / slider.getMaximum())));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paintThumb(Graphics g) {
         Graphics2D g2d;
@@ -459,18 +415,12 @@ public class CyderSliderUi extends BasicSliderUI {
         }
     }
 
-    /**
-     * Whether the slider is currently under a drag event.
-     */
+    /** Whether the slider is currently under a drag event. */
     private boolean upperDragging;
 
-    /**
-     * A custom range track listener.
-     */
+    /** A custom range track listener. */
     private class RangeTrackListener extends BasicSliderUI.TrackListener {
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public void mouseClicked(MouseEvent e) {
             if (!slider.isEnabled()) {
@@ -480,9 +430,7 @@ public class CyderSliderUi extends BasicSliderUI {
             moveUpperThumb();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public void mousePressed(MouseEvent e) {
             if (!slider.isEnabled()) {
@@ -509,9 +457,7 @@ public class CyderSliderUi extends BasicSliderUI {
             upperDragging = false;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public void mouseReleased(MouseEvent e) {
             upperDragging = false;
@@ -519,9 +465,7 @@ public class CyderSliderUi extends BasicSliderUI {
             super.mouseReleased(e);
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public void mouseDragged(MouseEvent e) {
             if (!slider.isEnabled()) {
@@ -538,17 +482,13 @@ public class CyderSliderUi extends BasicSliderUI {
             }
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public boolean shouldScroll(int direction) {
             return false;
         }
 
-        /**
-         * Moves the painted thumb to the necessary location based on the current slider value.
-         */
+        /** Moves the painted thumb to the necessary location based on the current slider value. */
         public void moveUpperThumb() {
             int thumbMiddle;
 

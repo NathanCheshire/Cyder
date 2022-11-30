@@ -12,20 +12,14 @@ import cyder.handlers.internal.ExceptionHandler;
 import java.io.*;
 import java.lang.reflect.Type;
 
-/**
- * A class for serializing data from a string or url source into a provided parser base class.
- */
+/** A class for serializing data from a string or url source into a provided parser base class. */
 public final class SerializationUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private SerializationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The master Gson object used for all of Cyder.
-     */
+    /** The master Gson object used for all of Cyder. */
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**

@@ -29,66 +29,42 @@ import java.util.Optional;
  * Each element may have a single click and double click action.
  */
 public class CyderScrollList {
-    /**
-     * The width of this scroll list.
-     */
+    /** The width of this scroll list. */
     private int width;
 
-    /**
-     * The height of this scroll list.
-     */
+    /** The height of this scroll list. */
     private int height;
 
-    /**
-     * Whether dark mode is active for this scroll list.
-     */
+    /** Whether dark mode is active for this scroll list. */
     private final boolean darkMode;
 
-    /**
-     * The color selected items are given.
-     */
+    /** The color selected items are given. */
     public static final Color selectedColor = CyderColors.regularRed;
 
-    /**
-     * The color non-selected items are given.
-     */
+    /** The color non-selected items are given. */
     private Color nonSelectedColor = CyderColors.navy;
 
-    /**
-     * The inner JTextPane object to hold our printed components.
-     */
+    /** The inner JTextPane object to hold our printed components. */
     private JTextPane listPane;
 
-    /**
-     * The alignment property to give to the list pane.
-     */
+    /** The alignment property to give to the list pane. */
     private int itemAlignment = StyleConstants.ALIGN_LEFT;
 
-    /**
-     * The list of elements of for this scroll list.
-     */
+    /** The list of elements of for this scroll list. */
     private final LinkedList<JLabel> elements;
 
-    /**
-     * The selection policies for the scroll list.
-     */
+    /** The selection policies for the scroll list. */
     public enum SelectionPolicy {
         SINGLE, MULTIPLE
     }
 
-    /**
-     * The currently set selection policy for the scroll list.
-     */
+    /** The currently set selection policy for the scroll list. */
     private SelectionPolicy selectionPolicy;
 
-    /**
-     * The default length of the scroll list.
-     */
+    /** The default length of the scroll list. */
     public static final int DEFAULT_LEN = 400;
 
-    /**
-     * Constructs a new scroll list object.
-     */
+    /** Constructs a new scroll list object. */
     public CyderScrollList() {
         this(DEFAULT_LEN, DEFAULT_LEN);
     }
@@ -150,9 +126,7 @@ public class CyderScrollList {
         this.itemAlignment = itemAlignment;
     }
 
-    /**
-     * The font to use for the scroll list.
-     */
+    /** The font to use for the scroll list. */
     private Font scrollFont = CyderFonts.SEGOE_20;
 
     /**
@@ -173,9 +147,7 @@ public class CyderScrollList {
         scrollFont = Preconditions.checkNotNull(font);
     }
 
-    /**
-     * The border to surround the component with.
-     */
+    /** The border to surround the component with. */
     private Border border;
 
     /**
@@ -189,14 +161,10 @@ public class CyderScrollList {
         this.border = border;
     }
 
-    /**
-     * The list of scroll lists created during the current instance of Cyder.
-     */
+    /** The list of scroll lists created during the current instance of Cyder. */
     private static final ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
 
-    /**
-     * Refreshes all CyderScrollLists that have been created during the current instance of Cyder.
-     */
+    /** Refreshes all CyderScrollLists that have been created during the current instance of Cyder. */
     public static void refreshAllLists() {
         scrollLists.forEach(list -> {
             Component parent = SwingUtilities.getRoot(list.getScrollPane());
@@ -277,9 +245,7 @@ public class CyderScrollList {
         return retLabel;
     }
 
-    /**
-     * The inner scroll pane object.
-     */
+    /** The inner scroll pane object. */
     private CyderScrollPane scrollPane;
 
     /**
@@ -441,9 +407,7 @@ public class CyderScrollList {
         }
     }
 
-    /**
-     * Removes all elements from the scroll list.
-     */
+    /** Removes all elements from the scroll list. */
     public void removeAllElements() {
         elements.clear();
     }
@@ -528,16 +492,12 @@ public class CyderScrollList {
         return Optional.empty();
     }
 
-    /**
-     * Removes all selected elements on this scroll list.
-     */
+    /** Removes all selected elements on this scroll list. */
     public void removeSelectedElements() {
         elements.removeIf(element -> element.getForeground().equals(selectedColor));
     }
 
-    /**
-     * Removes the first element from this scroll list.
-     */
+    /** Removes the first element from this scroll list. */
     public void removeSelectedElement() {
         Optional<JLabel> remove = elements.stream().filter(element -> element.getForeground()
                 .equals(selectedColor)).findFirst();
@@ -625,19 +585,13 @@ public class CyderScrollList {
         this.selectionPolicy = Preconditions.checkNotNull(selectionPolicy);
     }
 
-    /**
-     * The string for sep labels. This text is irrelevant as it is not rendered but may not be an empty string.
-     */
+    /** The string for sep labels. This text is irrelevant as it is not rendered but may not be an empty string. */
     private static final String SEP_LABEL_TEXT = ";)";
 
-    /**
-     * The y value of separation labels.
-     */
+    /** The y value of separation labels. */
     private static final int SEP_LABEL_Y = 10;
 
-    /**
-     * The height of separation labels.
-     */
+    /** The height of separation labels. */
     private static final int SEP_LABEL_HEIGHT = 5;
 
     /**
@@ -658,16 +612,12 @@ public class CyderScrollList {
         return sepLabel;
     }
 
-    /**
-     * Deselects all selected elements from the scroll list.
-     */
+    /** Deselects all selected elements from the scroll list. */
     public void deselectAllElements() {
         elements.forEach(element -> element.setForeground(nonSelectedColor));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return StringUtil.commonCyderToString(this);

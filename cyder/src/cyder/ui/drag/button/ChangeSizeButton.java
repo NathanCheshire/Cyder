@@ -5,25 +5,17 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 
-/**
- * A change size button button for CyderFrame drag labels.
- */
+/** A change size button button for CyderFrame drag labels. */
 public class ChangeSizeButton extends CyderDragLabelButton {
-    /**
-     * The size this change size button will be painted with.
-     */
+    /** The size this change size button will be painted with. */
     private DragLabelButtonSize size;
 
-    /**
-     * Constructs a new change size button.
-     */
+    /** Constructs a new change size button. */
     public ChangeSizeButton() {
         this(DEFAULT_SIZE);
     }
 
-    /**
-     * The text for the change size button.
-     */
+    /** The text for the change size button. */
     private static final String CHANGE_SIZE = "Change size";
 
     /**
@@ -50,29 +42,19 @@ public class ChangeSizeButton extends CyderDragLabelButton {
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
-    /**
-     * The padding between the edges of the painted change size button.
-     */
+    /** The padding between the edges of the painted change size button. */
     private static final int PAINT_PADDING = 4;
 
-    /**
-     * The stroke for painting the change size button.
-     */
+    /** The stroke for painting the change size button. */
     private static final BasicStroke changeSizeStroke = new BasicStroke(2);
 
-    /**
-     * The offset from the top of for the painting the change size button.
-     */
+    /** The offset from the top of for the painting the change size button. */
     private static final int changeSizeYOffset = 1;
 
-    /**
-     * The value to subtract from the paint length when painting the change size button.
-     */
+    /** The value to subtract from the paint length when painting the change size button. */
     private static final int changeSizeHeightSubtrahend = 2;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paintDragLabelButton(Graphics g) {
         Preconditions.checkNotNull(g);
@@ -87,18 +69,14 @@ public class ChangeSizeButton extends CyderDragLabelButton {
         g2d.drawRect(0, changeSizeYOffset, getPaintLength(), changeSizeHeight);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getSpecificStringRepresentation() {
         return CHANGE_SIZE;

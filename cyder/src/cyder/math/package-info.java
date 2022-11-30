@@ -1,4 +1,2 @@
-/**
- * Math utility classes.
- */
+/** Math utility classes. */
 package cyder.math;

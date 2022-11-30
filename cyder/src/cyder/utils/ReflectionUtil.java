@@ -18,25 +18,17 @@ import java.util.LinkedList;
 
 import static cyder.constants.CyderStrings.*;
 
-/**
- * Utilities for Jvm reflection.
- */
+/** Utilities for Jvm reflection. */
 public final class ReflectionUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private ReflectionUtil() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The class string.
-     */
+    /** The class string. */
     private static final String clazz = "class";
 
-    /**
-     * The get string.
-     */
+    /** The get string. */
     private static final String GET = "get";
 
     /**
@@ -98,9 +90,7 @@ public final class ReflectionUtil {
         return ImmutableList.copyOf(ret);
     }
 
-    /**
-     * The set string used to locate setter/mutator methods of an object.
-     */
+    /** The set string used to locate setter/mutator methods of an object. */
     private static final String SET = "set";
 
     /**
@@ -159,14 +149,10 @@ public final class ReflectionUtil {
         return ret;
     }
 
-    /**
-     * The top level package for Cyder.
-     */
+    /** The top level package for Cyder. */
     public static final String TOP_LEVEL_PACKAGE_NAME = "cyder";
 
-    /**
-     * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE_NAME}.
-     */
+    /** A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE_NAME}. */
     private static final ImmutableList<ClassPath.ClassInfo> cyderClasses;
 
     /**

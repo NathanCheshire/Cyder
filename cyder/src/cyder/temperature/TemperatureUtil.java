@@ -3,18 +3,12 @@ package cyder.temperature;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
-/**
- * Utility methods related to temperature conversions.
- */
+/** Utility methods related to temperature conversions. */
 public final class TemperatureUtil {
-    /**
-     * The value to add to Celsius measurements to convert them to Kelvin measurements.
-     */
+    /** The value to add to Celsius measurements to convert them to Kelvin measurements. */
     private static final double kelvinAdditive = 273.15;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private TemperatureUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

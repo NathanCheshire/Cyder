@@ -9,30 +9,20 @@ import cyder.logging.Logger;
 
 import java.io.File;
 
-/**
- * Utilities for getting static resources.
- */
+/** Utilities for getting static resources. */
 public final class StaticUtil {
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private StaticUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The list of static files found when Cyder was first launched.
-     */
+    /** The list of static files found when Cyder was first launched. */
     private static final ImmutableList<File> STATIC_FILES;
 
-    /**
-     * The list of static folders located.
-     */
+    /** The list of static folders located. */
     private static final ImmutableList<File> STATIC_FOLDERS;
 
-    /**
-     * The name of the static directory which holds all the static files and resources needed by Cyder.
-     */
+    /** The name of the static directory which holds all the static files and resources needed by Cyder. */
     private static final String STATIC = "static";
 
     static {

@@ -12,24 +12,16 @@ import cyder.exceptions.IllegalMethodException;
  */
 @Immutable
 public final class BoundsString {
-    /**
-     * The text of this bounds string.
-     */
+    /** The text of this bounds string. */
     private final String text;
 
-    /**
-     * The width of this bounds string.
-     */
+    /** The width of this bounds string. */
     private final int width;
 
-    /**
-     * The height of this bounds string.
-     */
+    /** The height of this bounds string. */
     private final int height;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private BoundsString() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

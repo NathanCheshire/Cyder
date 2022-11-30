@@ -4,22 +4,14 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 
-/**
- * Constants necessary for the {@link PropLoader}.
- */
+/** Constants necessary for the {@link PropLoader}. */
 public final class PropConstants {
-    /**
-     * The possible annotations for props.
-     */
+    /** The possible annotations for props. */
     enum Annotation {
-        /**
-         * An annotation used to indicate the prop's value should not be logged.
-         */
+        /** An annotation used to indicate the prop's value should not be logged. */
         NO_LOG("no_log");
 
-        /**
-         * The annotation name for this annotation without the @.
-         */
+        /** The annotation name for this annotation without the @. */
         private final String annotation;
 
         Annotation(String annotation) {
@@ -36,54 +28,34 @@ public final class PropConstants {
         }
     }
 
-    /**
-     * The character a line must end with to interpret the next line as being the same prop.
-     */
+    /** The character a line must end with to interpret the next line as being the same prop. */
     static final String multiLinePropSuffix = "\\";
 
-    /**
-     * Lines which start with this are marked as a comment and not parsed as props.
-     */
+    /** Lines which start with this are marked as a comment and not parsed as props. */
     static final String commentPrefix = CyderStrings.hash;
 
-    /**
-     * The name of the props directory.
-     */
+    /** The name of the props directory. */
     static final String propDirectoryName = "props";
 
-    /**
-     * The extension for prop files.
-     */
+    /** The extension for prop files. */
     static final String propExtension = Extension.INI.getExtension();
 
-    /**
-     * The prefix prop files must have.
-     */
+    /** The prefix prop files must have. */
     static final String propFilePrefix = "prop";
 
-    /**
-     * The separator for prop keys and values.
-     */
+    /** The separator for prop keys and values. */
     static final String keyValueSeparator = CyderStrings.colon;
 
-    /**
-     * The escape char for comma.
-     */
+    /** The escape char for comma. */
     static final String escapeSequence = CyderStrings.backSlash;
 
-    /**
-     * The string to split a prop file contents at to separate the raw file master string into separate lines.
-     */
+    /** The string to split a prop file contents at to separate the raw file master string into separate lines. */
     static final String splitPropFileContentsAt = "\r\n";
 
-    /**
-     * The token to split a string into a list of strings at.
-     */
+    /** The token to split a string into a list of strings at. */
     static final String splitListsAtChar = CyderStrings.comma;
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private PropConstants() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

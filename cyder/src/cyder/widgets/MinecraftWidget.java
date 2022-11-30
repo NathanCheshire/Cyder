@@ -25,123 +25,77 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-/**
- * A widget emulating the Minecraft front page.
- */
+/** A widget emulating the Minecraft front page. */
 @Vanilla
 @CyderAuthor
 public final class MinecraftWidget {
-    /**
-     * The minecraft frame.
-     */
+    /** The minecraft frame. */
     private static CyderFrame minecraftFrame;
 
-    /**
-     * The minecraft.net link that redirects to the hamburger icon's result.
-     */
+    /** The minecraft.net link that redirects to the hamburger icon's result. */
     public static final String MINECRAFT_HAMBURGER = "https://minecraft.net/en-us/?ref=m";
 
-    /**
-     * The minecraft.net link that redirects to the store icon's result.
-     */
+    /** The minecraft.net link that redirects to the store icon's result. */
     public static final String MINECRAFT_CHEST = "https://minecraft.net/en-us/store/?ref=m";
 
-    /**
-     * The minecraft.net link that redirects to the realm icon's result.
-     */
+    /** The minecraft.net link that redirects to the realm icon's result. */
     public static final String MINECRAFT_REALMS = "https://minecraft.net/en-us/realms/?ref=m";
 
-    /**
-     * The minecraft.net link that redirects to the block icon's result.
-     */
+    /** The minecraft.net link that redirects to the block icon's result. */
     public static final String MINECRAFT_BLOCK = "https://my.minecraft.net/en-us/store/minecraft/";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** Suppress default constructor. */
     private MinecraftWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The block image icon.
-     */
+    /** The block image icon. */
     private static final ImageIcon BLOCK = new ImageIcon("static/pictures/minecraft/Block.png");
 
-    /**
-     * The block enter animation.
-     */
+    /** The block enter animation. */
     private static final ImageIcon BLOCK_ENTER = new ImageIcon("static/pictures/minecraft/BlockEnter.gif");
 
-    /**
-     * The block exit animation.
-     */
+    /** The block exit animation. */
     private static final ImageIcon BLOCK_EXIT = new ImageIcon("static/pictures/minecraft/BlockExit.gif");
 
-    /**
-     * The realms icon.
-     */
+    /** The realms icon. */
     private static final ImageIcon REALMS = new ImageIcon("static/pictures/minecraft/Realms.png");
 
-    /**
-     * The realms enter animation.
-     */
+    /** The realms enter animation. */
     private static final ImageIcon REALMS_ENTER = new ImageIcon("static/pictures/minecraft/RealmsEnter.gif");
 
-    /**
-     * The realms exit animation.
-     */
+    /** The realms exit animation. */
     private static final ImageIcon REALMS_EXIT = new ImageIcon("static/pictures/minecraft/RealmsExit.gif");
 
-    /**
-     * The chest icon.
-     */
+    /** The chest icon. */
     private static final ImageIcon CHEST = new ImageIcon("static/pictures/minecraft/Chest.png");
 
-    /**
-     * The chest enter animation.
-     */
+    /** The chest enter animation. */
     private static final ImageIcon CHEST_ENTER = new ImageIcon("static/pictures/minecraft/ChestEnter.gif");
 
-    /**
-     * The chest exit animation.
-     */
+    /** The chest exit animation. */
     private static final ImageIcon CHEST_EXIT = new ImageIcon("static/pictures/minecraft/ChestExit.gif");
 
-    /**
-     * The hamburger icon.
-     */
+    /** The hamburger icon. */
     private static final ImageIcon HAMBURGER = new ImageIcon("static/pictures/minecraft/Hamburger.png");
-    /**
-     * The hamburger enter animation.
-     */
+    /** The hamburger enter animation. */
     private static final ImageIcon HAMBURGER_ENTER
             = new ImageIcon("static/pictures/minecraft/HamburgerEnter.gif");
 
-    /**
-     * The hamburger exit animation.
-     */
+    /** The hamburger exit animation. */
     private static final ImageIcon HAMBURGER_EXIT
             = new ImageIcon("static/pictures/minecraft/HamburgerExit.gif");
 
-    /**
-     * The title of the widget frame.
-     */
+    /** The title of the widget frame. */
     private static final String FRAME_TITLE = "Minecraft Widget";
 
-    /**
-     * The width of the widget frame.
-     */
+    /** The width of the widget frame. */
     private static final int FRAME_WIDTH = 1263;
 
-    /**
-     * The height of the image frame.
-     */
+    /** The height of the image frame. */
     private static final int FRAME_HEIGHT = 160;
 
-    /**
-     * Names of mapped exes which may reference a Minecraft executable.
-     */
+    /** Names of mapped exes which may reference a Minecraft executable. */
     private static final ImmutableList<String> MINECRAFT_NAMES = ImmutableList.of(
             "Minecraft",
             "Lunar",
@@ -152,9 +106,7 @@ public final class MinecraftWidget {
             "Forge"
     );
 
-    /**
-     * The background of the frame.
-     */
+    /** The background of the frame. */
     private static final ImageIcon background = new ImageIcon("static/pictures/minecraft/Minecraft.png");
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
@@ -236,9 +188,7 @@ public final class MinecraftWidget {
         };
     }
 
-    /**
-     * Checks the current user's mapped executables to determine if any might reference a Minecraft launcher.
-     */
+    /** Checks the current user's mapped executables to determine if any might reference a Minecraft launcher. */
     private static void checkMappedExes() {
         for (MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
             File refFile = new File(exe.getFilepath());

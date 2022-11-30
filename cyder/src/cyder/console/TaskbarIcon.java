@@ -17,53 +17,33 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.Objects;
 
-/**
- * A {@link Console} taskbar icon for the console menu.
- */
+/** A {@link Console} taskbar icon for the console menu. */
 public class TaskbarIcon {
-    /**
-     * The length of the taskbar icons generated.
-     */
+    /** The length of the taskbar icons generated. */
     private static final int ICON_LEN = 75;
 
-    /**
-     * The border length of the taskbar icons generated.
-     */
+    /** The border length of the taskbar icons generated. */
     private static final int BORDER_LEN = 5;
 
-    /**
-     * The maximum number of chars to display when compact mode for taskbar icons is active.
-     */
+    /** The maximum number of chars to display when compact mode for taskbar icons is active. */
     private static final int MAX_COMPACT_MENU_CHARS = 10;
 
-    /**
-     * The color for custom painted taskbar icon borders.
-     */
+    /** The color for custom painted taskbar icon borders. */
     private static final Color BORDER_COLOR = Color.black;
 
-    /**
-     * The font used for taskbar icon painted names.
-     */
+    /** The font used for taskbar icon painted names. */
     private static final Font labelFont = new Font("Agency FB", Font.BOLD, 28);
 
-    /**
-     * The factor to darken a buffered image by for hover/focus events.
-     */
+    /** The factor to darken a buffered image by for hover/focus events. */
     private static final float DARK_FACTOR = 0.7f;
 
-    /**
-     * The rescale operator used to darken buffered images.
-     */
+    /** The rescale operator used to darken buffered images. */
     private final RescaleOp rescaleOp = new RescaleOp(DARK_FACTOR, 0, null);
 
-    /**
-     * The actual icon used for the console taskbar.
-     */
+    /** The actual icon used for the console taskbar. */
     private JLabel innerTaskbarIcon;
 
-    /**
-     * The builder last used to construct the encapsulated taskbar icon.
-     */
+    /** The builder last used to construct the encapsulated taskbar icon. */
     private final Builder builder;
 
     /**
@@ -82,9 +62,7 @@ public class TaskbarIcon {
         generateTaskbarIcon(builder);
     }
 
-    /**
-     * Regenerates the taskbar icon based on the current builder's properties.
-     */
+    /** Regenerates the taskbar icon based on the current builder's properties. */
     public void generateTaskbarIcon() {
         generateTaskbarIcon(builder);
     }
@@ -217,16 +195,12 @@ public class TaskbarIcon {
         return this.builder;
     }
 
-    /**
-     * Runs the runnable associated with this taskbar icon.
-     */
+    /** Runs the runnable associated with this taskbar icon. */
     public void runRunnable() {
         this.builder.runnable.run();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -240,46 +214,30 @@ public class TaskbarIcon {
         return builder.equals(other.builder);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Objects.hash(builder);
     }
 
-    /**
-     * A builder for a TaskbarIcon.
-     */
+    /** A builder for a TaskbarIcon. */
     public static final class Builder {
-        /**
-         * Whether this icon should be compact.
-         */
+        /** Whether this icon should be compact. */
         private boolean compact;
 
-        /**
-         * Whether this icon is focused.
-         */
+        /** Whether this icon is focused. */
         private boolean focused;
 
-        /**
-         * The border color.
-         */
+        /** The border color. */
         private Color borderColor;
 
-        /**
-         * A possible custom icon.
-         */
+        /** A possible custom icon. */
         private ImageIcon customIcon;
 
-        /**
-         * The runnable to invoke upon a click action.
-         */
+        /** The runnable to invoke upon a click action. */
         private Runnable runnable;
 
-        /**
-         * The name of the icon.
-         */
+        /** The name of the icon. */
         private String name;
 
         /**
@@ -363,9 +321,7 @@ public class TaskbarIcon {
             return new TaskbarIcon(this);
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public boolean equals(Object o) {
             if (o == this) {
@@ -395,9 +351,7 @@ public class TaskbarIcon {
             return ret;
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
         public int hashCode() {
             return Objects.hash(

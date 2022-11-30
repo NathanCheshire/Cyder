@@ -1,4 +1,2 @@
-/**
- * Custom Cyder ui components.
- */
+/** Custom Cyder ui components. */
 package cyder.ui;
