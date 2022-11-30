@@ -119,7 +119,7 @@ def main():
         print("{} found to have {} three line javadocs".format(
             file, current_three_liners))
         three_liners += current_three_liners
-``
+
     print("{} three line javadocs found across {} java files, were corrected: {}".format(
         three_liners, len(files), should_correct))
 
