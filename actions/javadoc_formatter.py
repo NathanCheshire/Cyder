@@ -124,7 +124,7 @@ def main():
         three_liners, len(files), should_correct))
 
     if should_fail_if_found and not should_correct:
-        if len(three_liners):
+        if three_liners:
             print ("Failed")
         sys.exit(three_liners)
     else:
