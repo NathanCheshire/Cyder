@@ -1,4 +1,6 @@
+import argparse
 import sys
+import os
 
 
 from new_line_detector import find_files
@@ -69,6 +71,11 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
     ret = []
 
     for file in files:
+        if os.path.samefile(file, filter_path):
+            continue
+
+        print(f"Searching file {file}")
+
         if file == filter_path:
             continue
 
@@ -77,7 +84,8 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
         for line_number, line in enumerate(file_lines):
             words = contains_blocked_word(line, bad_words)
             if words is not None:
-                ret.append(BadWord(clazz=file, line_number=line_number, line=line, words=words))
+                ret.append(
+                    BadWord(clazz=file, line_number=line_number, line=line, words=words))
 
     return ret
 
@@ -117,19 +125,26 @@ def main():
     Spins off the bad_word_detector script and outputs the results.
     """
 
+    parser = argparse.ArgumentParser(prog='Bad word detector',
+                                     description="Detects blocked words from the provided filter")
+    parser.add_argument('-sd', '--starting_directory', required=True,
+                        help='the starting directory')
+    parser.add_argument('-f', '--filter', required=True,
+                        help='the filter txt file containing each blocked word on a line of its own')
+
+    args = parser.parse_args()
+
     line_sep = '-------------------------------------------------------'
 
-    starting_dir = '.'
-    filter_path = './static/txt/blocked.txt'
     extensions = ['.java', '.kt', '.py', '.md', '.txt']
 
-    bad_words = find_bad_words(starting_dir, filter_path, extensions)
+    bad_words = find_bad_words(args.starting_directory, args.filter, extensions)
     len_bad_words = len(bad_words)
 
     if len_bad_words > 0:
-        print("Found", len_bad_words, "matches")
+        print("Found", len_bad_words, "bad words")
     else:
-        print("No bad words found, good job I guess")
+        print("No bad words found")
 
     for bad_word in bad_words:
         if isinstance(bad_word, BadWord):

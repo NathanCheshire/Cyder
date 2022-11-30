@@ -13,4 +13,4 @@ jobs:
 
       - name: Run bad word detector
         run: |
-          python ./actions/bad_word_detector.py
+          python ./actions/bad_word_detector.py -sd . --filter ./static/txt/blocked.txt
