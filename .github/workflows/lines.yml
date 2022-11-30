@@ -13,4 +13,4 @@ jobs:
 
       - name: Run new line detector
         run: |
-          python ./actions/new_line_detector.py
+          python ./actions/new_line_detector.py -sd .

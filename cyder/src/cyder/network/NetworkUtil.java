@@ -382,7 +382,7 @@ public class NetworkUtil {
      * @param urlString the string of the url to ping and get contents from
      * @return the resulting url response
      */
-    @CanIgnoreReturnValue /* Can be used to ensure a url is valid as a precondition */
+    @CanIgnoreReturnValue /* Can be used to ensure a url is valid as a Precondition */
     public static String readUrl(String urlString) {
         Preconditions.checkNotNull(urlString);
         Preconditions.checkArgument(!urlString.isEmpty());

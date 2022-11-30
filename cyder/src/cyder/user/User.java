@@ -1042,7 +1042,7 @@ public class User {
     private static void getterHook(String id, Object value) {
         // todo should have a method for this in case user specifies "all"
         if (!StringUtil.in(id, true, UserUtil.getIgnoreUserData())) {
-            Logger.log(LogTag.USER_GET, "key = " + id + ", value = " + value);
+            Logger.log(LogTag.USER_GET, "key: " + id + ", value: " + value);
         }
     }
 
@@ -1056,16 +1056,21 @@ public class User {
         return ret;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        }
-        if (!(o instanceof User other)) {
+        } else if (!(o instanceof User)) {
             return false;
         }
 
-        return other.getPass().equals(getPass()) && other.getName().equals(getName());
+        User other = (User) o;
+
+        return other.getPass().equals(getPass())
+                && other.getName().equals(getName());
     }
 
     /**

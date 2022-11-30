@@ -283,13 +283,6 @@ public final class UserCreator {
             updateInformationLabel();
         }
     };
-
-    /**
-     * The last generated uuid so that in the event of an account creation
-     * failure, we can delete the created user file.
-     */
-    private static String lastGeneratedUuid;
-
     /**
      * The action user for the create user button.
      */
@@ -298,7 +291,8 @@ public final class UserCreator {
             String name = newUserNameField.getText().trim();
             char[] password = newUserPasswordField.getPassword();
 
-            if (!attemptToCreateUser(name, password)) {
+            String lastGeneratedUuid = SecurityUtil.generateUuidForUser();
+            if (!attemptToCreateUser(name, password, lastGeneratedUuid)) {
                 if (lastGeneratedUuid != null) {
                     OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
                 }
@@ -465,16 +459,14 @@ public final class UserCreator {
      *
      * @param name     the requested name of the new user
      * @param password the password of the new user
+     * @param uuid     the uuid for the new user
      * @return whether the user was created
      */
-    private static boolean attemptToCreateUser(String name, char[] password) {
+    private static boolean attemptToCreateUser(String name, char[] password, String uuid) {
         if (!validCredentials) {
             createUserFrame.toast(informationLabel.getText());
             return false;
         }
-
-        String uuid = SecurityUtil.generateUuidForUser();
-        lastGeneratedUuid = uuid;
 
         if (!Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
             createUserFrame.toast("Failed to create user folder");
@@ -525,7 +517,7 @@ public final class UserCreator {
         BufferedImage background;
         try {
             background = ImageUtil.read(newUserBackgroundFile);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             background = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
         }
 

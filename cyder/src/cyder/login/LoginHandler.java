@@ -346,7 +346,7 @@ public final class LoginHandler {
         loginFrame.finalizeAndShow();
 
         CyderSplash.INSTANCE.fastDispose();
-        if (UserUtil.noUsers()) printlnPriority("No users found; please type " + quote + CREATE + quote);
+        if (UserUtil.noCyderUsers()) printlnPriority("No users found; please type " + quote + CREATE + quote);
         startTypingAnimation();
     }
 

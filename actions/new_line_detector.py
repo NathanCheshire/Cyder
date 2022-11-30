@@ -1,16 +1,21 @@
+import argparse
 import sys
 from stat_generator import find_files
 
 
-def find_unnecessary_new_lines():
+def find_unnecessary_new_lines(start_directory: str):
     """
     Finds unnecessary new lines in all .java files recursively found starting from this directory.
     Unnecessary new lines are defined by a length of two or more for Cyder.
+
+    :param start_directory: the starting directory to recursively find the files from
     """
     failed = False
-    java_files = find_files(starting_dir=".", extensions=['.java'], recursive=True)
+    java_files = find_files(starting_dir=start_directory, extensions=['.java'], recursive=True)
 
     for file in java_files:
+        print(f"Searching file {file}")
+
         current_running_new_lines = 0
 
         anchored = False
@@ -43,6 +48,9 @@ def find_unnecessary_new_lines():
                 anchored = False
                 current_running_new_lines = current_running_new_lines + 1
 
+    if not failed:
+        print(f"No newlines found in {len(java_files)} searched java files")
+
     sys.exit(1 if failed else 0)
 
 
@@ -60,5 +68,16 @@ def print_stats(file: str, num_unnecessary_new_lines: int, starting_line_num: in
     print("-------------------------------")
 
 
+def main():
+    parser = argparse.ArgumentParser(prog='New line detector',
+                                     description="Detects blocks of new lines greater than 1")
+    parser.add_argument('-sd', '--starting_directory', required=True,
+                        help='the starting directory')
+
+    args = parser.parse_args()
+    
+    find_unnecessary_new_lines(start_directory=args.starting_directory)
+
+
 if __name__ == '__main__':
-    find_unnecessary_new_lines()
+    main()

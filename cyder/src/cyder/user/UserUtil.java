@@ -936,7 +936,7 @@ public final class UserUtil {
             String name = backupFile.getName();
             String uuid = name.split("_")[0];
 
-            if (!StringUtil.in(uuid, false, getUserUuids())) {
+            if (!StringUtil.in(uuid, false, getCyderUserUuids())) {
                 Logger.log(LogTag.SYSTEM_IO, "Deleting backup file not linked to user: " + name);
                 OsUtil.deleteFile(backupFile);
             }
@@ -1110,8 +1110,8 @@ public final class UserUtil {
      *
      * @return whether there are no users created for Cyder
      */
-    public static boolean noUsers() {
-        return getUserUuids().isEmpty();
+    public static boolean noCyderUsers() {
+        return getCyderUserUuids().isEmpty();
     }
 
     /**
@@ -1119,19 +1119,20 @@ public final class UserUtil {
      *
      * @return a list of valid uuids associated with Cyder users
      */
-    public static ArrayList<String> getUserUuids() {
+    public static ArrayList<String> getCyderUserUuids() {
         ArrayList<String> uuids = new ArrayList<>();
 
         File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
-            for (File user : users) {
+            Arrays.stream(users).forEach(user -> {
                 File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
 
-                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
+                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                     uuids.add(user.getName());
-            }
+                }
+            });
         }
 
         return uuids;
@@ -1190,7 +1191,7 @@ public final class UserUtil {
     /**
      * The maximum latency to allow when attempting to download the default user background.
      */
-    private static final int MAX_LATENCY = 2000;
+    private static final int maxLatencyToDownloadDefaultBackground = 2000;
 
     /**
      * The name of the default background, if generation is required.
@@ -1209,8 +1210,8 @@ public final class UserUtil {
 
         BufferedImage createMe = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
 
-        int latency = NetworkUtil.getLatency(MAX_LATENCY);
-        if (latency < MAX_LATENCY) {
+        int latency = NetworkUtil.getLatency(maxLatencyToDownloadDefaultBackground);
+        if (latency < maxLatencyToDownloadDefaultBackground) {
             try {
                 createMe = ImageUtil.read(CyderUrls.DEFAULT_BACKGROUND_URL);
             } catch (Exception e) {
@@ -1247,6 +1248,8 @@ public final class UserUtil {
      * @throws IllegalStateException if the file could not be created at this time
      */
     public static File createFileInUserSpace(String name) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkState(!name.isEmpty());
         Preconditions.checkState(!StringUtil.isNullOrEmpty(Console.INSTANCE.getUuid()));
 
         File saveDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
@@ -1254,7 +1257,7 @@ public final class UserUtil {
         File createFile = new File(saveDir, name);
 
         if (createFile.exists()) {
-            Logger.log(LogTag.SYSTEM_IO, "File already existed in userspace: " + name);
+            Logger.log(LogTag.SYSTEM_IO, "File already exists in userspace: " + name);
             return createFile;
         }
 
@@ -1283,11 +1286,17 @@ public final class UserUtil {
      * @param user the user to reset to a default state
      */
     public static void resetUser(User user) {
+        Preconditions.checkNotNull(user);
+
         Preference.getPreferences().forEach(preference -> {
             if (!preference.getIgnoreForUserCreation()) {
                 for (Method method : user.getClass().getMethods()) {
-                    if (method.getName().startsWith(SET) && method.getParameterTypes().length == 1
-                            && method.getName().replace(SET, "").equalsIgnoreCase(preference.getID())) {
+                    boolean isSetter = method.getName().startsWith(SET);
+                    boolean oneParameter = method.getParameterTypes().length == 1;
+                    boolean methodNameMatchesPreferenceId = method.getName().replace(SET, "")
+                            .equalsIgnoreCase(preference.getID());
+
+                    if (isSetter && oneParameter && methodNameMatchesPreferenceId) {
                         try {
                             method.invoke(user, preference.getDefaultValue());
                         } catch (Exception e) {
@@ -1414,7 +1423,9 @@ public final class UserUtil {
         Preconditions.checkNotNull(username);
         Preconditions.checkArgument(!username.isEmpty());
 
-        if (noUsers()) return false;
+        if (noCyderUsers()) {
+            return false;
+        }
 
         for (File userFile : getUserJsons()) {
             if (extractUser(userFile).getName().equalsIgnoreCase(username)) {
@@ -1443,14 +1454,22 @@ public final class UserUtil {
         return false;
     }
 
+    // todo constructor method for a search
+
+    // safeSearch: boolean=moderate,none,strict
+
+    private static final String query = "gift+and+a+curse+skizzy+mars";
+    private static final String part = "snippet";
+    private static final String type = "video"; // one of video, channel, playlist
+
     /**
      * The header for the url to validate a provided YouTube API 3 key.
      */
     private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER =
             CyderUrls.YOUTUBE_API_V3_SEARCH
-                    + "?part=snippet"
-                    + "&q=gift+and+a+curse+skizzy+mars"
-                    + "&type=video"
+                    + "?part=" + part
+                    + "&q=" + query
+                    + "&type=" + type
                     + "&key=";
 
     /**
