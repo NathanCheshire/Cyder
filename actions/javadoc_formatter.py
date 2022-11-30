@@ -112,17 +112,20 @@ def main():
 
     three_liners = 0
 
-    for file in find_files(starting_dir=args.starting_directory, extensions=[".java"], recursive=True):
+    files = find_files(starting_dir=args.starting_directory, extensions=[".java"], recursive=True)
+
+    for file in files:
         current_three_liners = check_javadoc(file, correct=should_correct)
         print("{} found to have {} three line javadocs".format(
             file, current_three_liners))
         three_liners += current_three_liners
-
-    print("{} total three line javadocs found, were corrected: {}".format(
-        three_liners, should_correct))
+``
+    print("{} three line javadocs found across {} java files, were corrected: {}".format(
+        three_liners, len(files), should_correct))
 
     if should_fail_if_found and not should_correct:
-        print ("Failed")
+        if len(three_liners):
+            print ("Failed")
         sys.exit(three_liners)
     else:
         print("Exiting normally")
