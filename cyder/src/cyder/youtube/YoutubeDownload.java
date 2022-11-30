@@ -16,7 +16,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.progress.CyderProgressBar;
@@ -374,7 +374,7 @@ public class YoutubeDownload {
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
-        String ffmpegAudioOutputFormat = PropLoader.getString(FFMPEG_AUDIO_OUTPUT_FORMAT);
+        String ffmpegAudioOutputFormat = Props.ffmpegAudioOutputFormat.getValue();
         String extension = "." + ffmpegAudioOutputFormat;
 
         Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);

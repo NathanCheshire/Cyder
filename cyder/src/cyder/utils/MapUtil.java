@@ -6,7 +6,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 
 import javax.swing.*;
 import java.net.UnknownHostException;
@@ -26,11 +26,6 @@ public final class MapUtil {
      * The map quest api url header.
      */
     private static final String mapQuestHeader = "http://www.mapquestapi.com/staticmap/v5/map?";
-
-    /**
-     * The map quest api key.
-     */
-    private static final String MAP_QUEST_API_KEY = "map_quest_api_key";
 
     /**
      * The height of the mapbox watermark.
@@ -138,10 +133,10 @@ public final class MapUtil {
      * @return the geographical top-down image with the requested parameters fulfilled
      */
     public static ImageIcon getMapView(Builder builder) throws UnknownHostException {
-        Preconditions.checkState(PropLoader.propExists(MAP_QUEST_API_KEY));
+        Preconditions.checkState(Props.mapQuestApiKey.valuePresent());
         Preconditions.checkNotNull(builder);
 
-        String key = PropLoader.getString(MAP_QUEST_API_KEY);
+        String key = Props.mapQuestApiKey.getValue();
 
         StringBuilder requestUrlBuilder = new StringBuilder(mapQuestHeader);
         requestUrlBuilder.append(MapBoxUrlParameter.KEY.constructAsFirstParameter());

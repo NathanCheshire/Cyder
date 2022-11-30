@@ -20,7 +20,7 @@ import cyder.network.IpUtil;
 import cyder.parsers.remote.ip.IpData;
 import cyder.parsers.remote.weather.Coord;
 import cyder.parsers.remote.weather.WeatherData;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -786,7 +786,7 @@ public final class ClockWidget {
      * @return the GMT based off of the current location
      */
     private static int getGmtFromUserLocation() {
-        String key = PropLoader.getString(WeatherUtil.WEATHER_KEY);
+        String key = Props.weatherKey.getValue();
 
         if (key.isEmpty()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "

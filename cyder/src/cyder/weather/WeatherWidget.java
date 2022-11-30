@@ -15,7 +15,7 @@ import cyder.math.AngleUtil;
 import cyder.network.IpUtil;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.weather.WeatherData;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -250,11 +250,6 @@ public class WeatherWidget {
     private boolean isGmtSet;
 
     /**
-     * The key for obtaining the weather key from the props.
-     */
-    private static final String WEATHER_KEY = "weather_key";
-
-    /**
      * The width of the frame.
      */
     private static final int FRAME_WIDTH = 480;
@@ -370,7 +365,7 @@ public class WeatherWidget {
                     + UserUtil.getCyderUser().getName() + ", but this feature "
                     + "is suspended until a stable internet connection can be established");
             return;
-        } else if (StringUtil.isNullOrEmpty(PropLoader.getString(WEATHER_KEY))) {
+        } else if (Props.weatherKey.valuePresent()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "

@@ -6,7 +6,7 @@ import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.weather.WeatherData;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
@@ -27,16 +27,6 @@ public final class WeatherUtil {
      * The units argument for the weather data.
      */
     private static final String UNITS_ARG = "&units=";
-
-    /**
-     * The key to get the default location from the props.
-     */
-    private static final String DEFAULT_LOCATION = "default_location";
-
-    /**
-     * The key for obtaining the weather data key from the props.
-     */
-    public static final String WEATHER_KEY = "weather_key";
 
     /**
      * Suppress default constructor.
@@ -82,8 +72,8 @@ public final class WeatherUtil {
      */
     private static boolean validateWeatherKey() {
         String openString = CyderUrls.OPEN_WEATHER_BASE
-                + PropLoader.getString(DEFAULT_LOCATION)
-                + APP_ID + PropLoader.getString(WEATHER_KEY)
+                + Props.defaultLocation.getValue()
+                + APP_ID + Props.weatherKey.getValue()
                 + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();
 
         try (BufferedReader reader = new BufferedReader(
@@ -106,9 +96,9 @@ public final class WeatherUtil {
     public static Optional<WeatherData> getWeatherData(String locationString) {
         Preconditions.checkNotNull(locationString);
         Preconditions.checkArgument(!locationString.isEmpty());
-        Preconditions.checkState(PropLoader.propExists(WEATHER_KEY));
+        Preconditions.checkState(Props.weatherKey.valuePresent());
 
-        String weatherKey = PropLoader.getString(WEATHER_KEY);
+        String weatherKey = Props.weatherKey.getValue();
 
         if (weatherKey.isEmpty()) {
             return Optional.empty();

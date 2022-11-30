@@ -13,7 +13,7 @@ import cyder.exceptions.YoutubeException;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.ui.button.CyderButton;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
@@ -142,13 +142,13 @@ public final class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
-            if (StringUtil.isNullOrEmpty(PropLoader.getString(YOUTUBE_API_3_KEY)) && baseInputHandler != null) {
+            if (StringUtil.isNullOrEmpty(Props.youtubeApi3key.getValue()) && baseInputHandler != null) {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
                     String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
                             + "part=snippet%2C+id&playlistId=" + playlistID
-                            + "&key=" + PropLoader.getString(YOUTUBE_API_3_KEY);
+                            + "&key=" + Props.youtubeApi3key.getValue();
 
                     String jsonResponse = NetworkUtil.readUrl(link);
 
@@ -507,9 +507,9 @@ public final class YoutubeUtil {
         Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
-        Preconditions.checkArgument(PropLoader.propExists(YOUTUBE_API_3_KEY));
+        Preconditions.checkArgument(Props.youtubeApi3key.valuePresent());
 
-        String youtubeKey = PropLoader.getString(YOUTUBE_API_3_KEY);
+        String youtubeKey = Props.youtubeApi3key.getValue();
         String[] queryWords = query.split(CyderRegexPatterns.whiteSpaceRegex);
 
         StringBuilder queryBuilder = new StringBuilder();

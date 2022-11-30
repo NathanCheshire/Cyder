@@ -76,6 +76,11 @@ public final class Prop<T> {
         return type;
     }
 
+    /**
+     * Returns whether a value, that of the default one or a user-configured one, is present.
+     *
+     * @return whether a value, that of the default one or a user-configured one, is present
+     */
     public boolean valuePresent() {
         if (type == String.class) {
             return !getValue().toString().isEmpty();

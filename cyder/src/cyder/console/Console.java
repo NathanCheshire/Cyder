@@ -10,7 +10,6 @@ import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -19,6 +18,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.CyderVersionManager;
 import cyder.genesis.ProgramModeManager;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.TestHandler;
@@ -29,7 +29,6 @@ import cyder.login.LoginHandler;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
 import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
@@ -651,16 +650,12 @@ public enum Console {
     }
 
     /**
-     * The key for obtaining the Cyder version prop from the props.
-     */
-    private static final String VERSION = "version";
-
-    /**
      * Refreshes the console super title, that of displaying "Version Cyder [Nathan]".
      */
     public void refreshConsoleSuperTitle() {
-        consoleCyderFrame.setTitle(PropLoader.getString(VERSION) +
-                " Cyder [" + UserUtil.getCyderUser().getName() + CyderStrings.closingBracket);
+        consoleCyderFrame.setTitle(CyderVersionManager.INSTANCE.getVersion()
+                + CyderVersionManager.INSTANCE.getProgramName() + space
+                + openingBracket + UserUtil.getCyderUser().getName() + closingBracket);
     }
 
     /**
@@ -1273,11 +1268,6 @@ public enum Console {
     private static final String DEBUG_STAT_FINDER_THREAD_NAME = "Debug Stat Finder";
 
     /**
-     * The key for obtaining the testing mode prop value.
-     */
-    private static final String TESTING_MODE = "testing_mode";
-
-    /**
      * The number of days without Cyder use which can pass without a welcome back notification.
      */
     private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
@@ -1358,14 +1348,9 @@ public enum Console {
     private static final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
 
     /**
-     * The key for getting whether Cyder is released from the props.
+     * The Cyder intro theme file.
      */
-    private static final String RELEASED_KEY = "released";
-
-    /**
-     * The name of the Cyder intro theme file
-     */
-    private static final String INTRO_THEME = "introtheme.mp3";
+    private static final File introTheme = StaticUtil.getStaticResource("introtheme.mp3");
 
     /**
      * The thread name of the intro music grayscale checker.
@@ -1377,11 +1362,10 @@ public enum Console {
      */
     private void introMusicCheck() {
         boolean introMusic = UserUtil.getCyderUser().getIntroMusic().equalsIgnoreCase("1");
-        boolean released = PropLoader.getBoolean(RELEASED_KEY);
 
         if (introMusic) {
             performIntroMusic();
-        } else if (released) {
+        } else if (CyderVersionManager.INSTANCE.isReleased()) {
             grayscaleImageCheck();
         }
     }
@@ -1454,7 +1438,7 @@ public enum Console {
                 int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
                 IoUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
             } else {
-                IoUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
+                IoUtil.playGeneralAudio(introTheme);
             }
         }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
@@ -2393,16 +2377,6 @@ public enum Console {
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0);
         }
     };
-
-    /**
-     * The key to use for the max font size prop.
-     */
-    private static final String MAX_FONT_SIZE = "max_font_size";
-
-    /**
-     * The key to use for the min font size prop.
-     */
-    private static final String MIN_FONT_SIZE = "min_font_size";
 
     /**
      * Some kind of a magic number that denotes the mouse wheel is being scrolled up.

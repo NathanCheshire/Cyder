@@ -3,7 +3,6 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.audio.AudioPlayer;
-import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -15,7 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.props.PropLoader;
+import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 
@@ -118,11 +117,6 @@ public final class IoUtil {
     }
 
     /**
-     * The key for obtaining the AutoCypher prop from the props file.
-     */
-    private static final String AUTOCYPHER = "autocypher";
-
-    /**
      * The thread name for the jvm args logger.
      */
     private static final String JVM_ARGS_LOGGER_THREAD_NAME = "JVM Args Logger";
@@ -158,7 +152,7 @@ public final class IoUtil {
                         .append(", isp = ").append(result.isp())
                         .append(", hostname = ").append(result.hostname());
 
-                boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
+                boolean autoCypher = Props.autocypher.getValue();
                 Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args obfuscated due to AutoCypher" : argBuilder);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
