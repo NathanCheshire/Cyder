@@ -15,6 +15,7 @@ import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
 import cyder.user.UserUtil;
+import cyder.utils.AstronomyUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
@@ -242,10 +243,10 @@ public class GeneralPrintHandler extends InputHandler {
                 || getInputHandler().commandIs("println")) {
             getInputHandler().println(getInputHandler().argsToString());
         } else if (getInputHandler().commandIs("moon")) {
-            Optional<TimeUtil.MoonPhase> currentMoonPhaseOptional = TimeUtil.getCurrentMoonPhase();
+            Optional<AstronomyUtil.MoonPhase> currentMoonPhaseOptional = AstronomyUtil.getCurrentMoonPhase();
 
             if (currentMoonPhaseOptional.isPresent()) {
-                TimeUtil.MoonPhase currentMoonPhase = currentMoonPhaseOptional.get();
+                AstronomyUtil.MoonPhase currentMoonPhase = currentMoonPhaseOptional.get();
 
                 try {
                     getInputHandler().println(new ImageIcon(ImageUtil.read(currentMoonPhase.urlImage())));

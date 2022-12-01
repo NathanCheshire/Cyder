@@ -147,7 +147,7 @@ public class User {
     private String showSecondHand;
 
     // -------------------
-    // non primitive types
+    // Non-primitive types
     // -------------------
 
     /**
@@ -157,14 +157,14 @@ public class User {
     private ScreenStat screenStat = new ScreenStat();
 
     // --------------------------
-    // data structures of objects
+    // Data structures of objects
     // --------------------------
 
     /** List of mapped executables that map a string to a file path. */
     private LinkedList<MappedExecutable> executables = new LinkedList<>();
 
     // -------
-    // getters
+    // Getters
     // -------
 
     /**
@@ -962,7 +962,7 @@ public class User {
      * @param value the current value of the user data
      */
     private static void getterHook(String id, Object value) {
-        // todo should have a method for this in case user specifies "all"
+        // todo should have a method for this in case user specifies "all" which should be allowed
         if (!StringUtil.in(id, true, UserUtil.getIgnoreUserData())) {
             Logger.log(LogTag.USER_GET, "key: " + id + ", value: " + value);
         }
