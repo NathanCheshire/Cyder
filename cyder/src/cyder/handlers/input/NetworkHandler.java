@@ -33,9 +33,7 @@ public class NetworkHandler extends InputHandler {
     /** The name of the waiter thread for getting the usb devices. */
     private static final String USB_DEVICE_WAITER_THREAD_NAME = "Usb Device Waiter";
 
-    /**
-     * The name of the thread for performing the whereami command.
-     */
+    /** The name of the thread for performing the whereami command. */
     private static final String WHEREAMI_THREAD_NAME = "Whereami Information Finder";
 
     /** Suppress default constructor. */

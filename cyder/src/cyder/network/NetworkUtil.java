@@ -42,9 +42,7 @@ public class NetworkUtil {
     /** The string used to represent a space in a url. */
     public static final String URL_SPACE = "%20";
 
-    /**
-     * The time in ms to wait for a local port to bind to determine whether it is available.
-     */
+    /** The time in ms to wait for a local port to bind to determine whether it is available. */
     private static final int LOCAL_PORT_AVAILABLE_TIMEOUT = 400;
 
     /** Suppress default constructor. */

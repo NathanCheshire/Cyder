@@ -80,9 +80,7 @@ public final class CyderStrings {
     /** The empty string. */
     public static final String EMPTY = "";
 
-    /**
-     * A single quote string.
-     */
+    /** A single quote string. */
     public static final String singleQuote = "'";
 
     /** Suppress default constructor. */
