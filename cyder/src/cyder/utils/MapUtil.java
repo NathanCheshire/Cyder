@@ -13,11 +13,6 @@ import java.net.UnknownHostException;
 
 /** Utilities for MapBox, MapQuest, OpenRouteService, etc. */
 public final class MapUtil {
-    /** Suppress default constructor. */
-    private MapUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
     /** The map quest api url header. */
     private static final String mapQuestHeader = "http://www.mapquestapi.com/staticmap/v5/map?";
 
@@ -26,6 +21,11 @@ public final class MapUtil {
 
     /** The pipe character for requesting scalebar location. */
     private static final String PIPE = "|";
+
+    /** Suppress default constructor. */
+    private MapUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /** Url parameters for a MapBox API request. */
     private enum MapBoxUrlParameter {

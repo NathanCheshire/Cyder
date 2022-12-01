@@ -42,6 +42,7 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollList;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.selection.CyderCheckbox;
+import cyder.user.data.MappedExecutable;
 import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;
 
@@ -1820,14 +1821,14 @@ public final class UserEditor {
         Preconditions.checkNotNull(newPassword);
         Preconditions.checkNotNull(newPasswordConf);
 
-        UserUtil.Validation passwordValid = UserUtil.validatePassword(newPassword, newPasswordConf);
+        InputValidation passwordValid = UserUtil.validatePassword(newPassword, newPasswordConf);
 
-        if (passwordValid.valid()) {
+        if (passwordValid == InputValidation.VALID) {
             UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
                     SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
             editUserFrame.notify("Password successfully changed");
         } else {
-            editUserFrame.notify(passwordValid.message());
+            editUserFrame.notify(passwordValid.getMessage());
         }
 
         Arrays.fill(newPasswordConf, '\0');
@@ -1842,14 +1843,14 @@ public final class UserEditor {
     private static void attemptChangeUsername(String newUsername) {
         Preconditions.checkNotNull(newUsername);
 
-        UserUtil.Validation validUsername = UserUtil.validateUsername(newUsername);
+        InputValidation validUsername = UserUtil.validateUsername(newUsername);
 
-        if (validUsername.valid()) {
+        if (validUsername == InputValidation.VALID) {
             UserUtil.getCyderUser().setName(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + CyderStrings.quote);
             Console.INSTANCE.refreshConsoleSuperTitle();
         } else {
-            editUserFrame.notify(validUsername.message());
+            editUserFrame.notify(validUsername.getMessage());
         }
     }
 
@@ -1954,7 +1955,9 @@ public final class UserEditor {
         newExes.add(addExe);
         UserUtil.getCyderUser().setExecutables(newExes);
 
-        editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + CyderStrings.quote);
+        editUserFrame.notify("Successfully added map "
+                + CyderStrings.quote + name + CyderStrings.quote + " linking to: "
+                + CyderStrings.quote + link + CyderStrings.quote);
         Console.INSTANCE.revalidateMenu();
     }
 
@@ -2060,10 +2063,11 @@ public final class UserEditor {
      * @return the checkbox if already generated
      */
     public static Optional<CyderCheckbox> getCheckboxForId(String preferenceId) {
-        if (checkboxComponents.containsKey(preferenceId)) {
-            return Optional.of(checkboxComponents.get(preferenceId));
-        }
+        Preconditions.checkNotNull(preferenceId);
+        Preconditions.checkArgument(!preferenceId.isEmpty());
 
-        return Optional.empty();
+        return checkboxComponents.containsKey(preferenceId)
+                ? Optional.of(checkboxComponents.get(preferenceId))
+                : Optional.empty();
     }
 }

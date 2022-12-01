@@ -42,6 +42,11 @@ public class NetworkUtil {
     /** The string used to represent a space in a url. */
     public static final String URL_SPACE = "%20";
 
+    /**
+     * The time in ms to wait for a local port to bind to determine whether it is available.
+     */
+    private static final int LOCAL_PORT_AVAILABLE_TIMEOUT = 400;
+
     /** Suppress default constructor. */
     private NetworkUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -487,6 +492,8 @@ public class NetworkUtil {
     /** The index of the ip element inside its parent. */
     private static final int ipElementIndex = 0;
 
+    // todo this functionality should probably be extracted
+
     /**
      * Returns information about this user's isp, their ip, location, city, state/region, and country.
      *
@@ -545,8 +552,8 @@ public class NetworkUtil {
      */
     @ForReadability
     private static String filterHostname(String rawClassResult) {
-        rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
-        return rawClassResult.substring(0, rawClassResult.indexOf("'"));
+        rawClassResult = rawClassResult.substring(rawClassResult.indexOf(CyderStrings.singleQuote) + 1);
+        return rawClassResult.substring(0, rawClassResult.indexOf(CyderStrings.singleQuote));
     }
 
     /**
@@ -568,7 +575,7 @@ public class NetworkUtil {
             } catch (Exception ignored) {}
         }, "Local Port Available Finder, port: " + port);
 
-        ThreadUtil.sleep(400);
+        ThreadUtil.sleep(LOCAL_PORT_AVAILABLE_TIMEOUT);
 
         return ret.get();
     }

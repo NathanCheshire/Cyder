@@ -46,7 +46,11 @@ import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
-import cyder.user.*;
+import cyder.user.UserEditor;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.ScreenStat;
 import cyder.utils.*;
 
 import javax.swing.*;

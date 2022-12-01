@@ -33,6 +33,11 @@ public class NetworkHandler extends InputHandler {
     /** The name of the waiter thread for getting the usb devices. */
     private static final String USB_DEVICE_WAITER_THREAD_NAME = "Usb Device Waiter";
 
+    /**
+     * The name of the thread for performing the whereami command.
+     */
+    private static final String WHEREAMI_THREAD_NAME = "Whereami Information Finder";
+
     /** Suppress default constructor. */
     private NetworkHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -164,27 +169,29 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("Curl command usage: curl [URL]");
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("whereami")) {
-            NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
-            getInputHandler().println("You live in " + result.city() + ", " + result.state());
-            getInputHandler().println("Your country is: " + result.country());
-            getInputHandler().println("Your ip is: " + result.ip());
-            getInputHandler().println("Your isp is: " + result.isp());
-            getInputHandler().println("Your hostname is: " + result.hostname());
+            CyderThreadRunner.submit(() -> {
+                NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
+                getInputHandler().println("You live in " + result.city() + ", " + result.state());
+                getInputHandler().println("Your country is: " + result.country());
+                getInputHandler().println("Your ip is: " + result.ip());
+                getInputHandler().println("Your isp is: " + result.isp());
+                getInputHandler().println("Your hostname is: " + result.hostname());
 
-            MapUtil.Builder builder = new MapUtil.Builder(400, 400);
-            builder.setScaleBar(false);
-            builder.setLocationString(result.city().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                    + "," + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                    + "," + result.country().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
-            builder.setZoomLevel(8);
-            builder.setFilterWaterMark(true);
+                MapUtil.Builder builder = new MapUtil.Builder(400, 400);
+                builder.setScaleBar(false);
+                builder.setLocationString(result.city().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
+                        + "," + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
+                        + "," + result.country().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
+                builder.setZoomLevel(8);
+                builder.setFilterWaterMark(true);
 
-            try {
-                ImageIcon icon = MapUtil.getMapView(builder);
-                getInputHandler().println(icon);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
+                try {
+                    ImageIcon icon = MapUtil.getMapView(builder);
+                    getInputHandler().println(icon);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, WHEREAMI_THREAD_NAME);
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkdevices")) {
             OsUtil.getNetworkDevices().forEach(networkDevice -> {
                 getInputHandler().println("Name: " + networkDevice.name());

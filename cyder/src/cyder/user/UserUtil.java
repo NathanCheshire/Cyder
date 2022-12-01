@@ -20,6 +20,8 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.ScreenStat;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
@@ -1266,58 +1268,27 @@ public final class UserUtil {
         });
     }
 
-    /** User details are valid. */
-    private static final String VALID = "Valid details";
-
-    /** No username was provided. */
-    private static final String NO_USERNAME = "No username";
-
-    /** The username provided contains invalid characters. */
-    private static final String INVALID_NAME = "Invalid name";
-
-    /** The username provided is already in use. */
-    private static final String NAME_IN_USE = "Username already in use";
-
-    /** A validation wrapper for whether something is valid and an explanation message. */
-    public record Validation(boolean valid, String message) {}
-
     /**
      * Returns whether the provided username is valid.
      *
      * @param username the username to validate
      * @return whether the provided username is valid
      */
-    public static Validation validateUsername(String username) {
+    public static InputValidation validateUsername(String username) {
         Preconditions.checkNotNull(username);
 
         if (username.isEmpty()) {
-            return new Validation(false, NO_USERNAME);
+            return InputValidation.NO_USERNAME;
         } else if (!StringUtil.removeNonAscii(username).equals(username)) {
-            return new Validation(false, INVALID_NAME);
+            return InputValidation.INVALID_USERNAME;
         } else if (usernameInUse(username)) {
-            return new Validation(false, NAME_IN_USE);
+            return InputValidation.USERNAME_IN_USE;
         } else {
-            return new Validation(true, VALID);
+            return InputValidation.VALID;
         }
     }
 
-    /** No password was provided. */
-    private static final String NO_PASSWORD = "No password";
-
-    /** No confirmation password was provided. */
-    private static final String NO_CONFIRMATION = "No confirmation password";
-
-    /** The provided passwords do not match. */
-    private static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
-
-    /** The password contains no letter. */
-    private static final String NO_LETTER = "Password needs a letter";
-
-    /** The password is not of length at least 5. */
-    private static final String INVALID_LENGTH = "Password is not > 4";
-
-    /** The password does not contain a number. */
-    private static final String NO_NUMBER = "Password needs a number";
+    public static final int MIN_PASSWORD_LENGTH = 4;
 
     /**
      * Returns whether the provided passwords match and are valid.
@@ -1326,24 +1297,24 @@ public final class UserUtil {
      * @param passwordConfirmation the password confirmation
      * @return whether the provided passwords match and are valid
      */
-    public static Validation validatePassword(char[] password, char[] passwordConfirmation) {
+    public static InputValidation validatePassword(char[] password, char[] passwordConfirmation) {
         Preconditions.checkNotNull(password);
         Preconditions.checkNotNull(passwordConfirmation);
 
         if (password.length == 0) {
-            return new Validation(false, NO_PASSWORD);
+            return InputValidation.NO_PASSWORD;
         } else if (passwordConfirmation.length == 0) {
-            return new Validation(false, NO_CONFIRMATION);
+            return InputValidation.NO_CONFIRMATION_PASSWORD;
         } else if (!Arrays.equals(password, passwordConfirmation)) {
-            return new Validation(false, PASSWORDS_DO_NOT_MATCH);
-        } else if (password.length < 4) {
-            return new Validation(false, INVALID_LENGTH);
+            return InputValidation.PASSWORDS_DO_NOT_MATCH;
+        } else if (password.length < MIN_PASSWORD_LENGTH) {
+            return InputValidation.INVALID_PASSWORD_LENGTH;
         } else if (!StringUtil.containsLetter(password)) {
-            return new Validation(false, NO_LETTER);
+            return InputValidation.NO_LETTER_IN_PASSWORD;
         } else if (!StringUtil.containsNumber(password)) {
-            return new Validation(false, NO_NUMBER);
+            return InputValidation.NO_NUMBER_IN_PASSWORD;
         } else {
-            return new Validation(true, VALID);
+            return InputValidation.VALID;
         }
     }
 

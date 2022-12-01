@@ -27,25 +27,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Utilities related to the singular instance socket and API calls which use the instance socket. */
 public final class InstanceSocketUtil {
-    /** The default instance socket port. */
-    private static final int DEFAULT_INSTANCE_SOCKET_PORT = 8888;
-
     /** The port to start the instance socket on. */
-    private static final int instanceSocketPort;
+    private static final int instanceSocketPort = Props.instanceSocketPort.getValue();
 
     static {
-        boolean propPresent = Props.instanceSocketPort.valuePresent();
-
-        if (propPresent) {
-            int requestedPort = Props.instanceSocketPort.getValue();
-
-            if (NetworkUtil.localPortAvailable(requestedPort)) {
-                instanceSocketPort = requestedPort;
-            } else {
-                instanceSocketPort = DEFAULT_INSTANCE_SOCKET_PORT;
-            }
-        } else {
-            instanceSocketPort = DEFAULT_INSTANCE_SOCKET_PORT;
+        if (!NetworkUtil.localPortAvailable(instanceSocketPort)) {
+            throw new FatalException("Instance socket port of " + instanceSocketPort
+                    + " not available on " + OsUtil.getComputerName()
+                    + ". Utilize a prop file to change it to a free port");
         }
     }
 

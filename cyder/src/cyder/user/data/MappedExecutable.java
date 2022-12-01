@@ -1,4 +1,4 @@
-package cyder.user;
+package cyder.user.data;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;

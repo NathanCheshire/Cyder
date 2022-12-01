@@ -86,9 +86,12 @@ public final class CyderWatchdog {
                 try {
                     ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
-                    ThreadUtil.getCurrentThreads().stream()
-                            .filter(thread -> thread.getName().equals(AWT_EVENT_QUEUE_0_NAME))
-                            .forEach(CyderWatchdog::startWatchDog);
+                    for (Thread thread : ThreadUtil.getCurrentThreads()) {
+                        if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
+                            startWatchDog(thread);
+                            return;
+                        }
+                    }
                 } catch (Exception e) {
                     Logger.log(LogTag.WATCHDOG, ExceptionHandler.getPrintableException(e));
                 }

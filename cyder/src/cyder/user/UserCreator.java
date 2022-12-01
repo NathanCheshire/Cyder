@@ -17,6 +17,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
+import cyder.user.data.ScreenStat;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
@@ -86,7 +87,7 @@ public final class UserCreator {
         createUserFrame = new CyderFrame(350, 500, CyderIcons.defaultBackground);
         createUserFrame.setTitle("Create User");
 
-        JLabel nameLabel = new JLabel("Username: ", SwingConstants.CENTER);
+        JLabel nameLabel = new JLabel("Username", SwingConstants.CENTER);
         nameLabel.setFont(CyderFonts.SEGOE_20);
         nameLabel.setForeground(CyderColors.navy);
         nameLabel.setSize(120, 30);
@@ -106,7 +107,7 @@ public final class UserCreator {
             newUserNameField.setText(OsUtil.getOsUsername());
         }
 
-        JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
+        JLabel passwordLabel = new JLabel("Password", SwingConstants.CENTER);
         passwordLabel.setFont(CyderFonts.SEGOE_20);
         passwordLabel.setForeground(CyderColors.navy);
         passwordLabel.setSize(240, 30);
@@ -118,7 +119,7 @@ public final class UserCreator {
         newUserPasswordField.setSize(240, 40);
         newUserPasswordField.setToolTipText("Shift shows password");
 
-        JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
+        JLabel passwordLabelConf = new JLabel("Confirm Password", SwingConstants.CENTER);
         passwordLabelConf.setFont(CyderFonts.SEGOE_20);
         passwordLabelConf.setForeground(CyderColors.navy);
         passwordLabelConf.setSize(240, 30);
@@ -195,7 +196,9 @@ public final class UserCreator {
     /** The logic to invoke on an event from the new username field. */
     @ForReadability
     private static void newUserNameFieldKeyListenerLogic() {
-        createNewUserButton.setText(CREATE + space + newUserNameField.getText().trim());
+        String text = CREATE + space + newUserNameField.getText().trim();
+        createNewUserButton.setText(text);
+        createNewUserButton.setToolTipText(text);
         updateInformationLabel();
     }
 
@@ -214,15 +217,15 @@ public final class UserCreator {
         char[] password = newUserPasswordField.getPassword();
         char[] passwordConfirmation = newUserPasswordConfirmationField.getPassword();
 
-        UserUtil.Validation nameValid = UserUtil.validateUsername(name);
-        UserUtil.Validation passwordValid = UserUtil.validatePassword(password, passwordConfirmation);
+        InputValidation nameValid = UserUtil.validateUsername(name);
+        InputValidation passwordValid = UserUtil.validatePassword(password, passwordConfirmation);
 
-        if (!nameValid.valid()) {
-            informationLabel.setText(nameValid.message());
+        if (nameValid != InputValidation.VALID) {
+            informationLabel.setText(nameValid.getMessage());
         } else {
-            informationLabel.setText(passwordValid.message());
+            informationLabel.setText(passwordValid.getMessage());
 
-            if (passwordValid.valid()) {
+            if (passwordValid == InputValidation.VALID) {
                 informationLabel.setForeground(CyderColors.regularGreen);
                 validCredentials = true;
             }
