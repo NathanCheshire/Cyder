@@ -65,7 +65,8 @@ public final class SpotlightUtil {
                 File[] files = spotlightDirectory.listFiles();
                 int length = files == null ? 0 : files.length;
 
-                Console.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
+                Console.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:"
+                        + CyderStrings.newline + CyderStrings.quote
                         + spotlightsDir.getAbsolutePath() + CyderStrings.quote);
                 Console.INSTANCE.getInputHandler().println("Spotlights found: " + length);
 
@@ -89,7 +90,8 @@ public final class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT, USERS,
+        return OsUtil.buildFile(OsUtil.WINDOWS_ROOT,
+                USERS,
                 OsUtil.getOsUsername(),
                 APP_DATA,
                 LOCAL,
@@ -120,7 +122,7 @@ public final class SpotlightUtil {
             for (File spotlight : files) {
                 ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
 
-                if (isPortrait(icon)) continue;
+                if (ImageUtil.isPortraitIcon(icon)) continue;
                 if (icon.getIconWidth() < minimumSpotlightImageLength) continue;
                 if (icon.getIconHeight() < minimumSpotlightImageLength) continue;
 
@@ -138,17 +140,5 @@ public final class SpotlightUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    /**
-     * Returns whether the provided icon is a portrait photo.
-     *
-     * @param icon the icon to test
-     * @return whether the provided icon is a portrait photo
-     */
-    private static boolean isPortrait(ImageIcon icon) {
-        Preconditions.checkNotNull(icon);
-
-        return icon.getIconWidth() < icon.getIconHeight();
     }
 }

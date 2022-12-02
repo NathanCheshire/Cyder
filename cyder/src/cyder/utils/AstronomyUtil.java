@@ -63,7 +63,6 @@ public final class AstronomyUtil {
         try {
             Document doc = Jsoup.connect(MOON_PHASE_URL).get();
 
-            // Getting image
             Element moonImageContainer = doc.getElementById(CURRENT_MOON_ID);
             if (moonImageContainer != null) {
                 Elements moonImageElements = moonImageContainer.getAllElements();
@@ -77,13 +76,11 @@ public final class AstronomyUtil {
                 }
             }
 
-            // Getting illumination
             Element moonPercentElement = doc.getElementById(CURRENT_MOON_PERCENT_ID);
             if (moonPercentElement != null) {
                 illumination = Double.parseDouble(moonPercentElement.text().replace("%", ""));
             }
 
-            // Getting phase
             Element phaseElement = doc.getElementById(PHASE_ID);
             if (phaseElement != null) {
                 phase = phaseElement.select(A_TAG).text();

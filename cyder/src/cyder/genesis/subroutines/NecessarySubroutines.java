@@ -69,7 +69,7 @@ public final class NecessarySubroutines {
         InstanceSocketUtil.startListening();
 
         CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
-        if (OsUtil.isOsx()) {
+        if (OsUtil.OperatingSystem.OSX.isCurrentOperatingSystem()) {
             throw new FatalException("Unsupported OS");
         }
 

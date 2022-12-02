@@ -1168,4 +1168,16 @@ public final class ImageUtil {
             return new ImageIcon(bi.getScaledInstance(length, length, Image.SCALE_SMOOTH));
         }
     }
+
+    /**
+     * Returns whether the provided icon is a portrait icon meaning its height is greater than its width.
+     *
+     * @param icon the icon to test
+     * @return whether the provided icon is a portrait photo
+     */
+    public static boolean isPortraitIcon(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
+
+        return icon.getIconWidth() < icon.getIconHeight();
+    }
 }

@@ -18,11 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /** Utilities to color operations and conversions. */
 public final class ColorUtil {
-    /** Suppress default constructor. */
-    private ColorUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
     /** The base for hexadecimal numbers. */
     public static final int HEX_BASE = 16;
 
@@ -34,6 +29,11 @@ public final class ColorUtil {
 
     /** The valid lengths a hex color must be. */
     public static final ImmutableList<Integer> VALID_HEX_LENGTHS = ImmutableList.of(SHORTHAND_HEX_LENGTH, HEX_LENGTH);
+
+    /** Suppress default constructor. */
+    private ColorUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Converts the provided hex string to a {@link Color} object.
@@ -107,8 +107,8 @@ public final class ColorUtil {
         if (hex.length() == SHORTHAND_HEX_LENGTH) hex = expandShorthandHexColor(hex);
 
         return Integer.valueOf(hex.substring(0, 2), HEX_BASE)
-                + "," + Integer.valueOf(hex.substring(2, 4), HEX_BASE)
-                + "," + Integer.valueOf(hex.substring(4, 6), HEX_BASE);
+                + CyderStrings.comma + Integer.valueOf(hex.substring(2, 4), HEX_BASE)
+                + CyderStrings.comma + Integer.valueOf(hex.substring(4, 6), HEX_BASE);
     }
 
     /** The string formatter used to convert a {@link Color} to a hex string. */
@@ -127,6 +127,11 @@ public final class ColorUtil {
     }
 
     /**
+     * The maximum length the hashmap for the get dominant color method can grow.
+     */
+    private static final int maxDominantColorCounterHashMapLength = 100;
+
+    /**
      * Returns the dominant color of the provided BufferedImage.
      *
      * @param image the image to find the dominant color of
@@ -135,7 +140,7 @@ public final class ColorUtil {
     public static Color getDominantColor(BufferedImage image) {
         checkNotNull(image);
 
-        Map<Integer, Integer> colorCounter = new HashMap<>(100);
+        Map<Integer, Integer> colorCounter = new HashMap<>(maxDominantColorCounterHashMapLength);
 
         for (int x = 0 ; x < image.getWidth() ; x++) {
             for (int y = 0 ; y < image.getHeight() ; y++) {
@@ -221,11 +226,7 @@ public final class ColorUtil {
      * @return the blended color
      */
     public static Color blendColors(int colorOne, int colorTwo, float ratio) {
-        if (ratio > 1f) {
-            ratio = 1f;
-        } else if (ratio < 0f) {
-            ratio = 0f;
-        }
+        Preconditions.checkArgument(ratio <= 1.0f && ratio >= 0.0f);
 
         float inverseRatio = 1.0f - ratio;
 
@@ -282,6 +283,7 @@ public final class ColorUtil {
      * @return the middle point of the two colors
      */
     public static Color getMiddleColor(Color color1, Color color2) {
+        // todo shouldn't this be equal to blending each with a ratio of 0.50f?
         checkNotNull(color1);
         checkNotNull(color2);
 

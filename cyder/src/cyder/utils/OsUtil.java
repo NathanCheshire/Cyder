@@ -35,6 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /** Helper methods to sort out differences between operating systems Cyder might be running on. */
 public final class OsUtil {
+    // todo this stuff should be in FileUtil or maybe even FileName util?
     /**
      * A list of the restricted windows filenames due to backwards
      * compatibility and the nature of "APIs are forever".
@@ -50,8 +51,13 @@ public final class OsUtil {
     /** Whether Cyder is being run as a compiled JAR file. */
     public static final boolean JAR_MODE;
 
+    /**
+     * The Cyder class resource. todo can we get this dynamically?
+     */
+    private static final String CYDER_CLASS = "Cyder.class";
+
     static {
-        URL resource = Cyder.class.getResource("Cyder.class");
+        URL resource = Cyder.class.getResource(CYDER_CLASS);
         JAR_MODE = Objects.requireNonNull(resource).toString().startsWith(jarModeResourcePrefix);
         onJarModeSet();
     }
@@ -70,6 +76,9 @@ public final class OsUtil {
     /** A null character. */
     private static final String nullChar = "\0";
 
+    /**
+     * The list of invalid characters for a file name on unix based systems.
+     */
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
             CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
     );
@@ -183,6 +192,21 @@ public final class OsUtil {
         public ImmutableList<String> getSubstrings() {
             return substrings;
         }
+
+        /**
+         * Returns whether this operating system is the host OS for Cyder.
+         *
+         * @return whether this operating system is the host OS for Cyder
+         */
+        public boolean isCurrentOperatingSystem() {
+            for (String substring : getSubstrings()) {
+                if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     /** The standard operating system enum. */
@@ -191,9 +215,9 @@ public final class OsUtil {
     static {
         if (isWindows()) {
             OPERATING_SYSTEM = OperatingSystem.WINDOWS;
-        } else if (isOsx()) {
+        } else if (OperatingSystem.OSX.isCurrentOperatingSystem()) {
             OPERATING_SYSTEM = OperatingSystem.OSX;
-        } else if (isUnix()) {
+        } else if (OperatingSystem.UNIX.isCurrentOperatingSystem()) {
             OPERATING_SYSTEM = OperatingSystem.UNIX;
         } else {
             OPERATING_SYSTEM = OperatingSystem.UNKNOWN;
@@ -221,13 +245,7 @@ public final class OsUtil {
      * @return whether the operating system is windows
      */
     public static boolean isWindows() {
-        for (String substring : OperatingSystem.WINDOWS.getSubstrings()) {
-            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
-                return true;
-            }
-        }
-
-        return false;
+        return OperatingSystem.WINDOWS.isCurrentOperatingSystem();
     }
 
     /**
@@ -236,45 +254,7 @@ public final class OsUtil {
      * @return whether the operating system is OSX
      */
     public static boolean isOsx() {
-        for (String substring : OperatingSystem.OSX.getSubstrings()) {
-            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns whether the operating system is unix based.
-     * (yes this includes OSX systems too. If you need to test for
-     * OSX specifically then call {@link OsUtil#isOsx()})
-     *
-     * @return whether the operating system is unix based
-     */
-    public static boolean isUnix() {
-        for (String substring : OperatingSystem.UNIX.getSubstrings()) {
-            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns whether the operating system is Solaris.
-     *
-     * @return whether the operating system is Solaris
-     */
-    public static boolean isSolaris() {
-        for (String substring : OperatingSystem.SOLARIS.getSubstrings()) {
-            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
-                return true;
-            }
-        }
-
-        return false;
+        return OperatingSystem.OSX.isCurrentOperatingSystem();
     }
 
     /**
@@ -283,6 +263,26 @@ public final class OsUtil {
      * this is "sh" and "-c".
      */
     private static final int commandPrefixLength = 2;
+
+    /**
+     * The sh string for a Unix system shell command.
+     */
+    private static final String SH = "sh";
+
+    /**
+     * The -c string for a Unix system shell command.
+     */
+    private static final String DASH_C = "-c";
+
+    /**
+     * The cmd.exe string for a Windows system shell command.
+     */
+    private static final String CMD_EXE = "cmd.exe";
+
+    /**
+     * The /C string for a Windows system shell command.
+     */
+    private static final String SLASH_C = "/C";
 
     /**
      * Executes the provided command using the operating system's shell.
@@ -298,12 +298,12 @@ public final class OsUtil {
 
         switch (OPERATING_SYSTEM) {
             case OSX, UNIX, SOLARIS -> {
-                commandPartsArr[0] = "sh";
-                commandPartsArr[1] = "-c";
+                commandPartsArr[0] = SH;
+                commandPartsArr[1] = DASH_C;
             }
             case WINDOWS -> {
-                commandPartsArr[0] = "cmd.exe";
-                commandPartsArr[1] = "/C";
+                commandPartsArr[0] = CMD_EXE;
+                commandPartsArr[1] = SLASH_C;
             }
             case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
         }
@@ -327,11 +327,7 @@ public final class OsUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        switch (OPERATING_SYSTEM) {
-            case OSX, UNIX, SOLARIS -> Runtime.getRuntime().exec(new String[]{"sh", "-c", command});
-            case WINDOWS -> Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C", command});
-            case UNKNOWN -> throw new IllegalStateException("Unsupported operating system: " + OPERATING_SYSTEM);
-        }
+        executeShellCommand(ImmutableList.of(command));
     }
 
     /** The start keyword for launching the Windows command shell. */
