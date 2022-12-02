@@ -9,7 +9,6 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.IoUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,7 +64,7 @@ public class NumberHandler extends InputHandler {
                     File f = new File(getInputHandler().getArg(1));
 
                     if (f.exists()) {
-                        getInputHandler().printlnPriority("0b" + IoUtil.getBinaryString(f));
+                        getInputHandler().printlnPriority("0b" + FileUtil.getBinaryString(f));
                     } else {
                         getInputHandler().println("File: " + getInputHandler().getArg(0) + " does not exist.");
                     }
@@ -85,7 +84,7 @@ public class NumberHandler extends InputHandler {
 
                     if (FileUtil.getExtension(f).equalsIgnoreCase(Extension.BIN.getExtension())) {
                         if (f.exists()) {
-                            getInputHandler().printlnPriority("0x" + IoUtil.getHexString(f).toUpperCase());
+                            getInputHandler().printlnPriority("0x" + FileUtil.getHexString(f).toUpperCase());
                         } else {
                             getInputHandler().println("File: " + getInputHandler().getArg(1) + " does not exist.");
                         }

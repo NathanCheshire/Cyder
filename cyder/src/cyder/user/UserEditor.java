@@ -451,7 +451,7 @@ public final class UserEditor {
                     File file = getFile(selectedScrollElement);
 
                     if (file.exists()) {
-                        IoUtil.openFile(file);
+                        IoUtil.openFileUsingCyderHandlerIfPossible(file);
                     }
 
                     break;
@@ -825,7 +825,7 @@ public final class UserEditor {
         filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
                 element, () -> {
                     editUserFrame.notify("Opening: " + FileUtil.getFilename(element));
-                    IoUtil.openFile(getFile(element));
+                    IoUtil.openFileUsingCyderHandlerIfPossible(getFile(element));
                 }));
 
         JLabel filesLabel = filesScrollList.generateScrollList();

@@ -197,7 +197,7 @@ public final class MinecraftWidget {
                 String name = FileUtil.getFilename(refFile);
 
                 if (StringUtil.in(name, true, MINECRAFT_NAMES)) {
-                    IoUtil.openFileOutsideProgram(exe.getFilepath());
+                    IoUtil.openFileUsingNativeProgram(exe.getFilepath());
                     return;
                 }
             }

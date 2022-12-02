@@ -9,11 +9,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.Optional;
 
-/**
- * Utilities related to astronomy.
- */
+/** Utilities related to astronomy. */
 public final class AstronomyUtil {
     /** The url to query for moon phase data. */
     private static final String MOON_PHASE_URL = "https://www.timeanddate.com/moon/phases/";
@@ -36,9 +35,10 @@ public final class AstronomyUtil {
     /** The a tag constant. */
     private static final String A_TAG = "a";
 
-    /**
-     * Suppress default constructor.
-     */
+    /** The index of the moon image element within its parent element. */
+    private static final int moonImageElementIndex = 0;
+
+    /** Suppress default constructor. */
     private AstronomyUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -47,7 +47,7 @@ public final class AstronomyUtil {
      * A record representing a moon phase as defined by stats from
      * <a href="https://www.moongiant.com/phase/today/">moongiant</a>
      */
-    public record MoonPhase(String phase, double illumination, String urlImage) {}
+    public record MoonPhase(String phase, double illumination, String imageUrl) {}
 
     /**
      * Returns the current moon phase.
@@ -58,7 +58,7 @@ public final class AstronomyUtil {
     public static Optional<MoonPhase> getCurrentMoonPhase() {
         String phase = null;
         double illumination = -1;
-        String urlImage = null;
+        String imageUrl = null;
 
         try {
             Document doc = Jsoup.connect(MOON_PHASE_URL).get();
@@ -67,11 +67,11 @@ public final class AstronomyUtil {
             if (moonImageContainer != null) {
                 Elements moonImageElements = moonImageContainer.getAllElements();
 
-                if (moonImageElements.size() > 0) {
-                    Element imageElement = moonImageElements.get(0).select(IMG).first();
+                if (!moonImageElements.isEmpty()) {
+                    Element imageElement = moonImageElements.get(moonImageElementIndex).select(IMG).first();
 
                     if (imageElement != null) {
-                        urlImage = imageElement.absUrl(SRC);
+                        imageUrl = imageElement.absUrl(SRC);
                     }
                 }
             }
@@ -87,19 +87,15 @@ public final class AstronomyUtil {
             }
         } catch (HttpStatusException e) {
             return Optional.empty();
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
             return Optional.empty();
         }
 
-        if (phase == null) {
-            throw new IllegalCallerException("Could not find phase");
-        } else if (illumination == -1) {
-            throw new IllegalCallerException("Could not find illumination");
-        } else if (urlImage == null) {
-            throw new IllegalCallerException("Could not find url image");
+        if (phase == null || imageUrl == null || illumination == -1) {
+            return Optional.empty();
         }
 
-        return Optional.of(new MoonPhase(phase, illumination, urlImage));
+        return Optional.of(new MoonPhase(phase, illumination, imageUrl));
     }
 }

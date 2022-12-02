@@ -126,9 +126,7 @@ public final class ColorUtil {
         return String.format(RGB_TO_HEX_FORMAT, color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    /**
-     * The maximum length the hashmap for the get dominant color method can grow.
-     */
+    /** The maximum length the hashmap for the get dominant color method can grow. */
     private static final int maxDominantColorCounterHashMapLength = 100;
 
     /**

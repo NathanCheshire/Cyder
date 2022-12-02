@@ -30,7 +30,7 @@ public class FileHandler extends InputHandler {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
-            IoUtil.openFileOutsideProgram(Logger.getCurrentLogFile().getAbsolutePath());
+            IoUtil.openFileUsingNativeProgram(Logger.getCurrentLogFile());
         } else if (getInputHandler().inputIgnoringSpacesMatches("open last log")) {
             File[] logs = Logger.getCurrentLogFile().getParentFile().listFiles();
 
@@ -38,7 +38,7 @@ public class FileHandler extends InputHandler {
                 if (logs.length == 1) {
                     getInputHandler().println("No previous logs found");
                 } else if (logs.length > 1) {
-                    IoUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
+                    IoUtil.openFileUsingNativeProgram(logs[logs.length - 2]);
                 }
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("wipe spot lights")) {

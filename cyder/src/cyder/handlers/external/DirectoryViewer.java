@@ -138,7 +138,7 @@ public final class DirectoryViewer {
                 currentDirectory = chosenDir;
                 refreshFiles();
             } else if (chosenDir.isFile()) {
-                IoUtil.openFile(chosenDir);
+                IoUtil.openFileUsingCyderHandlerIfPossible(chosenDir);
             }
         });
         directoryField.setBounds(60, 40, 500, 40);
@@ -223,7 +223,7 @@ public final class DirectoryViewer {
                         currentDirectory = file;
                         refreshFiles();
                     } else {
-                        IoUtil.openFile(file.getAbsolutePath());
+                        IoUtil.openFileUsingCyderHandlerIfPossible(file.getAbsolutePath());
                     }
                 }));
 

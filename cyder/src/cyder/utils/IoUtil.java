@@ -20,13 +20,10 @@ import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.attribute.DosFileAttributes;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** Utilities related to local computer IO. */
@@ -39,13 +36,15 @@ public final class IoUtil {
     /** Player used to play general audio files that may be user terminated. */
     private static Player player;
 
+    // todo if this is a url account for that
+
     /**
      * Opens the provided file outside of the program regardless of whether a
      * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
      *
      * @param file the file to open
      */
-    public static void openFileOutsideProgram(File file) {
+    public static void openFileUsingNativeProgram(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
@@ -77,38 +76,11 @@ public final class IoUtil {
      *
      * @param filePath the path to the file to open
      */
-    public static void openFileOutsideProgram(String filePath) {
+    public static void openFileUsingNativeProgram(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
-        openFileOutsideProgram(new File(filePath));
-    }
-
-    /**
-     * Determines whether the provided string is a link or a file/directory path and then opens it.
-     *
-     * @param fileOrLink the link/file to open
-     */
-    public static void openOutsideProgram(String fileOrLink) {
-        Preconditions.checkNotNull(fileOrLink);
-        Preconditions.checkArgument(!fileOrLink.isEmpty());
-
-        boolean validLink;
-
-        try {
-            URL url = new URL(fileOrLink);
-            URLConnection connection = url.openConnection();
-            connection.connect();
-            validLink = true;
-        } catch (Exception ex) {
-            validLink = false;
-        }
-
-        if (validLink) {
-            NetworkUtil.openUrl(fileOrLink);
-        } else {
-            openFileOutsideProgram(fileOrLink);
-        }
+        openFileUsingNativeProgram(new File(filePath));
     }
 
     /** The thread name for the jvm args logger. */
@@ -158,7 +130,7 @@ public final class IoUtil {
      *
      * @param file the file to open
      */
-    public static void openFile(File file) {
+    public static void openFileUsingCyderHandlerIfPossible(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
@@ -171,7 +143,7 @@ public final class IoUtil {
         } else if (FileUtil.isSupportedAudioExtension(file)) {
             AudioPlayer.showGui(file);
         } else {
-            openFileOutsideProgram(file);
+            openFileUsingNativeProgram(file);
         }
     }
 
@@ -180,11 +152,11 @@ public final class IoUtil {
      *
      * @param filePath the path to the file to open
      */
-    public static void openFile(String filePath) {
+    public static void openFileUsingCyderHandlerIfPossible(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
-        openFile(new File(filePath));
+        openFileUsingCyderHandlerIfPossible(new File(filePath));
     }
 
     /** The name of the thread for playing general audio. */
@@ -358,77 +330,5 @@ public final class IoUtil {
         if (isGeneralAudioPlaying()) {
             stopGeneralAudio();
         }
-    }
-
-    /**
-     * Returns the size of the provided file in bytes.
-     *
-     * @param file the file to calculate the size of
-     * @return the size in bytes of the file
-     */
-    public static long getFileSize(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-
-        long ret = 0;
-        try {
-            ret = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class).size();
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
-    }
-
-    /**
-     * Returns a binary string for the provided binary file.
-     *
-     * @param file the binary file of pure binary contents
-     * @return the String of binary data from the file
-     */
-    public static String getBinaryString(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
-
-        try {
-            BufferedReader fis = new BufferedReader(new FileReader(file));
-            String stringBytes = fis.readLine();
-            fis.close();
-            return stringBytes;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        throw new IllegalCallerException("Could not read binary file");
-    }
-
-    /**
-     * Returns a hex string for the provided binary file.
-     *
-     * @param file the binary file of pure binary contents
-     * @return the String of hex data from the file
-     */
-    public static String getHexString(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
-
-        try {
-            BufferedReader fis = new BufferedReader(new FileReader(file));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            for (String stringByte : stringBytes) {
-                sb.append(Integer.toString(Integer.parseInt(stringByte, 2), 16));
-            }
-
-            fis.close();
-            return sb.toString();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        throw new IllegalCallerException("Could not read binary file");
     }
 }

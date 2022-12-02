@@ -232,6 +232,7 @@ public final class ExceptionHandler {
      *
      * @param e the exception to be silently handled
      */
+    @Deprecated // todo remove usage of method
     public static void silentHandle(Exception e) {
         try {
             Optional<String> optionalWrite = getPrintableException(e);

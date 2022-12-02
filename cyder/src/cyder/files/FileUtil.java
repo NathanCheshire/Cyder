@@ -604,4 +604,56 @@ public final class FileUtil {
     public static String readFileContents(File file) throws IOException {
         return Files.readString(Path.of(file.getAbsolutePath()));
     }
+
+    /**
+     * Returns a hex string for the provided binary file.
+     *
+     * @param file the binary file of pure binary contents
+     * @return the String of hex data from the file
+     */
+    public static String getHexString(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
+
+        try {
+            BufferedReader fis = new BufferedReader(new FileReader(file));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(Integer.toString(Integer.parseInt(stringByte, 2), 16));
+            }
+
+            fis.close();
+            return sb.toString();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        throw new IllegalCallerException("Could not read binary file");
+    }
+
+    /**
+     * Returns a binary string for the provided binary file.
+     *
+     * @param file the binary file of pure binary contents
+     * @return the String of binary data from the file
+     */
+    public static String getBinaryString(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
+
+        try {
+            BufferedReader fis = new BufferedReader(new FileReader(file));
+            String stringBytes = fis.readLine();
+            fis.close();
+            return stringBytes;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        throw new IllegalCallerException("Could not read binary file");
+    }
 }

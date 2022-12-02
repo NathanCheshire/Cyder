@@ -77,9 +77,7 @@ public final class OsUtil {
     /** Whether Cyder is being run as a compiled JAR file. */
     public static final boolean JAR_MODE;
 
-    /**
-     * The Cyder class resource. todo can this be dynamic?
-     */
+    /** The Cyder class resource. todo can this be dynamic? */
     private static final String CYDER_CLASS = "Cyder.class";
 
     static {
@@ -94,9 +92,7 @@ public final class OsUtil {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * The list of invalid characters for a file name on unix based systems.
-     */
+    /** The list of invalid characters for a file name on unix based systems. */
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
             CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
     );
@@ -282,24 +278,16 @@ public final class OsUtil {
      */
     private static final int commandPrefixLength = 2;
 
-    /**
-     * The sh string for a Unix system shell command.
-     */
+    /** The sh string for a Unix system shell command. */
     private static final String SH = "sh";
 
-    /**
-     * The -c string for a Unix system shell command.
-     */
+    /** The -c string for a Unix system shell command. */
     private static final String DASH_C = "-c";
 
-    /**
-     * The cmd.exe string for a Windows system shell command.
-     */
+    /** The cmd.exe string for a Windows system shell command. */
     private static final String CMD_EXE = "cmd.exe";
 
-    /**
-     * The /C string for a Windows system shell command.
-     */
+    /** The /C string for a Windows system shell command. */
     private static final String SLASH_C = "/C";
 
     /**

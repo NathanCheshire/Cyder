@@ -1585,7 +1585,7 @@ public enum Console {
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
-                    IoUtil.openOutsideProgram(exe.getFilepath());
+                    IoUtil.openFileUsingNativeProgram(exe.getFilepath());
                     exe.displayInvokedNotification();
                 };
 

@@ -180,7 +180,7 @@ public final class ImageAveragerWidget {
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
         currentFiles.forEach((filename, file) -> {
-            Runnable openFileRunnable = () -> IoUtil.openFile(file.getAbsolutePath());
+            Runnable openFileRunnable = () -> IoUtil.openFileUsingCyderHandlerIfPossible(file.getAbsolutePath());
             imagesScroll.addElementWithDoubleClickAction(filename, openFileRunnable);
         });
 
