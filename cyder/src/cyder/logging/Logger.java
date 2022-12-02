@@ -23,6 +23,7 @@ import cyder.utils.StringUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -82,9 +83,6 @@ public final class Logger {
 
     /** The file that is currently being written to on log calls. */
     private static File currentLog;
-
-    /** The absolute start time of Cyder, initialized at runtime. */
-    public static final long START_TIME = System.currentTimeMillis();
 
     /**
      * A record to hold a log call which cannot be written due to the logger
@@ -568,7 +566,7 @@ public final class Logger {
      * @return the run time of Cyder
      */
     private static String getRuntime() {
-        return TimeUtil.formatMillis(System.currentTimeMillis() - START_TIME);
+        return TimeUtil.formatMillis(ManagementFactory.getRuntimeMXBean().getUptime());
     }
 
     /** Zips the log files of the past. */

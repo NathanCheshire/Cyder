@@ -63,6 +63,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -298,7 +299,7 @@ public enum Console {
         UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
 
         TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
-        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
+        long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 

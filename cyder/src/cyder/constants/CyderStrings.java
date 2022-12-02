@@ -83,6 +83,9 @@ public final class CyderStrings {
     /** A single quote string. */
     public static final String singleQuote = "'";
 
+    /** A null character. */
+    public static final String nullChar = "\0";
+
     /** Suppress default constructor. */
     private CyderStrings() {
         throw new IllegalStateException(ATTEMPTED_INSTANTIATION);

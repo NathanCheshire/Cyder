@@ -190,65 +190,6 @@ public final class ColorUtil {
     }
 
     /**
-     * Blends the two colors together using the provided ratio of colorOne to colorTwo.
-     *
-     * @param colorOne the first color to blend
-     * @param colorTwo the second color to blend
-     * @param ratio    the blend ratio
-     * @return the blended color
-     */
-    public static Color blendColors(Color colorOne, Color colorTwo, float ratio) {
-        Preconditions.checkNotNull(colorOne);
-        Preconditions.checkNotNull(colorTwo);
-
-        int a1 = (colorOne.getAlpha() >> 24 & 0xff);
-        int r1 = ((colorOne.getRed() & 0xff0000) >> 16);
-        int g1 = ((colorOne.getGreen() & 0xff00) >> 8);
-        int b1 = (colorOne.getBlue() & 0xff);
-
-        int a2 = (colorTwo.getAlpha() >> 24 & 0xff);
-        int r2 = ((colorTwo.getRed() & 0xff0000) >> 16);
-        int g2 = ((colorTwo.getGreen() & 0xff00) >> 8);
-        int b2 = (colorTwo.getBlue() & 0xff);
-
-        int c1 = a1 | r1 | g1 | b1;
-        int c2 = a2 | r2 | g2 | b2;
-
-        return blendColors(c1, c2, ratio);
-    }
-
-    /**
-     * Blends the two colors together using the provided ratio of colorOne to colorTwo.
-     *
-     * @param colorOne the first color to blend
-     * @param colorTwo the second color to blend
-     * @param ratio    the blend ratio
-     * @return the blended color
-     */
-    public static Color blendColors(int colorOne, int colorTwo, float ratio) {
-        Preconditions.checkArgument(ratio <= 1.0f && ratio >= 0.0f);
-
-        float inverseRatio = 1.0f - ratio;
-
-        int a1 = (colorOne >> 24 & 0xff);
-        int r1 = ((colorOne & 0xff0000) >> 16);
-        int g1 = ((colorOne & 0xff00) >> 8);
-        int b1 = (colorOne & 0xff);
-
-        int a2 = (colorTwo >> 24 & 0xff);
-        int r2 = ((colorTwo & 0xff0000) >> 16);
-        int g2 = ((colorTwo & 0xff00) >> 8);
-        int b2 = (colorTwo & 0xff);
-
-        int a = (int) ((a1 * inverseRatio) + (a2 * ratio));
-        int r = (int) ((r1 * inverseRatio) + (r2 * ratio));
-        int g = (int) ((g1 * inverseRatio) + (g2 * ratio));
-        int b = (int) ((b1 * inverseRatio) + (b2 * ratio));
-
-        return new Color(a << 24 | r << 16 | g << 8 | b);
-    }
-
-    /**
      * Returns the gray-scale text color which should be used when overlaying
      * text on the provided buffered image.
      *
@@ -283,7 +224,6 @@ public final class ColorUtil {
      * @return the middle point of the two colors
      */
     public static Color getMiddleColor(Color color1, Color color2) {
-        // todo shouldn't this be equal to blending each with a ratio of 0.50f?
         checkNotNull(color1);
         checkNotNull(color2);
 

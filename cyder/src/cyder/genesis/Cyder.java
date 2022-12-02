@@ -9,7 +9,6 @@ import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
 import cyder.time.CyderWatchdog;
-import cyder.time.TimeUtil;
 import cyder.utils.JvmUtil;
 
 import javax.swing.*;
@@ -33,8 +32,6 @@ public final class Cyder {
      *                  but we'll log them anyway (just like Big Brother would want)
      */
     public static void main(String[] arguments) {
-        TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
-
         JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
 
         PropLoader.reloadProps();

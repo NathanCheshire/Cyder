@@ -611,34 +611,8 @@ public final class TimeUtil {
     // Relative timing methods and members
     // -----------------------------------
 
-    /** The time at which Cyder was first started. */
-    private static final AtomicLong absoluteStartTime = new AtomicLong(0);
-
     /** The time at which the console was first shown. */
     private static final AtomicLong consoleFirstShownTime = new AtomicLong(0);
-
-    /**
-     * Returns the absolute start time of Cyder.
-     *
-     * @return the absolute start time of Cyder
-     */
-    public static long getAbsoluteStartTime() {
-        return absoluteStartTime.get();
-    }
-
-    /** The error message for when the start time has already been set. */
-    private static final String SET_START_TIME_ERROR_MESSAGE = "Absolute start time already set";
-
-    /**
-     * Sets the absolute start time of Cyder.
-     *
-     * @param absoluteStartTimeMs the absolute start time of Cyder
-     */
-    public static void setAbsoluteStartTime(long absoluteStartTimeMs) {
-        Preconditions.checkState(absoluteStartTime.get() == 0, SET_START_TIME_ERROR_MESSAGE);
-
-        absoluteStartTime.set(absoluteStartTimeMs);
-    }
 
     /**
      * Returns the time at which the console was first shown.

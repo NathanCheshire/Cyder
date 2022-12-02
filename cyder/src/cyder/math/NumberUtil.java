@@ -46,10 +46,10 @@ public final class NumberUtil {
     }
 
     /**
-     * Returns a random integer in the range [0, upperBound).
+     * Returns a random integer in the range [0, upperBound].
      *
-     * @param upperBound the upper bound of the random range (upperBound is excluded from the possible values)
-     * @return a random integer in the range [0, upperBound)
+     * @param upperBound the upper bound of the random range (upperBound is included from the possible values)
+     * @return a random integer in the range [0, upperBound]
      */
     public static int randInt(int upperBound) {
         return random.nextInt((upperBound) + 1);

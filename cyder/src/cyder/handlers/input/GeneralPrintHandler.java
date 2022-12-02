@@ -41,7 +41,7 @@ public class GeneralPrintHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("shakespeare")) {
-            if (NumberUtil.randInt(1, 2) == 1) {
+            if (NumberUtil.randInt(0, 1) == 1) {
                 getInputHandler().println("Glamis hath murdered sleep, "
                         + "and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {

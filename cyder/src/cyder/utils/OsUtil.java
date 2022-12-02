@@ -37,13 +37,39 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class OsUtil {
     // todo this stuff should be in FileUtil or maybe even FileName util?
     /**
+     * The invalid Com names which files may not contains on Windows.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> invalidWindowsComNames = ImmutableList.of(
+            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"
+    );
+
+    /**
+     * The invalid LPT (Line Printer Terminal) names which files may not contains on Windows.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> invalidWindowsLptNames = ImmutableList.of(
+            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    );
+
+    /**
+     * The additional invalid windows filenames aside from
+     * {@link #invalidWindowsComNames} and {@link #invalidWindowsLptNames}.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> otherInvalidWindowsNames = ImmutableList.of(
+            "CON", "PRN", "AUX", "NUL"
+    );
+
+    /**
      * A list of the restricted windows filenames due to backwards
      * compatibility and the nature of "APIs are forever".
      */
-    public static final ImmutableList<String> invalidWindowsFilenames = ImmutableList.of(
-            "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
-            "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
-    );
+    public static final ImmutableList<String> invalidWindowsFilenames = new ImmutableList.Builder<String>()
+            .addAll(invalidWindowsComNames)
+            .addAll(invalidWindowsLptNames)
+            .addAll(otherInvalidWindowsNames)
+            .build();
 
     /** The prefix the class resource must start with for the program to be counted as starting from a JAR file. */
     private static final String jarModeResourcePrefix = "jar:";
@@ -52,18 +78,13 @@ public final class OsUtil {
     public static final boolean JAR_MODE;
 
     /**
-     * The Cyder class resource. todo can we get this dynamically?
+     * The Cyder class resource. todo can this be dynamic?
      */
     private static final String CYDER_CLASS = "Cyder.class";
 
     static {
         URL resource = Cyder.class.getResource(CYDER_CLASS);
         JAR_MODE = Objects.requireNonNull(resource).toString().startsWith(jarModeResourcePrefix);
-        onJarModeSet();
-    }
-
-    /** The actions to invoke upon {@link #JAR_MODE} being initially set. */
-    private static void onJarModeSet() {
         Logger.log(LogTag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
         ProgramModeManager.INSTANCE.refreshProgramMode();
     }
@@ -72,9 +93,6 @@ public final class OsUtil {
     private OsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    /** A null character. */
-    private static final String nullChar = "\0";
 
     /**
      * The list of invalid characters for a file name on unix based systems.
@@ -96,7 +114,7 @@ public final class OsUtil {
 
         switch (OPERATING_SYSTEM) {
             case OSX:
-                return !filename.contains(CyderStrings.forwardSlash) && !filename.contains(nullChar);
+                return !filename.contains(CyderStrings.forwardSlash) && !filename.contains(CyderStrings.nullChar);
             case WINDOWS:
                 if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern())) {
                     return false;
