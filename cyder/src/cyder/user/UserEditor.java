@@ -451,7 +451,7 @@ public final class UserEditor {
                     File file = getFile(selectedScrollElement);
 
                     if (file.exists()) {
-                        IoUtil.openFileUsingCyderHandlerIfPossible(file);
+                        FileUtil.openResource(file.getAbsolutePath(), true);
                     }
 
                     break;
@@ -825,7 +825,7 @@ public final class UserEditor {
         filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
                 element, () -> {
                     editUserFrame.notify("Opening: " + FileUtil.getFilename(element));
-                    IoUtil.openFileUsingCyderHandlerIfPossible(getFile(element));
+                    FileUtil.openResource(getFile(element).getAbsolutePath(), true);
                 }));
 
         JLabel filesLabel = filesScrollList.generateScrollList();
@@ -1882,9 +1882,7 @@ public final class UserEditor {
         try {
             String validated = new SimpleDateFormat(datePattern).format(new Date());
             return true;
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
+        } catch (Exception ignored) {}
 
         return false;
     }

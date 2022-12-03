@@ -21,7 +21,6 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.IoUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -180,7 +179,7 @@ public final class ImageAveragerWidget {
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
         currentFiles.forEach((filename, file) -> {
-            Runnable openFileRunnable = () -> IoUtil.openFileUsingCyderHandlerIfPossible(file.getAbsolutePath());
+            Runnable openFileRunnable = () -> FileUtil.openResource(file.getAbsolutePath(), true);
             imagesScroll.addElementWithDoubleClickAction(filename, openFileRunnable);
         });
 

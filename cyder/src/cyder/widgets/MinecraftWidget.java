@@ -14,7 +14,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.user.UserUtil;
 import cyder.user.data.MappedExecutable;
-import cyder.utils.IoUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -197,7 +196,7 @@ public final class MinecraftWidget {
                 String name = FileUtil.getFilename(refFile);
 
                 if (StringUtil.in(name, true, MINECRAFT_NAMES)) {
-                    IoUtil.openFileUsingNativeProgram(exe.getFilepath());
+                    FileUtil.openResourceUsingNativeProgram(exe.getFilepath());
                     return;
                 }
             }

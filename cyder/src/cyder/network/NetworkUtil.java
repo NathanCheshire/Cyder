@@ -119,10 +119,10 @@ public class NetworkUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
-        Desktop Internet = Desktop.getDesktop();
+        Desktop desktop = Desktop.getDesktop();
 
         try {
-            Internet.browse(new URI(url));
+            desktop.browse(new URI(url));
             Logger.log(LogTag.LINK, url);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -344,10 +344,10 @@ public class NetworkUtil {
             reader.close();
             return sb.toString();
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
         }
 
-        throw new IllegalCallerException("Error reading from url: " + urlString);
+        throw new FatalException("Error reading from url: " + urlString);
     }
 
     /**

@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
@@ -37,7 +38,7 @@ public final class VideoUtil {
         cyderFrame.setTitle("Bad Apple");
         cyderFrame.finalizeAndShow();
 
-        IoUtil.playGeneralAudio(audioFile);
+        GeneralAndSystemAudioPlayer.playGeneralAudio(audioFile);
 
         long absoluteStart = System.currentTimeMillis();
 

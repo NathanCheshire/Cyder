@@ -8,7 +8,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.DosAttribute;
 import cyder.files.FileUtil;
 import cyder.logging.Logger;
-import cyder.utils.IoUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SpotlightUtil;
 
@@ -30,7 +29,7 @@ public class FileHandler extends InputHandler {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
-            IoUtil.openFileUsingNativeProgram(Logger.getCurrentLogFile());
+            FileUtil.openResourceUsingNativeProgram(Logger.getCurrentLogFile().getAbsolutePath());
         } else if (getInputHandler().inputIgnoringSpacesMatches("open last log")) {
             File[] logs = Logger.getCurrentLogFile().getParentFile().listFiles();
 
@@ -38,7 +37,7 @@ public class FileHandler extends InputHandler {
                 if (logs.length == 1) {
                     getInputHandler().println("No previous logs found");
                 } else if (logs.length > 1) {
-                    IoUtil.openFileUsingNativeProgram(logs[logs.length - 2]);
+                    FileUtil.openResourceUsingNativeProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("wipe spot lights")) {

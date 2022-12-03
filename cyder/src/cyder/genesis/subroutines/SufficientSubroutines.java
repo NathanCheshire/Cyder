@@ -12,7 +12,6 @@ import cyder.logging.Logger;
 import cyder.process.ProcessUtil;
 import cyder.process.PythonPackage;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.IoUtil;
 import cyder.utils.JvmUtil;
 
 import java.util.Arrays;
@@ -86,7 +85,7 @@ public final class SufficientSubroutines {
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-                IoUtil.logArgs(JvmUtil.getJvmMainMethodArgs());
+                JvmUtil.logArgs(JvmUtil.getJvmMainMethodArgs());
             }, JVM_LOGGER),
             new SufficientSubroutine(() -> Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
                 String threadName = "Python Package Installed Ensurer, package = " + pythonPackage.getPackageName();

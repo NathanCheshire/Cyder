@@ -7,6 +7,12 @@ import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
+import cyder.props.Props;
+import cyder.threads.CyderThreadRunner;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -17,6 +23,9 @@ import static cyder.constants.CyderStrings.quote;
 public final class JvmUtil {
     /** The bin string. */
     private static final String BIN = "bin";
+
+    /** The thread name for the jvm args logger. */
+    private static final String JVM_ARGS_LOGGER_THREAD_NAME = "JVM Args Logger";
 
     /**
      * The name of the javaw.exe executable. The difference between java and javaw
@@ -253,5 +262,44 @@ public final class JvmUtil {
                 + quote + classpath + quote + CyderStrings.space
                 + quote + sunJavaCommand + quote + CyderStrings.space
                 + mainMethodArgs;
+    }
+
+    /**
+     * Logs any possible command line arguments passed in to Cyder upon starting.
+     * Appends JVM Command Line Arguments along with the start location to the log.
+     *
+     * @param cyderArgs the command line arguments passed in
+     */
+    public static void logArgs(ImmutableList<String> cyderArgs) {
+        Preconditions.checkNotNull(cyderArgs);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                // build string of all JVM args
+                StringBuilder argBuilder = new StringBuilder();
+
+                for (int i = 0 ; i < cyderArgs.size() ; i++) {
+                    if (i != 0) {
+                        argBuilder.append(",");
+                    }
+
+                    argBuilder.append(cyderArgs.get(i));
+                }
+
+                NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
+
+                argBuilder.append("city = ").append(result.city())
+                        .append(", state = ").append(result.state())
+                        .append(", country = ").append(result.country())
+                        .append(", ip = ").append(result.ip())
+                        .append(", isp = ").append(result.isp())
+                        .append(", hostname = ").append(result.hostname());
+
+                boolean autoCypher = Props.autocypher.getValue();
+                Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args obfuscated due to AutoCypher" : argBuilder);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, JVM_ARGS_LOGGER_THREAD_NAME);
     }
 }

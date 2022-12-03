@@ -8,10 +8,14 @@ import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
+import java.awt.*;
 import java.io.*;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -656,5 +660,47 @@ public final class FileUtil {
         }
 
         throw new FatalException("Could not read binary file");
+    }
+
+    /**
+     * Opens the provided resource.
+     *
+     * @param resource                  the resource to open
+     * @param useCyderHandlerIfPossible whether to attempt to open the resource using a Cyder handler if possible
+     */
+    public static void openResource(String resource, boolean useCyderHandlerIfPossible) {
+        File referenceFile = new File(resource);
+        boolean referenceFileExists = referenceFile.exists();
+
+        if (referenceFileExists && useCyderHandlerIfPossible) {
+            for (CyderFileHandler handler : CyderFileHandler.values()) {
+                if (handler.shouldUseForFile(referenceFile)) {
+                    handler.open(referenceFile);
+                    return;
+                }
+            }
+        }
+
+        openResourceUsingNativeProgram(resource);
+    }
+
+    /**
+     * Opens the provided resource using the native {@link Desktop}.
+     * This could be a file, directory, url, link, etc.
+     *
+     * @param resource the resource to open
+     */
+    public static void openResourceUsingNativeProgram(String resource) {
+        Preconditions.checkNotNull(resource);
+        Preconditions.checkArgument(!resource.isEmpty());
+
+        Desktop desktop = Desktop.getDesktop();
+
+        try {
+            desktop.browse(new URI(resource));
+            Logger.log(LogTag.LINK, resource);
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
     }
 }

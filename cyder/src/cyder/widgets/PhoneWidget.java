@@ -6,6 +6,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -15,7 +16,6 @@ import cyder.ui.button.CyderModernButton;
 import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.IoUtil;
 import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
@@ -63,8 +63,9 @@ public final class PhoneWidget {
 
     /** The map of special numbers to runnables. */
     private static final ImmutableMap<String, Runnable> specialNumbers = ImmutableMap.of(
-            SUICIDE_HOTLINE, () -> IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3")),
-            TWO_TWO_THREES, () -> IoUtil.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"))
+            SUICIDE_HOTLINE,
+            () -> GeneralAndSystemAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3")),
+            TWO_TWO_THREES, () -> GeneralAndSystemAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"))
     );
 
     private static final String DIALING = "Dialing: ";

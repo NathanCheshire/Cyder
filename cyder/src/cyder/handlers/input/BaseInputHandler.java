@@ -6,6 +6,7 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.annotations.Widget;
+import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -761,8 +762,8 @@ public class BaseInputHandler {
      */
     private final AtomicInteger typingAnimationCharsInserted = new AtomicInteger();
 
-    /** The path to the typing sound effect. */
-    private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
+    /** The file for the typing sound effect. */
+    private final File typingSoundFile = new File(StaticUtil.getStaticPath("typing.mp3"));
 
     /**
      * Prints the string to the output area checking for
@@ -793,7 +794,7 @@ public class BaseInputHandler {
 
                 if (typingAnimationCharsInserted.get() == TYPING_ANIMATION_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
-                        IoUtil.playSystemAudio(typingSoundPath, false);
+                        GeneralAndSystemAudioPlayer.playSystemAudio(typingSoundFile);
                         typingAnimationCharsInserted.set(0);
                     }
                 } else {
@@ -910,7 +911,7 @@ public class BaseInputHandler {
     public final void escapeThreads() {
         killThreads();
         escapeWrapShell = true;
-        IoUtil.stopGeneralAudio();
+        GeneralAndSystemAudioPlayer.stopGeneralAudio();
         YoutubeUtil.cancelAllActiveDownloads();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;

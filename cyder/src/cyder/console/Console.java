@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
+import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
@@ -997,8 +998,8 @@ public enum Console {
         inputField.setCaretPosition(inputField.getPassword().length);
     }
 
-    /** The path to the chime mp3 file. */
-    private final String CHIME_PATH = StaticUtil.getStaticPath("chime.mp3");
+    /** The chime mp3 file. */
+    private final File CHIME_FILE = new File(StaticUtil.getStaticPath("chime.mp3"));
 
     /** The last hour a chime sound was played at. */
     private final AtomicInteger lastChimeHour = new AtomicInteger(-1);
@@ -1031,7 +1032,7 @@ public enum Console {
                         if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
                             boolean chime = UserUtil.getCyderUser().getHourlyChimes().equals("1");
                             if (chime) {
-                                IoUtil.playSystemAudio(CHIME_PATH);
+                                GeneralAndSystemAudioPlayer.playSystemAudio(CHIME_FILE);
                                 lastChimeHour.set(LocalDateTime.now().getHour());
                             }
                         }
@@ -1050,9 +1051,7 @@ public enum Console {
                     try {
                         refreshClockText();
                         ThreadUtil.sleepWithChecks(CLOCK_REFRESH_SLEEP_TIME, CLOCK_CHECK_FREQUENCY, consoleClosed);
-                    } catch (Exception e) {
-                        ExceptionHandler.silentHandle(e);
-                    }
+                    } catch (Exception ignored) {}
                 }
             }
         }, IgnoreThread.ConsoleClockUpdater.getName());
@@ -1212,9 +1211,9 @@ public enum Console {
 
         if (!musicList.isEmpty()) {
             int randomFileIndex = NumberUtil.randInt(files.length - 1);
-            IoUtil.playGeneralAudio(files[randomFileIndex]);
+            GeneralAndSystemAudioPlayer.playGeneralAudio(files[randomFileIndex]);
         } else {
-            IoUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
+            GeneralAndSystemAudioPlayer.playGeneralAudio(DEFAULT_INTRO_MUSIC);
         }
     }
 
@@ -1256,9 +1255,9 @@ public enum Console {
             if (grayscale) {
                 int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
                 int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
-                IoUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+                GeneralAndSystemAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
             } else {
-                IoUtil.playGeneralAudio(introTheme);
+                GeneralAndSystemAudioPlayer.playGeneralAudio(introTheme);
             }
         }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
@@ -1585,7 +1584,7 @@ public enum Console {
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
-                    IoUtil.openFileUsingNativeProgram(exe.getFilepath());
+                    FileUtil.openResource(exe.getFilepath(), true);
                     exe.displayInvokedNotification();
                 };
 
@@ -2087,7 +2086,7 @@ public enum Console {
                     baseInputHandler.println("Interesting F" + functionKey + " key");
 
                     if (functionKey == F_17_KEY_CODE) {
-                        IoUtil.playGeneralAudio(F_17_MUSIC_FILE);
+                        GeneralAndSystemAudioPlayer.playGeneralAudio(F_17_MUSIC_FILE);
                     }
                 }
             });
@@ -2876,7 +2875,7 @@ public enum Console {
 
     /** Revalidates the visibility audio menu and the play/pause button based on if audio is playing. */
     public void revalidateAudioMenuVisibility() {
-        if (!AudioPlayer.isWidgetOpen() && !IoUtil.isGeneralAudioPlaying()) {
+        if (!AudioPlayer.isWidgetOpen() && !GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
             } else {
@@ -2895,7 +2894,7 @@ public enum Console {
     /** Revalidates the play pause audio label button icon. */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
-        if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+        if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
         } else {
             playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3005,14 +3004,14 @@ public enum Console {
                     AudioPlayer.handlePlayPauseButtonClick();
                 }
 
-                if (IoUtil.isGeneralAudioPlaying()) {
-                    IoUtil.stopGeneralAudio();
+                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
+                    GeneralAndSystemAudioPlayer.stopGeneralAudio();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
@@ -3021,7 +3020,7 @@ public enum Console {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3154,7 +3153,7 @@ public enum Console {
         consoleClosed.set(true);
 
         saveScreenStat();
-        IoUtil.stopGeneralAudio();
+        GeneralAndSystemAudioPlayer.stopGeneralAudio();
 
         if (baseInputHandler != null) {
             baseInputHandler.killThreads();
@@ -3211,7 +3210,7 @@ public enum Console {
         closeFrame(false, true);
         UiUtil.closeAllFrames(true);
 
-        IoUtil.stopAllAudio();
+        GeneralAndSystemAudioPlayer.stopAllAudio();
         NetworkUtil.terminateHighPingChecker();
         LoginHandler.showGui();
     }

@@ -6,11 +6,11 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
-import cyder.utils.IoUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.UiUtil;
 
@@ -138,7 +138,7 @@ public final class DirectoryViewer {
                 currentDirectory = chosenDir;
                 refreshFiles();
             } else if (chosenDir.isFile()) {
-                IoUtil.openFileUsingCyderHandlerIfPossible(chosenDir);
+                FileUtil.openResource(chosenDir.getAbsolutePath(), true);
             }
         });
         directoryField.setBounds(60, 40, 500, 40);
@@ -223,7 +223,7 @@ public final class DirectoryViewer {
                         currentDirectory = file;
                         refreshFiles();
                     } else {
-                        IoUtil.openFileUsingCyderHandlerIfPossible(file.getAbsolutePath());
+                        FileUtil.openResource(file.getAbsolutePath(), true);
                     }
                 }));
 
