@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 /** A utility class for querying threads, names, and counts. */
 public final class ThreadUtil {
@@ -114,10 +114,10 @@ public final class ThreadUtil {
      *
      * @param sleepTime               the total time to sleep for
      * @param checkConditionFrequency the frequency to check the escapeCondition
-     * @param shouldExit              the function to evaluate to determine whether to stop sleeping
+     * @param shouldExit              the supplier to determine whether to stop sleeping
      */
     public static void sleepWithChecks(long sleepTime, long checkConditionFrequency,
-                                       Function<Void, Boolean> shouldExit) {
+                                       Supplier<Boolean> shouldExit) {
         Preconditions.checkNotNull(shouldExit);
         Preconditions.checkArgument(sleepTime > 0);
         Preconditions.checkArgument(checkConditionFrequency > 0);
@@ -128,7 +128,7 @@ public final class ThreadUtil {
             sleep(checkConditionFrequency);
             acc += checkConditionFrequency;
 
-            if (shouldExit.apply(null)) {
+            if (shouldExit.get()) {
                 break;
             }
         }

@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /** Utilities related to arrays. */
 public final class ArrayUtil {
@@ -48,14 +48,14 @@ public final class ArrayUtil {
      * @param list the list
      * @param <T>  the type of element contained in the list
      */
-    public static <T> void forEachElementExcludingLast(Function<T, Void> action, List<T> list) {
+    public static <T> void forEachElementExcludingLast(Consumer<T> action, List<T> list) {
         Preconditions.checkNotNull(action);
         Preconditions.checkNotNull(list);
         Preconditions.checkArgument(!list.isEmpty());
 
         for (int i = 0 ; i < list.size() ; i++) {
             if (i != list.size() - 1) {
-                action.apply(list.get(i));
+                action.accept(list.get(i));
             }
         }
     }

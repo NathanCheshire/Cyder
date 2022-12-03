@@ -28,7 +28,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 /** Utility methods revolving around networking, urls, servers, etc. */
 @SuppressWarnings("unused") /* Response codes */
@@ -75,7 +75,7 @@ public class NetworkUtil {
     private static final AtomicBoolean highPingCheckerRunning = new AtomicBoolean();
 
     /** The function used by the high ping checker to provide to TimeUtil. */
-    private static final Function<Void, Boolean> shouldExitHighPingCheckerThread = ignored ->
+    private static final Supplier<Boolean> shouldExitHighPingCheckerThread = () ->
             Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
 
     /** The timeout between checking for high ping. */

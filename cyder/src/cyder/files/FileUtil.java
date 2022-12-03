@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.OsUtil;
@@ -631,7 +632,7 @@ public final class FileUtil {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalCallerException("Could not read binary file");
+        throw new FatalException("Could not read binary file");
     }
 
     /**
@@ -654,6 +655,6 @@ public final class FileUtil {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalCallerException("Could not read binary file");
+        throw new FatalException("Could not read binary file");
     }
 }

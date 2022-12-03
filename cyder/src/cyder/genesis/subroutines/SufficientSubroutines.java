@@ -80,6 +80,8 @@ public final class SufficientSubroutines {
     /** The minimum acceptable Python major version. */
     private static final int MIN_PYTHON_MAJOR_VERSION = 3;
 
+    // todo this stuff is actually pretty messy, clean up in future
+
     /** The subroutines to execute. */
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {

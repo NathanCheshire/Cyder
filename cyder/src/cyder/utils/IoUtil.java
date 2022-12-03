@@ -9,6 +9,7 @@ import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
+import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -25,6 +26,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /** Utilities related to local computer IO. */
 public final class IoUtil {
@@ -40,7 +43,7 @@ public final class IoUtil {
 
     /**
      * Opens the provided file outside of the program regardless of whether a
-     * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
+     * handler exists for the file ({@link TextViewer}, {@link AudioPlayer}, etc.).
      *
      * @param file the file to open
      */
@@ -81,6 +84,75 @@ public final class IoUtil {
         Preconditions.checkArgument(!filePath.isEmpty());
 
         openFileUsingNativeProgram(new File(filePath));
+    }
+
+    // todo files package
+
+    public enum CyderFileHandler {
+        TEXT(file -> {
+            return FileUtil.getExtension(file).equals(Extension.TXT.getExtension());
+        }, file -> {
+            TextViewer.getInstance(file).showGui();
+        }),
+        AUDIO(FileUtil::isSupportedAudioExtension, AudioPlayer::showGui),
+        IMAGE(FileUtil::isSupportedImageExtension, file -> PhotoViewer.getInstance(file).showGui()),
+        DIRECTORY(File::isDirectory, DirectoryViewer::showGui);
+
+        /**
+         * The function to determine whether a Cyder file handler exists for the provided file type.
+         */
+        private final Function<File, Boolean> cyderHandlerExists;
+
+        /**
+         * The consumer to open the provided file using this Cyder file handler if the file is valid and exists.
+         */
+        private final Consumer<File> openFileUsingCyderHandler;
+
+        CyderFileHandler(Function<File, Boolean> cyderHandlerExists, Consumer<File> openFileUsingCyderHandler) {
+            this.cyderHandlerExists = cyderHandlerExists;
+            this.openFileUsingCyderHandler = openFileUsingCyderHandler;
+        }
+
+        /**
+         * Returns whether this handler should be used for the provided file.
+         *
+         * @param file the file this handler might be used to open if valid
+         * @return whether this handler should be used for the provided file
+         */
+        public boolean shouldUseForFile(File file) {
+            Preconditions.checkNotNull(file);
+
+            return cyderHandlerExists.apply(file);
+        }
+
+        /**
+         * Opens the provided file using this Cyder handler.
+         *
+         * @param file the file to open
+         */
+        public void open(File file) {
+            Preconditions.checkNotNull(file);
+            Preconditions.checkArgument(file.exists());
+            Preconditions.checkState(cyderHandlerExists.apply(file));
+
+            openFileUsingCyderHandler.accept(file);
+        }
+    }
+
+    public void openFileOrLink(String fileOrLink, boolean useCyderHandlerIfPossible) {
+        File referenceFile = new File(fileOrLink);
+        boolean referenceFileExists = referenceFile.exists();
+
+        if (referenceFileExists && useCyderHandlerIfPossible) {
+            for (CyderFileHandler handler : CyderFileHandler.values()) {
+                if (handler.shouldUseForFile(referenceFile)) {
+                    handler.open(referenceFile);
+                    return;
+                }
+            }
+        }
+
+        // todo validate link
     }
 
     /** The thread name for the jvm args logger. */
@@ -136,7 +208,7 @@ public final class IoUtil {
 
         String extension = FileUtil.getExtension(file);
 
-        if (extension.equals(Extension.TXT.getExtension())) {
+        if () {
             TextViewer.getInstance(file).showGui();
         } else if (FileUtil.isSupportedImageExtension(file)) {
             PhotoViewer.getInstance(file).showGui();
