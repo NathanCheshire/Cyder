@@ -3196,10 +3196,8 @@ public enum Console {
 
         screenStat.setConsoleDirection(consoleDir);
 
-        if (!isClosed()) {
-            UserUtil.getCyderUser().setScreenStat(screenStat);
-            UserUtil.writeUser();
-        }
+        UserUtil.getCyderUser().setScreenStat(screenStat);
+        UserUtil.writeUser();
     }
 
     /**
