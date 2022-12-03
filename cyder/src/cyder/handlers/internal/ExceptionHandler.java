@@ -227,24 +227,6 @@ public final class ExceptionHandler {
     }
 
     /**
-     * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
-     * except it does so without informing the user/developer/etc.
-     *
-     * @param e the exception to be silently handled
-     */
-    @Deprecated // todo remove usage of method
-    public static void silentHandle(Exception e) {
-        try {
-            Optional<String> optionalWrite = getPrintableException(e);
-            if (optionalWrite.isEmpty()) return;
-            String write = optionalWrite.get();
-            Logger.log(LogTag.EXCEPTION, write);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
      * Generates a printable version of the exception.
      *
      * @param e the exception to return a printable version of

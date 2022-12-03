@@ -749,7 +749,7 @@ public final class StringUtil {
             String definition = docParsed.text();
             return Optional.of(definition);
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
         }
 
         return Optional.empty();
@@ -779,7 +779,7 @@ public final class StringUtil {
             result = result.substring(0, result.length() - 1);
             return Optional.of(result);
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
         }
 
         return Optional.empty();

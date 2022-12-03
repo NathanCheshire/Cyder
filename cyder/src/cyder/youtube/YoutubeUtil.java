@@ -153,7 +153,7 @@ public final class YoutubeUtil {
 
                     uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
                 } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
+                    ExceptionHandler.handle(e);
 
                     if (baseInputHandler != null) {
                         baseInputHandler.println("An exception occurred while downloading playlist: " + playlistID);

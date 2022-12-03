@@ -85,7 +85,7 @@ public class NetworkHandler extends InputHandler {
 
                     reader.close();
                 } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
+                    ExceptionHandler.handle(e);
                     getInputHandler().println("Unknown pastebin url/UUID");
                 }
             } else {

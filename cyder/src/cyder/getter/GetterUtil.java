@@ -531,9 +531,7 @@ public final class GetterUtil {
             while (setOnFileChosen.get() == null) {
                 Thread.onSpinWait();
             }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        } finally {
+        } catch (Exception ignored) {} finally {
             directoryFrame.dispose(true);
             resetFileHistory();
         }

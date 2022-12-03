@@ -279,7 +279,7 @@ public final class UserCreator {
 
             Arrays.fill(password, '\0');
         } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
+            ExceptionHandler.handle(ex);
         }
     };
 

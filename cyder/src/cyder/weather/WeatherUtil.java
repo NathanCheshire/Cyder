@@ -66,9 +66,7 @@ public final class WeatherUtil {
                 new InputStreamReader(new URL(openString).openStream()))) {
             reader.readLine();
             return true;
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
-        }
+        } catch (Exception ignored) {}
 
         return false;
     }

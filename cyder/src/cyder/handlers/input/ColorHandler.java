@@ -60,9 +60,8 @@ public class ColorHandler extends InputHandler {
                     getInputHandler().println("Background generated, set, and saved as a separate background file.");
 
                     Console.INSTANCE.setBackgroundFile(saveFile);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                     getInputHandler().println("Background color command usage: backgroundcolor EC407A");
-                    ExceptionHandler.silentHandle(e);
                 }
             } else {
                 getInputHandler().println("Background color command usage: backgroundcolor EC407A");

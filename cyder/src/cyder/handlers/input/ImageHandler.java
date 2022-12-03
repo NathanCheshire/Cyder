@@ -122,12 +122,11 @@ public class ImageHandler extends InputHandler {
                 } else {
                     getInputHandler().println("Could not blur background at this time");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
                 getInputHandler().println("Invalid input for radius: " + getInputHandler().getArg(0));
-                ExceptionHandler.silentHandle(e);
             } catch (Exception e) {
                 getInputHandler().println("Blur command usage: blur [GAUSSIAN BLUR RADIUS]");
-                ExceptionHandler.silentHandle(e);
+                ExceptionHandler.handle(e);
             }
         }, BACKGROUND_BLUR_ATTEMPT_THREAD_NAME);
     }

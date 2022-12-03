@@ -1884,9 +1884,7 @@ public class CyderFrame extends JFrame {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
             }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        } finally {
+        } catch (Exception ignored) {} finally {
             setShape(shape);
         }
     }

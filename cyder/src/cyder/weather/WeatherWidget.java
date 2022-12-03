@@ -923,7 +923,7 @@ public class WeatherWidget {
 
             refreshReadableLabels(displayMap);
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
             weatherFrame.notify("Could not refresh map background");
         }
     }

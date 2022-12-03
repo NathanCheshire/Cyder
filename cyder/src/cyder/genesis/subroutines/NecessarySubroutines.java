@@ -114,7 +114,7 @@ public final class NecessarySubroutines {
                     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
                     Logger.log(LogTag.FONT_LOADED, FileUtil.getFilename(fontFile));
                 } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
+                    ExceptionHandler.handle(e);
                     return false;
                 }
             }

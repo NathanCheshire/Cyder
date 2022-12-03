@@ -71,7 +71,7 @@ public class WrappedCommandHandler extends InputHandler {
                 ret = false;
             }
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
             ret = false;
         }
 

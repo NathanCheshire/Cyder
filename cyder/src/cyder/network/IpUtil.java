@@ -62,7 +62,7 @@ public final class IpUtil {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             return Optional.of(SerializationUtil.fromJson(reader, IpData.class));
         } catch (IOException e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
         }
 
         return Optional.empty();

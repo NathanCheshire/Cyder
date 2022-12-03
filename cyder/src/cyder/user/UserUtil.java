@@ -729,7 +729,7 @@ public final class UserUtil {
                             //we've invoked this setter with the preference so next preference
                             break;
                         } catch (Exception e) {
-                            ExceptionHandler.silentHandle(e);
+                            ExceptionHandler.handle(e);
                         }
                     }
                 }
@@ -1352,9 +1352,7 @@ public final class UserUtil {
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             reader.close();
             return true;
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
-        }
+        } catch (Exception ignored) {}
 
         return false;
     }
