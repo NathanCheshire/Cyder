@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -9,12 +10,13 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.utils.StaticUtil;
+import cyder.utils.StringUtil;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.concurrent.atomic.AtomicReference;
 
 /** Utilities related to playing general and system audio. */
 public final class GeneralAndSystemAudioPlayer {
@@ -29,6 +31,13 @@ public final class GeneralAndSystemAudioPlayer {
 
     /** Player used to play general audio files that may be user terminated. */
     private static Player generalAudioPlayer;
+
+    /**
+     * The list of paths of audio files to ignore when logging a play audio call.
+     */
+    private static final ImmutableList<String> ignoreLoggingAudioPaths = ImmutableList.of(
+            StaticUtil.getStaticPath("chime.mp3")
+    );
 
     /** Suppress default constructor. */
     private GeneralAndSystemAudioPlayer() {
@@ -52,26 +61,31 @@ public final class GeneralAndSystemAudioPlayer {
      * @param file                 the audio file to play
      * @param onCompletionCallback the callback to invoke upon completion of playing the audio file
      */
+    @SuppressWarnings("UnusedAssignment") /* Memory management */
     public static void playGeneralAudioWithCompletionCallback(File file, Runnable onCompletionCallback) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
         Preconditions.checkNotNull(onCompletionCallback);
 
-        try {
-            stopGeneralAudio();
-            FileInputStream fis = new FileInputStream(file);
-            generalAudioPlayer = new Player(fis);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
+        stopGeneralAudio();
+        logAudio(file);
         Console.INSTANCE.showAudioButton();
 
         CyderThreadRunner.submit(() -> {
             try {
+                FileInputStream fis = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                generalAudioPlayer = new Player(bis);
+
                 generalAudioPlayer.play();
+                generalAudioPlayer.close();
+
+                FileUtil.closeIfNotNull(fis);
+                FileUtil.closeIfNotNull(bis);
+
+                fis = null;
+                bis = null;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
@@ -96,36 +110,28 @@ public final class GeneralAndSystemAudioPlayer {
      *
      * @param file the audio file to play
      */
+    @SuppressWarnings("UnusedAssignment") /* Memory management */
     public static void playSystemAudio(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
 
-        AtomicReference<FileInputStream> fis = new AtomicReference<>();
-        AtomicReference<BufferedInputStream> bis = new AtomicReference<>();
-        AtomicReference<Player> newSystemPlayer = new AtomicReference<>();
-
-        try {
-            fis.set(new FileInputStream(file));
-            bis.set(new BufferedInputStream(fis.get()));
-            newSystemPlayer.set(new Player(bis.get()));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        // todo ignore typing animation sound
-        Logger.log(LogTag.AUDIO, "[SYSTEM AUDIO] " + file.getAbsolutePath());
+        logAudio(file);
 
         CyderThreadRunner.submit(() -> {
             try {
-                newSystemPlayer.get().play();
-                newSystemPlayer.get().close();
+                FileInputStream fis = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                Player player = new Player(bis);
 
-                FileUtil.closeIfNotNull(fis.get());
-                FileUtil.closeIfNotNull(bis.get());
+                player.play();
+                player.close();
 
-                fis.set(null);
-                bis.set(null);
+                FileUtil.closeIfNotNull(fis);
+                FileUtil.closeIfNotNull(bis);
+
+                fis = null;
+                bis = null;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -151,13 +157,25 @@ public final class GeneralAndSystemAudioPlayer {
 
     /** Stops any and all audio playing either through the audio player or the general player. */
     public static void stopAllAudio() {
-        if (isGeneralAudioPlaying()) stopGeneralAudio();
         if (AudioPlayer.isAudioPlaying()) AudioPlayer.handlePlayPauseButtonClick();
+        if (isGeneralAudioPlaying()) stopGeneralAudio();
     }
 
     /** Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped. */
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) AudioPlayer.handlePlayPauseButtonClick();
         if (isGeneralAudioPlaying()) stopGeneralAudio();
+    }
+
+    /**
+     * Logs the provided audio file using an audio tag.
+     *
+     * @param file the file to log
+     */
+    private static void logAudio(File file) {
+        String filePath = file.getAbsolutePath();
+        if (!StringUtil.in(filePath, true, ignoreLoggingAudioPaths)) {
+            Logger.log(LogTag.AUDIO, filePath);
+        }
     }
 }

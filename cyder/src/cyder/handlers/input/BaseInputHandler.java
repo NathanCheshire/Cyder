@@ -763,7 +763,7 @@ public class BaseInputHandler {
     private final AtomicInteger typingAnimationCharsInserted = new AtomicInteger();
 
     /** The file for the typing sound effect. */
-    private final File typingSoundFile = new File(StaticUtil.getStaticPath("typing.mp3"));
+    private final File typingSoundFile = StaticUtil.getStaticResource("typing.mp3");
 
     /**
      * Prints the string to the output area checking for

@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -11,11 +12,6 @@ import java.io.File;
 
 /** Utilities for getting static resources. */
 public final class StaticUtil {
-    /** Suppress default constructor. */
-    private StaticUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
     /** The list of static files found when Cyder was first launched. */
     private static final ImmutableList<File> STATIC_FILES;
 
@@ -27,10 +23,15 @@ public final class StaticUtil {
 
     static {
         STATIC_FILES = FileUtil.getFiles(new File(STATIC));
-        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FILES.size() + " static resources");
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FILES.size() + " static files");
 
         STATIC_FOLDERS = FileUtil.getFolders(new File(STATIC));
         Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FOLDERS.size() + " static folders");
+    }
+
+    /** Suppress default constructor. */
+    private StaticUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -40,7 +41,7 @@ public final class StaticUtil {
      * @return the complete path to the first file found with the provided name
      * @throws IllegalArgumentException if a file with the provided name cannot be located in any directory/subdirectory
      */
-    public static String getStaticPath(String filename) throws IllegalArgumentException {
+    public static String getStaticPath(String filename) {
         return getStaticResource(filename).getAbsolutePath();
     }
 
@@ -51,7 +52,10 @@ public final class StaticUtil {
      * @return a file reference to the first file found with the provided name
      * @throws IllegalArgumentException if a file with the provided name cannot be located in any directory/subdirectory
      */
-    public static File getStaticResource(String filename) throws IllegalArgumentException {
+    public static File getStaticResource(String filename) {
+        Preconditions.checkNotNull(filename);
+        Preconditions.checkArgument(!filename.isEmpty());
+
         String extension = "";
 
         if (filename.contains(".")) {
@@ -79,7 +83,10 @@ public final class StaticUtil {
      * @return a reference to the directory
      * @throws IllegalArgumentException if the provided directory cannot be found
      */
-    public static File getStaticDirectory(String folderName) throws IllegalArgumentException {
+    public static File getStaticDirectory(String folderName) {
+        Preconditions.checkNotNull(folderName);
+        Preconditions.checkArgument(!folderName.isEmpty());
+
         for (File staticFolder : STATIC_FOLDERS) {
             if (FileUtil.getFilename(staticFolder).equalsIgnoreCase(folderName)) {
                 return staticFolder;

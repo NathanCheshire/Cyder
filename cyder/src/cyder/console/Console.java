@@ -999,7 +999,7 @@ public enum Console {
     }
 
     /** The chime mp3 file. */
-    private final File CHIME_FILE = new File(StaticUtil.getStaticPath("chime.mp3"));
+    private final File chimeFile = StaticUtil.getStaticResource("chime.mp3");
 
     /** The last hour a chime sound was played at. */
     private final AtomicInteger lastChimeHour = new AtomicInteger(-1);
@@ -1032,7 +1032,7 @@ public enum Console {
                         if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
                             boolean chime = UserUtil.getCyderUser().getHourlyChimes().equals("1");
                             if (chime) {
-                                GeneralAndSystemAudioPlayer.playSystemAudio(CHIME_FILE);
+                                GeneralAndSystemAudioPlayer.playSystemAudio(chimeFile);
                                 lastChimeHour.set(LocalDateTime.now().getHour());
                             }
                         }
