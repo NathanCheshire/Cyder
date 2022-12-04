@@ -32,9 +32,7 @@ public final class GeneralAndSystemAudioPlayer {
     /** Player used to play general audio files that may be user terminated. */
     private static Player generalAudioPlayer;
 
-    /**
-     * The list of paths of audio files to ignore when logging a play audio call.
-     */
+    /** The list of paths of audio files to ignore when logging a play audio call. */
     private static final ImmutableList<String> ignoreLoggingAudioPaths = ImmutableList.of(
             StaticUtil.getStaticPath("chime.mp3")
     );

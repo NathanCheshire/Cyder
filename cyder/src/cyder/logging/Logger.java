@@ -141,7 +141,7 @@ public final class Logger {
             return;
         }
 
-        if (logStarted.get()) {
+        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
             logAwaitingLogCalls();
         }
 
@@ -734,10 +734,11 @@ public final class Logger {
                     int exceptions = 0;
 
                     while ((line = reader.readLine()) != null) {
-                        if (line.contains("[EOL]")) {
+                        ImmutableList<String> tags = LoggingUtil.extractTags(line);
+                        if (tags.contains("[EOL]")) {
                             containsEOL = true;
                             break;
-                        } else if (line.contains("[EXCEPTION]")) {
+                        } else if (tags.contains("[EXCEPTION]")) {
                             exceptions++;
                         }
                     }
@@ -764,81 +765,6 @@ public final class Logger {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    private static int countExceptions(File logFile) {
-        return countTags(logFile, "[EXCEPTION]");
-    }
-
-    private static int countThreadsRan(File logFile) {
-        return countTags(logFile, "[THREAD STARTED]");
-    }
-
-    /**
-     * Counts the number of time the provided tag appears in the provided log file.
-     * A tag, for example, is a specific string surrounded by brackets before the first
-     * colon of a log line.
-     *
-     * @param logFile the log file
-     * @param tag     the tag to count the occurrences of
-     * @return the number of times the tag occurs in the provided log file
-     */
-    private static int countTags(File logFile, String tag) {
-        Preconditions.checkNotNull(logFile);
-        Preconditions.checkArgument(logFile.isFile());
-        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
-        Preconditions.checkNotNull(tag);
-        Preconditions.checkArgument(!tag.isEmpty());
-
-        ArrayList<String> fileLines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                fileLines.add(line);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        int ret = 0;
-
-        for (String line : fileLines) {
-            for (String tags : extractTags(line)) {
-                if (tags.contains(tag)) {
-                    ret++;
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Extracts all tags from the provided log line.
-     * Note tags are strings which are surrounded with brackets before the first colon.
-     *
-     * @param logLine the log line.
-     * @return the tags extracted from the log line
-     */
-    private static ImmutableList<String> extractTags(String logLine) {
-        ArrayList<String> ret = new ArrayList<>();
-
-        if (logLine.contains(CyderStrings.colon)) {
-            String firstPart = logLine.split(CyderStrings.colon)[0];
-
-            while (firstPart.contains(CyderStrings.openingBracket)
-                    && firstPart.contains(CyderStrings.closingBracket)) {
-                int start = firstPart.indexOf(CyderStrings.openingBracket);
-                int end = firstPart.indexOf(CyderStrings.closingBracket);
-
-                String tag = firstPart.substring(start, end + 1);
-                ret.add(tag);
-                firstPart = firstPart.substring(end + 1);
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
     }
 
     private static final String EOL = "EOL";
@@ -899,8 +825,6 @@ public final class Logger {
             ExceptionHandler.handle(e);
         }
     }
-
-
 
     /** Starts the object creation logger to log object creation calls every deltaT seconds. */
     private static void startObjectCreationLogger() {

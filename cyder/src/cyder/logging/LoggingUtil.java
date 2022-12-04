@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
@@ -14,6 +16,7 @@ import cyder.utils.StringUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static cyder.constants.CyderStrings.*;
@@ -294,5 +297,92 @@ public final class LoggingUtil {
         ret.append(surroundWithBrackets(tags[tags.length - 1])).append(colon);
 
         return ret.toString();
+    }
+
+    /**
+     * Counts the number of exceptions the provided log file contains.
+     *
+     * @param logFile the log file
+     * @return the number of exception the provided log file contains
+     */
+    static int countExceptions(File logFile) {
+        return countTags(logFile, "[EXCEPTION]"); // todo need brackets?
+    }
+
+    /**
+     * Counts the number of threads ran in the provided log file.
+     *
+     * @param logFile the log file
+     * @return the number of threads ran in the provided log file
+     */
+    static int countThreadsRan(File logFile) {
+        return countTags(logFile, "[THREAD STARTED]"); // todo need brackets?
+    }
+
+    /**
+     * Counts the number of time the provided tag appears in the provided log file.
+     * A tag, for example, is a specific string surrounded by brackets before the first
+     * colon of a log line.
+     *
+     * @param logFile the log file
+     * @param tag     the tag to count the occurrences of
+     * @return the number of times the tag occurs in the provided log file
+     */
+    static int countTags(File logFile, String tag) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+        Preconditions.checkNotNull(tag);
+        Preconditions.checkArgument(!tag.isEmpty());
+
+        ArrayList<String> fileLines = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileLines.add(line);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        int ret = 0;
+
+        for (String line : fileLines) {
+            for (String tags : extractTags(line)) {
+                if (tags.contains(tag)) {
+                    ret++;
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Extracts all tags from the provided log line.
+     * Note tags are strings which are surrounded with brackets before the first colon.
+     *
+     * @param logLine the log line.
+     * @return the tags extracted from the log line
+     */
+    static ImmutableList<String> extractTags(String logLine) {
+        ArrayList<String> ret = new ArrayList<>();
+
+        if (logLine.contains(CyderStrings.colon)) {
+            String firstPart = logLine.split(CyderStrings.colon)[0];
+
+            while (firstPart.contains(CyderStrings.openingBracket)
+                    && firstPart.contains(CyderStrings.closingBracket)) {
+                int start = firstPart.indexOf(CyderStrings.openingBracket);
+                int end = firstPart.indexOf(CyderStrings.closingBracket);
+
+                String tag = firstPart.substring(start, end + 1);
+                ret.add(tag);
+                firstPart = firstPart.substring(end + 1);
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }

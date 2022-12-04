@@ -415,9 +415,7 @@ public final class TimeUtil {
         }
     }
 
-    /**
-     * An immutable map of month ordinals to their names.
-     */
+    /** An immutable map of month ordinals to their names. */
     public static final ImmutableMap<Integer, String> months = new ImmutableMap.Builder<Integer, String>()
             .put(1, "January")
             .put(2, "February")
