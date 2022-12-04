@@ -1,6 +1,7 @@
 package cyder.time;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -218,16 +219,23 @@ public final class TimeUtil {
         return formatter.format(new Date());
     }
 
+    private static final int christmasMonth = 12;
+    private static final int christmasDay = 25;
+
     /**
      * Returns whether the current day is Christmas day.
      *
      * @return whether the current day is Christmas day
      */
     public static boolean isChristmas() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-        return (Month == 12 && Date == 25);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return (month == christmasMonth && date == christmasDay);
     }
+
+    private static final int halloweenMonth = 10;
+    private static final int halloweenDay = 31;
 
     /**
      * Returns whether the current day is halloween.
@@ -235,10 +243,14 @@ public final class TimeUtil {
      * @return whether the current day is halloween
      */
     public static boolean isHalloween() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-        return (Month == 10 && Date == 31);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return (month == halloweenMonth && date == halloweenDay);
     }
+
+    private static final int independenceMonth = 7;
+    private static final int independenceDay = 4;
 
     /**
      * Returns whether the current day is independence day (U.S. Holiday).
@@ -246,10 +258,14 @@ public final class TimeUtil {
      * @return whether the current day is independence day
      */
     public static boolean isIndependenceDay() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-        return (Month == 7 && Date == 4);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return (month == independenceMonth && date == independenceDay);
     }
+
+    private static final int valentinesMonth = 2;
+    private static final int valentinesDay = 14;
 
     /**
      * Returns whether the current day is Valentine's Day.
@@ -257,9 +273,10 @@ public final class TimeUtil {
      * @return whether the current day is Valentine's Day
      */
     public static boolean isValentinesDay() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-        return (Month == 2 && Date == 14);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return (month == valentinesMonth && date == valentinesDay);
     }
 
     /**
@@ -276,6 +293,9 @@ public final class TimeUtil {
         return thanksgivingMonthDay.month() == currentMonth && thanksgivingMonthDay.date() == currentDate;
     }
 
+    private static final int thanksgivingMonth = 11;
+    private static final int thanksgivingNthThursday = 4;
+
     /**
      * Returns the thanksgiving month date for the provided year.
      *
@@ -283,9 +303,9 @@ public final class TimeUtil {
      * @return the thanksgiving month date for the provided year
      */
     public static MonthDay getThanksgiving(int year) {
-        LocalDate thanksGiving = LocalDate.of(year, 11, 1)
-                .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
-        return new MonthDay(11, thanksGiving.getDayOfMonth());
+        LocalDate thanksgivingDay = LocalDate.of(year, thanksgivingMonth, 1)
+                .with(TemporalAdjusters.dayOfWeekInMonth(thanksgivingNthThursday, DayOfWeek.THURSDAY));
+        return new MonthDay(thanksgivingMonth, thanksgivingDay.getDayOfMonth());
     }
 
     /**
@@ -296,6 +316,7 @@ public final class TimeUtil {
     public static boolean isAprilFoolsDay() {
         int Month = calendarInstance.get(Calendar.MONTH) + 1;
         int Date = calendarInstance.get(Calendar.DATE);
+
         return (Month == 4 && Date == 1);
     }
 
@@ -307,6 +328,7 @@ public final class TimeUtil {
     public static boolean isPiDay() {
         int Month = calendarInstance.get(Calendar.MONTH) + 1;
         int Date = calendarInstance.get(Calendar.DATE);
+
         return (Month == 3 && Date == 14);
     }
 
@@ -318,6 +340,7 @@ public final class TimeUtil {
     public static boolean isEaster() {
         int m = calendarInstance.get(Calendar.MONTH) + 1;
         int d = calendarInstance.get(Calendar.DATE);
+
         MonthDay sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
         return (m == sundayDate.month && d == sundayDate.date);
@@ -326,6 +349,7 @@ public final class TimeUtil {
     public static boolean isDeveloperBirthday() {
         int Month = calendarInstance.get(Calendar.MONTH) + 1;
         int Date = calendarInstance.get(Calendar.DATE);
+
         return (Month == 6 && Date == 2);
     }
 
@@ -339,6 +363,8 @@ public final class TimeUtil {
      * @return the easter sunday date; 4,13 would correspond to April 13th
      */
     public static MonthDay getEasterSundayDate(int year) {
+        Preconditions.checkArgument(year >= 0);
+
         int a = year % 19;
         int b = year / 100;
         int c = year % 100;
@@ -390,6 +416,24 @@ public final class TimeUtil {
     }
 
     /**
+     * An immutable map of month ordinals to their names.
+     */
+    public static final ImmutableMap<Integer, String> months = new ImmutableMap.Builder<Integer, String>()
+            .put(1, "January")
+            .put(2, "February")
+            .put(3, "March")
+            .put(4, "April")
+            .put(5, "May")
+            .put(6, "June")
+            .put(7, "July")
+            .put(8, "August")
+            .put(9, "September")
+            .put(10, "October")
+            .put(11, "November")
+            .put(12, "December")
+            .build();
+
+    /**
      * Converts the month number to the month string.
      * Example, 12 returns "December".
      *
@@ -397,21 +441,11 @@ public final class TimeUtil {
      * @return the String representation of the month
      */
     public static String monthFromNumber(int monthNumber) {
-        return switch (monthNumber) {
-            case 1 -> "January";
-            case 2 -> "February";
-            case 3 -> "March";
-            case 4 -> "April";
-            case 5 -> "May";
-            case 6 -> "June";
-            case 7 -> "July";
-            case 8 -> "August";
-            case 9 -> "September";
-            case 10 -> "October";
-            case 11 -> "November";
-            case 12 -> "December";
-            default -> throw new IllegalStateException("Invalid month code: " + monthNumber);
-        };
+        if (months.containsKey(monthNumber)) {
+            return months.get(monthNumber);
+        }
+
+        throw new IllegalArgumentException("Invalid month ordinal: " + monthNumber);
     }
 
     /**
@@ -541,7 +575,7 @@ public final class TimeUtil {
 
         String ret = sb.toString();
 
-        if (ret.startsWith(",")) ret = ret.substring(1);
+        if (ret.startsWith(CyderStrings.comma)) ret = ret.substring(1);
         if (ret.length() == 0) return 0 + MILLISECOND_ABBREVIATION;
 
         return StringUtil.getTrimmedText(ret).trim();

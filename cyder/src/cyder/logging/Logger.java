@@ -1,6 +1,7 @@
 package cyder.logging;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -433,7 +434,7 @@ public final class Logger {
     /** Writes the lines contained in static/txt/cyder.txt to the current log file. */
     private static void writeCyderAsciiArtToCurrentLogFile() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
-            for (String line : LoggingUtil.getHeaderLogoLines()) {
+            for (String line : LoggingUtil.getCyderSignatureLines()) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
@@ -491,11 +492,11 @@ public final class Logger {
 
         if (logFileDeletedMidRuntime()) {
             generateAndSetLogFile();
-            writeLines(LoggingUtil.insertBreaks(LoggingUtil.getLogRecoveryDebugLine()));
+            writeLines(LoggingUtil.ensureProperLength(LoggingUtil.getLogRecoveryDebugLine()));
         }
 
         if (tag != LogTag.EXCEPTION) {
-            writeLines(LoggingUtil.insertBreaks(line));
+            writeLines(LoggingUtil.ensureProperLength(line));
         } else {
             writeLines(line.split(CyderStrings.newline));
         }
@@ -570,31 +571,34 @@ public final class Logger {
     }
 
     /** Zips the log files of the past. */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void zipPastLogs() {
         File topLevelLogsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
-            topLevelLogsDir.mkdir();
+            if (!topLevelLogsDir.mkdir()) {
+                throw new FatalException("Failed to create logs dir");
+            }
+
             return;
         }
 
         File[] subLogDirs = topLevelLogsDir.listFiles();
-
         if (subLogDirs == null || subLogDirs.length == 0) return;
 
-        Arrays.stream(subLogDirs).forEach(subLogDir -> {
-            // If it's not the current log and is not a zip file
-            if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
-                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) {
-                if (new File(subLogDir.getAbsolutePath() + Extension.ZIP.getExtension()).exists()) {
-                    OsUtil.deleteFile(subLogDir);
-                } else {
-                    FileUtil.zip(subLogDir.getAbsolutePath(),
-                            subLogDir.getAbsolutePath() + Extension.ZIP.getExtension());
-                }
-            }
-        });
+        Arrays.stream(subLogDirs)
+                .filter(subLogDir -> !subLogDir.getAbsolutePath().equals(getCurrentLogFile().getAbsolutePath()))
+                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equals(Extension.ZIP.getExtension()))
+                .forEach(subLogDir -> {
+                    String destinationZipPath = subLogDir.getAbsolutePath() + Extension.ZIP.getExtension();
+                    File destinationZip = new File(destinationZipPath);
+
+                    // A zip already exists somehow
+                    if (destinationZip.exists()) {
+                        OsUtil.deleteFile(subLogDir);
+                    }
+
+                    FileUtil.zip(subLogDir.getAbsolutePath(), destinationZipPath);
+                });
     }
 
     /** Consolidates the lines of all non-zipped files within the logs/SubLogDir directory. */
@@ -622,14 +626,15 @@ public final class Logger {
     }
 
     /**
-     * Consolidates duplicate lines next to each other of the provided file.
+     * Consolidates duplicate lines next to each other of the provided log file.
      *
      * @param file the file to consolidate duplicate lines of
      */
     private static void consolidateLines(File file) {
-        Preconditions.checkArgument(file.exists(), "Provided file does not exist: " + file);
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.LOG.getExtension()),
-                "Provided file does not exist: " + file);
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.LOG.getExtension()));
 
         boolean beforeFirstTimeTag = true;
 
@@ -654,118 +659,259 @@ public final class Logger {
             ExceptionHandler.handle(e);
         }
 
-        if (lines.size() < 2) {
-            return;
-        }
+        int minLogLines = 2;
+        if (lines.size() >= minLogLines) {
+            ArrayList<String> writeLines = new ArrayList<>();
 
-        ArrayList<String> writeLines = new ArrayList<>();
+            String lastLine;
+            String currentLine;
+            int currentCount = 1;
 
-        String lastLine;
-        String currentLine;
-        int currentCount = 1;
+            for (int i = 0 ; i < lines.size() - 1 ; i++) {
+                lastLine = lines.get(i);
+                currentLine = lines.get(i + 1);
 
-        for (int i = 0 ; i < lines.size() - 1 ; i++) {
-            lastLine = lines.get(i);
-            currentLine = lines.get(i + 1);
-
-            if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
-                currentCount++;
-            } else {
-                if (currentCount > 1) {
-                    writeLines.add(lastLine + " [" + currentCount + "x]");
+                if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
+                    currentCount++;
                 } else {
-                    writeLines.add(lastLine);
+                    if (currentCount > 1) {
+                        writeLines.add(lastLine + " [" + currentCount + "x]");
+                    } else {
+                        writeLines.add(lastLine);
+                    }
+
+                    currentCount = 1;
                 }
-
-                currentCount = 1;
             }
-        }
 
-        if (currentCount > 1) {
-            writeLines.add(lines.get(lines.size() - 1) + " [" + currentCount + "x]");
-        } else {
-            writeLines.add(lines.get(lines.size() - 1));
-        }
-
-        // prelines
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-            for (String line : prelines) {
-                bw.write(line);
-                bw.newLine();
+            if (currentCount > 1) {
+                writeLines.add(lines.get(lines.size() - 1) + " [" + currentCount + "x]");
+            } else {
+                writeLines.add(lines.get(lines.size() - 1));
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
 
-        // actual log lines
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-            for (String line : writeLines) {
-                bw.write(line);
-                bw.newLine();
+            // Signature
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+                for (String line : prelines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+
+            // Actual lines
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                for (String line : writeLines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         }
     }
 
-    /** Fixes any logs lacking/not ending in an EOL tag. */
+    /** Fixes any logs lacking/not ending in an "End Of Log" tag. */
     public static void concludeLogs() {
         try {
             File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
-
             if (!logDir.exists()) return;
 
             File[] logDirs = logDir.listFiles();
-
             if (logDirs == null || logDirs.length == 0) return;
 
             for (File subLogDir : logDirs) {
-                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) continue;
+                if (!subLogDir.isDirectory()) continue;
 
                 File[] logs = subLogDir.listFiles();
-
                 if (logs == null || logs.length == 0) return;
 
                 for (File log : logs) {
-                    if (!log.equals(getCurrentLogFile())) {
-                        BufferedReader reader = new BufferedReader(new FileReader(log));
-                        String line;
-                        boolean containsEOL = false;
+                    if (log.equals(getCurrentLogFile())) continue;
+                    BufferedReader reader = new BufferedReader(new FileReader(log));
+                    String line;
+                    boolean containsEOL = false;
 
-                        int exceptions = 0;
+                    int exceptions = 0;
 
-                        while ((line = reader.readLine()) != null) {
-                            if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
-                                containsEOL = true;
-                                break;
-                            } else if (line.contains("[EXCEPTION]")) {
-                                exceptions++;
-                            }
+                    while ((line = reader.readLine()) != null) {
+                        if (line.contains("[EOL]")) {
+                            containsEOL = true;
+                            break;
+                        } else if (line.contains("[EXCEPTION]")) {
+                            exceptions++;
                         }
+                    }
 
-                        reader.close();
+                    reader.close();
 
-                        if (!containsEOL) {
+                    if (!containsEOL) {
                             /*
                              Usually an IDE stop but sometimes the program exits,
                              with exit condition 1 due to something failing on startup
                              which is why this says "crashed unexpectedly"
                              */
-                            String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
-                                    + "Log completed, Cyder crashed unexpectedly: "
-                                    + "exit code: " + ExitCondition.ExternalStop.getCode()
-                                    + CyderStrings.space + ExitCondition.ExternalStop.getDescription()
-                                    + ", exceptions thrown: " + exceptions;
+                        String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
+                                + "Log completed, Cyder crashed unexpectedly: "
+                                + "exit code: " + ExitCondition.ExternalStop.getCode()
+                                + CyderStrings.space + ExitCondition.ExternalStop.getDescription()
+                                + ", exceptions thrown: " + exceptions;
 
-                            Files.write(Paths.get(log.getAbsolutePath()),
-                                    (logBuilder).getBytes(), StandardOpenOption.APPEND);
-                        }
+                        Files.write(Paths.get(log.getAbsolutePath()),
+                                (logBuilder).getBytes(), StandardOpenOption.APPEND);
                     }
                 }
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    private static int countExceptions(File logFile) {
+        return countTags(logFile, "[EXCEPTION]");
+    }
+
+    private static int countThreadsRan(File logFile) {
+        return countTags(logFile, "[THREAD STARTED]");
+    }
+
+    /**
+     * Counts the number of time the provided tag appears in the provided log file.
+     * A tag, for example, is a specific string surrounded by brackets before the first
+     * colon of a log line.
+     *
+     * @param logFile the log file
+     * @param tag     the tag to count the occurrences of
+     * @return the number of times the tag occurs in the provided log file
+     */
+    private static int countTags(File logFile, String tag) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+        Preconditions.checkNotNull(tag);
+        Preconditions.checkArgument(!tag.isEmpty());
+
+        ArrayList<String> fileLines = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileLines.add(line);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        int ret = 0;
+
+        for (String line : fileLines) {
+            for (String tags : extractTags(line)) {
+                if (tags.contains(tag)) {
+                    ret++;
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Extracts all tags from the provided log line.
+     * Note tags are strings which are surrounded with brackets before the first colon.
+     *
+     * @param logLine the log line.
+     * @return the tags extracted from the log line
+     */
+    private static ImmutableList<String> extractTags(String logLine) {
+        ArrayList<String> ret = new ArrayList<>();
+
+        if (logLine.contains(CyderStrings.colon)) {
+            String firstPart = logLine.split(CyderStrings.colon)[0];
+
+            while (firstPart.contains(CyderStrings.openingBracket)
+                    && firstPart.contains(CyderStrings.closingBracket)) {
+                int start = firstPart.indexOf(CyderStrings.openingBracket);
+                int end = firstPart.indexOf(CyderStrings.closingBracket);
+
+                String tag = firstPart.substring(start, end + 1);
+                ret.add(tag);
+                firstPart = firstPart.substring(end + 1);
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    private static final String EOL = "EOL";
+    private static final String EXIT_CONDITION = "EXIT_CONDITION";
+    private static final String RUNTIME = "RUNTIME";
+    private static final String EXCEPTIONS = "EXCEPTIONS";
+    private static final String OBJECTS_CREATED = "OBJECTS CREATED";
+    private static final String THREADS_RAN = "THREADS RAN";
+
+    private static void concludeLog(File file, ExitCondition condition,
+                                    long runtime,
+                                    int exceptions, int objectsCreated, int threadsRan) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(file), Extension.LOG.getExtension());
+        Preconditions.checkNotNull(condition);
+        Preconditions.checkArgument(runtime >= 0);
+        Preconditions.checkArgument(exceptions >= 0);
+        Preconditions.checkArgument(objectsCreated >= 0);
+        Preconditions.checkArgument(threadsRan >= 0);
+
+        StringBuilder conclusionBuilder = new StringBuilder();
+
+        conclusionBuilder.append(surroundWithBrackets(EOL));
+        conclusionBuilder.append(CyderStrings.newline);
+
+        conclusionBuilder.append(surroundWithBrackets(EXIT_CONDITION))
+                .append(CyderStrings.space)
+                .append(condition.getCode())
+                .append(CyderStrings.space)
+                .append(surroundWithBrackets(condition.getDescription()))
+                .append(CyderStrings.newline);
+
+        conclusionBuilder.append(surroundWithBrackets(RUNTIME))
+                .append(CyderStrings.space)
+                .append(TimeUtil.formatMillis(runtime))
+                .append(CyderStrings.newline);
+
+        conclusionBuilder.append(surroundWithBrackets(EXCEPTIONS))
+                .append(CyderStrings.space)
+                .append(exceptions)
+                .append(CyderStrings.newline);
+
+        conclusionBuilder.append(surroundWithBrackets(OBJECTS_CREATED))
+                .append(CyderStrings.space)
+                .append(objectsCreated)
+                .append(CyderStrings.newline);
+
+        conclusionBuilder.append(surroundWithBrackets(THREADS_RAN))
+                .append(CyderStrings.space)
+                .append(threadsRan)
+                .append(CyderStrings.newline);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(conclusionBuilder.toString());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Surrounds the provided string with brackets.
+     *
+     * @param string the string to surround with brackets
+     * @return the string with brackets surrounding it
+     */
+    private static String surroundWithBrackets(String string) {
+        Preconditions.checkNotNull(string);
+
+        return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
     }
 
     /** The delay between JVM entry and starting the object creation logging thread. */
@@ -778,8 +924,8 @@ public final class Logger {
                 ThreadUtil.sleep(INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
 
                 while (true) {
-                    if (objectCreationCounter.get() > 0) {
-                        int objectsCreated = objectCreationCounter.getAndSet(0);
+                    int objectsCreated = objectCreationCounter.getAndSet(0);
+                    if (objectsCreated > 0) {
                         totalObjectsCreated += objectsCreated;
 
                         formatAndWriteLine(LoggingUtil.getLogTimeTag() + "[OBJECT CREATION]: "

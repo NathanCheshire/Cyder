@@ -3,7 +3,6 @@ package cyder.logging;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.time.TimeUtil;
@@ -11,6 +10,7 @@ import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.LinkedList;
 
@@ -44,21 +44,23 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
-        if (!matchesStandardLogLine(logLine1) || !matchesStandardLogLine(logLine2)) {
+        if (StringUtil.isNullOrEmpty(logLine1) || StringUtil.isNullOrEmpty(logLine2)) {
             return logLine1.equals(logLine2);
         }
 
-        String timeTag1 = logLine1.substring(logLine1.indexOf(openingBracket),
-                logLine2.indexOf(closingBracket) + 1).trim();
-        String timeTag2 = logLine2.substring(logLine2.indexOf(openingBracket),
-                logLine2.indexOf(closingBracket) + 1).trim();
+        if (matchesStandardLogLine(logLine1) && matchesStandardLogLine(logLine2)) {
+            String timeTag1 = logLine1.substring(logLine1.indexOf(openingBracket),
+                    logLine2.indexOf(closingBracket) + 1).trim();
+            String timeTag2 = logLine2.substring(logLine2.indexOf(openingBracket),
+                    logLine2.indexOf(closingBracket) + 1).trim();
 
-        logLine1 = logLine1.replace(timeTag1, "");
-        logLine2 = logLine2.replace(timeTag2, "");
+            logLine1 = logLine1.replace(timeTag1, "");
+            logLine2 = logLine2.replace(timeTag2, "");
 
-        return !StringUtil.isNullOrEmpty(logLine1)
-                && !StringUtil.isNullOrEmpty(logLine2)
-                && logLine1.equalsIgnoreCase(logLine2);
+            return logLine1.equalsIgnoreCase(logLine2);
+        }
+
+        return logLine1.equals(logLine2);
     }
 
     /**
@@ -67,51 +69,44 @@ public final class LoggingUtil {
      * @param line the line
      * @return whether the provided line is a standard log line.
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* Readability */
     public static boolean matchesStandardLogLine(String line) {
         Preconditions.checkNotNull(line);
-
-        if (!line.startsWith(openingBracket)) {
-            return false;
-        } else if (!line.contains(closingBracket)) {
-            return false;
-        }
 
         return CyderRegexPatterns.standardLogLinePattern.matcher(line).matches();
     }
 
     /** The maximum number of chars per line of a log. */
-    public static final int MAX_LINE_LENGTH = 120;
+    public static final int maxLogLineLength = 120;
 
     /**
      * Only check 10 chars to the left of a line unless we force a break regardless
      * of whether a space is at that char.
      */
-    private static final int BREAK_INSERTION_TOL = 10;
+    private static final int lineBreakInsertionTol = 10;
 
     /** The chars to check to split at before splitting in between a line at whatever character a split index falls on. */
-    private static final ImmutableList<Character> BREAK_CHARS
+    private static final ImmutableList<Character> breakChars
             = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',', ':');
 
     /**
      * Returns the provided string with line breaks inserted if needed to ensure
-     * the line length does not surpass {@link #MAX_LINE_LENGTH}.
+     * the line length does not surpass {@link #maxLogLineLength}.
      *
      * @param line the line to insert breaks in if needed
      * @return the formatted lines
      */
-    public static LinkedList<String> insertBreaks(String line) {
+    public static LinkedList<String> ensureProperLength(String line) {
         Preconditions.checkNotNull(line);
 
         LinkedList<String> lines = new LinkedList<>();
 
-        while (line.length() > MAX_LINE_LENGTH) {
+        while (line.length() > maxLogLineLength) {
             boolean breakInserted = false;
 
-            for (char splitChar : BREAK_CHARS) {
-                if (line.charAt(MAX_LINE_LENGTH) == splitChar) {
-                    lines.add(line.substring(0, MAX_LINE_LENGTH));
-                    line = line.substring(MAX_LINE_LENGTH);
+            for (char splitChar : breakChars) {
+                if (line.charAt(maxLogLineLength) == splitChar) {
+                    lines.add(line.substring(0, maxLogLineLength));
+                    line = line.substring(maxLogLineLength);
                     breakInserted = true;
                     break;
                 }
@@ -135,8 +130,8 @@ public final class LoggingUtil {
 
             if (breakInserted) continue;
             // Couldn't find a split char from the list so split at the maximum index
-            lines.add(line.substring(0, MAX_LINE_LENGTH));
-            line = line.substring(MAX_LINE_LENGTH);
+            lines.add(line.substring(0, maxLogLineLength));
+            line = line.substring(maxLogLineLength);
         }
 
         lines.add(line);
@@ -145,7 +140,7 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the split char within the final {@link #BREAK_INSERTION_TOL}
+     * Attempts to find the index of the split char within the final {@link #lineBreakInsertionTol}
      * chars of the end of the provided string. If found, returns the index of the found splitChar.
      *
      * @param line      the line to search through
@@ -155,7 +150,7 @@ public final class LoggingUtil {
     static int checkLeftForSplitChar(String line, char splitChar) {
         int ret = -1;
 
-        for (int i = MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i < MAX_LINE_LENGTH ; i++) {
+        for (int i = maxLogLineLength - lineBreakInsertionTol ; i < maxLogLineLength ; i++) {
             if (line.charAt(i) == splitChar) {
                 ret = i;
                 break;
@@ -166,8 +161,8 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the split char within {@link #BREAK_INSERTION_TOL} chars of the right of
-     * {@link #MAX_LINE_LENGTH}. If found, returns the index of the found splitChar.
+     * Attempts to find the index of the split char within {@link #lineBreakInsertionTol} chars of the right of
+     * {@link #maxLogLineLength}. If found, returns the index of the found splitChar.
      *
      * @param line      the line to search through
      * @param splitChar the character to split at
@@ -176,7 +171,7 @@ public final class LoggingUtil {
     static int checkRightForSplitChar(String line, char splitChar) {
         int ret = -1;
 
-        for (int i = MAX_LINE_LENGTH ; i < MAX_LINE_LENGTH + BREAK_INSERTION_TOL ; i++) {
+        for (int i = maxLogLineLength ; i < maxLogLineLength + lineBreakInsertionTol ; i++) {
             if (i >= line.length()) break;
             if (line.charAt(i) == splitChar) {
                 ret = i;
@@ -197,18 +192,17 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(string);
         string = string.trim();
 
-        return string.isEmpty() || string.equals(CyderStrings.newline);
+        return string.isEmpty() || string.equals(newline);
     }
 
-    /** The filename of the file that contains the Cyder signature to place at the top of log files. */
-    private static final String SIGNATURE_FILE_NAME = "cyder.txt";
+    /** The file that contains the Cyder signature to place at the top of log files. */
+    private static final File cyderSignatureFile = StaticUtil.getStaticResource("cyder.txt");
 
     /** The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo. */
-    private static ImmutableList<String> headerLogoLines = ImmutableList.of();
+    private static ImmutableList<String> cyderSignatureLines = ImmutableList.of();
 
     static {
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(StaticUtil.getStaticResource(SIGNATURE_FILE_NAME)))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(cyderSignatureFile))) {
             LinkedList<String> set = new LinkedList<>();
 
             String line;
@@ -216,7 +210,7 @@ public final class LoggingUtil {
                 set.add(line);
             }
 
-            headerLogoLines = ImmutableList.copyOf(set);
+            cyderSignatureLines = ImmutableList.copyOf(set);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -227,8 +221,8 @@ public final class LoggingUtil {
      *
      * @return the header logo lines for the top of log files
      */
-    static ImmutableList<String> getHeaderLogoLines() {
-        return headerLogoLines;
+    static ImmutableList<String> getCyderSignatureLines() {
+        return cyderSignatureLines;
     }
 
     /**
@@ -238,6 +232,6 @@ public final class LoggingUtil {
      */
     static String getLogRecoveryDebugLine() {
         return LoggingUtil.getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime,"
-                + " recreating and restarting log at: " + TimeUtil.userTime() + CyderStrings.closingBracket;
+                + " recreating and restarting log at: " + TimeUtil.userTime() + closingBracket;
     }
 }
