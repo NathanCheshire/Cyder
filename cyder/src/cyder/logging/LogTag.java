@@ -147,6 +147,7 @@ public enum LogTag {
         return openingBracket + this.logName + closingBracket + colon + space;
     }
 
+    // todo remove
     /**
      * Constructs the string value prepended to the log line before the representation.
      *

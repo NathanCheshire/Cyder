@@ -49,6 +49,7 @@ public enum ConsoleOutType {
         return types;
     }
 
+    // todo remove
     /**
      * Returns the log tag to use for this console out type.
      *

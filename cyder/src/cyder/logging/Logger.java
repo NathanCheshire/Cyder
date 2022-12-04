@@ -61,14 +61,12 @@ public final class Logger {
     /** The rate at which to log the amount of objects created since the last log. */
     private static final int OBJECT_LOG_FREQUENCY = 5000;
 
-    @ForReadability
-    private static final int BRACKETS_SPACE_LEN = 3;
-
+    // todo why not use method for this?
     /**
      * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
      * started after the header such as "[hh-mm-ss.SSSS] " above it.
      */
-    private static final int NEWLINE_SPACE_OFFSET = TimeUtil.getLogLineTime().length() + BRACKETS_SPACE_LEN;
+    private static final int continuationLineOffset = TimeUtil.getLogLineTime().length() + 3;
 
     /** Whether the current log should not be written to again. */
     private static boolean logConcluded;
@@ -139,7 +137,7 @@ public final class Logger {
         if (logConcluded) {
             println(LoggingUtil.getLogTimeTag() + LogTag.constructLogTagPrepend(LOG_CONCLUDED) + statement);
             return;
-        } else if (statement instanceof String string && LoggingUtil.emptyOrNewline(string)) {
+        } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             return;
         }
 
@@ -523,7 +521,7 @@ public final class Logger {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.length ; i++) {
                 if (i != 0) {
-                    bw.write(StringUtil.generateSpaces(NEWLINE_SPACE_OFFSET));
+                    bw.write(StringUtil.generateSpaces(continuationLineOffset));
                 }
 
                 // to be safe, remove new lines and trim even though there should be none
@@ -549,7 +547,7 @@ public final class Logger {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.size() ; i++) {
                 if (i != 0) {
-                    bw.write(StringUtil.generateSpaces(NEWLINE_SPACE_OFFSET));
+                    bw.write(StringUtil.generateSpaces(continuationLineOffset));
                 }
 
                 // to be safe, remove new lines and trim even though there should be none
@@ -865,32 +863,32 @@ public final class Logger {
 
         StringBuilder conclusionBuilder = new StringBuilder();
 
-        conclusionBuilder.append(surroundWithBrackets(EOL));
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL));
         conclusionBuilder.append(CyderStrings.newline);
 
-        conclusionBuilder.append(surroundWithBrackets(EXIT_CONDITION))
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXIT_CONDITION))
                 .append(CyderStrings.space)
                 .append(condition.getCode())
                 .append(CyderStrings.space)
-                .append(surroundWithBrackets(condition.getDescription()))
+                .append(LoggingUtil.surroundWithBrackets(condition.getDescription()))
                 .append(CyderStrings.newline);
 
-        conclusionBuilder.append(surroundWithBrackets(RUNTIME))
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(RUNTIME))
                 .append(CyderStrings.space)
                 .append(TimeUtil.formatMillis(runtime))
                 .append(CyderStrings.newline);
 
-        conclusionBuilder.append(surroundWithBrackets(EXCEPTIONS))
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXCEPTIONS))
                 .append(CyderStrings.space)
                 .append(exceptions)
                 .append(CyderStrings.newline);
 
-        conclusionBuilder.append(surroundWithBrackets(OBJECTS_CREATED))
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(OBJECTS_CREATED))
                 .append(CyderStrings.space)
                 .append(objectsCreated)
                 .append(CyderStrings.newline);
 
-        conclusionBuilder.append(surroundWithBrackets(THREADS_RAN))
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(THREADS_RAN))
                 .append(CyderStrings.space)
                 .append(threadsRan)
                 .append(CyderStrings.newline);
@@ -902,26 +900,13 @@ public final class Logger {
         }
     }
 
-    /**
-     * Surrounds the provided string with brackets.
-     *
-     * @param string the string to surround with brackets
-     * @return the string with brackets surrounding it
-     */
-    private static String surroundWithBrackets(String string) {
-        Preconditions.checkNotNull(string);
 
-        return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
-    }
-
-    /** The delay between JVM entry and starting the object creation logging thread. */
-    private static final int INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT = 3000;
 
     /** Starts the object creation logger to log object creation calls every deltaT seconds. */
     private static void startObjectCreationLogger() {
         CyderThreadRunner.submit(() -> {
             try {
-                ThreadUtil.sleep(INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
+                ThreadUtil.sleep(LoggingUtil.INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
 
                 while (true) {
                     int objectsCreated = objectCreationCounter.getAndSet(0);

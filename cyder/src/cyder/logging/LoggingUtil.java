@@ -3,9 +3,11 @@ package cyder.logging;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.time.TimeUtil;
+import cyder.utils.ArrayUtil;
 import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 
@@ -18,10 +20,60 @@ import static cyder.constants.CyderStrings.*;
 
 /** Utilities necessary for the Cyder logger. */
 public final class LoggingUtil {
+    /** The file that contains the Cyder signature to place at the top of log files. */
+    private static final File cyderSignatureFile = StaticUtil.getStaticResource("cyder.txt");
+
+    /** The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo. */
+    private static ImmutableList<String> cyderSignatureLines = ImmutableList.of();
+
+    static {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(cyderSignatureFile))) {
+            LinkedList<String> set = new LinkedList<>();
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                set.add(line);
+            }
+
+            cyderSignatureLines = ImmutableList.copyOf(set);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /** The maximum number of chars per line of a log. */
+    public static final int maxLogLineLength = 120;
+
+    /**
+     * Only check 10 chars to the left of a line unless we force a break regardless
+     * of whether a space is at that char.
+     */
+    private static final int lineBreakInsertionTol = 10;
+
+    /** The chars to check to split at before splitting in between a line at whatever character a split index falls on. */
+    private static final ImmutableList<Character> breakChars = ImmutableList.of(
+            ' ',
+            '/',
+            '\"',
+            '\'',
+            '\\',
+            '-',
+            '_',
+            '.',
+            '=',
+            ',',
+            ':'
+    );
+
+    /** The delay between JVM entry and starting the object creation logging thread. */
+    static final int INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT = 3000;
+
     /** Suppress default constructor. */
     private LoggingUtil() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
+
+    // todo replace with using surrounds with brackets method
 
     /**
      * Returns the time tag placed at the beginning of all log statements.
@@ -75,22 +127,9 @@ public final class LoggingUtil {
         return CyderRegexPatterns.standardLogLinePattern.matcher(line).matches();
     }
 
-    /** The maximum number of chars per line of a log. */
-    public static final int maxLogLineLength = 120;
-
-    /**
-     * Only check 10 chars to the left of a line unless we force a break regardless
-     * of whether a space is at that char.
-     */
-    private static final int lineBreakInsertionTol = 10;
-
-    /** The chars to check to split at before splitting in between a line at whatever character a split index falls on. */
-    private static final ImmutableList<Character> breakChars
-            = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',', ':');
-
     /**
      * Returns the provided string with line breaks inserted if needed to ensure
-     * the line length does not surpass {@link #maxLogLineLength}.
+     * the line length does not surpass that of {@link #maxLogLineLength}.
      *
      * @param line the line to insert breaks in if needed
      * @return the formatted lines
@@ -140,18 +179,22 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the split char within the final {@link #lineBreakInsertionTol}
-     * chars of the end of the provided string. If found, returns the index of the found splitChar.
+     * Attempts to find the index of the searchFor char within {@link #lineBreakInsertionTol} chars of the left of
+     * the provided string. If found, returns the index of the first found searchFor char.
      *
      * @param line      the line to search through
-     * @param splitChar the character to split at
-     * @return the index of the split char if found, -1 else
+     * @param searchFor the character to find
+     * @return the index of the first searchFor char if found, -1 else
      */
-    static int checkLeftForSplitChar(String line, char splitChar) {
+    static int checkLeftForSplitChar(String line, char searchFor) {
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(breakChars.contains(searchFor));
+
         int ret = -1;
 
         for (int i = maxLogLineLength - lineBreakInsertionTol ; i < maxLogLineLength ; i++) {
-            if (line.charAt(i) == splitChar) {
+            if (line.charAt(i) == searchFor) {
                 ret = i;
                 break;
             }
@@ -161,59 +204,29 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the split char within {@link #lineBreakInsertionTol} chars of the right of
-     * {@link #maxLogLineLength}. If found, returns the index of the found splitChar.
+     * Attempts to find the index of the searchFor char within {@link #lineBreakInsertionTol} chars of the right of
+     * {@link #maxLogLineLength}. If found, returns the index of the first found searchFor char.
      *
      * @param line      the line to search through
-     * @param splitChar the character to split at
-     * @return the index of the slit char if found, -1 else
+     * @param searchFor the character to find
+     * @return the index of the first searchFor char if found, -1 else
      */
-    static int checkRightForSplitChar(String line, char splitChar) {
+    static int checkRightForSplitChar(String line, char searchFor) {
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(breakChars.contains(searchFor));
+
         int ret = -1;
 
         for (int i = maxLogLineLength ; i < maxLogLineLength + lineBreakInsertionTol ; i++) {
             if (i >= line.length()) break;
-            if (line.charAt(i) == splitChar) {
+            if (line.charAt(i) == searchFor) {
                 ret = i;
                 break;
             }
         }
 
         return ret;
-    }
-
-    /**
-     * Returns whether the provided string is empty or only contains whitespace and or a new line character.
-     *
-     * @param string the string
-     * @return whether the provided string is empty or only contains whitespace and or a new line character
-     */
-    static boolean emptyOrNewline(String string) {
-        Preconditions.checkNotNull(string);
-        string = string.trim();
-
-        return string.isEmpty() || string.equals(newline);
-    }
-
-    /** The file that contains the Cyder signature to place at the top of log files. */
-    private static final File cyderSignatureFile = StaticUtil.getStaticResource("cyder.txt");
-
-    /** The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo. */
-    private static ImmutableList<String> cyderSignatureLines = ImmutableList.of();
-
-    static {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(cyderSignatureFile))) {
-            LinkedList<String> set = new LinkedList<>();
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                set.add(line);
-            }
-
-            cyderSignatureLines = ImmutableList.copyOf(set);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 
     /**
@@ -231,7 +244,55 @@ public final class LoggingUtil {
      * @return returns a log line for when a log was deleted mid session
      */
     static String getLogRecoveryDebugLine() {
-        return LoggingUtil.getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime,"
-                + " recreating and restarting log at: " + TimeUtil.userTime() + closingBracket;
+        String time = surroundWithBrackets(TimeUtil.getLogLineTime());
+        String debug = surroundWithBrackets(LogTag.DEBUG.toString());
+        String message = "Log was deleted during runtime, recreating and restarting log at: " + TimeUtil.userTime();
+
+        return time + space + debug + colon + space + message;
+    }
+
+    /**
+     * Surrounds the provided string with brackets.
+     *
+     * @param string the string to surround with brackets
+     * @return the string with brackets surrounding it
+     */
+    static String surroundWithBrackets(String string) {
+        Preconditions.checkNotNull(string);
+
+        return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
+    }
+
+    /**
+     * Constructs the string for the beginning of log lines using the provided tags with the time tag
+     * inserted in the first position.
+     *
+     * @param tags the tags
+     * @return the prepend for the beginning of a log line
+     */
+    static String constructTagsPrepend(String... tags) {
+        return constructTagsPrepend(true, tags);
+    }
+
+    /**
+     * Constructs the string for the beginning of log lines using the provided tags with the time tag
+     * inserted in the first position if insertTimeTag is true.
+     *
+     * @param insertTimeTag whether to insert the time tag as the first tag
+     * @param tags          the tags
+     * @return the prepend for the beginning of a log line
+     */
+    static String constructTagsPrepend(boolean insertTimeTag, String... tags) {
+        Preconditions.checkNotNull(tags);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(tags));
+
+        StringBuilder ret = new StringBuilder();
+
+        if (insertTimeTag) ret.append(surroundWithBrackets(TimeUtil.getLogLineTime())).append(space);
+        ArrayUtil.forEachElementExcludingLast(tag ->
+                ret.append(surroundWithBrackets(tag)).append(space), ArrayUtil.toList(tags));
+        ret.append(surroundWithBrackets(tags[tags.length - 1])).append(colon);
+
+        return ret.toString();
     }
 }
