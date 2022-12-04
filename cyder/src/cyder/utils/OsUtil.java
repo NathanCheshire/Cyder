@@ -162,7 +162,7 @@ public final class OsUtil {
 
         try {
             UserUtil.blockFutureIo();
-            Logger.log(LogTag.EXIT, exitCondition);
+            Logger.log(LogTag.PROGRAM_EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

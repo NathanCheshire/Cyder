@@ -270,7 +270,7 @@ public final class LoggingUtil {
      * Constructs the string for the beginning of log lines using the provided tags with the time tag
      * inserted in the first position.
      *
-     * @param tags the tags
+     * @param tags the tags without brackets
      * @return the prepend for the beginning of a log line
      */
     static String constructTagsPrepend(String... tags) {
@@ -282,7 +282,7 @@ public final class LoggingUtil {
      * inserted in the first position if insertTimeTag is true.
      *
      * @param insertTimeTag whether to insert the time tag as the first tag
-     * @param tags          the tags
+     * @param tags          the tags without brackets
      * @return the prepend for the beginning of a log line
      */
     static String constructTagsPrepend(boolean insertTimeTag, String... tags) {

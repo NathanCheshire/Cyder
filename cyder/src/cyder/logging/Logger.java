@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
@@ -34,6 +33,7 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static cyder.constants.CyderStrings.*;
 import static java.lang.System.out;
 
 /**
@@ -43,7 +43,7 @@ import static java.lang.System.out;
 public final class Logger {
     /** Suppress default constructor. */
     private Logger() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
     /** The counter used to log the number of objects created each deltaT seconds. */
@@ -135,7 +135,7 @@ public final class Logger {
     @SuppressWarnings("IfCanBeSwitch") /* Readability */
     public static <T> void log(LogTag tag, T statement) {
         if (logConcluded) {
-            println(LoggingUtil.getLogTimeTag() + LogTag.constructLogTagPrepend(LOG_CONCLUDED) + statement);
+            println(LoggingUtil.constructTagsPrepend(LOG_CONCLUDED) + statement);
             return;
         } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             return;
@@ -171,7 +171,7 @@ public final class Logger {
                     logBuilder.append(ConsoleOutType.J_COMPONENT.getLogTag());
                     logBuilder.append(statement);
                 } else {
-                    logBuilder.append(LogTag.constructLogTagPrepend(
+                    logBuilder.append(LoggingUtil.constructTagsPrepend(
                             StringUtil.capsFirstWords(statement.getClass().toString())));
                     logBuilder.append(statement);
                 }
@@ -184,7 +184,7 @@ public final class Logger {
             case LINK:
                 logBuilder.append(LogTag.LINK.constructLogTagPrepend());
                 if (statement instanceof File) {
-                    logBuilder.append(CyderStrings.openingBracket)
+                    logBuilder.append(openingBracket)
                             .append(FileUtil.getExtension((File) statement)).append("] ");
                 }
                 logBuilder.append(statement);
@@ -196,8 +196,8 @@ public final class Logger {
                 logBuilder.append(LogTag.SYSTEM_IO.constructLogTagPrepend());
                 logBuilder.append(statement);
                 break;
-            case LOGIN_FIELD:
-                logBuilder.append(LogTag.LOGIN_FIELD.constructLogTagPrepend());
+            case LOGIN_INPUT:
+                logBuilder.append(LogTag.LOGIN_INPUT.constructLogTagPrepend());
                 logBuilder.append(statement);
                 break;
             case LOGIN_OUTPUT:
@@ -206,8 +206,8 @@ public final class Logger {
                 break;
             case LOGOUT:
                 logBuilder.append(LogTag.LOGOUT.constructLogTagPrepend());
-                logBuilder.append(CyderStrings.openingBracket).append("CyderUser = ")
-                        .append(statement).append(CyderStrings.closingBracket);
+                logBuilder.append(openingBracket).append("CyderUser = ")
+                        .append(statement).append(closingBracket);
                 break;
             case JVM_ARGS:
                 logBuilder.append(LogTag.JVM_ARGS.constructLogTagPrepend());
@@ -220,8 +220,8 @@ public final class Logger {
                 logStarted.set(true);
 
                 break;
-            case EXIT:
-                logBuilder.append(LogTag.EXIT.constructLogTagPrepend());
+            case PROGRAM_EXIT:
+                logBuilder.append(LogTag.PROGRAM_EXIT.constructLogTagPrepend());
                 logBuilder.append("Runtime: ");
                 logBuilder.append(getRuntime());
                 formatAndWriteLine(logBuilder.toString(), tag);
@@ -246,9 +246,11 @@ public final class Logger {
 
                 eolBuilder.append(", total objects created: ")
                         .append(totalObjectsCreated)
-                        .append(", threads ran: ")
+                        .append(comma).append(space)
+                        .append("threads ran")
+                        .append(space).append(colon)
                         .append(CyderThreadRunner.getThreadsRan())
-                        .append(CyderStrings.newline);
+                        .append(newline);
 
                 formatAndWriteLine(eolBuilder.toString(), tag);
                 logConcluded = true;
@@ -283,7 +285,7 @@ public final class Logger {
                     objectCreationCounter.incrementAndGet();
                     return;
                 } else {
-                    logBuilder.append(LogTag.constructLogTagPrepend("UNIQUE OBJECT CREATED"));
+                    logBuilder.append(LoggingUtil.constructTagsPrepend("Unique Object Created"));
                     logBuilder.append(statement);
                 }
 
@@ -303,20 +305,6 @@ public final class Logger {
             case FONT_LOADED:
                 logBuilder.append(LogTag.FONT_LOADED);
                 logBuilder.append(statement);
-                break;
-            case THREAD_STATUS:
-                if (statement instanceof String) {
-                    logBuilder.append("THREAD STATUS POLLED");
-                    logBuilder.append(statement);
-                } else if (statement instanceof Thread) {
-                    logBuilder.append(LogTag.THREAD_STATUS);
-                    logBuilder.append("name = ").append(((Thread) statement).getName()).append(", state = ")
-                            .append(((Thread) statement).getState());
-                } else {
-                    logBuilder.append("THREAD");
-                    logBuilder.append(statement);
-                }
-
                 break;
             case CONSOLE_REDIRECTION:
                 logBuilder.append(LogTag.CONSOLE_REDIRECTION.constructLogTagPrepend());
@@ -496,7 +484,7 @@ public final class Logger {
         if (tag != LogTag.EXCEPTION) {
             writeLines(LoggingUtil.ensureProperLength(line));
         } else {
-            writeLines(line.split(CyderStrings.newline));
+            writeLines(line.split(newline));
         }
 
         println(line);
@@ -626,23 +614,23 @@ public final class Logger {
     /**
      * Consolidates duplicate lines next to each other of the provided log file.
      *
-     * @param file the file to consolidate duplicate lines of
+     * @param logFile the file to consolidate duplicate lines of
      */
-    private static void consolidateLines(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(file.isFile());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.LOG.getExtension()));
+    private static void consolidateLines(File logFile) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.exists());
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
 
         boolean beforeFirstTimeTag = true;
 
         ArrayList<String> prelines = new ArrayList<>();
         ArrayList<String> lines = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
             String line;
 
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (beforeFirstTimeTag) {
                     prelines.add(line);
                 } else if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
@@ -689,7 +677,7 @@ public final class Logger {
             }
 
             // Signature
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, false))) {
                 for (String line : prelines) {
                     writer.write(line);
                     writer.newLine();
@@ -699,7 +687,7 @@ public final class Logger {
             }
 
             // Actual lines
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
                 for (String line : writeLines) {
                     writer.write(line);
                     writer.newLine();
@@ -754,7 +742,7 @@ public final class Logger {
                         String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
                                 + "Log completed, Cyder crashed unexpectedly: "
                                 + "exit code: " + ExitCondition.ExternalStop.getCode()
-                                + CyderStrings.space + ExitCondition.ExternalStop.getDescription()
+                                + space + ExitCondition.ExternalStop.getDescription()
                                 + ", exceptions thrown: " + exceptions;
 
                         Files.write(Paths.get(log.getAbsolutePath()),
@@ -790,34 +778,34 @@ public final class Logger {
         StringBuilder conclusionBuilder = new StringBuilder();
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL));
-        conclusionBuilder.append(CyderStrings.newline);
+        conclusionBuilder.append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXIT_CONDITION))
-                .append(CyderStrings.space)
+                .append(space)
                 .append(condition.getCode())
-                .append(CyderStrings.space)
+                .append(space)
                 .append(LoggingUtil.surroundWithBrackets(condition.getDescription()))
-                .append(CyderStrings.newline);
+                .append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(RUNTIME))
-                .append(CyderStrings.space)
+                .append(space)
                 .append(TimeUtil.formatMillis(runtime))
-                .append(CyderStrings.newline);
+                .append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXCEPTIONS))
-                .append(CyderStrings.space)
+                .append(space)
                 .append(exceptions)
-                .append(CyderStrings.newline);
+                .append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(OBJECTS_CREATED))
-                .append(CyderStrings.space)
+                .append(space)
                 .append(objectsCreated)
-                .append(CyderStrings.newline);
+                .append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(THREADS_RAN))
-                .append(CyderStrings.space)
+                .append(space)
                 .append(threadsRan)
-                .append(CyderStrings.newline);
+                .append(newline);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(conclusionBuilder.toString());
@@ -837,9 +825,13 @@ public final class Logger {
                     if (objectsCreated > 0) {
                         totalObjectsCreated += objectsCreated;
 
-                        formatAndWriteLine(LoggingUtil.getLogTimeTag() + "[OBJECT CREATION]: "
-                                + "Objects created since last delta (" + OBJECT_LOG_FREQUENCY + "ms): "
-                                + objectsCreated, LogTag.OBJECT_CREATION);
+                        String line = LoggingUtil.constructTagsPrepend("OBJECT CREATION")
+                                + "Objects created since last delta"
+                                + space + openingParenthesis + OBJECT_LOG_FREQUENCY
+                                + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
+                                + colon + space + objectsCreated;
+
+                        formatAndWriteLine(line, LogTag.OBJECT_CREATION);
                     }
 
                     ThreadUtil.sleep(OBJECT_LOG_FREQUENCY);

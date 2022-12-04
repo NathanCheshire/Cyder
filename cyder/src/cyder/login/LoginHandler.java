@@ -353,7 +353,7 @@ public final class LoginHandler {
         char[] fieldInput = loginField.getPassword();
         if (loginMode != LoginMode.PASSWORD) {
             userInput = new String(fieldInput).substring(currentBashString.length());
-            Logger.log(LogTag.LOGIN_FIELD, userInput);
+            Logger.log(LogTag.LOGIN_INPUT, userInput);
         }
 
         switch (loginMode) {
