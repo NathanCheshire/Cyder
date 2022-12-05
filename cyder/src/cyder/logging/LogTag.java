@@ -2,8 +2,6 @@ package cyder.logging;
 
 import cyder.enums.Dynamic;
 
-import static cyder.constants.CyderStrings.*;
-
 /** Supported tags for log entries. */
 public enum LogTag {
     /** The cyder user typed something through the console input field. */
@@ -26,9 +24,6 @@ public enum LogTag {
 
     /** A link was printed or opened. */
     LINK("Link"),
-
-    /** A user made a suggestion which will probably be ignored. */
-    SUGGESTION("Suggestion"),
 
     /** IO by Cyder typically to/from a json file but usually to files within a {@link Dynamic}. */
     SYSTEM_IO("System IO"),
@@ -135,18 +130,9 @@ public enum LogTag {
         return logName;
     }
 
-    /**
-     * Constructs a log tag prepend for this log tag.
-     *
-     * @return a log tag prepend for this log tag
-     */
-    public String constructLogTagPrepend() {
-        return openingBracket + this.logName + closingBracket + colon + space;
-    }
-
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return LoggingUtil.surroundWithBrackets(logName);
+        return logName;
     }
 }

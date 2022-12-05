@@ -110,19 +110,6 @@ public class UnitTests {
     }
 
     @Test
-    public void testPluralConversion() {
-        assertEquals(StringUtil.getPlural(-1, "dog"), "dogs");
-        assertEquals(StringUtil.getPlural(0, "dog"), "dogs");
-        assertEquals(StringUtil.getPlural(1, "dog"), "dog");
-        assertEquals(StringUtil.getPlural(2, "dog"), "dogs");
-
-        assertEquals(StringUtil.getPlural(-1, "bus"), "buses");
-        assertEquals(StringUtil.getPlural(0, "bus"), "buses");
-        assertEquals(StringUtil.getPlural(1, "bus"), "bus");
-        assertEquals(StringUtil.getPlural(2, "bus"), "buses");
-    }
-
-    @Test
     public void testPhoneNumberPattern() {
         ArrayList<String> phoneNumbers = new ArrayList<>();
         phoneNumbers.add("456 0112");

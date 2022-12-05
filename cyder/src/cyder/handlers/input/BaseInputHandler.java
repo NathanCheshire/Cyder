@@ -894,7 +894,8 @@ public class BaseInputHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
             writer.write(String.valueOf(object));
-            Logger.log(LogTag.CONSOLE_REDIRECTION, redirectionFile);
+            Logger.log(LogTag.CONSOLE_REDIRECTION, "Console output was redirected to: "
+                    + redirectionFile.getAbsolutePath());
             redirectionSem.release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

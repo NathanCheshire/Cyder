@@ -36,12 +36,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /** Helper methods to sort out differences between operating systems Cyder might be running on. */
 public final class OsUtil {
     // todo this stuff should be in FileUtil or maybe even FileName util?
+
     /**
      * The invalid Com names which files may not contains on Windows.
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> invalidWindowsComNames = ImmutableList.of(
-            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9"
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9"
     );
 
     /**
@@ -49,7 +58,15 @@ public final class OsUtil {
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> invalidWindowsLptNames = ImmutableList.of(
-            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+            "LPT1",
+            "LPT2",
+            "LPT3",
+            "LPT4",
+            "LPT5",
+            "LPT6",
+            "LPT7",
+            "LPT8",
+            "LPT9"
     );
 
     /**
@@ -58,7 +75,10 @@ public final class OsUtil {
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> otherInvalidWindowsNames = ImmutableList.of(
-            "CON", "PRN", "AUX", "NUL"
+            "CON",
+            "PRN",
+            "AUX",
+            "NUL"
     );
 
     /**
@@ -94,7 +114,12 @@ public final class OsUtil {
 
     /** The list of invalid characters for a file name on unix based systems. */
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
-            CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
+            CyderStrings.forwardSlash,
+            "<",
+            ">",
+            "|",
+            "&",
+            CyderStrings.colon
     );
 
     /**
@@ -160,12 +185,11 @@ public final class OsUtil {
     public static void exit(ExitCondition exitCondition) {
         Preconditions.checkNotNull(exitCondition);
 
+        UserUtil.blockFutureIo();
+
         try {
-            UserUtil.blockFutureIo();
             Logger.log(LogTag.PROGRAM_EXIT, exitCondition);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        } catch (Exception ignored) {}
 
         System.exit(exitCondition.getCode());
     }
@@ -492,7 +516,7 @@ public final class OsUtil {
         checkNotNull(fileOrFolder);
 
         if (log) {
-            Logger.log(LogTag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder.getAbsolutePath());
+            Logger.log(LogTag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder);
         }
 
         // directory means recursive case to delete contents

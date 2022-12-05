@@ -18,18 +18,18 @@ import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.OsUtil;
+import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
-import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,8 +58,8 @@ public final class Logger {
      */
     private static final AtomicInteger exceptionsCounter = new AtomicInteger();
 
-    /** The rate at which to log the amount of objects created since the last log. */
-    private static final int OBJECT_LOG_FREQUENCY = 5000;
+    /** The rate in ms at which to log the amount of objects created. */
+    private static final int objectCreationLogFrequency = 5000;
 
     // todo why not use method for this?
     /**
@@ -78,20 +78,10 @@ public final class Logger {
      * The log calls that were requested to be logged before the logger was initialized
      * and are awaiting logger initialization.
      */
-    private static final ArrayList<AwaitingLog> awaitingLogCalls = new ArrayList<>();
+    private static final ArrayList<String> awaitingLogCalls = new ArrayList<>();
 
     /** The file that is currently being written to on log calls. */
     private static File currentLog;
-
-    /**
-     * A record to hold a log call which cannot be written due to the logger
-     * not being initialized yet.
-     */
-    private record AwaitingLog(String line, LogTag tag) {}
-
-    /** The prefix for the missing tag error message. */
-    private static final String MISSING_TAG_CASE_ERROR_MESSAGE = "Handle case not found; "
-            + "you're probably an idiot and added an enum to LoggerTag but forgot to handle it Logger.log(), Tag = ";
 
     /**
      * Returns whether the log has started.
@@ -112,262 +102,7 @@ public final class Logger {
     }
 
     /** The text for when a log call was invoked after the log had concluded. */
-    private static final String LOG_CONCLUDED = "LOG CALL AFTER LOG CONCLUDED";
-
-    /**
-     * Logs the provided statement to the log file, using the calling class name as the tag.
-     *
-     * @param statement the statement to log
-     * @param <T>       the type of statement
-     */
-    public static <T> void log(T statement) {
-        // todo use bottom level class name as tag
-        System.out.println(statement);
-    }
-
-    /**
-     * The main log method to log an action associated with a type tag.
-     *
-     * @param tag       the type of data we are logging
-     * @param statement the statement of the object
-     * @param <T>       the object instance of statement
-     */
-    @SuppressWarnings("IfCanBeSwitch") /* Readability */
-    public static <T> void log(LogTag tag, T statement) {
-        if (logConcluded) {
-            println(LoggingUtil.constructTagsPrepend(LOG_CONCLUDED) + statement);
-            return;
-        } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
-            return;
-        }
-
-        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
-            logAwaitingLogCalls();
-        }
-
-        StringBuilder logBuilder = new StringBuilder(LoggingUtil.getLogTimeTag());
-
-        switch (tag) {
-            case CLIENT:
-                logBuilder.append(LogTag.CLIENT.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case CONSOLE_OUT:
-                logBuilder.append(LogTag.CONSOLE_OUT.constructLogTagPrepend());
-                if (statement instanceof String) {
-                    logBuilder.append(ConsoleOutType.STRING.getLogTag());
-                    logBuilder.append(statement);
-                } else if (statement instanceof ImageIcon icon) {
-                    logBuilder.append(ConsoleOutType.IMAGE.getLogTag());
-
-                    int width = icon.getIconWidth();
-                    int height = icon.getIconHeight();
-                    Color dominantColor = ColorUtil.getDominantColor(icon);
-
-                    logBuilder.append("Image: [").append(width).append("x")
-                            .append(height).append("], dominant color: ")
-                            .append(dominantColor);
-                } else if (statement instanceof JComponent) {
-                    logBuilder.append(ConsoleOutType.J_COMPONENT.getLogTag());
-                    logBuilder.append(statement);
-                } else {
-                    logBuilder.append(LoggingUtil.constructTagsPrepend(
-                            StringUtil.capsFirstWords(statement.getClass().toString())));
-                    logBuilder.append(statement);
-                }
-                break;
-            case EXCEPTION:
-                logBuilder.append(LogTag.EXCEPTION.constructLogTagPrepend());
-                logBuilder.append(statement);
-                exceptionsCounter.getAndIncrement();
-                break;
-            case LINK:
-                logBuilder.append(LogTag.LINK.constructLogTagPrepend());
-                if (statement instanceof File) {
-                    logBuilder.append(openingBracket)
-                            .append(FileUtil.getExtension((File) statement)).append("] ");
-                }
-                logBuilder.append(statement);
-                break;
-            case SUGGESTION:
-                logBuilder.append(LogTag.SUGGESTION.constructLogTagPrepend()).append(statement);
-                break;
-            case SYSTEM_IO:
-                logBuilder.append(LogTag.SYSTEM_IO.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case LOGIN_INPUT:
-                logBuilder.append(LogTag.LOGIN_INPUT.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case LOGIN_OUTPUT:
-                logBuilder.append(LogTag.LOGIN_OUTPUT.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case LOGOUT:
-                logBuilder.append(LogTag.LOGOUT.constructLogTagPrepend());
-                logBuilder.append(openingBracket).append("CyderUser = ")
-                        .append(statement).append(closingBracket);
-                break;
-            case JVM_ARGS:
-                logBuilder.append(LogTag.JVM_ARGS.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case JVM_ENTRY:
-                logBuilder.append(LogTag.JVM_ENTRY.constructLogTagPrepend());
-                logBuilder.append(statement);
-
-                logStarted.set(true);
-
-                break;
-            case PROGRAM_EXIT:
-                logBuilder.append(LogTag.PROGRAM_EXIT.constructLogTagPrepend());
-                logBuilder.append("Runtime: ");
-                logBuilder.append(getRuntime());
-                formatAndWriteLine(logBuilder.toString(), tag);
-
-                StringBuilder eolBuilder = new StringBuilder();
-                eolBuilder.append(LoggingUtil.getLogTimeTag());
-                eolBuilder.append("[EOL]: ");
-                eolBuilder.append("Log completed, exiting Cyder with exit code: ");
-
-                String exitCodeRepresentation;
-                if (statement instanceof ExitCondition exitCondition) {
-                    exitCodeRepresentation = exitCondition.getCode() + " [" + exitCondition.getDescription() + "], ";
-                } else {
-                    exitCodeRepresentation = "Error parsing exit condition: " + statement + ", ";
-                }
-
-                eolBuilder.append(exitCodeRepresentation);
-
-                eolBuilder.append(exceptionsCounter.get() == 0
-                        ? "no exceptions thrown"
-                        : "exceptions thrown: " + exceptionsCounter.get());
-
-                eolBuilder.append(", total objects created: ")
-                        .append(totalObjectsCreated)
-                        .append(comma).append(space)
-                        .append("threads ran")
-                        .append(space).append(colon)
-                        .append(CyderThreadRunner.getThreadsRan())
-                        .append(newline);
-
-                formatAndWriteLine(eolBuilder.toString(), tag);
-                logConcluded = true;
-
-                return;
-            case USER_CORRUPTION:
-                logBuilder.append(LogTag.USER_CORRUPTION.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case DEBUG:
-                logBuilder.append(LogTag.DEBUG.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case HANDLE_METHOD:
-                logBuilder.append(LogTag.HANDLE_METHOD.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case WIDGET_OPENED:
-                logBuilder.append(LogTag.WIDGET_OPENED.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case PREFERENCE:
-                logBuilder.append(LogTag.PREFERENCE.constructLogTagPrepend());
-                logBuilder.append("Key = ").append(statement);
-                break;
-            case THREAD_STARTED:
-                logBuilder.append(LogTag.THREAD_STARTED.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case OBJECT_CREATION:
-                if (!(statement instanceof String)) {
-                    objectCreationCounter.incrementAndGet();
-                    return;
-                } else {
-                    logBuilder.append(LoggingUtil.constructTagsPrepend("Unique Object Created"));
-                    logBuilder.append(statement);
-                }
-
-                break;
-            case AUDIO:
-                logBuilder.append(LogTag.AUDIO.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case UI_ACTION:
-                logBuilder.append(LogTag.UI_ACTION.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case CONSOLE_LOAD:
-                logBuilder.append(LogTag.CONSOLE_LOAD.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case FONT_LOADED:
-                logBuilder.append(LogTag.FONT_LOADED);
-                logBuilder.append(statement);
-                break;
-            case CONSOLE_REDIRECTION:
-                logBuilder.append(LogTag.CONSOLE_REDIRECTION.constructLogTagPrepend());
-                logBuilder.append("console output was redirected to files/").append(statement);
-                break;
-            case LOADING_MESSAGE:
-                logBuilder.append(LogTag.LOADING_MESSAGE.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case USER_GET:
-                logBuilder.append(LogTag.USER_GET.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case PROPS_ACTION:
-                logBuilder.append(LogTag.PROPS_ACTION.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case PYTHON:
-                logBuilder.append(LogTag.PYTHON.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case NETWORK:
-                logBuilder.append(LogTag.NETWORK.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case HANDLE_WARNING:
-                logBuilder.append(LogTag.HANDLE_WARNING.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case WATCHDOG:
-                logBuilder.append(LogTag.WATCHDOG.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case WIDGET_WARNING:
-                logBuilder.append(LogTag.WIDGET_WARNING.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case VANILLA_WARNING:
-                logBuilder.append(LogTag.VANILLA_WARNING.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case GUI_TEST_WARNING:
-                logBuilder.append(LogTag.GUI_TEST_WARNING.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            case CYDER_TEST_WARNING:
-                logBuilder.append(LogTag.CYDER_TEST_WARNING.constructLogTagPrepend());
-                logBuilder.append(statement);
-                break;
-            default:
-                throw new IllegalArgumentException(MISSING_TAG_CASE_ERROR_MESSAGE + tag);
-        }
-
-        String logLine = logBuilder.toString().trim();
-
-        if (logLine.length() <= LoggingUtil.getLogTimeTag().trim().length()) {
-            log(LogTag.EXCEPTION, "Log call resulted in nothing built; tag = " + tag);
-        } else if (!logStarted.get()) {
-            awaitingLogCalls.add(new AwaitingLog(logLine, tag));
-        } else {
-            formatAndWriteLine(logLine, tag);
-        }
-    }
+    private static final String LOG_CONCLUDED = "Log Call After Log Concluded";
 
     /**
      * Initializes the logger for logging by invoking the following actions:
@@ -396,30 +131,9 @@ public final class Logger {
         zipPastLogs();
     }
 
-    /** Logs the calls within awaitingLogCalls. */
-    private static void logAwaitingLogCalls() {
-        for (AwaitingLog awaitingLog : awaitingLogCalls) {
-            formatAndWriteLine(awaitingLog.line, awaitingLog.tag);
-        }
-
-        awaitingLogCalls.clear();
-    }
-
-    /**
-     * Returns the current log file.
-     *
-     * @return the log file associated with the current session
-     */
-    public static File getCurrentLogFile() {
-        return currentLog;
-    }
-
-    /** The number of new lines to write after ascii art is written to a log file. */
-    private static final int numNewLinesAfterAsciiArt = 2;
-
     /** Writes the lines contained in static/txt/cyder.txt to the current log file. */
     private static void writeCyderAsciiArtToCurrentLogFile() {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, false))) {
             for (String line : LoggingUtil.getCyderSignatureLines()) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
@@ -468,52 +182,209 @@ public final class Logger {
     }
 
     /**
-     * Formats and writes the line to the current log file.
+     * Logs the provided statement to the log file, using the calling class name as the tag.
      *
-     * @param line the line to write to the current log file
-     * @param tag  the tag which was used to handle the constructed string to write
+     * @param statement the statement to log
+     * @param <T>       the type of statement
      */
-    private static synchronized void formatAndWriteLine(String line, LogTag tag) {
-        line = line.trim();
-
-        if (logFileDeletedMidRuntime()) {
-            generateAndSetLogFile();
-            writeLines(LoggingUtil.ensureProperLength(LoggingUtil.getLogRecoveryDebugLine()));
-        }
-
-        if (tag != LogTag.EXCEPTION) {
-            writeLines(LoggingUtil.ensureProperLength(line));
-        } else {
-            writeLines(line.split(newline));
-        }
-
-        println(line);
-    }
-
-    @ForReadability
-    private static boolean logFileDeletedMidRuntime() {
-        return !getCurrentLogFile().exists();
+    public static <T> void log(T statement) {
+        // todo use bottom level class name as tag
+        System.out.println(statement);
     }
 
     /**
-     * Writes the lines to the current log file. The first one is not offset
-     * whilst all lines after the first are offset by 11 spaces.
+     * The main log method to log an action associated with a type tag.
      *
-     * @param lines the lines to write to the current log file
+     * @param tag       the type of data we are logging
+     * @param statement the statement of the object
+     * @param <T>       the object instance of statement
      */
-    private static void writeLines(String... lines) {
-        Preconditions.checkArgument(currentLog.exists());
-        Preconditions.checkArgument(lines != null);
-        Preconditions.checkArgument(lines.length > 0);
+    public static <T> void log(LogTag tag, T statement) {
+        if (logConcluded) {
+            println(LoggingUtil.constructTagsPrepend(LOG_CONCLUDED) + space + statement);
+            return;
+        } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
+            return;
+        }
+
+        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
+            logAwaitingLogCalls();
+        }
+
+        ArrayList<String> tags = new ArrayList<>();
+        StringBuilder logBuilder = new StringBuilder();
+
+        // Unique tags have a case statement, default ones do not
+        switch (tag) {
+            case CONSOLE_OUT:
+                // todo method for this
+                tags.add(LogTag.CONSOLE_OUT.getLogName());
+                switch (statement) {
+                    case String string -> {
+                        tags.add(ConsoleOutType.STRING.getLogTag());
+
+                        logBuilder.append(string);
+                    }
+                    case ImageIcon icon -> {
+                        // todo test for this
+                        // [time] [image]: 15x40, dominant color=java.awt.Color(25,25,25)
+                        tags.add(ConsoleOutType.IMAGE.getLogTag());
+                        tags.add("Image");
+
+                        logBuilder.append(colon)
+                                .append(space)
+                                .append(openingBracket)
+                                .append(icon.getIconWidth()).append("x").append(icon.getIconHeight())
+                                .append(closingBracket)
+                                .append(comma)
+                                .append(space)
+                                .append("dominant color")
+                                .append(colon)
+                                .append(space)
+                                .append(ColorUtil.getDominantColor(icon));
+                    }
+                    case JComponent jComponent -> {
+                        tags.add(ConsoleOutType.J_COMPONENT.getLogTag());
+
+                        logBuilder.append(jComponent);
+                    }
+                    case default -> {
+                        tags.add(LoggingUtil.constructTagsPrepend(StringUtil.capsFirstWords(
+                                ReflectionUtil.getBottomLevelClass(statement.getClass()))));
+
+                        logBuilder.append(space)
+                                .append(statement);
+                    }
+                }
+                break;
+            case EXCEPTION:
+                tags.add(LogTag.EXCEPTION.getLogName());
+
+                logBuilder.append(statement);
+
+                exceptionsCounter.getAndIncrement();
+                break;
+            case LINK:
+                tags.add(LogTag.LINK.getLogName());
+
+                if (statement instanceof File file) {
+                    tags.add(FileUtil.getExtension(file));
+
+                    logBuilder.append(file.getAbsolutePath());
+                } else {
+                    logBuilder.append(statement);
+                }
+
+                break;
+            case LOGOUT:
+                tags.add(LogTag.LOGIN_OUTPUT.getLogName());
+                tags.add("User");
+
+                logBuilder.append(statement);
+                break;
+            case JVM_ENTRY:
+                tags.add(LogTag.JVM_ENTRY.getLogName());
+
+                logBuilder.append(statement);
+
+                logStarted.set(true);
+
+                break;
+            case PROGRAM_EXIT:
+                logConcluded = true;
+
+                // todo use method
+
+                formatAndWriteLine("todo method here", tag);
+                return;
+            case PREFERENCE:
+                tags.add(LogTag.PREFERENCE.getLogName());
+                tags.add("Key");
+                logBuilder.append(statement);
+                break;
+            case OBJECT_CREATION:
+                if (statement instanceof String) {
+                    tags.add("Unique Object Created");
+
+                    logBuilder.append(statement);
+                } else {
+                    objectCreationCounter.incrementAndGet();
+                    return;
+                }
+
+                break;
+            default:
+                logBuilder.append(LoggingUtil.constructTagsPrepend(tag.getLogName()));
+                logBuilder.append(statement);
+                break;
+        }
+
+        // todo pass off to new method
+
+        String logLine = LoggingUtil.constructTagsPrepend(tags) + logBuilder.toString().trim();
+        if (logStarted.get()) {
+            formatAndWriteLine(logLine, tag);
+        } else {
+            awaitingLogCalls.add(logLine);
+        }
+    }
+
+    /** Logs the calls within awaitingLogCalls. */
+    private static void logAwaitingLogCalls() {
+        for (String awaitingLog : awaitingLogCalls) {
+            // todo format and write
+        }
+
+        awaitingLogCalls.clear();
+    }
+
+    /**
+     * Returns the current log file.
+     *
+     * @return the log file associated with the current session
+     */
+    public static File getCurrentLogFile() {
+        return currentLog;
+    }
+
+    /** The number of new lines to write after ascii art is written to a log file. */
+    private static final int numNewLinesAfterAsciiArt = 2;
+
+    // todo this is the new line
+
+    /**
+     * Writes the provided line to the current log file.
+     * The provided tags and translated into proper tags with the time tag preceding all tags.
+     * If the line exceeds that of {@link LoggingUtil#maxLogLineLength}
+     * then the line is split where convenient.
+     *
+     * @param tags the tags
+     * @param line the line
+     */
+    private static void write(List<String> tags, String line) {
+        Preconditions.checkNotNull(tags);
+        Preconditions.checkArgument(!tags.isEmpty());
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+
+        if (!logStarted.get()) {
+            awaitingLogCalls.add(logLine);
+        }
+
+        // todo what if deleted mid runtime
+
+        // todo log awaiting calls
+
+        String prepend = LoggingUtil.constructTagsPrepend(tags);
+        LinkedList<String> lines = LoggingUtil.checkLogLineLength(prepend + line);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
-            for (int i = 0 ; i < lines.length ; i++) {
+            for (int i = 0 ; i < lines.size() ; i++) {
                 if (i != 0) {
                     bw.write(StringUtil.generateSpaces(continuationLineOffset));
                 }
 
-                // to be safe, remove new lines and trim even though there should be none
-                bw.write(StringUtil.stripNewLinesAndTrim(lines[i]));
+                bw.write(lines.get(i));
                 bw.newLine();
             }
         } catch (Exception e) {
@@ -522,12 +393,44 @@ public final class Logger {
     }
 
     /**
+     * Formats and writes the line to the current log file.
+     *
+     * @param line the line to write to the current log file
+     * @param tag  the tag which was used to handle the constructed string to write
+     */
+    private static void formatAndWriteLine(String line, LogTag tag) {
+        line = line.trim();
+
+        if (!getCurrentLogFile().exists()) {
+            generateAndSetLogFile();
+            writeCyderAsciiArtToCurrentLogFile();
+            writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
+        }
+
+        // todo this is messy
+        if (tag != LogTag.EXCEPTION) {
+            writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(line));
+        } else {
+            writeLineToCurrentLogFile(ImmutableList.copyOf(line.split(newline)));
+        }
+
+        println(line);
+    }
+
+    // todo this should only be called once
+
+    /**
+     * Writes the provided line to the current log file.
+     * If the log line exceeds that of {@link LoggingUtil#maxLogLineLength}, the line is split
+     * where necessary before being written to the log file.
+     * <p>
      * Writes the lines to the current log file. The first one is not offset
      * whilst all lines after the first are offset by 11 spaces.
+     * Writes the line to the current log file. The line should
      *
      * @param lines the lines to write to the current log file
      */
-    private static void writeLines(LinkedList<String> lines) {
+    private static void writeLineToCurrentLogFile(List<String> lines) { // todo accept singular string
         Preconditions.checkArgument(currentLog.exists());
         Preconditions.checkArgument(lines != null);
         Preconditions.checkArgument(!lines.isEmpty());
@@ -538,22 +441,12 @@ public final class Logger {
                     bw.write(StringUtil.generateSpaces(continuationLineOffset));
                 }
 
-                // to be safe, remove new lines and trim even though there should be none
-                bw.write(StringUtil.stripNewLinesAndTrim(lines.get(i)));
+                bw.write(lines.get(i));
                 bw.newLine();
             }
         } catch (Exception e) {
             log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
         }
-    }
-
-    /**
-     * Calculates the run time of Cyder.
-     *
-     * @return the run time of Cyder
-     */
-    private static String getRuntime() {
-        return TimeUtil.formatMillis(ManagementFactory.getRuntimeMXBean().getUptime());
     }
 
     /** Zips the log files of the past. */
@@ -604,8 +497,8 @@ public final class Logger {
 
                     if (logFiles != null && logFiles.length > 0) {
                         Arrays.stream(logFiles).forEach(logFile -> {
-                            Logger.consolidateLines(logFile);
-                            Logger.log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
+                            consolidateLines(logFile);
+                            log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
                         });
                     }
                 });
@@ -624,78 +517,89 @@ public final class Logger {
 
         boolean beforeFirstTimeTag = true;
 
-        ArrayList<String> prelines = new ArrayList<>();
-        ArrayList<String> lines = new ArrayList<>();
-
+        ArrayList<String> preLogLines = new ArrayList<>();
+        ArrayList<String> logLines = new ArrayList<>();
+        // todo could probably have a structure and a method for this
         try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
             String line;
-
             while ((line = reader.readLine()) != null) {
                 if (beforeFirstTimeTag) {
-                    prelines.add(line);
+                    preLogLines.add(line);
                 } else if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
-                    lines.add(line);
+                    logLines.add(line);
                 }
 
                 if (CyderRegexPatterns.standardLogLinePattern.matcher(line).matches()) {
                     beforeFirstTimeTag = false;
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
 
         int minLogLines = 2;
-        if (lines.size() >= minLogLines) {
-            ArrayList<String> writeLines = new ArrayList<>();
+        if (logLines.size() < minLogLines) {
+            return;
+        }
 
-            String lastLine;
-            String currentLine;
-            int currentCount = 1;
+        // todo this is kind of confusing
+        ArrayList<String> writeLines = new ArrayList<>();
+        String lastLine;
+        String currentLine;
+        int currentCount = 1;
+        for (int i = 0 ; i < logLines.size() - 1 ; i++) {
+            lastLine = logLines.get(i);
+            currentLine = logLines.get(i + 1);
 
-            for (int i = 0 ; i < lines.size() - 1 ; i++) {
-                lastLine = lines.get(i);
-                currentLine = lines.get(i + 1);
-
-                if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
-                    currentCount++;
-                } else {
-                    if (currentCount > 1) {
-                        writeLines.add(lastLine + " [" + currentCount + "x]");
-                    } else {
-                        writeLines.add(lastLine);
-                    }
-
-                    currentCount = 1;
-                }
-            }
-
-            if (currentCount > 1) {
-                writeLines.add(lines.get(lines.size() - 1) + " [" + currentCount + "x]");
+            if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
+                currentCount++;
             } else {
-                writeLines.add(lines.get(lines.size() - 1));
-            }
-
-            // Signature
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, false))) {
-                for (String line : prelines) {
-                    writer.write(line);
-                    writer.newLine();
+                if (currentCount > 1) {
+                    writeLines.add(generateConsolidationLine(lastLine, currentCount));
+                } else {
+                    writeLines.add(lastLine);
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
 
-            // Actual lines
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-                for (String line : writeLines) {
-                    writer.write(line);
-                    writer.newLine();
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+                currentCount = 1;
             }
         }
+        if (currentCount > 1) {
+            writeLines.add(generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
+        } else {
+            writeLines.add(logLines.get(logLines.size() - 1));
+        }
+
+        // Signature
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, false))) {
+            for (String line : preLogLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        // Actual lines
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
+            for (String line : writeLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Generates a consolidation line for a line which is repeated back to back.
+     *
+     * @param line     the repeated line
+     * @param numLines the number of times the line is repeated
+     * @return the line
+     */
+    @ForReadability // todo util
+    private static String generateConsolidationLine(String line, int numLines) {
+        return line + space + openingBracket + numLines + "x" + closingBracket;
     }
 
     /** Fixes any logs lacking/not ending in an "End Of Log" tag. */
@@ -755,12 +659,12 @@ public final class Logger {
         }
     }
 
-    private static final String EOL = "EOL";
-    private static final String EXIT_CONDITION = "EXIT_CONDITION";
-    private static final String RUNTIME = "RUNTIME";
-    private static final String EXCEPTIONS = "EXCEPTIONS";
-    private static final String OBJECTS_CREATED = "OBJECTS CREATED";
-    private static final String THREADS_RAN = "THREADS RAN";
+    private static final String EOL = "Eol";
+    private static final String EXIT_CONDITION = "Exit Condition";
+    private static final String RUNTIME = "Runtime";
+    private static final String EXCEPTIONS = StringUtil.getPlural(LogTag.EXCEPTION.getLogName()); // todo dynamic
+    private static final String OBJECTS_CREATED = "Objects Created";
+    private static final String THREADS_RAN = "Threads Ran";
 
     private static void concludeLog(File file, ExitCondition condition,
                                     long runtime,
@@ -777,8 +681,8 @@ public final class Logger {
 
         StringBuilder conclusionBuilder = new StringBuilder();
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL));
-        conclusionBuilder.append(newline);
+        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL))
+                .append(newline);
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXIT_CONDITION))
                 .append(space)
@@ -823,22 +727,32 @@ public final class Logger {
                 while (true) {
                     int objectsCreated = objectCreationCounter.getAndSet(0);
                     if (objectsCreated > 0) {
-                        totalObjectsCreated += objectsCreated;
-
-                        String line = LoggingUtil.constructTagsPrepend("OBJECT CREATION")
-                                + "Objects created since last delta"
-                                + space + openingParenthesis + OBJECT_LOG_FREQUENCY
-                                + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
-                                + colon + space + objectsCreated;
-
-                        formatAndWriteLine(line, LogTag.OBJECT_CREATION);
+                        logObjectsCreated(objectsCreated);
                     }
 
-                    ThreadUtil.sleep(OBJECT_LOG_FREQUENCY);
+                    ThreadUtil.sleep(objectCreationLogFrequency);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, IgnoreThread.ObjectCreationLogger.getName());
+    }
+
+    /**
+     * Logs the number of objects created since the last delta.
+     *
+     * @param objectsCreated the number of objects created since the last delta
+     */
+    @ForReadability
+    private static void logObjectsCreated(int objectsCreated) {
+        totalObjectsCreated += objectsCreated;
+
+        String line = LoggingUtil.constructTagsPrepend(LogTag.OBJECT_CREATION.getLogName())
+                + space + "Objects created since last delta"
+                + space + openingParenthesis + objectCreationLogFrequency
+                + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
+                + colon + space + objectsCreated;
+
+        formatAndWriteLine(line, LogTag.OBJECT_CREATION);
     }
 }

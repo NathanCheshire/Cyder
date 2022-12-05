@@ -13,6 +13,7 @@ import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
+import cyder.time.TimeUtil;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -265,17 +266,17 @@ public final class JvmUtil {
     }
 
     /**
-     * Logs any possible command line arguments passed in to Cyder upon starting.
-     * Appends JVM Command Line Arguments along with the start location to the log.
+     * Logs any main method command line arguments passed in to Cyder upon starting.
+     * {@link NetworkUtil#getIspAndNetworkDetails()} is queried and the details appended
+     * to the resulting log statement if {@link Props#autocypher} is {@code false}.
      *
-     * @param cyderArgs the command line arguments passed in
+     * @param cyderArgs the main method command line arguments passed in
      */
-    public static void logArgs(ImmutableList<String> cyderArgs) {
+    public static void logMainMethodArgs(ImmutableList<String> cyderArgs) {
         Preconditions.checkNotNull(cyderArgs);
 
         CyderThreadRunner.submit(() -> {
             try {
-                // build string of all JVM args
                 StringBuilder argBuilder = new StringBuilder();
 
                 for (int i = 0 ; i < cyderArgs.size() ; i++) {
@@ -301,5 +302,14 @@ public final class JvmUtil {
                 ExceptionHandler.handle(e);
             }
         }, JVM_ARGS_LOGGER_THREAD_NAME);
+    }
+
+    /**
+     * Calculates the run time of the current JVM running Cyder.
+     *
+     * @return the run time of Cyder
+     */
+    public static String getRuntime() {
+        return TimeUtil.formatMillis(ManagementFactory.getRuntimeMXBean().getUptime());
     }
 }

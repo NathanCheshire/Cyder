@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static cyder.constants.CyderStrings.*;
 
@@ -131,13 +132,12 @@ public final class LoggingUtil {
     }
 
     /**
-     * Returns the provided string with line breaks inserted if needed to ensure
-     * the line length does not surpass that of {@link #maxLogLineLength}.
+     * Splits the provided string if it exceeds {@link LoggingUtil#maxLogLineLength} at convent places.
      *
-     * @param line the line to insert breaks in if needed
-     * @return the formatted lines
+     * @param line the line to split if needed
+     * @return the list of strings
      */
-    public static LinkedList<String> ensureProperLength(String line) {
+    public static LinkedList<String> checkLogLineLength(String line) {
         Preconditions.checkNotNull(line);
 
         LinkedList<String> lines = new LinkedList<>();
@@ -176,6 +176,7 @@ public final class LoggingUtil {
             line = line.substring(maxLogLineLength);
         }
 
+        // Add remaining line
         lines.add(line);
 
         return lines;
@@ -269,32 +270,40 @@ public final class LoggingUtil {
     /**
      * Constructs the string for the beginning of log lines using the provided tags with the time tag
      * inserted in the first position.
+     * <p>
+     * Example, passing "Exception", "My Exception"
+     * would return "[11-27-32.322] [Exception] [My Exception]:"
      *
      * @param tags the tags without brackets
      * @return the prepend for the beginning of a log line
      */
     static String constructTagsPrepend(String... tags) {
-        return constructTagsPrepend(true, tags);
+        Preconditions.checkNotNull(tags);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(tags));
+
+        return constructTagsPrepend(ArrayUtil.toList(tags));
     }
 
     /**
      * Constructs the string for the beginning of log lines using the provided tags with the time tag
-     * inserted in the first position if insertTimeTag is true.
+     * inserted in the first position.
+     * <p>
+     * Example, passing a list with the contents of "Exception" and "My Exception"
+     * would return "[11-27-32.322] [Exception] [My Exception]:"
      *
-     * @param insertTimeTag whether to insert the time tag as the first tag
-     * @param tags          the tags without brackets
+     * @param tags the tags without brackets
      * @return the prepend for the beginning of a log line
      */
-    static String constructTagsPrepend(boolean insertTimeTag, String... tags) {
+    static String constructTagsPrepend(List<String> tags) {
         Preconditions.checkNotNull(tags);
-        Preconditions.checkArgument(!ArrayUtil.isEmpty(tags));
+        Preconditions.checkArgument(!tags.isEmpty());
 
         StringBuilder ret = new StringBuilder();
 
-        if (insertTimeTag) ret.append(surroundWithBrackets(TimeUtil.getLogLineTime())).append(space);
+        ret.append(surroundWithBrackets(TimeUtil.getLogLineTime())).append(space);
         ArrayUtil.forEachElementExcludingLast(tag ->
-                ret.append(surroundWithBrackets(tag)).append(space), ArrayUtil.toList(tags));
-        ret.append(surroundWithBrackets(tags[tags.length - 1])).append(colon);
+                ret.append(surroundWithBrackets(tag)).append(space), tags);
+        ret.append(surroundWithBrackets(tags.get(tags.size() - 1))).append(colon);
 
         return ret.toString();
     }
@@ -306,7 +315,7 @@ public final class LoggingUtil {
      * @return the number of exception the provided log file contains
      */
     static int countExceptions(File logFile) {
-        return countTags(logFile, "[EXCEPTION]"); // todo need brackets?
+        return countTags(logFile, LogTag.EXCEPTION.getLogName());
     }
 
     /**
@@ -316,7 +325,7 @@ public final class LoggingUtil {
      * @return the number of threads ran in the provided log file
      */
     static int countThreadsRan(File logFile) {
-        return countTags(logFile, "[THREAD STARTED]"); // todo need brackets?
+        return countTags(logFile, LogTag.THREAD_STARTED.getLogName());
     }
 
     /**
