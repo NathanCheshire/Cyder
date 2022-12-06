@@ -208,7 +208,7 @@ public class GeneralPrintHandler extends InputHandler {
                     : "Cyder is currently running from a non-JAR source");
         } else if (getInputHandler().commandIs("clc") ||
                 getInputHandler().commandIs("cls") ||
-                getInputHandler().commandIs("clear")) {
+                getInputHandler().inputIgnoringSpacesMatches("clear")) {
             Console.INSTANCE.getOutputArea().setText("");
         } else if (getInputHandler().commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Big boi exceptions; " +

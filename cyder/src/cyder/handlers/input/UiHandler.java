@@ -31,7 +31,7 @@ public class UiHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("toast")) {
-            Console.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
+            Console.INSTANCE.getConsoleCyderFrame().toast("A toast to you, good sir/madam");
         } else if (getInputHandler().commandIs("freeze")) {
             //noinspection StatementWithEmptyBody
             while (true) {

@@ -21,9 +21,8 @@ public enum ExitCondition {
     UserDeleted(-3, "User Deleted"),
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
 
-    /** Reserved as this indicates something specific to JVM exits. */
-    @Deprecated
-    TrueExternalStop(-1, "DO NOT USE"),
+    /** The program was stopped in a way other than by Cyder. */
+    TrueExternalStop(-1, "True External Stop"),
 
     /** The standard Cyder exit. */
     GenesisControlledExit(0, "Genesis Controlled Exit"),

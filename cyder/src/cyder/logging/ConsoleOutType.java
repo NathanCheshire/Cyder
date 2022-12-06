@@ -1,7 +1,6 @@
 package cyder.logging;
 
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -9,16 +8,16 @@ import java.awt.image.BufferedImage;
 /** Tags for possible types printed to the console's text pane. */
 public enum ConsoleOutType {
     /** A string type. */
-    STRING("STRING", ImmutableList.of(String.class)),
+    STRING("String", ImmutableList.of(String.class)),
 
     /** An image such as a {@link BufferedImage} or an {@link ImageIcon}. */
-    IMAGE("IMAGE", ImmutableList.of(BufferedImage.class, ImageIcon.class)),
+    IMAGE("Image", ImmutableList.of(BufferedImage.class, ImageIcon.class)),
 
     /** A {@link JComponent}. */
-    J_COMPONENT("J_COMPONENT", ImmutableList.of(JComponent.class)),
+    J_COMPONENT("JComponent", ImmutableList.of(JComponent.class)),
 
     /** An unknown output type. */
-    UNKNOWN("UNKNOWN", ImmutableList.of(Object.class));
+    UNKNOWN("Unknown", ImmutableList.of(Object.class));
 
     /** The string representation for this console out type. */
     private final String stringRepresentation;
@@ -49,14 +48,10 @@ public enum ConsoleOutType {
         return types;
     }
 
-    // todo remove
     /**
-     * Returns the log tag to use for this console out type.
-     *
-     * @return the log tag to use for this console out type
+     * {@inheritDoc}
      */
-    public String getLogTag() {
-        return CyderStrings.openingBracket + stringRepresentation + CyderStrings.closingBracket
-                + CyderStrings.colon + CyderStrings.space;
+    public String toString() {
+        return stringRepresentation;
     }
 }

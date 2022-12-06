@@ -20,9 +20,6 @@ import cyder.utils.*;
 
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,15 +70,6 @@ public final class Logger {
     private static File currentLog;
 
     /**
-     * Returns whether the log has started.
-     *
-     * @return whether the log has started
-     */
-    public static boolean hasLogStarted() {
-        return logStarted.get();
-    }
-
-    /**
      * Prints the provided string to {@link System}s output stream.
      *
      * @param string the string to print
@@ -89,9 +77,6 @@ public final class Logger {
     public static void println(String string) {
         out.println(string);
     }
-
-    /** The text for when a log call was invoked after the log had concluded. */
-    private static final String LOG_CONCLUDED = "Log Call After Log Concluded";
 
     /** The number of new lines to write after ascii art is written to a log file. */
     private static final int numNewLinesAfterCyderAsciiArt = 2;
@@ -206,10 +191,7 @@ public final class Logger {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(statement);
 
-        if (logConcluded) {
-            println(LoggingUtil.constructTagsPrepend(LOG_CONCLUDED) + space + statement);
-            return;
-        } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             return;
         }
 
@@ -223,12 +205,11 @@ public final class Logger {
                 tags.add(LogTag.CONSOLE_OUT.getLogName());
                 switch (statement) {
                     case String string -> {
-                        tags.add(ConsoleOutType.STRING.getLogTag());
+                        tags.add(ConsoleOutType.STRING.toString());
                         logBuilder.append(string);
                     }
                     case ImageIcon icon -> {
-                        tags.add(ConsoleOutType.IMAGE.getLogTag());
-                        tags.add("Image");
+                        tags.add(ConsoleOutType.IMAGE.toString());
                         logBuilder.append(colon)
                                 .append(space)
                                 .append(openingBracket)
@@ -242,7 +223,7 @@ public final class Logger {
                                 .append(ColorUtil.getDominantColor(icon));
                     }
                     case JComponent jComponent -> {
-                        tags.add(ConsoleOutType.J_COMPONENT.getLogTag());
+                        tags.add(ConsoleOutType.J_COMPONENT.toString());
                         logBuilder.append(jComponent);
                     }
                     case default -> {
@@ -305,7 +286,7 @@ public final class Logger {
                 break;
             case OBJECT_CREATION:
                 if (statement instanceof String) {
-                    tags.add("Unique Object Created");
+                    tags.add(LogTag.OBJECT_CREATION.getLogName());
                     logBuilder.append(statement);
                 } else {
                     objectCreationCounter.incrementAndGet();
@@ -320,7 +301,7 @@ public final class Logger {
                 break;
         }
 
-        write(tags, logBuilder.toString());
+        constructLogLinesAndLog(tags, logBuilder.toString());
     }
 
     /**
@@ -333,7 +314,7 @@ public final class Logger {
     }
 
     /**
-     * Writes the provided line to the current log file.
+     * Constructs lines from the tags and line and writes them to the current log file.
      * The provided tags and translated into proper tags with the time tag preceding all tags.
      * If the line exceeds that of {@link LoggingUtil#maxLogLineLength}
      * then the line is split where convenient.
@@ -341,52 +322,79 @@ public final class Logger {
      * @param tags the tags
      * @param line the line
      */
-    private static void write(List<String> tags, String line) { // todo rename
+    private static void constructLogLinesAndLog(List<String> tags, String line) {
         Preconditions.checkNotNull(tags);
         Preconditions.checkArgument(!tags.isEmpty());
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
 
-        if (!logStarted.get()) {
-            System.out.println("here: " + line);
-            // todo awaitingLogCalls.add(logLine);
-            return;
-        }
-
-        if (!getCurrentLogFile().exists()) {
+        if (logStarted.get() && currentLog == null) {
             generateAndSetLogFile();
             writeCyderAsciiArtToCurrentLogFile();
-            // todo writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
-        }
-
-        // todo log awaiting calls
-        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
-            for (String awaitingLog : awaitingLogCalls) {
-                // todo format and write
-            }
-
-            awaitingLogCalls.clear();
+            awaitingLogCalls.addAll(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
         }
 
         boolean isException = tags.contains(LogTag.EXCEPTION.getLogName());
         String prepend = LoggingUtil.constructTagsPrepend(tags);
-        String rawWriteLine = prepend + line;
+        String rawWriteLine = prepend + space + line;
 
         ImmutableList<String> lines = isException
                 ? ImmutableList.of(rawWriteLine)
                 : LoggingUtil.checkLogLineLength(rawWriteLine);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
+        writeRawLinesToCurrentLogFile(lines, tags.contains(LogTag.EXCEPTION.getLogName()), prepend);
+    }
+
+    /**
+     * Writes the provided lines directly to the current log file without any processing
+     *
+     * @param lines       the raw lines to write directory to the current log file
+     * @param isException whether the provided lines represent an exception log
+     * @param prepend     the spacing prepend for continuation lines if there are more than one lines
+     */
+    private static void writeRawLinesToCurrentLogFile(ImmutableList<String> lines,
+                                                      boolean isException,
+                                                      String prepend) {
+        if (!logStarted.get()) {
             for (int i = 0 ; i < lines.size() ; i++) {
-                // todo test
                 String prefixSpacing = "";
-                if (i != 0 && !tags.contains(LogTag.EXCEPTION.getLogName())) {
-                    prefixSpacing = StringUtil.generateSpaces(prepend.length() + space.length());
+                if (i != 0 && !isException) {
+                    prefixSpacing = StringUtil.generateSpaces(prepend.length());
                 }
 
                 String writeLine = prefixSpacing + lines.get(i);
-                bw.write(writeLine);
-                bw.newLine();
+                awaitingLogCalls.add(writeLine);
+            }
+
+            return;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
+            if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
+                for (String awaitingLogLine : awaitingLogCalls) {
+                    bw.write(awaitingLogLine);
+                    bw.newLine();
+
+                    System.out.println(awaitingLogLine);
+                }
+
+                awaitingLogCalls.clear();
+            }
+
+            for (int i = 0 ; i < lines.size() ; i++) {
+                String prefixSpacing = "";
+                if (i != 0 && !isException) {
+                    prefixSpacing = StringUtil.generateSpaces(prepend.length());
+                }
+
+                String writeLine = prefixSpacing + lines.get(i);
+
+                if (!logConcluded) {
+                    bw.write(writeLine);
+                    bw.newLine();
+                } else {
+                    System.out.println("Log call after log completed: " + writeLine);
+                }
 
                 System.out.println(writeLine);
             }
@@ -411,9 +419,11 @@ public final class Logger {
         if (subLogDirs == null || subLogDirs.length == 0) return;
 
         Arrays.stream(subLogDirs)
-                .filter(subLogDir -> !subLogDir.getAbsolutePath().equals(getCurrentLogFile().getAbsolutePath()))
+                .filter(subLogDir -> !subLogDir.getAbsolutePath()
+                        .equals(getCurrentLogFile().getParentFile().getAbsolutePath()))
                 .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equals(Extension.ZIP.getExtension()))
                 .forEach(subLogDir -> {
+                    Logger.log(LogTag.DEBUG, "Zipping past sub log dir: " + subLogDir.getAbsolutePath());
                     String destinationZipPath = subLogDir.getAbsolutePath() + Extension.ZIP.getExtension();
                     File destinationZip = new File(destinationZipPath);
 
@@ -501,7 +511,7 @@ public final class Logger {
                 currentCount++;
             } else {
                 if (currentCount > 1) {
-                    writeLines.add(generateConsolidationLine(lastLine, currentCount));
+                    writeLines.add(LoggingUtil.generateConsolidationLine(lastLine, currentCount));
                 } else {
                     writeLines.add(lastLine);
                 }
@@ -510,7 +520,7 @@ public final class Logger {
             }
         }
         if (currentCount > 1) {
-            writeLines.add(generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
+            writeLines.add(LoggingUtil.generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
         } else {
             writeLines.add(logLines.get(logLines.size() - 1));
         }
@@ -536,18 +546,6 @@ public final class Logger {
         }
     }
 
-    /**
-     * Generates a consolidation line for a line which is repeated back to back.
-     *
-     * @param line     the repeated line
-     * @param numLines the number of times the line is repeated
-     * @return the line
-     */
-    @ForReadability // todo util
-    private static String generateConsolidationLine(String line, int numLines) {
-        return line + space + openingBracket + numLines + "x" + closingBracket;
-    }
-
     /** Fixes any logs lacking/not ending in an "End Of Log" tag. */
     public static void concludeLogs() {
         try {
@@ -565,41 +563,12 @@ public final class Logger {
 
                 for (File log : logs) {
                     if (log.equals(getCurrentLogFile())) continue;
-                    BufferedReader reader = new BufferedReader(new FileReader(log));
-                    String line;
-                    boolean containsEOL = false;
 
-                    int exceptions = 0;
-
-                    while ((line = reader.readLine()) != null) {
-                        ImmutableList<String> tags = LoggingUtil.extractTags(line);
-                        if (tags.contains("[EOL]")) {
-                            containsEOL = true;
-                            break;
-                        } else if (tags.contains("[EXCEPTION]")) {
-                            exceptions++;
-                        }
-                    }
-
-                    reader.close();
-
-                    if (!containsEOL) {
-                            /*
-                             Usually an IDE stop but sometimes the program exits,
-                             with exit condition 1 due to something failing on startup
-                             which is why this says "crashed unexpectedly"
-                             */
-                        ImmutableList<String> tags = ImmutableList.of(
-                                EOL
-                        );
-
-                        String logBuilder = "Log completed, Cyder crashed unexpectedly: "
-                                + "exit code: " + ExitCondition.ExternalStop.getCode()
-                                + space + ExitCondition.ExternalStop.getDescription()
-                                + ", exceptions thrown: " + exceptions;
-
-                        Files.write(Paths.get(log.getAbsolutePath()),
-                                (logBuilder).getBytes(), StandardOpenOption.APPEND);
+                    if (LoggingUtil.countTags(log, EOL) < 1) {
+                        // todo for runtime parse difference between first and last tag
+                        // todo for objects created can extract using regex from objects created log tags
+                        concludeLog(log, ExitCondition.TrueExternalStop, 0,
+                                LoggingUtil.countExceptions(log), 0, LoggingUtil.countThreadsRan(log));
                     }
                 }
             }
@@ -661,6 +630,7 @@ public final class Logger {
                 .append(newline);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            // todo not working?
             writer.write(conclusionBuilder.toString());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -696,12 +666,11 @@ public final class Logger {
     private static void logObjectsCreated(int objectsCreated) {
         totalObjectsCreated += objectsCreated;
 
-        String line = LoggingUtil.constructTagsPrepend(LogTag.OBJECT_CREATION.getLogName())
-                + space + "Objects created since last delta"
+        String line = "Objects created since last delta"
                 + space + openingParenthesis + objectCreationLogFrequency
                 + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
                 + colon + space + objectsCreated;
 
-        // todo formatAndWriteLine(line, LogTag.OBJECT_CREATION);
+        log(LogTag.OBJECT_CREATION, line);
     }
 }

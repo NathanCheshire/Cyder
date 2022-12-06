@@ -382,4 +382,15 @@ public final class LoggingUtil {
 
         return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * Generates a consolidation line for a line which is repeated back to back.
+     *
+     * @param line     the repeated line
+     * @param numLines the number of times the line is repeated
+     * @return the line
+     */
+    static String generateConsolidationLine(String line, int numLines) {
+        return line + space + openingBracket + numLines + "x" + closingBracket;
+    }
 }
