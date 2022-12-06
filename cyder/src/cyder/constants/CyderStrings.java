@@ -1,5 +1,7 @@
 package cyder.constants;
 
+import com.google.common.collect.ImmutableList;
+
 /** Common strings used throughout Cyder. */
 public final class CyderStrings {
     /** A string to be displayed when an illegal/{@link Deprecated} constructor is invoked. */
@@ -83,8 +85,15 @@ public final class CyderStrings {
     /** A single quote string. */
     public static final String singleQuote = "'";
 
-    /** A null character. */
+    /**
+     * A null character.
+     */
     public static final String nullChar = "\0";
+
+    /**
+     * The strings counted as "null" and empty by various String util methods.
+     */
+    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
 
     /** Suppress default constructor. */
     private CyderStrings() {

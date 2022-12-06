@@ -9,6 +9,7 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
+import cyder.utils.ArrayUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
@@ -76,10 +77,11 @@ public final class ProcessUtil {
     @CanIgnoreReturnValue
     public static Future<ProcessResult> getProcessOutput(String[] command) {
         Preconditions.checkNotNull(command);
-        Preconditions.checkArgument(command.length == 0);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(command));
 
-        String threadName = "getProcessOutput thread, command: "
-                + CyderStrings.quote + StringUtil.joinParts(command, CyderStrings.space) + CyderStrings.quote;
+        String threadName = "getProcessOutput waiter thread, command"
+                + CyderStrings.colon + CyderStrings.space + CyderStrings.quote
+                + StringUtil.joinParts(ArrayUtil.toList(command), CyderStrings.space) + CyderStrings.quote;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             ArrayList<String> standardOutput = new ArrayList<>();
             ArrayList<String> errorOutput = new ArrayList<>();

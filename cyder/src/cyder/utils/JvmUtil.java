@@ -13,12 +13,11 @@ import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.threads.CyderThreadRunner;
-import cyder.time.TimeUtil;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
-import static cyder.constants.CyderStrings.quote;
+import static cyder.constants.CyderStrings.*;
 
 /** Utilities related to the JVM. */
 public final class JvmUtil {
@@ -36,6 +35,11 @@ public final class JvmUtil {
 
     /** The name of the java.exe executable. */
     private static final String JAVA = "java.exe";
+
+    /**
+     * The obfuscation message for when {@link Props#autocypher} is true.
+     */
+    private static final String OBFUSCATION_MESSAGE = "JVM main method args obfuscated due to AutoCypher";
 
     /**
      * The string to look for when analyzing the runtime mx bean for whether the current JVM
@@ -289,15 +293,21 @@ public final class JvmUtil {
 
                 NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
 
-                argBuilder.append("city = ").append(result.city())
-                        .append(", state = ").append(result.state())
-                        .append(", country = ").append(result.country())
-                        .append(", ip = ").append(result.ip())
-                        .append(", isp = ").append(result.isp())
-                        .append(", hostname = ").append(result.hostname());
+                argBuilder.append("city")
+                        .append(colon).append(space).append(result.city())
+                        .append(comma).append(space).append("state")
+                        .append(colon).append(space).append(result.state())
+                        .append(comma).append(space).append("country")
+                        .append(colon).append(space).append(result.country())
+                        .append(comma).append(space).append("ip")
+                        .append(colon).append(space).append(result.ip())
+                        .append(comma).append(space).append("isp")
+                        .append(colon).append(space).append(result.isp())
+                        .append(comma).append(space).append("hostname")
+                        .append(colon).append(space).append(result.hostname());
 
                 boolean autoCypher = Props.autocypher.getValue();
-                Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args obfuscated due to AutoCypher" : argBuilder);
+                Logger.log(LogTag.JVM_ARGS, autoCypher ? OBFUSCATION_MESSAGE : argBuilder);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -309,7 +319,7 @@ public final class JvmUtil {
      *
      * @return the run time of Cyder
      */
-    public static String getRuntime() {
-        return TimeUtil.formatMillis(ManagementFactory.getRuntimeMXBean().getUptime());
+    public static long getRuntime() {
+        return ManagementFactory.getRuntimeMXBean().getUptime();
     }
 }

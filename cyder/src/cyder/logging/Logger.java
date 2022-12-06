@@ -16,10 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.utils.ColorUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.ReflectionUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.io.*;
@@ -28,7 +25,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,13 +56,6 @@ public final class Logger {
 
     /** The rate in ms at which to log the amount of objects created. */
     private static final int objectCreationLogFrequency = 5000;
-
-    // todo why not use method for this?
-    /**
-     * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
-     * started after the header such as "[hh-mm-ss.SSSS] " above it.
-     */
-    private static final int continuationLineOffset = TimeUtil.getLogLineTime().length() + 3;
 
     /** Whether the current log should not be written to again. */
     private static boolean logConcluded;
@@ -104,6 +93,9 @@ public final class Logger {
     /** The text for when a log call was invoked after the log had concluded. */
     private static final String LOG_CONCLUDED = "Log Call After Log Concluded";
 
+    /** The number of new lines to write after ascii art is written to a log file. */
+    private static final int numNewLinesAfterCyderAsciiArt = 2;
+
     /**
      * Initializes the logger for logging by invoking the following actions:
      *
@@ -139,7 +131,7 @@ public final class Logger {
                 bufferedWriter.newLine();
             }
 
-            for (int i = 0 ; i < numNewLinesAfterAsciiArt ; i++) {
+            for (int i = 0 ; i < numNewLinesAfterCyderAsciiArt ; i++) {
                 bufferedWriter.newLine();
             }
 
@@ -184,31 +176,41 @@ public final class Logger {
     /**
      * Logs the provided statement to the log file, using the calling class name as the tag.
      *
-     * @param statement the statement to log
-     * @param <T>       the type of statement
+     * @param statement the statement to log preceding the tags
+     * @param <T>       the type of the statement
      */
     public static <T> void log(T statement) {
-        // todo use bottom level class name as tag
-        System.out.println(statement);
+        log(ReflectionUtil.getBottomLevelClass(StackWalker.getInstance().getCallerClass()), statement);
+    }
+
+    /**
+     * Logs the provided statement to the log file.
+     *
+     * @param tag       the primary log tag
+     * @param statement the statement to log preceding the tags
+     * @param <T>       the type of the statement
+     */
+    public static <T> void log(String tag, T statement) {
+        // todo
+        System.out.println(tag + ": " + statement);
     }
 
     /**
      * The main log method to log an action associated with a type tag.
      *
      * @param tag       the type of data we are logging
-     * @param statement the statement of the object
-     * @param <T>       the object instance of statement
+     * @param statement the statement to log preceding the tags
+     * @param <T>       the type of the statement
      */
     public static <T> void log(LogTag tag, T statement) {
+        Preconditions.checkNotNull(tag);
+        Preconditions.checkNotNull(statement);
+
         if (logConcluded) {
             println(LoggingUtil.constructTagsPrepend(LOG_CONCLUDED) + space + statement);
             return;
         } else if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             return;
-        }
-
-        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
-            logAwaitingLogCalls();
         }
 
         ArrayList<String> tags = new ArrayList<>();
@@ -217,20 +219,16 @@ public final class Logger {
         // Unique tags have a case statement, default ones do not
         switch (tag) {
             case CONSOLE_OUT:
-                // todo method for this
+                // todo method for this case to build tags and logBuilder
                 tags.add(LogTag.CONSOLE_OUT.getLogName());
                 switch (statement) {
                     case String string -> {
                         tags.add(ConsoleOutType.STRING.getLogTag());
-
                         logBuilder.append(string);
                     }
                     case ImageIcon icon -> {
-                        // todo test for this
-                        // [time] [image]: 15x40, dominant color=java.awt.Color(25,25,25)
                         tags.add(ConsoleOutType.IMAGE.getLogTag());
                         tags.add("Image");
-
                         logBuilder.append(colon)
                                 .append(space)
                                 .append(openingBracket)
@@ -245,21 +243,17 @@ public final class Logger {
                     }
                     case JComponent jComponent -> {
                         tags.add(ConsoleOutType.J_COMPONENT.getLogTag());
-
                         logBuilder.append(jComponent);
                     }
                     case default -> {
                         tags.add(LoggingUtil.constructTagsPrepend(StringUtil.capsFirstWords(
                                 ReflectionUtil.getBottomLevelClass(statement.getClass()))));
-
-                        logBuilder.append(space)
-                                .append(statement);
+                        logBuilder.append(statement);
                     }
                 }
                 break;
             case EXCEPTION:
                 tags.add(LogTag.EXCEPTION.getLogName());
-
                 logBuilder.append(statement);
 
                 exceptionsCounter.getAndIncrement();
@@ -269,7 +263,6 @@ public final class Logger {
 
                 if (statement instanceof File file) {
                     tags.add(FileUtil.getExtension(file));
-
                     logBuilder.append(file.getAbsolutePath());
                 } else {
                     logBuilder.append(statement);
@@ -284,7 +277,6 @@ public final class Logger {
                 break;
             case JVM_ENTRY:
                 tags.add(LogTag.JVM_ENTRY.getLogName());
-
                 logBuilder.append(statement);
 
                 logStarted.set(true);
@@ -293,9 +285,18 @@ public final class Logger {
             case PROGRAM_EXIT:
                 logConcluded = true;
 
-                // todo use method
+                if (statement instanceof ExitCondition exitCondition) {
+                    concludeLog(currentLog,
+                            exitCondition,
+                            JvmUtil.getRuntime(),
+                            exceptionsCounter.get(),
+                            totalObjectsCreated,
+                            CyderThreadRunner.getThreadsRan());
+                } else {
+                    throw new FatalException("Provided statement is not of type ExitCondition, statement: "
+                            + statement + ", class: " + ReflectionUtil.getBottomLevelClass(statement.getClass()));
+                }
 
-                formatAndWriteLine("todo method here", tag);
                 return;
             case PREFERENCE:
                 tags.add(LogTag.PREFERENCE.getLogName());
@@ -305,7 +306,6 @@ public final class Logger {
             case OBJECT_CREATION:
                 if (statement instanceof String) {
                     tags.add("Unique Object Created");
-
                     logBuilder.append(statement);
                 } else {
                     objectCreationCounter.incrementAndGet();
@@ -314,28 +314,13 @@ public final class Logger {
 
                 break;
             default:
-                logBuilder.append(LoggingUtil.constructTagsPrepend(tag.getLogName()));
+                tags.add(tag.getLogName());
+
                 logBuilder.append(statement);
                 break;
         }
 
-        // todo pass off to new method
-
-        String logLine = LoggingUtil.constructTagsPrepend(tags) + logBuilder.toString().trim();
-        if (logStarted.get()) {
-            formatAndWriteLine(logLine, tag);
-        } else {
-            awaitingLogCalls.add(logLine);
-        }
-    }
-
-    /** Logs the calls within awaitingLogCalls. */
-    private static void logAwaitingLogCalls() {
-        for (String awaitingLog : awaitingLogCalls) {
-            // todo format and write
-        }
-
-        awaitingLogCalls.clear();
+        write(tags, logBuilder.toString());
     }
 
     /**
@@ -347,11 +332,6 @@ public final class Logger {
         return currentLog;
     }
 
-    /** The number of new lines to write after ascii art is written to a log file. */
-    private static final int numNewLinesAfterAsciiArt = 2;
-
-    // todo this is the new line
-
     /**
      * Writes the provided line to the current log file.
      * The provided tags and translated into proper tags with the time tag preceding all tags.
@@ -361,88 +341,54 @@ public final class Logger {
      * @param tags the tags
      * @param line the line
      */
-    private static void write(List<String> tags, String line) {
+    private static void write(List<String> tags, String line) { // todo rename
         Preconditions.checkNotNull(tags);
         Preconditions.checkArgument(!tags.isEmpty());
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
 
         if (!logStarted.get()) {
-            awaitingLogCalls.add(logLine);
+            System.out.println("here: " + line);
+            // todo awaitingLogCalls.add(logLine);
+            return;
         }
-
-        // todo what if deleted mid runtime
-
-        // todo log awaiting calls
-
-        String prepend = LoggingUtil.constructTagsPrepend(tags);
-        LinkedList<String> lines = LoggingUtil.checkLogLineLength(prepend + line);
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
-            for (int i = 0 ; i < lines.size() ; i++) {
-                if (i != 0) {
-                    bw.write(StringUtil.generateSpaces(continuationLineOffset));
-                }
-
-                bw.write(lines.get(i));
-                bw.newLine();
-            }
-        } catch (Exception e) {
-            log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
-        }
-    }
-
-    /**
-     * Formats and writes the line to the current log file.
-     *
-     * @param line the line to write to the current log file
-     * @param tag  the tag which was used to handle the constructed string to write
-     */
-    private static void formatAndWriteLine(String line, LogTag tag) {
-        line = line.trim();
 
         if (!getCurrentLogFile().exists()) {
             generateAndSetLogFile();
             writeCyderAsciiArtToCurrentLogFile();
-            writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
+            // todo writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
         }
 
-        // todo this is messy
-        if (tag != LogTag.EXCEPTION) {
-            writeLineToCurrentLogFile(LoggingUtil.checkLogLineLength(line));
-        } else {
-            writeLineToCurrentLogFile(ImmutableList.copyOf(line.split(newline)));
+        // todo log awaiting calls
+        if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
+            for (String awaitingLog : awaitingLogCalls) {
+                // todo format and write
+            }
+
+            awaitingLogCalls.clear();
         }
 
-        println(line);
-    }
+        boolean isException = tags.contains(LogTag.EXCEPTION.getLogName());
+        String prepend = LoggingUtil.constructTagsPrepend(tags);
+        String rawWriteLine = prepend + line;
 
-    // todo this should only be called once
-
-    /**
-     * Writes the provided line to the current log file.
-     * If the log line exceeds that of {@link LoggingUtil#maxLogLineLength}, the line is split
-     * where necessary before being written to the log file.
-     * <p>
-     * Writes the lines to the current log file. The first one is not offset
-     * whilst all lines after the first are offset by 11 spaces.
-     * Writes the line to the current log file. The line should
-     *
-     * @param lines the lines to write to the current log file
-     */
-    private static void writeLineToCurrentLogFile(List<String> lines) { // todo accept singular string
-        Preconditions.checkArgument(currentLog.exists());
-        Preconditions.checkArgument(lines != null);
-        Preconditions.checkArgument(!lines.isEmpty());
+        ImmutableList<String> lines = isException
+                ? ImmutableList.of(rawWriteLine)
+                : LoggingUtil.checkLogLineLength(rawWriteLine);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.size() ; i++) {
-                if (i != 0) {
-                    bw.write(StringUtil.generateSpaces(continuationLineOffset));
+                // todo test
+                String prefixSpacing = "";
+                if (i != 0 && !tags.contains(LogTag.EXCEPTION.getLogName())) {
+                    prefixSpacing = StringUtil.generateSpaces(prepend.length() + space.length());
                 }
 
-                bw.write(lines.get(i));
+                String writeLine = prefixSpacing + lines.get(i);
+                bw.write(writeLine);
                 bw.newLine();
+
+                System.out.println(writeLine);
             }
         } catch (Exception e) {
             log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
@@ -643,8 +589,11 @@ public final class Logger {
                              with exit condition 1 due to something failing on startup
                              which is why this says "crashed unexpectedly"
                              */
-                        String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
-                                + "Log completed, Cyder crashed unexpectedly: "
+                        ImmutableList<String> tags = ImmutableList.of(
+                                EOL
+                        );
+
+                        String logBuilder = "Log completed, Cyder crashed unexpectedly: "
                                 + "exit code: " + ExitCondition.ExternalStop.getCode()
                                 + space + ExitCondition.ExternalStop.getDescription()
                                 + ", exceptions thrown: " + exceptions;
@@ -753,6 +702,6 @@ public final class Logger {
                 + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
                 + colon + space + objectsCreated;
 
-        formatAndWriteLine(line, LogTag.OBJECT_CREATION);
+        // todo formatAndWriteLine(line, LogTag.OBJECT_CREATION);
     }
 }

@@ -13,4 +13,4 @@ jobs:
 
       - name: Run javadoc formatter
         run: |
-          python ./actions/javadoc_formatter.py -sd . --correct false --fail true
+          python ./actions/javadoc_formatter.py -sd . --correct false --fail false

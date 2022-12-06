@@ -26,6 +26,7 @@ import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -844,12 +845,9 @@ public final class StringUtil {
         return ImmutableList.copyOf(taggedStrings);
     }
 
-    /** The list of strings which are counted as null for comparisons by {@link #isNullOrEmpty(String)}. */
-    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
-
     /**
      * Determines if the provided String is null meaning literally null,
-     * empty (length 0), or contained in {@link #NULL_STRINGS}.
+     * empty (length 0), or contained in {@link CyderStrings#NULL_STRINGS}.
      *
      * @param string the String to test for
      * @return whether the provided String was null
@@ -858,7 +856,7 @@ public final class StringUtil {
         if (string == null) return true;
 
         string = string.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
-        return string.isEmpty() || in(string, true, NULL_STRINGS);
+        return string.isEmpty() || in(string, true, CyderStrings.NULL_STRINGS);
     }
 
     /**
@@ -925,14 +923,9 @@ public final class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, String... strings) {
         Preconditions.checkNotNull(lookFor);
+        Preconditions.checkNotNull(strings);
 
-        for (String look : strings) {
-            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
-                return true;
-            }
-        }
-
-        return false;
+        return in(lookFor, ignoreCase, ArrayUtil.toList(strings));
     }
 
     /**
@@ -945,6 +938,7 @@ public final class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         Preconditions.checkNotNull(lookFor);
+        Preconditions.checkNotNull(strings);
 
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
@@ -1099,25 +1093,7 @@ public final class StringUtil {
                 .replace("\r", CyderStrings.space).trim();
     }
 
-    /**
-     * Returns a string of the individual strings trimmed and separated via a single space.
-     *
-     * @param strings the strings to build into a single string
-     * @return the combined string
-     */
-    public static String separateWords(String... strings) {
-        Preconditions.checkNotNull(strings);
-
-        StringBuilder ret = new StringBuilder();
-
-        for (String string : strings) {
-            Preconditions.checkNotNull(string);
-            ret.append(string.trim());
-            ret.append(CyderStrings.space);
-        }
-
-        return ret.toString().trim();
-    }
+    // todo util for levenshtein specifically, maybe even strings package at this point
 
     // -------------------
     // Levenshtein methods
@@ -1485,15 +1461,15 @@ public final class StringUtil {
      * @param between the string to insert between the parts
      * @return a string of the parts combined with the "between" string inserted between the parts
      */
-    public static String joinParts(String[] parts, String between) {
+    public static String joinParts(List<String> parts, String between) {
         Preconditions.checkNotNull(parts);
         Preconditions.checkNotNull(between);
 
         StringBuilder ret = new StringBuilder();
 
-        for (int i = 0 ; i < parts.length ; i++) {
-            ret.append(parts[i]);
-            if (i != parts.length - 1) ret.append(between);
+        for (int i = 0 ; i < parts.size() ; i++) {
+            ret.append(parts.get(i));
+            if (i != parts.size() - 1) ret.append(between);
         }
 
         return ret.toString();

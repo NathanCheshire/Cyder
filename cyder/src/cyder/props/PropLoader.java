@@ -135,8 +135,8 @@ public final class PropLoader {
 
                     propsList.add(addProp);
                     newPropsList.put(addProp.getKey(), addProp.getValue());
-                    Logger.log(LogTag.PROPS_ACTION, "[key: " + addProp.getKey()
-                            + (logNextProp ? ", value: " + addProp.getValue() : "") + CyderStrings.closingBracket);
+                    Logger.log(LogTag.PROPS_ACTION, "key: " + addProp.getKey()
+                            + (logNextProp ? ", value: " + addProp.getValue() : ""));
 
                     logNextProp = true;
                     previousLinesOfMultilineProp = new StringBuilder();

@@ -77,18 +77,6 @@ public final class LoggingUtil {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
-    // todo replace with using surrounds with brackets method
-
-    /**
-     * Returns the time tag placed at the beginning of all log statements.
-     * Example: "[22-12-39] "
-     *
-     * @return the time tag placed at the beginning of all log statements
-     */
-    static String getLogTimeTag() {
-        return openingBracket + TimeUtil.getLogLineTime() + closingBracket + space;
-    }
-
     /**
      * Returns whether the two log lines are equivalent.
      *
@@ -137,7 +125,7 @@ public final class LoggingUtil {
      * @param line the line to split if needed
      * @return the list of strings
      */
-    public static LinkedList<String> checkLogLineLength(String line) {
+    public static ImmutableList<String> checkLogLineLength(String line) {
         Preconditions.checkNotNull(line);
 
         LinkedList<String> lines = new LinkedList<>();
@@ -179,7 +167,7 @@ public final class LoggingUtil {
         // Add remaining line
         lines.add(line);
 
-        return lines;
+        return ImmutableList.copyOf(lines);
     }
 
     /**
