@@ -326,6 +326,17 @@ public final class LoggingUtil {
      * @return the number of times the tag occurs in the provided log file
      */
     static int countTags(File logFile, String tag) {
+        return extractLinesWithTag(logFile, tag).size();
+    }
+
+    /**
+     * Extracts and returns a list of all lines in the provided log file which contains the provided tag.
+     *
+     * @param logFile the log file
+     * @param tag     the tag to find
+     * @return the lines containing the provided tag
+     */
+    static ImmutableList<String> extractLinesWithTag(File logFile, String tag) {
         Preconditions.checkNotNull(logFile);
         Preconditions.checkArgument(logFile.isFile());
         Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
@@ -343,17 +354,18 @@ public final class LoggingUtil {
             ExceptionHandler.handle(e);
         }
 
-        int ret = 0;
+        ArrayList<String> ret = new ArrayList<>();
 
         for (String line : fileLines) {
             for (String tags : extractTags(line)) {
                 if (tags.contains(tag)) {
-                    ret++;
+                    ret.add(line);
+                    break;
                 }
             }
         }
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**

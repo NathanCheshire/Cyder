@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 import static cyder.constants.CyderStrings.*;
 import static java.lang.System.out;
@@ -176,8 +177,7 @@ public final class Logger {
      * @param <T>       the type of the statement
      */
     public static <T> void log(String tag, T statement) {
-        // todo
-        System.out.println(tag + ": " + statement);
+        constructLogLinesAndLog(ImmutableList.of(tag), statement.toString());
     }
 
     /**
@@ -191,9 +191,7 @@ public final class Logger {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(statement);
 
-        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
-            return;
-        }
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) return;
 
         ArrayList<String> tags = new ArrayList<>();
         StringBuilder logBuilder = new StringBuilder();
@@ -201,7 +199,6 @@ public final class Logger {
         // Unique tags have a case statement, default ones do not
         switch (tag) {
             case CONSOLE_OUT:
-                // todo method for this case to build tags and logBuilder
                 tags.add(LogTag.CONSOLE_OUT.getLogName());
                 switch (statement) {
                     case String string -> {
@@ -565,8 +562,12 @@ public final class Logger {
                     if (log.equals(getCurrentLogFile())) continue;
 
                     if (LoggingUtil.countTags(log, EOL) < 1) {
+                        ImmutableList<String> objectCreationTags = LoggingUtil.extractTags(
+                                LogTag.OBJECT_CREATION.getLogName());
+
                         // todo for runtime parse difference between first and last tag
                         // todo for objects created can extract using regex from objects created log tags
+
                         concludeLog(log, ExitCondition.TrueExternalStop, 0,
                                 LoggingUtil.countExceptions(log), 0, LoggingUtil.countThreadsRan(log));
                     }
@@ -576,6 +577,8 @@ public final class Logger {
             ExceptionHandler.handle(e);
         }
     }
+
+    // todo sometimes continuation is missing a char
 
     private static final String EOL = "Eol";
     private static final String EXIT_CONDITION = "Exit Condition";
@@ -666,6 +669,8 @@ public final class Logger {
     private static void logObjectsCreated(int objectsCreated) {
         totalObjectsCreated += objectsCreated;
 
+        Pattern objectsCreatedSinceLastDeltaPattern = Pattern.compile("\\[(.*)].*\\((.*)ms\\):\\s*(.*)");
+        // time is 1, delta is 2, num objects is 3
         String line = "Objects created since last delta"
                 + space + openingParenthesis + objectCreationLogFrequency
                 + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
