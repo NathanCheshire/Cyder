@@ -18,7 +18,7 @@
   "clockOnConsole": "1",
   "showSeconds": "1",
   "filterChat": "0",
-  "lastStart": "1670298806072",
+  "lastStart": "1670378637861",
   "minimizeOnClose": "0",
   "typingAnimation": "1",
   "showBusyIcon": "0",
@@ -39,10 +39,10 @@
   "paintClockLabels": "0",
   "showSecondHand": "1",
   "screenStat": {
-    "consoleX": 1446,
-    "consoleY": 189,
-    "consoleWidth": 800,
-    "consoleHeight": 800,
+    "consoleX": 1370,
+    "consoleY": 304,
+    "consoleWidth": 1000,
+    "consoleHeight": 662,
     "monitor": 0,
     "consoleOnTop": false,
     "consoleDirection": "TOP"

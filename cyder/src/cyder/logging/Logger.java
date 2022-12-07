@@ -21,10 +21,11 @@ import cyder.utils.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static cyder.constants.CyderStrings.*;
@@ -372,7 +373,7 @@ public final class Logger {
                     bw.write(awaitingLogLine);
                     bw.newLine();
 
-                    System.out.println(awaitingLogLine);
+                    println(awaitingLogLine);
                 }
 
                 awaitingLogCalls.clear();
@@ -390,10 +391,10 @@ public final class Logger {
                     bw.write(writeLine);
                     bw.newLine();
                 } else {
-                    System.out.println("Log call after log completed: " + writeLine);
+                    println("Log call after log completed: " + writeLine);
                 }
 
-                System.out.println(writeLine);
+                println(writeLine);
             }
         } catch (Exception e) {
             log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
@@ -415,25 +416,28 @@ public final class Logger {
         File[] subLogDirs = topLevelLogsDir.listFiles();
         if (subLogDirs == null || subLogDirs.length == 0) return;
 
-        Arrays.stream(subLogDirs)
-                .filter(subLogDir -> !subLogDir.getAbsolutePath()
-                        .equals(getCurrentLogFile().getParentFile().getAbsolutePath()))
-                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equals(Extension.ZIP.getExtension()))
-                .forEach(subLogDir -> {
-                    Logger.log(LogTag.DEBUG, "Zipping past sub log dir: " + subLogDir.getAbsolutePath());
-                    String destinationZipPath = subLogDir.getAbsolutePath() + Extension.ZIP.getExtension();
-                    File destinationZip = new File(destinationZipPath);
+        for (File subLogDir : subLogDirs) {
+            // Skip current log parent directory
+            if (subLogDir.getAbsolutePath().equals(getCurrentLogFile().getParentFile().getAbsolutePath())) continue;
+            if (FileUtil.getExtension(subLogDir).equals(Extension.ZIP.getExtension())) continue;
 
-                    // A zip already exists somehow
-                    if (destinationZip.exists()) {
-                        OsUtil.deleteFile(subLogDir);
-                    }
+            String destinationZipPath = subLogDir.getAbsolutePath() + Extension.ZIP.getExtension();
+            File destinationZip = new File(destinationZipPath);
 
-                    FileUtil.zip(subLogDir.getAbsolutePath(), destinationZipPath);
-                });
+            // A zip already exists somehow
+            if (!destinationZip.exists()) {
+                Logger.log(LogTag.DEBUG, "Zipping past sub log dir: " + subLogDir.getAbsolutePath());
+
+                FileUtil.zip(subLogDir.getAbsolutePath(), destinationZipPath);
+            }
+
+            OsUtil.deleteFile(subLogDir);
+        }
     }
 
-    /** Consolidates the lines of all non-zipped files within the logs/SubLogDir directory. */
+    /**
+     * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
+     */
     public static void consolidateLogLines() {
         File logsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
@@ -443,18 +447,18 @@ public final class Logger {
 
         if (subLogDirs == null || subLogDirs.length == 0) return;
 
-        Arrays.stream(subLogDirs)
-                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension()))
-                .forEach(subLogDir -> {
-                    File[] logFiles = subLogDir.listFiles();
+        for (File subLogDir : subLogDirs) {
+            if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) continue;
 
-                    if (logFiles != null && logFiles.length > 0) {
-                        Arrays.stream(logFiles).forEach(logFile -> {
-                            consolidateLines(logFile);
-                            log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
-                        });
-                    }
-                });
+            File[] logFiles = subLogDir.listFiles();
+
+            if (logFiles == null || logFiles.length == 0) continue;
+
+            for (File logFile : logFiles) {
+                consolidateLines(logFile);
+                log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
+            }
+        }
     }
 
     /**
@@ -562,14 +566,53 @@ public final class Logger {
                     if (log.equals(getCurrentLogFile())) continue;
 
                     if (LoggingUtil.countTags(log, EOL) < 1) {
-                        ImmutableList<String> objectCreationTags = LoggingUtil.extractTags(
-                                LogTag.OBJECT_CREATION.getLogName());
+                        ImmutableList<String> objectCreationLines = LoggingUtil.extractLinesWithTag(
+                                log, LogTag.OBJECT_CREATION.getLogName());
 
-                        // todo for runtime parse difference between first and last tag
-                        // todo for objects created can extract using regex from objects created log tags
+                        // Time is 1, delta is 2, num objects is 3
+                        // todo needs testing
+                        Pattern objectsCreatedSinceLastDeltaPattern =
+                                Pattern.compile("\\[(.*)].*\\((.*)ms\\):\\s*(.*)");
+                        long objectsCreated = 0;
 
-                        concludeLog(log, ExitCondition.TrueExternalStop, 0,
-                                LoggingUtil.countExceptions(log), 0, LoggingUtil.countThreadsRan(log));
+                        for (String objectCreationLine : objectCreationLines) {
+                            Matcher matcher = objectsCreatedSinceLastDeltaPattern.matcher(objectCreationLine);
+                            if (matcher.matches()) {
+                                String objectsGroup = matcher.group(3);
+
+                                int objects = 0;
+                                try {
+                                    objects = Integer.parseInt(objectsGroup);
+                                } catch (Exception e) {
+                                    ExceptionHandler.handle(e);
+                                }
+
+                                objectsCreated += objects;
+                            }
+                        }
+
+                        String firstTimeString = "";
+                        String lastTimeString = "";
+
+                        for (String line : FileUtil.getFileLines(log)) {
+                            Matcher matcher = CyderRegexPatterns.standardLogLinePattern.matcher(line);
+                            if (matcher.matches()) {
+                                if (StringUtil.isNullOrEmpty(firstTimeString)) {
+                                    firstTimeString = matcher.group(1);
+                                }
+
+                                lastTimeString = matcher.group(1);
+                            }
+                            // todo first and last match for log line pattern
+                        }
+
+                        Date firstTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(firstTimeString);
+                        Date lastTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(lastTimeString);
+
+                        long millis = lastTimeDate.getTime() - firstTimeDate.getTime();
+
+                        concludeLog(log, ExitCondition.TrueExternalStop, millis,
+                                LoggingUtil.countExceptions(log), objectsCreated, LoggingUtil.countThreadsRan(log));
                     }
                 }
             }
@@ -589,11 +632,11 @@ public final class Logger {
 
     private static void concludeLog(File file, ExitCondition condition,
                                     long runtime,
-                                    int exceptions, int objectsCreated, int threadsRan) {
+                                    int exceptions, long objectsCreated, int threadsRan) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
-        Preconditions.checkArgument(FileUtil.validateExtension(file), Extension.LOG.getExtension());
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.LOG.getExtension()));
         Preconditions.checkNotNull(condition);
         Preconditions.checkArgument(runtime >= 0);
         Preconditions.checkArgument(exceptions >= 0);
@@ -601,6 +644,7 @@ public final class Logger {
         Preconditions.checkArgument(threadsRan >= 0);
 
         StringBuilder conclusionBuilder = new StringBuilder();
+        // todo all tags here need time tag in front
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL))
                 .append(newline);
@@ -629,12 +673,13 @@ public final class Logger {
 
         conclusionBuilder.append(LoggingUtil.surroundWithBrackets(THREADS_RAN))
                 .append(space)
-                .append(threadsRan)
-                .append(newline);
+                .append(threadsRan);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            // todo not working?
-            writer.write(conclusionBuilder.toString());
+            String write = conclusionBuilder.toString();
+            println(write);
+            writer.write(write);
+            writer.newLine();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -669,8 +714,6 @@ public final class Logger {
     private static void logObjectsCreated(int objectsCreated) {
         totalObjectsCreated += objectsCreated;
 
-        Pattern objectsCreatedSinceLastDeltaPattern = Pattern.compile("\\[(.*)].*\\((.*)ms\\):\\s*(.*)");
-        // time is 1, delta is 2, num objects is 3
         String line = "Objects created since last delta"
                 + space + openingParenthesis + objectCreationLogFrequency
                 + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis

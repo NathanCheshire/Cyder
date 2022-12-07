@@ -516,7 +516,7 @@ public final class OsUtil {
         checkNotNull(fileOrFolder);
 
         if (log) {
-            Logger.log(LogTag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder);
+            Logger.log(LogTag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder.getAbsolutePath());
         }
 
         // directory means recursive case to delete contents

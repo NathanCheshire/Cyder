@@ -240,6 +240,7 @@ public final class FileUtil {
      * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
      * @return whether the provided file ends in one of the expected extension
      */
+    // todo bug here make this a required param and not just var args, String extensionOne, String... others
     public static boolean validateExtension(File file, String... expectedExtensions) {
         checkNotNull(file);
         checkNotNull(expectedExtensions);
@@ -702,5 +703,30 @@ public final class FileUtil {
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
+    }
+
+    /**
+     * Returns a list of lines from the provided file.
+     *
+     * @param file a file
+     * @return a list of lines from the provided file
+     */
+    public static ImmutableList<String> getFileLines(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+
+        ArrayList<String> ret = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                ret.add(line);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }
