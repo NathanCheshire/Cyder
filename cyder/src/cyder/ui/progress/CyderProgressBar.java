@@ -7,7 +7,9 @@ import cyder.utils.UiUtil;
 
 import javax.swing.*;
 
-/** A progress bar styled and configured for Cyder. */
+/**
+ * A progress bar styled and configured for Cyder.
+ */
 public class CyderProgressBar extends JProgressBar {
     /**
      * Constructs a new CyderProgressBar.
@@ -48,7 +50,9 @@ public class CyderProgressBar extends JProgressBar {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);

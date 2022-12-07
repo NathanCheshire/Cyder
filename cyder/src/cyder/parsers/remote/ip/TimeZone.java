@@ -1,6 +1,8 @@
 package cyder.parsers.remote.ip;
 
-/** An object for parsing returned ip data timezone objects. */
+/**
+ * An object for parsing returned ip data timezone objects.
+ */
 public class TimeZone {
     private String name;
     private String abbr;

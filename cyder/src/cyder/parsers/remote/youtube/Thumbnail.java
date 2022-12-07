@@ -1,6 +1,8 @@
 package cyder.parsers.remote.youtube;
 
-/** A YouTube video's thumbnail. */
+/**
+ * A YouTube video's thumbnail.
+ */
 public class Thumbnail {
     private String url;
     private int width;

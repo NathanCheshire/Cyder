@@ -28,51 +28,83 @@ import java.io.StringWriter;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** A class to handle and log exceptions thrown throughout Cyder. */
+/**
+ * A class to handle and log exceptions thrown throughout Cyder.
+ */
 public final class ExceptionHandler {
-    /** The red color used for exception panes. */
+    /**
+     * The red color used for exception panes.
+     */
     private static final Color exceptionRed = new Color(254, 157, 158);
 
-    /** The opacity delta to increment/decrement by. */
+    /**
+     * The opacity delta to increment/decrement by.
+     */
     private static final float opacityShiftDelta = 0.05f;
 
-    /** The number of lines to display on an exception preview. */
+    /**
+     * The number of lines to display on an exception preview.
+     */
     private static final int shownExceptionLines = 10;
 
-    /** The insets offset for the exception label on the frame. */
+    /**
+     * The insets offset for the exception label on the frame.
+     */
     private static final int offset = 10;
 
-    /** The timeout between opacity increments/decrements. */
+    /**
+     * The timeout between opacity increments/decrements.
+     */
     private static final int opacityTimeout = 20;
 
-    /** The prefix for the thread name for exception popup animators. */
+    /**
+     * The prefix for the thread name for exception popup animators.
+     */
     private static final String exceptionPopupThreadAnimatorNamePrefix = "Exception Popup Opacity Animator: ";
 
-    /** The at keyword to split a stack trace at to find the first line number. */
+    /**
+     * The at keyword to split a stack trace at to find the first line number.
+     */
     private static final String AT = "at";
 
-    /** The minimum opacity for exception popup animations. */
+    /**
+     * The minimum opacity for exception popup animations.
+     */
     private static final float minimumOpacity = 0.0f;
 
-    /** The maximum opacity for exception popup animations. */
+    /**
+     * The maximum opacity for exception popup animations.
+     */
     private static final float maximumOpacity = 1.0f;
 
-    /** The time the exception popup should be visible between fade-in and fade-out animations. */
+    /**
+     * The time the exception popup should be visible between fade-in and fade-out animations.
+     */
     private static final int exceptionPopupVisibilityTime = 3000;
 
-    /** The exception string. */
+    /**
+     * The exception string.
+     */
     private static final String EXCEPTION = "Exception";
 
-    /** The name of the thread to animate out exception popups. */
+    /**
+     * The name of the thread to animate out exception popups.
+     */
     private static final String exceptionPopupDisposeAnimatorThreadName = "Exception popup dispose animator";
 
-    /** The font to use for exception popups. */
+    /**
+     * The font to use for exception popups.
+     */
     private static final Font exceptionPopupFont = CyderFonts.DEFAULT_FONT_SMALL;
 
-    /** The fatal exception default text. */
+    /**
+     * The fatal exception default text.
+     */
     private static final String FATAL_EXCEPTION = "Fatal exception";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private ExceptionHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

@@ -5,17 +5,25 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 
-/** An arrow button pointing right. */
+/**
+ * An arrow button pointing right.
+ */
 public class RightButton extends CyderDragLabelButton {
-    /** The size this right button will be painted with. */
+    /**
+     * The size this right button will be painted with.
+     */
     private DragLabelButtonSize size;
 
-    /** Constructs a new right button. */
+    /**
+     * Constructs a new right button.
+     */
     public RightButton() {
         this(DEFAULT_SIZE);
     }
 
-    /** The text for the right button. */
+    /**
+     * The text for the right button.
+     */
     private static final String RIGHT = "Right";
 
     /**
@@ -42,13 +50,19 @@ public class RightButton extends CyderDragLabelButton {
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
-    /** The padding between the edges of the painted right button. */
+    /**
+     * The padding between the edges of the painted right button.
+     */
     private static final int PAINT_PADDING = 4;
 
-    /** The size of the rectangles to draw in the paint method. */
+    /**
+     * The size of the rectangles to draw in the paint method.
+     */
     private static final int drawnRectangleLength = 2;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintDragLabelButton(Graphics g) {
         Preconditions.checkNotNull(g);
@@ -65,14 +79,18 @@ public class RightButton extends CyderDragLabelButton {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpecificStringRepresentation() {
         return RIGHT;

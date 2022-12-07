@@ -18,21 +18,31 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-/** A subroutine for completing startup subroutines which are not necessary for Cyder to run properly. */
+/**
+ * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
+ */
 public final class SufficientSubroutines {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private SufficientSubroutines() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     private static class SufficientSubroutine {
-        /** The routine to invoke. */
+        /**
+         * The routine to invoke.
+         */
         private final Runnable routine;
 
-        /** The name of the thread to invoke the routine inside of if this is a parallel subroutine. */
+        /**
+         * The name of the thread to invoke the routine inside of if this is a parallel subroutine.
+         */
         private final String threadName;
 
-        /** Suppress default constructor. */
+        /**
+         * Suppress default constructor.
+         */
         private SufficientSubroutine() {
             throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
         }
@@ -50,7 +60,9 @@ public final class SufficientSubroutines {
             Preconditions.checkArgument(!threadName.isEmpty());
         }
 
-        /** Returns the routine for this sufficient subroutine to execute. */
+        /**
+         * Returns the routine for this sufficient subroutine to execute.
+         */
         public Runnable getRoutine() {
             return routine;
         }
@@ -64,7 +76,9 @@ public final class SufficientSubroutines {
         }
     }
 
-    /** The name of the sufficient subroutine to log the JVM args. */
+    /**
+     * The name of the sufficient subroutine to log the JVM args.
+     */
     private static final String JVM_LOGGER = "JVM Logger";
 
     /**
@@ -73,15 +87,21 @@ public final class SufficientSubroutines {
      */
     private static final String PYTHON_PACKAGES_INSTALLED_ENSURER = "Python Packages Installed Ensurer";
 
-    /** The name of the sufficient subroutine to check for Python 3 being installed. */
+    /**
+     * The name of the sufficient subroutine to check for Python 3 being installed.
+     */
     private static final String PYTHON_3_INSTALLED_ENSURER = "Python 3 Installed Ensurer";
 
-    /** The minimum acceptable Python major version. */
+    /**
+     * The minimum acceptable Python major version.
+     */
     private static final int MIN_PYTHON_MAJOR_VERSION = 3;
 
     // todo this stuff is actually pretty messy, clean up in future
 
-    /** The subroutines to execute. */
+    /**
+     * The subroutines to execute.
+     */
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
@@ -126,10 +146,14 @@ public final class SufficientSubroutines {
             }, PYTHON_3_INSTALLED_ENSURER)
     );
 
-    /** The name for the thread which executes the sequential subroutines. */
+    /**
+     * The name for the thread which executes the sequential subroutines.
+     */
     private static final String SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME = "Sufficient Subroutine Executor";
 
-    /** Executes the parallel and sequential sufficient subroutines in a separate thread. */
+    /**
+     * Executes the parallel and sequential sufficient subroutines in a separate thread.
+     */
     public static void execute() {
         CyderThreadRunner.submit(() -> parallelSufficientSubroutines.forEach(sufficientSubroutine ->
                         CyderThreadRunner.submit(sufficientSubroutine.getRoutine(), sufficientSubroutine.getThreadName())),

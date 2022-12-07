@@ -13,27 +13,43 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Function;
 
-/** A combo box which cycles through the possible values. */
+/**
+ * A combo box which cycles through the possible values.
+ */
 public class CyderComboBox extends JLabel {
-    /** The field in which the current value is displayed in. */
+    /**
+     * The field in which the current value is displayed in.
+     */
     private final CyderTextField valueDisplayField;
 
-    /** The switch button which iterates over the switch states. */
+    /**
+     * The switch button which iterates over the switch states.
+     */
     private final CyderButton iterationButton;
 
-    /** The current switch state. */
+    /**
+     * The current switch state.
+     */
     private ComboItem currentState;
 
-    /** The list of valid states for this switcher. */
+    /**
+     * The list of valid states for this switcher.
+     */
     private final Collection<ComboItem> states;
 
-    /** The width of the whole switcher. */
+    /**
+     * The width of the whole switcher.
+     */
     private final int width;
 
-    /** The height of the whole switcher. */
+    /**
+     * The height of the whole switcher.
+     */
     private final int height;
 
-    /** The border offset for constructing the field toggle button. */
+    /**
+     * The border offset for constructing the field toggle button.
+     */
     private static final int borderOffset = 5;
 
     /**
@@ -174,6 +190,7 @@ public class CyderComboBox extends JLabel {
     }
 
     // todo runnable?
+
     /**
      * Invokes the provided function before the state changes.
      *
@@ -185,13 +202,17 @@ public class CyderComboBox extends JLabel {
         iterationButton.addActionListener((OptionalParam) -> function.apply(null));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setEnabled(boolean enabled) {
         valueDisplayField.setEnabled(enabled);
         iterationButton.setEnabled(enabled);
     }
 
-    /** An enum used to map a preview value to the actual value to switch on. */
+    /**
+     * An enum used to map a preview value to the actual value to switch on.
+     */
     public record ComboItem(String displayValue, String mappedValue) {
         /**
          * Constructs a new switch state

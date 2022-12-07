@@ -19,19 +19,29 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * techniques.
  */
 public class DirectoryWatcher {
-    /** The directory this watcher watches. */
+    /**
+     * The directory this watcher watches.
+     */
     private final File watchDirectory;
 
-    /** The default poll timeout. */
+    /**
+     * The default poll timeout.
+     */
     private static final int DEFAULT_POLL_TIMEOUT = 100;
 
-    /** The timeout between checking the watch directory. */
+    /**
+     * The timeout between checking the watch directory.
+     */
     private int pollTimeout;
 
-    /** The map of file paths to byte sizes last cached by this directory watcher. */
+    /**
+     * The map of file paths to byte sizes last cached by this directory watcher.
+     */
     private ImmutableMap<String, Long> oldDirectoryContents = ImmutableMap.of();
 
-    /** The subscribers of {@link WatchDirectoryEvent}s this watcher produces. */
+    /**
+     * The subscribers of {@link WatchDirectoryEvent}s this watcher produces.
+     */
     private final ArrayList<WatchDirectorySubscriber> subscribers = new ArrayList<>();
 
     /**
@@ -86,10 +96,14 @@ public class DirectoryWatcher {
         this.pollTimeout = pollTimeout;
     }
 
-    /** Whether this directory watcher is/should be active. */
+    /**
+     * Whether this directory watcher is/should be active.
+     */
     private final AtomicBoolean isWatching = new AtomicBoolean();
 
-    /** Stops watching the watch directory if this watcher is active. */
+    /**
+     * Stops watching the watch directory if this watcher is active.
+     */
     public void stopWatching() {
         isWatching.set(false);
     }
@@ -170,7 +184,9 @@ public class DirectoryWatcher {
         }, threadName);
     }
 
-    /** Performs cleaning calls after the directory watching loop exits. */
+    /**
+     * Performs cleaning calls after the directory watching loop exits.
+     */
     private void cleanUpFromWatching() {
         stopWatching();
     }

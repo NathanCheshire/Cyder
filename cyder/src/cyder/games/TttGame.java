@@ -27,35 +27,53 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Optional;
 
-/** A tic tac toe game widget. */
+/**
+ * A tic tac toe game widget.
+ */
 @CyderAuthor
 @Vanilla
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class TttGame {
-    /** The CyderFrame instance to use to ensure no other games exist with one Cyder instance. */
+    /**
+     * The CyderFrame instance to use to ensure no other games exist with one Cyder instance.
+     */
     private static CyderFrame tttFrame;
 
-    /** The buttons for the board. */
+    /**
+     * The buttons for the board.
+     */
     private static CyderButton[][] boardButtons;
 
-    /** The foreground color used for the buttons. */
+    /**
+     * The foreground color used for the buttons.
+     */
     public static final Color blueForeground = new Color(71, 81, 117);
 
-    /** Player enums. */
+    /**
+     * Player enums.
+     */
     private enum Player {
         X, O
     }
 
-    /** The current player. */
+    /**
+     * The current player.
+     */
     private static Player currentPlayer;
 
-    /** The information label. */
+    /**
+     * The information label.
+     */
     private static JLabel infoLabel;
 
-    /** The range of allowable values for tic tac toe. */
+    /**
+     * The range of allowable values for tic tac toe.
+     */
     private static final Range<Integer> GRID_SIZE_RANGE = Range.closed(3, 11);
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private TttGame() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -164,12 +182,16 @@ public final class TttGame {
         updateTurnLabel();
     }
 
-    /** Updates the player turn label. */
+    /**
+     * Updates the player turn label.
+     */
     private static void updateTurnLabel() {
         infoLabel.setText("Player Turn: " + (currentPlayer == Player.X ? "X" : "O"));
     }
 
-    /** Resets the ttt board */
+    /**
+     * Resets the ttt board
+     */
     private static void resetBoard() {
         currentPlayer = Player.X;
         updateTurnLabel();
@@ -181,7 +203,9 @@ public final class TttGame {
         }
     }
 
-    /** Checks for a game win. */
+    /**
+     * Checks for a game win.
+     */
     private static void checkForWin() {
         if (checkPlayerWin("X")) {
             tttFrame.notify("X's have won the game! Congratulations!");

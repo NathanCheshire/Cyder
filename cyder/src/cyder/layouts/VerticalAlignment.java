@@ -5,11 +5,17 @@ package cyder.layouts;
  * on a specific axis and what to do with excess space.
  */
 public enum VerticalAlignment {
-    /** Components are aligned on the top with minimum spacing in between. */
+    /**
+     * Components are aligned on the top with minimum spacing in between.
+     */
     TOP,
-    /** Components are centered and excess space is placed in between components. */
+    /**
+     * Components are centered and excess space is placed in between components.
+     */
     CENTER,
-    /** Components are aligned on the bottom with minimum spacing in between. */
+    /**
+     * Components are aligned on the bottom with minimum spacing in between.
+     */
     BOTTOM,
     /**
      * Components are centered absolutely with the excess space placed evenly

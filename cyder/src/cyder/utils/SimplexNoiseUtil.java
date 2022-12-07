@@ -12,19 +12,29 @@ import cyder.logging.Logger;
  * @see <a href="https://gist.github.com/KdotJPG/b1270127455a94ac5d19">Source gist</a>
  */
 public final class SimplexNoiseUtil {
-    /** (1 / Math.sqrt(2 + 1) - 1) / 2; */
+    /**
+     * (1 / Math.sqrt(2 + 1) - 1) / 2;
+     */
     private static final double STRETCH_CONSTANT_2D = -0.211324865405187;
 
-    /** (Math.sqrt(2 + 1) - 1) / 2; */
+    /**
+     * (Math.sqrt(2 + 1) - 1) / 2;
+     */
     private static final double SQUISH_CONSTANT_2D = 0.366025403784439;
 
-    /** (1 / Math.sqrt(3 + 1) - 1) / 3; */
+    /**
+     * (1 / Math.sqrt(3 + 1) - 1) / 3;
+     */
     private static final double STRETCH_CONSTANT_3D = -1.0 / 6;
 
-    /** (Math.sqrt(3 + 1) - 1) / 3; */
+    /**
+     * (Math.sqrt(3 + 1) - 1) / 3;
+     */
     private static final double SQUISH_CONSTANT_3D = 1.0 / 3;
 
-    /** (Math.sqrt(4 + 1) - 1) / 4; */
+    /**
+     * (Math.sqrt(4 + 1) - 1) / 4;
+     */
     private static final double SQUISH_CONSTANT_4D = 0.309016994374947;
 
     private static final long DEFAULT_SEED = 25;
@@ -2380,7 +2390,9 @@ public final class SimplexNoiseUtil {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return StringUtil.commonCyderToString(this);

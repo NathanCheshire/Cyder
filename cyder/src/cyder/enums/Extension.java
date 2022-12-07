@@ -1,6 +1,8 @@
 package cyder.enums;
 
-/** Common extensions used and checked for throughout Cyder. */
+/**
+ * Common extensions used and checked for throughout Cyder.
+ */
 public enum Extension {
     EXE(".exe"),
     MP3(".mp3"),
@@ -19,7 +21,9 @@ public enum Extension {
     LOG(".log"),
     INI(".ini");
 
-    /** The extension text with the leading period. */
+    /**
+     * The extension text with the leading period.
+     */
     private final String extension;
 
     Extension(String extension) {

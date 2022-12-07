@@ -12,7 +12,9 @@ import java.util.Collection;
  * methods resulting from extending {@link JLabel}.
  */
 public abstract class CyderLayout extends JLabel {
-    /** The unsupported string. */
+    /**
+     * The unsupported string.
+     */
     private static final String UNSUPPORTED = "Unsupported";
 
     /**
@@ -33,7 +35,9 @@ public abstract class CyderLayout extends JLabel {
      */
     public abstract void removeComponent(Component component);
 
-    /** Recalculates the bounds of all components currently managed by the layout. */
+    /**
+     * Recalculates the bounds of all components currently managed by the layout.
+     */
     public abstract void revalidateComponents();
 
     /**

@@ -1,6 +1,8 @@
 package cyder.parsers.remote.ip;
 
-/** An object for parsing returned ip data asn objects. */
+/**
+ * An object for parsing returned ip data asn objects.
+ */
 public class Asn {
     private String asn;
     private String name;

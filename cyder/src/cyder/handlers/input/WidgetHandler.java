@@ -14,9 +14,13 @@ import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 
-/** A handler for opening classes tagged as a widget via the @Widget annotation. */
+/**
+ * A handler for opening classes tagged as a widget via the @Widget annotation.
+ */
 public class WidgetHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private WidgetHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

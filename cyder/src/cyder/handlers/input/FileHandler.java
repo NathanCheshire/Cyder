@@ -14,9 +14,13 @@ import cyder.utils.SpotlightUtil;
 import java.io.File;
 import java.util.Arrays;
 
-/** A handler related to files and manipulation of them. */
+/**
+ * A handler related to files and manipulation of them.
+ */
 public class FileHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private FileHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

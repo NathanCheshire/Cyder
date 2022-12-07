@@ -33,7 +33,9 @@ import java.util.*;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/** Helper methods to sort out differences between operating systems Cyder might be running on. */
+/**
+ * Helper methods to sort out differences between operating systems Cyder might be running on.
+ */
 public final class OsUtil {
     // todo this stuff should be in FileUtil or maybe even FileName util?
 
@@ -91,13 +93,19 @@ public final class OsUtil {
             .addAll(otherInvalidWindowsNames)
             .build();
 
-    /** The prefix the class resource must start with for the program to be counted as starting from a JAR file. */
+    /**
+     * The prefix the class resource must start with for the program to be counted as starting from a JAR file.
+     */
     private static final String jarModeResourcePrefix = "jar:";
 
-    /** Whether Cyder is being run as a compiled JAR file. */
+    /**
+     * Whether Cyder is being run as a compiled JAR file.
+     */
     public static final boolean JAR_MODE;
 
-    /** The Cyder class resource. todo can this be dynamic? */
+    /**
+     * The Cyder class resource. todo can this be dynamic?
+     */
     private static final String CYDER_CLASS = "Cyder.class";
 
     static {
@@ -107,12 +115,16 @@ public final class OsUtil {
         ProgramModeManager.INSTANCE.refreshProgramMode();
     }
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private OsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The list of invalid characters for a file name on unix based systems. */
+    /**
+     * The list of invalid characters for a file name on unix based systems.
+     */
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
             CyderStrings.forwardSlash,
             "<",
@@ -173,7 +185,9 @@ public final class OsUtil {
         return true;
     }
 
-    /** The top-level operating system name (the operating system the JVM is currently being ran on). */
+    /**
+     * The top-level operating system name (the operating system the JVM is currently being ran on).
+     */
     public static final String OPERATING_SYSTEM_NAME = SystemPropertyKey.OS_NAME.getProperty();
 
     /**
@@ -194,24 +208,38 @@ public final class OsUtil {
         System.exit(exitCondition.getCode());
     }
 
-    /** The primary operating systems. */
+    /**
+     * The primary operating systems.
+     */
     public enum OperatingSystem {
-        /** Macintosh OS. */
+        /**
+         * Macintosh OS.
+         */
         OSX("mac"),
 
-        /** The Windows operating system. */
+        /**
+         * The Windows operating system.
+         */
         WINDOWS("win"),
 
-        /** Any Unix based operating system. */
+        /**
+         * Any Unix based operating system.
+         */
         UNIX(ImmutableList.of("nix", "nux", "aix")),
 
-        /** The SunOS specific Unix operating system. */
+        /**
+         * The SunOS specific Unix operating system.
+         */
         SOLARIS("sunos"),
 
-        /** An indeterminable operating system. */
+        /**
+         * An indeterminable operating system.
+         */
         UNKNOWN("");
 
-        /** The substrings to detect this operating system */
+        /**
+         * The substrings to detect this operating system
+         */
         private final ImmutableList<String> substrings;
 
         OperatingSystem(String substring) {
@@ -247,7 +275,9 @@ public final class OsUtil {
         }
     }
 
-    /** The standard operating system enum. */
+    /**
+     * The standard operating system enum.
+     */
     public static final OperatingSystem OPERATING_SYSTEM;
 
     static {
@@ -262,19 +292,29 @@ public final class OsUtil {
         }
     }
 
-    /** The file separator character used for this operating system. */
+    /**
+     * The file separator character used for this operating system.
+     */
     public static final String FILE_SEP = SystemPropertyKey.FILE_SEPARATOR.getProperty();
 
-    /** The maximum number of times something should be attempted to be deleted. */
+    /**
+     * The maximum number of times something should be attempted to be deleted.
+     */
     public static final int MAX_FILE_DELETION_ATTEMPTS = 500;
 
-    /** The maximum number of times something should be attempted to be created. */
+    /**
+     * The maximum number of times something should be attempted to be created.
+     */
     public static final int MAX_FILE_CREATION_ATTEMPTS = 500;
 
-    /** The default user directory. */
+    /**
+     * The default user directory.
+     */
     public static final String USER_DIR = SystemPropertyKey.USER_DIR.getProperty();
 
-    /** The root of the Windows file system. */
+    /**
+     * The root of the Windows file system.
+     */
     public static final String WINDOWS_ROOT = "c:/";
 
     /**
@@ -302,16 +342,24 @@ public final class OsUtil {
      */
     private static final int commandPrefixLength = 2;
 
-    /** The sh string for a Unix system shell command. */
+    /**
+     * The sh string for a Unix system shell command.
+     */
     private static final String SH = "sh";
 
-    /** The -c string for a Unix system shell command. */
+    /**
+     * The -c string for a Unix system shell command.
+     */
     private static final String DASH_C = "-c";
 
-    /** The cmd.exe string for a Windows system shell command. */
+    /**
+     * The cmd.exe string for a Windows system shell command.
+     */
     private static final String CMD_EXE = "cmd.exe";
 
-    /** The /C string for a Windows system shell command. */
+    /**
+     * The /C string for a Windows system shell command.
+     */
     private static final String SLASH_C = "/C";
 
     /**
@@ -360,10 +408,14 @@ public final class OsUtil {
         executeShellCommand(ImmutableList.of(command));
     }
 
-    /** The start keyword for launching the Windows command shell. */
+    /**
+     * The start keyword for launching the Windows command shell.
+     */
     private static final String START = "start";
 
-    /** Opens the command shell for the operating system. */
+    /**
+     * Opens the command shell for the operating system.
+     */
     public static void openShell() {
         try {
             switch (OPERATING_SYSTEM) {
@@ -546,7 +598,9 @@ public final class OsUtil {
         return false;
     }
 
-    /** The deletion failed tag. */
+    /**
+     * The deletion failed tag.
+     */
     private static final String DELETION_FAILED_TAG = "[DELETION FAILED]";
 
     /**
@@ -583,7 +637,9 @@ public final class OsUtil {
         return false;
     }
 
-    /** The return record from {@link #getNetworkDevices()}. */
+    /**
+     * The return record from {@link #getNetworkDevices()}.
+     */
     public record NetworkDevice(String displayName, String name) {}
 
     /**
@@ -619,7 +675,9 @@ public final class OsUtil {
         clipboard.setContents(selection, selection);
     }
 
-    /** Ensures the dynamic directory and all subdirectories are created. */
+    /**
+     * Ensures the dynamic directory and all subdirectories are created.
+     */
     public static void ensureDynamicsCreated() {
         File dynamic = Dynamic.buildDynamic();
 
@@ -694,25 +752,39 @@ public final class OsUtil {
         return false;
     }
 
-    /** The decimal formatter used to format file byte numbers. */
+    /**
+     * The decimal formatter used to format file byte numbers.
+     */
     private static final DecimalFormat BYTE_FORMATTER = new DecimalFormat("##.###");
 
-    /** The amount necessary to turn said many lower units into the next unit up. */
+    /**
+     * The amount necessary to turn said many lower units into the next unit up.
+     */
     public static final float coalesceSpace = 1024.0f;
 
-    /** The prefix for a terabyte. */
+    /**
+     * The prefix for a terabyte.
+     */
     public static final String TERABYTE_PREFIX = "TB";
 
-    /** The prefix for a gigabyte. */
+    /**
+     * The prefix for a gigabyte.
+     */
     public static final String GIGABYTE_PREFIX = "GB";
 
-    /** The prefix for a megabyte. */
+    /**
+     * The prefix for a megabyte.
+     */
     public static final String MEGABYTE_PREFIX = "MB";
 
-    /** The prefix for a kilobyte. */
+    /**
+     * The prefix for a kilobyte.
+     */
     public static final String KILOBYTE_PREFIX = "KB";
 
-    /** The bytes word. */
+    /**
+     * The bytes word.
+     */
     public static final String BYTES = "bytes";
 
     /**

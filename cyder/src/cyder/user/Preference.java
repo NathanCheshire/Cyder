@@ -75,7 +75,9 @@ public class Preference {
 
     private static final String IGNORE = "IGNORE";
 
-    /** The immutable collection of preference objects. */
+    /**
+     * The immutable collection of preference objects.
+     */
     private static final ImmutableList<Preference> preferences = ImmutableList.of(
             new Preference(NAME, IGNORE, IGNORE, IGNORE,
                     () -> Logger.log(LogTag.PREFERENCE, NAME))
@@ -342,7 +344,9 @@ public class Preference {
         throw new FatalException("Failed to invoke preference refresh, failed to find id: " + preferenceID);
     }
 
-    /** A hook to be ran after all preference on change function invocations. */
+    /**
+     * A hook to be ran after all preference on change function invocations.
+     */
     private static void onPreferenceRefresh() {
         UserEditor.revalidatePreferencesIfOpen();
     }
@@ -367,22 +371,34 @@ public class Preference {
         throw new IllegalArgumentException("Preference with id not found: " + preferenceID);
     }
 
-    /** The id of the preference. */
+    /**
+     * The id of the preference.
+     */
     private final String id;
 
-    /** The name to display for the preference when allowing the user to make changes. */
+    /**
+     * The name to display for the preference when allowing the user to make changes.
+     */
     private final String displayName;
 
-    /** The tooltip for the toggle/change button/field. */
+    /**
+     * The tooltip for the toggle/change button/field.
+     */
     private final String tooltip;
 
-    /** The default value for the preference. */
+    /**
+     * The default value for the preference.
+     */
     private final Object defaultValue;
 
-    /** The method to run when a change of the preference occurs. */
+    /**
+     * The method to run when a change of the preference occurs.
+     */
     private final Runnable onChangeFunction;
 
-    /** Whether this preference should be ignored when creating the user preference toggle switches. */
+    /**
+     * Whether this preference should be ignored when creating the user preference toggle switches.
+     */
     private boolean ignoreForToggleSwitches = false;
 
     /**
@@ -502,7 +518,9 @@ public class Preference {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Preference{"
@@ -516,7 +534,9 @@ public class Preference {
                 + "}";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -534,7 +554,9 @@ public class Preference {
                 && getOnChangeFunction().equals(other.getOnChangeFunction());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = id.hashCode();

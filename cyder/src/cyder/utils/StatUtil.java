@@ -33,9 +33,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/** Utilities for general statistics related to Cyder. */
+/**
+ * Utilities for general statistics related to Cyder.
+ */
 public final class StatUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private StatUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -55,7 +59,9 @@ public final class StatUtil {
         return ImmutableList.copyOf(ret);
     }
 
-    /** If I hit it one time ima pipe her. */
+    /**
+     * If I hit it one time ima pipe her.
+     */
     private static final String NO_LIMIT = "no limit";
 
     /**
@@ -88,10 +94,14 @@ public final class StatUtil {
         return ImmutableList.copyOf(ret);
     }
 
-    /** A record type to hold the stats returned by {@link StatUtil#getDebugProps()}. */
+    /**
+     * A record type to hold the stats returned by {@link StatUtil#getDebugProps()}.
+     */
     public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {}
 
-    /** The name of the executor service which gets the debug props. */
+    /**
+     * The name of the executor service which gets the debug props.
+     */
     private static final String DEBUG_PROPS_EXECUTOR_THREAD_NAME = "Debug Props Getter";
 
     /**
@@ -412,7 +422,9 @@ public final class StatUtil {
         return ret;
     }
 
-    /** The file comparator used for comparing files by their sizes in bytes. */
+    /**
+     * The file comparator used for comparing files by their sizes in bytes.
+     */
     private static final class FileComparator implements Comparator<FileSize> {
         public int compare(FileSize fs1, FileSize fs2) {
             if (fs1.size() < fs2.size()) {
@@ -425,6 +437,8 @@ public final class StatUtil {
         }
     }
 
-    /** A record to associate a file name with its size. */
+    /**
+     * A record to associate a file name with its size.
+     */
     public record FileSize(String name, long size) {}
 }

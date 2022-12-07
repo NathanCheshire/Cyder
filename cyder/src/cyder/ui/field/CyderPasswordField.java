@@ -20,30 +20,48 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** A password field customized for Cyder. */
+/**
+ * A password field customized for Cyder.
+ */
 public class CyderPasswordField extends JPasswordField {
-    /** The default font for the password field. */
+    /**
+     * The default font for the password field.
+     */
     public static final Font DEFAULT_FONT = new Font("Agency FB", Font.BOLD, 20);
 
-    /** The border currently set on this text field. */
+    /**
+     * The border currently set on this text field.
+     */
     private Border border = new LineBorder(CyderColors.navy, 5, false);
 
-    /** Whether the shift shows password key listener is installed. */
+    /**
+     * Whether the shift shows password key listener is installed.
+     */
     private final AtomicBoolean shiftShowsPassword;
 
-    /** The image icon for the left icon. */
+    /**
+     * The image icon for the left icon.
+     */
     private ImageIcon leftIcon;
 
-    /** The JLabel to hold the left icon. */
+    /**
+     * The JLabel to hold the left icon.
+     */
     private JLabel leftIconLabel;
 
-    /** The padding for the left icon label. */
+    /**
+     * The padding for the left icon label.
+     */
     private static final int iconLabelPadding = 5;
 
-    /** The padding between the border and left icon label and the start of the field text. */
+    /**
+     * The padding between the border and left icon label and the start of the field text.
+     */
     private static final int iconLabelFieldTextPadding = 5;
 
-    /** Constructs a new CyderPasswordField. */
+    /**
+     * Constructs a new CyderPasswordField.
+     */
     public CyderPasswordField() {
         setEchoChar(CyderStrings.ECHO_CHAR);
         setForeground(CyderColors.navy);
@@ -67,35 +85,45 @@ public class CyderPasswordField extends JPasswordField {
     // Suppressed default constructors
     // -------------------------------
 
-    /** Suppress a default constructor. */
+    /**
+     * Suppress a default constructor.
+     */
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(int columns) {
         throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
-    /** Suppress a default constructor. */
+    /**
+     * Suppress a default constructor.
+     */
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(String text) {
         throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
-    /** Suppress a default constructor. */
+    /**
+     * Suppress a default constructor.
+     */
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(String text, int columns) {
         throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
-    /** Suppress a default constructor. */
+    /**
+     * Suppress a default constructor.
+     */
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(Document document, String text, int columns) {
         throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
-    /** Adds the security focus adapter for this password field. */
+    /**
+     * Adds the security focus adapter for this password field.
+     */
     private void addSecurityFocusAdapter() {
         addFocusListener(new FocusAdapter() {
             @Override
@@ -110,7 +138,9 @@ public class CyderPasswordField extends JPasswordField {
         });
     }
 
-    /** Refreshes the caret position, caret, and echo character of this password field. */
+    /**
+     * Refreshes the caret position, caret, and echo character of this password field.
+     */
     public void refreshUi() {
         setEchoChar(CyderStrings.ECHO_CHAR);
         setCaret(getCaret());
@@ -185,14 +215,18 @@ public class CyderPasswordField extends JPasswordField {
         refreshLeftIcon();
     }
 
-    /** Removes the left icon from this text field. */
+    /**
+     * Removes the left icon from this text field.
+     */
     private void removeLeftIcon() {
         leftIcon = null;
         leftIconLabel.setVisible(false);
         refreshLeftIcon();
     }
 
-    /** Refreshes the bounds, border, icon, and visibility of the left icon. */
+    /**
+     * Refreshes the bounds, border, icon, and visibility of the left icon.
+     */
     private void refreshLeftIcon() {
         if (leftIcon == null) return;
 
@@ -212,7 +246,9 @@ public class CyderPasswordField extends JPasswordField {
         leftIconLabel.setBounds(iconLabelPadding, iconLabelPadding, len, len);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setBorder(Border border) {
         int len = getHeight() - 2 * iconLabelPadding + iconLabelFieldTextPadding;
@@ -223,14 +259,18 @@ public class CyderPasswordField extends JPasswordField {
         super.setBorder(new CompoundBorder(border, paddingBorder));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
         refreshLeftIcon();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);

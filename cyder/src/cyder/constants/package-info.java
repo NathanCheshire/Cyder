@@ -1,2 +1,4 @@
-/** Constants used throughout Cyder. */
+/**
+ * Constants used throughout Cyder.
+ */
 package cyder.constants;

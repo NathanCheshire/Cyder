@@ -51,142 +51,230 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** A note taking widget. */
+/**
+ * A note taking widget.
+ */
 @Vanilla
 @CyderAuthor
 public final class NotesWidget {
-    /** The notes selection and creation list frame. */
+    /**
+     * The notes selection and creation list frame.
+     */
     private static CyderFrame noteFrame;
 
-    /** The default frame width. */
+    /**
+     * The default frame width.
+     */
     private static final int defaultFrameWidth = 600;
 
-    /** The default frame height. */
+    /**
+     * The default frame height.
+     */
     private static final int defaultFrameHeight = 680;
 
-    /** The padding between the frame and the note files scrolls. */
+    /**
+     * The padding between the frame and the note files scrolls.
+     */
     private static final int noteListScrollPadding = 25;
 
-    /** The length of the note files list scroll. */
+    /**
+     * The length of the note files list scroll.
+     */
     private static final int noteListScrollLength = defaultFrameWidth - 2 * noteListScrollPadding;
 
-    /** The padding between the frame and the note contents scrolls. */
+    /**
+     * The padding between the frame and the note contents scrolls.
+     */
     private static final int noteScrollPadding = 50;
 
-    /** The notes list scroll. */
+    /**
+     * The notes list scroll.
+     */
     private static CyderScrollList notesScrollList;
 
-    /** The length of the notes JTextArea. */
+    /**
+     * The length of the notes JTextArea.
+     */
     private static final int noteAreaLength = defaultFrameWidth - 2 * noteScrollPadding;
 
-    /** The partitioned layout for the notes scroll view. */
+    /**
+     * The partitioned layout for the notes scroll view.
+     */
     private static CyderPartitionedLayout framePartitionedLayout;
 
-    /** The current frame view. */
+    /**
+     * The current frame view.
+     */
     private static View currentView;
 
-    /** The button size of most buttons. */
+    /**
+     * The button size of most buttons.
+     */
     private static final Dimension buttonSize = new Dimension(160, 40);
 
-    /** The new note contents area. */
+    /**
+     * The new note contents area.
+     */
     private static JTextPane newNoteArea;
 
-    /** The new note name field. */
+    /**
+     * The new note name field.
+     */
     private static CyderTextField newNoteNameField;
 
-    /** The add button text. */
+    /**
+     * The add button text.
+     */
     private static final String ADD = "Add";
 
-    /** The open button text. */
+    /**
+     * The open button text.
+     */
     private static final String OPEN = "Open";
 
-    /** The delete button text. */
+    /**
+     * The delete button text.
+     */
     private static final String DELETE = "Delete";
 
-    /** The possible widget views. */
+    /**
+     * The possible widget views.
+     */
     private enum View {
         LIST,
         ADD,
         EDIT,
     }
 
-    /** The description for this widget. */
+    /**
+     * The description for this widget.
+     */
     private static final String description = "A note taking widget that can save and display multiple notes";
 
-    /** The font for the note name fields. */
+    /**
+     * The font for the note name fields.
+     */
     private static final Font noteNameFieldFont = new Font("Agency FB", Font.BOLD, 26);
 
-    /** The border for the note name fields. */
+    /**
+     * The border for the note name fields.
+     */
     private static final Border noteNameFieldBorder
             = BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.navy);
 
-    /** The height of the note scrolls. */
+    /**
+     * The height of the note scrolls.
+     */
     private static final int noteScrollHeight = noteAreaLength - 2 * noteListScrollPadding;
 
-    /** The back button text. */
+    /**
+     * The back button text.
+     */
     private static final String BACK = "Back";
 
-    /** The create button text. */
+    /**
+     * The create button text.
+     */
     private static final String CREATE = "Create";
 
-    /** The list of currently read notes from the user's notes directory. */
+    /**
+     * The list of currently read notes from the user's notes directory.
+     */
     private static final ArrayList<File> notesList = new ArrayList<>();
 
-    /** The exit text. */
+    /**
+     * The exit text.
+     */
     private static final String EXIT = "Exit";
 
-    /** The stay text (I told you that I never would). */
+    /**
+     * The stay text (I told you that I never would).
+     */
     private static final String STAY = "Stay";
 
-    /** The name of the thread which waits for a save confirmation. */
+    /**
+     * The name of the thread which waits for a save confirmation.
+     */
     private static final String NOTE_EDITOR_EXIT_CONFIRMATION_WAITER_THREAD_NAME = "Note editor exit confirmation";
 
-    /** The add note button text. */
+    /**
+     * The add note button text.
+     */
     private static final String ADD_NOTE = "Add note";
 
-    /** The edit note name field. */
+    /**
+     * The edit note name field.
+     */
     private static CyderTextField editNoteNameField;
 
-    /** The edit note contents area. */
+    /**
+     * The edit note contents area.
+     */
     private static JTextPane noteEditArea;
 
-    /** The save button text. */
+    /**
+     * The save button text.
+     */
     private static final String SAVE = "Save";
 
-    /** The currently being edited note file. */
+    /**
+     * The currently being edited note file.
+     */
     private static File currentNoteFile;
 
-    /** The confirmation message to display when a user attempts to close the frame when there are pending changes. */
+    /**
+     * The confirmation message to display when a user attempts to close the frame when there are pending changes.
+     */
     private static final String closingConfirmationMessage = "You have unsaved changes, are you sure you wish to exit?";
 
-    /** Whether the current note has unsaved changes. */
+    /**
+     * Whether the current note has unsaved changes.
+     */
     private static boolean unsavedChanges = false;
 
-    /** Whether a new note being added has information that would be lost. */
+    /**
+     * Whether a new note being added has information that would be lost.
+     */
     private static boolean newNoteContent = false;
 
-    /** The notification text to display when a note is saved. */
+    /**
+     * The notification text to display when a note is saved.
+     */
     private static final String SAVED_NOTE = "Saved note";
 
-    /** The last time the current note was saved at. */
+    /**
+     * The last time the current note was saved at.
+     */
     private static final AtomicLong lastSave = new AtomicLong();
 
-    /** The timeout between allowable note save actions. */
+    /**
+     * The timeout between allowable note save actions.
+     */
     private static final int SAVE_BUTTON_TIMEOUT = 500;
 
-    /** The border length for the note scroll. */
+    /**
+     * The border length for the note scroll.
+     */
     private static final int noteScrollBorderLen = 5;
 
-    /** The padding partition for primary view components. */
+    /**
+     * The padding partition for primary view components.
+     */
     private static final int viewPartitionPadding = 2;
 
-    /** The length of the note content scroll view. */
+    /**
+     * The length of the note content scroll view.
+     */
     private static final int noteContentScrollLength = noteAreaLength - 2 * noteScrollBorderLen;
 
-    /** The encoding format for note files. */
+    /**
+     * The encoding format for note files.
+     */
     private static final Charset noteFileEncoding = StandardCharsets.UTF_8;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private NotesWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -216,7 +304,9 @@ public final class NotesWidget {
         }
     }
 
-    /** Sets up and shows the notes list view. */
+    /**
+     * Sets up and shows the notes list view.
+     */
     private static void setupListView() {
         refreshNotesList();
         resetUnsavedContentVars();
@@ -258,7 +348,9 @@ public final class NotesWidget {
         revalidateFrameTitle();
     }
 
-    /** Sets up and shows the add note view. */
+    /**
+     * Sets up and shows the add note view.
+     */
     private static void setupAddView() {
         noteFrame.removeCyderLayoutPanel();
         noteFrame.repaint();
@@ -345,7 +437,9 @@ public final class NotesWidget {
         };
     }
 
-    /** The actions to invoke when the open button is pressed. */
+    /**
+     * The actions to invoke when the open button is pressed.
+     */
     private static void openButtonAction() {
         Optional<String> optionalFile = notesScrollList.getSelectedElement();
         if (optionalFile.isEmpty()) return;
@@ -357,7 +451,9 @@ public final class NotesWidget {
         setupView(View.EDIT);
     }
 
-    /** The actions to invoke when the create new note button is clicked in the add note view. */
+    /**
+     * The actions to invoke when the create new note button is clicked in the add note view.
+     */
     private static void createNoteAction() {
         String noteName = newNoteNameField.getTrimmedText();
         if (noteName.isEmpty()) {
@@ -417,7 +513,9 @@ public final class NotesWidget {
         throw new IllegalStateException("Could not read contents of current note file");
     }
 
-    /** Sets up and shows the edit note view. */
+    /**
+     * Sets up and shows the edit note view.
+     */
     private static void setupEditView() {
         Preconditions.checkNotNull(currentNoteFile);
 
@@ -496,7 +594,9 @@ public final class NotesWidget {
         noteFrame.repaint();
     }
 
-    /** The key listener for saving the edited note contents to the note file when ctrl + s is performed. */
+    /**
+     * The key listener for saving the edited note contents to the note file when ctrl + s is performed.
+     */
     private static final KeyListener saveNoteEditAreaKeyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -521,7 +621,9 @@ public final class NotesWidget {
         };
     }
 
-    /** The actions to invoke when the save button on the edit note view is pressed. */
+    /**
+     * The actions to invoke when the save button on the edit note view is pressed.
+     */
     private static void editNoteSaveButtonAction() {
         if (System.currentTimeMillis() < lastSave.get() + SAVE_BUTTON_TIMEOUT) return;
         lastSave.set(System.currentTimeMillis());
@@ -579,7 +681,9 @@ public final class NotesWidget {
         }
     }
 
-    /** The action to invoke when the back button on the edit note view is pressed. */
+    /**
+     * The action to invoke when the back button on the edit note view is pressed.
+     */
     private static void editBackButtonAction() {
         CyderThreadRunner.submit(() -> {
             String currentName = editNoteNameField.getTrimmedText();
@@ -615,7 +719,9 @@ public final class NotesWidget {
         }, NOTE_EDITOR_EXIT_CONFIRMATION_WAITER_THREAD_NAME);
     }
 
-    /** Revalidates the frame title based on the current view. */
+    /**
+     * Revalidates the frame title based on the current view.
+     */
     private static void revalidateFrameTitle() {
         switch (currentView) {
             case LIST -> {
@@ -630,7 +736,9 @@ public final class NotesWidget {
         }
     }
 
-    /** The actions to invoke when the delete button is pressed. */
+    /**
+     * The actions to invoke when the delete button is pressed.
+     */
     private static void deleteButtonAction() {
         Optional<String> selectedElement = notesScrollList.getSelectedElement();
         if (selectedElement.isEmpty()) return;
@@ -663,7 +771,9 @@ public final class NotesWidget {
         return notesLabel;
     }
 
-    /** Refreshes the contents of the notes list. */
+    /**
+     * Refreshes the contents of the notes list.
+     */
     private static void refreshNotesList() throws IllegalStateException {
         File dir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName());
@@ -678,14 +788,18 @@ public final class NotesWidget {
                 FileUtil.getExtension(noteFile).equals(Extension.TXT.getExtension())).forEach(notesList::add);
     }
 
-    /** Refreshes the state of {@link #unsavedChanges}. */
+    /**
+     * Refreshes the state of {@link #unsavedChanges}.
+     */
     private static void refreshUnsavedChanges() {
         boolean filenameDifferent = !FileUtil.getFilename(currentNoteFile).equals(editNoteNameField.getText());
         boolean contentsDifferent = !getCurrentNoteContents().equals(noteEditArea.getText());
         setUnsavedChanges(contentsDifferent || filenameDifferent);
     }
 
-    /** Refreshes the state of {@link #newNoteContent}. */
+    /**
+     * Refreshes the state of {@link #newNoteContent}.
+     */
     private static void refreshNewNoteChanges() {
         boolean filenameContents = !newNoteNameField.getTrimmedText().isEmpty();
         boolean contents = !newNoteArea.getText().isEmpty();

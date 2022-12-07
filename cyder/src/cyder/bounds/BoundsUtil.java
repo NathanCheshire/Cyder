@@ -14,21 +14,33 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.regex.Pattern;
 
-/** Utility methods to calculate the needed space for a String of text. */
+/**
+ * Utility methods to calculate the needed space for a String of text.
+ */
 public final class BoundsUtil {
-    /** The default maximum width for returned bounds strings. */
+    /**
+     * The default maximum width for returned bounds strings.
+     */
     private static final int DEFAULT_MAX_WIDTH = 1200;
 
-    /** The opening html tag char. */
+    /**
+     * The opening html tag char.
+     */
     public static final char openingHtmlTagChar = '<';
 
-    /** The closing html tag char. */
+    /**
+     * The closing html tag char.
+     */
     public static final char closingHtmlTagChar = '>';
 
-    /** The number of chars to look back or forward in a string to attempt to find a space to replace with a break tag. */
+    /**
+     * The number of chars to look back or forward in a string to attempt to find a space to replace with a break tag.
+     */
     private static final int numLookAroundForSpaceChars = 7;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private BoundsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

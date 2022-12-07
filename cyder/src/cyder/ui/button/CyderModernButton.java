@@ -19,83 +19,135 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** A moder button for use throughout Cyder, similar to {@link CyderCheckbox}. */
+/**
+ * A moder button for use throughout Cyder, similar to {@link CyderCheckbox}.
+ */
 public class CyderModernButton extends JLabel {
-    /** The radius to use when {@link #roundedCorners} is enabled. */
+    /**
+     * The radius to use when {@link #roundedCorners} is enabled.
+     */
     private static final int CORNER_RADIUS = 20;
 
-    /** The default text for the modern button. */
+    /**
+     * The default text for the modern button.
+     */
     private static final String DEFAULT_TEXT = "Modern Button";
 
-    /** The text this modern button holds. */
+    /**
+     * The text this modern button holds.
+     */
     private String text;
 
-    /** The font of the modern button text label. */
+    /**
+     * The font of the modern button text label.
+     */
     private Font font = CyderFonts.DEFAULT_FONT_SMALL;
 
-    /** The foreground color of the label text. */
+    /**
+     * The foreground color of the label text.
+     */
     private Color foregroundColor = CyderColors.navy;
 
-    /** The background color of the button. */
+    /**
+     * The background color of the button.
+     */
     private Color backgroundColor = CyderColors.regularRed;
 
-    /** The border color. */
+    /**
+     * The border color.
+     */
     private Color borderColor = Color.black;
 
-    /** The color used for hover events. */
+    /**
+     * The color used for hover events.
+     */
     private Color hoverColor = backgroundColor.darker();
 
-    /** The color used while the button is pressed. */
+    /**
+     * The color used while the button is pressed.
+     */
     private Color pressedColor = hoverColor.darker();
 
-    /** The foreground text color for when the button is disabled. */
+    /**
+     * The foreground text color for when the button is disabled.
+     */
     private Color disabledForeground = CyderColors.vanilla;
 
-    /** The background color for the button when disabled. */
+    /**
+     * The background color for the button when disabled.
+     */
     private Color disabledBackground = CyderColors.navy;
 
-    /** Whether the button should be painted with rounded corners. */
+    /**
+     * Whether the button should be painted with rounded corners.
+     */
     private boolean roundedCorners = true;
 
-    /** Whether this button is disabled. */
+    /**
+     * Whether this button is disabled.
+     */
     private boolean disabled = false;
 
-    /** Whether the button is currently flashing. This is invoked by {@link #alert()}. */
+    /**
+     * Whether the button is currently flashing. This is invoked by {@link #alert()}.
+     */
     private boolean isFlashing;
 
     public static final int DEFAULT_BORDER_LENGTH = 5;
 
-    /** The length of the border painted around the button. */
+    /**
+     * The length of the border painted around the button.
+     */
     private int borderLength = DEFAULT_BORDER_LENGTH;
 
-    /** The width of the button. */
+    /**
+     * The width of the button.
+     */
     private int width;
 
-    /** The height of the button. */
+    /**
+     * The height of the button.
+     */
     private int height;
 
-    /** The label that holds the button text. */
+    /**
+     * The label that holds the button text.
+     */
     private JLabel innerTextLabel;
 
-    /** Whether the mouse is currently inside of the modern button. */
+    /**
+     * Whether the mouse is currently inside of the modern button.
+     */
     private final AtomicBoolean mouseInside = new AtomicBoolean();
 
-    /** Whether the button is currently under a mouse pressed event. */
+    /**
+     * Whether the button is currently under a mouse pressed event.
+     */
     private final AtomicBoolean mousePressed = new AtomicBoolean();
 
-    /** The default padding value used for the x axis when performing bounds calculations for this button. */
+    /**
+     * The default padding value used for the x axis when performing bounds calculations for this button.
+     */
     public static final int DEFAULT_X_PADDING = 5;
 
-    /** The default padding value used for the y axis when performing bounds calculations for this button. */
+    /**
+     * The default padding value used for the y axis when performing bounds calculations for this button.
+     */
     public static final int DEFAULT_Y_PADDING = 0;
 
-    /** The x padding for left and right of the text on this button. */
+    /**
+     * The x padding for left and right of the text on this button.
+     */
     private int xPadding = DEFAULT_X_PADDING;
 
-    /** The y padding for top and bottom of the text on this button. */
+    /**
+     * The y padding for top and bottom of the text on this button.
+     */
     private int yPadding = DEFAULT_Y_PADDING;
 
-    /** Constructs a new modern button. */
+    /**
+     * Constructs a new modern button.
+     */
     public CyderModernButton() {
         this(DEFAULT_TEXT);
     }
@@ -138,7 +190,9 @@ public class CyderModernButton extends JLabel {
         installInnerTextLabel();
     }
 
-    /** Adds the necessary listeners to the modern button. */
+    /**
+     * Adds the necessary listeners to the modern button.
+     */
     private void addListeners() {
         addMouseListener(generateMouseAdapter());
     }
@@ -181,14 +235,18 @@ public class CyderModernButton extends JLabel {
         };
     }
 
-    /** Sets up and adds the inner text label to this component. */
+    /**
+     * Sets up and adds the inner text label to this component.
+     */
     private void installInnerTextLabel() {
         innerTextLabel = new JLabel();
         add(innerTextLabel);
         refreshInnerTextLabel();
     }
 
-    /** Refreshes the text, bounds, font, foreground, and alignment of the inner text label. */
+    /**
+     * Refreshes the text, bounds, font, foreground, and alignment of the inner text label.
+     */
     private void refreshInnerTextLabel() {
         if (innerTextLabel == null) return;
 
@@ -202,14 +260,18 @@ public class CyderModernButton extends JLabel {
         innerTextLabel.repaint();
     }
 
-    /** The alignment of the text of the modern button. */
+    /**
+     * The alignment of the text of the modern button.
+     */
     public enum TextAlignment {
         TOP_LEFT, TOP, TOP_RIGHT,
         LEFT, CENTER, RIGHT,
         BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT
     }
 
-    /** The text alignment of the button text. */
+    /**
+     * The text alignment of the button text.
+     */
     private TextAlignment textAlignment = TextAlignment.CENTER;
 
     /**
@@ -230,7 +292,9 @@ public class CyderModernButton extends JLabel {
         this.textAlignment = textAlignment;
     }
 
-    /** Refreshes the text alignment of the inner text label. */
+    /**
+     * Refreshes the text alignment of the inner text label.
+     */
     private void refreshTextAlignment() {
         switch (textAlignment) {
             case TOP_LEFT -> {
@@ -272,7 +336,9 @@ public class CyderModernButton extends JLabel {
         }
     }
 
-    /** The runnables to invoke when the button is clicked. */
+    /**
+     * The runnables to invoke when the button is clicked.
+     */
     private final LinkedList<Runnable> clickRunnables = new LinkedList<>();
 
     /**
@@ -297,14 +363,18 @@ public class CyderModernButton extends JLabel {
         clickRunnables.remove(runnable);
     }
 
-    /** Invokes all runnables in {@link #clickRunnables}. */
+    /**
+     * Invokes all runnables in {@link #clickRunnables}.
+     */
     private void invokeRunnables() {
         for (Runnable runnable : clickRunnables) {
             runnable.run();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -353,7 +423,9 @@ public class CyderModernButton extends JLabel {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
@@ -401,7 +473,9 @@ public class CyderModernButton extends JLabel {
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
@@ -417,13 +491,17 @@ public class CyderModernButton extends JLabel {
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setLocation(int x, int y) {
         setBounds(x, y, width, height);
     }
 
-    /** Expands or contracts the button's width or height as necessary to fit all of the button text on the button. */
+    /**
+     * Expands or contracts the button's width or height as necessary to fit all of the button text on the button.
+     */
     public void pack() {
         pack(false);
     }
@@ -541,13 +619,17 @@ public class CyderModernButton extends JLabel {
         repaint();
     }
 
-    /** Disables this modern button. */
+    /**
+     * Disables this modern button.
+     */
     public void setDisabled() {
         disabled = true;
         repaint();
     }
 
-    /** Enables this modern button. */
+    /**
+     * Enables this modern button.
+     */
     public void setEnabled() {
         disabled = false;
         repaint();
@@ -629,7 +711,9 @@ public class CyderModernButton extends JLabel {
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Deprecated
     public void setBorder(Border border) {
         throw new IllegalMethodException("Cannot invoke setBorder on a CyderModernButton");
@@ -726,7 +810,9 @@ public class CyderModernButton extends JLabel {
         repaint();
     }
 
-    /** The focus listener to show when the button is the focus owner. */
+    /**
+     * The focus listener to show when the button is the focus owner.
+     */
     private final FocusListener defaultFocusListener = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
@@ -747,23 +833,33 @@ public class CyderModernButton extends JLabel {
         }
     };
 
-    /** Adds the default focus listener to this modern button. */
+    /**
+     * Adds the default focus listener to this modern button.
+     */
     public void addDefaultFocusListener() {
         addFocusListener(defaultFocusListener);
     }
 
-    /** Removes the default focus listener from this modern button. */
+    /**
+     * Removes the default focus listener from this modern button.
+     */
     public void removeDefaultFocusListener() {
         removeFocusListener(defaultFocusListener);
     }
 
-    /** The default delay between alert iterations. */
+    /**
+     * The default delay between alert iterations.
+     */
     private static final int DEFAULT_ALERT_DELAY = 250;
 
-    /** The default number of alert iterations. */
+    /**
+     * The default number of alert iterations.
+     */
     private static final int DEFAULT_ALERT_ITERATIONS = 10;
 
-    /** Alerts the button for {@link #DEFAULT_ALERT_ITERATIONS} iterations. */
+    /**
+     * Alerts the button for {@link #DEFAULT_ALERT_ITERATIONS} iterations.
+     */
     public void alert() {
         alert(DEFAULT_ALERT_ITERATIONS);
     }
@@ -812,13 +908,17 @@ public class CyderModernButton extends JLabel {
         isFlashing = false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getWidth() {
         return width;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getHeight() {
         return height;
@@ -860,7 +960,9 @@ public class CyderModernButton extends JLabel {
         this.yPadding = yPadding;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int ret = text.hashCode();
@@ -874,14 +976,18 @@ public class CyderModernButton extends JLabel {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Cyder Modern Button {" + this.getX() + ", " + this.getY()
                 + ", " + width + CyderStrings.X + height + "}, text=\"" + text + "\", hash = " + hashCode();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) {

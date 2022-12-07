@@ -25,9 +25,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** Utilities related to the singular instance socket and API calls which use the instance socket. */
+/**
+ * Utilities related to the singular instance socket and API calls which use the instance socket.
+ */
 public final class InstanceSocketUtil {
-    /** The port to start the instance socket on. */
+    /**
+     * The port to start the instance socket on.
+     */
     private static final int instanceSocketPort = Props.instanceSocketPort.getValue();
 
     static {
@@ -38,16 +42,24 @@ public final class InstanceSocketUtil {
         }
     }
 
-    /** The number of clients which can be waiting for the instance socket to free up and connect. */
+    /**
+     * The number of clients which can be waiting for the instance socket to free up and connect.
+     */
     private static final int instanceSocketBacklog = 1;
 
-    /** Whether the instance socket bind was attempted. */
+    /**
+     * Whether the instance socket bind was attempted.
+     */
     private static final AtomicBoolean instanceSocketBindAttempted = new AtomicBoolean(false);
 
-    /** The instance socket. */
+    /**
+     * The instance socket.
+     */
     private static ServerSocket instanceSocket;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private InstanceSocketUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -187,21 +199,33 @@ public final class InstanceSocketUtil {
         }
     }
 
-    /** Results after determining whether a remote shutdown request should be denied or complied to. */
+    /**
+     * Results after determining whether a remote shutdown request should be denied or complied to.
+     */
     private enum RemoteShutdownRequestResult {
-        /** The password was not found. */
+        /**
+         * The password was not found.
+         */
         PASSWORD_NOT_FOUND(false),
 
-        /** The password was incorrect. */
+        /**
+         * The password was incorrect.
+         */
         PASSWORD_INCORRECT(false),
 
-        /** The password was correct. */
+        /**
+         * The password was correct.
+         */
         PASSWORD_CORRECT(true),
 
-        /** The auto compliance prop for remote shutdown requests is enabled. */
+        /**
+         * The auto compliance prop for remote shutdown requests is enabled.
+         */
         AUTO_COMPLIANCE_ENABLED(true);
 
-        /** Whether this result indicates compliance. */
+        /**
+         * Whether this result indicates compliance.
+         */
         private final boolean shouldComply;
 
         RemoteShutdownRequestResult(boolean shouldComply) {

@@ -18,9 +18,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
-/** A handler for handling things related to the ui and painting. */
+/**
+ * A handler for handling things related to the ui and painting.
+ */
 public class UiHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private UiHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -100,10 +104,14 @@ public class UiHandler extends InputHandler {
         return ret;
     }
 
-    /** The slider used to change the opacity of the Console. */
+    /**
+     * The slider used to change the opacity of the Console.
+     */
     private static JSlider opacitySlider;
 
-    /** Sets up the opacity slider. */
+    /**
+     * Sets up the opacity slider.
+     */
     private static void initializeOpacitySlider() {
         opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
         opacitySlider.setBounds(0, 0, 300, 50);

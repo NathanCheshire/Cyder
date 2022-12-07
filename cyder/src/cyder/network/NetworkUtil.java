@@ -30,27 +30,41 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-/** Utility methods revolving around networking, urls, servers, etc. */
+/**
+ * Utility methods revolving around networking, urls, servers, etc.
+ */
 @SuppressWarnings("unused") /* Response codes */
 public class NetworkUtil {
-    /** The local host string. */
+    /**
+     * The local host string.
+     */
     public static final String LOCALHOST = "localhost";
 
-    /** The range a port must fall into. */
+    /**
+     * The range a port must fall into.
+     */
     public static final Range<Integer> portRange = Range.closed(1024, 65535);
 
-    /** The string used to represent a space in a url. */
+    /**
+     * The string used to represent a space in a url.
+     */
     public static final String URL_SPACE = "%20";
 
-    /** The time in ms to wait for a local port to bind to determine whether it is available. */
+    /**
+     * The time in ms to wait for a local port to bind to determine whether it is available.
+     */
     private static final int LOCAL_PORT_AVAILABLE_TIMEOUT = 400;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private NetworkUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** Whether connection to the internet is slow. */
+    /**
+     * Whether connection to the internet is slow.
+     */
     private static boolean highLatency;
 
     /**
@@ -71,21 +85,31 @@ public class NetworkUtil {
         NetworkUtil.highLatency = highLatency;
     }
 
-    /** Whether the high ping check is/should be running currently. */
+    /**
+     * Whether the high ping check is/should be running currently.
+     */
     private static final AtomicBoolean highPingCheckerRunning = new AtomicBoolean();
 
-    /** The function used by the high ping checker to provide to TimeUtil. */
+    /**
+     * The function used by the high ping checker to provide to TimeUtil.
+     */
     private static final Supplier<Boolean> shouldExitHighPingCheckerThread = () ->
             Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
 
-    /** The timeout between checking for high ping. */
+    /**
+     * The timeout between checking for high ping.
+     */
     private static final int HIGH_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND
             * TimeUtil.SECONDS_IN_MINUTE * 2.0f);
 
-    /** The timeout between checking for the high ping checker's exit condition. */
+    /**
+     * The timeout between checking for the high ping checker's exit condition.
+     */
     private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 2.0f);
 
-    /** Starts the high ping checker. */
+    /**
+     * Starts the high ping checker.
+     */
     public static void startHighPingChecker() {
         if (highPingCheckerRunning.get()) return;
 
@@ -105,7 +129,9 @@ public class NetworkUtil {
         }, IgnoreThread.HighPingChecker.getName());
     }
 
-    /** Ends the high ping checker subroutine. */
+    /**
+     * Ends the high ping checker subroutine.
+     */
     public static void terminateHighPingChecker() {
         highPingCheckerRunning.set(false);
     }
@@ -129,35 +155,55 @@ public class NetworkUtil {
         }
     }
 
-    /** The timeout value when determining if a site is reachable. */
+    /**
+     * The timeout value when determining if a site is reachable.
+     */
     public static final int SITE_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 5);
 
-    /** The slash slash for urls. */
+    /**
+     * The slash slash for urls.
+     */
     private static final String slashSlash = "//";
 
-    /** So no head? */
+    /**
+     * So no head?
+     */
     private static final String HEAD = "HEAD";
 
-    /** The minimum HTTP response code indicating a successful response. */
+    /**
+     * The minimum HTTP response code indicating a successful response.
+     */
     public static final int MIN_SUCCESSFUL_RESPONSE_CODE = 200;
 
-    /** The maximum HTTP response code indicating a successful response. */
+    /**
+     * The maximum HTTP response code indicating a successful response.
+     */
     public static final int MAX_SUCCESSFUL_RESPONSE_CODE = 299;
 
-    /** The minimum HTTP response code indicating a successful redirection. */
+    /**
+     * The minimum HTTP response code indicating a successful redirection.
+     */
     public static final int MIN_REDIRECTED_RESPONSE_CODE = 300;
 
-    /** The maximum HTTP response code indicating a successful redirection. */
+    /**
+     * The maximum HTTP response code indicating a successful redirection.
+     */
     public static final int MAX_REDIRECTED_RESPONSE_CODE = 399;
 
-    /** The range of response codes that indicate a website as reachable/readable. */
+    /**
+     * The range of response codes that indicate a website as reachable/readable.
+     */
     public static final Range<Integer> SITE_REACHABLE_RESPONSE_CODE_RANGE
             = Range.closed(MIN_SUCCESSFUL_RESPONSE_CODE, MAX_REDIRECTED_RESPONSE_CODE);
 
-    /** The prefix for https urls. */
+    /**
+     * The prefix for https urls.
+     */
     private static final String HTTPS = "https";
 
-    /** The prefix for http urls. */
+    /**
+     * The prefix for http urls.
+     */
     private static final String HTTP = "http";
 
     /**
@@ -189,7 +235,9 @@ public class NetworkUtil {
         return false;
     }
 
-    /** The unknown string. */
+    /**
+     * The unknown string.
+     */
     private static final String UNKNOWN = "Unknown";
 
     /**
@@ -198,19 +246,29 @@ public class NetworkUtil {
      */
     private static final String defaultLatencyIp = "172.217.4.78";
 
-    /** The default port to use when pinging the default latency ip to determine a user's latency. */
+    /**
+     * The default port to use when pinging the default latency ip to determine a user's latency.
+     */
     private static final int defaultLatencyPort = 80;
 
-    /** The default name of the latency ip and port. */
+    /**
+     * The default name of the latency ip and port.
+     */
     private static final String defaultLatencyName = "Google";
 
-    /** The currently set latency ip. */
+    /**
+     * The currently set latency ip.
+     */
     private static final String latencyIp;
 
-    /** The currently set latency port. */
+    /**
+     * The currently set latency port.
+     */
     private static final int latencyPort;
 
-    /** The currently set latency host name. */
+    /**
+     * The currently set latency host name.
+     */
     private static String latencyHostName;
 
     static {
@@ -295,7 +353,9 @@ public class NetworkUtil {
         return latency;
     }
 
-    /** The default timeout to use when pinging the latency ip to determine a user's latency. */
+    /**
+     * The default timeout to use when pinging the latency ip to determine a user's latency.
+     */
     public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
 
     /**
@@ -307,7 +367,9 @@ public class NetworkUtil {
         return getLatency(DEFAULT_LATENCY_TIMEOUT);
     }
 
-    /** The maximum possible ping for Cyder to consider a user's connection "decent." */
+    /**
+     * The maximum possible ping for Cyder to consider a user's connection "decent."
+     */
     public static final int DECENT_PING_MAXIMUM_LATENCY = 5000;
 
     /**
@@ -385,7 +447,9 @@ public class NetworkUtil {
         return CyderRegexPatterns.urlFormationPattern.matcher(url).matches();
     }
 
-    /** The size of the buffer when downloading resources from a Url or reading a Url. */
+    /**
+     * The size of the buffer when downloading resources from a Url or reading a Url.
+     */
     public static final int DOWNLOAD_RESOURCE_BUFFER_SIZE = 1024;
 
     /**
@@ -451,10 +515,14 @@ public class NetworkUtil {
         return Optional.empty();
     }
 
-    /** The url for determining network details. */
+    /**
+     * The url for determining network details.
+     */
     public static final String ispQueryUrl = "https://www.whatismyisp.com/";
 
-    /** A record used to store the data after {@link #getIspAndNetworkDetails} is invoked. */
+    /**
+     * A record used to store the data after {@link #getIspAndNetworkDetails} is invoked.
+     */
     public record IspQueryResult(String isp, String hostname, String ip, String city, String state, String country) {}
 
     /**
@@ -469,25 +537,39 @@ public class NetworkUtil {
      */
     private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 px-6 pb-6";
 
-    /** The class name of the html element containing the host name. */
+    /**
+     * The class name of the html element containing the host name.
+     */
     private static final String hostnameClassName = "prose";
 
-    /** The index of the city element in its parent element. */
+    /**
+     * The index of the city element in its parent element.
+     */
     private static final int cityIndex = 2;
 
-    /** The index of the state element in its parent element. */
+    /**
+     * The index of the state element in its parent element.
+     */
     private static final int stateIndex = 4;
 
-    /** The index of the country element in its parent element. */
+    /**
+     * The index of the country element in its parent element.
+     */
     private static final int countryIndex = 6;
 
-    /** The index of the hostname in its parent element. */
+    /**
+     * The index of the hostname in its parent element.
+     */
     private static final int hostnameIndex = 3;
 
-    /** The class name of the element containing the ip. */
+    /**
+     * The class name of the element containing the ip.
+     */
     private static final String ipElementClassName = "px-14 font-semibold break-all";
 
-    /** The index of the ip element inside its parent. */
+    /**
+     * The index of the ip element inside its parent.
+     */
     private static final int ipElementIndex = 0;
 
     // todo this functionality should probably be extracted

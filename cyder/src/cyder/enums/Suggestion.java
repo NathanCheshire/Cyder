@@ -1,6 +1,8 @@
 package cyder.enums;
 
-/** A suggestion to a user for how to use Cyder. */
+/**
+ * A suggestion to a user for how to use Cyder.
+ */
 public enum Suggestion {
     Pathfinder("pathfinder", "open an A* and Dijkstra's algorithm path finding visualizer"),
     Math("e^pi", "calculate e^pi using the command line mathematical expression parser"),
@@ -14,10 +16,14 @@ public enum Suggestion {
     Hangman("hangman", "A hangman game"),
     Paint("paint", "A painting widget");
 
-    /** The trigger for the command for this suggestion. */
+    /**
+     * The trigger for the command for this suggestion.
+     */
     private final String command;
 
-    /** The description of this command */
+    /**
+     * The description of this command
+     */
     private final String description;
 
     Suggestion(String command, String description) {

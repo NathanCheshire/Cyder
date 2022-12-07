@@ -2,7 +2,9 @@ package cyder.process;
 
 import cyder.utils.OsUtil;
 
-/** Common external programs/binaries utilized by Cyder. */
+/**
+ * Common external programs/binaries utilized by Cyder.
+ */
 public enum Program {
     FFMPEG("ffmpeg", "ffmpeg.exe"),
     FFPROBE("ffprobe", "ffprobe.exe"),
@@ -11,10 +13,14 @@ public enum Program {
     PIP("pip", "pip.exe"),
     PYTHON("python", "python.exe");
 
-    /** The name of this program. */
+    /**
+     * The name of this program.
+     */
     private final String programName;
 
-    /** The filename of this program. */
+    /**
+     * The filename of this program.
+     */
     private final String filename;
 
     Program(String programName, String filename) {

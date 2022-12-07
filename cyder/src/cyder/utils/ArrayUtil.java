@@ -10,9 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-/** Utilities related to arrays. */
+/**
+ * Utilities related to arrays.
+ */
 public final class ArrayUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private ArrayUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

@@ -2,7 +2,9 @@ package cyder.parsers.remote.github;
 
 import com.google.gson.annotations.SerializedName;
 
-/** A json serialization class for a GitHub reaction. */
+/**
+ * A json serialization class for a GitHub reaction.
+ */
 @SuppressWarnings("unused")
 public class Reaction {
     public String url;

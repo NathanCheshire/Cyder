@@ -83,30 +83,46 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.audio.AudioIcons.*;
 
-/** An audio player widget which can also download YouTube video audio and thumbnails. */
+/**
+ * An audio player widget which can also download YouTube video audio and thumbnails.
+ */
 @Vanilla
 @CyderAuthor
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class AudioPlayer {
-    /** The width and height of the audio frame. */
+    /**
+     * The width and height of the audio frame.
+     */
     private static final int DEFAULT_FRAME_LEN = 600;
 
-    /** The width and height of the album art label. */
+    /**
+     * The width and height of the album art label.
+     */
     private static final int ALBUM_ART_LABEL_SIZE = 300;
 
-    /** The number to subtract from the frame height when the frame is in mini mode. */
+    /**
+     * The number to subtract from the frame height when the frame is in mini mode.
+     */
     private static final int MINI_FRAME_HEIGHT_OFFSET = 150;
 
-    /** The number to subtract from the frame height when the frame is in hidden art mode. */
+    /**
+     * The number to subtract from the frame height when the frame is in hidden art mode.
+     */
     private static final int HIDDEN_ART_HEIGHT_OFFSET = 40;
 
-    /** The width of a primary ui control row. */
+    /**
+     * The width of a primary ui control row.
+     */
     private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
 
-    /** The height of a primary ui control row. */
+    /**
+     * The height of a primary ui control row.
+     */
     private static final int UI_ROW_HEIGHT = 40;
 
-    /** The audio player frame. */
+    /**
+     * The audio player frame.
+     */
     private static CyderFrame audioPlayerFrame;
 
     /**
@@ -115,7 +131,9 @@ public final class AudioPlayer {
      */
     private static final JLabel albumArtLabel = new JLabel();
 
-    /** The border width of black borders placed on some ui components. */
+    /**
+     * The border width of black borders placed on some ui components.
+     */
     private static final int BORDER_WIDTH = 3;
 
     /**
@@ -124,98 +142,152 @@ public final class AudioPlayer {
      */
     private static final File DEFAULT_ALBUM_ART = StaticUtil.getStaticResource("Default.png");
 
-    /** The format of the waveform image to export. */
+    /**
+     * The format of the waveform image to export.
+     */
     private static final String WAVEFORM_EXPORT_FORMAT = Extension.PNG.getExtensionWithoutPeriod();
 
-    /** The default text to display for the audio title label. */
+    /**
+     * The default text to display for the audio title label.
+     */
     public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
 
-    /** The label to display the current audio title. */
+    /**
+     * The label to display the current audio title.
+     */
     private static final JLabel audioTitleLabel = new JLabel("", SwingConstants.CENTER);
 
-    /** The container to hold the audioTitleLabel used for animations like Spotify if the text overflows. */
+    /**
+     * The container to hold the audioTitleLabel used for animations like Spotify if the text overflows.
+     */
     private static final JLabel audioTitleLabelContainer = new JLabel();
 
-    /** The label to display the seconds in. */
+    /**
+     * The label to display the seconds in.
+     */
     private static final CyderLabel secondsInLabel = new CyderLabel();
 
-    /** The label to display the seconds remaining or total audio length. */
+    /**
+     * The label to display the seconds remaining or total audio length.
+     */
     private static final CyderLabel totalSecondsLabel = new CyderLabel();
 
-    /** The default value for the audio volume slider. */
+    /**
+     * The default value for the audio volume slider.
+     */
     private static final int DEFAULT_AUDIO_SLIDER_VALUE = 50;
 
-    /** The audio volume slider. */
+    /**
+     * The audio volume slider.
+     */
     private static final JSlider audioVolumeSlider = new JSlider(
             JSlider.HORIZONTAL, 0, 100, DEFAULT_AUDIO_SLIDER_VALUE);
 
-    /** The default value for the audio location slider. */
+    /**
+     * The default value for the audio location slider.
+     */
     private static final int DEFAULT_LOCATION_SLIDER_VALUE = 0;
 
-    /** The min value for the audio location slider. */
+    /**
+     * The min value for the audio location slider.
+     */
     private static final int DEFAULT_LOCATION_SLIDER_MIN_VALUE = 0;
 
-    /** The max value for the audio location slider. */
+    /**
+     * The max value for the audio location slider.
+     */
     private static final int DEFAULT_LOCATION_SLIDER_MAX_VALUE = 450;
 
-    /** The audio location slider. */
+    /**
+     * The audio location slider.
+     */
     private static final JSlider audioLocationSlider = new JSlider(
             JSlider.HORIZONTAL, DEFAULT_LOCATION_SLIDER_MIN_VALUE,
             DEFAULT_LOCATION_SLIDER_MAX_VALUE, DEFAULT_LOCATION_SLIDER_VALUE);
 
-    /** The ui for the audio volume slider. */
+    /**
+     * The ui for the audio volume slider.
+     */
     private static final CyderSliderUi audioVolumeSliderUi = new CyderSliderUi(audioVolumeSlider);
 
-    /** the ui for the audio location slider. */
+    /**
+     * the ui for the audio location slider.
+     */
     private static final CyderSliderUi audioLocationSliderUi = new CyderSliderUi(audioLocationSlider);
 
-    /** The album art directory for the current Cyder user. */
+    /**
+     * The album art directory for the current Cyder user.
+     */
     private static File currentUserAlbumArtDir;
 
-    /** The audio volume percent label which appears on change of the audio volume. */
+    /**
+     * The audio volume percent label which appears on change of the audio volume.
+     */
     private static final CyderLabel audioVolumePercentLabel = new CyderLabel();
 
-    /** The size of the primary audio control buttons. */
+    /**
+     * The size of the primary audio control buttons.
+     */
     private static final Dimension CONTROL_BUTTON_SIZE = new Dimension(30, 30);
 
-    /** The play pause icon button. */
+    /**
+     * The play pause icon button.
+     */
     private static JButton playPauseButton;
 
-    /** The play last audio icon button. */
+    /**
+     * The play last audio icon button.
+     */
     private static final CyderIconButton lastAudioButton =
             new CyderIconButton.Builder("Last", lastIcon, lastIconHover)
                     .setClickAction(AudioPlayer::handleLastAudioButtonClick).build();
 
-    /** The play next audio icon button. */
+    /**
+     * The play next audio icon button.
+     */
     private static final CyderIconButton nextAudioButton =
             new CyderIconButton.Builder("Next", nextIcon, nextIconHover)
                     .setClickAction(AudioPlayer::handleNextAudioButtonClick).build();
 
-    /** The repeat audio icon button. */
+    /**
+     * The repeat audio icon button.
+     */
     private static final CyderIconButton repeatAudioButton =
             new CyderIconButton.Builder("Repeat", repeatIcon, repeatIconHover)
                     .setClickAction(AudioPlayer::handleRepeatButtonClick)
                     .setToggleButton(true).build();
 
-    /** The shuffle audio icon button. */
+    /**
+     * The shuffle audio icon button.
+     */
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton.Builder("Shuffle", shuffleIcon, shuffleIconHover)
                     .setClickAction(AudioPlayer::handleShuffleButtonClick)
                     .setToggleButton(true).build();
 
-    /** The current frame view the audio player is in. */
+    /**
+     * The current frame view the audio player is in.
+     */
     private static final AtomicReference<FrameView> currentFrameView = new AtomicReference<>(FrameView.FULL);
 
-    /** The frame background color. */
+    /**
+     * The frame background color.
+     */
     public static final Color BACKGROUND_COLOR = new Color(8, 23, 52);
 
-    /** The background color of the track in front of the slider thumb. */
+    /**
+     * The background color of the track in front of the slider thumb.
+     */
     private static final Color trackNewColor = new Color(45, 45, 45);
 
-    /** The list of songs to play next before sequentially proceeding to the next valid audio file. */
+    /**
+     * The list of songs to play next before sequentially proceeding to the next valid audio file.
+     */
     private static final ArrayList<File> audioFileQueue = new ArrayList<>();
 
-    /** The current audio file we are at. */
+    /**
+     * The current audio file we are at.
+     */
     private static final AtomicReference<File> currentAudioFile = new AtomicReference<>();
 
     /**
@@ -236,35 +308,55 @@ public final class AudioPlayer {
      */
     private static ScrollingTitleLabel scrollingTitleLabel;
 
-    /** The last action invoked by the user. */
+    /**
+     * The last action invoked by the user.
+     */
     private static LastAction lastAction = LastAction.Unknown;
 
-    /** Whether the audio location slider is currently pressed. */
+    /**
+     * Whether the audio location slider is currently pressed.
+     */
     private static final AtomicBoolean audioLocationSliderPressed = new AtomicBoolean(false);
 
-    /** The thumb size for the sliders. */
+    /**
+     * The thumb size for the sliders.
+     */
     private static final int THUMB_SIZE = 25;
 
-    /** The value to increment the radius of the sliders by on click events. */
+    /**
+     * The value to increment the radius of the sliders by on click events.
+     */
     private static final int BIG_THUMB_INC = 5;
 
-    /** The thumb size for the sliders on click events. */
+    /**
+     * The thumb size for the sliders on click events.
+     */
     private static final int BIG_THUMB_SIZE = THUMB_SIZE + 2 * BIG_THUMB_INC;
 
-    /** The actual object that plays audio. */
+    /**
+     * The actual object that plays audio.
+     */
     private static InnerAudioPlayer innerAudioPlayer;
 
-    /** The audio progress bar animation controller. */
+    /**
+     * The audio progress bar animation controller.
+     */
     private static final AudioProgressBarAnimator audioProgressBarAnimator
             = new AudioProgressBarAnimator(audioLocationSlider, audioLocationSliderUi);
 
-    /** The stroke for the audio volume and location sliders. */
+    /**
+     * The stroke for the audio volume and location sliders.
+     */
     private static final BasicStroke SLIDER_STROKE = new BasicStroke(2.0f);
 
-    /** The location of a quick single click audio location request. */
+    /**
+     * The location of a quick single click audio location request.
+     */
     private static final AtomicDouble possiblePercentRequest = new AtomicDouble(Long.MAX_VALUE);
 
-    /** The time of a quick single click audio location request mouse initial press event. */
+    /**
+     * The time of a quick single click audio location request mouse initial press event.
+     */
     private static final AtomicLong possiblePercentRequestTime = new AtomicLong(Long.MAX_VALUE);
 
     /**
@@ -273,15 +365,21 @@ public final class AudioPlayer {
      */
     private static final int POSSIBLE_PERCENT_REQUEST_WINDOW = 100;
 
-    /** The total percent of a completed youtube audio download. */
+    /**
+     * The total percent of a completed youtube audio download.
+     */
     private static final float completedProgress = 100.0f;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private AudioPlayer() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** Allow widget to be found via reflection. */
+    /**
+     * Allow widget to be found via reflection.
+     */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
         File userMusicDir = Dynamic.buildDynamic(
@@ -624,7 +722,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** Attempts to download ffmpeg and youtube-dl to reference locally for downloading and processing audio files. */
+    /**
+     * Attempts to download ffmpeg and youtube-dl to reference locally for downloading and processing audio files.
+     */
     private static void downloadBinaries() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -685,17 +785,23 @@ public final class AudioPlayer {
         audioLocationSlider.setVisible(visible);
     }
 
-    /** Whether the UI is locked. */
+    /**
+     * Whether the UI is locked.
+     */
     private static boolean uiLocked;
 
-    /** Locks the UI components of the audio player. */
+    /**
+     * Locks the UI components of the audio player.
+     */
     public static void lockUi() {
         uiLocked = true;
 
         audioPlayerFrame.setMenuEnabled(false);
     }
 
-    /** Unlocks the UI components of the audio player. */
+    /**
+     * Unlocks the UI components of the audio player.
+     */
     public static void unlockUi() {
         uiLocked = false;
 
@@ -736,28 +842,44 @@ public final class AudioPlayer {
         });
     }
 
-    /** Whether the wav exporter menu option is locked. */
+    /**
+     * Whether the wav exporter menu option is locked.
+     */
     private static final AtomicBoolean wavExporterLocked = new AtomicBoolean();
 
-    /** Whether the mp3 exporter menu option is locked. */
+    /**
+     * Whether the mp3 exporter menu option is locked.
+     */
     private static final AtomicBoolean mp3ExporterLocked = new AtomicBoolean();
 
-    /** Whether the waveform exporter menu option is locked. */
+    /**
+     * Whether the waveform exporter menu option is locked.
+     */
     private static final AtomicBoolean waveformExporterLocked = new AtomicBoolean();
 
-    /** Whether the audio file chooser menu option is locked. */
+    /**
+     * Whether the audio file chooser menu option is locked.
+     */
     private static final AtomicBoolean chooseFileLocked = new AtomicBoolean();
 
-    /** Whether the dreamify menu option is locked. */
+    /**
+     * Whether the dreamify menu option is locked.
+     */
     private static final AtomicBoolean dreamifierLocked = new AtomicBoolean();
 
-    /** Whether the current audio is dreamified. */
+    /**
+     * Whether the current audio is dreamified.
+     */
     private static final AtomicBoolean audioDreamified = new AtomicBoolean();
 
-    /** Whether the current frame view is the search view. */
+    /**
+     * Whether the current frame view is the search view.
+     */
     private static final AtomicBoolean onSearchView = new AtomicBoolean();
 
-    /** Installs all the menu options on the AudioPlayer frame. */
+    /**
+     * Installs all the menu options on the AudioPlayer frame.
+     */
     private static void installFrameMenuItems() {
         audioPlayerFrame.clearMenuItems();
 
@@ -769,7 +891,9 @@ public final class AudioPlayer {
         audioPlayerFrame.addMenuItem("Dreamify", dreamifyMenuItem, audioDreamified);
     }
 
-    /** The menu item to export the current audio as a wav. */
+    /**
+     * The menu item to export the current audio as a wav.
+     */
     private static final Runnable exportWavMenuItem = () -> {
         if (wavExporterLocked.get() || uiLocked) {
             return;
@@ -815,7 +939,9 @@ public final class AudioPlayer {
         }
     };
 
-    /** The menu item for exporting the current audio as an mp3. */
+    /**
+     * The menu item for exporting the current audio as an mp3.
+     */
     private static final Runnable exportMp3MenuItem = () -> {
         if (mp3ExporterLocked.get() || uiLocked) {
             return;
@@ -861,7 +987,9 @@ public final class AudioPlayer {
         }
     };
 
-    /** The logic for the export waveform menu option. */
+    /**
+     * The logic for the export waveform menu option.
+     */
     private static final Runnable waveformExporterMenuItem = () -> {
         if (waveformExporterLocked.get() || uiLocked) {
             return;
@@ -909,7 +1037,9 @@ public final class AudioPlayer {
         }, "AudioPlayer Waveform Exporter");
     };
 
-    /** The menu item for searching youtube for songs. */
+    /**
+     * The menu item for searching youtube for songs.
+     */
     private static final Runnable searchMenuItem = () -> {
         if (onSearchView.get()) {
             goBackFromSearchView();
@@ -919,7 +1049,9 @@ public final class AudioPlayer {
         }
     };
 
-    /** The menu item for choosing a local audio file. */
+    /**
+     * The menu item for choosing a local audio file.
+     */
     private static final Runnable chooseFileMenuItem = () -> {
         if (chooseFileLocked.get() || uiLocked) {
             return;
@@ -955,7 +1087,9 @@ public final class AudioPlayer {
         }, "AudioPlayer File Chooser");
     };
 
-    /** The runnable used to dreamify an audio file. */
+    /**
+     * The runnable used to dreamify an audio file.
+     */
     private static final Runnable dreamifyRunnable = () -> {
         audioPlayerFrame.notify(new NotificationBuilder("Dreamifying \""
                 + FileUtil.getFilename(currentAudioFile.get()) + CyderStrings.quote).setViewDuration(10000));
@@ -1034,7 +1168,9 @@ public final class AudioPlayer {
         audioPlayerFrame.notify("Successfully dreamified audio");
     }
 
-    /** The item menu to toggle between dreamify states of an audio file. */
+    /**
+     * The item menu to toggle between dreamify states of an audio file.
+     */
     private static final Runnable dreamifyMenuItem = () -> {
         if (dreamifierLocked.get() || uiLocked) {
             return;
@@ -1161,7 +1297,9 @@ public final class AudioPlayer {
         return false;
     }
 
-    /** Performs calls necessary when a requested dreamify audio call failed. */
+    /**
+     * Performs calls necessary when a requested dreamify audio call failed.
+     */
     private static void dreamifyFailed() {
         audioDreamified.set(false);
         dreamifierLocked.set(false);
@@ -1170,13 +1308,19 @@ public final class AudioPlayer {
         audioPlayerFrame.notify("Could not dreamify audio at this time");
     }
 
-    /** The padding used between component rows. */
+    /**
+     * The padding used between component rows.
+     */
     private static final int yComponentPadding = 20;
 
-    /** The width and height used for the primary control buttons. */
+    /**
+     * The width and height used for the primary control buttons.
+     */
     private static final int primaryButtonWidth = 30;
 
-    /** The spacing between the primary buttons. */
+    /**
+     * The spacing between the primary buttons.
+     */
     private static final int primaryButtonSpacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
 
     /**
@@ -1284,10 +1428,14 @@ public final class AudioPlayer {
         }
     }
 
-    /** The default frame title. */
+    /**
+     * The default frame title.
+     */
     private static final String DEFAULT_FRAME_TITLE = "Audio Player";
 
-    /** Refreshes the audio frame title. */
+    /**
+     * Refreshes the audio frame title.
+     */
     private static void refreshFrameTitle() {
         String title = DEFAULT_FRAME_TITLE;
 
@@ -1298,7 +1446,9 @@ public final class AudioPlayer {
         audioPlayerFrame.setTitle(title);
     }
 
-    /** The label to place over the album art if the audio has been dreamified. */
+    /**
+     * The label to place over the album art if the audio has been dreamified.
+     */
     private static final CyderLabel dreamyLabel = new CyderLabel("D");
 
     /**
@@ -1406,7 +1556,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** Refreshes the audio progress label and total length. */
+    /**
+     * Refreshes the audio progress label and total length.
+     */
     private static void refreshAudioProgressLabel() {
         if (currentFrameView.get() == FrameView.MINI) {
             return;
@@ -1420,7 +1572,9 @@ public final class AudioPlayer {
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
     }
 
-    /** Returns a list of valid audio files within the current directory. */
+    /**
+     * Returns a list of valid audio files within the current directory.
+     */
     private static ImmutableList<File> getValidAudioFiles() {
         checkNotNull(currentAudioFile);
 
@@ -1443,7 +1597,9 @@ public final class AudioPlayer {
         return ImmutableList.copyOf(ret);
     }
 
-    /** Refreshes the icon of the play/pause button. */
+    /**
+     * Refreshes the icon of the play/pause button.
+     */
     static void refreshPlayPauseButtonIcon() {
         if (isAudioPlaying()) {
             playPauseButton.setIcon(pauseIcon);
@@ -1474,7 +1630,9 @@ public final class AudioPlayer {
         return audioPlayerFrame != null;
     }
 
-    /** Refreshes the audio volume based on the audio volume slider. */
+    /**
+     * Refreshes the audio volume based on the audio volume slider.
+     */
     public static void refreshAudioLine() {
         try {
             if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
@@ -1495,7 +1653,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** Handles a click from the play/pause button. */
+    /**
+     * Handles a click from the play/pause button.
+     */
     public static void handlePlayPauseButtonClick() {
         if (shouldSuppressClick()) {
             return;
@@ -1513,7 +1673,9 @@ public final class AudioPlayer {
         Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
-    /** Starts playing the current audio file. */
+    /**
+     * Starts playing the current audio file.
+     */
     private static void playAudio() {
         try {
             // object created outside
@@ -1555,7 +1717,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** A call back for InnerAudioPlayers to invoke when they are killed. */
+    /**
+     * A call back for InnerAudioPlayers to invoke when they are killed.
+     */
     static void playAudioCallback() {
         // user didn't click any buttons so we should try and find the next audio
         if (lastAction == LastAction.Play) {
@@ -1595,7 +1759,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** A magic number to denote an undefined pause location. */
+    /**
+     * A magic number to denote an undefined pause location.
+     */
     private static final long UNKNOWN_PAUSE_LOCATION = -1L;
 
     /*
@@ -1603,13 +1769,19 @@ public final class AudioPlayer {
      */
     private static long pauseLocation;
 
-    /** The location in milliseconds the previous InnerAudioPlayer was paused at. */
+    /**
+     * The location in milliseconds the previous InnerAudioPlayer was paused at.
+     */
     private static long pauseLocationMillis;
 
-    /** A magic number used to denote an unknown audio length; */
+    /**
+     * A magic number used to denote an unknown audio length;
+     */
     private static final long UNKNOWN_AUDIO_LENGTH = -1;
 
-    /** The total length of the current (paused or playing) audio. */
+    /**
+     * The total length of the current (paused or playing) audio.
+     */
     private static long audioTotalLength = UNKNOWN_AUDIO_LENGTH;
 
     /**
@@ -1621,7 +1793,9 @@ public final class AudioPlayer {
         return innerAudioPlayer != null ? innerAudioPlayer.getMillisecondsIn() : pauseLocationMillis;
     }
 
-    /** Pauses playback of the current audio file. */
+    /**
+     * Pauses playback of the current audio file.
+     */
     private static void pauseAudio() {
         if (innerAudioPlayer != null) {
             audioTotalLength = innerAudioPlayer.getTotalAudioLength();
@@ -1641,7 +1815,9 @@ public final class AudioPlayer {
      */
     private static final int MILLISECONDS_IN_RESTART_TOL = 5000;
 
-    /** Handles a click from the last button. */
+    /**
+     * Handles a click from the last button.
+     */
     public static void handleLastAudioButtonClick() {
         if (shouldSuppressClick()) {
             return;
@@ -1688,7 +1864,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** Handles a click from the next audio button. */
+    /**
+     * Handles a click from the next audio button.
+     */
     public static void handleNextAudioButtonClick() {
         if (shouldSuppressClick()) {
             return;
@@ -1741,10 +1919,14 @@ public final class AudioPlayer {
         return currentIndex;
     }
 
-    /** Whether the current audio should be repeated on conclusion. */
+    /**
+     * Whether the current audio should be repeated on conclusion.
+     */
     private static boolean repeatAudio;
 
-    /** Handles a click from the repeat button. */
+    /**
+     * Handles a click from the repeat button.
+     */
     public static void handleRepeatButtonClick() {
         // always before handle button methods
         checkNotNull(currentAudioFile);
@@ -1753,10 +1935,14 @@ public final class AudioPlayer {
         repeatAudio = !repeatAudio;
     }
 
-    /** Whether the next audio file should be chosen at random upon completion of the current audio file. */
+    /**
+     * Whether the next audio file should be chosen at random upon completion of the current audio file.
+     */
     private static boolean shuffleAudio;
 
-    /** Handles a click of the shuffle button. */
+    /**
+     * Handles a click of the shuffle button.
+     */
     public static void handleShuffleButtonClick() {
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
@@ -1805,7 +1991,9 @@ public final class AudioPlayer {
         return currentAudioFile.get();
     }
 
-    /** Resets all objects and closes the audio player widget. */
+    /**
+     * Resets all objects and closes the audio player widget.
+     */
     private static void killAndCloseWidget() {
         if (isAudioPlaying()) {
             pauseAudio();
@@ -1841,10 +2029,14 @@ public final class AudioPlayer {
         Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
-    /** The time in ms to delay possible ui interactions. */
+    /**
+     * The time in ms to delay possible ui interactions.
+     */
     private static final int ACTION_TIMEOUT_MS = 50;
 
-    /** The last time a ui action was permitted. */
+    /**
+     * The last time a ui action was permitted.
+     */
     private static long lastActionTime;
 
     /**
@@ -1861,7 +2053,9 @@ public final class AudioPlayer {
         }
     }
 
-    /** Revalidates necessary components following an audio file change. */
+    /**
+     * Revalidates necessary components following an audio file change.
+     */
     private static void revalidateFromAudioFileChange() {
         refreshFrameTitle();
         refreshAudioTitleLabel();
@@ -1904,46 +2098,74 @@ public final class AudioPlayer {
 
     private static final AtomicBoolean phaseTwoViewLocked = new AtomicBoolean(false);
 
-    /** The list of search results previously found. */
+    /**
+     * The list of search results previously found.
+     */
     private static final LinkedList<YoutubeSearchResult> searchResults = new LinkedList<>();
 
-    /** The length of the thumbnails. */
+    /**
+     * The length of the thumbnails.
+     */
     private static final int bufferedImageLen = 250;
 
-    /** The text pane used to display youtube search results. */
+    /**
+     * The text pane used to display youtube search results.
+     */
     private static JTextPane searchResultsPane;
 
-    /** The printing util used for printing out search results to the scroll pane. */
+    /**
+     * The printing util used for printing out search results to the scroll pane.
+     */
     private static StringUtil printingUtil;
 
-    /** The scroll pane for the search results pane. */
+    /**
+     * The scroll pane for the search results pane.
+     */
     private static CyderScrollPane searchResultsScroll;
 
-    /** The search button for phase two. */
+    /**
+     * The search button for phase two.
+     */
     private static CyderButton searchButton;
 
-    /** The button used to go back to the main audio page. */
+    /**
+     * The button used to go back to the main audio page.
+     */
     private static CyderButton backButton;
 
-    /** The width of phase two components excluding the scroll pane. */
+    /**
+     * The width of phase two components excluding the scroll pane.
+     */
     private static final int phaseTwoWidth = 300;
 
-    /** The information label for displaying progress when a search is underway. */
+    /**
+     * The information label for displaying progress when a search is underway.
+     */
     private static CyderLabel informationLabel;
 
-    /** The search field for downloading audio. */
+    /**
+     * The search field for downloading audio.
+     */
     private static CyderModernTextField searchField;
 
-    /** The previously searched text. */
+    /**
+     * The previously searched text.
+     */
     private static String previousSearch;
 
-    /** The previous location of the search scroll pane. */
+    /**
+     * The previous location of the search scroll pane.
+     */
     private static int previousScrollLocation;
 
-    /** The default information label text. */
+    /**
+     * The default information label text.
+     */
     private static final String DEFAULT_INFORMATION_LABEL_TEXT = "Search YouTube using the above field";
 
-    /** Performs operations necessary to transitioning from the search view to the {@link FrameView#FULL} view. */
+    /**
+     * Performs operations necessary to transitioning from the search view to the {@link FrameView#FULL} view.
+     */
     private static void goBackFromSearchView() {
         previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
         onSearchView.set(false);
@@ -1952,10 +2174,14 @@ public final class AudioPlayer {
         setupAndShowFrameView(FrameView.FULL);
     }
 
-    /** The color used as the background for the search results scroll and information label. */
+    /**
+     * The color used as the background for the search results scroll and information label.
+     */
     private static final Color SCROLL_BACKGROUND_COLOR = new Color(30, 30, 30);
 
-    /** Constructs the search view where a user can search for and download audio from youtube. */
+    /**
+     * Constructs the search view where a user can search for and download audio from youtube.
+     */
     private static void constructPhaseTwoView() {
         if (uiLocked || phaseTwoViewLocked.get()) {
             return;
@@ -2092,7 +2318,9 @@ public final class AudioPlayer {
         searchResultsScroll.setVisible(visible);
     }
 
-    /** Hides the information label. */
+    /**
+     * Hides the information label.
+     */
     private static void hideInformationLabel() {
         informationLabel.setVisible(false);
         informationLabel.setText("");
@@ -2108,41 +2336,65 @@ public final class AudioPlayer {
         informationLabel.setVisible(true);
     }
 
-    /** The number of search results to grab when searching youtube. */
+    /**
+     * The number of search results to grab when searching youtube.
+     */
     private static final int numSearchResults = 10;
 
-    /** A search result object to hold data in the results scroll pane. */
+    /**
+     * A search result object to hold data in the results scroll pane.
+     */
     private static record YoutubeSearchResult(String uuid, String title, String description,
                                               String channel, BufferedImage bi) {}
 
-    /** The alignment object used for menu alignment. */
+    /**
+     * The alignment object used for menu alignment.
+     */
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-    /** The string used for the information label when a youtube query is triggered. */
+    /**
+     * The string used for the information label when a youtube query is triggered.
+     */
     private static final String SEARCHING = "Searching...";
 
-    /** The string use for download buttons. */
+    /**
+     * The string use for download buttons.
+     */
     private static final String DOWNLOAD = "Download";
 
-    /** The string use for download buttons during a mouse over event when the download is in progress. */
+    /**
+     * The string use for download buttons during a mouse over event when the download is in progress.
+     */
     private static final String CANCEL = "Cancel";
 
-    /** The button text for when a button should trigger an audio play event. */
+    /**
+     * The button text for when a button should trigger an audio play event.
+     */
     private static final String PLAY = "Play";
 
-    /** The button text for when a download is concluding and would typically say 100%. */
+    /**
+     * The button text for when a download is concluding and would typically say 100%.
+     */
     private static final String FINISHING = "Finishing";
 
-    /** The information label text used for when no search results are found. */
+    /**
+     * The information label text used for when no search results are found.
+     */
     private static final String NO_RESULTS = "No results found";
 
-    /** The last search result output. */
+    /**
+     * The last search result output.
+     */
     private static Document lastSearchResultsPage;
 
-    /** The formatting results string. */
+    /**
+     * The formatting results string.
+     */
     private static final String FORMATTING_RESULTS = "Formatting results...";
 
-    /** Searches YouTube for the provided text and updates the results pane with videos found. */
+    /**
+     * Searches YouTube for the provided text and updates the results pane with videos found.
+     */
     private static void searchAndUpdate() {
         String rawFieldText = searchField.getText();
 

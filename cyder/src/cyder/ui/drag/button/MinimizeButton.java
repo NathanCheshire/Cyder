@@ -6,9 +6,13 @@ import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 
-/** A minimize button for CyderFrame drag labels. */
+/**
+ * A minimize button for CyderFrame drag labels.
+ */
 public class MinimizeButton extends CyderDragLabelButton {
-    /** The size this minimize button will be painted with. */
+    /**
+     * The size this minimize button will be painted with.
+     */
     private DragLabelButtonSize size;
 
     /**
@@ -20,7 +24,9 @@ public class MinimizeButton extends CyderDragLabelButton {
         this(effectFrame, DEFAULT_SIZE);
     }
 
-    /** The text for the minimize button. */
+    /**
+     * The text for the minimize button.
+     */
     private static final String MINIMIZE = "Minimize";
 
     /**
@@ -50,16 +56,24 @@ public class MinimizeButton extends CyderDragLabelButton {
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
-    /** The padding between the edges of the painted minimize button. */
+    /**
+     * The padding between the edges of the painted minimize button.
+     */
     private static final int PAINT_PADDING = 4;
 
-    /** The stroke to paint with for this minimize button. */
+    /**
+     * The stroke to paint with for this minimize button.
+     */
     private static final BasicStroke minimizeStroke = new BasicStroke(2);
 
-    /** The offset from the bottom for drawing this minimize button. */
+    /**
+     * The offset from the bottom for drawing this minimize button.
+     */
     private static final int MINIMIZE_BOTTOM_OFFSET = 4;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintDragLabelButton(Graphics g) {
         Preconditions.checkNotNull(g);
@@ -74,14 +88,18 @@ public class MinimizeButton extends CyderDragLabelButton {
         g2d.drawLine(0, minimizeYStart, getPaintLength(), minimizeYStart);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpecificStringRepresentation() {
         return MINIMIZE;

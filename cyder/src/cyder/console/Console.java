@@ -87,7 +87,9 @@ import static cyder.constants.CyderStrings.*;
  */
 @SuppressWarnings({"FieldCanBeLocal", "ImmutableEnumChecker"}) /* member clarity, enum used as singleton */
 public enum Console {
-    /** The Console singleton. */
+    /**
+     * The Console singleton.
+     */
     INSTANCE;
 
     /**
@@ -98,7 +100,9 @@ public enum Console {
         Logger.log(LogTag.OBJECT_CREATION, "Console singleton constructed");
     }
 
-    /** A list of the frames to ignore when placing a frame in the console taskbar menu. */
+    /**
+     * A list of the frames to ignore when placing a frame in the console taskbar menu.
+     */
     private final ArrayList<CyderFrame> frameTaskbarExceptions = new ArrayList<>() {
         @Override
         public void clear() {
@@ -106,22 +110,34 @@ public enum Console {
         }
     };
 
-    /** The UUID of the user currently associated with the Console. */
+    /**
+     * The UUID of the user currently associated with the Console.
+     */
     private String uuid;
 
-    /** The Console's CyderFrame instance. */
+    /**
+     * The Console's CyderFrame instance.
+     */
     private CyderFrame consoleCyderFrame;
 
-    /** The input handler linked to the Console's IO. */
+    /**
+     * The input handler linked to the Console's IO.
+     */
     private BaseInputHandler baseInputHandler;
 
-    /** The Console output scroll pane. */
+    /**
+     * The Console output scroll pane.
+     */
     private CyderScrollPane outputScroll;
 
-    /** The Console output TextPane controlled by the scroll pane. */
+    /**
+     * The Console output TextPane controlled by the scroll pane.
+     */
     private JTextPane outputArea;
 
-    /** The JTextPane used for the console menu. */
+    /**
+     * The JTextPane used for the console menu.
+     */
     private JTextPane menuPane;
 
     /**
@@ -130,61 +146,99 @@ public enum Console {
      */
     private JPasswordField inputField;
 
-    /** The menu button for the console frame. */
+    /**
+     * The menu button for the console frame.
+     */
     private MenuButton menuButton;
 
-    /** The menu button for the audio controls. */
+    /**
+     * The menu button for the audio controls.
+     */
     private MenuButton toggleAudioControls;
 
-    /** The close button for the drag label right button list. */
+    /**
+     * The close button for the drag label right button list.
+     */
     private CloseButton closeButton;
 
-    /** The change size button for the drag label right button list. */
+    /**
+     * The change size button for the drag label right button list.
+     */
     private ChangeSizeButton changeSizeButton;
 
-    /** The default focus owner for focus to default to when no focused components can be found. */
+    /**
+     * The default focus owner for focus to default to when no focused components can be found.
+     */
     private Component defaultFocusOwner;
 
-    /** The label used for the Cyder taskbar. */
+    /**
+     * The label used for the Cyder taskbar.
+     */
     private JLabel menuLabel;
 
-    /** The scroll pane for the active frames. */
+    /**
+     * The scroll pane for the active frames.
+     */
     private CyderScrollPane menuScroll;
 
-    /** The audio menu parent label */
+    /**
+     * The audio menu parent label
+     */
     private JLabel audioControlsLabel;
 
-    /** The button label used to indicate if audio is playing */
+    /**
+     * The button label used to indicate if audio is playing
+     */
     private JLabel playPauseAudioLabel;
 
-    /** Whether the console is closed. */
+    /**
+     * Whether the console is closed.
+     */
     private final AtomicBoolean consoleClosed = new AtomicBoolean(true);
 
-    /** The current bash string to use for the start of the input field. */
+    /**
+     * The current bash string to use for the start of the input field.
+     */
     private String consoleBashString;
 
-    /** The command list used for scrolling. */
+    /**
+     * The command list used for scrolling.
+     */
     private final ArrayList<String> commandList = new ArrayList<>();
 
-    /** The index of the command in the command history list we are at. */
+    /**
+     * The index of the command in the command history list we are at.
+     */
     private int commandIndex;
 
-    /** The last direction performed upon the most recent switch background call. */
+    /**
+     * The last direction performed upon the most recent switch background call.
+     */
     private Direction lastSlideDirection = Direction.LEFT;
 
-    /** The current orientation of the Console. */
+    /**
+     * The current orientation of the Console.
+     */
     private Direction consoleDir = Direction.TOP;
 
-    /** The last direction the console was oriented in. */
+    /**
+     * The last direction the console was oriented in.
+     */
     private Direction lastConsoleDir = consoleDir;
 
-    /** The list of recognized backgrounds that the Console may switch to. */
+    /**
+     * The list of recognized backgrounds that the Console may switch to.
+     */
     private final ArrayList<ConsoleBackground> backgrounds = new ArrayList<>();
 
-    /** The index of the background we are currently at in the backgrounds list. */
+    /**
+     * The index of the background we are currently at in the backgrounds list.
+     */
     private int backgroundIndex;
 
-    /** Whether dancing is currently active. */
+    /**
+     * Whether dancing is currently active.
+     */
     private boolean currentlyDancing;
 
     /**
@@ -268,7 +322,9 @@ public enum Console {
         inputField.setCaretPosition(inputField.getPassword().length);
     }
 
-    /** Checks for whether the debug stats should be shown. */
+    /**
+     * Checks for whether the debug stats should be shown.
+     */
     private void checkForDebugStats() {
         boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
         if (debugStats) showDebugStats();
@@ -304,34 +360,54 @@ public enum Console {
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
-    /** The ratio of the busy width length to the console width. */
+    /**
+     * The ratio of the busy width length to the console width.
+     */
     private final int busyIconToConsoleWidthRatio = 8;
 
-    /** The height of the busy icon. */
+    /**
+     * The height of the busy icon.
+     */
     private final int busyIconHeight = 3;
 
-    /** The busy icon animation increment. */
+    /**
+     * The busy icon animation increment.
+     */
     private final int busyIconAnimationIncrement = 2;
 
-    /** The busy icon animation delay. */
+    /**
+     * The busy icon animation delay.
+     */
     private final int busyIconAnimationDelay = 4;
 
-    /** The delay the busy icon stops between sliding from the right to left and the left to the right. */
+    /**
+     * The delay the busy icon stops between sliding from the right to left and the left to the right.
+     */
     private final int busyIconAnimationTransitionDelay = 500;
 
-    /** The busy icon for the console. */
+    /**
+     * The busy icon for the console.
+     */
     private JLabel busyIcon;
 
-    /** Whether the busy icon has been initialized. */
+    /**
+     * Whether the busy icon has been initialized.
+     */
     private boolean busyIconInitialized = false;
 
-    /** Whether the busy icon should be showed currently. */
+    /**
+     * Whether the busy icon should be showed currently.
+     */
     private final AtomicBoolean shouldShowBusyAnimation = new AtomicBoolean();
 
-    /** The starting point of the busy icon. */
+    /**
+     * The starting point of the busy icon.
+     */
     private final Point busyIconStartingPoint = new Point(0, 0);
 
-    /** Initializes the console busy icon. */
+    /**
+     * Initializes the console busy icon.
+     */
     private void initializeBusyIcon() {
         if (busyIconInitialized) return;
         busyIconInitialized = true;
@@ -351,7 +427,9 @@ public enum Console {
         busyIcon.setVisible(false);
     }
 
-    /** Shows the busy animation starting from the beginning */
+    /**
+     * Shows the busy animation starting from the beginning
+     */
     private void showBusyAnimation() {
         Preconditions.checkState(!shouldShowBusyAnimation.get());
 
@@ -392,12 +470,16 @@ public enum Console {
         }, IgnoreThread.ConsoleBusyAnimation.getName());
     }
 
-    /** Hides the busy animation if currently visible. */
+    /**
+     * Hides the busy animation if currently visible.
+     */
     public void hideBusyAnimation() {
         shouldShowBusyAnimation.set(false);
     }
 
-    /** Resets private variables to their default state. */
+    /**
+     * Resets private variables to their default state.
+     */
     @ForReadability
     private void resetMembers() {
         consoleBashString = UserUtil.getCyderUser().getName() + BASH_STRING_PREFIX;
@@ -510,7 +592,9 @@ public enum Console {
         consoleCyderFrame.setShouldAnimateOpacity(!isFullscreen());
     }
 
-    /** The record used for determining the console background icon and the corresponding width and height. */
+    /**
+     * The record used for determining the console background icon and the corresponding width and height.
+     */
     private record ConsoleIcon(ImageIcon background, Dimension dimension) {}
 
     /**
@@ -555,17 +639,23 @@ public enum Console {
         return new ConsoleIcon(icon, new Dimension(width, height));
     }
 
-    /** Refreshes the console super title, that of displaying "Version Cyder [Nathan]". */
+    /**
+     * Refreshes the console super title, that of displaying "Version Cyder [Nathan]".
+     */
     public void refreshConsoleSuperTitle() {
         consoleCyderFrame.setTitle(CyderVersionManager.INSTANCE.getVersion()
                 + CyderVersionManager.INSTANCE.getProgramName() + space
                 + openingBracket + UserUtil.getCyderUser().getName() + closingBracket);
     }
 
-    /** The value to indicate a frame is not pinned to the console. */
+    /**
+     * The value to indicate a frame is not pinned to the console.
+     */
     private static final int FRAME_NOT_PINNED = Integer.MIN_VALUE;
 
-    /** The mouse motion adapter for frame pinned window logic. */
+    /**
+     * The mouse motion adapter for frame pinned window logic.
+     */
     private final MouseMotionAdapter consolePinnedMouseMotionAdapter = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -584,7 +674,9 @@ public enum Console {
         }
     };
 
-    /** The mouse adapter for frame pinned window logic. */
+    /**
+     * The mouse adapter for frame pinned window logic.
+     */
     private final MouseAdapter consolePinnedMouseAdapter = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
@@ -606,14 +698,18 @@ public enum Console {
         }
     };
 
-    /** Adds the pinned window logic listeners to the console. */
+    /**
+     * Adds the pinned window logic listeners to the console.
+     */
     @ForReadability
     private void installConsolePinnedWindowListeners() {
         consoleCyderFrame.addDragListener(consolePinnedMouseMotionAdapter);
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedMouseAdapter);
     }
 
-    /** Revalidates the bounds of the custom console menu and the audio controls menu. */
+    /**
+     * Revalidates the bounds of the custom console menu and the audio controls menu.
+     */
     private void revalidateCustomMenuBounds() {
         if (UiUtil.notNullAndVisible(menuLabel)) {
             menuLabel.setBounds((int) consoleMenuShowingPoint.getX(), (int) consoleMenuShowingPoint.getY(),
@@ -621,10 +717,14 @@ public enum Console {
         }
     }
 
-    /** The y value for the audio menu after animated on. */
+    /**
+     * The y value for the audio menu after animated on.
+     */
     private static final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
-    /** Revalidates the audio menu bounds. */
+    /**
+     * Revalidates the audio menu bounds.
+     */
     public void revalidateAudioMenuBounds() {
         if (UiUtil.notNullAndVisible(audioControlsLabel)) {
             audioControlsLabel.setBounds(calculateAudioMenuX(), audioMenuLabelShowingY,
@@ -665,7 +765,9 @@ public enum Console {
         }
     }
 
-    /** Sets up the output area and output scroll and adds it to the console. */
+    /**
+     * Sets up the output area and output scroll and adds it to the console.
+     */
     @ForReadability
     private void installOutputArea() {
         outputArea = new JTextPane() {
@@ -728,7 +830,9 @@ public enum Console {
         consoleCyderFrame.getContentPane().add(outputScroll);
     }
 
-    /** Sets up the input field and adds it to the console. */
+    /**
+     * Sets up the input field and adds it to the console.
+     */
     @ForReadability
     private void installInputField() {
         inputField = new JPasswordField();
@@ -764,7 +868,9 @@ public enum Console {
         defaultFocusOwner = inputField;
     }
 
-    /** Sets up the input map to allow the drag label buttons to be triggered via the enter key. */
+    /**
+     * Sets up the input map to allow the drag label buttons to be triggered via the enter key.
+     */
     @ForReadability
     private void setupButtonEnterInputMap() {
         InputMap inputMap = (InputMap) UIManager.get(BUTTON_INPUT_FOCUS_MAP_KEY);
@@ -811,23 +917,33 @@ public enum Console {
         UiUtil.requestFramePosition(requestedConsoleX, requestedConsoleY, consoleCyderFrame);
     }
 
-    /** The tooltip of the alternate background button. */
+    /**
+     * The tooltip of the alternate background button.
+     */
     private static final String ALTERNATE_BACKGROUND = "Alternate Background";
 
-    /** The tooltip of the audio menu button. */
+    /**
+     * The tooltip of the audio menu button.
+     */
     private static final String AUDIO_MENU = "Audio Menu";
 
-    /** The text for the only one background notification builder. */
+    /**
+     * The text for the only one background notification builder.
+     */
     private static final String onlyOneBackgroundNotificationText = "You only have one background image. "
             + "Try adding more via the user editor";
 
-    /** The builder for when the alternate background buttons is pressed when only one background is present. */
+    /**
+     * The builder for when the alternate background buttons is pressed when only one background is present.
+     */
     private static final NotificationBuilder onlyOneBackgroundNotificationBuilder
             = new NotificationBuilder(onlyOneBackgroundNotificationText)
             .setViewDuration(5000)
             .setOnKillAction(() -> UserEditor.showGui(UserEditor.Page.FILES));
 
-    /** Installs the right drag label buttons for the console frame. */
+    /**
+     * Installs the right drag label buttons for the console frame.
+     */
     @ForReadability
     private void installRightDragLabelButtons() {
         // Remove default close button
@@ -899,7 +1015,9 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addRightButton(toggleAudioControls, 0);
     }
 
-    /** Installs the left drag label buttons for the console frame. */
+    /**
+     * Installs the left drag label buttons for the console frame.
+     */
     @ForReadability
     private void installLeftDragLabelButtons() {
         menuButton = new MenuButton();
@@ -911,7 +1029,9 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
     }
 
-    /** Sets up and adds the console clock to the top drag label. */
+    /**
+     * Sets up and adds the console clock to the top drag label.
+     */
     @ForReadability
     private void installConsoleClock() {
         consoleCyderFrame.setTitlePosition(TitlePosition.CENTER);
@@ -919,13 +1039,19 @@ public enum Console {
         consoleCyderFrame.setTitleLabelFont(CONSOLE_CLOCK_FONT);
     }
 
-    /** The key used for the debug lines abstract action. */
+    /**
+     * The key used for the debug lines abstract action.
+     */
     private static final String DEBUG_LINES = "debuglines";
 
-    /** The key used for the forced exit abstract action. */
+    /**
+     * The key used for the forced exit abstract action.
+     */
     private static final String FORCED_EXIT = "forcedexit";
 
-    /** Installs all the input field listeners. */
+    /**
+     * Installs all the input field listeners.
+     */
     private void installInputFieldListeners() {
         inputField.addKeyListener(inputFieldKeyAdapter);
         inputField.addKeyListener(commandScrolling);
@@ -944,13 +1070,17 @@ public enum Console {
         inputField.getActionMap().put(FORCED_EXIT, forcedExitAbstractAction);
     }
 
-    /** Installs all the output area listeners. */
+    /**
+     * Installs all the output area listeners.
+     */
     private void installOutputAreaListeners() {
         outputArea.addFocusListener(outputAreaFocusAdapter);
         outputArea.addMouseWheelListener(fontSizerListener);
     }
 
-    /** Sets up resizing for the console. */
+    /**
+     * Sets up resizing for the console.
+     */
     @ForReadability
     private void installConsoleResizing() {
         consoleCyderFrame.initializeResizing();
@@ -962,7 +1092,9 @@ public enum Console {
         refreshConsoleMaxSize();
     }
 
-    /** Refreshes the maximum size of the console. */
+    /**
+     * Refreshes the maximum size of the console.
+     */
     private void refreshConsoleMaxSize() {
         if (getCurrentBackground().getReferenceFile() != null) {
             ImageIcon currentIcon = getCurrentBackground().generateImageIcon();
@@ -980,7 +1112,9 @@ public enum Console {
         }
     }
 
-    /** The window adapter for window iconification/de-iconification actions. */
+    /**
+     * The window adapter for window iconification/de-iconification actions.
+     */
     private final WindowAdapter consoleWindowAdapter = new WindowAdapter() {
         @Override
         public void windowDeiconified(WindowEvent e) {
@@ -992,34 +1126,52 @@ public enum Console {
         }
     };
 
-    /** The actions to invoke when the console window is de-iconified. */
+    /**
+     * The actions to invoke when the console window is de-iconified.
+     */
     private void onConsoleWindowDeiconified() {
         inputField.requestFocus();
         inputField.setCaretPosition(inputField.getPassword().length);
     }
 
-    /** The chime mp3 file. */
+    /**
+     * The chime mp3 file.
+     */
     private final File chimeFile = StaticUtil.getStaticResource("chime.mp3");
 
-    /** The last hour a chime sound was played at. */
+    /**
+     * The last hour a chime sound was played at.
+     */
     private final AtomicInteger lastChimeHour = new AtomicInteger(-1);
 
-    /** The frequency to check the clock for a chime. */
+    /**
+     * The frequency to check the clock for a chime.
+     */
     private static final int CHIME_CHECKER_FREQUENCY = 50;
 
-    /** The clock refresh frequency. */
+    /**
+     * The clock refresh frequency.
+     */
     private static final int CLOCK_REFRESH_SLEEP_TIME = 200;
 
-    /** The frequency to check for console disposal in the clock refresh thread. */
+    /**
+     * The frequency to check for console disposal in the clock refresh thread.
+     */
     private static final int CLOCK_CHECK_FREQUENCY = 50;
 
-    /** The frequency to check for whether the busy animation should be shown. */
+    /**
+     * The frequency to check for whether the busy animation should be shown.
+     */
     private static final int busyAnimationSleepTime = 3000;
 
-    /** The frequency to check for console disposal in the busy animation checker thread. */
+    /**
+     * The frequency to check for console disposal in the busy animation checker thread.
+     */
     private static final int busyAnimationCheckFrequency = 50;
 
-    /** Begins the console checker executors/threads. */
+    /**
+     * Begins the console checker executors/threads.
+     */
     @ForReadability
     private void startExecutors() {
         CyderThreadRunner.submit(() -> {
@@ -1098,13 +1250,19 @@ public enum Console {
         }, IgnoreThread.CyderBusyChecker.getName());
     }
 
-    /** The thread name of the debug stat finder. */
+    /**
+     * The thread name of the debug stat finder.
+     */
     private static final String DEBUG_STAT_FINDER_THREAD_NAME = "Debug Stat Finder";
 
-    /** The number of days without Cyder use which can pass without a welcome back notification. */
+    /**
+     * The number of days without Cyder use which can pass without a welcome back notification.
+     */
     private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
 
-    /** Performs the special day checks. */
+    /**
+     * Performs the special day checks.
+     */
     private void performSpecialDayChecks() {
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
@@ -1172,16 +1330,24 @@ public enum Console {
         }, DEBUG_STAT_FINDER_THREAD_NAME);
     }
 
-    /** The default intro music to play if enabled an no user music is present. */
+    /**
+     * The default intro music to play if enabled an no user music is present.
+     */
     private static final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
 
-    /** The Cyder intro theme file. */
+    /**
+     * The Cyder intro theme file.
+     */
     private static final File introTheme = StaticUtil.getStaticResource("introtheme.mp3");
 
-    /** The thread name of the intro music grayscale checker. */
+    /**
+     * The thread name of the intro music grayscale checker.
+     */
     private static final String INTRO_MUSIC_CHECKER_THREAD_NAME = "Intro Music Checker";
 
-    /** Determines what audio to play at the beginning of the Console startup. */
+    /**
+     * Determines what audio to play at the beginning of the Console startup.
+     */
     private void introMusicCheck() {
         boolean introMusic = UserUtil.getCyderUser().getIntroMusic().equalsIgnoreCase("1");
 
@@ -1192,7 +1358,9 @@ public enum Console {
         }
     }
 
-    /** Plays music from the user's music folder if a file is present. Otherwise the default intro music is played. */
+    /**
+     * Plays music from the user's music folder if a file is present. Otherwise the default intro music is played.
+     */
     @ForReadability
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
@@ -1217,7 +1385,9 @@ public enum Console {
         }
     }
 
-    /** Checks for a grayscale image and plays a grayscale song if true. */
+    /**
+     * Checks for a grayscale image and plays a grayscale song if true.
+     */
     @ForReadability
     private void grayscaleImageCheck() {
         CyderThreadRunner.submit(() -> {
@@ -1262,10 +1432,14 @@ public enum Console {
         }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
 
-    /** Whether debug lines should be drawn. */
+    /**
+     * Whether debug lines should be drawn.
+     */
     private boolean debugLines = false;
 
-    /** The action to allow debug lines to be drawn across all frames via the console. */
+    /**
+     * The action to allow debug lines to be drawn across all frames via the console.
+     */
     private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1274,7 +1448,9 @@ public enum Console {
         }
     };
 
-    /** The action to allow Cyder to close when alt + F4 are pressed in combination. */
+    /**
+     * The action to allow Cyder to close when alt + F4 are pressed in combination.
+     */
     private final AbstractAction forcedExitAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1282,7 +1458,9 @@ public enum Console {
         }
     };
 
-    /** The focus adapter for the output area field. */
+    /**
+     * The focus adapter for the output area field.
+     */
     private final FocusAdapter outputAreaFocusAdapter = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
@@ -1306,7 +1484,9 @@ public enum Console {
         }
     };
 
-    /** The focus adapter for the input field. */
+    /**
+     * The focus adapter for the input field.
+     */
     private final FocusAdapter inputFieldFocusAdapter = new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent e) {
@@ -1315,15 +1495,21 @@ public enum Console {
         }
     };
 
-    /** The index of the current focused menu item index. */
+    /**
+     * The index of the current focused menu item index.
+     */
     private int currentFocusedMenuItemIndex = -1;
 
-    /** Focuses the next menu item. */
+    /**
+     * Focuses the next menu item.
+     */
     private void focusNextTaskbarMenuItem() {
         focusTaskbarMenuItem(currentFocusedMenuItemIndex + 1);
     }
 
-    /** Focuses the last last menu item */
+    /**
+     * Focuses the last last menu item
+     */
     private void focusPreviousTaskbarMenuItem() {
         focusTaskbarMenuItem(currentFocusedMenuItemIndex - 1);
     }
@@ -1359,7 +1545,9 @@ public enum Console {
         reinstallCurrentTaskbarIcons();
     }
 
-    /** Removes focus from any and task menu taskbar items */
+    /**
+     * Removes focus from any and task menu taskbar items
+     */
     private void removeFocusFromTaskbarMenuIcons() {
         currentFocusedMenuItemIndex = -1;
 
@@ -1376,7 +1564,9 @@ public enum Console {
         }
     }
 
-    /** The logic for when the menu button is pressed. */
+    /**
+     * The logic for when the menu button is pressed.
+     */
     private void onMenuButtonClicked() {
         Point menuButtonPointOnScreen = menuButton.getLocationOnScreen();
         Rectangle menuButtonBoundsOnScreen = new Rectangle(
@@ -1409,19 +1599,29 @@ public enum Console {
         startMenuLabelAndFieldAnimatingThreads();
     }
 
-    /** The name of the animating thread for the console input and output fields. */
+    /**
+     * The name of the animating thread for the console input and output fields.
+     */
     private static final String CONSOLE_FIELDS_ANIMATOR_THREAD_NAME = "Console Fields Animator";
 
-    /** The name of the thread for animating in the menu label. */
+    /**
+     * The name of the thread for animating in the menu label.
+     */
     private static final String MINIMIZE_MENU_THREAD_NAME = "Minimize Console Menu Thread";
 
-    /** The increment in pixels for the menu label and fields for animations. */
+    /**
+     * The increment in pixels for the menu label and fields for animations.
+     */
     private static final int menuAnimationIncrement = 8;
 
-    /** The delay in ms for the menu and fields animations. */
+    /**
+     * The delay in ms for the menu and fields animations.
+     */
     private static final int menuAnimationDelayMs = 10;
 
-    /** The x value the fields should be animated to when the menu label is animating in. */
+    /**
+     * The x value the fields should be animated to when the menu label is animating in.
+     */
     private static final int fieldsEnterAnimateToX = TASKBAR_MENU_WIDTH + 2 + 15;
 
     @ForReadability
@@ -1462,7 +1662,9 @@ public enum Console {
         }, CONSOLE_FIELDS_ANIMATOR_THREAD_NAME);
     }
 
-    /** The key adapter for the menu button to allow "focusing" taskbar items. */
+    /**
+     * The key adapter for the menu button to allow "focusing" taskbar items.
+     */
     private final KeyAdapter menuButtonKeyAdapter = new KeyAdapter() {
         @Override
         public void keyReleased(KeyEvent e) {
@@ -1486,22 +1688,34 @@ public enum Console {
         return code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT;
     }
 
-    /** The current active frames to generate TaskbarIcons for the console's menu. */
+    /**
+     * The current active frames to generate TaskbarIcons for the console's menu.
+     */
     private final LinkedList<CyderFrame> currentActiveFrames = new LinkedList<>();
 
-    /** The alignment object used for menu alignment. */
+    /**
+     * The alignment object used for menu alignment.
+     */
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-    /** The current taskbar menu frame items. */
+    /**
+     * The current taskbar menu frame items.
+     */
     private ImmutableList<TaskbarIcon> currentFrameMenuItems = ImmutableList.of();
 
-    /** The current taskbar menu mapped exe items. */
+    /**
+     * The current taskbar menu mapped exe items.
+     */
     private ImmutableList<TaskbarIcon> currentMappedExeItems = ImmutableList.of();
 
-    /** The current taskbar default menu items. */
+    /**
+     * The current taskbar default menu items.
+     */
     private ImmutableList<TaskbarIcon> currentDefaultMenuItems = ImmutableList.of();
 
-    /** Refreshes the taskbar icons based on the frames currently in the frame list. */
+    /**
+     * Refreshes the taskbar icons based on the frames currently in the frame list.
+     */
     private synchronized void installMenuTaskbarIcons() {
         lockMenuTaskbarInstallation();
 
@@ -1530,10 +1744,14 @@ public enum Console {
         unlockMenuTaskbarInstallation();
     }
 
-    /** The semaphore used to lock invocation of the {@link #installMenuTaskbarIcons()} method. */
+    /**
+     * The semaphore used to lock invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
     private final Semaphore menuTaskbarLockingSemaphore = new Semaphore(1);
 
-    /** Locks invocation of the {@link #installMenuTaskbarIcons()} method. */
+    /**
+     * Locks invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
     private void lockMenuTaskbarInstallation() {
         try {
             menuTaskbarLockingSemaphore.acquire();
@@ -1542,7 +1760,9 @@ public enum Console {
         }
     }
 
-    /** Unlocks invocation of the {@link #installMenuTaskbarIcons()} method. */
+    /**
+     * Unlocks invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
     private void unlockMenuTaskbarInstallation() {
         menuTaskbarLockingSemaphore.release();
     }
@@ -1601,10 +1821,14 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    /** Whether the last send action for the user editor frame was {@link CyderFrame#toFront()}. */
+    /**
+     * Whether the last send action for the user editor frame was {@link CyderFrame#toFront()}.
+     */
     private final AtomicBoolean sentToFront = new AtomicBoolean();
 
-    /** The runnable for when the preferences default taskbar icon is clicked. */
+    /**
+     * The runnable for when the preferences default taskbar icon is clicked.
+     */
     private final Runnable prefsRunnable = () -> {
         if (UserEditor.isOpen()) {
             if (UserEditor.isMinimized()) {
@@ -1625,13 +1849,19 @@ public enum Console {
         revalidateMenu();
     };
 
-    /** The tooltip and label text for the preferences default taskbar icon. */
+    /**
+     * The tooltip and label text for the preferences default taskbar icon.
+     */
     private static final String PREFS = "Prefs";
 
-    /** The tooltip and label text for the logout default taskbar icon. */
+    /**
+     * The tooltip and label text for the logout default taskbar icon.
+     */
     private static final String LOGOUT = "Logout";
 
-    /** The default compact taskbar icons. */
+    /**
+     * The default compact taskbar icons.
+     */
     private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
             new TaskbarIcon.Builder()
                     .setName(PREFS)
@@ -1649,7 +1879,9 @@ public enum Console {
                     .build()
     );
 
-    /** The default non compact taskbar icons. */
+    /**
+     * The default non compact taskbar icons.
+     */
     private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
             new TaskbarIcon.Builder()
                     .setName(PREFS)
@@ -1712,7 +1944,9 @@ public enum Console {
         return false;
     }
 
-    /** The listener used when input is first handled. */
+    /**
+     * The listener used when input is first handled.
+     */
     private final ActionListener inputFieldActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1744,7 +1978,9 @@ public enum Console {
         return commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(input);
     }
 
-    /** Sets the input field text to the console bash string and the caret to the end. */
+    /**
+     * Sets the input field text to the console bash string and the caret to the end.
+     */
     @ForReadability
     private void resetInputField() {
         inputField.setText(consoleBashString);
@@ -1760,19 +1996,29 @@ public enum Console {
         return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - CyderFrame.BORDER_LEN;
     }
 
-    /** The point the console menu is set at and animated to when visible. */
+    /**
+     * The point the console menu is set at and animated to when visible.
+     */
     private static final Point consoleMenuShowingPoint = new Point(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
-    /** The point the console menu is set at before animating to the visible point. */
+    /**
+     * The point the console menu is set at before animating to the visible point.
+     */
     private static final Point consoleMenuHiddenPoint = new Point(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
-    /** The padding between the menu label and the menu scroll panel on the horizontal axis. */
+    /**
+     * The padding between the menu label and the menu scroll panel on the horizontal axis.
+     */
     private static final int menuScrollHorizontalPadding = 5;
 
-    /** The padding between the menu label and the menu scroll panel on the vertical axis. */
+    /**
+     * The padding between the menu label and the menu scroll panel on the vertical axis.
+     */
     private static final int menuScrollVerticalPadding = 5;
 
-    /** Revalidates the taskbar menu bounds and re-installs the icons. */
+    /**
+     * Revalidates the taskbar menu bounds and re-installs the icons.
+     */
     private void generateConsoleMenu() {
         if (menuLabel != null) {
             menuLabel.setVisible(false);
@@ -1812,7 +2058,9 @@ public enum Console {
         installMenuTaskbarIcons();
     }
 
-    /** Clears the taskbar menu pane and re-prints the current taskbar icons from the three lists. */
+    /**
+     * Clears the taskbar menu pane and re-prints the current taskbar icons from the three lists.
+     */
     private void reinstallCurrentTaskbarIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
@@ -1880,13 +2128,19 @@ public enum Console {
         }
     }
 
-    /** The thread name for the input and output fields out animator thread. */
+    /**
+     * The thread name for the input and output fields out animator thread.
+     */
     private static final String CONSOLE_FIELDS_OUT_ANIMATOR_THREAD_NAME = "Console Field Out Animator";
 
-    /** The animate to x value when animating the fields left with the menu minimize animation. */
+    /**
+     * The animate to x value when animating the fields left with the menu minimize animation.
+     */
     private static final int minFieldAnimateToX = 15;
 
-    /** Slowly animates the taskbar away. */
+    /**
+     * Slowly animates the taskbar away.
+     */
     @ForReadability
     private void minimizeMenu() {
         Preconditions.checkState(menuLabel.isVisible());
@@ -1926,7 +2180,9 @@ public enum Console {
         }, MINIMIZE_MENU_THREAD_NAME);
     }
 
-    /** The input field key adapter used for thread escaping and console rotation. */
+    /**
+     * The input field key adapter used for thread escaping and console rotation.
+     */
     private final KeyAdapter inputFieldKeyAdapter = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -2040,7 +2296,9 @@ public enum Console {
         }
     };
 
-    /** The key listener for input field to control command scrolling. */
+    /**
+     * The key listener for input field to control command scrolling.
+     */
     private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -2109,7 +2367,9 @@ public enum Console {
         }
     };
 
-    /** Some kind of a magic number that denotes the mouse wheel is being scrolled up. */
+    /**
+     * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
+     */
     private static final int WHEEL_UP = -1;
 
     /**
@@ -2321,10 +2581,14 @@ public enum Console {
         consoleCyderFrame.setBackground(icon);
     }
 
-    /** The degree amount used for console directions requiring one rotation. */
+    /**
+     * The degree amount used for console directions requiring one rotation.
+     */
     private static final int NINETY_DEGREES = 90;
 
-    /** The degree amount used for console directions requiring two rotations. */
+    /**
+     * The degree amount used for console directions requiring two rotations.
+     */
     private static final int ONE_EIGHTY_DEGREES = 180;
 
     /**
@@ -2394,10 +2658,14 @@ public enum Console {
         return backgrounds.get(backgroundIndex);
     }
 
-    /** Whether the background switching is locked meaning an animation is currently underway. */
+    /**
+     * Whether the background switching is locked meaning an animation is currently underway.
+     */
     private final AtomicBoolean backgroundSwitchingLocked = new AtomicBoolean(false);
 
-    /** The name of the thread which animates the background switch. */
+    /**
+     * The name of the thread which animates the background switch.
+     */
     private static final String CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME = "Console Background Switcher";
 
     /**
@@ -2549,7 +2817,9 @@ public enum Console {
         }, CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME);
     }
 
-    /** Whether chams (chameleon mode) is currently active. */
+    /**
+     * Whether chams (chameleon mode) is currently active.
+     */
     private final AtomicBoolean chamsActive = new AtomicBoolean();
 
     /**
@@ -2632,7 +2902,9 @@ public enum Console {
     // Command history mods
     // --------------------
 
-    /** Wipes all command history and sets the command index back to 0. */
+    /**
+     * Wipes all command history and sets the command index back to 0.
+     */
     public void clearCommandHistory() {
         commandList.clear();
         commandIndex = 0;
@@ -2789,7 +3061,9 @@ public enum Console {
     // menu generation and revalidation
     // --------------------------------
 
-    /** Sets the visibility of the audio controls button to true. */
+    /**
+     * Sets the visibility of the audio controls button to true.
+     */
     public void showAudioButton() {
         toggleAudioControls.setVisible(true);
     }
@@ -2820,16 +3094,24 @@ public enum Console {
         revalidateInputAndOutputBounds();
     }
 
-    /** The name of the console audio menu minimizer thread. */
+    /**
+     * The name of the console audio menu minimizer thread.
+     */
     private static final String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
 
-    /** The increment for audio menu animations. */
+    /**
+     * The increment for audio menu animations.
+     */
     private static final int audioMenuAnimationIncrement = 8;
 
-    /** The delay for audio menu animations. */
+    /**
+     * The delay for audio menu animations.
+     */
     private static final int audioMenuAnimationDelayMs = 10;
 
-    /** Smoothly animates out the console audio controls. */
+    /**
+     * Smoothly animates out the console audio controls.
+     */
     private void animateOutAudioControls() {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= audioMenuAnimationIncrement) {
@@ -2841,7 +3123,9 @@ public enum Console {
         }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
-    /** Smooth animates out and removes the audio controls button. */
+    /**
+     * Smooth animates out and removes the audio controls button.
+     */
     public void animateOutAndRemoveAudioControls() {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= audioMenuAnimationIncrement) {
@@ -2854,7 +3138,9 @@ public enum Console {
         }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
-    /** Smoothly animates in the audio controls. */
+    /**
+     * Smoothly animates in the audio controls.
+     */
     private void animateInAudioControls() {
         CyderThreadRunner.submit(() -> {
             generateAudioMenu();
@@ -2873,7 +3159,9 @@ public enum Console {
         }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
-    /** Revalidates the visibility audio menu and the play/pause button based on if audio is playing. */
+    /**
+     * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
+     */
     public void revalidateAudioMenuVisibility() {
         if (!AudioPlayer.isWidgetOpen() && !GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
@@ -2891,7 +3179,9 @@ public enum Console {
         }
     }
 
-    /** Revalidates the play pause audio label button icon. */
+    /**
+     * Revalidates the play pause audio label button icon.
+     */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
         if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
@@ -2901,42 +3191,64 @@ public enum Console {
         }
     }
 
-    /** Hides the audio controls menu and toggle button. */
+    /**
+     * Hides the audio controls menu and toggle button.
+     */
     private void removeAudioControls() {
         audioControlsLabel.setVisible(false);
         toggleAudioControls.setVisible(false);
         consoleCyderFrame.getTopDragLabel().refreshRightButtons();
     }
 
-    /** The number of audio menu buttons. */
+    /**
+     * The number of audio menu buttons.
+     */
     private static final int AUDIO_MENU_BUTTONS = 3;
 
-    /** The size of each audio menu button. */
+    /**
+     * The size of each audio menu button.
+     */
     private static final int AUDIO_MENU_BUTTON_SIZE = 30;
 
-    /** The height of the audio menu. */
+    /**
+     * The height of the audio menu.
+     */
     private static final int AUDIO_MENU_LABEL_HEIGHT = 40;
 
-    /** The padding between buttons for the audio menu. */
+    /**
+     * The padding between buttons for the audio menu.
+     */
     private static final int AUDIO_MENU_X_PADDING = 10;
 
-    /** The audio menu button y padding. */
+    /**
+     * The audio menu button y padding.
+     */
     private static final int AUDIO_MENU_BUTTON_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
 
-    /** The width of the audio menu. */
+    /**
+     * The width of the audio menu.
+     */
     private static final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
             + AUDIO_MENU_X_PADDING * (AUDIO_MENU_BUTTONS + 1);
 
-    /** The offset between the end of the audio menu label and the end of the console frame. */
+    /**
+     * The offset between the end of the audio menu label and the end of the console frame.
+     */
     private static final int AUDIO_MENU_X_OFFSET = CyderFrame.BORDER_LEN + 1;
 
-    /** The tooltip for the previous audio menu button. */
+    /**
+     * The tooltip for the previous audio menu button.
+     */
     private static final String PREVIOUS = "Previous";
 
-    /** The tooltip for the play pause audio menu button. */
+    /**
+     * The tooltip for the play pause audio menu button.
+     */
     private static final String PLAY_PAUSE = "Play/Pause";
 
-    /** The tooltip for the skip audio menu button. */
+    /**
+     * The tooltip for the skip audio menu button.
+     */
     private static final String SKIP = "Skip";
 
     /**
@@ -2948,7 +3260,9 @@ public enum Console {
         return consoleCyderFrame.getWidth() - AUDIO_MENU_LABEL_WIDTH - AUDIO_MENU_X_OFFSET;
     }
 
-    /** Generates the audio menu label and the button components. */
+    /**
+     * Generates the audio menu label and the button components.
+     */
     private void generateAudioMenu() {
         audioControlsLabel = new JLabel();
         audioControlsLabel.setBounds(
@@ -3066,7 +3380,9 @@ public enum Console {
         audioControlsLabel.add(nextMusicLabel);
     }
 
-    /** Revalidates the background colors of the console menus (audio or taskbar) that are active. */
+    /**
+     * Revalidates the background colors of the console menus (audio or taskbar) that are active.
+     */
     public void revalidateMenuBackgrounds() {
         if (UiUtil.notNullAndVisible(menuLabel)) {
             menuLabel.setBackground(CyderColors.getGuiThemeColor());
@@ -3097,7 +3413,9 @@ public enum Console {
                 relativeFrame.frame()));
     }
 
-    /** The record used for frames pinned to the console. */
+    /**
+     * The record used for frames pinned to the console.
+     */
     private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {}
 
     /**
@@ -3120,7 +3438,9 @@ public enum Console {
         return ret;
     }
 
-    /** Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled. */
+    /**
+     * Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled.
+     */
     public void refreshClockText() {
         boolean showClock = UserUtil.getCyderUser().getClockOnConsole().equals("1");
         if (!showClock) {
@@ -3178,7 +3498,9 @@ public enum Console {
         return consoleClosed.get();
     }
 
-    /** Saves the console's position and window stats to the currently logged-in user's json file. */
+    /**
+     * Saves the console's position and window stats to the currently logged-in user's json file.
+     */
     public void saveScreenStat() {
         if (consoleCyderFrame == null) return;
         if (consoleCyderFrame.getState() == FRAME_ICONIFIED) return;
@@ -3217,7 +3539,9 @@ public enum Console {
     // Dancing (Get up on the floor, dancing all night long)
     // -----------------------------------------------------
 
-    /** A record for a frame to dance. */
+    /**
+     * A record for a frame to dance.
+     */
     private record RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
         /**
          * Restores the encapsulated frame's original location and re-enables
@@ -3232,7 +3556,9 @@ public enum Console {
         }
     }
 
-    /** Invokes dance in a synchronous way on all CyderFrame instances. */
+    /**
+     * Invokes dance in a synchronous way on all CyderFrame instances.
+     */
     public void dance() {
         LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();
         UiUtil.getCyderFrames().forEach(frame -> {
@@ -3253,7 +3579,9 @@ public enum Console {
         restoreFrames.forEach(RestoreFrame::restore);
     }
 
-    /** Ends the dancing sequence if ongoing. */
+    /**
+     * Ends the dancing sequence if ongoing.
+     */
     public void stopDancing() {
         currentlyDancing = false;
         ProgramStateManager.INSTANCE.setCurrentProgramState(ProgramState.NORMAL);
@@ -3308,13 +3636,19 @@ public enum Console {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 
-    /** An semaphore to ensure only one title notification is ever visible */
+    /**
+     * An semaphore to ensure only one title notification is ever visible
+     */
     private final Semaphore titleNotifySemaphore = new Semaphore(1);
 
-    /** The label used for title notifications. */
+    /**
+     * The label used for title notifications.
+     */
     private final CyderLabel titleNotifyLabel = new CyderLabel();
 
-    /** The exception text for a title notify call with too short if a visible duration. */
+    /**
+     * The exception text for a title notify call with too short if a visible duration.
+     */
     private static final String TITLE_NOTIFY_LENGTH_TOO_SHORT = "A user probably won't"
             + " see a message with that short of a duration";
 
@@ -3376,7 +3710,9 @@ public enum Console {
         }, "Console Title Notify: " + htmlString);
     }
 
-    /** Revalidates the bounds of the title label notify if one is underway. */
+    /**
+     * Revalidates the bounds of the title label notify if one is underway.
+     */
     public void revalidateTitleNotify() {
         if (consoleCyderFrame == null || titleNotifyLabel.getText().isEmpty()) return;
 

@@ -10,27 +10,43 @@ import cyder.utils.StringUtil;
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** Private inner class for the scrolling audio label. */
+/**
+ * Private inner class for the scrolling audio label.
+ */
 public class ScrollingTitleLabel {
-    /** The minimum width of the title label. */
+    /**
+     * The minimum width of the title label.
+     */
     public static final int MIN_WIDTH = 100;
 
-    /** Whether this scrolling title label object has been killed. */
+    /**
+     * Whether this scrolling title label object has been killed.
+     */
     private final AtomicBoolean killed = new AtomicBoolean();
 
-    /** The timeout to sleep for before checking for title scroll label being terminated. */
+    /**
+     * The timeout to sleep for before checking for title scroll label being terminated.
+     */
     private static final int SLEEP_WITH_CHECKS_TIMEOUT = 50;
 
-    /** The timeout between moving the label from one side to the opposite side. */
+    /**
+     * The timeout between moving the label from one side to the opposite side.
+     */
     private static final int SIDE_TO_SIDE_TIMEOUT = 5000;
 
-    /** The timeout between starting the initial timeout. */
+    /**
+     * The timeout between starting the initial timeout.
+     */
     private static final int INITIAL_TIMEOUT = 3000;
 
-    /** The timeout between movement increments of the title label. */
+    /**
+     * The timeout between movement increments of the title label.
+     */
     private static final int MOVEMENT_TIMEOUT = 25;
 
-    /** The label this scrolling label is controlling. */
+    /**
+     * The label this scrolling label is controlling.
+     */
     private final JLabel effectLabel;
 
     /**
@@ -90,7 +106,9 @@ public class ScrollingTitleLabel {
         return effectLabel.getText();
     }
 
-    /** Kills the current scrolling title label. */
+    /**
+     * Kills the current scrolling title label.
+     */
     public void kill() {
         killed.set(true);
     }

@@ -12,7 +12,9 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 
-/** An example widget for new Cyder developers to learn the standard widget construction. */
+/**
+ * An example widget for new Cyder developers to learn the standard widget construction.
+ */
 @Vanilla
 @CyderAuthor
 public final class ExampleWidget {
@@ -39,7 +41,9 @@ public final class ExampleWidget {
         getInstance().innerShowGui();
     }
 
-    /** Shows the widget. */
+    /**
+     * Shows the widget.
+     */
     private void innerShowGui() {
         CyderFrame cyderFrame = new CyderFrame(600, 600);
         cyderFrame.setTitle("Example Widget");

@@ -12,18 +12,28 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** A controlling class for {@link YoutubeUuidChecker}s. */
+/**
+ * A controlling class for {@link YoutubeUuidChecker}s.
+ */
 public final class MasterYoutubeThread {
-    /** The linked JTextPane to output YouTube UUIDs to. */
+    /**
+     * The linked JTextPane to output YouTube UUIDs to.
+     */
     private static JTextPane outputArea;
 
-    /** Whether any instances of helper YouTube threads are running. */
+    /**
+     * Whether any instances of helper YouTube threads are running.
+     */
     private static boolean isActive;
 
-    /** The linked JTextPane's semaphore object to use to block text from being appended to it during script execution. */
+    /**
+     * The linked JTextPane's semaphore object to use to block text from being appended to it during script execution.
+     */
     private static Semaphore semaphore;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private MasterYoutubeThread() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -38,7 +48,9 @@ public final class MasterYoutubeThread {
         return semaphore;
     }
 
-    /** Accessor list of helper threads that actually check the UUIDs. */
+    /**
+     * Accessor list of helper threads that actually check the UUIDs.
+     */
     private static final ArrayList<YoutubeUuidChecker> YOUTUBE_UUID_CHECKERS = new ArrayList<>();
 
     /**
@@ -53,7 +65,9 @@ public final class MasterYoutubeThread {
         MasterYoutubeThread.semaphore = outputPane.getSemaphore();
     }
 
-    /** Kills any instances of helper YouTube threads that are currently running. */
+    /**
+     * Kills any instances of helper YouTube threads that are currently running.
+     */
     public static void killAll() {
         YOUTUBE_UUID_CHECKERS.forEach(YoutubeUuidChecker::kill);
         isActive = false;
@@ -88,16 +102,24 @@ public final class MasterYoutubeThread {
         isActive = true;
     }
 
-    /** The number of urls checked during the current instance of the youtube thread(s). */
+    /**
+     * The number of urls checked during the current instance of the youtube thread(s).
+     */
     private static final AtomicInteger urlsChecked = new AtomicInteger();
 
-    /** The last time the user was notified of the current rate. */
+    /**
+     * The last time the user was notified of the current rate.
+     */
     private static long lastNotifyTime;
 
-    /** The frequency to notify the user of the time remaining until all youtube uuids have been checked. */
+    /**
+     * The frequency to notify the user of the time remaining until all youtube uuids have been checked.
+     */
     private static final int NOTIFY_SECOND_FREQUENCY = 60;
 
-    /** Increments the urls checked counter. */
+    /**
+     * Increments the urls checked counter.
+     */
     public static void incrementUrlsChecked() {
         urlsChecked.getAndIncrement();
 
@@ -107,10 +129,14 @@ public final class MasterYoutubeThread {
         }
     }
 
-    /** The time this youtube thread session started. */
+    /**
+     * The time this youtube thread session started.
+     */
     private static final AtomicLong startTime = new AtomicLong();
 
-    /** Notifies the user of the current calculated rate of urls checked each minute. */
+    /**
+     * Notifies the user of the current calculated rate of urls checked each minute.
+     */
     private static void notifyOfRate() {
         long timeTaken = System.currentTimeMillis() - startTime.get();
         float urlsPerMs = urlsChecked.get() / (float) timeTaken;

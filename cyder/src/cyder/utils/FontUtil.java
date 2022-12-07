@@ -6,9 +6,13 @@ import cyder.props.Props;
 
 import java.awt.*;
 
-/** Utilities related to {@link java.awt.Font}s. */
+/**
+ * Utilities related to {@link java.awt.Font}s.
+ */
 public final class FontUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private FontUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

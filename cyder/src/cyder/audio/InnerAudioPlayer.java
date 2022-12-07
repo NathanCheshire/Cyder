@@ -14,9 +14,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.concurrent.Future;
 
-/** An inner class for easily playing a single audio file */
+/**
+ * An inner class for easily playing a single audio file
+ */
 public class InnerAudioPlayer {
-    /** The one and only file this audio player can play. */
+    /**
+     * The one and only file this audio player can play.
+     */
     private final File audioFile;
 
     /**
@@ -33,22 +37,34 @@ public class InnerAudioPlayer {
         setup();
     }
 
-    /** Whether this object */
+    /**
+     * Whether this object
+     */
     private boolean killed;
 
-    /** The location the current audio file was paused/stopped at. */
+    /**
+     * The location the current audio file was paused/stopped at.
+     */
     private long pauseLocation;
 
-    /** The total audio length of the current audio file. */
+    /**
+     * The total audio length of the current audio file.
+     */
     private long totalAudioLength;
 
-    /** The total number of milliseconds in this audio file. */
+    /**
+     * The total number of milliseconds in this audio file.
+     */
     private int totalMilliSeconds = 0;
 
-    /** The name of the setup thread for getting the milliseconds of the audio file. */
+    /**
+     * The name of the setup thread for getting the milliseconds of the audio file.
+     */
     private static final String SETUP_THREAD_NAME = "InnerAudioPlayer Setup Thread";
 
-    /** Performs necessary setup actions such as refreshing the title label. */
+    /**
+     * Performs necessary setup actions such as refreshing the title label.
+     */
     private void setup() {
         AudioPlayer.refreshAudioTitleLabel();
 
@@ -62,13 +78,19 @@ public class InnerAudioPlayer {
         }, SETUP_THREAD_NAME);
     }
 
-    /** The audio player used to play audio. */
+    /**
+     * The audio player used to play audio.
+     */
     private Player audioPlayer;
 
-    /** The file input stream used to calculate byte values outside of the play method. */
+    /**
+     * The file input stream used to calculate byte values outside of the play method.
+     */
     private FileInputStream fis;
 
-    /** The maximum number of times a replay can be invoked. */
+    /**
+     * The maximum number of times a replay can be invoked.
+     */
     private static final int MAX_REPLAYS = 10;
 
     /**
@@ -77,7 +99,9 @@ public class InnerAudioPlayer {
      */
     private int replays = 0;
 
-    /** Starts playing the provided audio file at the optionally provided location. */
+    /**
+     * Starts playing the provided audio file at the optionally provided location.
+     */
     public void play() {
         try {
             fis = new FileInputStream(audioFile);
@@ -131,7 +155,9 @@ public class InnerAudioPlayer {
         return audioPlayer != null;
     }
 
-    /** Pauses the audio player. */
+    /**
+     * Pauses the audio player.
+     */
     public void stop() {
         audioPlayer.close();
     }

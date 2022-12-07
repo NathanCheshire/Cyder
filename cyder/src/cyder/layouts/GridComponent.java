@@ -7,16 +7,24 @@ import java.awt.*;
  * components as well as their linked Position values.
  */
 class GridComponent {
-    /** The component being managed. */
+    /**
+     * The component being managed.
+     */
     private Component component;
 
-    /** The originally set width of the component. */
+    /**
+     * The originally set width of the component.
+     */
     private int originalWidth;
 
-    /** The originally set height of the component. */
+    /**
+     * The originally set height of the component.
+     */
     private int originalHeight;
 
-    /** The position this grid component should be kept in relative to its provided grid space. */
+    /**
+     * The position this grid component should be kept in relative to its provided grid space.
+     */
     private GridPosition gridPosition;
 
     /**

@@ -22,45 +22,73 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
 
-/** A directory navigation widget. */
+/**
+ * A directory navigation widget.
+ */
 public final class DirectoryViewer {
-    /** The frame for the directory widget. */
+    /**
+     * The frame for the directory widget.
+     */
     private static CyderFrame directoryFrame;
 
-    /** The field to display the current directory and to allow manual paths to be entered. */
+    /**
+     * The field to display the current directory and to allow manual paths to be entered.
+     */
     private static CyderTextField directoryField;
 
-    /** The directory scroll label. Needed to allow removal when files are changed. */
+    /**
+     * The directory scroll label. Needed to allow removal when files are changed.
+     */
     private static JLabel dirScrollLabel = new JLabel();
 
-    /** The current files. */
+    /**
+     * The current files.
+     */
     private static final LinkedList<File> currentFiles = new LinkedList<>();
 
-    /** Stack to traverse backwards through history of viewed directories. */
+    /**
+     * Stack to traverse backwards through history of viewed directories.
+     */
     private static final Stack<File> backward = new Stack<>();
 
-    /** Stack to traverse forward through history of viewed directories. */
+    /**
+     * Stack to traverse forward through history of viewed directories.
+     */
     private static final Stack<File> forward = new Stack<>();
 
-    /** The current location of the directory widget. */
+    /**
+     * The current location of the directory widget.
+     */
     private static File currentDirectory;
 
-    /** The width of the scroll view. */
+    /**
+     * The width of the scroll view.
+     */
     private static final int SCROLL_WIDTH = 600;
 
-    /** The height of the scroll view. */
+    /**
+     * The height of the scroll view.
+     */
     private static final int SCROLL_HEIGHT = 400;
 
-    /** The scroll list component to display the current files */
+    /**
+     * The scroll list component to display the current files
+     */
     private static CyderScrollList cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT);
 
-    /** The x value of the directory scroll label and the loading files label. */
+    /**
+     * The x value of the directory scroll label and the loading files label.
+     */
     private static final int directoryScrollX = 10;
 
-    /** The y value of the directory scroll label and the loading files label. */
+    /**
+     * The y value of the directory scroll label and the loading files label.
+     */
     private static final int directoryScrollY = 90;
 
-    /** The loading files label. */
+    /**
+     * The loading files label.
+     */
     private static final JLabel loadingFilesLabel = new JLabel();
 
     static {
@@ -73,28 +101,44 @@ public final class DirectoryViewer {
         loadingFilesLabel.setBounds(directoryScrollX, directoryScrollY, SCROLL_WIDTH, SCROLL_HEIGHT);
     }
 
-    /** The frame widget. */
+    /**
+     * The frame widget.
+     */
     private static final int frameWidth = 630;
 
-    /** The frame height. */
+    /**
+     * The frame height.
+     */
     private static final int frameHeight = 510;
 
-    /** Thee length of the nav buttons. */
+    /**
+     * Thee length of the nav buttons.
+     */
     private static final int navButtonLen = 40;
 
-    /** The y values of the nav buttons. */
+    /**
+     * The y values of the nav buttons.
+     */
     private static final int navButtonYOffset = 40;
 
-    /** The x value of the last nav button. */
+    /**
+     * The x value of the last nav button.
+     */
     private static final int navButtonLastX = 10;
 
-    /** The padding between the nav buttons and the field. */
+    /**
+     * The padding between the nav buttons and the field.
+     */
     private static final int fieldNavButtonPadding = 25;
 
-    /** The x value of the last nav button. */
+    /**
+     * The x value of the last nav button.
+     */
     private static final int navButtonNextX = frameWidth - navButtonLastX - 2 * fieldNavButtonPadding;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private DirectoryViewer() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -186,7 +230,9 @@ public final class DirectoryViewer {
         refreshFiles();
     }
 
-    /** Stores the current directory as a previous location if necessary. */
+    /**
+     * Stores the current directory as a previous location if necessary.
+     */
     private static void storeCurrentDirectory() {
         if (backward.isEmpty()) {
             backward.push(currentDirectory);
@@ -198,7 +244,9 @@ public final class DirectoryViewer {
         }
     }
 
-    /** Refreshes the files scroll list based on the current directory. */
+    /**
+     * Refreshes the files scroll list based on the current directory.
+     */
     private static void refreshFiles() {
         loadingFilesLabel.setVisible(true);
 

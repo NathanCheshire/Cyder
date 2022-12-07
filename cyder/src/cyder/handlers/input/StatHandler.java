@@ -27,9 +27,13 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.Future;
 
-/** A handler for finding and printing statistics. */
+/**
+ * A handler for finding and printing statistics.
+ */
 public class StatHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private StatHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -206,7 +210,9 @@ public class StatHandler extends InputHandler {
         return ret;
     }
 
-    /** A widget and its properties. */
+    /**
+     * A widget and its properties.
+     */
     private record WidgetDescription(String name, String description, String[] triggers) {}
 
     /**

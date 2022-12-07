@@ -14,9 +14,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-/** A handler to handle things involving numbers. */
+/**
+ * A handler to handle things involving numbers.
+ */
 public class NumberHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private NumberHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

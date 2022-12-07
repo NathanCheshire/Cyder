@@ -24,60 +24,96 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/** Utilities related to the messaging client. */
+/**
+ * Utilities related to the messaging client.
+ */
 public final class MessagingUtils {
-    /** The default large width for waveform image generation. */
+    /**
+     * The default large width for waveform image generation.
+     */
     public static final int DEFAULT_LARGE_WAVEFORM_WIDTH = 1800;
 
-    /** The default large height for waveform image generation. */
+    /**
+     * The default large height for waveform image generation.
+     */
     public static final int DEFAULT_LARGE_WAVEFORM_HEIGHT = 280;
 
-    /** The default small width for waveform image generation. */
+    /**
+     * The default small width for waveform image generation.
+     */
     public static final int DEFAULT_SMALL_WAVEFORM_WIDTH = 140;
 
-    /** The default small height for waveform image generation. */
+    /**
+     * The default small height for waveform image generation.
+     */
     public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
 
-    /** The default background color. */
+    /**
+     * The default background color.
+     */
     private static final Color DEFAULT_BACKGROUND_COLOR = CyderColors.vanilla;
 
-    /** The default wave color. */
+    /**
+     * The default wave color.
+     */
     private static final Color DEFAULT_WAVE_COLOR = CyderColors.navy;
 
-    /** The text used for the audio preview label component. */
+    /**
+     * The text used for the audio preview label component.
+     */
     private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT =
             StringUtil.generateTextForCustomComponent(6);
 
-    /** The border length for generated audio preview. */
+    /**
+     * The border length for generated audio preview.
+     */
     private static final int AUDIO_PREVIEW_BORDER_LEN = 5;
 
-    /** The button height for generated audio previews. */
+    /**
+     * The button height for generated audio previews.
+     */
     private static final int AUDIO_PREVIEW_BUTTON_HEIGHT = 40;
 
-    /** The container width for generated audio previews. */
+    /**
+     * The container width for generated audio previews.
+     */
     private static final int AUDIO_PREVIEW_CONTAINER_WIDTH = 150;
 
-    /** The container height for generated audio previews. */
+    /**
+     * The container height for generated audio previews.
+     */
     private static final int AUDIO_PREVIEW_CONTAINER_HEIGHT =
             DEFAULT_SMALL_WAVEFORM_HEIGHT + AUDIO_PREVIEW_BUTTON_HEIGHT + 2 * AUDIO_PREVIEW_BORDER_LEN;
 
-    /** The length of the image for the generated image previews. */
+    /**
+     * The length of the image for the generated image previews.
+     */
     private static final int IMAGE_PREVIEW_LEN = 150;
 
-    /** The height for the image preview save button. */
+    /**
+     * The height for the image preview save button.
+     */
     private static final int IMAGE_PREVIEW_BUTTON_HEIGHT = 40;
 
-    /** The text used for generated image preview labels. */
+    /**
+     * The text used for generated image preview labels.
+     */
     private static final String IMAGE_PREVIEW_LABEL_TEXT
             = StringUtil.generateTextForCustomComponent(12);
 
-    /** The save text for generated image and audio preview labels. */
+    /**
+     * The save text for generated image and audio preview labels.
+     */
     private static final String SAVE = "Save";
 
-    /** The number denoting a value should be interpolated. */
+    /**
+     * The number denoting a value should be interpolated.
+     */
     private static final int interpolationNeededValue = -69;
 
-    /** The name of the executor service which waits for the waveform image to finish generation. */
+    /**
+     * The name of the executor service which waits for the waveform image to finish generation.
+     */
     private static final String waveformGeneratorThreadName = "Waveform Generator Waiter";
 
     /**
@@ -87,7 +123,9 @@ public final class MessagingUtils {
     private static final String audioWaveformPreviewLabelGeneratorThreadName =
             "Audio waveform preview label generator";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private MessagingUtils() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

@@ -8,9 +8,13 @@ import cyder.logging.Logger;
 import cyder.props.PropLoader;
 import cyder.props.Props;
 
-/** A handler for utilities related to props. */
+/**
+ * A handler for utilities related to props.
+ */
 public class PropHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private PropHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

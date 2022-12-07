@@ -17,14 +17,20 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** Utility methods for ip data queries. */
+/**
+ * Utility methods for ip data queries.
+ */
 public final class IpUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private IpUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The most recent IpData object. */
+    /**
+     * The most recent IpData object.
+     */
     private static final AtomicReference<IpData> mostRecentIpData = new AtomicReference<>();
 
     /**

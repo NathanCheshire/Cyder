@@ -19,7 +19,9 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/** A widget for converting between rgb and hex colors. */
+/**
+ * A widget for converting between rgb and hex colors.
+ */
 @Vanilla
 @CyderAuthor
 public class ColorConverterWidget {
@@ -32,75 +34,117 @@ public class ColorConverterWidget {
         return new ColorConverterWidget();
     }
 
-    /** Creates a new Color Converter Widget. */
+    /**
+     * Creates a new Color Converter Widget.
+     */
     private ColorConverterWidget() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** The widget description. */
+    /**
+     * The widget description.
+     */
     private static final String description = "A color converter widget to convert from rgb to hex and vice versa";
 
-    /** A widget for converting between rgb and hex colors. */
+    /**
+     * A widget for converting between rgb and hex colors.
+     */
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"color converter", "color"}, description = description)
     public static void showGui() {
         getInstance().innerShowGui();
     }
 
-    /** Shows the gui of this widget. */
+    /**
+     * Shows the gui of this widget.
+     */
     public void innerShowGui() {
         innerShowGui(CyderFrame.getDominantFrame());
     }
 
-    /** The width of the frame. */
+    /**
+     * The width of the frame.
+     */
     private static final int FRAME_WIDTH = 300;
 
-    /** The height of the frame. */
+    /**
+     * The height of the frame.
+     */
     private static final int FRAME_HEIGHT = 400;
 
-    /** The color preview text. */
+    /**
+     * The color preview text.
+     */
     private static final String COLOR_PREVIEW = "Color preview";
 
-    /** The hex value text. */
+    /**
+     * The hex value text.
+     */
     private static final String HEX_VALUE = "Hex value";
 
-    /** The rgb value text. */
+    /**
+     * The rgb value text.
+     */
     private static final String RGB_VALUE = "Rgb value";
 
-    /** The color converter text. */
+    /**
+     * The color converter text.
+     */
     private static final String TITLE = "Color Converter";
 
-    /** The limit of characters for the rgb field. */
+    /**
+     * The limit of characters for the rgb field.
+     */
     private static final int RGB_FIELD_LIMIT = 11;
 
-    /** The border for the color preview block. */
+    /**
+     * The border for the color preview block.
+     */
     private static final LineBorder COLOR_BLOCK_BORDER = new LineBorder(CyderColors.navy, 5);
 
-    /** The font for the rgb and hex fields. */
+    /**
+     * The font for the rgb and hex fields.
+     */
     private static final Font fieldFont = new Font(CyderFonts.SEGOE_UI_BLACK, Font.BOLD, 26);
 
-    /** The limit of characters for the hex field. */
+    /**
+     * The limit of characters for the hex field.
+     */
     private static final int hexFieldLimit = 6;
 
-    /** The string formatter for the hex field. */
+    /**
+     * The string formatter for the hex field.
+     */
     private static final String hexFieldStringFormatter = "#%02X%02X%02X";
 
-    /** The partition size for the spacers. */
+    /**
+     * The partition size for the spacers.
+     */
     private static final int spacerPartitionLength = 10;
 
-    /** The partition space for the color labels and color block. */
+    /**
+     * The partition space for the color labels and color block.
+     */
     private static final int colorLabelAndBlockPartitionLength = 15;
 
-    /** The partition space for the text fields. */
+    /**
+     * The partition space for the text fields.
+     */
     private static final int fieldPartitionLength = 10;
 
-    /** The size of the text fields and color block. */
+    /**
+     * The size of the text fields and color block.
+     */
     private static final Dimension fieldAndBlockSize = new Dimension(220, 50);
 
-    /** The starting color for the fields. */
+    /**
+     * The starting color for the fields.
+     */
     private static final Color startingColor = CyderColors.navy;
 
-    /** The height of labels. */
+    /**
+     * The height of labels.
+     */
     private static final int labelHeight = 30;
 
     /**

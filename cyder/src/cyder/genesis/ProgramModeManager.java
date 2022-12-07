@@ -6,15 +6,23 @@ import cyder.login.LoginHandler;
 import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
 
-/** A manager for the program mode. */
+/**
+ * A manager for the program mode.
+ */
 public enum ProgramModeManager {
-    /** The program mode manager instance. */
+    /**
+     * The program mode manager instance.
+     */
     INSTANCE;
 
-    /** The program mode for this session of Cyder. */
+    /**
+     * The program mode for this session of Cyder.
+     */
     private static ProgramMode sessionProgramMode;
 
-    /** Refreshes the current program mode. */
+    /**
+     * Refreshes the current program mode.
+     */
     public void refreshProgramMode() {
         if (LoginHandler.wasStartedViaAutoCypher()) {
             sessionProgramMode = ProgramMode.DEVELOPER_DEBUG;

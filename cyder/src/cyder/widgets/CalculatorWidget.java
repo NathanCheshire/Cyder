@@ -19,23 +19,35 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-/** A calculator widget for parsing mathematical expressions. */
+/**
+ * A calculator widget for parsing mathematical expressions.
+ */
 @Vanilla
 @CyderAuthor
 public final class CalculatorWidget {
-    /** The field to display the most recent results in. */
+    /**
+     * The field to display the most recent results in.
+     */
     private static CyderTextField resultField;
 
-    /** The field in which the user may enter an expression */
+    /**
+     * The field in which the user may enter an expression
+     */
     private static CyderTextField calculatorField;
 
-    /** The text to display to user if an expression could not be parsed. */
+    /**
+     * The text to display to user if an expression could not be parsed.
+     */
     private static final String ERROR_TEXT = "Could not parse expression";
 
-    /** The font to use for the results field. */
+    /**
+     * The font to use for the results field.
+     */
     private static final Font fieldFont = new Font("Agency FB", Font.BOLD, 25);
 
-    /** The theme for each calculator button. */
+    /**
+     * The theme for each calculator button.
+     */
     private static final ThemeBuilder theme = new ThemeBuilder();
 
     static {
@@ -46,21 +58,31 @@ public final class CalculatorWidget {
         theme.setPressedColor(CyderColors.regularOrange.darker().darker());
     }
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private CalculatorWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The width of the calculator frame. */
+    /**
+     * The width of the calculator frame.
+     */
     private static final int FRAME_WIDTH = 400;
 
-    /** The height of the calculator frame. */
+    /**
+     * The height of the calculator frame.
+     */
     private static final int FRAME_HEIGHT = 600;
 
-    /** The width and height of each calculator button. */
+    /**
+     * The width and height of each calculator button.
+     */
     private static final int buttonLength = 75;
 
-    /** The description for the widget annotation. */
+    /**
+     * The description for the widget annotation.
+     */
     private static final String description = "A calculator widget capable of "
             + "performing complex expressions such as e^x, sin(x), cos(x), and so forth.";
 
@@ -222,13 +244,17 @@ public final class CalculatorWidget {
         calculatorFrame.finalizeAndShow();
     }
 
-    /** Clears the calculator fields. */
+    /**
+     * Clears the calculator fields.
+     */
     private static void clearFields() {
         calculatorField.setText("");
         resultField.setText("");
     }
 
-    /** Removes the last character from the calculator field. */
+    /**
+     * Removes the last character from the calculator field.
+     */
     private static void undoAction() {
         String text = calculatorField.getText();
 
@@ -237,16 +263,24 @@ public final class CalculatorWidget {
         }
     }
 
-    /** The evaluator for evaluating expressions. */
+    /**
+     * The evaluator for evaluating expressions.
+     */
     private static final DoubleEvaluator evaluator = new DoubleEvaluator();
 
-    /** The positive infinity string. */
+    /**
+     * The positive infinity string.
+     */
     private static final String POSITIVE_INFINITY = "+∞";
 
-    /** The negative infinity string. */
+    /**
+     * The negative infinity string.
+     */
     private static final String NEGATIVE_INFINITY = "-∞";
 
-    /** Attempts to compute the expression from the calculator field. */
+    /**
+     * Attempts to compute the expression from the calculator field.
+     */
     private static void computeExpression() {
         try {
             double result = evaluator.evaluate(calculatorField.getText().trim());

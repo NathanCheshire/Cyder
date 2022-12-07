@@ -24,17 +24,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/** Utilities involving Rest APIs for GitHub. */
+/**
+ * Utilities involving Rest APIs for GitHub.
+ */
 public final class GitHubUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private GitHubUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The link for the github api to return a json of currently open issues for Cyder. */
+    /**
+     * The link for the github api to return a json of currently open issues for Cyder.
+     */
     private static final String CYDER_ISSUES = "https://api.github.com/repos/nathancheshire/cyder/issues";
 
-    /** The link to download git from. */
+    /**
+     * The link to download git from.
+     */
     private static final String GIT_DOWNLOAD = "https://git-scm.com/downloads";
 
     /**
@@ -67,7 +75,9 @@ public final class GitHubUtil {
         return ret == null ? ImmutableList.of() : ImmutableList.copyOf(ret);
     }
 
-    /** The url to get the languages used throughout Cyder from. */
+    /**
+     * The url to get the languages used throughout Cyder from.
+     */
     private static final String LANGUAGES_URL = "https://api.github.com/repos/nathancheshire/cyder/languages";
 
     /**
@@ -102,7 +112,9 @@ public final class GitHubUtil {
         return ret;
     }
 
-    /** The default github url. */
+    /**
+     * The default github url.
+     */
     private static final String GITHUB_BASE = "www.github.com";
 
     /**
@@ -145,10 +157,14 @@ public final class GitHubUtil {
                 || url.startsWith(GITHUB_BASE.substring(4)); // valid url and starts with one of the above
     }
 
-    /** The name of the thread for cloning repos from GitHub. */
+    /**
+     * The name of the thread for cloning repos from GitHub.
+     */
     private static final String GIT_REPO_CLONER_THREAD_NAME = "Git Repo Cloner";
 
-    /** Executor service used to clone github repos. */
+    /**
+     * Executor service used to clone github repos.
+     */
     private static final ExecutorService cloningExecutor =
             Executors.newSingleThreadScheduledExecutor(new CyderThreadFactory(GIT_REPO_CLONER_THREAD_NAME));
 

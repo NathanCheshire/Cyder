@@ -15,16 +15,24 @@ import java.util.concurrent.Future;
 
 import static cyder.constants.CyderStrings.space;
 
-/** A wrapper for the python_functions.py utility functions script. */
+/**
+ * A wrapper for the python_functions.py utility functions script.
+ */
 public final class PythonFunctionsWrapper {
-    /** The name of the python functions script. */
+    /**
+     * The name of the python functions script.
+     */
     private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
 
-    /** The absolute path to the python functions script. */
+    /**
+     * The absolute path to the python functions script.
+     */
     private static final String functionsScriptPath =
             StaticUtil.getStaticResource(PYTHON_FUNCTIONS_SCRIPT_NAME).getAbsolutePath();
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private PythonFunctionsWrapper() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

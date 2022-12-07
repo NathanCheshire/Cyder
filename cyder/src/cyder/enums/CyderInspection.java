@@ -1,16 +1,26 @@
 package cyder.enums;
 
-/** Inspections Cyder performs at runtime, specifically, at startup. */
+/**
+ * Inspections Cyder performs at runtime, specifically, at startup.
+ */
 public enum CyderInspection {
-    /** Inspections related to methods annotated by {@link cyder.annotations.Vanilla}. */
+    /**
+     * Inspections related to methods annotated by {@link cyder.annotations.Vanilla}.
+     */
     VanillaInspection,
 
-    /** Inspections related to unit tests, {@link cyder.annotations.GuiTest}s, etc. */
+    /**
+     * Inspections related to unit tests, {@link cyder.annotations.GuiTest}s, etc.
+     */
     TestInspection,
 
-    /** Inspections related to methods annotated by {@link cyder.annotations.Widget}. */
+    /**
+     * Inspections related to methods annotated by {@link cyder.annotations.Widget}.
+     */
     WidgetInspection,
 
-    /** Inspects related to methods annotated by {@link cyder.annotations.Handle}. */
+    /**
+     * Inspects related to methods annotated by {@link cyder.annotations.Handle}.
+     */
     HandleInspection,
 }

@@ -10,14 +10,20 @@ import cyder.utils.UiUtil;
 
 import java.awt.*;
 
-/** Handles CyderFrame and Console movement commands. */
+/**
+ * Handles CyderFrame and Console movement commands.
+ */
 public class FrameMovementHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private FrameMovementHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The degrees to rotate the console pane by when making a frame askew. */
+    /**
+     * The degrees to rotate the console pane by when making a frame askew.
+     */
     private static final int ASKEW_DEGREE = 5;
 
     @Handle({"top left", "top right", "bottom left", "bottom right",

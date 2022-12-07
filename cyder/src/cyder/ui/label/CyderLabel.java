@@ -20,12 +20,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
 
-/** A label styled for Cyder. */
+/**
+ * A label styled for Cyder.
+ */
 public class CyderLabel extends JLabel {
-    /** The default text for a cyder label. */
+    /**
+     * The default text for a cyder label.
+     */
     public static final String DEFAULT_TEXT = "I miss you";
 
-    /** Constructs a new CyderLabel. */
+    /**
+     * Constructs a new CyderLabel.
+     */
     public CyderLabel() {
         this(DEFAULT_TEXT);
     }
@@ -59,13 +65,19 @@ public class CyderLabel extends JLabel {
         return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
     }
 
-    /** The center alignment left tag. */
+    /**
+     * The center alignment left tag.
+     */
     private static final String alignTextTagLeft = "<html><div style='text-align: center;'>";
 
-    /** The center alignment right tag. */
+    /**
+     * The center alignment right tag.
+     */
     private static final String alignTextTagRight = "</html>";
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setText(String text) {
         if (text == null || text.isEmpty()) {
@@ -77,22 +89,32 @@ public class CyderLabel extends JLabel {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);
     }
 
-    /** The color used for the rippling text animation. */
+    /**
+     * The color used for the rippling text animation.
+     */
     private Color rippleColor = CyderColors.regularRed;
 
-    /** The delay between ripple animation increments in milliseconds. */
+    /**
+     * The delay between ripple animation increments in milliseconds.
+     */
     private long rippleMsTimeout = 100;
 
-    /** The number of chars during any singular frame of the ripple animation. */
+    /**
+     * The number of chars during any singular frame of the ripple animation.
+     */
     private int rippleChars = 1;
 
-    /** Whether the ripple animation is currently active. */
+    /**
+     * Whether the ripple animation is currently active.
+     */
     private boolean isRippling;
 
     /**
@@ -184,7 +206,9 @@ public class CyderLabel extends JLabel {
         }
     }
 
-    /** Starts the ripple animation. */
+    /**
+     * Starts the ripple animation.
+     */
     private void startRippleAnimation() {
         String threadName = "CyderLabel Ripple Animator, text = " + this.getText();
         CyderThreadRunner.submit(() -> {

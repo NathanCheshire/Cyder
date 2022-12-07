@@ -1,2 +1,4 @@
-/** Utilities and classes related to Cyder sessions and communication between instances. */
+/**
+ * Utilities and classes related to Cyder sessions and communication between instances.
+ */
 package cyder.session;

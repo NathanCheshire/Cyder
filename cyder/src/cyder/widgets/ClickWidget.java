@@ -19,31 +19,47 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/** A widget for extreme boredom. */
+/**
+ * A widget for extreme boredom.
+ */
 @Vanilla
 @CyderAuthor
 public final class ClickWidget {
-    /** Suppress default instantiation. */
+    /**
+     * Suppress default instantiation.
+     */
     private ClickWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The frame title and label text. */
+    /**
+     * The frame title and label text.
+     */
     private static final String CLICK_ME = "Click Me";
 
-    /** The frame width. */
+    /**
+     * The frame width.
+     */
     private static final int FRAME_WIDTH = 220;
 
-    /** The frame height. */
+    /**
+     * The frame height.
+     */
     private static final int FRAME_HEIGHT = 100;
 
-    /** The widget frame. */
+    /**
+     * The widget frame.
+     */
     private static CyderFrame clickMeFrame;
 
-    /** The offset between the monitor bounds and the possible locations to place the frame at. */
+    /**
+     * The offset between the monitor bounds and the possible locations to place the frame at.
+     */
     private static final int monitorMinOffset = 200;
 
-    /** The font for the click me label. */
+    /**
+     * The font for the click me label.
+     */
     private static final Font clickMeLabelFont = new Font(CyderFonts.SEGOE_UI_BLACK, Font.BOLD, 22);
 
     @Widget(triggers = "click me", description = "A troll widget that pops open a new window every time it is clicked")
@@ -88,7 +104,9 @@ public final class ClickWidget {
         }
     }
 
-    /** The logic for when the click me label is pressed. */
+    /**
+     * The logic for when the click me label is pressed.
+     */
     @ForReadability
     private static void changeFramePosition() {
         Rectangle bounds = clickMeFrame.getMonitorBounds();

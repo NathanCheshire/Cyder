@@ -5,12 +5,18 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 
-/** The result of a {@link ProcessUtil#getProcessOutput(String) invocation}. */
+/**
+ * The result of a {@link ProcessUtil#getProcessOutput(String) invocation}.
+ */
 public class ProcessResult {
-    /** The standard output of the process. */
+    /**
+     * The standard output of the process.
+     */
     private final ImmutableList<String> standardOutput;
 
-    /** The error output of the process. */
+    /**
+     * The error output of the process.
+     */
     private final ImmutableList<String> errorOutput;
 
     /**

@@ -1,2 +1,4 @@
-/** Utilities related to temperature conversions. */
+/**
+ * Utilities related to temperature conversions.
+ */
 package cyder.temperature;

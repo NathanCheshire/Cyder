@@ -11,9 +11,13 @@ import cyder.user.UserEditor;
 import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
 
-/** A handler for switching/toggling preferences. */
+/**
+ * A handler for switching/toggling preferences.
+ */
 public class PreferenceHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private PreferenceHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

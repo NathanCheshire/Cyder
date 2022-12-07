@@ -28,17 +28,25 @@ public final class CyderFonts {
     public static final Font DEFAULT_FONT = AGENCY_FB_30;
     public static final Font DEFAULT_FONT_LARGE = AGENCY_FB_35;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private CyderFonts() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** A builder for a font. */
+    /**
+     * A builder for a font.
+     */
     public static class FontBuilder {
-        /** The default font metric for built fonts. */
+        /**
+         * The default font metric for built fonts.
+         */
         public static final int DEFAULT_METRIC = Font.BOLD;
 
-        /** The name of the font. */
+        /**
+         * The name of the font.
+         */
         private final String name;
 
         /**
@@ -47,7 +55,9 @@ public final class CyderFonts {
          */
         private int metric = DEFAULT_METRIC;
 
-        /** The size of the font. */
+        /**
+         * The size of the font.
+         */
         private int size;
 
         /**

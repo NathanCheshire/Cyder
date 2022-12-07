@@ -7,30 +7,48 @@ import cyder.enums.Dynamic;
 
 import java.io.File;
 
-/** Enum representing the different directories/files which should always exist within a user's directory. */
+/**
+ * Enum representing the different directories/files which should always exist within a user's directory.
+ */
 public enum UserFile {
-    /** The Music directory. */
+    /**
+     * The Music directory.
+     */
     MUSIC("Music"),
 
-    /** The Backgrounds directory */
+    /**
+     * The Backgrounds directory
+     */
     BACKGROUNDS("Backgrounds"),
 
-    /** The Notes directory. */
+    /**
+     * The Notes directory.
+     */
     NOTES("Notes"),
 
-    /** The Userdata json file. */
+    /**
+     * The Userdata json file.
+     */
     USERDATA("Userdata.json", true),
 
-    /** The Files directory. */
+    /**
+     * The Files directory.
+     */
     FILES("Files");
 
-    /** The album art directory within {@link #MUSIC}. */
+    /**
+     * The album art directory within {@link #MUSIC}.
+     */
     public static final String ALBUM_ART = "AlbumArt";
 
-    /** The name of the file/directory. */
+    /**
+     * The name of the file/directory.
+     */
     private final String name;
 
-    /** Whether the path represents a file or directory. */
+    /**
+     * Whether the path represents a file or directory.
+     */
     private final boolean isFile;
 
     /**

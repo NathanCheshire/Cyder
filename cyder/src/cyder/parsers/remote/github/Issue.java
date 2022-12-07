@@ -2,7 +2,9 @@ package cyder.parsers.remote.github;
 
 import java.util.LinkedList;
 
-/** A json serialization class for a GitHub repo issue. */
+/**
+ * A json serialization class for a GitHub repo issue.
+ */
 @SuppressWarnings("unused")
 public class Issue {
     public String url;

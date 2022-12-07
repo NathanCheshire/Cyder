@@ -5,24 +5,38 @@ import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.utils.SerializationUtil;
 
-/** A serialization class for serializing messages between instances of Cyder. */
+/**
+ * A serialization class for serializing messages between instances of Cyder.
+ */
 public class CyderCommunicationMessage {
-    /** The message json identifier. */
+    /**
+     * The message json identifier.
+     */
     private static final String MESSAGE = "message";
 
-    /** The content json identifier. */
+    /**
+     * The content json identifier.
+     */
     private static final String CONTENT = "content";
 
-    /** The session id json identifier. */
+    /**
+     * The session id json identifier.
+     */
     private static final String SESSION_ID = "session_id";
 
-    /** The type of message. */
+    /**
+     * The type of message.
+     */
     private String message;
 
-    /** The content of the message */
+    /**
+     * The content of the message
+     */
     private String content;
 
-    /** The Cyder instance session ID. */
+    /**
+     * The Cyder instance session ID.
+     */
     @SerializedName("session_id")
     private String sessionId;
 
@@ -115,7 +129,9 @@ public class CyderCommunicationMessage {
         this.sessionId = sessionId;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -130,7 +146,9 @@ public class CyderCommunicationMessage {
                 && getSessionId().equals(other.getSessionId());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int ret = message.hashCode();
@@ -139,7 +157,9 @@ public class CyderCommunicationMessage {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
 

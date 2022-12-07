@@ -37,13 +37,19 @@ import java.util.concurrent.Future;
 import static cyder.constants.CyderStrings.quote;
 import static cyder.constants.CyderStrings.space;
 
-/** Static utility methods revolving around Image manipulation. */
+/**
+ * Static utility methods revolving around Image manipulation.
+ */
 @SuppressWarnings("unused") /* jpg formats */
 public final class ImageUtil {
-    /** The name of the thread which blurs an image. */
+    /**
+     * The name of the thread which blurs an image.
+     */
     private static final String GAUSSIAN_IMAGE_BLURER_THREAD_NAME = "Gaussian Image Blurer Thread";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private ImageUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -287,13 +293,19 @@ public final class ImageUtil {
         return bi;
     }
 
-    /** The degrees representing a default image. */
+    /**
+     * The degrees representing a default image.
+     */
     private static final int ZERO_DEGREES = 0;
 
-    /** The degrees representing a singular right rotation. */
+    /**
+     * The degrees representing a singular right rotation.
+     */
     private static final int NINETY_DEGREES = 90;
 
-    /** The degrees representing a double right or left rotation. */
+    /**
+     * The degrees representing a double right or left rotation.
+     */
     private static final int ONE_EIGHTY_DEGREES = 180;
 
     /**
@@ -401,7 +413,9 @@ public final class ImageUtil {
         return new ImageIcon(rotated);
     }
 
-    /** The title of the draw buffered image frame. */
+    /**
+     * The title of the draw buffered image frame.
+     */
     private static final String defaultDrawBufferedImageTitle = "BufferedImage";
 
     /**
@@ -433,7 +447,9 @@ public final class ImageUtil {
         return drawImage(new ImageIcon(bi), frameTitle);
     }
 
-    /** The title of the draw image icon frame. */
+    /**
+     * The title of the draw image icon frame.
+     */
     private static final String defaultDrawImageIconTitle = "ImageIcon";
 
     /**
@@ -987,7 +1003,9 @@ public final class ImageUtil {
         });
     }
 
-    /** The maximum alpha value. */
+    /**
+     * The maximum alpha value.
+     */
     private static final int MAX_ALPHA = 255;
 
     /**

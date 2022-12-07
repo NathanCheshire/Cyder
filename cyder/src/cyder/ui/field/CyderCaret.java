@@ -12,18 +12,28 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-/** A custom caret used for {@link CyderTextField}s and other text containers. */
+/**
+ * A custom caret used for {@link CyderTextField}s and other text containers.
+ */
 public class CyderCaret extends DefaultCaret {
-    /** The color of the caret. */
+    /**
+     * The color of the caret.
+     */
     private final Color caretColor;
 
-    /** The character to use for computing the width of the caret. */
+    /**
+     * The character to use for computing the width of the caret.
+     */
     private static final String WIDTH_CHAR = ">";
 
-    /** The default blink rate of Cyder carets. */
+    /**
+     * The default blink rate of Cyder carets.
+     */
     private static final int defaultBlinkRate = 500;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private CyderCaret() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -43,7 +53,9 @@ public class CyderCaret extends DefaultCaret {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected synchronized void damage(Rectangle rectangle) {
         if (rectangle == null) return;
@@ -63,7 +75,9 @@ public class CyderCaret extends DefaultCaret {
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint(Graphics g) {
         JTextComponent comp = getComponent();

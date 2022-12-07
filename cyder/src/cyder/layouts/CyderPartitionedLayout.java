@@ -16,7 +16,9 @@ import java.util.ArrayList;
  * and this will allow the user to do so.
  */
 public class CyderPartitionedLayout extends CyderLayout {
-    /** The range all partitions must fall within. */
+    /**
+     * The range all partitions must fall within.
+     */
     public static final Range<Float> PARTITION_RANGE = Range.closed(0.0f, 100.0f);
 
     /**
@@ -25,41 +27,63 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public static final float MAX_PARTITION = PARTITION_RANGE.upperEndpoint();
 
-    /** The amount of partition space to assign a component added without a provided partition space. */
+    /**
+     * The amount of partition space to assign a component added without a provided partition space.
+     */
     public static final float DEFAULT_PARTITION_SPACE_PERCENT = 10;
 
-    /** The partition space to partition to a new component being added without a specified partition space. */
+    /**
+     * The partition space to partition to a new component being added without a specified partition space.
+     */
     private float newComponentPartitionSpace = DEFAULT_PARTITION_SPACE_PERCENT;
 
-    /** The possible directions to lay components out. */
+    /**
+     * The possible directions to lay components out.
+     */
     public enum PartitionDirection {
-        /** The components are laid out in a row. */
+        /**
+         * The components are laid out in a row.
+         */
 
         ROW,
-        /** The components are laid out in a column. */
+        /**
+         * The components are laid out in a column.
+         */
         COLUMN
     }
 
-    /** The current direction to lay the partitioned components out. */
+    /**
+     * The current direction to lay the partitioned components out.
+     */
     private PartitionDirection partitionDirection = PartitionDirection.COLUMN;
 
-    /** The alignment of a component within a partition space provided it is smaller than the partitioned area. */
+    /**
+     * The alignment of a component within a partition space provided it is smaller than the partitioned area.
+     */
     public enum PartitionAlignment {
         TOP_LEFT, TOP, TOP_RIGHT,
         LEFT, CENTER, RIGHT,
         BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT
     }
 
-    /** The default component alignment for new components. */
+    /**
+     * The default component alignment for new components.
+     */
     private PartitionAlignment newComponentPartitionAlignment = PartitionAlignment.CENTER;
 
-    /** The direct components managed by this layout. */
+    /**
+     * The direct components managed by this layout.
+     */
     private final ArrayList<PartitionedComponent> components;
 
-    /** The CyderPanel this layout manager will manage. */
+    /**
+     * The CyderPanel this layout manager will manage.
+     */
     private CyderPanel associatedPanel;
 
-    /** Constructs a new partitioned layout. */
+    /**
+     * Constructs a new partitioned layout.
+     */
     public CyderPartitionedLayout() {
         components = new ArrayList<>();
     }
@@ -90,7 +114,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         revalidateComponents();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImmutableList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>(components.size());
@@ -98,7 +124,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         return ImmutableList.copyOf(ret);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getPackSize() {
         /*
@@ -157,7 +185,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         this.newComponentPartitionAlignment = newComponentPartitionAlignment;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void revalidateComponents() {
         if (associatedPanel == null || associatedPanel.getWidth() == 0
@@ -270,7 +300,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeComponent(Component component) {
         Preconditions.checkNotNull(component);
@@ -299,7 +331,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         components.remove(index);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void addComponent(Component component) {
         addComponent(component, newComponentPartitionSpace);
     }
@@ -419,7 +453,9 @@ public class CyderPartitionedLayout extends CyderLayout {
         revalidateComponents();
     }
 
-    /** Clears all the partitions and components associated with this layout. */
+    /**
+     * Clears all the partitions and components associated with this layout.
+     */
     public void clearComponents() {
         components.clear();
     }

@@ -1,2 +1,4 @@
-/** Files and utilities related to props and parsing. */
+/**
+ * Files and utilities related to props and parsing.
+ */
 package cyder.props;

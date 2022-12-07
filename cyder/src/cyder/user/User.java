@@ -13,7 +13,9 @@ import java.util.LinkedList;
  * Note that the default constructor is not restricted due to GSON parsing.
  */
 public class User {
-    /** Creates a new User object. */
+    /**
+     * Creates a new User object.
+     */
     public User() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -26,109 +28,179 @@ public class User {
     // Preference<Boolean>, Preference<String> and such
     // ---------------------------------------------------
 
-    /** The Cyder username. */
+    /**
+     * The Cyder username.
+     */
     private String name;
 
-    /** The Cyder user's hashed password. */
+    /**
+     * The Cyder user's hashed password.
+     */
     private String pass;
 
-    /** The current font name. */
+    /**
+     * The current font name.
+     */
     private String font;
 
-    /** The font size. */
+    /**
+     * The font size.
+     */
     private String fontSize;
 
-    /** The foreground color. */
+    /**
+     * The foreground color.
+     */
     private String foreground;
 
-    /** The background color. */
+    /**
+     * The background color.
+     */
     private String background;
 
-    /** Whether to play intro music when Cyder starts up after the user has logged in. */
+    /**
+     * Whether to play intro music when Cyder starts up after the user has logged in.
+     */
     private String introMusic;
 
-    /** Whether to open debug menus when the user logs in. */
+    /**
+     * Whether to open debug menus when the user logs in.
+     */
     private String debugStats;
 
-    /** Whether to choose a random background on startup. */
+    /**
+     * Whether to choose a random background on startup.
+     */
     private String randomBackground;
 
-    /** Whether to draw a border around the output area. */
+    /**
+     * Whether to draw a border around the output area.
+     */
     private String outputBorder;
 
-    /** Whether to draw a border around the input field. */
+    /**
+     * Whether to draw a border around the input field.
+     */
     private String inputBorder;
 
-    /** Whether to chime hourly. */
+    /**
+     * Whether to chime hourly.
+     */
     private String hourlyChimes;
 
-    /** Whether to silence errors when they occur. */
+    /**
+     * Whether to silence errors when they occur.
+     */
     private String silenceErrors;
 
-    /** Whether to draw the console as a fullscreen frame. */
+    /**
+     * Whether to draw the console as a fullscreen frame.
+     */
     private String fullscreen;
 
-    /** Whether to fill the output area. */
+    /**
+     * Whether to fill the output area.
+     */
     private String outputFill;
 
-    /** Whether to fill the input field. */
+    /**
+     * Whether to fill the input field.
+     */
     private String inputFill;
 
-    /** Whether to show the clock on the console */
+    /**
+     * Whether to show the clock on the console
+     */
     private String clockOnConsole;
 
-    /** Whether to show seconds on the console clock. */
+    /**
+     * Whether to show seconds on the console clock.
+     */
     private String showSeconds;
 
-    /** Whether to filter the chat of foul language. */
+    /**
+     * Whether to filter the chat of foul language.
+     */
     private String filterChat;
 
-    /** The last time this user start and logged in to Cyder. */
+    /**
+     * The last time this user start and logged in to Cyder.
+     */
     private String lastStart;
 
-    /** Whether to minimize instead of closing. */
+    /**
+     * Whether to minimize instead of closing.
+     */
     private String minimizeOnClose;
 
-    /** Whether to perform the typing animation. */
+    /**
+     * Whether to perform the typing animation.
+     */
     private String typingAnimation;
 
-    /** Whether to show the busy icon. */
+    /**
+     * Whether to show the busy icon.
+     */
     private String showBusyIcon;
 
-    /** Whether to round CyderFrames. */
+    /**
+     * Whether to round CyderFrames.
+     */
     private String roundedWindows;
 
-    /** The color to use for CyderFrame components and common panels such as menus. */
+    /**
+     * The color to use for CyderFrame components and common panels such as menus.
+     */
     private String windowColor;
 
-    /** The java date pattern to use for the console clock. */
+    /**
+     * The java date pattern to use for the console clock.
+     */
     private String consoleClockFormat;
 
-    /** Whether to play a typing sound during typing animations. */
+    /**
+     * Whether to play a typing sound during typing animations.
+     */
     private String typingSound;
 
-    /** The current uuid the procedural script is at. */
+    /**
+     * The current uuid the procedural script is at.
+     */
     private String youtubeUuid;
 
-    /** Whether to output ascii chars as capitalized letters. */
+    /**
+     * Whether to output ascii chars as capitalized letters.
+     */
     private String capsMode;
 
-    /** Whether the user is logged in. */
+    /**
+     * Whether the user is logged in.
+     */
     private String loggedIn;
 
-    /** Whether to show the audio total length or the time remaining for the audio player. */
+    /**
+     * Whether to show the audio total length or the time remaining for the audio player.
+     */
     private String audioLength;
 
-    /** Whether to persist notifications. */
+    /**
+     * Whether to persist notifications.
+     */
     private String persistentNotifications;
 
-    /** Whether to do animations such as close, minimize, and notification slides. */
+    /**
+     * Whether to do animations such as close, minimize, and notification slides.
+     */
     private String doAnimations;
 
-    /** Whether compact text mode is active. */
+    /**
+     * Whether compact text mode is active.
+     */
     private String compactTextMode;
 
-    /** If true, any unrecognized input is passed to the native terminal/shell. */
+    /**
+     * If true, any unrecognized input is passed to the native terminal/shell.
+     */
     private String wrapShell;
 
     /**
@@ -137,13 +209,19 @@ public class User {
      */
     private String darkmode;
 
-    /** Weather to draw a location map as the background of the weather widget. */
+    /**
+     * Weather to draw a location map as the background of the weather widget.
+     */
     private String weatherMap;
 
-    /** Whether to paint the hour labels for the clock widget. */
+    /**
+     * Whether to paint the hour labels for the clock widget.
+     */
     private String paintClockLabels;
 
-    /** Whether to show the second hand for the clock widget. */
+    /**
+     * Whether to show the second hand for the clock widget.
+     */
     private String showSecondHand;
 
     // -------------------
@@ -160,7 +238,9 @@ public class User {
     // Data structures of objects
     // --------------------------
 
-    /** List of mapped executables that map a string to a file path. */
+    /**
+     * List of mapped executables that map a string to a file path.
+     */
     private LinkedList<MappedExecutable> executables = new LinkedList<>();
 
     // -------
@@ -968,7 +1048,9 @@ public class User {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int ret = name.hashCode();
@@ -976,7 +1058,9 @@ public class User {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -991,7 +1075,9 @@ public class User {
                 && other.getName().equals(getName());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return StringUtil.commonCyderToString(this);

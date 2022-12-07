@@ -2,7 +2,9 @@ package cyder.parsers.remote.ip;
 
 import com.google.gson.annotations.SerializedName;
 
-/** An object for parsing returned ip data currency objects. */
+/**
+ * An object for parsing returned ip data currency objects.
+ */
 public class Currency {
     private String name;
     private String code;

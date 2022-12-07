@@ -12,9 +12,13 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-/** A progress bar ui with a color animation. */
+/**
+ * A progress bar ui with a color animation.
+ */
 public class CyderProgressUI extends BasicProgressBarUI {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void installDefaults() {
         super.installDefaults();
@@ -23,20 +27,26 @@ public class CyderProgressUI extends BasicProgressBarUI {
         progressBar.setBorder(null);
     }
 
-    /** Constructs a new progress bar ui. */
+    /**
+     * Constructs a new progress bar ui.
+     */
     public CyderProgressUI() {
         startAnimationTimer();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void stopAnimationTimer() {
         super.stopAnimationTimer();
     }
 
-    /** The number of frames per second */
+    /**
+     * The number of frames per second
+     */
     private int framesPerSecond = 100;
 
     /**
@@ -174,7 +184,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
         this.animationDirection = direction;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void incrementAnimationIndex() {
         if (progressBar == null)
@@ -184,7 +196,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
         setAnimationIndex(val < framesPerSecond ? val : 0);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
         c.setBackground(CyderColors.vanilla);
@@ -262,7 +276,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
         }
     }
 
-    /** The direction to animate the colors in. */
+    /**
+     * The direction to animate the colors in.
+     */
     public enum AnimationDirection {
         LEFT_TO_RIGHT,
         RIGHT_TO_LEFT,

@@ -60,50 +60,80 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** An editor for user preferences, files, colors, fonts, and more. */
+/**
+ * An editor for user preferences, files, colors, fonts, and more.
+ */
 public final class UserEditor {
-    /** The frame size of the user editor. */
+    /**
+     * The frame size of the user editor.
+     */
     private static final int FRAME_WIDTH = 800;
 
-    /** The height of the user editor. */
+    /**
+     * The height of the user editor.
+     */
     private static final int FRAME_HEIGHT = 600;
 
-    /** The remaining width of the frame that the content pane may encompass. */
+    /**
+     * The remaining width of the frame that the content pane may encompass.
+     */
     private static final int CONTENT_PANE_WIDTH = FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN;
 
-    /** The remaining height of the frame that the content pane may encompass. */
+    /**
+     * The remaining height of the frame that the content pane may encompass.
+     */
     private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
             - CyderDragLabel.DEFAULT_HEIGHT;
 
-    /** The padding between the partitioned area and the files scroll generated label. */
+    /**
+     * The padding between the partitioned area and the files scroll generated label.
+     */
     private static final int filesLabelPadding = 20;
 
-    /** The partition height of the files header label on the files page. */
+    /**
+     * The partition height of the files header label on the files page.
+     */
     private static final int FILE_HEADER_LABEL_PARTITION = 10;
 
-    /** The partition height for the files scroll on the files page. */
+    /**
+     * The partition height for the files scroll on the files page.
+     */
     private static final int FILE_SCROLL_PARTITION = 75;
 
-    /** The partition height for the files scroll buttons for the files page. */
+    /**
+     * The partition height for the files scroll buttons for the files page.
+     */
     private static final int FILE_BUTTON_PARTITION = 15;
 
-    /** The width of the files scroll. */
+    /**
+     * The width of the files scroll.
+     */
     private static final int FILES_SCROLL_WIDTH = CONTENT_PANE_WIDTH - 2 * filesLabelPadding;
 
-    /** The height of the files scroll. */
+    /**
+     * The height of the files scroll.
+     */
     private static final int FILES_SCROLL_HEIGHT =
             (int) ((FILE_SCROLL_PARTITION / 100.0f) * CONTENT_PANE_HEIGHT - 2 * filesLabelPadding);
 
-    /** The user editor frame. */
+    /**
+     * The user editor frame.
+     */
     private static CyderFrame editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
 
-    /** The names of the files for the files list. */
+    /**
+     * The names of the files for the files list.
+     */
     private static final ArrayList<String> filesNameList = new ArrayList<>();
 
-    /** The reference used for the files scroll list label. */
+    /**
+     * The reference used for the files scroll list label.
+     */
     private static final AtomicReference<JLabel> filesLabelReference = new AtomicReference<>();
 
-    /** The reference used for the cyder scroll list. */
+    /**
+     * The reference used for the cyder scroll list.
+     */
     private static final AtomicReference<CyderScrollList> filesScrollListReference = new AtomicReference<>();
 
     static {
@@ -113,20 +143,28 @@ public final class UserEditor {
         filesScrollListReference.set(filesScrollList);
     }
 
-    /** The possible pages of the user editor. */
+    /**
+     * The possible pages of the user editor.
+     */
     public enum Page {
         FIELDS("Fields", UserEditor::switchToFieldInputs),
         PREFERENCES("Preferences", UserEditor::switchToPreferences),
         FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
         FILES("Files", UserEditor::switchToUserFiles);
 
-        /** The frame title and id of this page. */
+        /**
+         * The frame title and id of this page.
+         */
         private final String title;
 
-        /** The runnable to invoke to load the page when the menu item is clicked. */
+        /**
+         * The runnable to invoke to load the page when the menu item is clicked.
+         */
         private final Runnable switchRunnable;
 
-        /** Whether the user editor is on this page. */
+        /**
+         * Whether the user editor is on this page.
+         */
         private final AtomicBoolean onPage;
 
         Page(String title, Runnable runnable) {
@@ -177,16 +215,24 @@ public final class UserEditor {
         editUserFrame.getTopDragLabel().refreshButtons();
     }
 
-    /** The current page of the user editor. */
+    /**
+     * The current page of the user editor.
+     */
     private static Page currentPage = null;
 
-    /** The thickness of the border for the input and output areas if enabled. */
+    /**
+     * The thickness of the border for the input and output areas if enabled.
+     */
     public static final int inputOutputBorderThickness = 3;
 
-    /** The title of the frame. */
+    /**
+     * The title of the frame.
+     */
     private static final String FRAME_TITLE = "Preferences";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private UserEditor() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -219,7 +265,9 @@ public final class UserEditor {
         switchToPage(page);
     }
 
-    /** Installs the drag label items to the edit user frame. */
+    /**
+     * Installs the drag label items to the edit user frame.
+     */
     private static void installDragLabelButtons() {
         Arrays.stream(Page.values()).forEach(page -> {
             DragLabelTextButton menuButton = DragLabelTextButton.generateTextButton(
@@ -247,20 +295,28 @@ public final class UserEditor {
         }
     }
 
-    /** The separator between user folders and user files. */
+    /**
+     * The separator between user folders and user files.
+     */
     private static final String FILES_SCROLL_SEPARATOR = CyderStrings.forwardSlash;
 
-    /** UserFile folders to show in the files scroll list. */
+    /**
+     * UserFile folders to show in the files scroll list.
+     */
     @SuppressWarnings("Guava") /* IntelliJ thinking it can show up Guava */
     private enum ScrollListFolder {
         BACKGROUNDS(UserFile.BACKGROUNDS, FileUtil::isSupportedImageExtension),
         MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
         FILES(UserFile.FILES, (ignored) -> true);
 
-        /** The user file this scroll list folder references. */
+        /**
+         * The user file this scroll list folder references.
+         */
         private final UserFile userFile;
 
-        /** Whether this scroll list folder should show a certain file. */
+        /**
+         * Whether this scroll list folder should show a certain file.
+         */
         private final Function<File, Boolean> shouldShowFunction;
 
         ScrollListFolder(UserFile userFile, Function<File, Boolean> shouldShowFunction) {
@@ -308,16 +364,24 @@ public final class UserEditor {
         });
     }
 
-    /** The directory watcher for the user's music directory. */
+    /**
+     * The directory watcher for the user's music directory.
+     */
     private static DirectoryWatcher musicDirectoryWatcher;
 
-    /** The directory watcher for the user's backgrounds directory. */
+    /**
+     * The directory watcher for the user's backgrounds directory.
+     */
     private static DirectoryWatcher backgroundsDirectoryWatcher;
 
-    /** The directory watcher for the user's files directory. */
+    /**
+     * The directory watcher for the user's files directory.
+     */
     private static DirectoryWatcher fileDirectoryWatcher;
 
-    /** Creates and starts the user file directory watchers. */
+    /**
+     * Creates and starts the user file directory watchers.
+     */
     private static void initializeAndStartUserFileDirectoryWatchers() {
         if (musicDirectoryWatcher != null) musicDirectoryWatcher.stopWatching();
         if (backgroundsDirectoryWatcher != null) backgroundsDirectoryWatcher.stopWatching();
@@ -351,7 +415,9 @@ public final class UserEditor {
         fileDirectoryWatcher.startWatching();
     }
 
-    /** Stops the user directory file watchers. */
+    /**
+     * Stops the user directory file watchers.
+     */
     private static void stopUserFileDirectoryWatchers() {
         if (musicDirectoryWatcher != null) musicDirectoryWatcher.stopWatching();
         if (backgroundsDirectoryWatcher != null) backgroundsDirectoryWatcher.stopWatching();
@@ -374,7 +440,9 @@ public final class UserEditor {
         deleteFileButton.setEnabled(enabled);
     }
 
-    /** The action listener for the add file button. */
+    /**
+     * The action listener for the add file button.
+     */
     private static final ActionListener addFileButtonActionListener = e -> {
         try {
             CyderThreadRunner.submit(() -> {
@@ -438,10 +506,14 @@ public final class UserEditor {
         }
     }
 
-    /** The action listener for the open file button. */
+    /**
+     * The action listener for the open file button.
+     */
     private static final ActionListener openFileButtonActionListener = e -> openFile();
 
-    /** The action to open a file when the open file button is clicked. */
+    /**
+     * The action to open a file when the open file button is clicked.
+     */
     private static void openFile() {
         LinkedList<String> selectedScrollElements = filesScrollListReference.get().getSelectedElements();
 
@@ -460,10 +532,14 @@ public final class UserEditor {
         }
     }
 
-    /** The name of the thread for renaming af ile. */
+    /**
+     * The name of the thread for renaming af ile.
+     */
     private static final String USER_EDITOR_FILE_RENAMER_THREAD_NAME = "User Editor File Renamer";
 
-    /** The action listener for the rename file button. */
+    /**
+     * The action listener for the rename file button.
+     */
     private static final ActionListener renameFileButtonActionListener = e -> {
         try {
             LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
@@ -585,7 +661,9 @@ public final class UserEditor {
         return true;
     }
 
-    /** The action listener for the delete file button. */
+    /**
+     * The action listener for the delete file button.
+     */
     private static final ActionListener deleteFileButtonActionListener = e -> {
         LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
 
@@ -710,31 +788,49 @@ public final class UserEditor {
         return Optional.empty();
     }
 
-    /** The width of the the files scroll buttons. */
+    /**
+     * The width of the the files scroll buttons.
+     */
     private static final int buttonWidth = 175;
 
-    /** The height of the files scroll buttons. */
+    /**
+     * The height of the files scroll buttons.
+     */
     private static final int buttonHeight = 40;
 
-    /** The number of horizontal cells for the buttons layout. */
+    /**
+     * The number of horizontal cells for the buttons layout.
+     */
     private static final int BUTTON_X_CELLS = 4;
 
-    /** The number of vertical cells for the buttons layout. */
+    /**
+     * The number of vertical cells for the buttons layout.
+     */
     private static final int BUTTON_Y_CELLS = 1;
 
-    /** The add file button for user files. */
+    /**
+     * The add file button for user files.
+     */
     private static final CyderButton addFileButton = new CyderButton("Add");
 
-    /** The open file button for user files. */
+    /**
+     * The open file button for user files.
+     */
     private static final CyderButton openFileButton = new CyderButton("Open");
 
-    /** The rename file button for user files. */
+    /**
+     * The rename file button for user files.
+     */
     private static final CyderButton renameFileButton = new CyderButton("Rename");
 
-    /** The delete file button for user files. */
+    /**
+     * The delete file button for user files.
+     */
     private static final CyderButton deleteFileButton = new CyderButton("Delete");
 
-    /** The grid layout for the file action buttons. */
+    /**
+     * The grid layout for the file action buttons.
+     */
     private static final CyderGridLayout buttonGridLayout;
 
     static {
@@ -758,19 +854,29 @@ public final class UserEditor {
         buttonGridLayout.addComponent(deleteFileButton);
     }
 
-    /** The partitioned layout for the files page. */
+    /**
+     * The partitioned layout for the files page.
+     */
     private static final CyderPartitionedLayout filesPartitionedLayout = new CyderPartitionedLayout();
 
-    /** The files label header label to display the page title. */
+    /**
+     * The files label header label to display the page title.
+     */
     private static final CyderLabel filesHeaderLabel;
 
-    /** The width of the files header label. */
+    /**
+     * The width of the files header label.
+     */
     private static final int FILES_HEADER_LABEL_WIDTH = 350;
 
-    /** The height of the files header label. */
+    /**
+     * The height of the files header label.
+     */
     private static final int FILES_HEADER_LABEL_HEIGHT = 50;
 
-    /** The text for the file header label. */
+    /**
+     * The text for the file header label.
+     */
     private static final String FILES_BACKGROUNDS_AND_MUSIC = "Files, Backgrounds, and Music";
 
     static {
@@ -806,7 +912,9 @@ public final class UserEditor {
         initializeAndStartUserFileDirectoryWatchers();
     }
 
-    /** The label to display when updating the files scroll list. */
+    /**
+     * The label to display when updating the files scroll list.
+     */
     private static final CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
 
     /**
@@ -844,7 +952,9 @@ public final class UserEditor {
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
 
-    /** The key listener for the files scroll list pane to delete the selected files. */
+    /**
+     * The key listener for the files scroll list pane to delete the selected files.
+     */
     private static final KeyListener filesScrollListKeyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -864,19 +974,29 @@ public final class UserEditor {
         }
     };
 
-    /** The x padding between the left and right frame bounds for the files scroll. */
+    /**
+     * The x padding between the left and right frame bounds for the files scroll.
+     */
     private static final int FILES_SCROLL_X_PADDING = 50;
 
-    /** The y padding between the top and bottom frame bounds for the files scroll. */
+    /**
+     * The y padding between the top and bottom frame bounds for the files scroll.
+     */
     private static final int FILES_SCROLL_Y_PADDING = 100;
 
-    /** The width of the font scroll list. */
+    /**
+     * The width of the font scroll list.
+     */
     private static final int FONT_SCROLL_WIDTH = CONTENT_PANE_WIDTH / 2 - 2 * FILES_SCROLL_X_PADDING;
 
-    /** The height of the font scroll list. */
+    /**
+     * The height of the font scroll list.
+     */
     private static final int FONT_SCROLL_HEIGHT = CONTENT_PANE_HEIGHT - 2 * FILES_SCROLL_Y_PADDING;
 
-    /** The reference to the font scroll list. */
+    /**
+     * The reference to the font scroll list.
+     */
     private static final AtomicReference<CyderScrollList> fontScrollReference = new AtomicReference<>();
 
     static {
@@ -886,79 +1006,129 @@ public final class UserEditor {
         fontScrollReference.set(scrollList);
     }
 
-    /** The width of the apply font button. */
+    /**
+     * The width of the apply font button.
+     */
     private static final int fontButtonWidth = 130;
 
-    /** The height of the apply font button. */
+    /**
+     * The height of the apply font button.
+     */
     private static final int fontButtonHeight = 40;
 
-    /** The padding for the top and bottom of the font layout. */
+    /**
+     * The padding for the top and bottom of the font layout.
+     */
     private static final int paddingPartition = 5;
 
-    /** The partition for the font label and bottom secondary spacer. */
+    /**
+     * The partition for the font label and bottom secondary spacer.
+     */
     private static final int surroundingPanelPartition = 5;
 
-    /** The partition for the font files scroll. */
+    /**
+     * The partition for the font files scroll.
+     */
     private static final int fontLabelPartition = 80;
 
-    /** The font label font size. */
+    /**
+     * The font label font size.
+     */
     private static final int fontLabelFontSize = 40;
 
-    /** The font label which the font is updated on to show the user what the selected font looks like. */
+    /**
+     * The font label which the font is updated on to show the user what the selected font looks like.
+     */
     private static CyderLabel fontLabel;
 
-    /** The button to apply the font. */
+    /**
+     * The button to apply the font.
+     */
     private static CyderButton applyFontButton;
 
-    /** The partition layout for the font components. */
+    /**
+     * The partition layout for the font components.
+     */
     private static CyderPartitionedLayout fontPartitionedLayout;
 
-    /** The text field for the foreground hex color. */
+    /**
+     * The text field for the foreground hex color.
+     */
     private static CyderTextField foregroundField;
 
-    /** The color block preview for the foreground color. */
+    /**
+     * The color block preview for the foreground color.
+     */
     private static JTextField foregroundColorBlock;
 
-    /** The text field for the window hex color. */
+    /**
+     * The text field for the window hex color.
+     */
     private static CyderTextField windowField;
 
-    /** The color block preview for the window color. */
+    /**
+     * The color block preview for the window color.
+     */
     private static JTextField windowColorBlock;
 
-    /** The text field for the background hex color. */
+    /**
+     * The text field for the background hex color.
+     */
     private static CyderTextField backgroundField;
 
-    /** The color block preview for the background color. */
+    /**
+     * The color block preview for the background color.
+     */
     private static JTextField backgroundColorBlock;
 
-    /** The partition space for the font and color panel within the horizontal partitioned layout. */
+    /**
+     * The partition space for the font and color panel within the horizontal partitioned layout.
+     */
     private static final int fontColorHorizontalPartition = 50;
 
-    /** The partition length for a color panel. */
+    /**
+     * The partition length for a color panel.
+     */
     private static final int colorPartitionedLayoutSpacerLen = 25;
 
-    /** The header label partition length for color labels. */
+    /**
+     * The header label partition length for color labels.
+     */
     private static final int colorHeaderLabelPartition = 25;
 
-    /** The partition for the hex information label. */
+    /**
+     * The partition for the hex information label.
+     */
     private static final int hexInformationLabelPartition = 15;
 
-    /** The partition length for the color field. */
+    /**
+     * The partition length for the color field.
+     */
     private static final int colorFieldPartitionSpace = 70;
 
-    /** The partition length for the color block. */
+    /**
+     * The partition length for the color block.
+     */
     private static final int colorBlockPartitionSpace = 15;
 
-    /** The partition length for the color panel. */
+    /**
+     * The partition length for the color panel.
+     */
     private static final int colorPanelPartitionSpace = 25;
 
-    /** The width for color field panels. */
+    /**
+     * The width for color field panels.
+     */
     private static final int colorFieldPanelWidth = 250;
 
-    /** The height for color field panels. */
+    /**
+     * The height for color field panels.
+     */
     private static final int colorFieldPanelHeight = 40;
 
-    /** Switches to the fonts and colors page. */
+    /**
+     * Switches to the fonts and colors page.
+     */
     private static void switchToFontAndColor() {
         setSelectedPageMenuItem(Page.FONT_AND_COLOR);
 
@@ -1162,13 +1332,19 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
     }
 
-    /** The length of generated color blocks. */
+    /**
+     * The length of generated color blocks.
+     */
     private static final int COLOR_BLOCK_LEN = 40;
 
-    /** The thickness of the color block border. */
+    /**
+     * The thickness of the color block border.
+     */
     private static final int colorBlockBorderThickness = 5;
 
-    /** The line border for generated color blocks. */
+    /**
+     * The line border for generated color blocks.
+     */
     private static final LineBorder colorBlockBorder = new LineBorder(
             CyderColors.navy, colorBlockBorderThickness, false);
 
@@ -1198,13 +1374,19 @@ public final class UserEditor {
         return ret;
     }
 
-    /** The name of the thread which loads the fonts */
+    /**
+     * The name of the thread which loads the fonts
+     */
     private static final String FONT_LOADER_THREAD_NAME = "Preferences Font Loader";
 
-    /** The */
+    /**
+     * The
+     */
     private static ImmutableList<String> fontNames = ImmutableList.of();
 
-    /** Loads the fonts from the local {@link GraphicsEnvironment} and updates the fonts scroll list. */
+    /**
+     * Loads the fonts from the local {@link GraphicsEnvironment} and updates the fonts scroll list.
+     */
     private static void loadFonts() {
         CyderThreadRunner.submit(() -> {
             fontScrollReference.get().removeAllElements();
@@ -1231,7 +1413,9 @@ public final class UserEditor {
         }, FONT_LOADER_THREAD_NAME);
     }
 
-    /** The action listener for the apply font button. */
+    /**
+     * The action listener for the apply font button.
+     */
     @SuppressWarnings("MagicConstant") /* Font metrics are always checked */
     private static final ActionListener applyFontButtonActionListener = e -> {
         CyderScrollList reference = fontScrollReference.get();
@@ -1327,13 +1511,19 @@ public final class UserEditor {
         editUserFrame.notify("Default fonts and colors reset");
     };
 
-    /** The width of the hex label. */
+    /**
+     * The width of the hex label.
+     */
     private static final int HEX_LABEL_WIDTH = 80;
 
-    /** The height of the the hex label. */
+    /**
+     * The height of the the hex label.
+     */
     private static final int HEX_LABEL_HEIGHT = 40;
 
-    /** The hex label text. */
+    /**
+     * The hex label text.
+     */
     private static final String HEX = "Hex";
 
     /**
@@ -1365,22 +1555,34 @@ public final class UserEditor {
         return hexLabel;
     }
 
-    /** The width of components printed to the preferences scroll. */
+    /**
+     * The width of components printed to the preferences scroll.
+     */
     private static final int PRINTED_PREF_COMPONENT_WIDTH = 400;
 
-    /** The height of components printed to the preferences scroll. */
+    /**
+     * The height of components printed to the preferences scroll.
+     */
     private static final int PRINTED_PREF_COMPONENT_HEIGHT = 100;
 
-    /** The size of the preference checkboxes. */
+    /**
+     * The size of the preference checkboxes.
+     */
     private static final int checkboxSize = 60;
 
-    /** The text used for preference labels. */
+    /**
+     * The text used for preference labels.
+     */
     private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
 
-    /** The list of most recently generated checkboxes. */
+    /**
+     * The list of most recently generated checkboxes.
+     */
     private static final HashMap<String, CyderCheckbox> checkboxComponents = new HashMap<>();
 
-    /** Switches to the preferences preference page. */
+    /**
+     * Switches to the preferences preference page.
+     */
     private static void switchToPreferences() {
         setSelectedPageMenuItem(Page.PREFERENCES);
 
@@ -1458,31 +1660,49 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(preferencesPartitionedLayout);
     }
 
-    /** The password field for a new password. */
+    /**
+     * The password field for a new password.
+     */
     private static CyderPasswordField newPasswordField;
 
-    /** The password confirmation field for a new password. */
+    /**
+     * The password confirmation field for a new password.
+     */
     private static CyderPasswordField newPasswordConfirmationField;
 
-    /** The label for opening the java guide for date patterns. */
+    /**
+     * The label for opening the java guide for date patterns.
+     */
     private static JLabel changeConsoleDatePatternLabel;
 
-    /** The width of printed field panels. */
+    /**
+     * The width of printed field panels.
+     */
     private static final int fieldsPagePanelWidth = CONTENT_PANE_WIDTH - 100;
 
-    /** The height of printed field panels. */
+    /**
+     * The height of printed field panels.
+     */
     private static final int fieldsPagePanelHeight = 300;
 
-    /** The height of printed field header labels. */
+    /**
+     * The height of printed field header labels.
+     */
     private static final int fieldHeaderLabelHeight = 50;
 
-    /** The width of a component on a printed field panel. */
+    /**
+     * The width of a component on a printed field panel.
+     */
     private static final int fieldMainComponentWidth = 300;
 
-    /** The height of a component on a printed field panel. */
+    /**
+     * The height of a component on a printed field panel.
+     */
     private static final int fieldMainComponentHeight = 40;
 
-    /** Switches to the field input preference page. */
+    /**
+     * Switches to the field input preference page.
+     */
     private static void switchToFieldInputs() {
         setSelectedPageMenuItem(Page.FIELDS);
 
@@ -1747,7 +1967,9 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(fieldsPartitionedInput);
     }
 
-    /** The mouse listener for the console date pattern label. */
+    /**
+     * The mouse listener for the console date pattern label.
+     */
     private static final MouseListener consoleDatePatternLabelMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -1765,12 +1987,16 @@ public final class UserEditor {
         }
     };
 
-    /** The string to prompt the user with when confirming an account deletion. */
+    /**
+     * The string to prompt the user with when confirming an account deletion.
+     */
     private static final String confirmationString = "Final warning: you are about to"
             + " delete your Cyder account. All files, pictures, downloaded music, notes,"
             + " romantic partners, and the world will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
-    /** The name for the waiter thread to confirm account deletion. */
+    /**
+     * The name for the waiter thread to confirm account deletion.
+     */
     private static final String ACCOUNT_DELETION_CONFIRMATION = "Account Deletion Confirmation";
 
     /**
@@ -1887,10 +2113,14 @@ public final class UserEditor {
         return false;
     }
 
-    /** The maps keyword. */
+    /**
+     * The maps keyword.
+     */
     private static final String MAPS = "maps";
 
-    /** Shows an information pane of the current user's maps. */
+    /**
+     * Shows an information pane of the current user's maps.
+     */
     private static void showCurrentMaps() {
         StringBuilder informationBuilder = new StringBuilder();
 
@@ -2007,12 +2237,16 @@ public final class UserEditor {
         return editUserFrame.getState() == ConsoleConstants.FRAME_ICONIFIED;
     }
 
-    /** Minimizes the edit user frame. */
+    /**
+     * Minimizes the edit user frame.
+     */
     public static void minimize() {
         editUserFrame.minimizeAndIconify();
     }
 
-    /** Restores the frame to the normal frame position of minimized. */
+    /**
+     * Restores the frame to the normal frame position of minimized.
+     */
     public static void restore() {
         if (isMinimized()) {
             editUserFrame.setState(ConsoleConstants.FRAME_NORMAL);
@@ -2028,7 +2262,9 @@ public final class UserEditor {
         return editUserFrame;
     }
 
-    /** Instances of getter utils opened since the last invocation of {@link #closeGetterFrames()}. */
+    /**
+     * Instances of getter utils opened since the last invocation of {@link #closeGetterFrames()}.
+     */
     private static final ArrayList<GetterUtil> getterUtils = new ArrayList<>();
 
     /**
@@ -2040,13 +2276,17 @@ public final class UserEditor {
         getterUtils.add(instance);
     }
 
-    /** Closes all frames associated with getter instances opened via the user editor. */
+    /**
+     * Closes all frames associated with getter instances opened via the user editor.
+     */
     private static void closeGetterFrames() {
         getterUtils.forEach(GetterUtil::closeAllGetFrames);
         getterUtils.clear();
     }
 
-    /** Revalidates the preferences page if the user editor is open and on the preferences page. */
+    /**
+     * Revalidates the preferences page if the user editor is open and on the preferences page.
+     */
     public static void revalidatePreferencesIfOpen() {
         if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
             checkboxComponents.forEach((id, checkbox) -> checkbox.refreshState());

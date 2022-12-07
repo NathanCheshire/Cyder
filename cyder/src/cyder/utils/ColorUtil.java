@@ -16,21 +16,33 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/** Utilities to color operations and conversions. */
+/**
+ * Utilities to color operations and conversions.
+ */
 public final class ColorUtil {
-    /** The base for hexadecimal numbers. */
+    /**
+     * The base for hexadecimal numbers.
+     */
     public static final int HEX_BASE = 16;
 
-    /** The length of shorthand hex color strings. */
+    /**
+     * The length of shorthand hex color strings.
+     */
     public static final int SHORTHAND_HEX_LENGTH = 3;
 
-    /** The regular length of hex color strings. */
+    /**
+     * The regular length of hex color strings.
+     */
     public static final int HEX_LENGTH = 6;
 
-    /** The valid lengths a hex color must be. */
+    /**
+     * The valid lengths a hex color must be.
+     */
     public static final ImmutableList<Integer> VALID_HEX_LENGTHS = ImmutableList.of(SHORTHAND_HEX_LENGTH, HEX_LENGTH);
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private ColorUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -111,7 +123,9 @@ public final class ColorUtil {
                 + CyderStrings.comma + Integer.valueOf(hex.substring(4, 6), HEX_BASE);
     }
 
-    /** The string formatter used to convert a {@link Color} to a hex string. */
+    /**
+     * The string formatter used to convert a {@link Color} to a hex string.
+     */
     private static final String RGB_TO_HEX_FORMAT = "%02X%02X%02X";
 
     /**
@@ -126,7 +140,9 @@ public final class ColorUtil {
         return String.format(RGB_TO_HEX_FORMAT, color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    /** The maximum length the hashmap for the get dominant color method can grow. */
+    /**
+     * The maximum length the hashmap for the get dominant color method can grow.
+     */
     private static final int maxDominantColorCounterHashMapLength = 100;
 
     /**
@@ -277,13 +293,19 @@ public final class ColorUtil {
                 middle, beforeLessDefault, lessDefault, afterLessDefault, defaultColor);
     }
 
-    /** The minimum opacity. */
+    /**
+     * The minimum opacity.
+     */
     public static final int minOpacity = 0;
 
-    /** The maximum opacity. */
+    /**
+     * The maximum opacity.
+     */
     public static final int maxOpacity = 255;
 
-    /** The range for opacity values for Java's {@link Color} objects. */
+    /**
+     * The range for opacity values for Java's {@link Color} objects.
+     */
     private static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
 
     /**

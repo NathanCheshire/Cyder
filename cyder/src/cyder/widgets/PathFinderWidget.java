@@ -41,16 +41,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Vanilla
 @CyderAuthor
 public final class PathFinderWidget {
-    /** The pathfinding frame. */
+    /**
+     * The pathfinding frame.
+     */
     private static CyderFrame pathFindingFrame;
 
-    /** The grid component for the visualization. */
+    /**
+     * The grid component for the visualization.
+     */
     private static CyderGrid pathfindingGrid;
 
-    /** The default number of nodes for the path grid. */
+    /**
+     * The default number of nodes for the path grid.
+     */
     private static final int DEFAULT_NODES = 25;
 
-    /** The maximum number of nodes for the path grid. */
+    /**
+     * The maximum number of nodes for the path grid.
+     */
     private static final int MAX_NODES = 100;
 
     /**
@@ -59,19 +67,29 @@ public final class PathFinderWidget {
      */
     private static CyderCheckbox showStepsBox;
 
-    /** The checkbox dictating whether pathing to a diagonal neighbor is allowable. */
+    /**
+     * The checkbox dictating whether pathing to a diagonal neighbor is allowable.
+     */
     private static CyderCheckbox diagonalBox;
 
-    /** The checkbox dictating whether the grid mode is ADD or DELETE. */
+    /**
+     * The checkbox dictating whether the grid mode is ADD or DELETE.
+     */
     private static CyderCheckbox deleteWallsCheckBox;
 
-    /** The checkbox to place the starting node. */
+    /**
+     * The checkbox to place the starting node.
+     */
     private static CyderCheckbox placeStartBox;
 
-    /** The checkbox to place the goal node. */
+    /**
+     * The checkbox to place the goal node.
+     */
     private static CyderCheckbox placeGoalBox;
 
-    /** The checkbox dictating whether to draw grid lines on the grid. */
+    /**
+     * The checkbox dictating whether to draw grid lines on the grid.
+     */
     private static CyderCheckbox drawGridLinesBox;
 
     /**
@@ -80,51 +98,85 @@ public final class PathFinderWidget {
      */
     private static CyderSwitch heuristicSwitch;
 
-    /** The off text for the heuristic switch. */
+    /**
+     * The off text for the heuristic switch.
+     */
     private static final String HEURISTIC_OFF = "Manhattan";
 
-    /** The on text for the heuristic switch. */
+    /**
+     * The on text for the heuristic switch.
+     */
     private static final String HEURISTIC_ON = "Euclidean";
 
-    /** The algorithm switcher to switch between A* and Dijkstra's. */
+    /**
+     * The algorithm switcher to switch between A* and Dijkstra's.
+     */
     private static CyderSwitch algorithmSwitch;
 
-    /** The text to use for the algorithm OFF state. */
+    /**
+     * The text to use for the algorithm OFF state.
+     */
     private static final String ALGORITHM_OFF = "A*";
 
-    /** The text to use for the algorithm ON state. */
+    /**
+     * The text to use for the algorithm ON state.
+     */
     private static final String ALGORITHM_ON = "Dijkstras";
 
-    /** The button to start/pause the animation. */
+    /**
+     * The button to start/pause the animation.
+     */
     private static CyderButton startPauseButton;
 
-    /** The slider to determine the speed of the animation. */
+    /**
+     * The slider to determine the speed of the animation.
+     */
     private static JSlider speedSlider;
 
-    /** The maximum slider value. */
+    /**
+     * The maximum slider value.
+     */
     private static final int MAX_SLIDER_VALUE = 100;
 
-    /** The minimum slider value. */
+    /**
+     * The minimum slider value.
+     */
     private static final int MIN_SLIDER_VALUE = 1;
 
-    /** The default slider value in between the min and max values. */
+    /**
+     * The default slider value in between the min and max values.
+     */
     private static final int DEFAULT_SLIDER_VALUE = (MIN_SLIDER_VALUE + MAX_SLIDER_VALUE) / 2;
 
-    /** The timeout in ms between the path animation refresh. */
+    /**
+     * The timeout in ms between the path animation refresh.
+     */
     private static final int PATH_TRICKLE_TIMEOUT = 30;
 
-    /** The current state of the A* algorithm. */
+    /**
+     * The current state of the A* algorithm.
+     */
     private static PathingState currentPathingState = PathingState.NOT_STARTED;
 
-    /** The valid states of the A* algorithm. */
+    /**
+     * The valid states of the A* algorithm.
+     */
     private enum PathingState {
-        /** The algorithm is finished and found a path. */
+        /**
+         * The algorithm is finished and found a path.
+         */
         PATH_FOUND("Path found"),
-        /** The algorithm is finished but no path was found. :( */
+        /**
+         * The algorithm is finished but no path was found. :(
+         */
         PATH_NOT_FOUND("No path found"),
-        /** The algorithm is incomplete and may be resumed. */
+        /**
+         * The algorithm is incomplete and may be resumed.
+         */
         PAUSED("Paused"),
-        /** The algorithm has not yet begun (Widget just opened or reset invoked). */
+        /**
+         * The algorithm has not yet begun (Widget just opened or reset invoked).
+         */
         NOT_STARTED("Not Started"),
         /**
          * The algorithm is currently underway, whether this be the first time it
@@ -132,7 +184,9 @@ public final class PathFinderWidget {
          */
         RUNNING("Running...");
 
-        /** The state label text for this pathing state. */
+        /**
+         * The state label text for this pathing state.
+         */
         private final String stateLabelText;
 
         PathingState(String stateLabelText) {
@@ -149,22 +203,34 @@ public final class PathFinderWidget {
         }
     }
 
-    /** The label to display the current state on. */
+    /**
+     * The label to display the current state on.
+     */
     private static CyderLabel currentStateLabel;
 
-    /** The color used for pathable nodes in the open list */
+    /**
+     * The color used for pathable nodes in the open list
+     */
     private static final Color pathableOpenColor = new Color(254, 104, 88);
 
-    /** The color used for pathable nodes that have been removed from the open list. */
+    /**
+     * The color used for pathable nodes that have been removed from the open list.
+     */
     private static final Color pathableClosedColor = new Color(121, 236, 135);
 
-    /** The color used for walls. */
+    /**
+     * The color used for walls.
+     */
     private static final Color wallsColor = CyderColors.navy;
 
-    /** The color used for the goal node. */
+    /**
+     * The color used for the goal node.
+     */
     private static final Color goalNodeColor = CyderColors.regularOrange;
 
-    /** The color used for the start node. */
+    /**
+     * The color used for the start node.
+     */
     private static final Color startNodeColor = CyderColors.regularPink;
 
     /**
@@ -179,19 +245,29 @@ public final class PathFinderWidget {
      */
     private static PathNode goalNode;
 
-    /** The default point the starting node is placed at. */
+    /**
+     * The default point the starting node is placed at.
+     */
     private static final Point DEFAULT_START_POINT = new Point(0, 0);
 
-    /** The default point the goal node is placed at. */
+    /**
+     * The default point the goal node is placed at.
+     */
     private static final Point DEFAULT_GOAL_POINT = new Point(DEFAULT_NODES - 1, DEFAULT_NODES - 1);
 
-    /** The font to use for the state label. */
+    /**
+     * The font to use for the state label.
+     */
     private static final Font STATE_LABEL_FONT = new Font("Agency FB", Font.BOLD, 40);
 
-    /** The nodes which may be pathed through on the current grid state. */
+    /**
+     * The nodes which may be pathed through on the current grid state.
+     */
     private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
 
-    /** The nodes which are in the queue to be pathed through. */
+    /**
+     * The nodes which are in the queue to be pathed through.
+     */
     private static final PriorityQueue<PathNode> openNodes = new PriorityQueue<>(new NodeComparator());
 
     /**
@@ -201,7 +277,9 @@ public final class PathFinderWidget {
      */
     private static PathTrickleAnimator currentPathAnimator;
 
-    /** The path solver thread name. */
+    /**
+     * The path solver thread name.
+     */
     private static final String PATH_SOLVING_THREAD_NAME = "Path Solver";
 
     /**
@@ -210,37 +288,59 @@ public final class PathFinderWidget {
      */
     private static final Semaphore semaphore = new Semaphore(1);
 
-    /** The heuristic value for A* to be logically equivalent to Dijkstra's. */
+    /**
+     * The heuristic value for A* to be logically equivalent to Dijkstra's.
+     */
     private static final int DIJKSTRA_HEURISTIC = 1;
 
-    /** The width of the frame. */
+    /**
+     * The width of the frame.
+     */
     private static final int FRAME_WIDTH = 1000;
 
-    /** The height of the frame. */
+    /**
+     * The height of the frame.
+     */
     private static final int FRAME_HEIGHT = 1070;
 
-    /** The widget title. */
+    /**
+     * The widget title.
+     */
     private static final String TITLE = "Pathfinding Visualizer";
 
-    /** The length of the grid component. */
+    /**
+     * The length of the grid component.
+     */
     private static final int gridComponentLength = 800;
 
-    /** The text for the start button. */
+    /**
+     * The text for the start button.
+     */
     private static final String START = "Start";
 
-    /** The text for the reset button. */
+    /**
+     * The text for the reset button.
+     */
     private static final String RESET = "Reset";
 
-    /** The text for the stop button. */
+    /**
+     * The text for the stop button.
+     */
     private static final String STOP = "Stop";
 
-    /** The state label string prefix. */
+    /**
+     * The state label string prefix.
+     */
     private static final String STATE = "State:";
 
-    /** The text for the resume button. */
+    /**
+     * The text for the resume button.
+     */
     private static final String RESUME = "Resume";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private PathFinderWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -405,7 +505,9 @@ public final class PathFinderWidget {
         pathFindingFrame.finalizeAndShow();
     }
 
-    /** The mouse listener for the place start checkbox. */
+    /**
+     * The mouse listener for the place start checkbox.
+     */
     private static final MouseListener placeStartBoxMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -430,7 +532,9 @@ public final class PathFinderWidget {
         }
     };
 
-    /** The mouse listener for the place goal checkbox. */
+    /**
+     * The mouse listener for the place goal checkbox.
+     */
     private static final MouseListener placeGoalMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -455,7 +559,9 @@ public final class PathFinderWidget {
         }
     };
 
-    /** The mouse listener for the delete walls checkbox. */
+    /**
+     * The mouse listener for the delete walls checkbox.
+     */
     private static final MouseListener deleteWallsMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -469,7 +575,9 @@ public final class PathFinderWidget {
         }
     };
 
-    /** The mouse listener for the draw grid lines checkbox. */
+    /**
+     * The mouse listener for the draw grid lines checkbox.
+     */
     private static final MouseListener drawGridLinesMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -478,7 +586,9 @@ public final class PathFinderWidget {
         }
     };
 
-    /** The actions to invoke when the start/pause button is pressed. */
+    /**
+     * The actions to invoke when the start/pause button is pressed.
+     */
     private static void startPauseButtonAction() {
         if (pathfindingGrid.getNodesOfColor(startNodeColor).isEmpty()) {
             pathFindingFrame.notify("Start node not set");
@@ -675,18 +785,28 @@ public final class PathFinderWidget {
         currentPathAnimator = new PathTrickleAnimator(pathReversed);
     }
 
-    /** A animator class to perform the path found animation. */
+    /**
+     * A animator class to perform the path found animation.
+     */
     private static class PathTrickleAnimator {
-        /** The trickle animation thread name. */
+        /**
+         * The trickle animation thread name.
+         */
         private static final String PATH_TRICKLE_ANIMATION_THREAD_NAME = "Pathfinding Path Trickle Animator";
 
-        /** The color used for the found path. */
+        /**
+         * The color used for the found path.
+         */
         private static final Color PATH_COLOR = CyderColors.regularBlue;
 
-        /** The color used for the path found animation trickle. */
+        /**
+         * The color used for the path found animation trickle.
+         */
         private static final Color PATH_ANIMATION_COLOR = new Color(34, 216, 248);
 
-        /** Whether this animation has been killed */
+        /**
+         * Whether this animation has been killed
+         */
         private final AtomicBoolean killed = new AtomicBoolean(false);
 
         /**
@@ -796,7 +916,9 @@ public final class PathFinderWidget {
             }, PATH_TRICKLE_ANIMATION_THREAD_NAME);
         }
 
-        /** Kills this path animator. */
+        /**
+         * Kills this path animator.
+         */
         public void kill() {
             killed.set(true);
         }
@@ -820,12 +942,16 @@ public final class PathFinderWidget {
         lockingRepaintGrid();
     }
 
-    /** Enables the UI elements during the pathfinding animation. */
+    /**
+     * Enables the UI elements during the pathfinding animation.
+     */
     private static void enableUiElements() {
         setUiElementsEnabled(true);
     }
 
-    /** Disables the UI elements during the pathfinding animation. */
+    /**
+     * Disables the UI elements during the pathfinding animation.
+     */
     private static void disableUiElements() {
         setUiElementsEnabled(false);
     }
@@ -854,7 +980,9 @@ public final class PathFinderWidget {
         }
     }
 
-    /** Resets all the checkboxes to their default state. */
+    /**
+     * Resets all the checkboxes to their default state.
+     */
     private static void resetCheckboxStates() {
         deleteWallsCheckBox.setChecked(false);
         showStepsBox.setChecked(false);
@@ -865,7 +993,9 @@ public final class PathFinderWidget {
         pathfindingGrid.setDrawGridLines(true);
     }
 
-    /** Resets the algorithm and heuristic switchers to their default states. */
+    /**
+     * Resets the algorithm and heuristic switchers to their default states.
+     */
     private static void resetSwitcherStates() {
         // Corresponds to Manhattan
         heuristicSwitch.setState(CyderSwitchState.OFF);
@@ -873,7 +1003,9 @@ public final class PathFinderWidget {
         algorithmSwitch.setState(CyderSwitchState.OFF);
     }
 
-    /** Updates the state label based. */
+    /**
+     * Updates the state label based.
+     */
     private static void updateStateLabel() {
         currentStateLabel.setText(STATE + CyderStrings.space + currentPathingState.getStateLabelText());
     }
@@ -911,7 +1043,9 @@ public final class PathFinderWidget {
         pathfindingGrid.removeNodesOfColor(wallsColor);
     }
 
-    /** Kills the path animator and sets it to null. */
+    /**
+     * Kills the path animator and sets it to null.
+     */
     private static void endPathAnimator() {
         if (currentPathAnimator == null) return;
 
@@ -923,7 +1057,9 @@ public final class PathFinderWidget {
 
     }
 
-    /** Resets the visualizer as if the widget was just opened. */
+    /**
+     * Resets the visualizer as if the widget was just opened.
+     */
     public static void reset() {
         endPathAnimator();
 
@@ -951,7 +1087,9 @@ public final class PathFinderWidget {
         lockingRepaintGrid();
     }
 
-    /** Repaints the pathfinding grid in a thread-safe way. */
+    /**
+     * Repaints the pathfinding grid in a thread-safe way.
+     */
     private static void lockingRepaintGrid() {
         try {
             semaphore.acquire();
@@ -1061,7 +1199,9 @@ public final class PathFinderWidget {
         return Math.abs(node1.getX() - node2.getX()) + Math.abs(node1.getY() - node2.getY());
     }
 
-    /** The node comparator to use for the node queue. */
+    /**
+     * The node comparator to use for the node queue.
+     */
     private static class NodeComparator implements Comparator<PathNode> {
         @Override
         public int compare(PathNode node1, PathNode node2) {
@@ -1075,21 +1215,33 @@ public final class PathFinderWidget {
         }
     }
 
-    /** A node object used for the pathfinding widget. */
+    /**
+     * A node object used for the pathfinding widget.
+     */
     private static class PathNode {
-        /** The node's x value. */
+        /**
+         * The node's x value.
+         */
         private int x;
 
-        /** The node's y value. */
+        /**
+         * The node's y value.
+         */
         private int y;
 
-        /** The node's g value. */
+        /**
+         * The node's g value.
+         */
         private double g = Integer.MAX_VALUE;
 
-        /** The node's heuristic value. */
+        /**
+         * The node's heuristic value.
+         */
         private double h = Integer.MAX_VALUE;
 
-        /** The node's parent. */
+        /**
+         * The node's parent.
+         */
         private PathNode parent;
 
         /**
@@ -1103,7 +1255,9 @@ public final class PathFinderWidget {
             this.y = y;
         }
 
-        /** Suppress default constructor. */
+        /**
+         * Suppress default constructor.
+         */
         private PathNode() {
             throw new IllegalMethodException("Cannot create PathNode with default constructor");
         }
@@ -1216,7 +1370,9 @@ public final class PathFinderWidget {
             this.parent = parent;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(Object o) {
             if (o == null)
@@ -1228,7 +1384,9 @@ public final class PathFinderWidget {
             }
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String toString() {
             return x + ", " + y;

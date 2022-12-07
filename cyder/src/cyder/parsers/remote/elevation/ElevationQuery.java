@@ -2,7 +2,9 @@ package cyder.parsers.remote.elevation;
 
 import com.google.gson.annotations.SerializedName;
 
-/** A json serialization class for an elevation query. */
+/**
+ * A json serialization class for an elevation query.
+ */
 public class ElevationQuery {
     public double x;
     public double y;

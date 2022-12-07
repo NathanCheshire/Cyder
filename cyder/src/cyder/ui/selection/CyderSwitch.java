@@ -15,57 +15,93 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-/** An animated binary switch with smooth transition animations. */
+/**
+ * An animated binary switch with smooth transition animations.
+ */
 public class CyderSwitch extends JLabel {
-    /** The width of this switch. */
+    /**
+     * The width of this switch.
+     */
     private int width;
 
-    /** The height of this switch. */
+    /**
+     * The height of this switch.
+     */
     private int height;
 
-    /** The current state of the switch. */
+    /**
+     * The current state of the switch.
+     */
     private CyderSwitchState state;
 
-    /** The inner button used to control the switch state. */
+    /**
+     * The inner button used to control the switch state.
+     */
     private final CyderButton switchButton;
 
-    /** The percentage of the switch that the button should take. */
+    /**
+     * The percentage of the switch that the button should take.
+     */
     private float buttonPercent = 25;
 
-    /** The delay between animation frames. */
+    /**
+     * The delay between animation frames.
+     */
     private int animationDelay = 4;
 
-    /** The text to use for the on state. */
+    /**
+     * The text to use for the on state.
+     */
     private String onText = "1";
 
-    /** The text to use for the off state. */
+    /**
+     * The text to use for the off state.
+     */
     private String indeterminateText = "?";
 
-    /** The text to use for the on state. */
+    /**
+     * The text to use for the on state.
+     */
     private String offText = "0";
 
-    /** The line border used for switches. */
+    /**
+     * The line border used for switches.
+     */
     private static final LineBorder lineBorder = new LineBorder(CyderColors.navy, 5, false);
 
-    /** The default width of a switch. */
+    /**
+     * The default width of a switch.
+     */
     private static final int DEFAULT_WIDTH = 400;
 
-    /** The default height of a switch. */
+    /**
+     * The default height of a switch.
+     */
     private static final int DEFAULT_HEIGHT = 120;
 
-    /** The y padding of the switch button and the bounding box. */
+    /**
+     * The y padding of the switch button and the bounding box.
+     */
     private static final int buttonYPadding = 10;
 
-    /** The x padding of the switch button and the bounding box. */
+    /**
+     * The x padding of the switch button and the bounding box.
+     */
     private static final int buttonXPadding = 10;
 
-    /** The increment for state animations. */
+    /**
+     * The increment for state animations.
+     */
     private int animationIncrement = 8;
 
-    /** The range the button percent must fall within. */
+    /**
+     * The range the button percent must fall within.
+     */
     private static final Range<Float> buttonPercentRange = Range.open(0.0f, 100.0f);
 
-    /** Constructs a new switch with a width of 400, a height of 120, and a state of off. */
+    /**
+     * Constructs a new switch with a width of 400, a height of 120, and a state of off.
+     */
     public CyderSwitch() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
@@ -223,7 +259,9 @@ public class CyderSwitch extends JLabel {
         repaint();
     }
 
-    /** Refreshes the switch button text. */
+    /**
+     * Refreshes the switch button text.
+     */
     public void refreshButtonText() {
         switch (state) {
             case ON -> switchButton.setText(onText);
@@ -429,7 +467,9 @@ public class CyderSwitch extends JLabel {
         super.setEnabled(enabled);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "CyderSwitch{"

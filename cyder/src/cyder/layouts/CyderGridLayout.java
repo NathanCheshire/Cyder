@@ -9,24 +9,38 @@ import cyder.utils.StringUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-/** A grid layout specific for {@link CyderPanel}s. */
+/**
+ * A grid layout specific for {@link CyderPanel}s.
+ */
 public class CyderGridLayout extends CyderLayout {
-    /** The amount of horizontal cells allowable for this grid layout. */
+    /**
+     * The amount of horizontal cells allowable for this grid layout.
+     */
     private final int horizontalCells;
 
-    /** The amount of vertical cells allowable for this grid layout. */
+    /**
+     * The amount of vertical cells allowable for this grid layout.
+     */
     private final int verticalCells;
 
-    /** The list of components to be linked to the CyderPanel this LayoutManager is managing. */
+    /**
+     * The list of components to be linked to the CyderPanel this LayoutManager is managing.
+     */
     private final GridComponent[][] components;
 
-    /** The default number of horizontal and vertical cells. */
+    /**
+     * The default number of horizontal and vertical cells.
+     */
     private static final int defaultHorizontalAndVerticalCells = 1;
 
-    /** The CyderPanel this layout manager will manage. */
+    /**
+     * The CyderPanel this layout manager will manage.
+     */
     private CyderPanel associatedPanel;
 
-    /** Constructs a new CyderGridLayout with a singular grid cell. */
+    /**
+     * Constructs a new CyderGridLayout with a singular grid cell.
+     */
     public CyderGridLayout() {
         this(defaultHorizontalAndVerticalCells, defaultHorizontalAndVerticalCells);
     }
@@ -56,7 +70,9 @@ public class CyderGridLayout extends CyderLayout {
         components = new GridComponent[horizontalCells][verticalCells];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ImmutableList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>();
@@ -84,7 +100,9 @@ public class CyderGridLayout extends CyderLayout {
         revalidateComponents();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void revalidateComponents() {
         if (associatedPanel == null) return;
@@ -325,7 +343,9 @@ public class CyderGridLayout extends CyderLayout {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getPackSize() {
         int maxLineWidth = 0;

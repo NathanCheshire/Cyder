@@ -11,21 +11,31 @@ import cyder.network.NetworkUtil;
 
 import java.net.URL;
 
-/** A handler for opening urls. */
+/**
+ * A handler for opening urls.
+ */
 public class UrlHandler extends InputHandler {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private UrlHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The youtube base url for searching for specific words within a youtube url. */
+    /**
+     * The youtube base url for searching for specific words within a youtube url.
+     */
     public static final String YOUTUBE_WORD_SEARCH_BASE =
             "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
 
-    /** A record to link a trigger to a url and the printable version name. */
+    /**
+     * A record to link a trigger to a url and the printable version name.
+     */
     private record CyderUrl(String trigger, String url, String printable) {}
 
-    /** The list of urls to search trough before attempting to open the raw user input. */
+    /**
+     * The list of urls to search trough before attempting to open the raw user input.
+     */
     private static final ImmutableList<CyderUrl> urls = ImmutableList.of(
             new CyderUrl("desmos", CyderUrls.DESMOS, "Opening Desmos graphing calculator"),
             new CyderUrl("404", CyderUrls.GOOGLE_404, "Opening a 404 error"),
@@ -72,7 +82,9 @@ public class UrlHandler extends InputHandler {
         return ret;
     }
 
-    /** Performs the youtube word search routine on the user-entered input. */
+    /**
+     * Performs the youtube word search routine on the user-entered input.
+     */
     private static void youtubeWordSearch() {
         if (getInputHandler().checkArgsLength(1)) {
             String input = getInputHandler().getArg(0);

@@ -23,21 +23,33 @@ import java.util.concurrent.Future;
 import static cyder.constants.CyderStrings.quote;
 import static cyder.constants.CyderStrings.space;
 
-/** A handler for commands and inputs related to git/github/gitlab. */
+/**
+ * A handler for commands and inputs related to git/github/gitlab.
+ */
 public class GitHandler extends InputHandler {
-    /** The git command. */
+    /**
+     * The git command.
+     */
     private static final String GIT = "git";
 
-    /** The git clone command. */
+    /**
+     * The git clone command.
+     */
     private static final String GIT_CLONE = "git clone";
 
-    /** The issue string separator. */
+    /**
+     * The issue string separator.
+     */
     private static final String issueSeparator = "----------------------------------------";
 
-    /** The name of the github issue printer thread. */
+    /**
+     * The name of the github issue printer thread.
+     */
     private static final String GITHUB_ISSUE_PRINTER_THREAD_NAME = "Cyder GitHub Issue Printer";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private GitHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -148,7 +160,9 @@ public class GitHandler extends InputHandler {
         ProcessUtil.runAndPrintProcessesSequential(getInputHandler(), builders);
     }
 
-    /** Prints all the issues found for the official Cyder github repo. */
+    /**
+     * Prints all the issues found for the official Cyder github repo.
+     */
     private static void printIssues() {
         CyderThreadRunner.submit(() -> {
             ImmutableList<Issue> issues = GitHubUtil.getIssues();

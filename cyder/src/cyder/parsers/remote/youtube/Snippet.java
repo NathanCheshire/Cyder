@@ -1,6 +1,8 @@
 package cyder.parsers.remote.youtube;
 
-/** The actual content of a YoutubeVideo object we are usually interested in. */
+/**
+ * The actual content of a YoutubeVideo object we are usually interested in.
+ */
 public class Snippet {
     private String publishedAt;
     private String channelId;

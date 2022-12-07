@@ -29,22 +29,34 @@ import java.util.LinkedList;
 
 import static cyder.constants.CyderStrings.space;
 
-/** Subroutines which must complete in order for Cyder to start. */
+/**
+ * Subroutines which must complete in order for Cyder to start.
+ */
 public final class NecessarySubroutines {
-    /** The test key word to validate tests. */
+    /**
+     * The test key word to validate tests.
+     */
     private static final String TEST = "test";
 
-    /** The standard primary method name for widget's {@link Widget} annotated method. */
+    /**
+     * The standard primary method name for widget's {@link Widget} annotated method.
+     */
     public static final String STANDARD_WIDGET_SHOW_METHOD_NAME = "showGui";
 
-    /** The vanilla developer names. */
+    /**
+     * The vanilla developer names.
+     */
     private static final ImmutableList<String> DEVELOPER_NAMES = ImmutableList.of(
             "Nathan Cheshire", "Nate Cheshire", "Natche", "Cypher");
 
-    /** The key word to look for a class to end with it if contains a method annotated with {@link Widget}. */
+    /**
+     * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
+     */
     private static final String WIDGET = "widget";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private NecessarySubroutines() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -253,7 +265,9 @@ public final class NecessarySubroutines {
         }
     }
 
-    /** Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation. */
+    /**
+     * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
+     */
     public static void validateVanillaWidgets() {
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
@@ -294,7 +308,9 @@ public final class NecessarySubroutines {
         }
     }
 
-    /** Validates all {@link Handle}s found throughout Cyder. */
+    /**
+     * Validates all {@link Handle}s found throughout Cyder.
+     */
     @SuppressWarnings("ConstantConditions") /* Check for final and primary handler */
     public static void validateHandles() {
         LinkedList<String> allTriggers = new LinkedList<>();
@@ -380,7 +396,9 @@ public final class NecessarySubroutines {
                 StringUtil.capsFirst(handleWarning.name().replace("_", space))));
     }
 
-    /** The possible warnings for invalid {@link Handle}s. */
+    /**
+     * The possible warnings for invalid {@link Handle}s.
+     */
     private enum HandleWarning {
         CONTAINS_HANDLE("Found class which does not extend InputHandler with @Handle annotation"),
         MORE_THAN_ONE_HANDLE("Found class which contains more than one method annotated with @Handle"),
@@ -392,7 +410,9 @@ public final class NecessarySubroutines {
         EMPTY_TRIGGER("Handle annotation found to contain empty triggers"),
         DUPLICATE_TRIGGER("Found duplicate trigger, trigger");
 
-        /** The log prefix for this handle warning. */
+        /**
+         * The log prefix for this handle warning.
+         */
         private final String logPrefix;
 
         HandleWarning(String logPrefix) {

@@ -2,7 +2,9 @@ package cyder.parsers.remote.ip;
 
 import com.google.gson.annotations.SerializedName;
 
-/** An object for parsing returned ip data language objects. */
+/**
+ * An object for parsing returned ip data language objects.
+ */
 public class Language {
     private String name;
 

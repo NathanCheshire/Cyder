@@ -3,9 +3,13 @@ package cyder.math;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
-/** Utilities related to interpolation. */
+/**
+ * Utilities related to interpolation.
+ */
 public final class InterpolationUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private InterpolationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

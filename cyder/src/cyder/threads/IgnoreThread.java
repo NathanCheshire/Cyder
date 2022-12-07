@@ -1,6 +1,8 @@
 package cyder.threads;
 
-/** Thread names to ignore when determining if Cyder should be classified as busy. */
+/**
+ * Thread names to ignore when determining if Cyder should be classified as busy.
+ */
 public enum IgnoreThread {
     /* Java and AWT/Swing threads */
     AwtEventQueue0("AWT-EventQueue-0", false),
@@ -19,10 +21,14 @@ public enum IgnoreThread {
     ConsoleBusyAnimation("Console Busy Animation"),
     InstanceSocket("Instance Socket");
 
-    /** The name associated with the thread to ignore. */
+    /**
+     * The name associated with the thread to ignore.
+     */
     private final String name;
 
-    /** Whether the thread is launched by Cyder internally or is a JVM process thread. */
+    /**
+     * Whether the thread is launched by Cyder internally or is a JVM process thread.
+     */
     private final boolean isCyderThread;
 
     IgnoreThread(String name) {

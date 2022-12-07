@@ -39,60 +39,98 @@ import java.util.regex.Matcher;
 
 import static cyder.youtube.YoutubeConstants.*;
 
-/** A utility class for downloading a video's audio and/or video from YouTube. */
+/**
+ * A utility class for downloading a video's audio and/or video from YouTube.
+ */
 public class YoutubeDownload {
-    /** The name of this download object. */
+    /**
+     * The name of this download object.
+     */
     private String downloadableName;
 
-    /** The download file size of this download object. */
+    /**
+     * The download file size of this download object.
+     */
     private String downloadableFileSize;
 
-    /** The download progress of this download object. */
+    /**
+     * The download progress of this download object.
+     */
     private float downloadableProgress;
 
-    /** The download rate of this download object. */
+    /**
+     * The download rate of this download object.
+     */
     private String downloadableRate;
 
-    /** The download eta of this download object. */
+    /**
+     * The download eta of this download object.
+     */
     private String downloadableEta;
 
-    /** Whether this download has completed downloading. */
+    /**
+     * Whether this download has completed downloading.
+     */
     private boolean downloaded;
 
-    /** Whether this download has completed, not necessarily downloaded. */
+    /**
+     * Whether this download has completed, not necessarily downloaded.
+     */
     private boolean done;
 
-    /** Whether this download is currently underway. */
+    /**
+     * Whether this download is currently underway.
+     */
     private boolean downloading;
 
-    /** Whether this download was canceled externally. */
+    /**
+     * Whether this download was canceled externally.
+     */
     private boolean canceled;
 
-    /** The label this class will print and update with statistics about the download. */
+    /**
+     * The label this class will print and update with statistics about the download.
+     */
     private JLabel downloadProgressLabel;
 
-    /** The button used to cancel the download. */
+    /**
+     * The button used to cancel the download.
+     */
     private CyderButton cancelButton;
 
-    /** The url of the youtube video to download. */
+    /**
+     * The url of the youtube video to download.
+     */
     private final String url;
 
-    /** The runnable to invoke when the download is canceled. */
+    /**
+     * The runnable to invoke when the download is canceled.
+     */
     private Runnable onCanceledCallback;
 
-    /** The runnable to invoke when the download completes successfully. */
+    /**
+     * The runnable to invoke when the download completes successfully.
+     */
     private Runnable onDownloadedCallback;
 
-    /** The audio file this object downloaded from YouTube. */
+    /**
+     * The audio file this object downloaded from YouTube.
+     */
     private File audioDownloadFile;
 
-    /** The exit code for the internal download process. */
+    /**
+     * The exit code for the internal download process.
+     */
     private int processExitCode = DOWNLOAD_NOT_FINISHED;
 
-    /** The type of this download. */
+    /**
+     * The type of this download.
+     */
     private final DownloadType downloadType;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private YoutubeDownload() {
         throw new IllegalMethodException("Illegal use of constructor without url");
     }
@@ -194,7 +232,9 @@ public class YoutubeDownload {
         return canceled;
     }
 
-    /** Cancels this download if downloading. */
+    /**
+     * Cancels this download if downloading.
+     */
     public void cancel() {
         if (isDownloading()) {
             canceled = true;
@@ -273,7 +313,9 @@ public class YoutubeDownload {
         return processExitCode;
     }
 
-    /** Updates the download progress label text. */
+    /**
+     * Updates the download progress label text.
+     */
     public void updateProgressLabelText() {
         downloadProgressLabel.setText(
                 HtmlTags.openingHtml + downloadableName
@@ -287,13 +329,19 @@ public class YoutubeDownload {
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
     }
 
-    /** The download progress bar to print and update if a valid input handler is provided. */
+    /**
+     * The download progress bar to print and update if a valid input handler is provided.
+     */
     private CyderProgressBar downloadProgressBar;
 
-    /** The progress bar ui to use for the download progress bar. */
+    /**
+     * The progress bar ui to use for the download progress bar.
+     */
     private CyderProgressUI downloadProgressBarUi;
 
-    /** The input handler to print updates to if not null; */
+    /**
+     * The input handler to print updates to if not null;
+     */
     private BaseInputHandler inputHandler;
 
     /**
@@ -314,7 +362,9 @@ public class YoutubeDownload {
         this.inputHandler = Preconditions.checkNotNull(inputHandler);
     }
 
-    /** Downloads this object's YouTube video audio and/or video. */
+    /**
+     * Downloads this object's YouTube video audio and/or video.
+     */
     public void download() {
         Preconditions.checkState(!done, "Object attempted to download previously");
 
@@ -452,7 +502,9 @@ public class YoutubeDownload {
         }, threadName);
     }
 
-    /** Constructs and prints the progress bar and label to the linked input handler. */
+    /**
+     * Constructs and prints the progress bar and label to the linked input handler.
+     */
     private void constructAndPrintUiElements() {
         downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL,
                 downloadProgressMin, downloadProgressMax);
@@ -505,7 +557,9 @@ public class YoutubeDownload {
         return cancelButton;
     }
 
-    /** Cleans up the printed ui elements. */
+    /**
+     * Cleans up the printed ui elements.
+     */
     private void cleanUpPrintedUiElements() {
         Color resultColor = downloaded ? CyderColors.regularBlue : CyderColors.regularRed;
 

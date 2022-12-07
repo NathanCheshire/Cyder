@@ -1,6 +1,8 @@
 package cyder.parsers.remote.youtube;
 
-/** Information about the YoutubeSearchResultPage. */
+/**
+ * Information about the YoutubeSearchResultPage.
+ */
 public class PageInfo {
     private long totalResults;
     private int resultsPerPage;

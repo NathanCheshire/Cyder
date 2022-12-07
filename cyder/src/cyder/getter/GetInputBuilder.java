@@ -10,51 +10,83 @@ import cyder.ui.frame.CyderFrame;
 import java.awt.*;
 import java.util.ArrayList;
 
-/** A builder for a get input getter method. */
+/**
+ * A builder for a get input getter method.
+ */
 public final class GetInputBuilder extends GetBuilder {
-    /** The title of the frame. */
+    /**
+     * The title of the frame.
+     */
     private final String frameTitle;
 
-    /** The label text. */
+    /**
+     * The label text.
+     */
     private final String labelText;
 
-    /** The label font. */
+    /**
+     * The label font.
+     */
     private Font labelFont = CyderFonts.DEFAULT_FONT;
 
-    /** The label color. */
+    /**
+     * The label color.
+     */
     private Color labelColor = CyderColors.navy;
 
-    /** The submit button text. */
+    /**
+     * The submit button text.
+     */
     private String submitButtonText = "Submit";
 
-    /** The submit button font. */
+    /**
+     * The submit button font.
+     */
     private Font submitButtonFont = CyderFonts.SEGOE_20;
 
-    /** The submit button color */
+    /**
+     * The submit button color
+     */
     private Color submitButtonColor = CyderColors.regularRed;
 
-    /** The initial field text. */
+    /**
+     * The initial field text.
+     */
     private String initialFieldText;
 
-    /** The field hint text. */
+    /**
+     * The field hint text.
+     */
     private String fieldHintText;
 
-    /** The regex matcher for the field. */
+    /**
+     * The regex matcher for the field.
+     */
     private String fieldRegex;
 
-    /** The field font. */
+    /**
+     * The field font.
+     */
     private Font fieldFont = CyderFonts.SEGOE_20;
 
-    /** The field foreground. */
+    /**
+     * The field foreground.
+     */
     private Color fieldForeground = CyderColors.navy;
 
-    /** Whether to disable the relative to component while the get frame is active. */
+    /**
+     * Whether to disable the relative to component while the get frame is active.
+     */
     private boolean disableRelativeTo;
 
-    /** The relative to frame. */
+    /**
+     * The relative to frame.
+     */
     private CyderFrame relativeTo;
 
-    /** The actions to invoke when the dialog is disposed. */
+    /**
+     * The actions to invoke when the dialog is disposed.
+     */
     private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
 
     /**

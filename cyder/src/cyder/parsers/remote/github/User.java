@@ -1,6 +1,8 @@
 package cyder.parsers.remote.github;
 
-/** A json serialization class for a GitHub user. */
+/**
+ * A json serialization class for a GitHub user.
+ */
 @SuppressWarnings("unused")
 public class User {
     public String login;

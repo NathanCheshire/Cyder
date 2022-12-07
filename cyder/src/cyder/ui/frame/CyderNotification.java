@@ -19,12 +19,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
-/** A custom notification component used for CyderFrames. */
+/**
+ * A custom notification component used for CyderFrames.
+ */
 public class CyderNotification extends JLabel {
-    /** The length of the notification arrow above the border. */
+    /**
+     * The length of the notification arrow above the border.
+     */
     public static final int DEFAULT_ARROW_LEN = 8;
 
-    /** The length of the border around the notification */
+    /**
+     * The length of the border around the notification
+     */
     public static final int DEFAULT_BORDER_LEN = 5;
 
     /**
@@ -39,7 +45,9 @@ public class CyderNotification extends JLabel {
      */
     private final int borderLen = DEFAULT_BORDER_LEN;
 
-    /** Whether this notification has been killed. */
+    /**
+     * Whether this notification has been killed.
+     */
     private boolean killed;
 
     /**
@@ -54,13 +62,19 @@ public class CyderNotification extends JLabel {
      */
     private static final int ANIMATION_INCREMENT = 8;
 
-    /** The opacity for the toast animation if the type is a toast. */
+    /**
+     * The opacity for the toast animation if the type is a toast.
+     */
     private int opacity = 255;
 
-    /** The builder to construct this notification/toast. */
+    /**
+     * The builder to construct this notification/toast.
+     */
     private final NotificationBuilder builder;
 
-    /** Whether the notification is currently being hovered over by the user's mouse. */
+    /**
+     * Whether the notification is currently being hovered over by the user's mouse.
+     */
     private boolean isHovered;
 
     /**
@@ -79,7 +93,9 @@ public class CyderNotification extends JLabel {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private CyderNotification() {
         throw new IllegalMethodException("Instantiation not allowed without valid parameters");
     }
@@ -93,7 +109,9 @@ public class CyderNotification extends JLabel {
         return builder;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics g) {
         // ensure criteria met
@@ -431,7 +449,9 @@ public class CyderNotification extends JLabel {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getWidth() {
         // border, container, curvature
@@ -444,7 +464,9 @@ public class CyderNotification extends JLabel {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getHeight() {
         // border, container, curvature
@@ -746,7 +768,9 @@ public class CyderNotification extends JLabel {
     // Primary methods to override according to Effective Java
     // -------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("ConstantConditions")  // might not be always true in future
     @Override
     public boolean equals(Object o) {
@@ -763,7 +787,9 @@ public class CyderNotification extends JLabel {
                 && Objects.equal(builder, that.builder);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int ret = Integer.hashCode(arrowLen);
@@ -773,7 +799,9 @@ public class CyderNotification extends JLabel {
         return ret;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return StringUtil.commonCyderUiToString(this);
@@ -797,11 +825,17 @@ public class CyderNotification extends JLabel {
         isHovered = hovered;
     }
 
-    /** The possible notification types. */
+    /**
+     * The possible notification types.
+     */
     public enum NotificationType {
-        /** A common notification with an arrow on any cardinal side. */
+        /**
+         * A common notification with an arrow on any cardinal side.
+         */
         NOTIFICATION,
-        /** A toast emulating Android's toast. */
+        /**
+         * A toast emulating Android's toast.
+         */
         TOAST
     }
 }

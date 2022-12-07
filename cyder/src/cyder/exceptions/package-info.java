@@ -1,2 +1,4 @@
-/** Custom exceptions thrown. */
+/**
+ * Custom exceptions thrown.
+ */
 package cyder.exceptions;

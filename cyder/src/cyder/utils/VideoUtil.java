@@ -16,7 +16,9 @@ import java.io.File;
  * Video killed the radio star.
  */
 public final class VideoUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private VideoUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -69,7 +71,9 @@ public final class VideoUtil {
         }
     }
 
-    /** Plays the provided mp4 file. */
+    /**
+     * Plays the provided mp4 file.
+     */
     public static void playMp4(File mp4File) {
         Preconditions.checkNotNull(mp4File);
         Preconditions.checkArgument(mp4File.exists());

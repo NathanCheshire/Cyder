@@ -15,35 +15,55 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
-/** Utility methods revolving around stealing the spotlight images for on the Windows file system. */
+/**
+ * Utility methods revolving around stealing the spotlight images for on the Windows file system.
+ */
 public final class SpotlightUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private SpotlightUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The prefix for the content deliver manager folder which contains the spotlight image files. */
+    /**
+     * The prefix for the content deliver manager folder which contains the spotlight image files.
+     */
     public static final String CONTENT_DELIVERY_MANAGER_PREFIX = "Microsoft.Windows.ContentDeliveryManager_";
 
-    /** The default content delivery manager suffix */
+    /**
+     * The default content delivery manager suffix
+     */
     public static final String CONTENT_DELIVERY_MANAGER_SUFFIX = "cw5n1h2txyewy";
 
-    /** The users directory string. */
+    /**
+     * The users directory string.
+     */
     private static final String USERS = "users";
 
-    /** The app data directory string. */
+    /**
+     * The app data directory string.
+     */
     private static final String APP_DATA = "AppData";
 
-    /** The local directory string. */
+    /**
+     * The local directory string.
+     */
     private static final String LOCAL = "Local";
 
-    /** The packages directory string. */
+    /**
+     * The packages directory string.
+     */
     private static final String PACKAGES = "Packages";
 
-    /** The local state directory string. */
+    /**
+     * The local state directory string.
+     */
     private static final String LOCAL_STATE = "LocalState";
 
-    /** The assets directory string. */
+    /**
+     * The assets directory string.
+     */
     private static final String ASSETS = "Assets";
 
     /**
@@ -52,7 +72,9 @@ public final class SpotlightUtil {
      */
     public static final int minimumSpotlightImageLength = 600;
 
-    /** Wipes the windows spotlight directory. Windows will download new ones eventually. */
+    /**
+     * Wipes the windows spotlight directory. Windows will download new ones eventually.
+     */
     public static void wipeSpotlights() {
         Preconditions.checkArgument(OsUtil.isWindows(), "Host OS is not Windows");
 

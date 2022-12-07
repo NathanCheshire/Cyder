@@ -34,14 +34,20 @@ import java.util.regex.Matcher;
 import static cyder.constants.CyderStrings.*;
 import static cyder.youtube.YoutubeConstants.*;
 
-/** Utility methods related to YouTube videos. */
+/**
+ * Utility methods related to YouTube videos.
+ */
 public final class YoutubeUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private YoutubeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** A list of YouTube videos currently being downloaded. */
+    /**
+     * A list of YouTube videos currently being downloaded.
+     */
     private static final LinkedList<YoutubeDownload> activeDownloads = new LinkedList<>();
 
     /**
@@ -104,7 +110,9 @@ public final class YoutubeUtil {
         activeDownloads.add(youtubeDownload);
     }
 
-    /** Cancels all active youtube downloads. */
+    /**
+     * Cancels all active youtube downloads.
+     */
     public static void cancelAllActiveDownloads() {
         activeDownloads.forEach(YoutubeDownload::cancel);
     }
@@ -268,7 +276,9 @@ public final class YoutubeUtil {
         return ret;
     }
 
-    /** Outputs instructions to the console due to youtube-dl or ffmpeg not being installed. */
+    /**
+     * Outputs instructions to the console due to youtube-dl or ffmpeg not being installed.
+     */
     private static void noFfmpegOrYoutubeDl() {
         Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl "
                 + "couldn't be located. Please make sure they are both installed and added to your PATH Windows "

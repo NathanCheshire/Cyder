@@ -40,81 +40,129 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
-/** A widget to average images together. */
+/**
+ * A widget to average images together.
+ */
 @Vanilla
 @CyderAuthor
 public final class ImageAveragerWidget {
-    /** The scroll label for the selected images. */
+    /**
+     * The scroll label for the selected images.
+     */
     private static JLabel imagesScrollLabel;
 
-    /** The actual scroll container to hold the scroll label. */
+    /**
+     * The actual scroll container to hold the scroll label.
+     */
     private static CyderScrollList imagesScroll;
 
-    /** The averaging frame. */
+    /**
+     * The averaging frame.
+     */
     private static CyderFrame averagerFrame;
 
-    /** The component to hold the scroll on top of it. */
+    /**
+     * The component to hold the scroll on top of it.
+     */
     private static JLabel imageScrollLabelHolder;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private ImageAveragerWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /** The widget description. */
+    /**
+     * The widget description.
+     */
     private static final String description = "A widget that adds multiple images "
             + "together and divides by the total to obtain an average base image";
 
-    /** The title of the widget frame. */
+    /**
+     * The title of the widget frame.
+     */
     private static final String FRAME_TITLE = "Image Averager";
 
-    /** The save text. */
+    /**
+     * The save text.
+     */
     private static final String SAVE = "Save";
 
-    /** The save image text. */
+    /**
+     * The save image text.
+     */
     private static final String SAVE_IMAGE = "Save Image";
 
-    /** The width of the widget frame. */
+    /**
+     * The width of the widget frame.
+     */
     private static final int FRAME_WIDTH = 600;
 
-    /** The height of the widget frame. */
+    /**
+     * The height of the widget frame.
+     */
     private static final int FRAME_HEIGHT = 640;
 
-    /** The length of the images scroll list. */
+    /**
+     * The length of the images scroll list.
+     */
     private static final int imagesScrollLen = 400;
 
-    /** The builder for the getter util instance to add a file. */
+    /**
+     * The builder for the getter util instance to add a file.
+     */
     private static final GetFileBuilder builder = new GetFileBuilder("Select any image file")
             .setRelativeTo(averagerFrame);
 
-    /** The maximum image length that the preview frame can display. */
+    /**
+     * The maximum image length that the preview frame can display.
+     */
     private static final int maxImageLength = 800;
 
-    /** The combined files name separator. */
+    /**
+     * The combined files name separator.
+     */
     private static final String UNDERSCORE = "_";
 
-    /** The add image button text. */
+    /**
+     * The add image button text.
+     */
     private static final String ADD_IMAGE = "Add Image";
 
-    /** The remove images button text. */
+    /**
+     * The remove images button text.
+     */
     private static final String REMOVE_IMAGES = "Remove Selected Images";
 
-    /** The average images button text. */
+    /**
+     * The average images button text.
+     */
     private static final String AVERAGE_IMAGES = "Average Images";
 
-    /** The thread name for the waiter thread for the add file getter. */
+    /**
+     * The thread name for the waiter thread for the add file getter.
+     */
     private static final String IMAGE_AVERAGER_ADD_FILE_WAITER_THREAD_NAME = "Image Averager Add File Waiter";
 
-    /** The alpha value for pixels with a non-present alpha value. */
+    /**
+     * The alpha value for pixels with a non-present alpha value.
+     */
     private static final int EMPTY_ALPHA = 16777216;
 
-    /** The length of data for data elements containing an alpha byte. */
+    /**
+     * The length of data for data elements containing an alpha byte.
+     */
     private static final int alphaPixelLength = 4;
 
-    /** The length of data for data elements without an alpha byte. */
+    /**
+     * The length of data for data elements without an alpha byte.
+     */
     private static final int noAlphaPixelLength = 3;
 
-    /** Shows the image averaging widget. */
+    /**
+     * Shows the image averaging widget.
+     */
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"average images", "average pictures"}, description = description)
     public static void showGui() {
@@ -159,7 +207,9 @@ public final class ImageAveragerWidget {
         averagerFrame.finalizeAndShow();
     }
 
-    /** The action to invoke when the remove selected images button is pressed. */
+    /**
+     * The action to invoke when the remove selected images button is pressed.
+     */
     @ForReadability
     private static void removeSelectedImagesButtonAction() {
         LinkedList<String> selectedElements = imagesScroll.getSelectedElements();
@@ -173,7 +223,9 @@ public final class ImageAveragerWidget {
 
     private static final HashMap<String, File> currentFiles = new HashMap<>();
 
-    /** Revalidates the chosen images scroll view. */
+    /**
+     * Revalidates the chosen images scroll view.
+     */
     private static void revalidateImagesScroll() {
         imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
@@ -197,7 +249,9 @@ public final class ImageAveragerWidget {
         averagerFrame.repaint();
     }
 
-    /** The action to invoke when the add file button is pressed. */
+    /**
+     * The action to invoke when the add file button is pressed.
+     */
     private static void addButtonAction() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -220,7 +274,9 @@ public final class ImageAveragerWidget {
         }, IMAGE_AVERAGER_ADD_FILE_WAITER_THREAD_NAME);
     }
 
-    /** Action performed when the user clicks the compute button. */
+    /**
+     * Action performed when the user clicks the compute button.
+     */
     private static void averageButtonAction() {
         if (currentFiles.size() < 2) {
             averagerFrame.notify("Please add at least two images");

@@ -2,7 +2,9 @@ package cyder.parsers.remote.ip;
 
 import java.util.LinkedList;
 
-/** An object for parsing returned ip data timezone objects. */
+/**
+ * An object for parsing returned ip data timezone objects.
+ */
 public class IpData {
     private String ip;
     private boolean is_eu;

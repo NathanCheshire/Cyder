@@ -18,26 +18,40 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
-/** Utilities related to playing general and system audio. */
+/**
+ * Utilities related to playing general and system audio.
+ */
 public final class GeneralAndSystemAudioPlayer {
-    /** The name of the thread for playing general audio. */
+    /**
+     * The name of the thread for playing general audio.
+     */
     private static final String GENERAL_AUDIO_THREAD_NAME = "General Audio Player";
 
-    /** An empty runnable. */
+    /**
+     * An empty runnable.
+     */
     private static final Runnable EMPTY_RUNNABLE = () -> {};
 
-    /** The thread name for the system audio player. */
+    /**
+     * The thread name for the system audio player.
+     */
     private static final String SYSTEM_AUDIO_PLAYER_THREAD_NAME = "System Audio Player";
 
-    /** Player used to play general audio files that may be user terminated. */
+    /**
+     * Player used to play general audio files that may be user terminated.
+     */
     private static Player generalAudioPlayer;
 
-    /** The list of paths of audio files to ignore when logging a play audio call. */
+    /**
+     * The list of paths of audio files to ignore when logging a play audio call.
+     */
     private static final ImmutableList<String> ignoreLoggingAudioPaths = ImmutableList.of(
             StaticUtil.getStaticPath("chime.mp3")
     );
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private GeneralAndSystemAudioPlayer() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -153,13 +167,17 @@ public final class GeneralAndSystemAudioPlayer {
         }
     }
 
-    /** Stops any and all audio playing either through the audio player or the general player. */
+    /**
+     * Stops any and all audio playing either through the audio player or the general player.
+     */
     public static void stopAllAudio() {
         if (AudioPlayer.isAudioPlaying()) AudioPlayer.handlePlayPauseButtonClick();
         if (isGeneralAudioPlaying()) stopGeneralAudio();
     }
 
-    /** Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped. */
+    /**
+     * Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped.
+     */
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) AudioPlayer.handlePlayPauseButtonClick();
         if (isGeneralAudioPlaying()) stopGeneralAudio();

@@ -20,17 +20,25 @@ import cyder.ui.selection.CyderComboBox;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
-/** A widget for computing the hash of strings. */
+/**
+ * A widget for computing the hash of strings.
+ */
 @Vanilla
 @CyderAuthor
 public class HashingWidget {
-    /** The hash field. */
+    /**
+     * The hash field.
+     */
     private CyderPasswordField hashField;
 
-    /** The hash algorithm combo box. */
+    /**
+     * The hash algorithm combo box.
+     */
     private CyderComboBox comboBox;
 
-    /** The widget description. */
+    /**
+     * The widget description.
+     */
     private static final String description = "A hashing widget to hash any string using"
             + " multiple algorithms such as MD5, SHA256, and SHA1";
 
@@ -43,52 +51,78 @@ public class HashingWidget {
         return new HashingWidget();
     }
 
-    /** Constructs a new hashing widget. */
+    /**
+     * Constructs a new hashing widget.
+     */
     private HashingWidget() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /** Shows a new instance of the hashing widget. */
+    /**
+     * Shows a new instance of the hashing widget.
+     */
     @Widget(triggers = {HASH, "hasher"}, description = description)
     public static void showGui() {
         getInstance().innerShowGui();
     }
 
-    /** The hash string. */
+    /**
+     * The hash string.
+     */
     private static final String HASH = "Hash";
 
-    /** The id of the sha256 algorithm. */
+    /**
+     * The id of the sha256 algorithm.
+     */
     private static final String SHA_256 = "SHA-256";
 
-    /** The id of the sha1 algorithm. */
+    /**
+     * The id of the sha1 algorithm.
+     */
     private static final String SHA_1 = "SHA-1";
 
-    /** The id of the md5 algorithm. */
+    /**
+     * The id of the md5 algorithm.
+     */
     private static final String MD5 = "MD5";
 
-    /** The valid hashing algorithms for the combo box chooser. */
+    /**
+     * The valid hashing algorithms for the combo box chooser.
+     */
     private static final ImmutableList<CyderComboBox.ComboItem> HASH_ALGORITHMS = ImmutableList.of(
             new CyderComboBox.ComboItem(SHA_256, "SHA256 Algorithm"),
             new CyderComboBox.ComboItem(SHA_1, "SHA-1 Algorithm"),
             new CyderComboBox.ComboItem(MD5, "MD5 Algorithm (Do not use for passwords)")
     );
 
-    /** The text of the hash result popup. */
+    /**
+     * The text of the hash result popup.
+     */
     private static final String HASH_RESULT = HASH + CyderStrings.space + "Result";
 
-    /** The title of the frame. */
+    /**
+     * The title of the frame.
+     */
     private static final String TITLE = "Hasher";
 
-    /** The width of the frame. */
+    /**
+     * The width of the frame.
+     */
     private static final int FRAME_WIDTH = 500;
 
-    /** The height of the frame. */
+    /**
+     * The height of the frame.
+     */
     private static final int FRAME_HEIGHT = 260;
 
-    /** The checkbox for whether to save the hash result to the clipboard. */
+    /**
+     * The checkbox for whether to save the hash result to the clipboard.
+     */
     private CyderCheckbox saveToClipboardCheckbox;
 
-    /** Shows the gui for this instance of the hashing widget. */
+    /**
+     * Shows the gui for this instance of the hashing widget.
+     */
     public void innerShowGui() {
         CyderFrame hashFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         hashFrame.setTitle(TITLE);
@@ -125,7 +159,9 @@ public class HashingWidget {
         hashFrame.finalizeAndShow();
     }
 
-    /** The action to invoke when the hash button is pressed. */
+    /**
+     * The action to invoke when the hash button is pressed.
+     */
     private void hashButtonAction() {
         char[] hashFieldContents = hashField.getPassword();
         if (hashFieldContents.length == 0) return;
@@ -151,7 +187,9 @@ public class HashingWidget {
         reset();
     }
 
-    /** Resets the widget. */
+    /**
+     * Resets the widget.
+     */
     @ForReadability
     private void reset() {
         hashField.setText("");

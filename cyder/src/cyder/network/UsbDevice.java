@@ -5,22 +5,34 @@ import com.google.errorprone.annotations.Immutable;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
-/** A representation of a USB device connected to the host computer. */
+/**
+ * A representation of a USB device connected to the host computer.
+ */
 @Immutable
 public class UsbDevice {
-    /** The status of the usb device. */
+    /**
+     * The status of the usb device.
+     */
     private final String status;
 
-    /** The type of the usb device. */
+    /**
+     * The type of the usb device.
+     */
     private final String type;
 
-    /** The name of the device. */
+    /**
+     * The name of the device.
+     */
     private final String friendlyName;
 
-    /** The instance id of the device. */
+    /**
+     * The instance id of the device.
+     */
     private final String instanceId;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private UsbDevice() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -85,7 +97,9 @@ public class UsbDevice {
         return instanceId;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "UsbDevice{"
@@ -95,7 +109,9 @@ public class UsbDevice {
                 + ", instanceId=" + CyderStrings.quote + instanceId + CyderStrings.quote + "}";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -111,7 +127,9 @@ public class UsbDevice {
                 && getInstanceId().equals(other.getInstanceId());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int ret = status.hashCode();

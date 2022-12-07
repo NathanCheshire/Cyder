@@ -2,19 +2,27 @@ package cyder.snakes;
 
 import cyder.constants.CyderStrings;
 
-/** The arguments accepted by argparse for the python_functions script. */
+/**
+ * The arguments accepted by argparse for the python_functions script.
+ */
 public enum PythonArgument {
     COMMAND("c", "command", true),
     INPUT("i", "input", false),
     RADIUS("r", "radius", false);
 
-    /** The shorthand argument for this argument. */
+    /**
+     * The shorthand argument for this argument.
+     */
     private final String shorthandArgument;
 
-    /** The full argument for this argument. */
+    /**
+     * The full argument for this argument.
+     */
     private final String fullArgument;
 
-    /** Whether this argument is required. */
+    /**
+     * Whether this argument is required.
+     */
     private final boolean required;
 
     PythonArgument(String shorthandArgument, String fullArgument, boolean required) {

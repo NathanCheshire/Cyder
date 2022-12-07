@@ -30,39 +30,63 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** The splash screen for Cyder when it is originally first launched. */
+/**
+ * The splash screen for Cyder when it is originally first launched.
+ */
 public enum CyderSplash {
-    /** The CyderSplash enum instance. */
+    /**
+     * The CyderSplash enum instance.
+     */
     INSTANCE;
 
-    /** The padding from the borders to the Cyder logo. */
+    /**
+     * The padding from the borders to the Cyder logo.
+     */
     private static final int LOGO_BORDER_PADDING = 40;
 
-    /** The padding between the top/bottom of the frame and the harmonic rectangles. */
+    /**
+     * The padding between the top/bottom of the frame and the harmonic rectangles.
+     */
     private static final int harmonicYPadding = 10;
 
-    /** The padding between harmonic rectangles themselves. */
+    /**
+     * The padding between harmonic rectangles themselves.
+     */
     private static final int harmonicXInnerPadding = 10;
 
-    /** The number of harmonic rectangles to draw */
+    /**
+     * The number of harmonic rectangles to draw
+     */
     private static final int numHarmonicRectangles = 20;
 
-    /** The name for the loading thread. */
+    /**
+     * The name for the loading thread.
+     */
     private static final String SPLASH_LOADER_THREAD_NAME = "Splash Loader";
 
-    /** The frame title. */
+    /**
+     * The frame title.
+     */
     private static final String FRAME_TITLE = "Cyder Splash";
 
-    /** The main splash animator thread name. */
+    /**
+     * The main splash animator thread name.
+     */
     private static final String SPLASH_ANIMATOR = "Splash Animation";
 
-    /** The text for the fatal exception information popup. */
+    /**
+     * The text for the fatal exception information popup.
+     */
     private static final String FATAL_EXCEPTION_TEXT = "Splash failed to be disposed; Console failed to load";
 
-    /** The post close action for the fatal exception information popup frame. */
+    /**
+     * The post close action for the fatal exception information popup frame.
+     */
     private static final Runnable FATAL_EXCEPTION_POST_CLOSE_ACTION = () -> OsUtil.exit(ExitCondition.FatalTimeout);
 
-    /** The startup exception text for the fatal exception information popup frame title. */
+    /**
+     * The startup exception text for the fatal exception information popup frame title.
+     */
     private static final String STARTUP_EXCEPTION = "Startup Exception";
 
     /**
@@ -71,115 +95,189 @@ public enum CyderSplash {
      */
     private static final String FAST_DISPOSE_THREAD_NAME = "Cyder Splash Dispose Waiter";
 
-    /** The horizontal padding for the animation letter blocks. */
+    /**
+     * The horizontal padding for the animation letter blocks.
+     */
     private static final int blockHorizontalPadding = 20;
 
-    /** The animation increment for the letter blocks. */
+    /**
+     * The animation increment for the letter blocks.
+     */
     private static final int blockAnimationIncrement = 5;
 
-    /** The animation delay for the letter blocks. */
+    /**
+     * The animation delay for the letter blocks.
+     */
     private static final int blockAnimationDelay = 6;
 
-    /** The minor axis length of animated borders. */
+    /**
+     * The minor axis length of animated borders.
+     */
     private static final int minorAxisBorderLength = 10;
 
-    /** The animated border timeout. */
+    /**
+     * The animated border timeout.
+     */
     private static final int borderAnimationTimeout = 3;
 
-    /** The animated border increment. */
+    /**
+     * The animated border increment.
+     */
     private static final int borderAnimationIncrement = 5;
 
-    /** The creator label text. */
+    /**
+     * The creator label text.
+     */
     private static final String creatorText = "by Nate Cheshire";
 
-    /** The creator label animation timeout. */
+    /**
+     * The creator label animation timeout.
+     */
     private static final int creatorLabelAnimationTimeout = 5;
 
-    /** The creator label animation increment. */
+    /**
+     * The creator label animation increment.
+     */
     private static final int creatorLabelAnimationIncrement = 5;
 
-    /** The thread name for the loading label updater. */
+    /**
+     * The thread name for the loading label updater.
+     */
     private static final String LOADING_LABEL_UPDATER = "Splash Loading Label Updater";
 
-    /** The offset from the bottom of the frame for the loading label. */
+    /**
+     * The offset from the bottom of the frame for the loading label.
+     */
     private static final int LOADING_LABEL_BOTTOM_OFFSET = 100;
 
-    /** The default harmonic padding. */
+    /**
+     * The default harmonic padding.
+     */
     private static final int defaultHarmonicPadding = 20;
 
-    /** The harmonic rectangle minimum height. */
+    /**
+     * The harmonic rectangle minimum height.
+     */
     private static final int harmonicMinHeight = 40;
 
-    /** The harmonic rectangle maximum height. */
+    /**
+     * The harmonic rectangle maximum height.
+     */
     private static final int harmonicMaxHeight = 70;
 
-    /** The harmonic animation increment. */
+    /**
+     * The harmonic animation increment.
+     */
     private static final int harmonicAnimationInc = 2;
 
-    /** The harmonic animation delay. */
+    /**
+     * The harmonic animation delay.
+     */
     private static final int harmonicAnimationDelay = 15;
 
-    /** The length of the C and Y icons. */
+    /**
+     * The length of the C and Y icons.
+     */
     private static final int ICON_LEN = 150;
 
-    /** The length of the primary letter axis. */
+    /**
+     * The length of the primary letter axis.
+     */
     private static final int LETTER_LEN = 30;
 
-    /** The width of the C icon lines. */
+    /**
+     * The width of the C icon lines.
+     */
     private static final int C_BLOCK_WIDTH = 95;
 
-    /** The height of the C icon lines. */
+    /**
+     * The height of the C icon lines.
+     */
     private static final int C_BLOCK_HEIGHT = 25;
 
-    /** The width of the y block. */
+    /**
+     * The width of the y block.
+     */
     private static final int Y_BLOCK_WIDTH = 95;
 
-    /** The default loading message for the splash to display. */
+    /**
+     * The default loading message for the splash to display.
+     */
     private static final String DEFAULT_LOADING_MESSAGE = "Loading Components";
 
-    /** Whether the splash has been disposed this instance. */
+    /**
+     * Whether the splash has been disposed this instance.
+     */
     private final AtomicBoolean disposed = new AtomicBoolean();
 
-    /** The width and height for the borderless splash frame. */
+    /**
+     * The width and height for the borderless splash frame.
+     */
     private static final int FRAME_LEN = 600;
 
-    /** The length of the blue borders that animate in to surround the Cyder logo. */
+    /**
+     * The length of the blue borders that animate in to surround the Cyder logo.
+     */
     private static final int LOGO_BORDER_LEN = 200;
 
-    /** The timeout between loading label updates. */
+    /**
+     * The timeout between loading label updates.
+     */
     private static final int loadingLabelUpdateTimeout = 25;
 
-    /** The maximum seconds of the splash should be visible for. */
+    /**
+     * The maximum seconds of the splash should be visible for.
+     */
     private static final int showLoadingLabelTimeout = 30 * 1000;
 
-    /** The number of times to update the loading label. */
+    /**
+     * The number of times to update the loading label.
+     */
     private static final int loadingLabelUpdateIterations = (showLoadingLabelTimeout) / loadingLabelUpdateTimeout;
 
-    /** The timeout before starting to display loading messages after finishing the splash animation. */
+    /**
+     * The timeout before starting to display loading messages after finishing the splash animation.
+     */
     private static final int loadingMessageStartTimeout = 500;
 
-    /** The font used for the loading label messages. */
+    /**
+     * The font used for the loading label messages.
+     */
     private final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
 
-    /** The name of the font for the developer signature label. */
+    /**
+     * The name of the font for the developer signature label.
+     */
     private static final String developerSignatureFontName = "Condiment";
 
-    /** The milliseconds before all harmonic rectangles will have started their animation. */
+    /**
+     * The milliseconds before all harmonic rectangles will have started their animation.
+     */
     private static final int millisToStartAllHarmonicRectangles = 1000;
 
-    /** The name of the thread which animates the harmonic rectangles together. */
+    /**
+     * The name of the thread which animates the harmonic rectangles together.
+     */
     private static final String harmonicRectangleAnimationThreadName = "Splash Harmonic Rectangle Animator";
 
-    /** The font used for the author signature. */
+    /**
+     * The font used for the author signature.
+     */
     private final Font developerSignatureFont = new Font(developerSignatureFontName, Font.BOLD, 50);
 
-    /** The list of harmonic rectangles. */
+    /**
+     * The list of harmonic rectangles.
+     */
     private final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
 
-    /** The semaphore for adding or removing harmonic rectangles. */
+    /**
+     * The semaphore for adding or removing harmonic rectangles.
+     */
     private final Semaphore harmonicRectangleSemaphore = new Semaphore(1);
 
-    /** The center point to place the console frame/login frame at if the splash frame is relocated during startup. */
+    /**
+     * The center point to place the console frame/login frame at if the splash frame is relocated during startup.
+     */
     private final AtomicReference<Point> relocatedCenterPoint = new AtomicReference<>();
 
     /**
@@ -188,7 +286,9 @@ public enum CyderSplash {
      */
     private final AtomicBoolean splashAnimationCompleted = new AtomicBoolean();
 
-    /** The window adapter for the splash frame. */
+    /**
+     * The window adapter for the splash frame.
+     */
     private final WindowAdapter splashFrameWindowAdapter = new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -200,31 +300,49 @@ public enum CyderSplash {
             stopHarmonicRectangles();
         }
     };
-    /** The color for the generated animation border sides. */
+    /**
+     * The color for the generated animation border sides.
+     */
     private final Color animationBorderSideColor = CyderColors.regularBlue;
 
-    /** Whether the splash screen has been shown. */
+    /**
+     * Whether the splash screen has been shown.
+     */
     private boolean splashShown;
 
-    /** The splash screen CyderFrame. */
+    /**
+     * The splash screen CyderFrame.
+     */
     private CyderFrame splashFrame;
 
-    /** The end drag event callback to set the console relative position if the splash frame is moved before disposal. */
+    /**
+     * The end drag event callback to set the console relative position if the splash frame is moved before disposal.
+     */
     private final Runnable dragEventCallback = () -> relocatedCenterPoint.set(splashFrame.getCenterPointOnScreen());
 
-    /** The label used to display what Cyder is currently doing in the startup routine. */
+    /**
+     * The label used to display what Cyder is currently doing in the startup routine.
+     */
     private CyderLabel loadingLabel;
 
-    /** The loading message to display on the loading label. */
+    /**
+     * The loading message to display on the loading label.
+     */
     private final AtomicReference<String> loadingMessage = new AtomicReference<>(DEFAULT_LOADING_MESSAGE);
 
-    /** The C icon. */
+    /**
+     * The C icon.
+     */
     private ImageIcon C_ICON = null;
 
-    /** The Y icon. */
+    /**
+     * The Y icon.
+     */
     private ImageIcon Y_ICON = null;
 
-    /** Whether the harmonic rectangles should be animating currently. */
+    /**
+     * Whether the harmonic rectangles should be animating currently.
+     */
     private final AtomicBoolean shouldAnimateHarmonicRectangles = new AtomicBoolean(true);
 
     /**
@@ -236,7 +354,9 @@ public enum CyderSplash {
         return relocatedCenterPoint.get();
     }
 
-    /** Stops the animation of all harmonic rectangles. */
+    /**
+     * Stops the animation of all harmonic rectangles.
+     */
     private void stopHarmonicRectangles() {
         try {
             harmonicRectangleSemaphore.acquire();
@@ -249,7 +369,9 @@ public enum CyderSplash {
         harmonicRectangleSemaphore.release();
     }
 
-    /** Shows the splash screen as long as it has not already been shown. */
+    /**
+     * Shows the splash screen as long as it has not already been shown.
+     */
     public void showSplash() {
         Preconditions.checkState(!splashShown);
         splashShown = true;
@@ -285,7 +407,9 @@ public enum CyderSplash {
         }, SPLASH_LOADER_THREAD_NAME);
     }
 
-    /** Constructs the splash frame. */
+    /**
+     * Constructs the splash frame.
+     */
     @ForReadability
     private void constructFrame() {
         splashFrame = CyderFrame.generateBorderlessFrame(FRAME_LEN, FRAME_LEN, CyderColors.navy);
@@ -295,7 +419,9 @@ public enum CyderSplash {
         splashFrame.setFrameType(FrameType.POPUP);
     }
 
-    /** Closes the frame and informs the user that a fatal exception occurred. */
+    /**
+     * Closes the frame and informs the user that a fatal exception occurred.
+     */
     private void fatalError() {
         splashFrame.dispose(true);
         InformHandler.inform(new InformHandler.Builder(FATAL_EXCEPTION_TEXT)
@@ -303,7 +429,9 @@ public enum CyderSplash {
                 .setPostCloseAction(FATAL_EXCEPTION_POST_CLOSE_ACTION));
     }
 
-    /** Adds and animates the letter blocks. */
+    /**
+     * Adds and animates the letter blocks.
+     */
     private void addAndAnimateLetterBlocks() {
         JLabel cBlock = new JLabel(generateCIcon());
         cBlock.setBounds(blockHorizontalPadding, FRAME_LEN / 2 - ICON_LEN / 2, ICON_LEN, ICON_LEN);
@@ -321,7 +449,9 @@ public enum CyderSplash {
         }
     }
 
-    /** Adds and animates the borders. */
+    /**
+     * Adds and animates the borders.
+     */
     private void addAndAnimateBorders() {
         JLabel topBorder = generateAnimationBorderSide(Direction.TOP);
         topBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_LEN / 2,
@@ -369,7 +499,9 @@ public enum CyderSplash {
         }
     }
 
-    /** Adds and animates the creator label. */
+    /**
+     * Adds and animates the creator label.
+     */
     private void addAndAnimateCreatorLabel() {
         CyderLabel creatorLabel = new CyderLabel(creatorText);
         creatorLabel.setFont(developerSignatureFont);
@@ -388,7 +520,9 @@ public enum CyderSplash {
     // Icon generation
     // ---------------
 
-    /** Adds the loading label and spawns the thread to update it {@link #loadingLabelUpdateIterations} times. */
+    /**
+     * Adds the loading label and spawns the thread to update it {@link #loadingLabelUpdateIterations} times.
+     */
     private void addAndUpdateLoadingLabel() {
         loadingLabel = new CyderLabel(loadingMessage.get());
         loadingLabel.setFocusable(false);
@@ -412,15 +546,21 @@ public enum CyderSplash {
         }, LOADING_LABEL_UPDATER);
     }
 
-    /** The minor axis length, width, of the harmonic rectangles. */
+    /**
+     * The minor axis length, width, of the harmonic rectangles.
+     */
     private static final int harmonicRectangleMinorAxisLength = (FRAME_LEN - 2 * defaultHarmonicPadding
             - (numHarmonicRectangles - 1) * harmonicXInnerPadding) / numHarmonicRectangles;
 
-    /** The padding between the frame borders and the harmonic rectangles. */
+    /**
+     * The padding between the frame borders and the harmonic rectangles.
+     */
     private static final int harmonicRectanglePadding = (FRAME_LEN - harmonicRectangleMinorAxisLength
             * numHarmonicRectangles - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
 
-    /** Constructs and adds the harmonic rectangles. */
+    /**
+     * Constructs and adds the harmonic rectangles.
+     */
     private void constructAndAddHarmonicRectangles() {
         try {
             harmonicRectangleSemaphore.acquire();
@@ -449,7 +589,9 @@ public enum CyderSplash {
         harmonicRectangleSemaphore.release();
     }
 
-    /** Starts animating the harmonic rectangles */
+    /**
+     * Starts animating the harmonic rectangles
+     */
     private void animateHarmonicRectangles() {
         CyderThreadRunner.submit(() -> {
             float harmonicRectangleStartFrequency =
@@ -496,7 +638,9 @@ public enum CyderSplash {
         };
     }
 
-    /** Disposes the splashFrame using fast close. */
+    /**
+     * Disposes the splashFrame using fast close.
+     */
     public void fastDispose() {
         if (disposed.get()) return;
         if (!Props.disposeSplash.getValue()) return;

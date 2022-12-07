@@ -28,33 +28,51 @@ import java.util.Optional;
 @Vanilla
 @CyderAuthor
 public final class FileSignatureWidget {
-    /** The file to validate. */
+    /**
+     * The file to validate.
+     */
     private static File currentFile;
 
-    /** The widget frame. */
+    /**
+     * The widget frame.
+     */
     private static CyderFrame signatureFrame;
 
-    /** The expected byte signature input field. */
+    /**
+     * The expected byte signature input field.
+     */
     private static CyderTextField signatureField;
 
-    /** The label to which the results are displayed on. */
+    /**
+     * The label to which the results are displayed on.
+     */
     private static CyderLabel resultLabel;
 
-    /** The label for the files signatures sheet. */
+    /**
+     * The label for the files signatures sheet.
+     */
     private static CyderLabel fileSignaturesSheetLabel;
 
-    /** The get file button. */
+    /**
+     * The get file button.
+     */
     private static CyderButton getFile;
 
-    /** The check file button. */
+    /**
+     * The check file button.
+     */
     private static CyderButton checkFile;
 
     private static final String FILE_SIGNATURE_FILE_CHOOSER = "File Signature File Chooser";
 
-    /** A link for common file signatures. */
+    /**
+     * A link for common file signatures.
+     */
     public static final String WIKIPEDIA_FILE_SIGNATURES = "https://en.wikipedia.org/wiki/List_of_file_signatures";
 
-    /** The mouse listener for the files signature sheet. */
+    /**
+     * The mouse listener for the files signature sheet.
+     */
     private static final MouseListener fileSignaturesSheetLabelMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -72,64 +90,102 @@ public final class FileSignatureWidget {
         }
     };
 
-    /** The widget description. */
+    /**
+     * The widget description.
+     */
     private static final String description = "A widget to read the raw file"
             + " hex data and determine if the file signature matches the provided signature";
 
-    /** The widget title. */
+    /**
+     * The widget title.
+     */
     private static final String TITLE = "File Signature Checker";
 
-    /** The font for the files signature sheet label. */
+    /**
+     * The font for the files signature sheet label.
+     */
     private static final Font FILE_SIGNATURES_SHEET_LABEL_FONT = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 28);
 
-    /** The select file text. */
+    /**
+     * The select file text.
+     */
     private static final String SELECT_FILE = "Select File";
 
-    /** The validate file type text. */
+    /**
+     * The validate file type text.
+     */
     private static final String VALIDATE_FILE_TYPE = "Validate File Type";
 
-    /** The comparison not yet performed text. */
+    /**
+     * The comparison not yet performed text.
+     */
     private static final String COMPARISON_NOT_YET_PERFORMED = "Comparison not performed yet";
 
-    /** The file signature sheet label text. */
+    /**
+     * The file signature sheet label text.
+     */
     private static final String FILE_SIGNATURE_SHEET = "File Signature Sheet";
 
-    /** The choose file button text. */
+    /**
+     * The choose file button text.
+     */
     private static final String CHOOSE_FILE_TO_VALIDATE = "Choose file to validate";
 
-    /** The default label text if a file is not chosen. */
+    /**
+     * The default label text if a file is not chosen.
+     */
     private static final String PLEASE_CHOOSE_A_FILE = "Please choose a file";
 
-    /** The label text if a file signature is not entered. */
+    /**
+     * The label text if a file signature is not entered.
+     */
     private static final String PLEASE_ENTER_A_FILE_SIGNATURE = "Please enter a file signature";
 
-    /** The width of the frame. */
+    /**
+     * The width of the frame.
+     */
     private static final int FRAME_WIDTH = 400;
 
-    /** The height of the frame. */
+    /**
+     * The height of the frame.
+     */
     private static final int FRAME_HEIGHT = 420;
 
-    /** The text for the validate button if the validation is valid. */
+    /**
+     * The text for the validate button if the validation is valid.
+     */
     private static final String VALID = "Valid";
 
-    /** The text for the validate button if the validation is invalid. */
+    /**
+     * The text for the validate button if the validation is invalid.
+     */
     private static final String INVALID = "Invalid";
 
-    /** The valid file label text. */
+    /**
+     * The valid file label text.
+     */
     private static final String validFileSignatureText = "File signature matches provided signature";
 
-    /** The invalid file label text. */
+    /**
+     * The invalid file label text.
+     */
     private static final String invalidFileSignatureText = "File signature does NOT match provided signature; "
             + "If no more possible signature exist for this file, then it might be "
             + "unsafe/corrupted";
 
-    /** The tooltip for the validate button. */
+    /**
+     * The tooltip for the validate button.
+     */
     private static final String VALIDATE = "Validate";
 
-    /** The tooltip for the choose file button. */
+    /**
+     * The tooltip for the choose file button.
+     */
     private static final String CHOOSE_FILE = "Choose file";
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private FileSignatureWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -174,7 +230,9 @@ public final class FileSignatureWidget {
         signatureFrame.finalizeAndShow();
     }
 
-    /** The action to perform when the choose file button is clicked. */
+    /**
+     * The action to perform when the choose file button is clicked.
+     */
     private static void getFileAction() {
         try {
             CyderThreadRunner.submit(() -> {
@@ -207,7 +265,9 @@ public final class FileSignatureWidget {
         resultLabel.setText(COMPARISON_NOT_YET_PERFORMED);
     }
 
-    /** Attempts to validate the chosen file if present with the provided file signature if present. */
+    /**
+     * Attempts to validate the chosen file if present with the provided file signature if present.
+     */
     private static void validate() {
         if (currentFile == null) {
             signatureFrame.notify(PLEASE_CHOOSE_A_FILE);

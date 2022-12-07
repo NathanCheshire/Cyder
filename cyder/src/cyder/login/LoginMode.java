@@ -1,13 +1,21 @@
 package cyder.login;
 
-/** The valid login modes. */
+/**
+ * The valid login modes.
+ */
 enum LoginMode {
-    /** Expecting general input. */
+    /**
+     * Expecting general input.
+     */
     INPUT,
 
-    /** Expecting a username. */
+    /**
+     * Expecting a username.
+     */
     USERNAME,
 
-    /** Expecting a password. */
+    /**
+     * Expecting a password.
+     */
     PASSWORD
 }

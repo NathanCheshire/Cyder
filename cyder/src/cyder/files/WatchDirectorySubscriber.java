@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-/** A class to for {@link DirectoryWatcher} subscribers. */
+/**
+ * A class to for {@link DirectoryWatcher} subscribers.
+ */
 public abstract class WatchDirectorySubscriber {
-    /** The list of events this subscriber is subscribed to. */
+    /**
+     * The list of events this subscriber is subscribed to.
+     */
     private final ArrayList<WatchDirectoryEvent> subscriptions = new ArrayList<>();
 
     /**

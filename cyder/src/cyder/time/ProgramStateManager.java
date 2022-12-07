@@ -1,11 +1,17 @@
 package cyder.time;
 
-/** The manager for Cyder's program state. */
+/**
+ * The manager for Cyder's program state.
+ */
 public enum ProgramStateManager {
-    /** The program state manager instance. */
+    /**
+     * The program state manager instance.
+     */
     INSTANCE;
 
-    /** The current program state. */
+    /**
+     * The current program state.
+     */
     private ProgramState currentProgramState = ProgramState.NORMAL;
 
     /**

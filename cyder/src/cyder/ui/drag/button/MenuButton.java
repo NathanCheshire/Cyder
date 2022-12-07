@@ -5,15 +5,23 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 
-/** A menu button for a drag label. */
+/**
+ * A menu button for a drag label.
+ */
 public class MenuButton extends CyderDragLabelButton {
-    /** The size this menu button will be painted with. */
+    /**
+     * The size this menu button will be painted with.
+     */
     private DragLabelButtonSize size;
 
-    /** The text for the menu button. */
+    /**
+     * The text for the menu button.
+     */
     private static final String MENU = "Menu";
 
-    /** Constructs a new menu button. */
+    /**
+     * Constructs a new menu button.
+     */
     public MenuButton() {
         this(DEFAULT_SIZE);
     }
@@ -42,13 +50,19 @@ public class MenuButton extends CyderDragLabelButton {
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
-    /** The padding between the edges of the painted menu button. */
+    /**
+     * The padding between the edges of the painted menu button.
+     */
     private static final int PAINT_PADDING = 4;
 
-    /** The size of the rectangles to draw in the paint method. */
+    /**
+     * The size of the rectangles to draw in the paint method.
+     */
     private static final int drawnRectangleLength = 2;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintDragLabelButton(Graphics g) {
         Preconditions.checkNotNull(g);
@@ -65,14 +79,18 @@ public class MenuButton extends CyderDragLabelButton {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpecificStringRepresentation() {
         return MENU;

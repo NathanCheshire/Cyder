@@ -4,31 +4,49 @@ import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
-/** Utilities related to angles. */
+/**
+ * Utilities related to angles.
+ */
 @SuppressWarnings("unused") /* Ranges not currently used */
 public final class AngleUtil {
-    /** Three hundred sixty degrees. */
+    /**
+     * Three hundred sixty degrees.
+     */
     public static final double THREE_SIXTY_DEGREES = 360.0;
 
-    /** Two hundred seventy degrees. */
+    /**
+     * Two hundred seventy degrees.
+     */
     public static final double TWO_SEVENTY_DEGREES = 270.0;
 
-    /** One hundred eighty degrees. */
+    /**
+     * One hundred eighty degrees.
+     */
     public static final double ONE_EIGHTY_DEGREES = 180.0;
 
-    /** Ninety degrees. */
+    /**
+     * Ninety degrees.
+     */
     public static final double NINETY_DEGREES = 90.0;
 
-    /** The standard range of angle measurements in degree form. */
+    /**
+     * The standard range of angle measurements in degree form.
+     */
     public static final Range<Double> DEGREE_RANGE = Range.closedOpen(0d, THREE_SIXTY_DEGREES);
 
-    /** The range for angles in degree format in the range [0, 180). */
+    /**
+     * The range for angles in degree format in the range [0, 180).
+     */
     public static final Range<Double> ONE_EIGHTY_DEGREE_RANGE = Range.closedOpen(0d, ONE_EIGHTY_DEGREES);
 
-    /** The standard range of angle measurements in radian form. */
+    /**
+     * The standard range of angle measurements in radian form.
+     */
     public static final Range<Double> RADIAN_RANGE = Range.closedOpen(0d, 2 * Math.PI);
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private AngleUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

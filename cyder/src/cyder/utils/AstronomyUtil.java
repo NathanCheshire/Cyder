@@ -12,33 +12,53 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.Optional;
 
-/** Utilities related to astronomy. */
+/**
+ * Utilities related to astronomy.
+ */
 public final class AstronomyUtil {
-    /** The url to query for moon phase data. */
+    /**
+     * The url to query for moon phase data.
+     */
     private static final String MOON_PHASE_URL = "https://www.timeanddate.com/moon/phases/";
 
-    /** The html moon element id. */
+    /**
+     * The html moon element id.
+     */
     private static final String CURRENT_MOON_ID = "cur-moon";
 
-    /** The html moon percent element id. */
+    /**
+     * The html moon percent element id.
+     */
     private static final String CURRENT_MOON_PERCENT_ID = "cur-moon-percent";
 
-    /** The html moon phase element id. */
+    /**
+     * The html moon phase element id.
+     */
     private static final String PHASE_ID = "qlook";
 
-    /** The src constant. */
+    /**
+     * The src constant.
+     */
     private static final String SRC = "SRC";
 
-    /** The img constant for extracting the moon phase image. */
+    /**
+     * The img constant for extracting the moon phase image.
+     */
     private static final String IMG = "img";
 
-    /** The a tag constant. */
+    /**
+     * The a tag constant.
+     */
     private static final String A_TAG = "a";
 
-    /** The index of the moon image element within its parent element. */
+    /**
+     * The index of the moon image element within its parent element.
+     */
     private static final int moonImageElementIndex = 0;
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private AstronomyUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }

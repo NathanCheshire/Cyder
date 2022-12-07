@@ -12,9 +12,13 @@ import cyder.utils.UiUtil;
 
 import java.awt.*;
 
-/** Utilities to animate components. */
+/**
+ * Utilities to animate components.
+ */
 public final class AnimationUtil {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private AnimationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -25,7 +29,9 @@ public final class AnimationUtil {
      */
     public static final int CLOSE_ANIMATION_NANO_TIMEOUT = 500;
 
-    /** The amount of display pixels to decrement by when performing a close animation. */
+    /**
+     * The amount of display pixels to decrement by when performing a close animation.
+     */
     public static final int CLOSE_ANIMATION_INC = 15;
 
     /**
@@ -60,7 +66,9 @@ public final class AnimationUtil {
      */
     public static final int MINIMIZE_ANIMATION_NANO_TIMEOUT = 250;
 
-    /** The amount of display pixels to increment by when performing a minimize animation. */
+    /**
+     * The amount of display pixels to increment by when performing a minimize animation.
+     */
     public static final int MINIMIZE_ANIMATION_INC = 15;
 
     /**

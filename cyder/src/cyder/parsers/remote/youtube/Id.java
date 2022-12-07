@@ -1,6 +1,8 @@
 package cyder.parsers.remote.youtube;
 
-/** An id of a YouTube video. */
+/**
+ * An id of a YouTube video.
+ */
 public class Id {
     private String kind;
     private String videoId;

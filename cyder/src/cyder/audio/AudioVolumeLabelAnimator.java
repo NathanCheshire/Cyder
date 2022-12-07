@@ -7,24 +7,38 @@ import cyder.threads.ThreadUtil;
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/** A class to control the visibility of the audio volume level label. */
+/**
+ * A class to control the visibility of the audio volume level label.
+ */
 public class AudioVolumeLabelAnimator {
-    /** Whether this object has been killed. */
+    /**
+     * Whether this object has been killed.
+     */
     private boolean killed;
 
-    /** The time remaining before setting the visibility of the audio volume label to false. */
+    /**
+     * The time remaining before setting the visibility of the audio volume label to false.
+     */
     public static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
 
-    /** The time in between checks when sleeping before the audio volume label is set to invisible. */
+    /**
+     * The time in between checks when sleeping before the audio volume label is set to invisible.
+     */
     public static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
 
-    /** The total sleep time before setting the audio volume label to invisible. */
+    /**
+     * The total sleep time before setting the audio volume label to invisible.
+     */
     public static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
 
-    /** The label to display the audio progress on when needed. */
+    /**
+     * The label to display the audio progress on when needed.
+     */
     public final JLabel audioVolumePercentLabel;
 
-    /** Constructs a new AudioVolumeLabelAnimator. */
+    /**
+     * Constructs a new AudioVolumeLabelAnimator.
+     */
     public AudioVolumeLabelAnimator(JLabel audioVolumePercentLabel) {
         Preconditions.checkNotNull(audioVolumePercentLabel);
 
@@ -33,17 +47,23 @@ public class AudioVolumeLabelAnimator {
         startThread();
     }
 
-    /** Resets the timeout before the label is set to be invisible. */
+    /**
+     * Resets the timeout before the label is set to be invisible.
+     */
     public void resetTimeout() {
         audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE + AUDIO_VOLUME_LABEL_SLEEP_TIME);
     }
 
-    /** Kills this object. */
+    /**
+     * Kills this object.
+     */
     public void kill() {
         killed = true;
     }
 
-    /** Starts the worker thread to show/hide the audio volume percent label. */
+    /**
+     * Starts the worker thread to show/hide the audio volume percent label.
+     */
     private void startThread() {
         CyderThreadRunner.submit(() -> {
             while (!killed) {

@@ -23,7 +23,9 @@ import static org.junit.Assert.*;
  * and more unit tests are added for every util function.
  */
 public class UnitTests {
-    /** Default constructor permitted for JUnit. */
+    /**
+     * Default constructor permitted for JUnit.
+     */
     @SuppressWarnings("RedundantNoArgConstructor")
     public UnitTests() {
     }
@@ -309,7 +311,9 @@ public class UnitTests {
 
     private static final String defineString = "definition";
 
-    /** The expected definition for the define string. */
+    /**
+     * The expected definition for the define string.
+     */
     private static final String expectedDefinition = "The Act Of Defining, Or Of Making Something Definite,"
             + " Distinct, or Clear: We Need A Better Definition Of Her Responsibilities.";
 
@@ -321,13 +325,19 @@ public class UnitTests {
         assertEquals(expectedDefinition, definition);
     }
 
-    /** The summary tolerance for wikipedia summary queries. */
+    /**
+     * The summary tolerance for wikipedia summary queries.
+     */
     private static final float wikiSumTol = 0.05f;
 
-    /** The wiki sum search phrase. */
+    /**
+     * The wiki sum search phrase.
+     */
     private static final String wikiSumSearch = "MGK";
 
-    /** The expected wiki sum result. */
+    /**
+     * The expected wiki sum result.
+     */
     private static final String wikiSumExpected = """
             Colson Baker (born April 22, 1990), known professionally as Machine Gun Kelly (MGK),
             is an American rapper, singer, musician, and actor. He is noted for his compositional
