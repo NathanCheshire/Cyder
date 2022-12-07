@@ -365,7 +365,7 @@ public class WeatherWidget {
                     + UserUtil.getCyderUser().getName() + ", but this feature "
                     + "is suspended until a stable internet connection can be established");
             return;
-        } else if (Props.weatherKey.valuePresent()) {
+        } else if (!Props.weatherKey.valuePresent()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "

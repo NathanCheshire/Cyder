@@ -3,8 +3,9 @@ package cyder.utils;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.bounds.TaggedString;
-import cyder.bounds.TaggedStringType;
+import cyder.bounds.HtmlString;
+import cyder.bounds.PlainString;
+import cyder.bounds.StringContainer;
 import cyder.constants.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -860,11 +861,11 @@ public final class StringUtil {
      * @param htmlText the text containing html tags
      * @return a linked list where each object represents either a complete tag or raw text
      */
-    public static ImmutableList<TaggedString> getTaggedStrings(String htmlText) {
+    public static ImmutableList<StringContainer> getTaggedStrings(String htmlText) {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
-        ArrayList<TaggedString> taggedStrings = new ArrayList<>();
+        ArrayList<StringContainer> taggedStrings = new ArrayList<>();
         String textCopy = htmlText;
 
         while ((textCopy.contains(openingTagChar) && textCopy.contains(closingTagChar))) {
@@ -874,12 +875,12 @@ public final class StringUtil {
 
             String nextText = textCopy.substring(0, firstOpeningTagIndex);
             if (!nextText.isEmpty()) {
-                taggedStrings.add(new TaggedString(nextText, TaggedStringType.TEXT));
+                taggedStrings.add(new PlainString(nextText));
             }
 
             String nextHtml = textCopy.substring(firstOpeningTagIndex, firstClosingTagIndex + 1);
             if (!nextHtml.isEmpty()) {
-                taggedStrings.add(new TaggedString(nextHtml, TaggedStringType.HTML));
+                taggedStrings.add(new HtmlString(nextHtml));
             }
 
             textCopy = textCopy.substring(firstClosingTagIndex + 1);
@@ -887,7 +888,7 @@ public final class StringUtil {
 
         // Remaining text is non-html since the textCopy doesn't contain opening nor closing tags
         if (!textCopy.isEmpty()) {
-            taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
+            taggedStrings.add(new PlainString(textCopy));
         }
 
         return ImmutableList.copyOf(taggedStrings);
@@ -919,14 +920,14 @@ public final class StringUtil {
 
         int length = 0;
 
-        ImmutableList<TaggedString> taggedStrings = getTaggedStrings(htmlText);
+        ImmutableList<StringContainer> taggedStrings = getTaggedStrings(htmlText);
 
         if (taggedStrings.isEmpty()) {
             length = htmlText.length();
         } else {
-            for (TaggedString taggedString : taggedStrings) {
-                if (taggedString.getType() == TaggedStringType.TEXT) {
-                    length += taggedString.getText().length();
+            for (StringContainer stringContainer : taggedStrings) {
+                if (stringContainer instanceof PlainString plainString) {
+                    length += plainString.getString().length();
                 }
             }
         }
