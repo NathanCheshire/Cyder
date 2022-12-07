@@ -347,8 +347,15 @@ public final class LoggingUtil {
     static String generateConsolidationLine(String line, int numLines) {
         Preconditions.checkNotNull(line);
 
-        // todo insert the multiplier as the last line tag
-        return line + space + openingBracket + numLines + X + closingBracket;
+        String tag = openingBracket + numLines + X + closingBracket;
+
+        if (line.contains(colon)) {
+            StringBuilder builder = new StringBuilder(line);
+            builder.insert(line.indexOf(colon), space + tag);
+            return builder.toString();
+        } else {
+            return line + space + tag;
+        }
     }
 
     /**
