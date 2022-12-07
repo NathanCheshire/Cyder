@@ -467,7 +467,7 @@ public final class ImageUtil {
 
         CyderFrame frame = new CyderFrame(iconWidth + 2 * CyderFrame.BORDER_LEN,
                 icon.getIconHeight() + CyderFrame.BORDER_LEN + CyderDragLabel.DEFAULT_HEIGHT);
-        frame.setTitle(CyderStrings.openingBracket + icon.getIconWidth() + "x" + icon.getIconHeight()
+        frame.setTitle(CyderStrings.openingBracket + icon.getIconWidth() + CyderStrings.X + icon.getIconHeight()
                 + CyderStrings.closingBracket + space + frameTitle);
 
         JLabel label = new JLabel(icon);

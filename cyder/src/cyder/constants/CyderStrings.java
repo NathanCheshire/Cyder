@@ -2,87 +2,143 @@ package cyder.constants;
 
 import com.google.common.collect.ImmutableList;
 
-/** Common strings used throughout Cyder. */
+/**
+ * Common strings used throughout Cyder.
+ */
 public final class CyderStrings {
-    /** A string to be displayed when an illegal/{@link Deprecated} constructor is invoked. */
+    /**
+     * A string to be displayed when an illegal/{@link Deprecated} constructor is invoked.
+     */
     public static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
 
-    /** General renowned sentence in English for using all 26 latin chars. */
+    /**
+     * General renowned sentence in English for using all 26 latin chars.
+     */
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
 
-    /** Error message for static classes upon attempted instantiation. */
+    /**
+     * Error message for static classes upon attempted instantiation.
+     */
     public static final String ATTEMPTED_INSTANTIATION = "Instances are not permitted for this class";
 
-    /** A statement I like using in code if something happens that shouldn't ever happen. */
+    /**
+     * A statement I like using in code if something happens that shouldn't ever happen.
+     */
     public static final String EUROPEAN_TOY_MAKER = "What are you, some kind of European toy maker?";
 
-    /** A bullet point character used for numerous purposes. */
+    /**
+     * A bullet point character used for numerous purposes.
+     */
     public static final String BULLET_POINT = "\u2022";
 
-    /** The echo char to use for any instance of CyderPasswordField. */
+    /**
+     * The echo char to use for any instance of CyderPasswordField.
+     */
     public static final char ECHO_CHAR = '\u2022';
 
-    /** The downward pointing triangle character (▼). */
+    /**
+     * The downward pointing triangle character (▼).
+     */
     public static final String DOWN_ARROW = "\u25BC";
 
-    /** A string used to denote something is not available. */
+    /**
+     * A string used to denote something is not available.
+     */
     public static final String NOT_AVAILABLE = "N/A";
 
-    /** Don't change your number. */
+    /**
+     * Don't change your number.
+     */
     public static final String JENNY = "8675309";
 
-    /** The string used for loading labels when waiting for future processes to complete. */
+    /**
+     * The string used for loading labels when waiting for future processes to complete.
+     */
     public static final String LOADING = "Loading...";
 
-    /** An opening bracket. */
+    /**
+     * An opening bracket.
+     */
     public static final String openingBracket = "[";
 
-    /** A closing bracket. */
+    /**
+     * A closing bracket.
+     */
     public static final String closingBracket = "]";
 
-    /** An opening parenthesis. */
+    /**
+     * An opening parenthesis.
+     */
     public static final String openingParenthesis = "(";
 
-    /** A closing parenthesis. */
+    /**
+     * A closing parenthesis.
+     */
     public static final String closingParenthesis = ")";
 
-    /** A comma. */
+    /**
+     * A comma.
+     */
     public static final String comma = ",";
 
-    /** A space. */
+    /**
+     * A space.
+     */
     public static final String space = " ";
 
-    /** A colon. */
+    /**
+     * A colon.
+     */
     public static final String colon = ":";
 
-    /** A quote. */
+    /**
+     * A quote.
+     */
     public static final String quote = "\"";
 
-    /** A forward slash. */
+    /**
+     * A forward slash.
+     */
     public static final String forwardSlash = "/";
 
-    /** A back slash. */
+    /**
+     * A back slash.
+     */
     public static final String backSlash = "\\";
 
-    /** A hash. */
+    /**
+     * A hash.
+     */
     public static final String hash = "#";
 
-    /** A dash. */
+    /**
+     * A dash.
+     */
     public static final String dash = "-";
 
-    /** A newline character. */
+    /**
+     * A newline character.
+     */
     public static final String newline = "\n";
 
-    /** The NULL string. */
+    /**
+     * The NULL string.
+     */
     public static final String NULL = "NULL";
 
-    /** The NUL string. */
+    /**
+     * The NUL string.
+     */
     public static final String NUL = "NUL";
 
-    /** The empty string. */
+    /**
+     * The empty string.
+     */
     public static final String EMPTY = "";
 
-    /** A single quote string. */
+    /**
+     * A single quote string.
+     */
     public static final String singleQuote = "'";
 
     /**
@@ -95,7 +151,14 @@ public final class CyderStrings {
      */
     public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
 
-    /** Suppress default constructor. */
+    /**
+     * A lowercase x char.
+     */
+    public static final String X = "x";
+
+    /**
+     * Suppress default constructor.
+     */
     private CyderStrings() {
         throw new IllegalStateException(ATTEMPTED_INSTANTIATION);
     }

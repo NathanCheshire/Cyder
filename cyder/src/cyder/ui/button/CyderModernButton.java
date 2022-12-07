@@ -3,6 +3,7 @@ package cyder.ui.button;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -877,7 +878,7 @@ public class CyderModernButton extends JLabel {
     @Override
     public String toString() {
         return "Cyder Modern Button {" + this.getX() + ", " + this.getY()
-                + ", " + width + "x" + height + "}, text=\"" + text + "\", hash = " + hashCode();
+                + ", " + width + CyderStrings.X + height + "}, text=\"" + text + "\", hash = " + hashCode();
     }
 
     /** {@inheritDoc} */

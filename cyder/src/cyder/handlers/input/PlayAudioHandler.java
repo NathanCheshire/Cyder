@@ -48,7 +48,7 @@ public class PlayAudioHandler extends InputHandler {
         } else if (getInputHandler().getCommand()
                 .replace(CyderStrings.dash, "").equals("18002738255")) {
             GeneralAndSystemAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
-        } else if (getInputHandler().commandIs("x")) {
+        } else if (getInputHandler().commandIs(CyderStrings.X)) {
             Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.X_ICON.getImage());
             GeneralAndSystemAudioPlayer.playGeneralAudioWithCompletionCallback(StaticUtil.getStaticResource("x.mp3"),
                     () -> Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.CYDER_ICON.getImage()));

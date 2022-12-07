@@ -2,6 +2,7 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
@@ -10,69 +11,25 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
-import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static cyder.constants.CyderStrings.*;
+import static cyder.logging.LoggingConstants.*;
 
-/** Utilities necessary for the Cyder logger. */
+/**
+ * Utilities necessary for the Cyder logger.
+ */
 public final class LoggingUtil {
-    /** The file that contains the Cyder signature to place at the top of log files. */
-    private static final File cyderSignatureFile = StaticUtil.getStaticResource("cyder.txt");
-
-    /** The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo. */
-    private static ImmutableList<String> cyderSignatureLines = ImmutableList.of();
-
-    static {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(cyderSignatureFile))) {
-            LinkedList<String> set = new LinkedList<>();
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                set.add(line);
-            }
-
-            cyderSignatureLines = ImmutableList.copyOf(set);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /** The maximum number of chars per line of a log. */
-    public static final int maxLogLineLength = 120;
-
     /**
-     * Only check 10 chars to the left of a line unless we force a break regardless
-     * of whether a space is at that char.
+     * Suppress default constructor.
      */
-    private static final int lineBreakInsertionTol = 10;
-
-    /** The chars to check to split at before splitting in between a line at whatever character a split index falls on. */
-    private static final ImmutableList<Character> breakChars = ImmutableList.of(
-            ' ',
-            '/',
-            '\"',
-            '\'',
-            '\\',
-            '-',
-            '_',
-            '.',
-            '=',
-            ',',
-            ':'
-    );
-
-    /** The delay between JVM entry and starting the object creation logging thread. */
-    static final int INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT = 3000;
-
-    /** Suppress default constructor. */
     private LoggingUtil() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
@@ -120,7 +77,7 @@ public final class LoggingUtil {
     }
 
     /**
-     * Splits the provided string if it exceeds {@link LoggingUtil#maxLogLineLength} at convent places.
+     * Splits the provided string if it exceeds {@link LoggingConstants#maxLogLineLength} at convent places.
      *
      * @param line the line to split if needed
      * @return the list of strings
@@ -171,13 +128,14 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the searchFor char within {@link #lineBreakInsertionTol} chars of the left of
-     * the provided string. If found, returns the index of the first found searchFor char.
+     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
+     * chars of the left of the provided string. If found, returns the index of the first found searchFor char.
      *
      * @param line      the line to search through
      * @param searchFor the character to find
      * @return the index of the first searchFor char if found, -1 else
      */
+    @ForReadability
     static int checkLeftForSplitChar(String line, char searchFor) {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
@@ -196,13 +154,15 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the searchFor char within {@link #lineBreakInsertionTol} chars of the right of
-     * {@link #maxLogLineLength}. If found, returns the index of the first found searchFor char.
+     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
+     * chars of the right of {@link LoggingConstants#maxLogLineLength}.
+     * If found, returns the index of the first found searchFor char.
      *
      * @param line      the line to search through
      * @param searchFor the character to find
      * @return the index of the first searchFor char if found, -1 else
      */
+    @ForReadability
     static int checkRightForSplitChar(String line, char searchFor) {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
@@ -219,15 +179,6 @@ public final class LoggingUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the header logo lines for the top of log files.
-     *
-     * @return the header logo lines for the top of log files
-     */
-    static ImmutableList<String> getCyderSignatureLines() {
-        return cyderSignatureLines;
     }
 
     /**
@@ -249,7 +200,7 @@ public final class LoggingUtil {
      * @param string the string to surround with brackets
      * @return the string with brackets surrounding it
      */
-    static String surroundWithBrackets(String string) {
+    private static String surroundWithBrackets(String string) {
         Preconditions.checkNotNull(string);
 
         return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
@@ -343,20 +294,9 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(tag);
         Preconditions.checkArgument(!tag.isEmpty());
 
-        ArrayList<String> fileLines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                fileLines.add(line);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
         ArrayList<String> ret = new ArrayList<>();
 
-        for (String line : fileLines) {
+        for (String line : FileUtil.getFileLines(logFile)) {
             for (String tags : extractTags(line)) {
                 if (tags.contains(tag)) {
                     ret.add(line);
@@ -376,6 +316,8 @@ public final class LoggingUtil {
      * @return the tags extracted from the log line
      */
     static ImmutableList<String> extractTags(String logLine) {
+        Preconditions.checkNotNull(logLine);
+
         ArrayList<String> ret = new ArrayList<>();
 
         if (logLine.contains(CyderStrings.colon)) {
@@ -403,6 +345,32 @@ public final class LoggingUtil {
      * @return the line
      */
     static String generateConsolidationLine(String line, int numLines) {
-        return line + space + openingBracket + numLines + "x" + closingBracket;
+        Preconditions.checkNotNull(line);
+
+        return line + space + openingBracket + numLines + X + closingBracket;
+    }
+
+    /**
+     * Writes the Cyder Ascii art from {@link LoggingConstants#cyderSignatureLines} to the provided file.
+     *
+     * @param file the file to write the ascii art to
+     */
+    static void writeCyderAsciiArtToFile(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+            for (String line : cyderSignatureLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+
+            for (int i = 0 ; i < numNewLinesAfterCyderAsciiArt ; i++) {
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }

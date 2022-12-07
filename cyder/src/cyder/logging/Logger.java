@@ -2,8 +2,8 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
@@ -26,9 +26,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static cyder.constants.CyderStrings.*;
+import static cyder.logging.LoggingConstants.*;
+import static cyder.logging.LoggingUtil.*;
 import static java.lang.System.out;
 
 /**
@@ -36,16 +37,17 @@ import static java.lang.System.out;
  * runtime to exit at JVM termination.
  */
 public final class Logger {
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private Logger() {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
-    /** The counter used to log the number of objects created each deltaT seconds. */
+    /**
+     * The counter used to log the number of objects created each deltaT seconds.
+     */
     private static final AtomicInteger objectCreationCounter = new AtomicInteger();
-
-    /** The total number of objects created for an instance of Cyder. */
-    private static int totalObjectsCreated = 0;
 
     /**
      * The counter used to log the number of exceptions thrown
@@ -53,14 +55,15 @@ public final class Logger {
      */
     private static final AtomicInteger exceptionsCounter = new AtomicInteger();
 
-    /** The rate in ms at which to log the amount of objects created. */
-    private static final int objectCreationLogFrequency = 5000;
-
-    /** Whether the current log should not be written to again. */
-    private static boolean logConcluded;
-
-    /** Whether the logger has been initialized. */
+    /**
+     * Whether the logger has been initialized.
+     */
     private static final AtomicBoolean logStarted = new AtomicBoolean();
+
+    /**
+     * Whether the object creation logger has been started.
+     */
+    private static final AtomicBoolean objectCreationLoggerStarted = new AtomicBoolean();
 
     /**
      * The log calls that were requested to be logged before the logger was initialized
@@ -68,7 +71,19 @@ public final class Logger {
      */
     private static final ArrayList<String> awaitingLogCalls = new ArrayList<>();
 
-    /** The file that is currently being written to on log calls. */
+    /**
+     * The total number of objects created for an instance of Cyder.
+     */
+    private static int totalObjectsCreated = 0;
+
+    /**
+     * Whether the current log should not be written to again.
+     */
+    private static boolean logConcluded;
+
+    /**
+     * The file that is currently being written to on log calls.
+     */
     private static File currentLog;
 
     /**
@@ -80,52 +95,34 @@ public final class Logger {
         out.println(string);
     }
 
-    /** The number of new lines to write after ascii art is written to a log file. */
-    private static final int numNewLinesAfterCyderAsciiArt = 2;
-
     /**
      * Initializes the logger for logging by invoking the following actions:
      *
      * <ul>
      *     <li>Wiping past logs if enabled</li>
      *     <li>Generating and setting the current log file</li>
-     *     <li>Logging the JVM entry with the OS' username</li>
+     *     <li>Writing the Cyder Ascii art to the generated log file</li>
+     *     <li>Logging the JVM entry with the OS username</li>
      *     <li>Starting the object creation logger</li>
      *     <li>Concluding past logs which may have ended abruptly</li>
      *     <li>Consolidating past log lines</li>
-     *     <li>Zipping past logs</li>
+     *     <li>Zipping past logs directories</li>
      * </ul>
      */
     public static void initialize() {
+        // todo ensure not already called
+
         if (Props.wipeLogsOnStart.getValue()) {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
         }
 
         generateAndSetLogFile();
-        writeCyderAsciiArtToCurrentLogFile();
+        writeCyderAsciiArtToFile(currentLog);
         log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
         startObjectCreationLogger();
         concludeLogs();
         consolidateLogLines();
         zipPastLogs();
-    }
-
-    /** Writes the lines contained in static/txt/cyder.txt to the current log file. */
-    private static void writeCyderAsciiArtToCurrentLogFile() {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, false))) {
-            for (String line : LoggingUtil.getCyderSignatureLines()) {
-                bufferedWriter.write(line);
-                bufferedWriter.newLine();
-            }
-
-            for (int i = 0 ; i < numNewLinesAfterCyderAsciiArt ; i++) {
-                bufferedWriter.newLine();
-            }
-
-            bufferedWriter.flush();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 
     /**
@@ -211,7 +208,7 @@ public final class Logger {
                         logBuilder.append(colon)
                                 .append(space)
                                 .append(openingBracket)
-                                .append(icon.getIconWidth()).append("x").append(icon.getIconHeight())
+                                .append(icon.getIconWidth()).append(CyderStrings.X).append(icon.getIconHeight())
                                 .append(closingBracket)
                                 .append(comma)
                                 .append(space)
@@ -225,7 +222,7 @@ public final class Logger {
                         logBuilder.append(jComponent);
                     }
                     case default -> {
-                        tags.add(LoggingUtil.constructTagsPrepend(StringUtil.capsFirstWords(
+                        tags.add(constructTagsPrepend(StringUtil.capsFirstWords(
                                 ReflectionUtil.getBottomLevelClass(statement.getClass()))));
                         logBuilder.append(statement);
                     }
@@ -314,7 +311,7 @@ public final class Logger {
     /**
      * Constructs lines from the tags and line and writes them to the current log file.
      * The provided tags and translated into proper tags with the time tag preceding all tags.
-     * If the line exceeds that of {@link LoggingUtil#maxLogLineLength}
+     * If the line exceeds that of {@link LoggingConstants#maxLogLineLength}
      * then the line is split where convenient.
      *
      * @param tags the tags
@@ -328,17 +325,17 @@ public final class Logger {
 
         if (logStarted.get() && currentLog == null) {
             generateAndSetLogFile();
-            writeCyderAsciiArtToCurrentLogFile();
-            awaitingLogCalls.addAll(LoggingUtil.checkLogLineLength(LoggingUtil.getLogRecoveryDebugLine()));
+            writeCyderAsciiArtToFile(currentLog);
+            awaitingLogCalls.addAll(checkLogLineLength(getLogRecoveryDebugLine()));
         }
 
         boolean isException = tags.contains(LogTag.EXCEPTION.getLogName());
-        String prepend = LoggingUtil.constructTagsPrepend(tags);
+        String prepend = constructTagsPrepend(tags);
         String rawWriteLine = prepend + space + line;
 
         ImmutableList<String> lines = isException
                 ? ImmutableList.of(rawWriteLine)
-                : LoggingUtil.checkLogLineLength(rawWriteLine);
+                : checkLogLineLength(rawWriteLine);
 
         writeRawLinesToCurrentLogFile(lines, tags.contains(LogTag.EXCEPTION.getLogName()), prepend);
     }
@@ -353,12 +350,13 @@ public final class Logger {
     private static void writeRawLinesToCurrentLogFile(ImmutableList<String> lines,
                                                       boolean isException,
                                                       String prepend) {
+        Preconditions.checkNotNull(lines);
+        Preconditions.checkNotNull(prepend);
+
         if (!logStarted.get()) {
             for (int i = 0 ; i < lines.size() ; i++) {
-                String prefixSpacing = "";
-                if (i != 0 && !isException) {
-                    prefixSpacing = StringUtil.generateSpaces(prepend.length());
-                }
+                String prefixSpacing = i != 0 && !isException
+                        ? StringUtil.generateSpaces(prepend.length()) : "";
 
                 String writeLine = prefixSpacing + lines.get(i);
                 awaitingLogCalls.add(writeLine);
@@ -367,11 +365,11 @@ public final class Logger {
             return;
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentLog, true))) {
             if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
                 for (String awaitingLogLine : awaitingLogCalls) {
-                    bw.write(awaitingLogLine);
-                    bw.newLine();
+                    writer.write(awaitingLogLine);
+                    writer.newLine();
 
                     println(awaitingLogLine);
                 }
@@ -388,8 +386,8 @@ public final class Logger {
                 String writeLine = prefixSpacing + lines.get(i);
 
                 if (!logConcluded) {
-                    bw.write(writeLine);
-                    bw.newLine();
+                    writer.write(writeLine);
+                    writer.newLine();
                 } else {
                     println("Log call after log completed: " + writeLine);
                 }
@@ -401,7 +399,9 @@ public final class Logger {
         }
     }
 
-    /** Zips the log files of the past. */
+    /**
+     * Zips the log files of the past.
+     */
     private static void zipPastLogs() {
         File topLevelLogsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
@@ -424,7 +424,6 @@ public final class Logger {
             String destinationZipPath = subLogDir.getAbsolutePath() + Extension.ZIP.getExtension();
             File destinationZip = new File(destinationZipPath);
 
-            // A zip already exists somehow
             if (!destinationZip.exists()) {
                 Logger.log(LogTag.DEBUG, "Zipping past sub log dir: " + subLogDir.getAbsolutePath());
 
@@ -455,8 +454,8 @@ public final class Logger {
             if (logFiles == null || logFiles.length == 0) continue;
 
             for (File logFile : logFiles) {
-                consolidateLines(logFile);
                 log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
+                consolidateLines(logFile);
             }
         }
     }
@@ -508,11 +507,11 @@ public final class Logger {
             lastLine = logLines.get(i);
             currentLine = logLines.get(i + 1);
 
-            if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
+            if (areLogLinesEquivalent(lastLine, currentLine)) {
                 currentCount++;
             } else {
                 if (currentCount > 1) {
-                    writeLines.add(LoggingUtil.generateConsolidationLine(lastLine, currentCount));
+                    writeLines.add(generateConsolidationLine(lastLine, currentCount));
                 } else {
                     writeLines.add(lastLine);
                 }
@@ -521,7 +520,7 @@ public final class Logger {
             }
         }
         if (currentCount > 1) {
-            writeLines.add(LoggingUtil.generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
+            writeLines.add(generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
         } else {
             writeLines.add(logLines.get(logLines.size() - 1));
         }
@@ -547,7 +546,9 @@ public final class Logger {
         }
     }
 
-    /** Fixes any logs lacking/not ending in an "End Of Log" tag. */
+    /**
+     * Fixes any logs lacking/not ending in an "End Of Log" tag.
+     */
     public static void concludeLogs() {
         try {
             File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
@@ -565,14 +566,11 @@ public final class Logger {
                 for (File log : logs) {
                     if (log.equals(getCurrentLogFile())) continue;
 
-                    if (LoggingUtil.countTags(log, EOL) < 1) {
-                        ImmutableList<String> objectCreationLines = LoggingUtil.extractLinesWithTag(
+                    if (countTags(log, EOL) < 1) {
+                        // todo make a method for this
+                        ImmutableList<String> objectCreationLines = extractLinesWithTag(
                                 log, LogTag.OBJECT_CREATION.getLogName());
 
-                        // Time is 1, delta is 2, num objects is 3
-                        // todo needs testing
-                        Pattern objectsCreatedSinceLastDeltaPattern =
-                                Pattern.compile("\\[(.*)].*\\((.*)ms\\):\\s*(.*)");
                         long objectsCreated = 0;
 
                         for (String objectCreationLine : objectCreationLines) {
@@ -591,6 +589,7 @@ public final class Logger {
                             }
                         }
 
+                        // todo method for this
                         String firstTimeString = "";
                         String lastTimeString = "";
 
@@ -603,7 +602,6 @@ public final class Logger {
 
                                 lastTimeString = matcher.group(1);
                             }
-                            // todo first and last match for log line pattern
                         }
 
                         Date firstTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(firstTimeString);
@@ -611,8 +609,12 @@ public final class Logger {
 
                         long millis = lastTimeDate.getTime() - firstTimeDate.getTime();
 
-                        concludeLog(log, ExitCondition.TrueExternalStop, millis,
-                                LoggingUtil.countExceptions(log), objectsCreated, LoggingUtil.countThreadsRan(log));
+                        concludeLog(log,
+                                ExitCondition.TrueExternalStop,
+                                millis,
+                                countExceptions(log),
+                                objectsCreated,
+                                countThreadsRan(log));
                     }
                 }
             }
@@ -621,18 +623,24 @@ public final class Logger {
         }
     }
 
-    // todo sometimes continuation is missing a char
+    // todo sometimes continuation is missing a char, meaning the carry over is not aligned properly
 
-    private static final String EOL = "Eol";
-    private static final String EXIT_CONDITION = "Exit Condition";
-    private static final String RUNTIME = "Runtime";
-    private static final String EXCEPTIONS = StringUtil.getPlural(LogTag.EXCEPTION.getLogName()); // todo dynamic
-    private static final String OBJECTS_CREATED = "Objects Created";
-    private static final String THREADS_RAN = "Threads Ran";
-
-    private static void concludeLog(File file, ExitCondition condition,
+    /**
+     * Concludes the provided log file using the provided parameters.
+     *
+     * @param file           the log file to conclude
+     * @param condition      the exit condition
+     * @param runtime        the runtime in ms of the log
+     * @param exceptions     the exceptions thrown in the log
+     * @param objectsCreated the objects created during the log
+     * @param threadsRan     the number of threads ran during the log
+     */
+    private static void concludeLog(File file,
+                                    ExitCondition condition,
                                     long runtime,
-                                    int exceptions, long objectsCreated, int threadsRan) {
+                                    int exceptions,
+                                    long objectsCreated,
+                                    int threadsRan) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
@@ -644,34 +652,36 @@ public final class Logger {
         Preconditions.checkArgument(threadsRan >= 0);
 
         StringBuilder conclusionBuilder = new StringBuilder();
-        // todo all tags here need time tag in front
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EOL))
+        conclusionBuilder.append(constructTagsPrepend(EOL))
+                .append(space)
+                .append("End Of Log")
                 .append(newline);
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXIT_CONDITION))
+        conclusionBuilder.append(constructTagsPrepend(EXIT_CONDITION))
                 .append(space)
                 .append(condition.getCode())
+                .append(comma)
                 .append(space)
-                .append(LoggingUtil.surroundWithBrackets(condition.getDescription()))
+                .append(condition.getDescription())
                 .append(newline);
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(RUNTIME))
+        conclusionBuilder.append(constructTagsPrepend(RUNTIME))
                 .append(space)
                 .append(TimeUtil.formatMillis(runtime))
                 .append(newline);
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(EXCEPTIONS))
+        conclusionBuilder.append(constructTagsPrepend(StringUtil.getPlural(exceptions, EXCEPTION)))
                 .append(space)
                 .append(exceptions)
                 .append(newline);
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(OBJECTS_CREATED))
+        conclusionBuilder.append(constructTagsPrepend(OBJECTS_CREATED))
                 .append(space)
                 .append(objectsCreated)
                 .append(newline);
 
-        conclusionBuilder.append(LoggingUtil.surroundWithBrackets(THREADS_RAN))
+        conclusionBuilder.append(constructTagsPrepend(THREADS_RAN))
                 .append(space)
                 .append(threadsRan);
 
@@ -685,11 +695,17 @@ public final class Logger {
         }
     }
 
-    /** Starts the object creation logger to log object creation calls every deltaT seconds. */
+    /**
+     * Starts the object creation logger to log object creation calls every deltaT seconds.
+     */
     private static void startObjectCreationLogger() {
+        Preconditions.checkState(!objectCreationLoggerStarted.get());
+
+        objectCreationLoggerStarted.set(true)
+
         CyderThreadRunner.submit(() -> {
             try {
-                ThreadUtil.sleep(LoggingUtil.INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
+                ThreadUtil.sleep(INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
 
                 while (true) {
                     int objectsCreated = objectCreationCounter.getAndSet(0);
@@ -710,11 +726,10 @@ public final class Logger {
      *
      * @param objectsCreated the number of objects created since the last delta
      */
-    @ForReadability
     private static void logObjectsCreated(int objectsCreated) {
         totalObjectsCreated += objectsCreated;
 
-        String line = "Objects created since last delta"
+        String line = objectsCreatedSinceLastDelta
                 + space + openingParenthesis + objectCreationLogFrequency
                 + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
                 + colon + space + objectsCreated;
