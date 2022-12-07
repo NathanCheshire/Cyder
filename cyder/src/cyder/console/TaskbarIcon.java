@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.label.CyderLabel;
@@ -15,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
-import java.util.Objects;
 
 /**
  * A {@link Console} taskbar icon for the console menu.
@@ -67,13 +68,20 @@ public class TaskbarIcon {
     private final Builder builder;
 
     /**
+     * Suppress default constructor.
+     */
+    private TaskbarIcon() {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
      * Constructs and generates a new taskbar icon.
      *
      * @param builder the builder to construct the taskbar icon from
      */
-    public TaskbarIcon(Builder builder) {
-        Preconditions.checkNotNull(builder.name);
-        Preconditions.checkArgument(!builder.name.isEmpty());
+    private TaskbarIcon(Builder builder) {
+        Preconditions.checkNotNull(builder.getName());
+        Preconditions.checkArgument(!builder.getName().isEmpty());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
 
@@ -95,37 +103,37 @@ public class TaskbarIcon {
      * @param builder the TaskbarIcon builder to construct the TaskbarIcon from
      */
     public void generateTaskbarIcon(Builder builder) {
-        Preconditions.checkNotNull(builder.name);
-        Preconditions.checkArgument(!builder.name.isEmpty());
+        Preconditions.checkNotNull(builder.getName());
+        Preconditions.checkArgument(!builder.getName().isEmpty());
 
-        if (builder.compact) {
-            String name = builder.name.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, builder.name.length()));
+        if (builder.isCompact()) {
+            String name = builder.getName().substring(0, Math.min(MAX_COMPACT_MENU_CHARS, builder.getName().length()));
 
             JLabel usage = new JLabel(name);
-            usage.setForeground(builder.focused ? CyderColors.regularRed : CyderColors.vanilla);
+            usage.setForeground(builder.isFocused() ? CyderColors.regularRed : CyderColors.vanilla);
             usage.setFont(CyderFonts.DEFAULT_FONT_SMALL);
             usage.setVerticalAlignment(SwingConstants.CENTER);
 
             usage.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    builder.runnable.run();
+                    builder.getRunnable().run();
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    usage.setForeground(builder.focused ? CyderColors.vanilla : CyderColors.regularRed);
+                    usage.setForeground(builder.isFocused() ? CyderColors.vanilla : CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    usage.setForeground(builder.focused ? CyderColors.regularRed : CyderColors.vanilla);
+                    usage.setForeground(builder.isFocused() ? CyderColors.regularRed : CyderColors.vanilla);
                 }
             });
 
             // if had to cut off text, make tooltip show full
-            if (!builder.name.equalsIgnoreCase(name)) {
-                usage.setToolTipText(builder.name);
+            if (!builder.getName().equalsIgnoreCase(name)) {
+                usage.setToolTipText(builder.getName());
             }
 
             innerTaskbarIcon = usage;
@@ -134,9 +142,9 @@ public class TaskbarIcon {
 
             BufferedImage paintedImage;
 
-            if (builder.customIcon != null) {
+            if (builder.getCustomIcon() != null) {
                 paintedImage = ImageUtil.resizeImage(ICON_LEN,
-                        ICON_LEN, builder.customIcon);
+                        ICON_LEN, builder.getCustomIcon());
             } else {
                 paintedImage = new BufferedImage(ICON_LEN,
                         ICON_LEN, BufferedImage.TYPE_INT_RGB);
@@ -152,7 +160,7 @@ public class TaskbarIcon {
 
             // paint border color
             Graphics g = paintedImage.getGraphics();
-            g.setColor(builder.customIcon == null ? builder.borderColor : BORDER_COLOR);
+            g.setColor(builder.getCustomIcon() == null ? builder.getBorderColor() : BORDER_COLOR);
             g.fillRect(0, 0, BORDER_LEN, ICON_LEN);
             g.fillRect(0, 0, ICON_LEN, BORDER_LEN);
             g.fillRect(ICON_LEN - 5, 0, ICON_LEN, ICON_LEN);
@@ -162,12 +170,13 @@ public class TaskbarIcon {
             ImageIcon focusIcon = new ImageIcon(rescaleOp.filter(paintedImage, null));
 
             // image construction done so place on label
-            newTaskbarIcon.setIcon(builder.focused ? focusIcon : defaultIcon);
+            newTaskbarIcon.setIcon(builder.isFocused() ? focusIcon : defaultIcon);
             newTaskbarIcon.setSize(ICON_LEN, ICON_LEN);
 
             // add name label and mouse listeners on top of background image
-            String localName = builder.name.trim().substring(0, Math.min(4, builder.name.trim().length())).trim();
-            CyderLabel titleLabel = new CyderLabel(builder.customIcon == null ? localName : "");
+            String localName =
+                    builder.getName().trim().substring(0, Math.min(4, builder.getName().trim().length())).trim();
+            CyderLabel titleLabel = new CyderLabel(builder.getCustomIcon() == null ? localName : "");
             titleLabel.setFont(labelFont);
             titleLabel.setForeground(CyderColors.vanilla);
             titleLabel.setBounds(0, 0, ICON_LEN, ICON_LEN);
@@ -175,23 +184,23 @@ public class TaskbarIcon {
 
             newTaskbarIcon.add(titleLabel);
 
-            titleLabel.setToolTipText(builder.name);
+            titleLabel.setToolTipText(builder.getName());
             titleLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (builder.runnable != null) {
-                        builder.runnable.run();
+                    if (builder.getRunnable() != null) {
+                        builder.getRunnable().run();
                     }
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    newTaskbarIcon.setIcon(builder.focused ? defaultIcon : focusIcon);
+                    newTaskbarIcon.setIcon(builder.isFocused() ? defaultIcon : focusIcon);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    newTaskbarIcon.setIcon(builder.focused ? focusIcon : defaultIcon);
+                    newTaskbarIcon.setIcon(builder.isFocused() ? focusIcon : defaultIcon);
                 }
             });
 
@@ -221,7 +230,7 @@ public class TaskbarIcon {
      * Runs the runnable associated with this taskbar icon.
      */
     public void runRunnable() {
-        this.builder.runnable.run();
+        this.builder.getRunnable().run();
     }
 
     /**
@@ -237,7 +246,7 @@ public class TaskbarIcon {
 
         TaskbarIcon other = (TaskbarIcon) o;
 
-        return builder.equals(other.builder);
+        return builder.equals(other.getBuilder());
     }
 
     /**
@@ -245,11 +254,11 @@ public class TaskbarIcon {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(builder);
+        return builder.hashCode();
     }
 
     /**
-     * A builder for a TaskbarIcon.
+     * A builder for a {@link TaskbarIcon}.
      */
     public static final class Builder {
         /**
@@ -280,7 +289,19 @@ public class TaskbarIcon {
         /**
          * The name of the icon.
          */
-        private String name;
+        private final String name;
+
+        /**
+         * Constructs a new builder for a taskbar icon.
+         *
+         * @param name the name/tooltip for the taskbar icon
+         */
+        public Builder(String name) {
+            Preconditions.checkNotNull(name);
+            Preconditions.checkArgument(!name.isEmpty());
+
+            this.name = name;
+        }
 
         /**
          * Sets whether this taskbar icon should be painted in compact mode.
@@ -343,15 +364,57 @@ public class TaskbarIcon {
         }
 
         /**
-         * Sets the name for this taskbar icon.
+         * Returns whether this icon should be generated as compact.
          *
-         * @param name the name for this taskbar icon
-         * @return this Builder
+         * @return whether this icon should be generated as compact
          */
-        @CanIgnoreReturnValue
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
+        public boolean isCompact() {
+            return compact;
+        }
+
+        /**
+         * Returns whether this icon should be generated as focused.
+         *
+         * @return whether this icon should be generated as focused
+         */
+        public boolean isFocused() {
+            return focused;
+        }
+
+        /**
+         * Returns the border color for this icon.
+         *
+         * @return the border color for this icon
+         */
+        public Color getBorderColor() {
+            return borderColor;
+        }
+
+        /**
+         * Returns the custom icon for this icon.
+         *
+         * @return the custom icon for this icon
+         */
+        public ImageIcon getCustomIcon() {
+            return customIcon;
+        }
+
+        /**
+         * Returns the runnable for this icon.
+         *
+         * @return the runnable for this icon
+         */
+        public Runnable getRunnable() {
+            return runnable;
+        }
+
+        /**
+         * Returns the name and tooltip of this icon.
+         *
+         * @return the name and tooltip of this icon
+         */
+        public String getName() {
+            return name;
         }
 
         /**
@@ -376,20 +439,20 @@ public class TaskbarIcon {
 
             Builder other = (Builder) o;
 
-            boolean ret = other.compact == compact
-                    && other.focused == focused
-                    && other.borderColor.equals(borderColor);
+            boolean ret = other.isCompact() == compact
+                    && other.isFocused() == focused
+                    && other.getBorderColor().equals(borderColor);
 
-            if (other.customIcon != null) {
-                ret = ret && other.customIcon.equals(customIcon);
+            if (other.getCustomIcon() != null) {
+                ret = ret && other.getCustomIcon().equals(customIcon);
             }
 
-            if (other.runnable != null) {
-                ret = ret && other.runnable.equals(runnable);
+            if (other.getRunnable() != null) {
+                ret = ret && other.getRunnable().equals(runnable);
             }
 
-            if (other.name != null) {
-                ret = ret && other.name.equals(name);
+            if (other.getName() != null) {
+                ret = ret && other.getName().equals(name);
             }
 
             return ret;
@@ -400,13 +463,28 @@ public class TaskbarIcon {
          */
         @Override
         public int hashCode() {
-            return Objects.hash(
-                    compact,
-                    focused,
-                    borderColor,
-                    customIcon,
-                    runnable,
-                    name);
+            int ret = Boolean.hashCode(compact);
+            ret = 31 * ret + Boolean.hashCode(focused);
+            ret = 31 * ret + borderColor.hashCode();
+            ret = 31 * ret + customIcon.hashCode();
+            ret = 31 * ret + runnable.hashCode();
+            ret = 31 * ret + name.hashCode();
+            return ret;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "TaskbarIconBuilder{"
+                    + "compact: " + compact
+                    + ", focused: " + focused
+                    + ", borderColor: " + borderColor
+                    + ", customIcon: " + customIcon
+                    + ", runnable: " + runnable
+                    + ", name: \"" + name + "\""
+                    + "}";
         }
     }
 }

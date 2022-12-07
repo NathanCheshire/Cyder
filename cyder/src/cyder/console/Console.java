@@ -1778,8 +1778,7 @@ public enum Console {
 
         if (!currentActiveFrames.isEmpty()) {
             Lists.reverse(currentActiveFrames).forEach(currentFrame ->
-                    ret.add(new TaskbarIcon.Builder()
-                            .setName(currentFrame.getTitle())
+                    ret.add(new TaskbarIcon.Builder(currentFrame.getTitle())
                             .setCompact(compactMode)
                             .setFocused(false)
                             .setBorderColor(currentFrame.getTaskbarIconBorderColor())
@@ -1808,8 +1807,7 @@ public enum Console {
                     exe.displayInvokedNotification();
                 };
 
-                ret.add(new TaskbarIcon.Builder()
-                        .setName(exe.getName())
+                ret.add(new TaskbarIcon.Builder(exe.getName())
                         .setFocused(false)
                         .setCompact(compactMode)
                         .setRunnable(runnable)
@@ -1863,15 +1861,13 @@ public enum Console {
      * The default compact taskbar icons.
      */
     private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
-            new TaskbarIcon.Builder()
-                    .setName(PREFS)
+            new TaskbarIcon.Builder(PREFS)
                     .setFocused(false)
                     .setCompact(true)
                     .setRunnable(prefsRunnable)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
-            new TaskbarIcon.Builder()
-                    .setName(LOGOUT)
+            new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(true)
                     .setRunnable(this::logout)
@@ -1883,15 +1879,13 @@ public enum Console {
      * The default non compact taskbar icons.
      */
     private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
-            new TaskbarIcon.Builder()
-                    .setName(PREFS)
+            new TaskbarIcon.Builder(PREFS)
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(prefsRunnable)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
-            new TaskbarIcon.Builder()
-                    .setName(LOGOUT)
+            new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(this::logout)
