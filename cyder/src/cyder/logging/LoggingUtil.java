@@ -13,12 +13,12 @@ import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
 import cyder.utils.StringUtil;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import static cyder.constants.CyderStrings.*;
 import static cyder.logging.LoggingConstants.*;
@@ -242,7 +242,7 @@ public final class LoggingUtil {
         ret.append(surroundWithBrackets(TimeUtil.getLogLineTime())).append(space);
         ArrayUtil.forEachElementExcludingLast(tag ->
                 ret.append(surroundWithBrackets(tag)).append(space), tags);
-        ret.append(surroundWithBrackets(tags.get(tags.size() - 1))).append(colon);
+        ret.append(surroundWithBrackets(tags.get(tags.size() - 1))).append(colon).append(space);
 
         return ret.toString();
     }
@@ -347,6 +347,7 @@ public final class LoggingUtil {
     static String generateConsolidationLine(String line, int numLines) {
         Preconditions.checkNotNull(line);
 
+        // todo insert the multiplier as the last line tag
         return line + space + openingBracket + numLines + X + closingBracket;
     }
 
@@ -372,5 +373,116 @@ public final class LoggingUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Counts the number of objects created during the provided log.
+     *
+     * @param logFile the log file
+     * @return the number of objects created during the provided log
+     */
+    static long countObjectsCreatedFromLog(File logFile) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.exists());
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+
+        ImmutableList<String> objectCreationLines = extractLinesWithTag(logFile, LogTag.OBJECT_CREATION.getLogName());
+
+        long totalObjects = 0;
+
+        for (String objectCreationLine : objectCreationLines) {
+            Matcher matcher = objectsCreatedSinceLastDeltaPattern.matcher(objectCreationLine);
+            if (matcher.matches()) {
+                String objectsGroup = matcher.group(3);
+
+                int lineObjects = 0;
+                try {
+                    lineObjects = Integer.parseInt(objectsGroup);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+
+                totalObjects += lineObjects;
+            }
+        }
+
+        return totalObjects;
+    }
+
+    /**
+     * Computes and returns the runtime of the provided log file using the first and last found time tags.
+     *
+     * @param logFile the log file
+     * @return the runtime in ms of the log file
+     */
+    static long getRuntimeFromLog(File logFile) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.exists());
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+
+        long ret = 0;
+
+        String firstTimeString = "";
+        String lastTimeString = "";
+
+        for (String line : FileUtil.getFileLines(logFile)) {
+            Matcher matcher = CyderRegexPatterns.standardLogLinePattern.matcher(line);
+            if (matcher.matches()) {
+                if (StringUtil.isNullOrEmpty(firstTimeString)) {
+                    firstTimeString = matcher.group(1);
+                }
+
+                lastTimeString = matcher.group(1);
+            }
+        }
+
+        if (!StringUtil.isNullOrEmpty(firstTimeString) && !StringUtil.isNullOrEmpty(lastTimeString)) {
+            try {
+                Date firstTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(firstTimeString);
+                Date lastTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(lastTimeString);
+
+                ret = lastTimeDate.getTime() - firstTimeDate.getTime();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns the lines of the log file excluding any empty lines/Cyder Ascii art lines.
+     *
+     * @param logFile the log file
+     * @return the lines of the log file excluding any empty lines/Cyder Ascii art lines
+     */
+    static ImmutableList<String> getLogLinesFromLog(File logFile) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.exists());
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+
+        boolean beforeFirstTimeTag = true;
+
+        ArrayList<String> ret = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (CyderRegexPatterns.standardLogLinePattern.matcher(line).matches()) {
+                    beforeFirstTimeTag = false;
+                }
+
+                if (!StringUtil.stripNewLinesAndTrim(line).isEmpty() && !beforeFirstTimeTag) {
+                    ret.add(line);
+                }
+            }
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }

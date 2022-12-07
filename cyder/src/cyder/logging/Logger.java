@@ -2,7 +2,6 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -19,13 +18,13 @@ import cyder.time.TimeUtil;
 import cyder.utils.*;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
 
 import static cyder.constants.CyderStrings.*;
 import static cyder.logging.LoggingConstants.*;
@@ -64,6 +63,11 @@ public final class Logger {
      * Whether the object creation logger has been started.
      */
     private static final AtomicBoolean objectCreationLoggerStarted = new AtomicBoolean();
+
+    /**
+     * Whether the logger has been initialized already.
+     */
+    private static final AtomicBoolean loggerInitialized = new AtomicBoolean();
 
     /**
      * The log calls that were requested to be logged before the logger was initialized
@@ -110,7 +114,8 @@ public final class Logger {
      * </ul>
      */
     public static void initialize() {
-        // todo ensure not already called
+        Preconditions.checkState(!loggerInitialized.get());
+        loggerInitialized.set(true);
 
         if (Props.wipeLogsOnStart.getValue()) {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
@@ -205,11 +210,9 @@ public final class Logger {
                     }
                     case ImageIcon icon -> {
                         tags.add(ConsoleOutType.IMAGE.toString());
-                        logBuilder.append(colon)
-                                .append(space)
-                                .append(openingBracket)
+                        logBuilder
+                                .append("dimensions=")
                                 .append(icon.getIconWidth()).append(CyderStrings.X).append(icon.getIconHeight())
-                                .append(closingBracket)
                                 .append(comma)
                                 .append(space)
                                 .append("dominant color")
@@ -331,7 +334,7 @@ public final class Logger {
 
         boolean isException = tags.contains(LogTag.EXCEPTION.getLogName());
         String prepend = constructTagsPrepend(tags);
-        String rawWriteLine = prepend + space + line;
+        String rawWriteLine = prepend + line;
 
         ImmutableList<String> lines = isException
                 ? ImmutableList.of(rawWriteLine)
@@ -383,16 +386,15 @@ public final class Logger {
                     prefixSpacing = StringUtil.generateSpaces(prepend.length());
                 }
 
-                String writeLine = prefixSpacing + lines.get(i);
+                String writeLine = prefixSpacing + lines.get(i).trim();
 
                 if (!logConcluded) {
+                    println(writeLine);
                     writer.write(writeLine);
                     writer.newLine();
                 } else {
                     println("Log call after log completed: " + writeLine);
                 }
-
-                println(writeLine);
             }
         } catch (Exception e) {
             log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
@@ -471,41 +473,20 @@ public final class Logger {
         Preconditions.checkArgument(logFile.isFile());
         Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
 
-        boolean beforeFirstTimeTag = true;
+        ImmutableList<String> logLines = getLogLinesFromLog(logFile);
 
-        ArrayList<String> preLogLines = new ArrayList<>();
-        ArrayList<String> logLines = new ArrayList<>();
-        // todo could probably have a structure and a method for this
-        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (beforeFirstTimeTag) {
-                    preLogLines.add(line);
-                } else if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
-                    logLines.add(line);
-                }
+        // If there's only one line, consolidating doesn't make sense now does it?
+        if (logLines.size() < 2) return;
 
-                if (CyderRegexPatterns.standardLogLinePattern.matcher(line).matches()) {
-                    beforeFirstTimeTag = false;
-                }
-            }
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-
-        int minLogLines = 2;
-        if (logLines.size() < minLogLines) {
-            return;
-        }
-
-        // todo this is kind of confusing
         ArrayList<String> writeLines = new ArrayList<>();
+
         String lastLine;
-        String currentLine;
+        String currentLine = "";
         int currentCount = 1;
-        for (int i = 0 ; i < logLines.size() - 1 ; i++) {
-            lastLine = logLines.get(i);
-            currentLine = logLines.get(i + 1);
+
+        for (int i = 1 ; i < logLines.size() ; i++) {
+            lastLine = logLines.get(i - 1);
+            currentLine = logLines.get(i);
 
             if (areLogLinesEquivalent(lastLine, currentLine)) {
                 currentCount++;
@@ -519,31 +500,16 @@ public final class Logger {
                 currentCount = 1;
             }
         }
+
+        // Last read line hasn't been added yet
         if (currentCount > 1) {
-            writeLines.add(generateConsolidationLine(logLines.get(logLines.size() - 1), currentCount));
+            writeLines.add(generateConsolidationLine(currentLine, currentCount));
         } else {
-            writeLines.add(logLines.get(logLines.size() - 1));
+            writeLines.add(currentLine);
         }
 
-        // Signature
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, false))) {
-            for (String line : preLogLines) {
-                writer.write(line);
-                writer.newLine();
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        // Actual lines
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-            for (String line : writeLines) {
-                writer.write(line);
-                writer.newLine();
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        writeCyderAsciiArtToFile(logFile);
+        FileUtil.writeLinesToFile(logFile, writeLines, true);
     }
 
     /**
@@ -554,67 +520,25 @@ public final class Logger {
             File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
             if (!logDir.exists()) return;
 
-            File[] logDirs = logDir.listFiles();
-            if (logDirs == null || logDirs.length == 0) return;
+            File[] subLogDirs = logDir.listFiles();
+            if (subLogDirs == null || subLogDirs.length == 0) return;
 
-            for (File subLogDir : logDirs) {
+            for (File subLogDir : subLogDirs) {
                 if (!subLogDir.isDirectory()) continue;
 
-                File[] logs = subLogDir.listFiles();
-                if (logs == null || logs.length == 0) return;
+                File[] logFiles = subLogDir.listFiles();
+                if (logFiles == null || logFiles.length == 0) return;
 
-                for (File log : logs) {
-                    if (log.equals(getCurrentLogFile())) continue;
+                for (File logFile : logFiles) {
+                    if (logFile.equals(getCurrentLogFile())) continue;
 
-                    if (countTags(log, EOL) < 1) {
-                        // todo make a method for this
-                        ImmutableList<String> objectCreationLines = extractLinesWithTag(
-                                log, LogTag.OBJECT_CREATION.getLogName());
-
-                        long objectsCreated = 0;
-
-                        for (String objectCreationLine : objectCreationLines) {
-                            Matcher matcher = objectsCreatedSinceLastDeltaPattern.matcher(objectCreationLine);
-                            if (matcher.matches()) {
-                                String objectsGroup = matcher.group(3);
-
-                                int objects = 0;
-                                try {
-                                    objects = Integer.parseInt(objectsGroup);
-                                } catch (Exception e) {
-                                    ExceptionHandler.handle(e);
-                                }
-
-                                objectsCreated += objects;
-                            }
-                        }
-
-                        // todo method for this
-                        String firstTimeString = "";
-                        String lastTimeString = "";
-
-                        for (String line : FileUtil.getFileLines(log)) {
-                            Matcher matcher = CyderRegexPatterns.standardLogLinePattern.matcher(line);
-                            if (matcher.matches()) {
-                                if (StringUtil.isNullOrEmpty(firstTimeString)) {
-                                    firstTimeString = matcher.group(1);
-                                }
-
-                                lastTimeString = matcher.group(1);
-                            }
-                        }
-
-                        Date firstTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(firstTimeString);
-                        Date lastTimeDate = TimeUtil.LOG_LINE_TIME_FORMAT.parse(lastTimeString);
-
-                        long millis = lastTimeDate.getTime() - firstTimeDate.getTime();
-
-                        concludeLog(log,
+                    if (countTags(logFile, EOL) < 1) {
+                        concludeLog(logFile,
                                 ExitCondition.TrueExternalStop,
-                                millis,
-                                countExceptions(log),
-                                objectsCreated,
-                                countThreadsRan(log));
+                                getRuntimeFromLog(logFile),
+                                countExceptions(logFile),
+                                countObjectsCreatedFromLog(logFile),
+                                countThreadsRan(logFile));
                     }
                 }
             }
@@ -622,8 +546,6 @@ public final class Logger {
             ExceptionHandler.handle(e);
         }
     }
-
-    // todo sometimes continuation is missing a char, meaning the carry over is not aligned properly
 
     /**
      * Concludes the provided log file using the provided parameters.
@@ -651,48 +573,27 @@ public final class Logger {
         Preconditions.checkArgument(objectsCreated >= 0);
         Preconditions.checkArgument(threadsRan >= 0);
 
-        StringBuilder conclusionBuilder = new StringBuilder();
-
-        conclusionBuilder.append(constructTagsPrepend(EOL))
-                .append(space)
-                .append("End Of Log")
-                .append(newline);
-
-        conclusionBuilder.append(constructTagsPrepend(EXIT_CONDITION))
-                .append(space)
-                .append(condition.getCode())
-                .append(comma)
-                .append(space)
-                .append(condition.getDescription())
-                .append(newline);
-
-        conclusionBuilder.append(constructTagsPrepend(RUNTIME))
-                .append(space)
-                .append(TimeUtil.formatMillis(runtime))
-                .append(newline);
-
-        conclusionBuilder.append(constructTagsPrepend(StringUtil.getPlural(exceptions, EXCEPTION)))
-                .append(space)
-                .append(exceptions)
-                .append(newline);
-
-        conclusionBuilder.append(constructTagsPrepend(OBJECTS_CREATED))
-                .append(space)
-                .append(objectsCreated)
-                .append(newline);
-
-        conclusionBuilder.append(constructTagsPrepend(THREADS_RAN))
-                .append(space)
-                .append(threadsRan);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            String write = conclusionBuilder.toString();
-            println(write);
-            writer.write(write);
-            writer.newLine();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        String write = constructTagsPrepend(EOL)
+                + END_OF_LOG
+                + newline
+                + constructTagsPrepend(EXIT_CONDITION)
+                + condition.getCode()
+                + comma
+                + condition.getDescription()
+                + newline
+                + constructTagsPrepend(RUNTIME)
+                + TimeUtil.formatMillis(runtime)
+                + newline
+                + constructTagsPrepend(StringUtil.getPlural(exceptions, EXCEPTION))
+                + exceptions
+                + newline
+                + constructTagsPrepend(OBJECTS_CREATED)
+                + objectsCreated
+                + newline
+                + constructTagsPrepend(THREADS_RAN)
+                + threadsRan;
+        println(write);
+        FileUtil.writeLinesToFile(file, ImmutableList.of(write), true);
     }
 
     /**
@@ -701,7 +602,7 @@ public final class Logger {
     private static void startObjectCreationLogger() {
         Preconditions.checkState(!objectCreationLoggerStarted.get());
 
-        objectCreationLoggerStarted.set(true)
+        objectCreationLoggerStarted.set(true);
 
         CyderThreadRunner.submit(() -> {
             try {

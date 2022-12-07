@@ -29,6 +29,11 @@ public final class LoggingConstants {
     static final String EOL = "Eol";
 
     /**
+     * The end of log text.
+     */
+    static final String END_OF_LOG = "End Of Log";
+
+    /**
      * The exit condition tag string.
      */
     static final String EXIT_CONDITION = "Exit Condition";

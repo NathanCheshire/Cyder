@@ -19,10 +19,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -31,34 +29,52 @@ import java.util.zip.ZipOutputStream;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/** Static utilities having to do with files, their names, properties, and attributes. */
+/**
+ * Static utilities having to do with files, their names, properties, and attributes.
+ */
 public final class FileUtil {
-    /** The metadata signature for a png file. */
+    /**
+     * The metadata signature for a png file.
+     */
     public static final ImmutableList<Integer> PNG_SIGNATURE
             = ImmutableList.of(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A);
 
-    /** The metadata signature for a jpg file. */
+    /**
+     * The metadata signature for a jpg file.
+     */
     public static final ImmutableList<Integer> JPG_SIGNATURE = ImmutableList.of(0xFF, 0xD8, 0xFF);
 
-    /** The metadata signature for a wav file (RIFF). */
+    /**
+     * The metadata signature for a wav file (RIFF).
+     */
     public static final ImmutableList<Integer> WAV_SIGNATURE = ImmutableList.of(0x52, 0x49, 0x46, 0x46);
 
-    /** The metadata signature for an mp3 file. */
+    /**
+     * The metadata signature for an mp3 file.
+     */
     public static final ImmutableList<Integer> MP3_SIGNATURE = ImmutableList.of(0x49, 0x44, 0x33);
 
-    /** The audio formats Cyder supports. */
+    /**
+     * The audio formats Cyder supports.
+     */
     public static final ImmutableList<String> SUPPORTED_AUDIO_EXTENSIONS
             = ImmutableList.of(Extension.WAV.getExtension(), Extension.MP3.getExtension());
 
-    /** The image formats Cyder supports. */
+    /**
+     * The image formats Cyder supports.
+     */
     public static final ImmutableList<String> SUPPORTED_IMAGE_EXTENSIONS = ImmutableList.of(
             Extension.PNG.getExtension(), Extension.JPG.getExtension(), Extension.JPEG.getExtension());
 
-    /** Supported font types that are loaded upon Cyder's start. */
+    /**
+     * Supported font types that are loaded upon Cyder's start.
+     */
     public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS
             = ImmutableList.of(Extension.TTF.getExtension());
 
-    /** Suppress default constructor. */
+    /**
+     * Suppress default constructor.
+     */
     private FileUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -351,7 +367,9 @@ public final class FileUtil {
         }
     }
 
-    /** The buffer sized used for zip file extraction. */
+    /**
+     * The buffer sized used for zip file extraction.
+     */
     public static final int ZIP_BUFFER_SIZE = 1024;
 
     /**
@@ -728,5 +746,29 @@ public final class FileUtil {
         }
 
         return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Writes the provided lines to the provided file with newlines after each written line.
+     *
+     * @param file   the file to write the lines too
+     * @param lines  the lines to write
+     * @param append whether to append the lines or overwrite the existing content, if any, with the new content
+     */
+    public static void writeLinesToFile(File file, List<String> lines, boolean append) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+        Preconditions.checkNotNull(lines);
+        Preconditions.checkArgument(!lines.isEmpty());
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }
