@@ -2,8 +2,8 @@ package cyder.animation;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 

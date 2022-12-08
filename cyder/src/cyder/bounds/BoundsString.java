@@ -2,8 +2,8 @@ package cyder.bounds;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * A class for associating a size necessary to contain a provided string without overflow.

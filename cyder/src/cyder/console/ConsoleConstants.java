@@ -1,10 +1,10 @@
 package cyder.console;
 
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;

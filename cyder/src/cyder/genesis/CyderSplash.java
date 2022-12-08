@@ -11,6 +11,7 @@ import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
@@ -18,7 +19,6 @@ import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;

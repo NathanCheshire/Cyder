@@ -2,9 +2,10 @@ package cyder.user;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
-import cyder.utils.StringUtil;
 
 import java.util.LinkedList;
 
@@ -1080,6 +1081,6 @@ public class User {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return ToStringUtils.commonCyderToString(this);
     }
 }

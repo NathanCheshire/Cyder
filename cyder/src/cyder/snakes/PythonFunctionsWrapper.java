@@ -2,18 +2,18 @@ package cyder.snakes;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
 import cyder.process.Program;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.utils.StaticUtil;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static cyder.constants.CyderStrings.space;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A wrapper for the python_functions.py utility functions script.

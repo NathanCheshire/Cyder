@@ -4,16 +4,16 @@ import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
 import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

@@ -2,8 +2,8 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.audio.GeneralAndSystemAudioPlayer;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.threads.MasterYoutubeThread;
 
 /**

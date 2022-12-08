@@ -21,6 +21,8 @@ import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.math.AngleUtil;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
@@ -32,7 +34,10 @@ import cyder.ui.drag.button.PinButton;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.ColorUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.UiUtil;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -55,7 +60,7 @@ import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A custom frame component.

@@ -1,7 +1,7 @@
 package cyder.temperature;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Utility methods related to temperature conversions.

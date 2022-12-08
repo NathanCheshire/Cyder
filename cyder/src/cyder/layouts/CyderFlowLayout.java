@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.ui.CyderPanel;
-import cyder.utils.StringUtil;
 
 import javax.annotation.Nullable;
 import java.awt.*;

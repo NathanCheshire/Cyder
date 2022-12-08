@@ -9,6 +9,7 @@ import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
@@ -17,7 +18,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.

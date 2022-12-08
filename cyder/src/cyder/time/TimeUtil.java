@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.user.UserUtil;
-import cyder.utils.StringUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

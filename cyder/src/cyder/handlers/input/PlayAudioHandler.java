@@ -5,14 +5,14 @@ import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.StaticUtil;
-import cyder.utils.StringUtil;
 import cyder.youtube.YoutubeUtil;
 
 import java.awt.*;

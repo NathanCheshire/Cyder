@@ -3,9 +3,9 @@ package cyder.handlers.input;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.GuiTest;
 import cyder.annotations.Handle;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;

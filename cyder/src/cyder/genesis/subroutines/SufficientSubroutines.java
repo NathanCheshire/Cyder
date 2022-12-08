@@ -3,7 +3,6 @@ package cyder.genesis.subroutines;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
@@ -11,6 +10,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.process.ProcessUtil;
 import cyder.process.PythonPackage;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.JvmUtil;
 

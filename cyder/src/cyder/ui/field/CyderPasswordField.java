@@ -3,10 +3,10 @@ package cyder.ui.field;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.utils.ImageUtil;
 import cyder.utils.UiUtil;
 

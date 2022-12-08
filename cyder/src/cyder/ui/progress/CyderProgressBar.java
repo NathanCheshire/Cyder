@@ -2,7 +2,7 @@ package cyder.ui.progress;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.StringUtil;
+import cyder.strings.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

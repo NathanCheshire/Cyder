@@ -1,6 +1,6 @@
 package cyder.snakes;
 
-import cyder.constants.CyderStrings;
+import cyder.strings.CyderStrings;
 
 /**
  * The arguments accepted by argparse for the python_functions script.

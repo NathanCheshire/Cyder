@@ -2,12 +2,12 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 
 import java.io.File;

@@ -1,9 +1,9 @@
 package cyder.props;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
-import static cyder.constants.CyderStrings.EMPTY;
+import static cyder.strings.CyderStrings.EMPTY;
 
 /**
  * The props recognized by Cyder.

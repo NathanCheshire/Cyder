@@ -2,10 +2,10 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;

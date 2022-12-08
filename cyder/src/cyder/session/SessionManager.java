@@ -1,7 +1,7 @@
 package cyder.session;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.utils.SecurityUtil;
 
 /**

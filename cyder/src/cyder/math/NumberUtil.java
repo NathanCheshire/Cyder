@@ -6,9 +6,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utils.StringUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 import java.awt.*;
 import java.math.BigInteger;

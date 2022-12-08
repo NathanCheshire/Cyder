@@ -2,9 +2,9 @@ package cyder.handlers.input;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.annotations.Handle;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utils.StringUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 /**
  * A handler for handling mathematical expressions.

@@ -3,10 +3,10 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.UiUtil;
@@ -16,7 +16,7 @@ import cyder.widgets.ClockWidget;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import static cyder.constants.CyderStrings.EMPTY;
+import static cyder.strings.CyderStrings.EMPTY;
 
 /**
  * Preference class used to hold user data in the form of strings.

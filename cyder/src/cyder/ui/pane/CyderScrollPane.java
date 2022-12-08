@@ -6,9 +6,9 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

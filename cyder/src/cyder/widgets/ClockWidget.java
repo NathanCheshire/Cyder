@@ -9,7 +9,6 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderStrings;
 import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.getter.GetInputBuilder;
@@ -21,6 +20,8 @@ import cyder.parsers.remote.ip.IpData;
 import cyder.parsers.remote.weather.Coord;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -31,7 +32,6 @@ import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 import cyder.weather.WeatherUtil;
 
@@ -44,7 +44,7 @@ import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.

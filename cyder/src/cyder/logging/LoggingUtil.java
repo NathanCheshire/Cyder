@@ -4,14 +4,14 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
-import cyder.utils.StringUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import static cyder.constants.CyderStrings.*;
 import static cyder.logging.LoggingConstants.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities necessary for the Cyder logger.

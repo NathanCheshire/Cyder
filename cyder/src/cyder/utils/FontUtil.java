@@ -1,8 +1,8 @@
 package cyder.utils;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 
 import java.awt.*;
 

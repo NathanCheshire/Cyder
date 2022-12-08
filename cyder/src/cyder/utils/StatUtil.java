@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.RequiresStableNetwork;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Extension;
 import cyder.enums.SystemPropertyKey;
@@ -16,6 +15,7 @@ import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.IpUtil;
 import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.time.TimeUtil;
 

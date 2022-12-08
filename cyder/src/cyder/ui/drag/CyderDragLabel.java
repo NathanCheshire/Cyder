@@ -6,11 +6,11 @@ import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
+import cyder.strings.StringUtil;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.annotation.Nullable;

@@ -5,16 +5,16 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,8 @@
 package cyder.props;
 
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Constants necessary for the {@link PropLoader}.

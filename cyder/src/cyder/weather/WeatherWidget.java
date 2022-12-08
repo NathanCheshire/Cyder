@@ -4,7 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.annotations.*;
 import cyder.console.Console;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.HtmlTags;
 import cyder.enums.Extension;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
@@ -16,13 +19,18 @@ import cyder.network.IpUtil;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.ImageUtil;
+import cyder.utils.MapUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.constants.CyderStrings.colon;
+import static cyder.strings.CyderStrings.colon;
 
 /**
  * A widget for showing the weather for a local area.

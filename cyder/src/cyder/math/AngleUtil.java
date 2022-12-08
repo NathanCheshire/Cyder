@@ -1,8 +1,8 @@
 package cyder.math;
 
 import com.google.common.collect.Range;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Utilities related to angles.

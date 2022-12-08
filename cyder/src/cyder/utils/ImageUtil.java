@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -14,6 +13,7 @@ import cyder.process.Program;
 import cyder.snakes.PythonArgument;
 import cyder.snakes.PythonCommand;
 import cyder.snakes.PythonFunctionsWrapper;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
@@ -34,8 +34,8 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static cyder.constants.CyderStrings.quote;
-import static cyder.constants.CyderStrings.space;
+import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * Static utility methods revolving around Image manipulation.

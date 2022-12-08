@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
 
 import java.net.URL;
 

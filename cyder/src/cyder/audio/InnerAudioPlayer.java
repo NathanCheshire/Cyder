@@ -3,9 +3,9 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 

@@ -3,15 +3,15 @@ package cyder.files;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.StringUtil;
 
 import java.awt.*;
 import java.io.*;

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
@@ -15,6 +14,7 @@ import cyder.process.Program;
 import cyder.snakes.PythonArgument;
 import cyder.snakes.PythonCommand;
 import cyder.snakes.PythonFunctionsWrapper;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
-import static cyder.constants.CyderStrings.quote;
+import static cyder.strings.CyderStrings.quote;
 
 /**
  * Utilities related to audio files, typically mp3 and wav files.

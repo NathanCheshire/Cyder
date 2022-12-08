@@ -2,10 +2,10 @@ package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;

@@ -10,7 +10,7 @@ import cyder.time.TimeUtil;
 
 import javax.swing.*;
 
-import static cyder.constants.CyderStrings.quote;
+import static cyder.strings.CyderStrings.quote;
 
 /**
  * A builder for a CyderFrame notification.

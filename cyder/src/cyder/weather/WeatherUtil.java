@@ -1,12 +1,12 @@
 package cyder.weather;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;

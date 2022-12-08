@@ -1,9 +1,9 @@
 package cyder.logging;
 
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
+import cyder.strings.CyderStrings;
 import cyder.utils.StaticUtil;
 
 import java.util.regex.Pattern;

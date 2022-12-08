@@ -5,10 +5,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
-import cyder.utils.StringUtil;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -670,6 +670,6 @@ public class CyderScrollList {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return ToStringUtils.commonCyderToString(this);
     }
 }

@@ -5,14 +5,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CheckReturnValue;
 import cyder.annotations.ForReadability;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.StringUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;

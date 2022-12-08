@@ -1,9 +1,9 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 
 /**
  * A handler for inner commands wrapped with arguments such as size(x), floor(x, y), etc.

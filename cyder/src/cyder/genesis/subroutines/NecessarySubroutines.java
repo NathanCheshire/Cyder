@@ -3,7 +3,6 @@ package cyder.genesis.subroutines;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
-import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
@@ -15,11 +14,12 @@ import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.session.InstanceSocketUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.user.UserUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StaticUtil;
-import cyder.utils.StringUtil;
 
 import java.awt.*;
 import java.io.File;
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import static cyder.constants.CyderStrings.space;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * Subroutines which must complete in order for Cyder to start.

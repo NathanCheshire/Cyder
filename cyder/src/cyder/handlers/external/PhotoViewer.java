@@ -2,7 +2,6 @@ package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.files.DirectoryWatcher;
 import cyder.files.FileUtil;
 import cyder.files.WatchDirectoryEvent;
@@ -12,6 +11,7 @@ import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;

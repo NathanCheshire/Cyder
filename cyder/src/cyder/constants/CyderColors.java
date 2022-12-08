@@ -2,6 +2,7 @@ package cyder.constants;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 

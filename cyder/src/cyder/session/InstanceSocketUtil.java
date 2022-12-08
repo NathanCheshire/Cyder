@@ -1,7 +1,6 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -10,6 +9,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;

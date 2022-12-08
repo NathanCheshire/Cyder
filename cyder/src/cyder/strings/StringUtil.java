@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.strings;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
@@ -6,14 +6,18 @@ import com.google.common.collect.ImmutableList;
 import cyder.bounds.HtmlString;
 import cyder.bounds.PlainString;
 import cyder.bounds.StringContainer;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderUrls;
+import cyder.constants.HtmlTags;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
-import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;
+import cyder.utils.ArrayUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.StaticUtil;
 import org.atteo.evo.inflector.English;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,14 +30,11 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-
-import static cyder.constants.CyderStrings.*;
 
 /**
  * String utility methods along with JTextPane utility methods
@@ -1142,72 +1143,6 @@ public final class StringUtil {
                 .replace(CyderStrings.carriageReturnChar, CyderStrings.space).trim();
     }
 
-    // todo util for levenshtein specifically, maybe even strings package at this point
-
-    // -------------------
-    // Levenshtein methods
-    // -------------------
-
-    /**
-     * Returns the levenshtein distance between string alpha and string beta.
-     * From <a href="http://rosettacode.org/wiki/Levenshtein_distance#Iterative_space_optimized_.28even_bounded.29</a>
-     *
-     * @param alpha the first string
-     * @param beta  the second string
-     * @return the levenshtein distance between alpha and beta
-     */
-    public static int levenshteinDistance(String alpha, String beta) {
-        Preconditions.checkNotNull(alpha);
-        Preconditions.checkNotNull(beta);
-
-        if (Objects.equals(alpha, beta)) {
-            return 0;
-        }
-
-        int la = alpha.length();
-        int lb = beta.length();
-
-        if (la == 0) {
-            return lb;
-        }
-
-        if (lb == 0) {
-            return la;
-        }
-
-        if (la < lb) {
-            int tl = la;
-            la = lb;
-            lb = tl;
-            String ts = alpha;
-            alpha = beta;
-            beta = ts;
-        }
-
-        int[] cost = new int[lb + 1];
-
-        for (int i = 0 ; i <= lb ; i += 1) {
-            cost[i] = i;
-        }
-
-        for (int i = 1 ; i <= la ; i += 1) {
-            cost[0] = i;
-            int prv = i - 1;
-            int min = prv;
-
-            for (int j = 1 ; j <= lb ; j += 1) {
-                int act = prv + (alpha.charAt(i - 1) == beta.charAt(j - 1) ? 0 : 1);
-                cost[j] = NumberUtil.min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
-
-                if (prv < min) {
-                    min = prv;
-                }
-            }
-        }
-
-        return cost[lb];
-    }
-
     /**
      * Generates the text to use for a custom component that extends JLabel to
      * for the component to paint with the necessary size for the component
@@ -1255,6 +1190,8 @@ public final class StringUtil {
     public static boolean containsNumber(char[] chars) {
         Preconditions.checkNotNull(chars);
 
+        // Note to maintainers: do not try to enhance this, we are using a char[] for security.
+
         for (char c : chars) {
             if (Character.isDigit(c)) {
                 return true;
@@ -1262,157 +1199,6 @@ public final class StringUtil {
         }
 
         return false;
-    }
-
-    /**
-     * A class used for reflection to find special methods within an object.
-     */
-    private static class GetterMethodResult {
-        /**
-         * The prefix for the method name to start with.
-         */
-        private final String startsWith;
-
-        /**
-         * The result of invoking the getter method.
-         */
-        private String methodResult;
-
-        /**
-         * Constructs a new getter method result.
-         *
-         * @param startsWith what the method should start with
-         */
-        public GetterMethodResult(String startsWith) {
-            this.startsWith = Preconditions.checkNotNull(startsWith);
-        }
-
-        /**
-         * Returns what the method should start with.
-         *
-         * @return what the method should start with
-         */
-        public String getStartsWith() {
-            return startsWith;
-        }
-
-        /**
-         * returns the method result if set.
-         *
-         * @return the method result if set
-         */
-        public String getMethodResult() {
-            return methodResult;
-        }
-
-        /**
-         * Sets the method result.
-         *
-         * @param methodResult the method result
-         */
-        public void setMethodResult(String methodResult) {
-            Preconditions.checkNotNull(methodResult);
-
-            this.methodResult = methodResult;
-        }
-    }
-
-    /**
-     * Special methods which should be attempted to be found
-     * and invoked if found when reflecting on a {@link Component}.
-     */
-    private static final ImmutableList<GetterMethodResult> getterMethods = ImmutableList.of(
-            new GetterMethodResult("getText"),
-            new GetterMethodResult("getTooltipText"),
-            new GetterMethodResult("getTitle")
-    );
-
-    /**
-     * Returns a string representation of the provided component's top level frame parent if found.
-     *
-     * @param component the component
-     * @return a string representation of the provided component's top level frame parent
-     */
-    public static String getComponentParentFrameRepresentation(Component component) {
-        Preconditions.checkNotNull(component);
-
-        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(component);
-
-        return topFrame != null
-                ? topFrame.getTitle()
-                : component instanceof CyderFrame
-                ? "Component itself is a CyderFrame"
-                : "No parent frame found";
-    }
-
-    /**
-     * A string representation of {@link Component}s used by most Cyder ui classes for logging.
-     *
-     * @param component the component
-     * @return a string representation of the provided component
-     */
-    public static String commonCyderUiToString(Component component) {
-        Preconditions.checkNotNull(component);
-
-        String parentFrame = getComponentParentFrameRepresentation(component);
-
-        try {
-            for (Method method : component.getClass().getMethods()) {
-                for (GetterMethodResult getterMethod : getterMethods) {
-                    if (method.getName().startsWith(getterMethod.startsWith)
-                            && method.getParameterCount() == 0) {
-                        Object localInvokeResult = method.invoke(component);
-
-                        if (localInvokeResult instanceof String localInvokeResultString) {
-                            if (!localInvokeResultString.isEmpty()
-                                    && !StringUtil.isNullOrEmpty(localInvokeResultString)) {
-                                getterMethod.setMethodResult(localInvokeResultString);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        StringBuilder ret = new StringBuilder();
-
-        ret.append("Component: ")
-                .append(ReflectionUtil.getBottomLevelClass(component.getClass()))
-                .append(", hash: ")
-                .append(component.hashCode())
-                .append(", bounds: (").append(component.getX()).append(", ").append(component.getY())
-                .append(", ").append(component.getWidth()).append(", ").append(component.getHeight())
-                .append(closingParenthesis);
-
-        ret.append(", parent frame: ").append(parentFrame);
-
-        getterMethods.forEach(specialMethod -> {
-            String result = specialMethod.getMethodResult();
-            if (result != null && !result.isEmpty()) {
-                ret.append(comma).append(space).append(specialMethod.getStartsWith()).append(colon).append(space);
-                ret.append(result);
-            }
-        });
-
-        return ret.toString();
-    }
-
-    /**
-     * A common method utilized by near all top-level Cyder classes
-     * as the overridden logic for their {@link Object#toString()} implementation.
-     *
-     * @param object the object
-     * @return the String representation for the provided object
-     * detailing the classname, hashcode, and reflected data detailed by the {@link GetterMethodResult}s
-     */
-    public static String commonCyderToString(Object object) {
-        Preconditions.checkNotNull(object);
-
-        String reflectedFields = ReflectionUtil.buildGetterString(object);
-        return ReflectionUtil.getBottomLevelClass(object.getClass()) + ", hash: " + object.hashCode()
-                + ", reflection data: " + reflectedFields;
     }
 
     /**
@@ -1435,6 +1221,8 @@ public final class StringUtil {
         return string.substring(startIndex);
     }
 
+    // todo html util
+
     /**
      * Adds bold tags to the provided string.
      *
@@ -1447,6 +1235,8 @@ public final class StringUtil {
 
         return HtmlTags.openingBold + string + HtmlTags.closingBold;
     }
+
+    // todo html util
 
     /**
      * Returns a paragraph tag styled with the provided color for the provided text.
@@ -1465,6 +1255,8 @@ public final class StringUtil {
         int b = color.getBlue();
         return "<p style=\"color:rgb(" + r + ", " + g + ", " + b + ")\">" + text + HtmlTags.closingP;
     }
+
+    // todo html util
 
     /**
      * Returns the provided string after ensuring it is of the proper form.

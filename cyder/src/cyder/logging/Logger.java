@@ -2,7 +2,6 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
@@ -11,11 +10,16 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.utils.*;
+import cyder.utils.ColorUtil;
+import cyder.utils.JvmUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -26,9 +30,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static cyder.constants.CyderStrings.*;
 import static cyder.logging.LoggingConstants.*;
 import static cyder.logging.LoggingUtil.*;
+import static cyder.strings.CyderStrings.*;
 import static java.lang.System.out;
 
 /**

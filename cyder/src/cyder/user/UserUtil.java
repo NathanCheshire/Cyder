@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.constants.HtmlTags;
 import cyder.enums.Direction;
@@ -20,9 +19,15 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.LevenshteinUtil;
+import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
-import cyder.utils.*;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.SerializationUtil;
+import cyder.utils.UiUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -193,7 +198,7 @@ public final class UserUtil {
             if (previousSerializedUser.isEmpty()) {
                 currentLevenshteinDistance = currentSerializedUser.length();
             } else {
-                currentLevenshteinDistance = StringUtil.levenshteinDistance(
+                currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(
                         currentSerializedUser, previousSerializedUser);
             }
 

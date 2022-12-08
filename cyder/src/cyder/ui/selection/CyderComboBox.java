@@ -2,9 +2,9 @@ package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 

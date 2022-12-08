@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -14,12 +13,13 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.button.CyderButton;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
-import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,7 +31,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 import static cyder.youtube.YoutubeConstants.*;
 
 /**

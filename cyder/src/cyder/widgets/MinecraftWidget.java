@@ -6,15 +6,15 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.user.UserUtil;
 import cyder.user.data.MappedExecutable;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

@@ -8,11 +8,11 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

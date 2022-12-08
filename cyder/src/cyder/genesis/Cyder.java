@@ -1,13 +1,13 @@
 package cyder.genesis;
 
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.subroutines.NecessarySubroutines;
 import cyder.genesis.subroutines.SufficientSubroutines;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
+import cyder.strings.CyderStrings;
 import cyder.time.CyderWatchdog;
 import cyder.utils.JvmUtil;
 

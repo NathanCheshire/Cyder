@@ -2,7 +2,7 @@ package cyder.session;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
-import cyder.constants.CyderStrings;
+import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
 
 /**

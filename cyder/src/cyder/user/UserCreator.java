@@ -1,7 +1,10 @@
 package cyder.user;
 
 import cyder.annotations.*;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderRegexPatterns;
 import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
@@ -12,6 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.login.LoginHandler;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
@@ -35,7 +39,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
 
-import static cyder.constants.CyderStrings.space;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A widget to create a Cyder user.

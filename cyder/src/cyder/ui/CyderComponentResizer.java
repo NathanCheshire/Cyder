@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -604,7 +604,7 @@ public class CyderComponentResizer extends MouseAdapter {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return ToStringUtils.commonCyderToString(this);
     }
 
     /**

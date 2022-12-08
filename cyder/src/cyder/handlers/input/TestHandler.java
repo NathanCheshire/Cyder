@@ -5,12 +5,12 @@ import com.google.common.reflect.ClassPath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.CyderTest;
 import cyder.annotations.Handle;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.ReflectionUtil;
 

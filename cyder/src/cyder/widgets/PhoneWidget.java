@@ -10,19 +10,19 @@ import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.StaticUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A phone number dialing widget.

@@ -8,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.StringUtil;
 import cyder.ui.frame.CyderFrame;
 
 import java.lang.reflect.Method;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities for Jvm reflection.

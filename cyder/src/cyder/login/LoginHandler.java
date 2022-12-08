@@ -15,6 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.field.CyderCaret;
@@ -28,7 +29,6 @@ import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A widget to log into Cyder or any other way that the Console might be invoked.

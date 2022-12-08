@@ -4,8 +4,13 @@ import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderRegexPatterns;
 import cyder.files.FileUtil;
 import cyder.math.AngleUtil;
+import cyder.strings.LevenshteinUtil;
+import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
-import cyder.utils.*;
+import cyder.utils.ElevationUtil;
+import cyder.utils.GitHubUtil;
+import cyder.utils.StatUtil;
+import cyder.utils.StaticUtil;
 import cyder.weather.WeatherWidget;
 import cyder.youtube.YoutubeUtil;
 import org.junit.Test;
@@ -296,17 +301,17 @@ public class UnitTests {
 
     @Test
     public void testLevenshteinDistance() {
-        assertEquals(StringUtil.levenshteinDistance("hello", ""), 5);
-        assertEquals(StringUtil.levenshteinDistance("hello", "hell"), 1);
-        assertEquals(StringUtil.levenshteinDistance("hello", "hel"), 2);
-        assertEquals(StringUtil.levenshteinDistance("hello", "he"), 3);
-        assertEquals(StringUtil.levenshteinDistance("hello", "hello     "), 5);
-        assertEquals(StringUtil.levenshteinDistance("", ""), 0);
-        assertEquals(StringUtil.levenshteinDistance("nathan", "nathan"), 0);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("hello", ""), 5);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("hello", "hell"), 1);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("hello", "hel"), 2);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("hello", "he"), 3);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("hello", "hello     "), 5);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("", ""), 0);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("nathan", "nathan"), 0);
 
-        assertNotEquals(StringUtil.levenshteinDistance("", ""), 1);
+        assertNotEquals(LevenshteinUtil.computeLevenshteinDistance("", ""), 1);
 
-        assertEquals(StringUtil.levenshteinDistance("distance", "levenshtein"), 10);
+        assertEquals(LevenshteinUtil.computeLevenshteinDistance("distance", "levenshtein"), 10);
     }
 
     private static final String defineString = "definition";
@@ -369,7 +374,7 @@ public class UnitTests {
         String wikiSumExpectedSpacesRemoved = wikiSumExpected.replaceAll(
                 CyderRegexPatterns.whiteSpaceRegex, "");
 
-        int lt = StringUtil.levenshteinDistance(wikiSumSpacesRemoved, wikiSumExpectedSpacesRemoved);
+        int lt = LevenshteinUtil.computeLevenshteinDistance(wikiSumSpacesRemoved, wikiSumExpectedSpacesRemoved);
         float difference = (float) lt / wikiSumExpected.length();
 
         assertTrue(difference <= wikiSumTol);

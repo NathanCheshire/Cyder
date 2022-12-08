@@ -2,8 +2,8 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.ScreenPosition;
 import cyder.utils.UiUtil;

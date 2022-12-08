@@ -3,9 +3,9 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
 
 import javax.swing.*;
 import java.awt.*;

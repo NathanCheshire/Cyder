@@ -6,10 +6,10 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDraggableComponent;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

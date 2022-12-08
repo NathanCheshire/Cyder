@@ -2,10 +2,10 @@ package cyder.bounds;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderStrings;
 import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utils.StringUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

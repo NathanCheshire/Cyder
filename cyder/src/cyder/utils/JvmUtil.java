@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderStrings;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -12,12 +11,14 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities related to the JVM.

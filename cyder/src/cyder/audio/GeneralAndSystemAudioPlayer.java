@@ -3,15 +3,15 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.StaticUtil;
-import cyder.utils.StringUtil;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;

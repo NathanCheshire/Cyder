@@ -3,6 +3,7 @@ package cyder.constants;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 import java.awt.*;
 

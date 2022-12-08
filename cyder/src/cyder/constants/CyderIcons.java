@@ -1,6 +1,7 @@
 package cyder.constants;
 
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StaticUtil;

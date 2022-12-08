@@ -3,15 +3,15 @@ package cyder.process;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.ArrayUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -3,10 +3,11 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 import javax.swing.*;
 import java.net.UnknownHostException;

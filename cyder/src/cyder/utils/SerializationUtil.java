@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 
 import java.io.*;
 import java.lang.reflect.Type;

@@ -8,11 +8,11 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

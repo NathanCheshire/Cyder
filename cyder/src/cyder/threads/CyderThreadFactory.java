@@ -3,7 +3,7 @@ package cyder.threads;
 import com.google.common.base.Preconditions;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.StringUtil;
+import cyder.strings.ToStringUtils;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -59,6 +59,6 @@ public class CyderThreadFactory implements ThreadFactory {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return ToStringUtils.commonCyderToString(this);
     }
 }

@@ -2,11 +2,11 @@ package cyder.network;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 
 import java.util.ArrayList;

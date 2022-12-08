@@ -5,11 +5,11 @@ import cyder.annotations.Handle;
 import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;

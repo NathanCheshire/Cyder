@@ -1,7 +1,7 @@
 package cyder.math;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Utilities related to interpolation.

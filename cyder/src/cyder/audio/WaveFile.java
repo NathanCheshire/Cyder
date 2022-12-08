@@ -2,12 +2,12 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;

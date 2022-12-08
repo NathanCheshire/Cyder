@@ -1,13 +1,13 @@
 package cyder.network;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.ip.IpData;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;

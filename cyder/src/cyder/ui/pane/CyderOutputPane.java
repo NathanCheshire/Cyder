@@ -3,7 +3,7 @@ package cyder.ui.pane;
 import com.google.common.base.Preconditions;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.StringUtil;
+import cyder.strings.StringUtil;
 
 import javax.swing.*;
 import java.util.concurrent.Semaphore;

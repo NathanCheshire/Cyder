@@ -3,13 +3,13 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.user.Preference;
 import cyder.user.UserEditor;
 import cyder.user.UserUtil;
-import cyder.utils.StringUtil;
 
 /**
  * A handler for switching/toggling preferences.

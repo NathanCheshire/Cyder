@@ -1,8 +1,8 @@
 package cyder.math;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 import java.awt.*;
 

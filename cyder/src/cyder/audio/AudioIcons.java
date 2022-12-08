@@ -1,7 +1,7 @@
 package cyder.audio;
 
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 import javax.swing.*;
 

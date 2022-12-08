@@ -2,8 +2,8 @@ package cyder.bounds;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * An HTML formatted string.

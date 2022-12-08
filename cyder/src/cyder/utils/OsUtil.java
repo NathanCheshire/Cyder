@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.SystemPropertyKey;
@@ -17,6 +16,7 @@ import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.user.UserUtil;
 
 import java.awt.*;

@@ -4,12 +4,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.github.Issue;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 
 import java.io.BufferedReader;

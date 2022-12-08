@@ -2,6 +2,7 @@ package cyder.utils;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 
 /**
  * Class for generated OpenSimplexNoise. I obviously didn't write this since I
@@ -2395,6 +2396,6 @@ public final class SimplexNoiseUtil {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderToString(this);
+        return ToStringUtils.commonCyderToString(this);
     }
 }

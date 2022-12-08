@@ -3,12 +3,12 @@ package cyder.threads;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.pane.CyderOutputPane;
-import cyder.utils.StringUtil;
 
 import java.util.Arrays;
 import java.util.LinkedList;

@@ -2,9 +2,9 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.audio.GeneralAndSystemAudioPlayer;
-import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 

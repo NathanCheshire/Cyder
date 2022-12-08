@@ -1,8 +1,8 @@
 package cyder.youtube;
 
 import com.google.common.collect.Range;
-import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 import java.awt.*;
 import java.util.regex.Pattern;

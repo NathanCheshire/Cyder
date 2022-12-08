@@ -3,25 +3,25 @@ package cyder.handlers.input;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
-import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.github.Issue;
 import cyder.process.ProcessUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.GitHubUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.StringUtil;
 
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static cyder.constants.CyderStrings.quote;
-import static cyder.constants.CyderStrings.space;
+import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A handler for commands and inputs related to git/github/gitlab.

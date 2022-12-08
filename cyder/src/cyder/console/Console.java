@@ -28,6 +28,7 @@ import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -76,7 +77,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static cyder.console.ConsoleConstants.*;
-import static cyder.constants.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Singleton of components that represent the GUI way a user

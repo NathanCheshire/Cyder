@@ -1,6 +1,7 @@
 package cyder.constants;
 
 import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * A class of commonly used integers throughout Cyder
