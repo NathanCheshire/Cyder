@@ -103,9 +103,6 @@ public final class Logger {
         return currentLog;
     }
 
-    // todo at some point we'll need to be able to take a file to start writing
-    //  the log to, no questions asked, no ascii art, just start writing.
-
     /**
      * Initializes the logger for logging by invoking the following actions:
      *
@@ -129,6 +126,48 @@ public final class Logger {
         }
 
         generateAndSetLogFile();
+        writeCyderAsciiArtToFile(currentLog);
+        log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
+        startObjectCreationLogger();
+        concludeLogs();
+        consolidateLogLines();
+        zipPastLogs();
+    }
+
+    // todo use me on start from boostrap
+
+    /**
+     * Initializes the logger for logging by invoking the following actions:
+     *
+     * <ul>
+     *     <li>Wiping past logs if enabled</li>
+     *     <li>Validating the provided log file</li>
+     *     <li>Writing the Cyder Ascii art to the generated log file</li>
+     *     <li>Logging the JVM entry with the OS username</li>
+     *     <li>Starting the object creation logger</li>
+     *     <li>Concluding past logs which may have ended abruptly</li>
+     *     <li>Consolidating past log lines</li>
+     *     <li>Zipping past logs directories</li>
+     * </ul>
+     *
+     * @param logFile the log file to use
+     */
+    public static void initializeWithLogFile(File logFile) {
+        Preconditions.checkNotNull(logFile);
+        Preconditions.checkArgument(logFile.exists());
+        Preconditions.checkArgument(logFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
+        Preconditions.checkArgument(logFile.getParentFile().getAbsolutePath().equals(
+                Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()).getAbsolutePath()));
+
+        Preconditions.checkState(!loggerInitialized.get());
+        loggerInitialized.set(true);
+
+        if (Props.wipeLogsOnStart.getValue()) {
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
+        }
+
+        currentLog = logFile;
         writeCyderAsciiArtToFile(currentLog);
         log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
         startObjectCreationLogger();
@@ -346,7 +385,6 @@ public final class Logger {
             String writeLine = prefixSpacing + lengthCheckedLines.get(i);
             prefixedLines.add(writeLine);
         }
-
 
         writeRawLinesToCurrentLogFile(ImmutableList.copyOf(prefixedLines));
     }
