@@ -37,13 +37,6 @@ import static java.lang.System.out;
  */
 public final class Logger {
     /**
-     * Suppress default constructor.
-     */
-    private Logger() {
-        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The counter used to log the number of objects created each deltaT seconds.
      */
     private static final AtomicInteger objectCreationCounter = new AtomicInteger();
@@ -91,12 +84,19 @@ public final class Logger {
     private static File currentLog;
 
     /**
-     * Prints the provided string to {@link System}s output stream.
-     *
-     * @param string the string to print
+     * Suppress default constructor.
      */
-    public static void println(String string) {
-        out.println(string);
+    private Logger() {
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Returns the current log file.
+     *
+     * @return the log file associated with the current session
+     */
+    public static File getCurrentLogFile() {
+        return currentLog;
     }
 
     /**
@@ -210,8 +210,7 @@ public final class Logger {
                     }
                     case ImageIcon icon -> {
                         tags.add(ConsoleOutType.IMAGE.toString());
-                        logBuilder
-                                .append("dimensions=")
+                        logBuilder.append("dimensions=")
                                 .append(icon.getIconWidth()).append(CyderStrings.X).append(icon.getIconHeight())
                                 .append(comma)
                                 .append(space)
@@ -250,8 +249,7 @@ public final class Logger {
                 break;
             case LOGOUT:
                 tags.add(LogTag.LOGIN_OUTPUT.getLogName());
-                tags.add("User");
-
+                tags.add(USER);
                 logBuilder.append(statement);
                 break;
             case JVM_ENTRY:
@@ -294,21 +292,11 @@ public final class Logger {
                 break;
             default:
                 tags.add(tag.getLogName());
-
                 logBuilder.append(statement);
                 break;
         }
 
         constructLogLinesAndLog(tags, logBuilder.toString());
-    }
-
-    /**
-     * Returns the current log file.
-     *
-     * @return the log file associated with the current session
-     */
-    public static File getCurrentLogFile() {
-        return currentLog;
     }
 
     /**
@@ -343,6 +331,7 @@ public final class Logger {
         writeRawLinesToCurrentLogFile(lines, tags.contains(LogTag.EXCEPTION.getLogName()), prepend);
     }
 
+    // todo this could be cleaner
     /**
      * Writes the provided lines directly to the current log file without any processing
      *
@@ -374,7 +363,7 @@ public final class Logger {
                     writer.write(awaitingLogLine);
                     writer.newLine();
 
-                    println(awaitingLogLine);
+                    out.println(awaitingLogLine);
                 }
 
                 awaitingLogCalls.clear();
@@ -389,11 +378,11 @@ public final class Logger {
                 String writeLine = prefixSpacing + lines.get(i).trim();
 
                 if (!logConcluded) {
-                    println(writeLine);
+                    out.println(writeLine);
                     writer.write(writeLine);
                     writer.newLine();
                 } else {
-                    println("Log call after log completed: " + writeLine);
+                    out.println("Log call after log completed: " + writeLine);
                 }
             }
         } catch (Exception e) {
@@ -439,7 +428,7 @@ public final class Logger {
     /**
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
-    public static void consolidateLogLines() {
+    private static void consolidateLogLines() {
         File logsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
         if (!logsDir.exists()) return;
@@ -515,7 +504,7 @@ public final class Logger {
     /**
      * Fixes any logs lacking/not ending in an "End Of Log" tag.
      */
-    public static void concludeLogs() {
+    private static void concludeLogs() {
         try {
             File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
             if (!logDir.exists()) return;
@@ -592,7 +581,7 @@ public final class Logger {
                 + newline
                 + constructTagsPrepend(THREADS_RAN)
                 + threadsRan;
-        println(write);
+        out.println(write);
         FileUtil.writeLinesToFile(file, ImmutableList.of(write), true);
     }
 

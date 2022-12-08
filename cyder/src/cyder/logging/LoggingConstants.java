@@ -59,6 +59,11 @@ public final class LoggingConstants {
     static final String THREADS_RAN = "Threads Ran";
 
     /**
+     * The user string.
+     */
+    static final String USER = "User";
+
+    /**
      * The pattern for extracting parts from an objects created since last delta log call.
      */
     static final Pattern objectsCreatedSinceLastDeltaPattern = Pattern.compile("\\[(.*)].*\\((.*)ms\\):\\s*(.*)");

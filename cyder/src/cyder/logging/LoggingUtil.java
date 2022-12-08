@@ -41,7 +41,7 @@ public final class LoggingUtil {
      * @param logLine2 the second log line
      * @return whether the two log lines are equivalent
      */
-    public static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
+    static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
@@ -70,7 +70,7 @@ public final class LoggingUtil {
      * @param line the line
      * @return whether the provided line is a standard log line.
      */
-    public static boolean matchesStandardLogLine(String line) {
+    static boolean matchesStandardLogLine(String line) {
         Preconditions.checkNotNull(line);
 
         return CyderRegexPatterns.standardLogLinePattern.matcher(line).matches();
@@ -82,7 +82,7 @@ public final class LoggingUtil {
      * @param line the line to split if needed
      * @return the list of strings
      */
-    public static ImmutableList<String> checkLogLineLength(String line) {
+    static ImmutableList<String> checkLogLineLength(String line) {
         Preconditions.checkNotNull(line);
 
         LinkedList<String> lines = new LinkedList<>();
@@ -128,60 +128,6 @@ public final class LoggingUtil {
     }
 
     /**
-     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
-     * chars of the left of the provided string. If found, returns the index of the first found searchFor char.
-     *
-     * @param line      the line to search through
-     * @param searchFor the character to find
-     * @return the index of the first searchFor char if found, -1 else
-     */
-    @ForReadability
-    static int checkLeftForSplitChar(String line, char searchFor) {
-        Preconditions.checkNotNull(line);
-        Preconditions.checkArgument(!line.isEmpty());
-        Preconditions.checkArgument(breakChars.contains(searchFor));
-
-        int ret = -1;
-
-        for (int i = maxLogLineLength - lineBreakInsertionTol ; i < maxLogLineLength ; i++) {
-            if (line.charAt(i) == searchFor) {
-                ret = i;
-                break;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
-     * chars of the right of {@link LoggingConstants#maxLogLineLength}.
-     * If found, returns the index of the first found searchFor char.
-     *
-     * @param line      the line to search through
-     * @param searchFor the character to find
-     * @return the index of the first searchFor char if found, -1 else
-     */
-    @ForReadability
-    static int checkRightForSplitChar(String line, char searchFor) {
-        Preconditions.checkNotNull(line);
-        Preconditions.checkArgument(!line.isEmpty());
-        Preconditions.checkArgument(breakChars.contains(searchFor));
-
-        int ret = -1;
-
-        for (int i = maxLogLineLength ; i < maxLogLineLength + lineBreakInsertionTol ; i++) {
-            if (i >= line.length()) break;
-            if (line.charAt(i) == searchFor) {
-                ret = i;
-                break;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
      * Generates and returns a log line for when a log was deleted mid session.
      *
      * @return returns a log line for when a log was deleted mid session
@@ -192,18 +138,6 @@ public final class LoggingUtil {
         String message = "Log was deleted during runtime, recreating and restarting log at: " + TimeUtil.userTime();
 
         return time + space + debug + colon + space + message;
-    }
-
-    /**
-     * Surrounds the provided string with brackets.
-     *
-     * @param string the string to surround with brackets
-     * @return the string with brackets surrounding it
-     */
-    private static String surroundWithBrackets(String string) {
-        Preconditions.checkNotNull(string);
-
-        return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
     }
 
     /**
@@ -491,5 +425,71 @@ public final class LoggingUtil {
         }
 
         return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Surrounds the provided string with brackets.
+     *
+     * @param string the string to surround with brackets
+     * @return the string with brackets surrounding it
+     */
+    private static String surroundWithBrackets(String string) {
+        Preconditions.checkNotNull(string);
+
+        return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
+    }
+
+    /**
+     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
+     * chars of the left of the provided string. If found, returns the index of the first found searchFor char.
+     *
+     * @param line      the line to search through
+     * @param searchFor the character to find
+     * @return the index of the first searchFor char if found, -1 else
+     */
+    @ForReadability
+    private static int checkLeftForSplitChar(String line, char searchFor) {
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(breakChars.contains(searchFor));
+
+        int ret = -1;
+
+        for (int i = maxLogLineLength - lineBreakInsertionTol ; i < maxLogLineLength ; i++) {
+            if (line.charAt(i) == searchFor) {
+                ret = i;
+                break;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Attempts to find the index of the searchFor char within {@link LoggingConstants#lineBreakInsertionTol}
+     * chars of the right of {@link LoggingConstants#maxLogLineLength}.
+     * If found, returns the index of the first found searchFor char.
+     *
+     * @param line      the line to search through
+     * @param searchFor the character to find
+     * @return the index of the first searchFor char if found, -1 else
+     */
+    @ForReadability
+    private static int checkRightForSplitChar(String line, char searchFor) {
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(breakChars.contains(searchFor));
+
+        int ret = -1;
+
+        for (int i = maxLogLineLength ; i < maxLogLineLength + lineBreakInsertionTol ; i++) {
+            if (i >= line.length()) break;
+            if (line.charAt(i) == searchFor) {
+                ret = i;
+                break;
+            }
+        }
+
+        return ret;
     }
 }
