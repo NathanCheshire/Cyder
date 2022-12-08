@@ -14,7 +14,10 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.files.DirectoryWatcher;
 import cyder.files.FileUtil;
+import cyder.files.WatchDirectoryEvent;
+import cyder.files.WatchDirectorySubscriber;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
@@ -395,8 +398,9 @@ public final class AudioPlayer {
 
         if (userMusicFiles != null && userMusicFiles.length > 0) {
             showGui(userMusicFiles[NumberUtil.randInt(userMusicFiles.length - 1)]);
-        } else
+        } else {
             throw new IllegalArgumentException("Could not find any user audio files");
+        }
     }
 
     /**
@@ -413,6 +417,8 @@ public final class AudioPlayer {
         currentAudioFile.set(startPlaying);
 
         audioDreamified.set(isCurrentAudioDreamy());
+
+        startMusicFileAddedDirectoryWatcher();
 
         // if frame is open, stop whatever audio is playing or
         // paused and begin playing the requested audio
@@ -2031,6 +2037,8 @@ public final class AudioPlayer {
         }
 
         Console.INSTANCE.revalidateAudioMenuVisibility();
+
+        endAllMusicFileAddedWatchers();
     }
 
     /**
@@ -2682,5 +2690,40 @@ public final class AudioPlayer {
         }
 
         return Optional.empty();
+    }
+
+    /**
+     * The music file added watchers.
+     */
+    private static final ArrayList<DirectoryWatcher> musicFileAddedWatchers = new ArrayList<>();
+
+    /**
+     * Stops all the music file added watchers.
+     */
+    private static void endAllMusicFileAddedWatchers() {
+        musicFileAddedWatchers.forEach(DirectoryWatcher::stopWatching);
+    }
+
+    /**
+     * Starts the directory watcher to compute the millis time of new audio files.
+     */
+    private static void startMusicFileAddedDirectoryWatcher() {
+        DirectoryWatcher musicDirectoryWatcher = new DirectoryWatcher(
+                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(),
+                        UserFile.MUSIC.getName()));
+
+        WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
+            @Override
+            public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
+                if (FileUtil.validateExtension(eventFile, Extension.MP3.getExtension())) {
+                    AudioUtil.getMillisMutagen(eventFile);
+                }
+            }
+        };
+        subscriber.subscribeTo(WatchDirectoryEvent.FILE_ADDED);
+        musicDirectoryWatcher.addSubscriber(subscriber);
+
+        musicFileAddedWatchers.add(musicDirectoryWatcher);
     }
 }

@@ -27,10 +27,7 @@ import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.MapUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.UiUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -681,12 +678,12 @@ public class WeatherWidget {
     /**
      * The example location.
      */
-    private static final String exampleChangeLocationText = "New Orleans, LA, USA";
+    private static final String exampleChangeLocationText = Props.defaultLocation.getValue();
 
     /**
      * The styled example change location text.
      */
-    private static final String styledExampleText = StringUtil.generateColoredHtmlText(
+    private static final String styledExampleText = HtmlUtil.generateColoredHtmlText(
             exampleChangeLocationText, exampleColor);
 
     /**

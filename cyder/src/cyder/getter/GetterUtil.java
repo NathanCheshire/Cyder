@@ -18,6 +18,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
+import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -741,7 +742,7 @@ public final class GetterUtil {
      * Sets up the loading files label.
      */
     private void setupLoadingFilesLabel() {
-        loadingFilesLabel.setText(StringUtil.addCenteringToHtml(LOADING));
+        loadingFilesLabel.setText(HtmlUtil.addCenteringToHtml(LOADING));
         loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
         loadingFilesLabel.setVerticalAlignment(JLabel.CENTER);
         loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);

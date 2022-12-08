@@ -6,7 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDraggableComponent;
@@ -260,7 +260,7 @@ public class CyderButton extends JButton {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderUiToString(this);
+        return ToStringUtils.commonCyderUiToString(this);
     }
 
     /**

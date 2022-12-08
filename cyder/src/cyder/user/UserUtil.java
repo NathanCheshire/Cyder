@@ -24,10 +24,7 @@ import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
-import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.SerializationUtil;
-import cyder.utils.UiUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -1049,7 +1046,7 @@ public final class UserUtil {
                 return;
             }
 
-            String boldPath = StringUtil.applyBold(Dynamic.buildDynamic(
+            String boldPath = HtmlUtil.applyBold(Dynamic.buildDynamic(
                     Dynamic.USERS.getDirectoryName(), uuid).toString());
             String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
                     + "The following files still exists and are associated with the user at the following "

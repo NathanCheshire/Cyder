@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
 import cyder.ui.CyderPanel;
 
 import javax.annotation.Nullable;
@@ -471,7 +471,7 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderUiToString(this);
+        return ToStringUtils.commonCyderUiToString(this);
     }
 
     /**

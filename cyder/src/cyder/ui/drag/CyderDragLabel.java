@@ -6,7 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
-import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
@@ -366,7 +366,7 @@ public class CyderDragLabel extends JLabel {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderUiToString(this);
+        return ToStringUtils.commonCyderUiToString(this);
     }
 
     /**

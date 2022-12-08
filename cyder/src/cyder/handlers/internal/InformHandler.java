@@ -15,6 +15,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
+import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +107,7 @@ public final class InformHandler {
             int containerWidth = boundsString.getWidth();
             int containerHeight = boundsString.getHeight();
 
-            textLabel.setText(StringUtil.addCenteringToHtml(boundsString.getText()));
+            textLabel.setText(HtmlUtil.addCenteringToHtml(boundsString.getText()));
 
             builder.setContainer(textLabel);
 

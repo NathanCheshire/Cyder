@@ -5,7 +5,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.layouts.CyderLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
 import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
@@ -111,7 +111,7 @@ public class CyderPanel extends JLabel {
      */
     @Override
     public String toString() {
-        return StringUtil.commonCyderUiToString(this);
+        return ToStringUtils.commonCyderUiToString(this);
     }
 
     /**
