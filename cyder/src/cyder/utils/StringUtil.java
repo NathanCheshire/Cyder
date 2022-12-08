@@ -1139,12 +1139,10 @@ public final class StringUtil {
         Preconditions.checkNotNull(line);
 
         return line.replace(CyderStrings.newline, CyderStrings.space)
-                .replace("\r", CyderStrings.space).trim();
+                .replace(CyderStrings.carriageReturnChar, CyderStrings.space).trim();
     }
 
     // todo util for levenshtein specifically, maybe even strings package at this point
-
-    // todo logout and preferences should use a cool custom icon for the default taskbar icons
 
     // -------------------
     // Levenshtein methods

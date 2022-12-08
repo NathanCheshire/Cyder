@@ -47,4 +47,12 @@ public enum Extension {
     public String getExtensionWithoutPeriod() {
         return extension.substring(1);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return extension;
+    }
 }

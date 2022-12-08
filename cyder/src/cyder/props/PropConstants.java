@@ -74,7 +74,7 @@ public final class PropConstants {
     /**
      * The string to split a prop file contents at to separate the raw file master string into separate lines.
      */
-    static final String splitPropFileContentsAt = "\r\n";
+    static final String splitPropFileContentsAt = CyderStrings.carriageReturnChar + CyderStrings.newline;
 
     /**
      * The token to split a string into a list of strings at.

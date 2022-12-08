@@ -132,6 +132,11 @@ public final class CyderStrings {
     public static final String NUL = "NUL";
 
     /**
+     * The strings counted as "null" and empty by various String util methods.
+     */
+    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
+
+    /**
      * The empty string.
      */
     public static final String EMPTY = "";
@@ -147,9 +152,9 @@ public final class CyderStrings {
     public static final String nullChar = "\0";
 
     /**
-     * The strings counted as "null" and empty by various String util methods.
+     * A carriage return char.
      */
-    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
+    public static final String carriageReturnChar = "\r";
 
     /**
      * A lowercase x char.

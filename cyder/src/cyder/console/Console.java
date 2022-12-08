@@ -11,10 +11,7 @@ import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.Direction;
-import cyder.enums.Dynamic;
-import cyder.enums.ExitCondition;
-import cyder.enums.SystemPropertyKey;
+import cyder.enums.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
@@ -1850,7 +1847,7 @@ public enum Console {
     /**
      * The tooltip and label text for the preferences default taskbar icon.
      */
-    private static final String PREFS = "Prefs";
+    private static final String PREFERENCES = "Preferences";
 
     /**
      * The tooltip and label text for the logout default taskbar icon.
@@ -1861,7 +1858,7 @@ public enum Console {
      * The default compact taskbar icons.
      */
     private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
-            new TaskbarIcon.Builder(PREFS)
+            new TaskbarIcon.Builder(PREFERENCES)
                     .setFocused(false)
                     .setCompact(true)
                     .setRunnable(prefsRunnable)
@@ -1878,20 +1875,42 @@ public enum Console {
     /**
      * The default non compact taskbar icons.
      */
-    private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
-            new TaskbarIcon.Builder(PREFS)
+    private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = constructNonCompactDefaultTaskbarIcons();
+
+    /**
+     * Constructs and returns the non-compact, default taskbar icons.
+     *
+     * @return the non-compact, default taskbar icons
+     */
+    private ImmutableList<TaskbarIcon> constructNonCompactDefaultTaskbarIcons() {
+        try {
+            File prefsImageFile = StaticUtil.getStaticResource(PREFERENCES + Extension.PNG);
+            File logoutImageFile = StaticUtil.getStaticResource(LOGOUT + Extension.PNG);
+
+            BufferedImage prefsImage = ImageUtil.read(prefsImageFile);
+            BufferedImage logoutImage = ImageUtil.read(logoutImageFile);
+
+            TaskbarIcon prefsTaskbarIcon = new TaskbarIcon.Builder(PREFERENCES)
+                    .setCustomIcon(ImageUtil.toImageIcon(prefsImage))
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(prefsRunnable)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
-                    .build(),
-            new TaskbarIcon.Builder(LOGOUT)
+                    .build();
+
+            TaskbarIcon logoutTaskbarIcon = new TaskbarIcon.Builder(LOGOUT)
+                    .setCustomIcon(ImageUtil.toImageIcon(logoutImage))
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(this::logout)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
-                    .build()
-    );
+                    .build();
+
+            return ImmutableList.of(prefsTaskbarIcon, logoutTaskbarIcon);
+        } catch (Exception e) {
+            throw new FatalException(e.getMessage());
+        }
+    }
 
     /**
      * Returns the default taskbar icon items.
