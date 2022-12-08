@@ -18,7 +18,6 @@ import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -217,7 +216,7 @@ public final class CyderWatchdog {
             } else if (!Props.attemptBootstrap.getValue()) {
                 onFailedBoostrap("attempt_boostrap prop set to false");
             } else {
-                Logger.log(LogTag.WATCHDOG, "Boostrap conditions met");
+                Logger.log(LogTag.WATCHDOG, "Boostrap conditions met, attempting bootstrap");
                 bootstrap();
                 return true;
             }
@@ -246,14 +245,14 @@ public final class CyderWatchdog {
                 Logger.getCurrentLogFile().getAbsolutePath()
         );
 
-        try {
-            // todo remove when ready to test
-            if (false) OsUtil.executeShellCommand(command);
-
-            // todo send and be done, new client should request to end this session and we should comply
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
+        //        try {
+        //            // todo remove when ready to test
+        //            OsUtil.executeShellCommand(command);
+        //
+        //            // todo send and be done, new client should request to end this session and we should comply
+        //        } catch (IOException e) {
+        //            ExceptionHandler.handle(e);
+        //        }
 
         // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
     }
@@ -263,10 +262,6 @@ public final class CyderWatchdog {
 
     // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
     // todo key util with validation and getter methods?
-
-    // todo Prop class <T> of some type such as boolean, hold default value,
-    // instead of get(String string) we'll accept this prop class and have overloaded methods for return type
-    // if not exist in props, we return the default value
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits

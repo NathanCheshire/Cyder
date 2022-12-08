@@ -6,7 +6,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.utils.StaticUtil;
 
-import java.io.File;
 import java.util.regex.Pattern;
 
 /**
@@ -81,19 +80,20 @@ public final class LoggingConstants {
 
     /**
      * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
+     * The order in which these chars occur is their order of precedence.
      */
     static final ImmutableList<Character> breakChars = ImmutableList.of(
             ' ',
             '/',
-            '\"',
-            '\'',
             '\\',
             '-',
             '_',
             '.',
             '=',
             ',',
-            ':'
+            ':',
+            '\"',
+            '\''
     );
 
     /**
@@ -107,15 +107,11 @@ public final class LoggingConstants {
     static final int maxLogLineLength = 120;
 
     /**
-     * The file that contains the Cyder signature to place at the top of log files.
-     */
-    private static final File cyderSignatureFile = StaticUtil.getStaticResource("cyder.txt");
-
-    /**
      * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
      */
-    static final ImmutableList<String> cyderSignatureLines =
-            ImmutableList.copyOf(FileUtil.getFileLines(cyderSignatureFile));
+    static final ImmutableList<String> cyderSignatureLines = ImmutableList.copyOf(
+            FileUtil.getFileLines(StaticUtil.getStaticResource("cyder.txt"))
+    );
 
     /**
      * Suppress default constructor.

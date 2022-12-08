@@ -713,11 +713,16 @@ public final class FileUtil {
         Preconditions.checkNotNull(resource);
         Preconditions.checkArgument(!resource.isEmpty());
 
-        Desktop desktop = Desktop.getDesktop();
-
         try {
-            desktop.browse(new URI(resource));
-            Logger.log(LogTag.LINK, resource);
+            File filePointer = new File(resource);
+            if (filePointer.exists()) {
+                Desktop.getDesktop().open(filePointer);
+                Logger.log(LogTag.SYSTEM_IO, "Opening file: " + filePointer.getAbsolutePath());
+            } else {
+                // todo needs testing
+                Desktop.getDesktop().browse(new URI(resource));
+                Logger.log(LogTag.LINK, resource);
+            }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

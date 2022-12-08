@@ -125,7 +125,7 @@ public enum LogTag {
     /**
      * The CyderSplash loading message was set.
      */
-    LOADING_MESSAGE("Loading Message"),
+    SPLASH_LOADING_MESSAGE("Splash Loading Message"),
 
     /**
      * An action related to a prop occurred.

@@ -676,7 +676,7 @@ public enum CyderSplash {
         Preconditions.checkArgument(!newLoadingMessage.isEmpty());
 
         newLoadingMessage = StringUtil.getTrimmedText(newLoadingMessage);
-        Logger.log(LogTag.LOADING_MESSAGE, newLoadingMessage);
+        Logger.log(LogTag.SPLASH_LOADING_MESSAGE, newLoadingMessage);
 
         if (splashFrame == null || splashFrame.isDisposed()) return;
 

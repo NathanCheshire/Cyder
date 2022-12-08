@@ -1144,6 +1144,8 @@ public final class StringUtil {
 
     // todo util for levenshtein specifically, maybe even strings package at this point
 
+    // todo logout and preferences should use a cool custom icon for the default taskbar icons
+
     // -------------------
     // Levenshtein methods
     // -------------------

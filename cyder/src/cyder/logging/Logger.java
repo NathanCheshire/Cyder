@@ -99,6 +99,9 @@ public final class Logger {
         return currentLog;
     }
 
+    // todo at some point we'll need to be able to take a file to start writing
+    //  the log to, no questions asked, no ascii art, just start writing.
+
     /**
      * Initializes the logger for logging by invoking the following actions:
      *
@@ -324,65 +327,57 @@ public final class Logger {
         String prepend = constructTagsPrepend(tags);
         String rawWriteLine = prepend + line;
 
-        ImmutableList<String> lines = isException
+        ImmutableList<String> lengthCheckedLines = isException
                 ? ImmutableList.of(rawWriteLine)
                 : checkLogLineLength(rawWriteLine);
 
-        writeRawLinesToCurrentLogFile(lines, tags.contains(LogTag.EXCEPTION.getLogName()), prepend);
+        ArrayList<String> prefixedLines = new ArrayList<>();
+
+        for (int i = 0 ; i < lengthCheckedLines.size() ; i++) {
+            String prefixSpacing = "";
+            if (i != 0 && !isException) {
+                prefixSpacing = StringUtil.generateSpaces(prepend.length());
+            }
+
+            String writeLine = prefixSpacing + lengthCheckedLines.get(i);
+            prefixedLines.add(writeLine);
+        }
+
+
+        writeRawLinesToCurrentLogFile(ImmutableList.copyOf(prefixedLines));
     }
 
-    // todo this could be cleaner
     /**
      * Writes the provided lines directly to the current log file without any processing
      *
-     * @param lines       the raw lines to write directory to the current log file
-     * @param isException whether the provided lines represent an exception log
-     * @param prepend     the spacing prepend for continuation lines if there are more than one lines
+     * @param lines the raw lines to write directory to the current log file
      */
-    private static void writeRawLinesToCurrentLogFile(ImmutableList<String> lines,
-                                                      boolean isException,
-                                                      String prepend) {
+    private static void writeRawLinesToCurrentLogFile(ImmutableList<String> lines) {
         Preconditions.checkNotNull(lines);
-        Preconditions.checkNotNull(prepend);
 
         if (!logStarted.get()) {
-            for (int i = 0 ; i < lines.size() ; i++) {
-                String prefixSpacing = i != 0 && !isException
-                        ? StringUtil.generateSpaces(prepend.length()) : "";
-
-                String writeLine = prefixSpacing + lines.get(i);
-                awaitingLogCalls.add(writeLine);
-            }
-
+            awaitingLogCalls.addAll(lines);
             return;
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentLog, true))) {
-            if (!awaitingLogCalls.isEmpty() && logStarted.get()) {
+            if (!awaitingLogCalls.isEmpty()) {
                 for (String awaitingLogLine : awaitingLogCalls) {
+                    out.println(awaitingLogLine);
                     writer.write(awaitingLogLine);
                     writer.newLine();
-
-                    out.println(awaitingLogLine);
                 }
 
                 awaitingLogCalls.clear();
             }
 
-            for (int i = 0 ; i < lines.size() ; i++) {
-                String prefixSpacing = "";
-                if (i != 0 && !isException) {
-                    prefixSpacing = StringUtil.generateSpaces(prepend.length());
-                }
-
-                String writeLine = prefixSpacing + lines.get(i).trim();
-
+            for (String line : lines) {
                 if (!logConcluded) {
-                    out.println(writeLine);
-                    writer.write(writeLine);
+                    out.println(line);
+                    writer.write(line);
                     writer.newLine();
                 } else {
-                    out.println("Log call after log completed: " + writeLine);
+                    out.println("Log call after log completed: " + line);
                 }
             }
         } catch (Exception e) {
@@ -568,6 +563,7 @@ public final class Logger {
                 + constructTagsPrepend(EXIT_CONDITION)
                 + condition.getCode()
                 + comma
+                + space
                 + condition.getDescription()
                 + newline
                 + constructTagsPrepend(RUNTIME)
