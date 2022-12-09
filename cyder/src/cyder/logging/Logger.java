@@ -153,14 +153,14 @@ public final class Logger {
      * @param logFile the log file to use
      */
     public static void initializeWithLogFile(File logFile) {
+        Preconditions.checkState(!loggerInitialized.get());
         Preconditions.checkNotNull(logFile);
         Preconditions.checkArgument(logFile.exists());
         Preconditions.checkArgument(logFile.isFile());
         Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
-        Preconditions.checkArgument(logFile.getParentFile().getAbsolutePath().equals(
+        Preconditions.checkArgument(logFile.getParentFile().getParentFile().getAbsolutePath().equals(
                 Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()).getAbsolutePath()));
 
-        Preconditions.checkState(!loggerInitialized.get());
         loggerInitialized.set(true);
 
         if (Props.wipeLogsOnStart.getValue()) {

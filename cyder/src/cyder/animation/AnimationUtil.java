@@ -17,22 +17,22 @@ import java.awt.*;
  */
 public final class AnimationUtil {
     /**
+     * The amount of nanoseconds to sleep by when performing a close
+     * animation on a {@link Frame} via {@link #closeAnimation(Frame)}.
+     */
+    private static final int CLOSE_ANIMATION_TIMEOUT_NS = 500;
+
+    /**
+     * The amount of display pixels to decrement by when performing a close animation.
+     */
+    private static final int CLOSE_ANIMATION_INC = 15;
+
+    /**
      * Suppress default constructor.
      */
     private AnimationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    /**
-     * The amount of nanoseconds to sleep by when performing a close
-     * animation on a {@link Frame} via {@link #closeAnimation(Frame)}.
-     */
-    public static final int CLOSE_ANIMATION_NANO_TIMEOUT = 500;
-
-    /**
-     * The amount of display pixels to decrement by when performing a close animation.
-     */
-    public static final int CLOSE_ANIMATION_INC = 15;
 
     /**
      * Moves the specified frame object up until it is no longer visible then invokes dispose
@@ -52,7 +52,7 @@ public final class AnimationUtil {
             int y = (int) point.getY();
 
             for (int i = y ; i >= -frame.getHeight() ; i -= CLOSE_ANIMATION_INC) {
-                ThreadUtil.sleep(0, CLOSE_ANIMATION_NANO_TIMEOUT);
+                ThreadUtil.sleep(0, CLOSE_ANIMATION_TIMEOUT_NS);
                 frame.setLocation(x, i);
             }
 
@@ -64,7 +64,7 @@ public final class AnimationUtil {
      * The amount of nanoseconds to sleep by when performing a minimize
      * animation on a {@link CyderFrame} via {@link #minimizeAnimation(CyderFrame)}.
      */
-    public static final int MINIMIZE_ANIMATION_NANO_TIMEOUT = 250;
+    public static final int MINIMIZE_ANIMATION_TIMEOUT_NS = 250;
 
     /**
      * The amount of display pixels to increment by when performing a minimize animation.
@@ -92,7 +92,7 @@ public final class AnimationUtil {
         int monitorHeight = (int) cyderFrame.getMonitorBounds().getHeight();
 
         for (int i = y ; i <= monitorHeight ; i += MINIMIZE_ANIMATION_INC) {
-            ThreadUtil.sleep(0, MINIMIZE_ANIMATION_NANO_TIMEOUT);
+            ThreadUtil.sleep(0, MINIMIZE_ANIMATION_TIMEOUT_NS);
             cyderFrame.setLocation(x, i);
         }
 
@@ -114,8 +114,8 @@ public final class AnimationUtil {
      * @param increment the increment in px
      * @param component the component
      */
-    public static void animationComponent(Direction direction, int start, int end,
-                                          int delay, int increment, Component component) {
+    public static void animateComponentMovement(Direction direction, int start, int end,
+                                                int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
         Preconditions.checkNotNull(direction);
         Preconditions.checkArgument(increment > 0);
@@ -138,19 +138,19 @@ public final class AnimationUtil {
      * @param endY      the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param comp      the component to move
+     * @param component the component to move
      */
-    public static void componentUp(int startY, int endY, int delay, int increment, Component comp) {
-        Preconditions.checkNotNull(comp);
+    public static void componentUp(int startY, int endY, int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
 
-        if (comp.getY() == startY) {
+        if (component.getY() == startY) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i >= endY ; i -= increment) {
                     ThreadUtil.sleep(delay);
-                    comp.setLocation(comp.getX(), i);
+                    component.setLocation(component.getX(), i);
                 }
-                comp.setLocation(comp.getX(), endY);
-            }, "Component Up Animator, comp=" + comp);
+                component.setLocation(component.getX(), endY);
+            }, "Component Up Animator, component=" + component);
         }
     }
 
@@ -163,19 +163,19 @@ public final class AnimationUtil {
      * @param stopY     the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param comp      the component to move
+     * @param component      the component to move
      */
-    public static void componentDown(int startY, int stopY, int delay, int increment, Component comp) {
-        Preconditions.checkNotNull(comp);
+    public static void componentDown(int startY, int stopY, int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
 
-        if (comp.getY() == startY) {
+        if (component.getY() == startY) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i <= stopY ; i += increment) {
                     ThreadUtil.sleep(delay);
-                    comp.setLocation(comp.getX(), i);
+                    component.setLocation(component.getX(), i);
                 }
-                comp.setLocation(comp.getX(), stopY);
-            }, "Component Down Animator, comp=" + comp);
+                component.setLocation(component.getX(), stopY);
+            }, "Component Down Animator, component=" + component);
         }
     }
 
@@ -188,19 +188,19 @@ public final class AnimationUtil {
      * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param comp      the component to move
+     * @param component      the component to move
      */
-    public static void componentLeft(int startX, int stopX, int delay, int increment, Component comp) {
-        Preconditions.checkNotNull(comp);
+    public static void componentLeft(int startX, int stopX, int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
 
-        if (comp.getX() == startX) {
+        if (component.getX() == startX) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i >= stopX ; i -= increment) {
                     ThreadUtil.sleep(delay);
-                    comp.setLocation(i, comp.getY());
+                    component.setLocation(i, component.getY());
                 }
-                comp.setLocation(stopX, comp.getY());
-            }, "Component Left Animator, comp=" + comp);
+                component.setLocation(stopX, component.getY());
+            }, "Component Left Animator, component=" + component);
         }
     }
 
@@ -213,19 +213,19 @@ public final class AnimationUtil {
      * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param comp      the component to move
+     * @param component      the component to move
      */
-    public static void componentRight(int startX, int stopX, int delay, int increment, Component comp) {
-        Preconditions.checkNotNull(comp);
+    public static void componentRight(int startX, int stopX, int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
 
-        if (comp.getX() == startX) {
+        if (component.getX() == startX) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i <= stopX ; i += increment) {
                     ThreadUtil.sleep(delay);
-                    comp.setLocation(i, comp.getY());
+                    component.setLocation(i, component.getY());
                 }
-                comp.setLocation(stopX, comp.getY());
-            }, "Component Right Animator, comp=" + comp);
+                component.setLocation(stopX, component.getY());
+            }, "Component Right Animator, component=" + component);
         }
     }
 }

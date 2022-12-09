@@ -2,7 +2,10 @@ package cyder.weather;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import cyder.annotations.*;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -363,7 +366,6 @@ public class WeatherWidget {
      * Shows the UI since we need to allow multiple instances of weather widget
      * while still having the public static showGui() method with the @Widget annotation.
      */
-    @RequiresStableNetwork
     private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
             Console.INSTANCE.getConsoleCyderFrame().notify("Sorry, "

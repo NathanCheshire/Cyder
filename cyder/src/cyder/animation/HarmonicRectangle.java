@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A simple rectangle which can grow and shrink for a simple animation.
+ * A rectangle which can grow and shrink in a particular direction.
  */
 public class HarmonicRectangle extends JLabel {
     /**
@@ -117,9 +117,8 @@ public class HarmonicRectangle extends JLabel {
     public HarmonicRectangle(int staticMinWidth, int staticMinHeight, int staticMaxWidth, int staticMaxHeight) {
         Preconditions.checkArgument(staticMaxWidth > 0);
         Preconditions.checkArgument(staticMaxHeight > 0);
-        Preconditions.checkArgument(staticMinWidth > 0);
-        Preconditions.checkArgument(staticMinHeight > 0);
-
+        Preconditions.checkArgument(staticMinWidth >= 0);
+        Preconditions.checkArgument(staticMinHeight >= 0);
         Preconditions.checkArgument(staticMinWidth <= staticMaxWidth);
         Preconditions.checkArgument(staticMinHeight <= staticMaxHeight);
 
@@ -264,36 +263,19 @@ public class HarmonicRectangle extends JLabel {
 
     /**
      * Starts the animation.
+     * If the animation is already running the method returns immediately.
      */
     public void startAnimation() {
-        startAnimation(DEFAULT_ANIMATION_THREAD_NAME);
-
-    }
-
-    /**
-     * Starts the animation with the provided name as the thread name.
-     *
-     * @param threadName the name of the thread for animation of this rectangle.
-     * @throws IllegalStateException if the rectangle has already started animating
-     */
-    public void startAnimation(String threadName) {
-        Preconditions.checkNotNull(threadName);
-        Preconditions.checkArgument(!threadName.isEmpty());
-
-        if (isAnimating) throw new IllegalStateException("Rectangle already animating");
+        if (isAnimating) return;
         isAnimating = true;
-        CyderThreadRunner.submit(animationRunnable, threadName);
-    }
 
-    /**
-     * The animation runnable used to automatically animate the rectangle.
-     */
-    private final Runnable animationRunnable = () -> {
-        while (isAnimating) {
-            animationStep();
-            ThreadUtil.sleep(animationDelay);
-        }
-    };
+        CyderThreadRunner.submit(() -> {
+            while (isAnimating) {
+                animationStep();
+                ThreadUtil.sleep(animationDelay);
+            }
+        }, DEFAULT_ANIMATION_THREAD_NAME);
+    }
 
     /**
      * Takes an animation step.

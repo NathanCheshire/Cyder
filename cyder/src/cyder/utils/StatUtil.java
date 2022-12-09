@@ -3,7 +3,6 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
-import cyder.annotations.RequiresStableNetwork;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderUrls;
 import cyder.enums.Extension;
@@ -109,7 +108,6 @@ public final class StatUtil {
      *
      * @return a debug object containing the found user flag and some common debug details
      */
-    @RequiresStableNetwork
     public static Future<DebugStats> getDebugProps() {
         Preconditions.checkArgument(!NetworkUtil.isHighLatency());
 
