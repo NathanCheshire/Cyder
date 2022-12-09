@@ -113,10 +113,8 @@ public class AudioProgressBarAnimator {
      * @param state the current state of this progress bar animator
      */
     public void setState(State state) {
-        // Ensure logic only executes if the state is different
-        if (this.state == state) {
-            return;
-        }
+        Preconditions.checkNotNull(state);
+        if (this.state == state) return;
 
         this.state = state;
 

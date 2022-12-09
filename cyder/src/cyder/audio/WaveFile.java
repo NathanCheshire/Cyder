@@ -16,6 +16,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * Wrapper class for a wave (.wav) file.
@@ -238,5 +239,61 @@ public class WaveFile {
      */
     public Clip getClip() {
         return clip;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = Integer.hashCode(numChannels);
+        ret = ret * 31 + Arrays.hashCode(data);
+        ret = ret * 31 + Boolean.hashCode(isPlayable);
+        ret = ret * 31 + audioFormat.hashCode();
+        ret = ret * 31 + clip.hashCode();
+        ret = ret * 31 + Integer.hashCode(sampleSize);
+        ret = ret * 31 + Long.hashCode(numFrames);
+        ret = ret * 31 + Integer.hashCode(sampleRate);
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "WaveFile{"
+                + "numChannels=" + numChannels
+                + ", data=" + Arrays.toString(data)
+                + ", isPlayable=" + isPlayable
+                + ", audioFormat=" + audioFormat
+                + ", clip=" + clip + ", sampleSize=" + sampleSize
+                + ", numFrames=" + numFrames
+                + ", sampleRate=" + sampleRate
+                + ", wavFile=" + wavFile
+                + "}";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof WaveFile)) {
+            return false;
+        }
+
+        WaveFile other = (WaveFile) o;
+
+        return numChannels == other.numChannels
+                && Arrays.equals(data, other.data)
+                && isPlayable == other.isPlayable
+                && audioFormat.equals(other.audioFormat)
+                && clip.equals(other.clip)
+                && numFrames == other.numFrames
+                && sampleRate == other.numFrames
+                && wavFile.equals(other.wavFile);
     }
 }

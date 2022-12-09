@@ -46,7 +46,8 @@ public final class GeneralAndSystemAudioPlayer {
      * The list of paths of audio files to ignore when logging a play audio call.
      */
     private static final ImmutableList<String> ignoreLoggingAudioPaths = ImmutableList.of(
-            StaticUtil.getStaticPath("chime.mp3")
+            StaticUtil.getStaticPath("chime.mp3"),
+            StaticUtil.getStaticPath("typing.mp3")
     );
 
     /**

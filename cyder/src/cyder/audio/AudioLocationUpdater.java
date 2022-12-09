@@ -108,7 +108,7 @@ public class AudioLocationUpdater {
                 File file = currentAudioFile.get();
                 Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(file);
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
-                updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), false);
+                updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), false);
                 startUpdateThread();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -143,7 +143,7 @@ public class AudioLocationUpdater {
                 ThreadUtil.sleep(TIMEOUT);
 
                 milliSecondsIn = AudioPlayer.getMillisecondsIn();
-                int newSecondsIn = (int) (milliSecondsIn / 1000.0);
+                int newSecondsIn = (int) (milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND);
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
@@ -187,7 +187,7 @@ public class AudioLocationUpdater {
      * @param userTriggered whether this even was triggered by a user or automatically
      */
     public void update(boolean userTriggered) {
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), userTriggered);
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), userTriggered);
         updateSlider();
     }
 
@@ -204,7 +204,7 @@ public class AudioLocationUpdater {
      */
     private void updateEffectLabel(int secondsIn, boolean userTriggered) {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
-        int secondsLeft = (int) (milliSecondsLeft / 1000);
+        int secondsLeft = (int) (milliSecondsLeft / TimeUtil.MILLISECONDS_IN_SECOND);
 
         if (secondsLeft < 0 || (secondsIn < lastSecondsIn && !userTriggered)) {
             return;
@@ -215,7 +215,7 @@ public class AudioLocationUpdater {
 
         boolean totalLength = UserUtil.getCyderUser().getAudioLength().equals("1");
         if (totalLength) {
-            int displayMillis = Math.round(totalMilliSeconds / 1000f) * 1000;
+            int displayMillis = (int) (Math.round(totalMilliSeconds / TimeUtil.MILLISECONDS_IN_SECOND) * 1000);
             secondsLeftLabel.setText(TimeUtil.formatMillis(displayMillis));
         } else {
             secondsLeftLabel.setText(TimeUtil.formatMillis(secondsLeft * 1000L));
@@ -228,10 +228,8 @@ public class AudioLocationUpdater {
     private void updateSlider() {
         float percentIn = (float) milliSecondsIn / totalMilliSeconds;
 
-        // to be safe, check again
         if (!killed) {
-            int value = Math.round(percentIn * slider.getMaximum());
-            slider.setValue(value);
+            slider.setValue(Math.round(percentIn * slider.getMaximum()));
             slider.repaint();
         }
     }

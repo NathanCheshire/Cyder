@@ -19,22 +19,27 @@ public class AudioVolumeLabelAnimator {
     /**
      * The time remaining before setting the visibility of the audio volume label to false.
      */
-    public static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
+    private static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
 
     /**
      * The time in between checks when sleeping before the audio volume label is set to invisible.
      */
-    public static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
+    private static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
 
     /**
      * The total sleep time before setting the audio volume label to invisible.
      */
-    public static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
+    private static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
+
+    /**
+     * The thread name of the audio progress label animator.
+     */
+    private static final String AUDIO_PROGRESS_LABEL_ANIMATOR = "Audio Progress Label Animator";
 
     /**
      * The label to display the audio progress on when needed.
      */
-    public final JLabel audioVolumePercentLabel;
+    private final JLabel audioVolumePercentLabel;
 
     /**
      * Constructs a new AudioVolumeLabelAnimator.
@@ -78,6 +83,6 @@ public class AudioVolumeLabelAnimator {
 
                 audioVolumePercentLabel.setVisible(false);
             }
-        }, "Audio Progress Label Animator");
+        }, AUDIO_PROGRESS_LABEL_ANIMATOR);
     }
 }

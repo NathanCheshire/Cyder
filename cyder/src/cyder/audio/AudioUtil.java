@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
-import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities related to audio files, typically mp3 and wav files.
@@ -64,7 +64,63 @@ public final class AudioUtil {
     /**
      * The ffmpeg input flag.
      */
-    public static final String INPUT_FLAG = "-i";
+    private static final String INPUT_FLAG = "-i";
+
+    /**
+     * The dreamified file suffix to append to music files after dreamifying them.
+     */
+    public static final String DREAMY_SUFFIX = "_Dreamy";
+
+    /**
+     * The highpass value for dreamifying an audio file.
+     */
+    private static final int HIGHPASS = 2;
+
+    /**
+     * The lowpass value for dreamifying an audio file.
+     */
+    private static final int LOWPASS = 300;
+
+    /**
+     * The audio dreamifier thread name prefix.
+     */
+    private static final String audioDreamifierThreadNamePrefix = "Audio Dreamifier: ";
+
+    /**
+     * The -filter:a flag for setting high and low pass data.
+     */
+    private static final String FILTER_DASH_A = "-filter:a";
+
+    /**
+     * The high and low pass argument string.
+     */
+    private static final String HIGHPASS_LOWPASS_ARGS = quote + "highpass=f="
+            + HIGHPASS + comma + space + "lowpass=f=" + LOWPASS + quote;
+
+    /**
+     * The delay between polling milliseconds when dreamifying an audio.
+     */
+    private static final int pollMillisDelay = 500;
+
+    /**
+     * The pattern used to find the duration of an audio file from ffprobe.
+     */
+    private static final Pattern durationPattern = Pattern.compile("\\s*duration=.*\\s*");
+
+    /**
+     * The thread name for the ffmpeg downloader
+     */
+    private static final String FFMPEG_DOWNLOADER_THREAD_NAME = "FFMPEG Downloader";
+
+    /**
+     * A record to associate a destination file with a url to download the file, typically a zip archive, from.
+     */
+    private record PairedFile(File file, String url) {}
+
+    /**
+     * The name of the thread that downloads youtube-dl if missing and needed.
+     */
+    private static final String YOUTUBE_DL_DOWNLOADER_THREAD_NAME = "YouTubeDl Downloader";
 
     /**
      * Suppress default constructor.
@@ -155,41 +211,6 @@ public final class AudioUtil {
     }
 
     /**
-     * The dreamified file suffix to append to music files after dreamifying them.
-     */
-    public static final String DREAMY_SUFFIX = "_Dreamy";
-
-    /**
-     * The highpass value for dreamifying an audio file.
-     */
-    public static final int HIGHPASS = 2;
-
-    /**
-     * The lowpass value for dreamifying an audio file.
-     */
-    public static final int LOWPASS = 300;
-
-    /**
-     * The audio dreamifier thread name prefix.
-     */
-    private static final String AUDIO_DREAMIFIER = "Audio Dreamifier: ";
-
-    /**
-     * The -filter:a flag for setting high and low pass data.
-     */
-    private static final String FILTER_DASH_A = "-filter:a";
-
-    /**
-     * The high and low pass argument string.
-     */
-    private static final String HIGHPASS_LOWPASS_ARGS = "\"highpass=f=" + HIGHPASS + ", lowpass=f=" + LOWPASS + quote;
-
-    /**
-     * The delay between polling milliseconds when dreamifying an audio.
-     */
-    private static final int pollMillisDelay = 500;
-
-    /**
      * Dreamifies the provided wav or mp3 audio file.
      * The optional may be empty if the file could not
      * be converted if required and processed.
@@ -202,7 +223,7 @@ public final class AudioUtil {
         Preconditions.checkArgument(wavOrMp3File.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
 
-        String executorThreadName = AUDIO_DREAMIFIER + FileUtil.getFilename(wavOrMp3File);
+        String executorThreadName = audioDreamifierThreadNamePrefix + FileUtil.getFilename(wavOrMp3File);
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(executorThreadName)).submit(() -> {
@@ -244,11 +265,6 @@ public final class AudioUtil {
             return Optional.of(outputFile);
         });
     }
-
-    /**
-     * The pattern used to find the duration of an audio file from ffprobe.
-     */
-    private static final Pattern durationPattern = Pattern.compile("\\s*duration=.*\\s*");
 
     /**
      * Uses ffprobe to get the length of the audio file in milliseconds.
@@ -368,16 +384,6 @@ public final class AudioUtil {
     }
 
     /**
-     * The thread name for the ffmpeg downloader
-     */
-    private static final String FFMPEG_DOWNLOADER_THREAD_NAME = "FFMPEG Downloader";
-
-    /**
-     * A record to associate a destination file with a url to download the file, typically a zip archive, from.
-     */
-    private record PairedFile(File file, String url) {}
-
-    /**
      * Downloads ffmpeg, ffplay, and ffprobe to the exes dynamic
      * directory and sets the user path for ffmpeg to the one in dynamic.
      *
@@ -424,11 +430,6 @@ public final class AudioUtil {
     }
 
     /**
-     * The name of the thread that downloads youtube-dl if missing and needed.
-     */
-    private static final String YOUTUBE_DL_DOWNLOADER_THREAD_NAME = "YouTubeDl Downloader";
-
-    /**
      * Downloads the youtube-dl binary from the remote resources.
      * Returns whether the download was successful.
      *
@@ -458,7 +459,7 @@ public final class AudioUtil {
     }
 
     /**
-     * A map of previously computed millisecond times from audio files.
+     * A cache of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
 
@@ -477,20 +478,22 @@ public final class AudioUtil {
             return Futures.immediateFuture(milliTimes.get(audioFile));
         }
 
-        String threadName = "getMillisMutagen, file: " + quote + audioFile + quote;
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory(threadName)).submit(() -> {
+        String threadName = "getMillisMutagen, file" + colon + space + quote + audioFile + quote;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             String command = PythonArgument.COMMAND.getFullArgument()
                     + CyderStrings.space + PythonCommand.AUDIO_LENGTH.getCommand()
                     + CyderStrings.space + PythonArgument.INPUT.getFullArgument()
                     + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
+
             Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
             while (!futureResult.isDone()) Thread.onSpinWait();
-            String result = futureResult.get();
 
+            String result = futureResult.get();
             String parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(result);
+
             int millis = (int) (Float.parseFloat(parsedResult) * TimeUtil.MILLISECONDS_IN_SECOND);
             milliTimes.put(audioFile, millis);
+
             return millis;
         });
     }
@@ -520,7 +523,7 @@ public final class AudioUtil {
      * @param title the title of the music file to search for
      * @return an optional reference to the requested music file
      */
-    public static Optional<File> getMusicFileWithName(String title) {
+    public static Optional<File> getCurrentUserMusicFileWithName(String title) {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 

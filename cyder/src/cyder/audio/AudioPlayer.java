@@ -457,8 +457,8 @@ public final class AudioPlayer {
         changeSizeButton.setToolTipText("Switch Mode");
         changeSizeButton.setClickAction(() -> {
             switch (currentFrameView.get()) {
-                case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
-                case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
+                case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ALBUM_ART);
+                case HIDDEN_ALBUM_ART -> setupAndShowFrameView(FrameView.MINI);
                 case MINI -> setupAndShowFrameView(FrameView.FULL);
                 case SEARCH -> goBackFromSearchView();
                 default -> throw new IllegalArgumentException(
@@ -1376,7 +1376,7 @@ public final class AudioPlayer {
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
             }
-            case HIDDEN_ART -> {
+            case HIDDEN_ALBUM_ART -> {
                 setPhaseOneComponentsVisible(true);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - HIDDEN_ART_HEIGHT_OFFSET);
@@ -1406,7 +1406,7 @@ public final class AudioPlayer {
                         DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
-                currentFrameView.set(FrameView.HIDDEN_ART);
+                currentFrameView.set(FrameView.HIDDEN_ALBUM_ART);
             }
             case MINI -> {
                 currentFrameView.set(FrameView.MINI);
@@ -2454,7 +2454,7 @@ public final class AudioPlayer {
             showInformationLabel(FORMATTING_RESULTS);
 
             for (YoutubeSearchResult result : searchResults) {
-                Optional<File> alreadyExistsOptional = AudioUtil.getMusicFileWithName(result.title);
+                Optional<File> alreadyExistsOptional = AudioUtil.getCurrentUserMusicFileWithName(result.title);
                 boolean alreadyExists = alreadyExistsOptional.isPresent();
 
                 printSearchResultLabels(result);

@@ -12,7 +12,7 @@ enum FrameView {
     /**
      * Album art hidden.
      */
-    HIDDEN_ART,
+    HIDDEN_ALBUM_ART,
 
     /**
      * Mini audio player mode.

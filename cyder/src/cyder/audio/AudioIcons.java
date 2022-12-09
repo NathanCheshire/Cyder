@@ -2,6 +2,7 @@ package cyder.audio;
 
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 
@@ -12,62 +13,63 @@ public final class AudioIcons {
     /**
      * The play icon.
      */
-    public static final ImageIcon playIcon = new ImageIcon("static/pictures/music/Play.png");
+    public static final ImageIcon playIcon = new ImageIcon(StaticUtil.getStaticPath("Play.png"));
 
     /**
      * The play icon for hover events.
      */
-    public static final ImageIcon playIconHover = new ImageIcon("static/pictures/music/PlayHover.png");
+    public static final ImageIcon playIconHover = new ImageIcon(StaticUtil.getStaticPath("PlayHover.png"));
 
     /**
      * The pause icon.
      */
-    public static final ImageIcon pauseIcon = new ImageIcon("static/pictures/music/Pause.png");
+    public static final ImageIcon pauseIcon = new ImageIcon(StaticUtil.getStaticPath("Pause.png"));
 
     /**
      * The pause icon for hover events.
      */
-    public static final ImageIcon pauseIconHover = new ImageIcon("static/pictures/music/PauseHover.png");
+    public static final ImageIcon pauseIconHover = new ImageIcon(StaticUtil.getStaticPath("PauseHover.png"));
 
     /**
      * The next icon.
      */
-    public static final ImageIcon nextIcon = new ImageIcon("static/pictures/music/Skip.png");
+    public static final ImageIcon nextIcon = new ImageIcon(StaticUtil.getStaticPath("Skip.png"));
 
     /**
      * The next icon for hover events.
      */
-    public static final ImageIcon nextIconHover = new ImageIcon("static/pictures/music/SkipHover.png");
+    public static final ImageIcon nextIconHover = new ImageIcon(StaticUtil.getStaticPath("SkipHover.png"));
 
     /**
      * The last icon.
      */
-    public static final ImageIcon lastIcon = new ImageIcon("static/pictures/music/SkipBack.png");
+    public static final ImageIcon lastIcon = new ImageIcon(StaticUtil.getStaticPath("SkipBack.png"));
 
     /**
      * The last icon for hover events.
      */
-    public static final ImageIcon lastIconHover = new ImageIcon("static/pictures/music/SkipBackHover.png");
+    public static final ImageIcon lastIconHover = new ImageIcon(StaticUtil.getStaticPath("SkipBackHover.png"));
 
     /**
      * The repeat icon.
      */
-    public static final ImageIcon repeatIcon = new ImageIcon("static/pictures/music/Repeat.png");
+    public static final ImageIcon repeatIcon = new ImageIcon(StaticUtil.getStaticPath("Repeat.png"));
 
     /**
      * The repeat icon for hover events.
      */
-    public static final ImageIcon repeatIconHover = new ImageIcon("static/pictures/music/RepeatHover.png");
+    public static final ImageIcon repeatIconHover = new ImageIcon(StaticUtil.getStaticPath("RepeatHover.png"));
 
     /**
      * The shuffle icon.
      */
-    public static final ImageIcon shuffleIcon = new ImageIcon("static/pictures/music/Shuffle.png");
+    public static final ImageIcon shuffleIcon = new ImageIcon(StaticUtil.getStaticPath("Shuffle.png"));
 
     /**
      * The shuffle icon for hover events.
      */
-    public static final ImageIcon shuffleIconHover = new ImageIcon("static/pictures/music/ShuffleHover.png");
+    public static final ImageIcon shuffleIconHover = new ImageIcon(
+            StaticUtil.getStaticPath("ShuffleHover.png"));
 
     /**
      * Suppress default constructor.

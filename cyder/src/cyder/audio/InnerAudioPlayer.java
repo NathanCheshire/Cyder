@@ -24,20 +24,6 @@ public class InnerAudioPlayer {
     private final File audioFile;
 
     /**
-     * Constructs a new InnerAudioPlay.
-     *
-     * @param audioFile the audio file for this object to handle
-     */
-    public InnerAudioPlayer(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
-
-        this.audioFile = audioFile;
-
-        setup();
-    }
-
-    /**
      * Whether this object
      */
     private boolean killed;
@@ -63,22 +49,6 @@ public class InnerAudioPlayer {
     private static final String SETUP_THREAD_NAME = "InnerAudioPlayer Setup Thread";
 
     /**
-     * Performs necessary setup actions such as refreshing the title label.
-     */
-    private void setup() {
-        AudioPlayer.refreshAudioTitleLabel();
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(audioFile);
-                this.totalMilliSeconds = futureTotalMilliSeconds.get();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, SETUP_THREAD_NAME);
-    }
-
-    /**
      * The audio player used to play audio.
      */
     private Player audioPlayer;
@@ -98,6 +68,42 @@ public class InnerAudioPlayer {
      * from within play after an exception was thrown.
      */
     private int replays = 0;
+
+    /**
+     * The amount to offset a pause request by so that a sequential play
+     * request sounds like it was paused at that instant.
+     */
+    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
+
+    /**
+     * Constructs a new InnerAudioPlay.
+     *
+     * @param audioFile the audio file for this object to handle
+     */
+    public InnerAudioPlayer(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+
+        this.audioFile = audioFile;
+
+        setup();
+    }
+
+    /**
+     * Performs necessary setup actions such as refreshing the title label.
+     */
+    private void setup() {
+        AudioPlayer.refreshAudioTitleLabel();
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(audioFile);
+                this.totalMilliSeconds = futureTotalMilliSeconds.get();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, SETUP_THREAD_NAME);
+    }
 
     /**
      * Starts playing the provided audio file at the optionally provided location.
@@ -170,12 +176,6 @@ public class InnerAudioPlayer {
     public boolean isKilled() {
         return killed;
     }
-
-    /**
-     * The amount to offset a pause request by so that a sequential play
-     * request sounds like it was paused at that instant.
-     */
-    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
     /**
      * Kills the player if playing audio and returns the location to resume a new player object at.
