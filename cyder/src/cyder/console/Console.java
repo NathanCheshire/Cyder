@@ -1527,7 +1527,7 @@ public enum Console {
 
         // Remove focus from previous item if possible
         if (currentFocusedMenuItemIndex != -1) {
-            state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
+            state.get(currentFocusedMenuItemIndex).setFocused(false);
         }
 
         // Wrap around if out of bounds
@@ -1539,7 +1539,7 @@ public enum Console {
 
         // Give and paint focus on new item
         currentFocusedMenuItemIndex = index;
-        state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(true);
+        state.get(currentFocusedMenuItemIndex).setFocused(true);
         reinstallCurrentTaskbarIcons();
     }
 
@@ -1555,7 +1555,7 @@ public enum Console {
                         currentDefaultMenuItems)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList())
-                .forEach(icon -> icon.getBuilder().setFocused(false));
+                .forEach(icon -> icon.setFocused(false));
 
         if (menuLabel.isVisible()) {
             reinstallCurrentTaskbarIcons();
@@ -3735,9 +3735,9 @@ public enum Console {
 
         Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-        titleNotifyLabel.setLocation(
-                (int) (center.getX() - NOTIFICATION_PADDING - w / 2),
-                (int) (center.getY() - NOTIFICATION_PADDING - h / 2));
+        w = (int) (center.getX() - NOTIFICATION_PADDING - w / 2);
+        h = (int) (center.getY() - NOTIFICATION_PADDING - h / 2);
+        titleNotifyLabel.setLocation(w, h);
 
         consoleCyderFrame.repaint();
     }
@@ -3749,6 +3749,7 @@ public enum Console {
      */
     public void addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
+
         frameTaskbarExceptions.add(frame);
     }
 
@@ -3759,6 +3760,7 @@ public enum Console {
      */
     public void removeFrameTaskbarException(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
+
         frameTaskbarExceptions.remove(frame);
     }
 }

@@ -85,6 +85,7 @@ public final class BoundsUtil {
         Preconditions.checkNotNull(text);
         Preconditions.checkArgument(!text.isEmpty());
         Preconditions.checkNotNull(font);
+        Preconditions.checkArgument(maxWidth > 0);
 
         int widthAddition = 5;
 

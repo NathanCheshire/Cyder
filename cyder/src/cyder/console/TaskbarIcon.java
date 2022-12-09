@@ -55,7 +55,7 @@ public class TaskbarIcon {
     /**
      * The rescale operator used to darken buffered images.
      */
-    private final RescaleOp rescaleOp = new RescaleOp(DARK_FACTOR, 0, null);
+    private static final RescaleOp rescaleOp = new RescaleOp(DARK_FACTOR, 0, null);
 
     /**
      * The actual icon used for the console taskbar.
@@ -102,7 +102,7 @@ public class TaskbarIcon {
      *
      * @param builder the TaskbarIcon builder to construct the TaskbarIcon from
      */
-    public void generateTaskbarIcon(Builder builder) {
+    private void generateTaskbarIcon(Builder builder) {
         Preconditions.checkNotNull(builder.getName());
         Preconditions.checkArgument(!builder.getName().isEmpty());
 
@@ -218,12 +218,12 @@ public class TaskbarIcon {
     }
 
     /**
-     * Returns the builder last used to construct the encapsulated taskbar icon.
+     * Sets whether this taskbar icon is focused.
      *
-     * @return the builder last used to construct the encapsulated taskbar icon
+     * @param focused whether this taskbar icon is focused
      */
-    public Builder getBuilder() {
-        return this.builder;
+    public void setFocused(boolean focused) {
+        this.builder.setFocused(focused);
     }
 
     /**
@@ -246,7 +246,7 @@ public class TaskbarIcon {
 
         TaskbarIcon other = (TaskbarIcon) o;
 
-        return builder.equals(other.getBuilder());
+        return builder.equals(other.builder);
     }
 
     /**

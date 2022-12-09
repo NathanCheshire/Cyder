@@ -43,6 +43,8 @@ public final class BoundsString {
      */
     BoundsString(String text, int width, int height) {
         Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(width >= 0);
+        Preconditions.checkArgument(height >= 0);
 
         this.text = text;
         this.width = width;
