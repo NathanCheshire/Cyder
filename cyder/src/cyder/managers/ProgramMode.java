@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.managers;
 
 /**
  * Possible modes Cyder can exist in for a certain instance.

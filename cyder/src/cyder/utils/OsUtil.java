@@ -11,10 +11,10 @@ import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
-import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.managers.ProgramModeManager;
 import cyder.strings.CyderStrings;
 import cyder.user.UserUtil;
 

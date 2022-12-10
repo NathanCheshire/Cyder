@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.managers;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -33,7 +33,7 @@ public enum CyderVersionManager {
     /**
      * The date of release.
      */
-    private final String releaseDate = "Not Yet Determined";
+    private final String releaseDate = "Not Yet Released";
 
     /**
      * Whether this release is publicly available.
