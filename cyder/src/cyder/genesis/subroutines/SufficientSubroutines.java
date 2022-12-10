@@ -1,10 +1,10 @@
 package cyder.genesis.subroutines;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.process.PythonPackage;
@@ -20,58 +20,9 @@ import java.util.Optional;
  */
 public final class SufficientSubroutines {
     /**
-     * Suppress default constructor.
+     * The minimum acceptable Python major version.
      */
-    private SufficientSubroutines() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    private static class SufficientSubroutine {
-        /**
-         * The routine to invoke.
-         */
-        private final Runnable routine;
-
-        /**
-         * The name of the thread to invoke the routine inside of if this is a parallel subroutine.
-         */
-        private final String threadName;
-
-        /**
-         * Suppress default constructor.
-         */
-        private SufficientSubroutine() {
-            throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-        }
-
-        /**
-         * Constructs a new sufficient subroutine.
-         *
-         * @param routine    the routine to execute
-         * @param threadName the name of the thread to execute the routine using
-         *                   if the routine is not sequential but instead parallel
-         */
-        public SufficientSubroutine(Runnable routine, String threadName) {
-            this.routine = Preconditions.checkNotNull(routine);
-            this.threadName = Preconditions.checkNotNull(threadName);
-            Preconditions.checkArgument(!threadName.isEmpty());
-        }
-
-        /**
-         * Returns the routine for this sufficient subroutine to execute.
-         */
-        public Runnable getRoutine() {
-            return routine;
-        }
-
-        /**
-         * Returns the thread name for this sufficient subroutine to use if the thread
-         * should be executed in parallel instead of sequentially.
-         */
-        public String getThreadName() {
-            return threadName;
-        }
-    }
+    private static final int MIN_PYTHON_MAJOR_VERSION = 3;
 
     /**
      * The name of the sufficient subroutine to log the JVM args.
@@ -90,41 +41,68 @@ public final class SufficientSubroutines {
     private static final String PYTHON_3_INSTALLED_ENSURER = "Python 3 Installed Ensurer";
 
     /**
-     * The minimum acceptable Python major version.
+     * Suppress default constructor.
      */
-    private static final int MIN_PYTHON_MAJOR_VERSION = 3;
-
-    // todo this stuff is actually pretty messy, clean up in future
+    private SufficientSubroutines() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * The subroutines to execute.
      */
-    private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
-            new SufficientSubroutine(() -> {
+    private static final ImmutableList<Subroutine> parallelSufficientSubroutines = ImmutableList.of(
+            new Subroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
                 JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
             }, JVM_LOGGER),
-            new SufficientSubroutine(() -> {
+
+            new Subroutine(() -> {
                 for (PythonPackage missingPackage : PythonUtil.getMissingRequiredPythonPackages()) {
-                    Logger.log(LogTag.DEBUG, "Missing required Python package: "
+                    Logger.log(LogTag.PYTHON, "Missing required Python package: "
                             + missingPackage.getPackageName());
                 }
             }, PYTHON_PACKAGES_INSTALLED_ENSURER),
-            new SufficientSubroutine(() -> {
+
+            new Subroutine(() -> {
                 Optional<String> optionalVersion = PythonUtil.isPython3Installed();
+
                 if (optionalVersion.isEmpty()) {
                     Logger.log(LogTag.PYTHON, "Failed to find installed Python version");
-                } else {
-                    String version = optionalVersion.get();
-                    if (version.charAt(0) >= MIN_PYTHON_MAJOR_VERSION) {
-                        Logger.log(LogTag.PYTHON, "Found Python version " + version);
-                    } else {
-                        String message = "Installed Python does not meet minimum standards, version: "
-                                + version + ", min version: " + MIN_PYTHON_MAJOR_VERSION;
-                        Logger.log(LogTag.PYTHON, message);
-                        Console.INSTANCE.getInputHandler().println(message);
-                    }
+                    return;
                 }
+
+                String versionString = optionalVersion.get();
+
+                int version = -1;
+                try {
+                    version = Integer.parseInt(String.valueOf(versionString.charAt(0)));
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+
+                if (version == -1) {
+                    Logger.log(LogTag.PYTHON, "Could not find Python version number");
+                    return;
+                }
+
+                if (version >= MIN_PYTHON_MAJOR_VERSION) {
+                    Logger.log(LogTag.PYTHON, "Found Python version " + version);
+                    return;
+                }
+
+                String message = "Installed Python does not meet minimum standards, version"
+                        + CyderStrings.colon
+                        + CyderStrings.space
+                        + version
+                        + CyderStrings.comma
+                        + CyderStrings.space
+                        + "min acceptable version"
+                        + CyderStrings.colon
+                        + CyderStrings.space
+                        + MIN_PYTHON_MAJOR_VERSION;
+
+                Logger.log(LogTag.PYTHON, message);
+                Console.INSTANCE.getInputHandler().println(message);
             }, PYTHON_3_INSTALLED_ENSURER)
     );
 
@@ -136,9 +114,11 @@ public final class SufficientSubroutines {
     /**
      * Executes the parallel and sequential sufficient subroutines in a separate thread.
      */
-    public static void execute() {
-        CyderThreadRunner.submit(() -> parallelSufficientSubroutines.forEach(sufficientSubroutine ->
-                        CyderThreadRunner.submit(sufficientSubroutine.getRoutine(), sufficientSubroutine.getThreadName())),
-                SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME);
+    public static void executeSubroutines() {
+        CyderThreadRunner.submit(() -> {
+            for (Subroutine sufficientSubroutine : parallelSufficientSubroutines) {
+                CyderThreadRunner.submit(sufficientSubroutine.getRoutine(), sufficientSubroutine.getThreadName());
+            }
+        }, SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME);
     }
 }

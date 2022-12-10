@@ -46,11 +46,11 @@ public final class Cyder {
 
         CyderWatchdog.initializeWatchDog();
 
-        NecessarySubroutines.execute();
+        NecessarySubroutines.executeSubroutines();
 
         CyderSplash.INSTANCE.showSplash();
 
-        SufficientSubroutines.execute();
+        SufficientSubroutines.executeSubroutines();
 
         LoginHandler.showProperStartupFrame();
     }

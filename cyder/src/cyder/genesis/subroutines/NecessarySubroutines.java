@@ -41,13 +41,17 @@ public final class NecessarySubroutines {
     /**
      * The standard primary method name for widget's {@link Widget} annotated method.
      */
-    public static final String STANDARD_WIDGET_SHOW_METHOD_NAME = "showGui";
+    private static final String STANDARD_WIDGET_SHOW_METHOD_NAME = "showGui";
 
     /**
      * The vanilla developer names.
      */
     private static final ImmutableList<String> DEVELOPER_NAMES = ImmutableList.of(
-            "Nathan Cheshire", "Nate Cheshire", "Natche", "Cypher");
+            "Nathan Cheshire",
+            "Nate Cheshire",
+            "Natche",
+            "Cypher"
+    );
 
     /**
      * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
@@ -65,7 +69,7 @@ public final class NecessarySubroutines {
      * Executes the necessary subroutines on the main thread.
      * If any fail then the program is exited with the exit condition of {@link ExitCondition#NecessarySubroutineExit}.
      */
-    public static void execute() {
+    public static void executeSubroutines() {
         CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
         if (!registerFonts()) {
             throw new FatalException("Registering fonts failed");
@@ -115,9 +119,8 @@ public final class NecessarySubroutines {
     private static boolean registerFonts() {
         File[] fontFiles = StaticUtil.getStaticDirectory("fonts").listFiles();
 
-        if (fontFiles == null || fontFiles.length == 0) {
-            return false;
-        }
+        if (fontFiles == null || fontFiles.length == 0) return false;
+
 
         for (File fontFile : fontFiles) {
             if (FileUtil.isSupportedFontExtension(fontFile)) {
@@ -393,7 +396,7 @@ public final class NecessarySubroutines {
 
         Logger.log(LogTag.HANDLE_WARNING, errorMessagePrefix);
         InformHandler.inform(new InformHandler.Builder(errorMessagePrefix).setTitle(
-                StringUtil.capsFirst(handleWarning.name().replace("_", space))));
+                StringUtil.capsFirst(handleWarning.name().replace(CyderStrings.underscore, space))));
     }
 
     /**
