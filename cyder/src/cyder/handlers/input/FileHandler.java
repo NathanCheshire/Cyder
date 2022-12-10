@@ -30,7 +30,7 @@ public class FileHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("wipe logs")) {
-            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getFileName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
             FileUtil.openResourceUsingNativeProgram(Logger.getCurrentLogFile().getAbsolutePath());
@@ -48,7 +48,7 @@ public class FileHandler extends InputHandler {
             SpotlightUtil.wipeSpotlights();
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {
-                File requestedDeleteFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                File requestedDeleteFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(), getInputHandler().getArg(0));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {

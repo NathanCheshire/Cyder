@@ -256,7 +256,7 @@ public final class ImagePixelatorWidget {
 
         String currentFilename = FileUtil.getFilename(currentFile);
         String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + Extension.PNG.getExtension();
-        File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName);
 
         try {

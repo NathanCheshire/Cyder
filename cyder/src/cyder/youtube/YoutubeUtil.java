@@ -228,7 +228,7 @@ public final class YoutubeUtil {
         }
 
         File albumArtDir = Dynamic.buildDynamic(
-                Dynamic.USERS.getDirectoryName(),
+                Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
                 UserFile.ALBUM_ART);
@@ -334,7 +334,7 @@ public final class YoutubeUtil {
         if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
 
         File fullSaveFile = Dynamic.buildDynamic(
-                Dynamic.USERS.getDirectoryName(),
+                Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),
                 urlTitle + Extension.PNG.getExtension());

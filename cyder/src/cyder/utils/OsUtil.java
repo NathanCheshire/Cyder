@@ -692,7 +692,7 @@ public final class OsUtil {
         }
 
         for (Dynamic dynamicDirectory : Dynamic.values()) {
-            File currentDynamic = Dynamic.buildDynamic(dynamicDirectory.getDirectoryName());
+            File currentDynamic = Dynamic.buildDynamic(dynamicDirectory.getFileName());
 
             if (dynamicDirectory == Dynamic.TEMP) {
                 deleteFile(currentDynamic);
@@ -735,7 +735,7 @@ public final class OsUtil {
         checkNotNull(filename);
         checkArgument(!filename.isEmpty());
 
-        File exes = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
+        File exes = Dynamic.buildDynamic(Dynamic.EXES.getFileName());
 
         if (exes.exists()) {
             File[] exeFiles = exes.listFiles();

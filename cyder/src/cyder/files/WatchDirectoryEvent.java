@@ -1,7 +1,7 @@
 package cyder.files;
 
 /**
- * Events that may occur inside of a directory.
+ * File events that may occur inside of a directory.
  */
 public enum WatchDirectoryEvent {
     FILE_ADDED,

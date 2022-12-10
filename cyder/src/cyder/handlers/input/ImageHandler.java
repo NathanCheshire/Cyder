@@ -65,7 +65,7 @@ public class ImageHandler extends InputHandler {
         } else if (getInputHandler().inputIgnoringSpacesMatches("spotlight")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().println("Saving backgrounds to your backgrounds directory...");
-                SpotlightUtil.saveSpotlights(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                SpotlightUtil.saveSpotlights(Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(),
                         UserFile.BACKGROUNDS.getName()));
                 getInputHandler().println("Saved images to your backgrounds directory");
@@ -122,7 +122,7 @@ public class ImageHandler extends InputHandler {
                     }
 
                     currentBackgroundFile = Dynamic.buildDynamic(
-                            Dynamic.TEMP.getDirectoryName(), name + Extension.PNG.getExtension());
+                            Dynamic.TEMP.getFileName(), name + Extension.PNG.getExtension());
                 }
 
                 Future<Optional<File>> futureImage = ImageUtil.gaussianBlur(currentBackgroundFile, radius);

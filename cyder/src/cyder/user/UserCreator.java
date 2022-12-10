@@ -301,7 +301,7 @@ public final class UserCreator {
             String lastGeneratedUuid = SecurityUtil.generateUuidForUser();
             if (!attemptToCreateUser(name, password, lastGeneratedUuid)) {
                 if (lastGeneratedUuid != null) {
-                    OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
+                    OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getFileName(), lastGeneratedUuid));
                 }
             } else {
                 createUserFrame.dispose();
@@ -329,7 +329,7 @@ public final class UserCreator {
      * @return whether only one valid user exists within Cyder
      */
     private static boolean onlyOneUser() {
-        File[] userFiles = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName()).listFiles();
+        File[] userFiles = Dynamic.buildDynamic(Dynamic.USERS.getFileName()).listFiles();
 
         return userFiles != null && userFiles.length == 1;
     }
@@ -475,13 +475,13 @@ public final class UserCreator {
             return false;
         }
 
-        if (!Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
+        if (!Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid).mkdir()) {
             createUserFrame.toast("Failed to create user folder");
             return false;
         }
 
         for (UserFile userFile : UserFile.values()) {
-            File makeMe = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
+            File makeMe = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, userFile.getName());
 
             if (userFile.isFile()) {
                 try {
@@ -507,7 +507,7 @@ public final class UserCreator {
         }
 
         try {
-            File destination = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+            File destination = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.BACKGROUNDS.getName(), newUserBackgroundFile.getName());
             Files.copy(Paths.get(newUserBackgroundFile.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
@@ -531,7 +531,7 @@ public final class UserCreator {
         user.setScreenStat(createDefaultScreenStat(background));
         user.setExecutables(new LinkedList<>());
 
-        UserUtil.setUserData(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        UserUtil.setUserData(Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 uuid, UserFile.USERDATA.getName()), user);
 
         return true;

@@ -162,6 +162,11 @@ public final class CyderStrings {
     public static final String X = "x";
 
     /**
+     * An underscore character.
+     */
+    public static final String underscore = "_";
+
+    /**
      * Suppress default constructor.
      */
     private CyderStrings() {

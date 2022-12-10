@@ -83,7 +83,7 @@ public final class GenesisConstants {
      */
     static final ImmutableList<Thread> shutdownHooks = ImmutableList.of(
             CyderThreadRunner.createThread(() ->
-                            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName()), false),
+                            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.TEMP.getFileName()), false),
                     REMOVE_TEMP_DIRECTORY_HOOK_NAME)
     );
 

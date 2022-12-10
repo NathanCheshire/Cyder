@@ -16,7 +16,6 @@ import cyder.youtube.YoutubeUtil;
 import org.junit.Test;
 
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -163,8 +162,6 @@ public class UnitTests {
     public void testFileSignature() {
         assertTrue(FileUtil.fileMatchesSignature(StaticUtil.getStaticResource("CyderIcon.png"),
                 FileUtil.PNG_SIGNATURE));
-        assertFalse(FileUtil.fileMatchesSignature(new File(""), FileUtil.PNG_SIGNATURE));
-        assertFalse(FileUtil.fileMatchesSignature(null, FileUtil.PNG_SIGNATURE));
     }
 
     @Test

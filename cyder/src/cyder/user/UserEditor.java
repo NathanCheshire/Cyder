@@ -393,13 +393,13 @@ public final class UserEditor {
         if (fileDirectoryWatcher != null) fileDirectoryWatcher.stopWatching();
 
         musicDirectoryWatcher = new DirectoryWatcher(
-                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(), UserFile.MUSIC.getName()));
         backgroundsDirectoryWatcher = new DirectoryWatcher(
-                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName()));
         fileDirectoryWatcher = new DirectoryWatcher(
-                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(), UserFile.FILES.getName()));
 
         WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
@@ -632,7 +632,7 @@ public final class UserEditor {
         }
 
         // Attempt to find album art file to rename
-        File albumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File albumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         if (albumArtDir.exists()) {
@@ -777,7 +777,7 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkNotNull(userFile);
 
-        File userFilesDirectory = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File userFilesDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
 
         File[] files = userFilesDirectory.listFiles();
@@ -2036,7 +2036,7 @@ public final class UserEditor {
 
             UiUtil.closeAllFrames(true);
 
-            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid()));
 
             OsUtil.exit(ExitCondition.UserDeleted);
         }, ACCOUNT_DELETION_CONFIRMATION);

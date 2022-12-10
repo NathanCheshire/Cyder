@@ -336,7 +336,7 @@ public class BaseInputHandler {
         try {
             redirectionSem.acquire();
 
-            redirectionFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+            redirectionFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     Console.INSTANCE.getUuid(), UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
             if (redirectionFile.exists()) {

@@ -13,7 +13,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.*;
 import cyder.exceptions.FatalException;
-import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderVersionManager;
@@ -101,12 +100,7 @@ public enum Console {
     /**
      * A list of the frames to ignore when placing a frame in the console taskbar menu.
      */
-    private final ArrayList<CyderFrame> frameTaskbarExceptions = new ArrayList<>() {
-        @Override
-        public void clear() {
-            throw new IllegalMethodException("Invalid operation");
-        }
-    };
+    private final ArrayList<CyderFrame> frameTaskbarExceptions = new ArrayList<>();
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -1363,7 +1357,7 @@ public enum Console {
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 getUuid(), UserFile.MUSIC.getName());
 
         File[] files = userMusicDir.listFiles();
@@ -2480,7 +2474,7 @@ public enum Console {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
             File[] backgroundFilesArr = Dynamic.buildDynamic(
-                    Dynamic.USERS.getDirectoryName(), getUuid(),
+                    Dynamic.USERS.getFileName(), getUuid(),
                     UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 Arrays.stream(backgroundFilesArr)

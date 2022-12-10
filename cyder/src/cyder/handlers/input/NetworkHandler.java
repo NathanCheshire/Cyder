@@ -131,7 +131,7 @@ public class NetworkHandler extends InputHandler {
                         }
                     }
 
-                    File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
+                    File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
                             UserFile.FILES.getName(), saveName);
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");

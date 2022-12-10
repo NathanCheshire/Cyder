@@ -144,7 +144,7 @@ public final class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
-            String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
+            String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getFileName(),
                     FileUtil.getFilename(mp3File) + Extension.WAV.getExtension()).getAbsolutePath();
             String safePath = quote + builtPath + quote;
 
@@ -185,7 +185,7 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
 
-            String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
+            String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getFileName(),
                     FileUtil.getFilename(wavFile) + Extension.MP3.getExtension()).getAbsolutePath();
             String safePath = quote + builtPath + quote;
 
@@ -231,7 +231,7 @@ public final class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = quote + wavOrMp3File.getAbsolutePath() + quote;
 
-            File outputFile = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
+            File outputFile = Dynamic.buildDynamic(Dynamic.TEMP.getFileName(),
                     FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + Extension.MP3.getExtension());
             String safeOutputFilename = quote + outputFile.getAbsolutePath() + quote;
 
@@ -351,7 +351,7 @@ public final class AudioUtil {
         Preconditions.checkArgument(ffmpegInstalled());
 
         return Program.FFMPEG.isInstalled() ? Program.FFMPEG.getProgramName()
-                : OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename());
+                : OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getFileName(), Program.FFPROBE.getFilename());
 
     }
 
@@ -366,7 +366,7 @@ public final class AudioUtil {
 
         return Program.YOUTUBE_DL.isInstalled() ? Program.YOUTUBE_DL.getProgramName()
                 : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), Program.YOUTUBE_DL.getFilename());
+                Dynamic.EXES.getFileName(), Program.YOUTUBE_DL.getFilename());
     }
 
     /**
@@ -379,7 +379,7 @@ public final class AudioUtil {
 
         if (Program.FFPROBE.isInstalled()) return Program.FFPROBE.getProgramName();
 
-        return OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getDirectoryName(),
+        return OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getFileName(),
                 Program.FFPROBE.getProgramName() + Extension.EXE.getExtension());
     }
 
@@ -394,13 +394,13 @@ public final class AudioUtil {
                 new CyderThreadFactory(FFMPEG_DOWNLOADER_THREAD_NAME)).submit(() -> {
             ImmutableList<PairedFile> downloadZips = ImmutableList.of(
                     new PairedFile(Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getProgramName()
+                            Dynamic.EXES.getFileName(), Program.FFMPEG.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG),
                     new PairedFile(Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getProgramName()
+                            Dynamic.EXES.getFileName(), Program.FFPROBE.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPROBE),
                     new PairedFile(Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getProgramName()
+                            Dynamic.EXES.getFileName(), Program.FFPLAY.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY)
             );
 
@@ -411,18 +411,18 @@ public final class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
+                File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getFileName());
                 FileUtil.unzip(pairedZipFile.file(), extractFolder);
                 OsUtil.deleteFile(pairedZipFile.file());
             }
 
             ImmutableList<File> resultingFiles = ImmutableList.of(
                     Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getFilename()),
+                            Dynamic.EXES.getFileName(), Program.FFMPEG.getFilename()),
                     Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename()),
+                            Dynamic.EXES.getFileName(), Program.FFPROBE.getFilename()),
                     Dynamic.buildDynamic(
-                            Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getFilename())
+                            Dynamic.EXES.getFileName(), Program.FFPLAY.getFilename())
             );
 
             return resultingFiles.stream().filter(File::exists).count() == downloadZips.size();
@@ -439,7 +439,7 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(YOUTUBE_DL_DOWNLOADER_THREAD_NAME)).submit(() -> {
             File downloadZip = Dynamic.buildDynamic(
-                    Dynamic.EXES.getDirectoryName(), Program.YOUTUBE_DL.getProgramName()
+                    Dynamic.EXES.getFileName(), Program.YOUTUBE_DL.getProgramName()
                             + Extension.ZIP.getExtension());
 
             NetworkUtil.downloadResource(DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
@@ -448,12 +448,12 @@ public final class AudioUtil {
                 Thread.onSpinWait();
             }
 
-            File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
+            File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getFileName());
 
             FileUtil.unzip(downloadZip, extractFolder);
             OsUtil.deleteFile(downloadZip);
 
-            return Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName(),
+            return Dynamic.buildDynamic(Dynamic.EXES.getFileName(),
                     Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension()).exists();
         });
     }
@@ -527,7 +527,7 @@ public final class AudioUtil {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 
-        File[] files = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File[] files = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName()).listFiles();
 
         if (files != null && files.length > 0) {

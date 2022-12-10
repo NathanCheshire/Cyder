@@ -370,7 +370,7 @@ public class YoutubeDownload {
 
         String userMusicDir = OsUtil.buildPath(
                 Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(),
+                Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 

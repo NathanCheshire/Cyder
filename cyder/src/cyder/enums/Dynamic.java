@@ -7,9 +7,9 @@ import java.io.File;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * The folders contained in the dynamic directory.
+ * The folders/files contained in the dynamic directory.
  * Dynamic contains all the components which may be changed during runtime.
- * Anything outside of the dynamic directory should not be changed by Cyder.
+ * Anything outside of the dynamic directory should not be changed by during a runtime instance of Cyder.
  */
 public enum Dynamic {
     /**
@@ -43,17 +43,17 @@ public enum Dynamic {
     public static final String PATH = "dynamic";
 
     /**
-     * The actual name of the directory to create.
+     * The actual name of the file to create.
      */
-    private final String directoryName;
+    private final String fileName;
 
     /**
      * Constructs a new directory.
      *
-     * @param directoryName the actual name of the directory the OS will display
+     * @param fileName the actual name of the file the OS will display
      */
-    Dynamic(String directoryName) {
-        this.directoryName = directoryName;
+    Dynamic(String fileName) {
+        this.fileName = fileName;
     }
 
     /**
@@ -61,8 +61,17 @@ public enum Dynamic {
      *
      * @return the name of the directory to create
      */
-    public String getDirectoryName() {
-        return directoryName;
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * Returns a pointer file for this dynamic.
+     *
+     * @return a pointer file for this dynamic
+     */
+    public File getPointerFile() {
+        return buildDynamic(fileName);
     }
 
     /**

@@ -11,6 +11,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.utils.ArrayUtil;
 import cyder.utils.OsUtil;
 
 import java.awt.*;
@@ -71,6 +72,11 @@ public final class FileUtil {
      */
     public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS
             = ImmutableList.of(Extension.TTF.getExtension());
+
+    /**
+     * The regex string for extracting the filename from the extension.
+     */
+    private static final String filenameRegex = "\\.([^.]+)$";
 
     /**
      * Suppress default constructor.
@@ -144,12 +150,10 @@ public final class FileUtil {
      * @return whether the given file matches the provided signature
      */
     public static boolean fileMatchesSignature(File file, ImmutableList<Integer> expectedSignature) {
+        checkNotNull(file);
+        checkArgument(file.exists());
         checkNotNull(expectedSignature);
         checkArgument(!expectedSignature.isEmpty());
-
-        if (file == null) {
-            return false;
-        }
 
         try {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
@@ -181,7 +185,7 @@ public final class FileUtil {
         checkNotNull(file);
         checkArgument(!file.isEmpty());
 
-        return file.replaceAll("\\.([^.]+)$", "");
+        return file.replaceAll(filenameRegex, "");
     }
 
     /**
@@ -207,7 +211,7 @@ public final class FileUtil {
     public static String getFilename(File file) {
         checkNotNull(file);
 
-        return file.getName().replaceAll("\\.([^.]+)$", "");
+        return file.getName().replaceAll(filenameRegex, "");
     }
 
     /**
@@ -256,13 +260,18 @@ public final class FileUtil {
      * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
      * @return whether the provided file ends in one of the expected extension
      */
-    // todo bug here make this a required param and not just var args, String extensionOne, String... others
-    public static boolean validateExtension(File file, String... expectedExtensions) {
+    public static boolean validateExtension(File file, String expectedExtension, String... expectedExtensions) {
         checkNotNull(file);
+        checkNotNull(expectedExtension);
+        checkArgument(!expectedExtension.isEmpty());
         checkNotNull(expectedExtensions);
         checkArgument(expectedExtensions.length > 0);
 
-        return StringUtil.in(getExtension(file), false, expectedExtensions);
+        ImmutableList<String> extensions = new ImmutableList.Builder<String>()
+                .add(expectedExtension)
+                .addAll(ArrayUtil.toList(expectedExtensions)).build();
+
+        return StringUtil.in(getExtension(file), false, extensions);
     }
 
     /**
@@ -306,9 +315,7 @@ public final class FileUtil {
         checkNotNull(fileOne);
         checkNotNull(fileTwo);
 
-        if (!fileOne.exists() || !fileTwo.exists()) {
-            return false;
-        }
+        if (!fileOne.exists() || !fileTwo.exists()) return false;
 
         try {
             return com.google.common.io.Files.equal(fileOne, fileTwo);
@@ -335,12 +342,12 @@ public final class FileUtil {
             if (new File(destination).exists()) {
                 int incrementer = 1;
                 usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
-                        + "_" + incrementer + Extension.ZIP.getExtension();
+                        + CyderStrings.underscore + incrementer + Extension.ZIP.getExtension();
 
                 while (new File(usedFileName).exists()) {
                     incrementer++;
                     usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
-                            + "_" + incrementer + Extension.ZIP.getExtension();
+                            + CyderStrings.underscore + incrementer + Extension.ZIP.getExtension();
                 }
             } else {
                 usedFileName = destination;
@@ -497,28 +504,25 @@ public final class FileUtil {
         Preconditions.checkArgument(directory.isDirectory());
 
         File[] files = directory.listFiles();
+        if (files == null || ArrayUtil.isEmpty(files)) return file.getName();
 
-        if (files != null && files.length > 0) {
-            ArrayList<String> filenames = new ArrayList<>(files.length);
-            Arrays.stream(files).forEach(neighboringFile -> filenames.add(neighboringFile.getName()));
+        ArrayList<String> filenames = new ArrayList<>(files.length);
+        Arrays.stream(files).forEach(neighboringFile -> filenames.add(neighboringFile.getName()));
 
-            String filenameAndExtension = file.getName();
-            String[] filenameAndExtensionArr = filenameAndExtension.split("\\.");
-            String name = filenameAndExtensionArr[0];
-            String extension = filenameAndExtensionArr[1];
+        String filenameAndExtension = file.getName();
+        String[] filenameAndExtensionArr = filenameAndExtension.split("\\.");
+        String name = filenameAndExtensionArr[0];
+        String extension = filenameAndExtensionArr[1];
 
-            String ret = filenameAndExtension;
+        String ret = filenameAndExtension;
 
-            int number = 1;
-            while (StringUtil.in(ret, true, filenames)) {
-                ret = name + "_" + number + "." + extension;
-                number++;
-            }
-
-            return ret;
-        } else {
-            return file.getName();
+        int number = 1;
+        while (StringUtil.in(ret, true, filenames)) {
+            ret = name + CyderStrings.underscore + number + "." + extension;
+            number++;
         }
+
+        return ret;
     }
 
     /**
@@ -556,22 +560,21 @@ public final class FileUtil {
         Preconditions.checkArgument(topLevelDirectory.isDirectory());
         Preconditions.checkNotNull(extensionRegex);
 
-        LinkedList<File> ret = new LinkedList<>();
-
         File[] topLevelFiles = topLevelDirectory.listFiles();
+        if (topLevelFiles == null || ArrayUtil.isEmpty(topLevelFiles)) return ImmutableList.of();
 
-        if (topLevelFiles != null && topLevelFiles.length > 0) {
-            Arrays.stream(topLevelFiles).forEach(file -> {
-                if (file.isFile()) {
-                    String extension = FileUtil.getExtension(file).substring(1);
+        ArrayList<File> ret = new ArrayList<>();
 
-                    if (extensionRegex.isEmpty() || extension.matches(extensionRegex)) {
-                        ret.add(file);
-                    }
-                } else if (recursive && file.isDirectory()) {
-                    ret.addAll(getFiles(file, true, extensionRegex));
+        for (File file : topLevelFiles) {
+            if (file.isFile()) {
+                String extension = FileUtil.getExtension(file).substring(1);
+
+                if (extensionRegex.isEmpty() || extension.matches(extensionRegex)) {
+                    ret.add(file);
                 }
-            });
+            } else if (recursive && file.isDirectory()) {
+                ret.addAll(getFiles(file, true, extensionRegex));
+            }
         }
 
         return ImmutableList.copyOf(ret);
@@ -638,7 +641,7 @@ public final class FileUtil {
     public static String getHexString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -667,7 +670,7 @@ public final class FileUtil {
     public static String getBinaryString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -719,7 +722,6 @@ public final class FileUtil {
                 Desktop.getDesktop().open(filePointer);
                 Logger.log(LogTag.SYSTEM_IO, "Opening file: " + filePointer.getAbsolutePath());
             } else {
-                // todo needs testing
                 Desktop.getDesktop().browse(new URI(resource));
                 Logger.log(LogTag.LINK, resource);
             }

@@ -138,7 +138,7 @@ public final class PaintWidget {
             int increment = 0;
             String defaultFilename = base + increment + Extension.PNG.getExtension();
 
-            String path = OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            String path = OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getFileName(),
                     Console.INSTANCE.getUuid(), "Files");
 
             while (new File(path + OsUtil.FILE_SEP + defaultFilename).exists()) {

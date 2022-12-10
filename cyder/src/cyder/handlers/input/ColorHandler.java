@@ -56,7 +56,7 @@ public class ColorHandler extends InputHandler {
                     String saveName = "Solid_" + getInputHandler().getArg(0)
                             + "_Background" + Extension.PNG.getExtension();
 
-                    File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                    File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile);

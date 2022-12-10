@@ -150,7 +150,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
 
-        File jsonFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
+        File jsonFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, UserFile.USERDATA.getName());
 
         Preconditions.checkArgument(jsonFile.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(jsonFile, Extension.JSON.getExtension()));
@@ -212,7 +212,7 @@ public final class UserUtil {
     /**
      * The backup directory.
      */
-    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName());
+    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -262,12 +262,12 @@ public final class UserUtil {
 
             File mostRecentBackup = null;
             if (currentMaxTimestamp != noBackupTime) {
-                mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName(),
+                mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(),
                         uuid + uuidTimeSeparator + currentMaxTimestamp);
             }
 
             if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
-                File newBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName(), backupFilename);
+                File newBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(), backupFilename);
                 if (!newBackup.createNewFile()) {
                     Logger.log(LogTag.SYSTEM_IO, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
@@ -347,7 +347,7 @@ public final class UserUtil {
         }
 
         if (mostRecentTimestamp != noBackupTime) {
-            File mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName(),
+            File mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(),
                     uuid + uuidTimeSeparator + mostRecentTimestamp + Extension.JSON.getExtension());
 
             if (mostRecentBackup.exists()) {
@@ -374,7 +374,7 @@ public final class UserUtil {
         for (UserFile val : UserFile.values()) {
             if (val.getName().equals(UserFile.USERDATA.getName())) continue;
 
-            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, val.getName());
+            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, val.getName());
 
             if (!currentUserFile.exists()) {
                 int attempts = 0;
@@ -540,7 +540,7 @@ public final class UserUtil {
      */
     public static void validateUsers() {
         // we use all user files here since we are determining if they are corrupted
-        File users = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
+        File users = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
 
         File[] files = users.listFiles();
 
@@ -582,7 +582,7 @@ public final class UserUtil {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIoSemaphore().acquire();
 
-            File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+            File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.BACKGROUNDS.getName());
 
             if (!currentUserBackgrounds.exists())
@@ -785,7 +785,7 @@ public final class UserUtil {
      * </ul>
      */
     public static void cleanUsers() {
-        File users = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
+        File users = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
         if (!users.exists()) {
             if (!users.mkdirs()) {
                 throw new FatalException("Failed to create users directory");
@@ -924,7 +924,7 @@ public final class UserUtil {
      * Removes any backup jsons from dynamic/backup not liked to current Cyder users.
      */
     private static void cleanBackupJsons() {
-        File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName());
+        File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
 
         if (!backupDirectory.exists()) {
             return;
@@ -995,7 +995,7 @@ public final class UserUtil {
         Preconditions.checkArgument(!uuid.isEmpty());
 
         try {
-            File userJson = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
+            File userJson = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, UserFile.USERDATA.getName());
 
             try {
                 Optional<File> userJsonBackup = getUserJsonBackup(uuid);
@@ -1027,8 +1027,8 @@ public final class UserUtil {
             // Could not recover user from backed up files
             addInvalidUuid(uuid);
 
-            File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid);
-            File userdataJson = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+            File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid);
+            File userdataJson = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.USERDATA.getName());
 
             // Check for empty content
@@ -1047,7 +1047,7 @@ public final class UserUtil {
             }
 
             String boldPath = HtmlUtil.applyBold(Dynamic.buildDynamic(
-                    Dynamic.USERS.getDirectoryName(), uuid).toString());
+                    Dynamic.USERS.getFileName(), uuid).toString());
             String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
                     + "The following files still exists and are associated with the user at the following "
                     + "path:" + HtmlTags.breakTag + boldPath + HtmlTags.breakTag + "Files:";
@@ -1095,7 +1095,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(userFile);
         Preconditions.checkArgument(Console.INSTANCE.getUuid() != null);
 
-        File ret = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File ret = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
 
         if (!ret.exists()) {
@@ -1126,7 +1126,7 @@ public final class UserUtil {
     public static ArrayList<String> getCyderUserUuids() {
         ArrayList<String> uuids = new ArrayList<>();
 
-        File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
+        File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
@@ -1150,7 +1150,7 @@ public final class UserUtil {
     public static ArrayList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
-        File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
+        File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
@@ -1223,9 +1223,9 @@ public final class UserUtil {
             }
         }
 
-        File backgroundFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File backgroundFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 uuid, UserFile.BACKGROUNDS.getName(), defaultBackgroundName + Extension.PNG.getExtension());
-        File backgroundFolder = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File backgroundFolder = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 uuid, UserFile.BACKGROUNDS.getName());
 
         try {
@@ -1256,7 +1256,7 @@ public final class UserUtil {
         Preconditions.checkState(!name.isEmpty());
         Preconditions.checkState(!StringUtil.isNullOrEmpty(Console.INSTANCE.getUuid()));
 
-        File saveDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File saveDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.FILES.getName());
         File createFile = new File(saveDir, name);
 

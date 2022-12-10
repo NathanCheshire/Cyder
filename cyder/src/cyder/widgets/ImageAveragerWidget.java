@@ -301,7 +301,7 @@ public final class ImageAveragerWidget {
         ImageIcon previewImage = ImageUtil.resizeIfLengthExceeded(new ImageIcon(saveImage), maxImageLength);
 
         String saveImageName = combineImageNames() + Extension.PNG.getExtension();
-        File outputFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File outputFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
         CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(), previewImage.getIconHeight(), previewImage);

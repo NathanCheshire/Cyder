@@ -477,7 +477,7 @@ public final class NotesWidget {
             return;
         }
 
-        File createFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File createFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), requestedName);
         if (!OsUtil.createFile(createFile, true)) {
             noteFrame.notify("Could not create file: "
@@ -651,7 +651,7 @@ public final class NotesWidget {
             return;
         }
 
-        File newFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File newFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), newFilename);
         if (!OsUtil.createFile(newFile, true)) {
             noteFrame.notify("Failed to update note contents");
@@ -775,7 +775,7 @@ public final class NotesWidget {
      * Refreshes the contents of the notes list.
      */
     private static void refreshNotesList() throws IllegalStateException {
-        File dir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File dir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName());
         if (!dir.exists()) return;
 
@@ -856,7 +856,7 @@ public final class NotesWidget {
     private static ImmutableList<String> getCurrentNoteFileNames() {
         ArrayList<String> ret = new ArrayList<>();
 
-        File userNotesDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        File userNotesDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName());
         if (userNotesDir.exists()) {
             File[] noteFiles = userNotesDir.listFiles();

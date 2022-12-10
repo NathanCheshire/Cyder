@@ -42,7 +42,7 @@ public abstract class WatchDirectorySubscriber {
     private Pattern directoryRegex;
 
     /**
-     * The logic to perform when an event this subscriber subscribed to occurs.
+     * The logic to perform when an event this subscriber is subscribed to occurs.
      *
      * @param broker    the directory watcher which pushed the event to this subscriber
      * @param event     the event which occurred
@@ -65,10 +65,12 @@ public abstract class WatchDirectorySubscriber {
     /**
      * Subscribes to the provided events.
      *
-     * @param watchDirectoryEvents the events to subscribe to
+     * @param watchDirectoryEvent  the first even to subscribe to
+     * @param watchDirectoryEvents the additional events to subscribe to if present
      */
-    public void subscribeTo(WatchDirectoryEvent... watchDirectoryEvents) {
+    public void subscribeTo(WatchDirectoryEvent watchDirectoryEvent, WatchDirectoryEvent... watchDirectoryEvents) {
         Preconditions.checkNotNull(watchDirectoryEvents);
+        subscribeTo(watchDirectoryEvent);
         Arrays.stream(watchDirectoryEvents).forEach(this::subscribeTo);
     }
 
@@ -89,6 +91,8 @@ public abstract class WatchDirectorySubscriber {
      */
     public void setFileNameRegex(String fileNameRegex) {
         Preconditions.checkNotNull(fileNameRegex);
+        Preconditions.checkArgument(!fileNameRegex.isEmpty());
+
         this.fileNameRegex = Pattern.compile(fileNameRegex);
     }
 
@@ -110,6 +114,8 @@ public abstract class WatchDirectorySubscriber {
      */
     public void setFileExtensionRegex(String fileExtensionRegex) {
         Preconditions.checkNotNull(fileExtensionRegex);
+        Preconditions.checkArgument(!fileExtensionRegex.isEmpty());
+
         this.fileExtensionRegex = Pattern.compile(fileExtensionRegex);
     }
 
@@ -131,6 +137,8 @@ public abstract class WatchDirectorySubscriber {
      */
     public void setFileRegex(String fileRegex) {
         Preconditions.checkNotNull(fileRegex);
+        Preconditions.checkArgument(!fileRegex.isEmpty());
+
         this.fileRegex = Pattern.compile(fileRegex);
     }
 
@@ -152,6 +160,8 @@ public abstract class WatchDirectorySubscriber {
      */
     public void setDirectoryRegex(String directoryRegex) {
         Preconditions.checkNotNull(directoryRegex);
+        Preconditions.checkArgument(!directoryRegex.isEmpty());
+
         this.directoryRegex = Pattern.compile(directoryRegex);
     }
 
@@ -173,7 +183,7 @@ public abstract class WatchDirectorySubscriber {
      */
     private boolean filenameMatches(File file) {
         Preconditions.checkNotNull(file);
-        Preconditions.checkNotNull(fileNameRegex);
+        Preconditions.checkState(fileNameRegex != null);
 
         return fileNameRegex.matcher(FileUtil.getFilename(file)).matches();
     }
@@ -186,7 +196,7 @@ public abstract class WatchDirectorySubscriber {
      */
     private boolean fileExtensionMatches(File file) {
         Preconditions.checkNotNull(file);
-        Preconditions.checkNotNull(fileExtensionRegex);
+        Preconditions.checkState(fileExtensionRegex != null);
 
         return fileExtensionRegex.matcher(FileUtil.getExtension(file)).matches();
     }
@@ -199,7 +209,7 @@ public abstract class WatchDirectorySubscriber {
      */
     private boolean fileMatches(File file) {
         Preconditions.checkNotNull(file);
-        Preconditions.checkNotNull(fileRegex);
+        Preconditions.checkState(fileRegex != null);
 
         return fileRegex.matcher(file.getName()).matches();
     }
@@ -212,7 +222,7 @@ public abstract class WatchDirectorySubscriber {
      */
     private boolean directoryMatches(File file) {
         Preconditions.checkNotNull(file);
-        Preconditions.checkNotNull(directoryRegex);
+        Preconditions.checkState(directoryRegex != null);
 
         return directoryRegex.matcher(file.getName()).matches();
     }
@@ -224,6 +234,7 @@ public abstract class WatchDirectorySubscriber {
      * @param file the file
      * @return whether the set patterns match the filename/extension
      */
+    @SuppressWarnings("RedundantIfStatement") /* Readability */
     public boolean patternsMatch(File file) {
         Preconditions.checkNotNull(file);
 

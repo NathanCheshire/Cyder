@@ -98,7 +98,7 @@ public enum UserFile {
     public File getFilePointer() {
         Preconditions.checkNotNull(Console.INSTANCE.getUuid());
 
-        return Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        return Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), name);
     }
 

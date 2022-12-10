@@ -1603,16 +1603,6 @@ public class CyderFrame extends JFrame {
     private boolean dancingFinished;
 
     /**
-     * Sets the direction the frame is currently dancing in.
-     *
-     * @param dancingDirection the direction the frame is currently dancing in
-     */
-    @SuppressWarnings("SameParameterValue")
-    public void setDancingDirection(DancingDirection dancingDirection) {
-        this.dancingDirection = dancingDirection;
-    }
-
-    /**
      * Returns whether dancing has concluded for this frame.
      *
      * @return whether dancing has concluded for this frame
@@ -3838,7 +3828,7 @@ public class CyderFrame extends JFrame {
      * Resets the dancing members and state variables.
      */
     public void resetDancing() {
-        setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
+        this.dancingDirection = DancingDirection.INITIAL_UP;
         setDancingFinished(false);
     }
 

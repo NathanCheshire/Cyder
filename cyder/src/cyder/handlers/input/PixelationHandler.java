@@ -97,7 +97,7 @@ public class PixelationHandler extends InputHandler {
                             + "_Pixelated_Pixel_Size_" + size + Extension.PNG.getExtension();
 
                     File saveFile = Dynamic.buildDynamic(
-                            Dynamic.USERS.getDirectoryName(),
+                            Dynamic.USERS.getFileName(),
                             Console.INSTANCE.getUuid(),
                             UserFile.BACKGROUNDS.getName(), newName);
 

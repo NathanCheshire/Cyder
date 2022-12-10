@@ -390,7 +390,7 @@ public final class AudioPlayer {
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
         File userMusicDir = Dynamic.buildDynamic(
-                Dynamic.USERS.getDirectoryName(),
+                Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
@@ -447,7 +447,7 @@ public final class AudioPlayer {
             return;
         }
 
-        currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+        currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
@@ -926,7 +926,7 @@ public final class AudioPlayer {
                 try {
                     if (wavConvertedFile.get().isPresent()) {
                         File moveTo = Dynamic.buildDynamic(
-                                Dynamic.USERS.getDirectoryName(),
+                                Dynamic.USERS.getFileName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(wavConvertedFile.get().get()) + Extension.WAV.getExtension());
@@ -974,7 +974,7 @@ public final class AudioPlayer {
                 try {
                     if (mp3ConvertedFile.get().isPresent()) {
                         File moveTo = Dynamic.buildDynamic(
-                                Dynamic.USERS.getDirectoryName(),
+                                Dynamic.USERS.getFileName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(mp3ConvertedFile.get().get()) + Extension.MP3.getExtension());
@@ -1016,7 +1016,7 @@ public final class AudioPlayer {
 
             if (OsUtil.isValidFilename(saveName)) {
                 File saveFile = Dynamic.buildDynamic(
-                        Dynamic.USERS.getDirectoryName(),
+                        Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(),
                         UserFile.FILES.getName(),
                         saveName + "." + WAVEFORM_EXPORT_FORMAT);
@@ -1127,7 +1127,7 @@ public final class AudioPlayer {
 
         File dreamifiedFile = dreamifiedAudio.get();
         File targetFile = Dynamic.buildDynamic(
-                Dynamic.USERS.getDirectoryName(),
+                Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
                 dreamifiedFile.getName());
@@ -1205,7 +1205,7 @@ public final class AudioPlayer {
             return;
         }
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
         // Not dreamified so attempt to find previously dreamified file if exists
@@ -2709,7 +2709,7 @@ public final class AudioPlayer {
      */
     private static void startMusicFileAddedDirectoryWatcher() {
         DirectoryWatcher musicDirectoryWatcher = new DirectoryWatcher(
-                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(),
                         UserFile.MUSIC.getName()));
 
