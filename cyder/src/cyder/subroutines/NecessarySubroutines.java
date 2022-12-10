@@ -1,10 +1,11 @@
-package cyder.genesis.subroutines;
+package cyder.subroutines;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.enums.CyderInspection;
+import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -88,7 +89,7 @@ public final class NecessarySubroutines {
             Boolean ret = subroutine.getRoutine().get();
 
             if (ret == null || !ret) {
-                throw new FatalException("todo on failure error message");
+                throw new FatalException(subroutine.getOnFailureMessage());
             }
         }
 
@@ -100,15 +101,6 @@ public final class NecessarySubroutines {
         }
 
         InstanceSocketUtil.startListening();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
-        OsUtil.ensureDynamicsCreated();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating users");
-        UserUtil.validateUsers();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
-        UserUtil.cleanUsers();
     }
 
     private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
@@ -135,26 +127,33 @@ public final class NecessarySubroutines {
             }, "Registering fonts", "Registering fonts failed"),
 
             new Subroutine(NecessarySubroutines::validateGuiTests,
-                    "Validating Gui Tests",
-                    "Validation of GuiTests failed"),
+                    "Validating Gui Tests", "Validation of GuiTests failed"),
 
             new Subroutine(NecessarySubroutines::validateWidgets,
-                    "Validating Widgets",
-                    "Validation of Widgets failed"),
+                    "Validating Widgets", "Validation of Widgets failed"),
 
-            new Subroutine(OsUtil.OperatingSystem.OSX::isCurrentOperatingSystem,
-                    "Ensuring Supported OS",
-                    "Unsupported OS"),
+            new Subroutine(() -> !OsUtil.OperatingSystem.OSX.isCurrentOperatingSystem(),
+                    "Ensuring Supported OS", "Unsupported OS"),
 
             new Subroutine(NecessarySubroutines::validateVanillaAnnotations,
-                    "Validating vanilla classes",
-                    "Validation of vanilla classes failed"),
+                    "Validating vanilla classes", "Validation of vanilla classes failed"),
 
             new Subroutine(NecessarySubroutines::validateHandles,
-                    "Validating handles",
-                    "Validation of handles failed")
-    );
+                    "Validating handles", "Validation of handles failed"),
 
+            new Subroutine(Dynamic::ensureDynamicsCreated,
+                    "Creating dynamics", "Creation of dynamics failed"),
+
+            new Subroutine(() -> {
+                UserUtil.validateUsers();
+                return true;
+            }, "Validating users", "Validation of users failed"),
+
+            new Subroutine(() -> {
+                UserUtil.cleanUsers();
+                return true;
+            }, "Cleaning users", "Cleaning users failed")
+    );
 
     /**
      * Finds all gui tests within Cyder by looking for methods annotated with {@link GuiTest}.
@@ -173,6 +172,7 @@ public final class NecessarySubroutines {
             Class<?> clazz = classInfo.load();
 
             for (Method method : clazz.getMethods()) {
+                if (!method.isAnnotationPresent(GuiTest.class)) continue;
                 if (!validateGuiTestMethod(method)) ret = false;
             }
         }
@@ -430,6 +430,10 @@ public final class NecessarySubroutines {
         if (ReflectionUtil.clazzContainsMoreThanOneHandle(clazz)) {
             logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, ReflectionUtil.getBottomLevelClass(clazz));
             return false;
+        }
+
+        if (handleMethods.size() == 0) {
+            return true;
         }
 
         Method handleMethod = handleMethods.get(0);

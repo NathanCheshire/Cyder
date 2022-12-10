@@ -539,7 +539,6 @@ public final class UserUtil {
      * Also ensures no users with a duplicate name exist.
      */
     public static void validateUsers() {
-        // we use all user files here since we are determining if they are corrupted
         File users = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
 
         File[] files = users.listFiles();

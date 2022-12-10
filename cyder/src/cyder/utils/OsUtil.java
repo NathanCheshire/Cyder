@@ -8,7 +8,6 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.SystemPropertyKey;
-import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
@@ -673,36 +672,6 @@ public final class OsUtil {
         StringSelection selection = new StringSelection(clipboardContents);
         java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
-    }
-
-    /**
-     * Ensures the dynamic directory and all subdirectories are created.
-     */
-    public static void ensureDynamicsCreated() {
-        File dynamic = Dynamic.buildDynamic();
-
-        boolean dynamicExists = dynamic.exists();
-
-        if (!dynamicExists) {
-            dynamicExists = dynamic.mkdir();
-        }
-
-        if (!dynamicExists) {
-            throw new FatalException("Could nto create dynamic directory");
-        }
-
-        for (Dynamic dynamicDirectory : Dynamic.values()) {
-            File currentDynamic = Dynamic.buildDynamic(dynamicDirectory.getFileName());
-
-            if (dynamicDirectory == Dynamic.TEMP) {
-                deleteFile(currentDynamic);
-            }
-
-            if (!currentDynamic.exists() && !createFile(currentDynamic, false)) {
-                throw new FatalException("Failed to create dynamic directory: "
-                        + currentDynamic.getName() + " at location: " + currentDynamic.getAbsolutePath());
-            }
-        }
     }
 
     /**

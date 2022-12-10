@@ -1,5 +1,7 @@
 package cyder.enums;
 
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.utils.OsUtil;
 
 import java.io.File;
@@ -97,5 +99,44 @@ public enum Dynamic {
         }
 
         return new File(pathString.toString());
+    }
+
+    /**
+     * Ensures all dynamics are created.
+     *
+     * @return whether all dynamics were created.
+     */
+    public static boolean ensureDynamicsCreated() {
+        File dynamic = Dynamic.buildDynamic();
+
+        if (!dynamic.exists()) {
+            if (!dynamic.mkdir()) {
+                Logger.log("Could not create dynamic directory");
+                return false;
+            }
+        }
+
+        for (Dynamic dynamicDirectory : Dynamic.values()) {
+            File currentDynamic = Dynamic.buildDynamic(dynamicDirectory.getFileName());
+
+            if (dynamicDirectory == Dynamic.TEMP) {
+                OsUtil.deleteFile(currentDynamic);
+            }
+
+            if (!currentDynamic.exists() && !OsUtil.createFile(currentDynamic, false)) {
+                Logger.log("Failed to create dynamic directory"
+                        + CyderStrings.colon
+                        + CyderStrings.space
+                        + currentDynamic.getName()
+                        + CyderStrings.space
+                        + "at location"
+                        + CyderStrings.colon
+                        + CyderStrings.space
+                        + currentDynamic.getAbsolutePath());
+                return false;
+            }
+        }
+
+        return true;
     }
 }
