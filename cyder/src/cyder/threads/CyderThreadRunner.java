@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import cyder.annotations.ForReadability;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
@@ -51,6 +52,17 @@ public final class CyderThreadRunner {
         Logger.log(LogTag.THREAD_STARTED, name);
         new Thread(runnable, name).start();
         threadsRan.incrementAndGet();
+    }
+
+    /**
+     * Submits the provided supplier to be ran by a new runnable.
+     *
+     * @param supplier the supplier to run
+     * @param name     the name of the thread to run the supplier
+     * @param <T>      the type the supplier returns
+     */
+    public static <T> void submitSupplier(Supplier<T> supplier, String name) {
+        submit(supplier::get, name);
     }
 
     /**

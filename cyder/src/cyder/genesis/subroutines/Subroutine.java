@@ -1,19 +1,30 @@
 package cyder.genesis.subroutines;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
-class Subroutine {
+public final class Subroutine {
+    /**
+     * The subroutine failed string.
+     */
+    private static final String SUBROUTINE_FAILED = "Subroutine failed";
+
     /**
      * The routine to invoke.
      */
-    private final Runnable routine;
+    private final Supplier<Boolean> routine;
 
     /**
      * The name of the thread to invoke the routine inside of if this is a parallel subroutine.
      */
     private final String threadName;
+
+    /**
+     * The failure message to use in the case of the supplier returning false.
+     */
+    private final String onFailureMessage;
 
     /**
      * Suppress default constructor.
@@ -29,26 +40,56 @@ class Subroutine {
      * @param threadName the name of the thread to execute the routine using
      *                   if the routine is not sequential but instead parallel
      */
-    public Subroutine(Runnable routine, String threadName) {
-        this.routine = Preconditions.checkNotNull(routine);
-        this.threadName = Preconditions.checkNotNull(threadName);
+    public Subroutine(Supplier<Boolean> routine, String threadName) {
+        this(routine, threadName, SUBROUTINE_FAILED);
+    }
 
+    /**
+     * Constructs a new sufficient subroutine.
+     *
+     * @param routine          the routine to execute
+     * @param threadName       the name of the thread to execute the routine using
+     *                         if the routine is not sequential but instead parallel
+     * @param onFailureMessage the failure message to use in teh case of the supplier returning false
+     */
+    public Subroutine(Supplier<Boolean> routine, String threadName, String onFailureMessage) {
+        Preconditions.checkNotNull(routine);
+        Preconditions.checkNotNull(threadName);
         Preconditions.checkArgument(!threadName.isEmpty());
+        Preconditions.checkNotNull(onFailureMessage);
+        Preconditions.checkArgument(!onFailureMessage.isEmpty());
+
+        this.routine = routine;
+        this.threadName = threadName;
+        this.onFailureMessage = onFailureMessage;
     }
 
     /**
      * Returns the routine for this sufficient subroutine to execute.
+     *
+     * @return the routine for this subroutine
      */
-    public Runnable getRoutine() {
+    public Supplier<Boolean> getRoutine() {
         return routine;
     }
 
     /**
      * Returns the thread name for this sufficient subroutine to use if the thread
      * should be executed in parallel instead of sequentially.
+     *
+     * @return the thread name for this subroutine
      */
     public String getThreadName() {
         return threadName;
+    }
+
+    /**
+     * Returns the on failure message for this subroutine.
+     *
+     * @return the on failure message for this subroutine
+     */
+    public String getOnFailureMessage() {
+        return onFailureMessage;
     }
 
     /**
@@ -58,6 +99,7 @@ class Subroutine {
     public int hashCode() {
         int ret = routine.hashCode();
         ret = 31 * ret + threadName.hashCode();
+        ret = 31 * ret + onFailureMessage.hashCode();
         return ret;
     }
 
@@ -74,7 +116,8 @@ class Subroutine {
 
         Subroutine other = (Subroutine) o;
         return getRoutine().equals(other.getRoutine())
-                && getThreadName().equals(other.getThreadName());
+                && getThreadName().equals(other.getThreadName())
+                && getOnFailureMessage().equals(other.getOnFailureMessage());
     }
 
     /**
@@ -83,11 +126,14 @@ class Subroutine {
     @Override
     public String toString() {
         return "Subroutine{"
-                + "routine=" + routine
+                + "routine="
+                + routine
                 + ", threadName="
                 + CyderStrings.quote
                 + threadName
                 + CyderStrings.quote
+                + ", onFailureMessage="
+                + onFailureMessage
                 + "}";
     }
 }

@@ -41,6 +41,11 @@ public final class SufficientSubroutines {
     private static final String PYTHON_3_INSTALLED_ENSURER = "Python 3 Installed Ensurer";
 
     /**
+     * The name for the thread which executes the sequential subroutines.
+     */
+    private static final String SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME = "Sufficient Subroutine Executor";
+
+    /**
      * Suppress default constructor.
      */
     private SufficientSubroutines() {
@@ -50,17 +55,23 @@ public final class SufficientSubroutines {
     /**
      * The subroutines to execute.
      */
-    private static final ImmutableList<Subroutine> parallelSufficientSubroutines = ImmutableList.of(
+    private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
             new Subroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
                 JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
+
+                return true;
             }, JVM_LOGGER),
 
             new Subroutine(() -> {
-                for (PythonPackage missingPackage : PythonUtil.getMissingRequiredPythonPackages()) {
+                ImmutableList<PythonPackage> missingPackages = PythonUtil.getMissingRequiredPythonPackages();
+
+                for (PythonPackage missingPackage : missingPackages) {
                     Logger.log(LogTag.PYTHON, "Missing required Python package: "
                             + missingPackage.getPackageName());
                 }
+
+                return missingPackages.isEmpty();
             }, PYTHON_PACKAGES_INSTALLED_ENSURER),
 
             new Subroutine(() -> {
@@ -68,7 +79,7 @@ public final class SufficientSubroutines {
 
                 if (optionalVersion.isEmpty()) {
                     Logger.log(LogTag.PYTHON, "Failed to find installed Python version");
-                    return;
+                    return false;
                 }
 
                 String versionString = optionalVersion.get();
@@ -82,12 +93,12 @@ public final class SufficientSubroutines {
 
                 if (version == -1) {
                     Logger.log(LogTag.PYTHON, "Could not find Python version number");
-                    return;
+                    return false;
                 }
 
                 if (version >= MIN_PYTHON_MAJOR_VERSION) {
                     Logger.log(LogTag.PYTHON, "Found Python version " + version);
-                    return;
+                    return true;
                 }
 
                 String message = "Installed Python does not meet minimum standards, version"
@@ -103,21 +114,18 @@ public final class SufficientSubroutines {
 
                 Logger.log(LogTag.PYTHON, message);
                 Console.INSTANCE.getInputHandler().println(message);
+                return false;
             }, PYTHON_3_INSTALLED_ENSURER)
     );
 
     /**
-     * The name for the thread which executes the sequential subroutines.
-     */
-    private static final String SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME = "Sufficient Subroutine Executor";
-
-    /**
-     * Executes the parallel and sequential sufficient subroutines in a separate thread.
+     * Executes the sufficient subroutines in a separate thread.
      */
     public static void executeSubroutines() {
         CyderThreadRunner.submit(() -> {
-            for (Subroutine sufficientSubroutine : parallelSufficientSubroutines) {
-                CyderThreadRunner.submit(sufficientSubroutine.getRoutine(), sufficientSubroutine.getThreadName());
+            for (Subroutine sufficientSubroutine : subroutines) {
+                CyderThreadRunner.submitSupplier(sufficientSubroutine.getRoutine(),
+                        sufficientSubroutine.getThreadName());
             }
         }, SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME);
     }

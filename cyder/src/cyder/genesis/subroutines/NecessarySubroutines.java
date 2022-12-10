@@ -1,5 +1,6 @@
 package cyder.genesis.subroutines;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
@@ -17,6 +18,7 @@ import cyder.session.InstanceSocketUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.UserUtil;
+import cyder.utils.ArrayUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StaticUtil;
@@ -59,6 +61,16 @@ public final class NecessarySubroutines {
     private static final String WIDGET = "widget";
 
     /**
+     * The list of triggers for GuiTest methods.
+     */
+    private static final LinkedList<String> guiTestTriggers = new LinkedList<>();
+
+    /**
+     * The font directory name to load the true-type fonts from.
+     */
+    private static final String fonts = "fonts";
+
+    /**
      * Suppress default constructor.
      */
     private NecessarySubroutines() {
@@ -70,9 +82,13 @@ public final class NecessarySubroutines {
      * If any fail then the program is exited with the exit condition of {@link ExitCondition#NecessarySubroutineExit}.
      */
     public static void executeSubroutines() {
-        CyderSplash.INSTANCE.setLoadingMessage("Registering fonts");
-        if (!registerFonts()) {
-            throw new FatalException("Registering fonts failed");
+        for (Subroutine subroutine : subroutines) {
+            CyderSplash.INSTANCE.setLoadingMessage(subroutine.getThreadName());
+            Boolean ret = subroutine.getRoutine().get();
+
+            if (ret == null || !ret) {
+                throw new FatalException("todo on failure error message");
+            }
         }
 
         CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
@@ -101,9 +117,6 @@ public final class NecessarySubroutines {
         CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
         validateWidgets();
 
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Tests");
-        validateTests();
-
         CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
         validateVanillaWidgets();
 
@@ -111,85 +124,96 @@ public final class NecessarySubroutines {
         validateHandles();
     }
 
-    /**
-     * Registers the fonts within static/fonts.
-     *
-     * @return whether the fonts could be loaded
-     */
-    private static boolean registerFonts() {
-        File[] fontFiles = StaticUtil.getStaticDirectory("fonts").listFiles();
+    private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
+            new Subroutine(() -> {
+                File[] fontFiles = StaticUtil.getStaticDirectory(fonts).listFiles();
 
-        if (fontFiles == null || fontFiles.length == 0) return false;
+                if (fontFiles == null || fontFiles.length == 0) return false;
 
+                for (File fontFile : fontFiles) {
+                    if (FileUtil.isSupportedFontExtension(fontFile)) {
+                        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-        for (File fontFile : fontFiles) {
-            if (FileUtil.isSupportedFontExtension(fontFile)) {
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                try {
-                    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
-                    Logger.log(LogTag.FONT_LOADED, FileUtil.getFilename(fontFile));
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                    return false;
+                        try {
+                            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
+                            Logger.log(LogTag.FONT_LOADED, FileUtil.getFilename(fontFile));
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                            return false;
+                        }
+                    }
                 }
-            }
-        }
 
-        return true;
-    }
+                return true;
+            }, "Registering fonts", "Registering fonts failed"),
+
+            new Subroutine(NecessarySubroutines::validateGuiTests,
+                    "Validating Gui Tests", "Validation of GuiTests failed")
+    );
+
 
     /**
      * Finds all gui tests within Cyder by looking for methods annotated with {@link GuiTest}.
-     * The annotated method MUST take no parameters, and contain a valid, unique trigger.
+     * A Gui test is valid if the following conditions are met:
+     * <ul>
+     *     <li>The name ends with test</li>
+     *     <li>The trigger is unique</li>
+     * </ul>
      *
-     * @throws IllegalMethodException if an invalid {@link GuiTest} annotation is located
+     * @return whether an invalid gui test was found
      */
-    public static void validateTests() {
-        LinkedList<String> foundTriggers = new LinkedList<>();
+    private static boolean validateGuiTests() {
+        boolean ret = true;
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
 
-            for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(GuiTest.class)) {
-                    String trigger = m.getAnnotation(GuiTest.class).value();
-
-                    CyderInspection[] values = null;
-
-                    if (m.isAnnotationPresent(SuppressCyderInspections.class)) {
-                        values = m.getAnnotation(SuppressCyderInspections.class).value();
-                    }
-
-                    if (!m.getName().toLowerCase().endsWith(TEST)) {
-                        if (values != null) {
-                            boolean in = false;
-
-                            for (CyderInspection inspection : values) {
-                                if (inspection == CyderInspection.TestInspection) {
-                                    in = true;
-                                    break;
-                                }
-                            }
-
-                            if (in) {
-                                continue;
-                            }
-                        }
-
-                        Logger.log(LogTag.GUI_TEST_WARNING, "Method annotated with @GuiTest does not end"
-                                + " with \"test\"; name: " + m.getName());
-                    }
-
-                    if (StringUtil.in(trigger, true, foundTriggers)) {
-                        throw new IllegalArgumentException("Method annotation with @GuiTest "
-                                + "has a trigger which has already been used; method: " + m.getName()
-                                + ", trigger: " + trigger);
-                    }
-
-                    foundTriggers.add(trigger);
-                }
+            for (Method method : clazz.getMethods()) {
+                if (!validateGuiTestMethod(method)) ret = false;
             }
         }
+
+        return ret;
+    }
+
+    /**
+     * Validates the provided GuiTest method.
+     *
+     * @param method the GuiTest method
+     * @return whether the GuiTest method is valid
+     */
+    private static boolean validateGuiTestMethod(Method method) {
+        Preconditions.checkNotNull(method);
+        Preconditions.checkArgument(method.isAnnotationPresent(GuiTest.class));
+
+        String trigger = method.getAnnotation(GuiTest.class).value();
+
+        CyderInspection[] values = null;
+
+        if (method.isAnnotationPresent(SuppressCyderInspections.class)) {
+            values = method.getAnnotation(SuppressCyderInspections.class).value();
+        }
+
+        if (!method.getName().toLowerCase().endsWith(TEST)) {
+            if (values != null) {
+                if (ArrayUtil.toList(values).contains(CyderInspection.TestInspection)) {
+                    return true;
+                }
+            }
+
+            Logger.log(LogTag.GUI_TEST_WARNING, "Method annotated with @GuiTest does not end"
+                    + " with \"test\"; name: " + method.getName());
+        }
+
+        if (StringUtil.in(trigger, true, guiTestTriggers)) {
+            Logger.log(LogTag.GUI_TEST_WARNING, "Method annotation with @GuiTest "
+                    + "has a trigger which has already been used; method: " + method.getName()
+                    + ", trigger: " + trigger);
+            return false;
+        }
+
+        guiTestTriggers.add(trigger);
+        return true;
     }
 
     /**
@@ -199,73 +223,93 @@ public final class NecessarySubroutines {
      *
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
      */
-    public static void validateWidgets() {
+    private static void validateWidgets() {
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
 
             for (Method method : clazz.getMethods()) {
                 if (method.isAnnotationPresent(Widget.class)) {
-                    String[] triggers = method.getAnnotation(Widget.class).triggers();
-                    String description = method.getAnnotation(Widget.class).description();
 
-                    CyderInspection[] suppressionValues = new CyderInspection[]{};
-
-                    if (method.isAnnotationPresent(SuppressCyderInspections.class)) {
-                        suppressionValues = method.getAnnotation(SuppressCyderInspections.class).value();
-                    }
-
-                    // Not standard name so check for suppression
-                    if (!method.getName().equals(STANDARD_WIDGET_SHOW_METHOD_NAME)) {
-                        if (suppressionValues != null) {
-                            boolean in = false;
-
-                            for (CyderInspection inspection : suppressionValues) {
-                                if (inspection == CyderInspection.WidgetInspection) {
-                                    in = true;
-                                    break;
-                                }
-                            }
-
-                            if (in) {
-                                continue;
-                            }
-                        }
-
-                        Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget is not named "
-                                + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + method.getName());
-                    }
-
-                    if (StringUtil.isNullOrEmpty(description)) {
-                        if (suppressionValues != null) {
-                            boolean in = false;
-
-                            for (CyderInspection inspection : suppressionValues) {
-                                if (inspection == CyderInspection.WidgetInspection) {
-                                    in = true;
-                                    break;
-                                }
-                            }
-
-                            if (in) {
-                                continue;
-                            }
-                        }
-
-                        throw new IllegalMethodException("Method annotated with @Widget has empty description");
-                    }
-
-                    if (triggers.length == 0) {
-                        throw new IllegalMethodException("Method annotated with @Widget has empty triggers");
-                    }
-
-                    for (String trigger : triggers) {
-                        if (StringUtil.isNullOrEmpty(trigger)) {
-                            throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
-                        }
-                    }
                 }
             }
         }
+    }
+
+    /**
+     * Validates the provided widget method annotated with {@link Widget}.
+     * A widget method is valid if the following conditions are met:
+     * <ul>
+     *     <li></li>
+     * </ul>
+     *
+     * @param method the method to validate
+     * @return whether the widget is valid
+     */
+    private static boolean validateWidget(Method method) {
+        String[] triggers = method.getAnnotation(Widget.class).triggers();
+        String description = method.getAnnotation(Widget.class).description();
+
+        CyderInspection[] suppressionValues = new CyderInspection[]{};
+
+        if (method.isAnnotationPresent(SuppressCyderInspections.class)) {
+            suppressionValues = method.getAnnotation(SuppressCyderInspections.class).value();
+        }
+
+        // Not standard name so check for suppression
+        if (!method.getName().equals(STANDARD_WIDGET_SHOW_METHOD_NAME)) {
+            if (suppressionValues != null) {
+                boolean in = false;
+
+                for (CyderInspection inspection : suppressionValues) {
+                    if (inspection == CyderInspection.WidgetInspection) {
+                        in = true;
+                        break;
+                    }
+                }
+
+                if (in) {
+                    continue;
+                }
+            }
+
+            Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget is not named "
+                    + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + method.getName());
+        }
+
+        if (StringUtil.isNullOrEmpty(description)) {
+            if (suppressionValues != null) {
+                boolean in = false;
+
+                for (CyderInspection inspection : suppressionValues) {
+                    if (inspection == CyderInspection.WidgetInspection) {
+                        in = true;
+                        break;
+                    }
+                }
+
+                if (in) {
+                    continue;
+                }
+            }
+
+            throw new IllegalMethodException("Method annotated with @Widget has empty description");
+        }
+
+        if (triggers.length == 0) {
+            Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget has empty triggers");
+            return false;
+        }
+
+        boolean triggersValid = true;
+
+        for (String trigger : triggers) {
+            if (StringUtil.isNullOrEmpty(trigger)) {
+                Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget has an empty trigger");
+                triggersValid = false;
+            }
+        }
+
+        return triggersValid;
     }
 
     /**
@@ -397,38 +441,5 @@ public final class NecessarySubroutines {
         Logger.log(LogTag.HANDLE_WARNING, errorMessagePrefix);
         InformHandler.inform(new InformHandler.Builder(errorMessagePrefix).setTitle(
                 StringUtil.capsFirst(handleWarning.name().replace(CyderStrings.underscore, space))));
-    }
-
-    /**
-     * The possible warnings for invalid {@link Handle}s.
-     */
-    private enum HandleWarning {
-        CONTAINS_HANDLE("Found class which does not extend InputHandler with @Handle annotation"),
-        MORE_THAN_ONE_HANDLE("Found class which contains more than one method annotated with @Handle"),
-        MISSING_TRIGGER("Primary handle class found to be missing triggers"),
-        FINAL_HANDLER_HAS_TRIGGERS("Final handle class found to contain triggers"),
-        HANDLER_NOT_USED("Handle class not contained in primary or final handlers"),
-        PRIMARY_AND_FINAL("Handle class found to be contained in both primary and final lists"),
-        NOT_PUBLIC_STATIC_BOOLEAN("Method annotated with @Handle found to not be public static boolean"),
-        EMPTY_TRIGGER("Handle annotation found to contain empty triggers"),
-        DUPLICATE_TRIGGER("Found duplicate trigger, trigger");
-
-        /**
-         * The log prefix for this handle warning.
-         */
-        private final String logPrefix;
-
-        HandleWarning(String logPrefix) {
-            this.logPrefix = logPrefix;
-        }
-
-        /**
-         * Returns the log prefix for this handle warning.
-         *
-         * @return the log prefix for this handle warning
-         */
-        public String getLogPrefix() {
-            return this.logPrefix;
-        }
     }
 }
