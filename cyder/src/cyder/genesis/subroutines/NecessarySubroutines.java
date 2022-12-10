@@ -10,6 +10,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
+import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
@@ -26,10 +27,10 @@ import cyder.utils.StaticUtil;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Subroutines which must complete in order for Cyder to start.
@@ -56,11 +57,6 @@ public final class NecessarySubroutines {
     );
 
     /**
-     * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
-     */
-    private static final String WIDGET = "widget";
-
-    /**
      * The list of triggers for GuiTest methods.
      */
     private static final LinkedList<String> guiTestTriggers = new LinkedList<>();
@@ -69,6 +65,11 @@ public final class NecessarySubroutines {
      * The font directory name to load the true-type fonts from.
      */
     private static final String fonts = "fonts";
+
+    /**
+     * A list of the discovered triggers from handle annotations.
+     */
+    private static final LinkedList<String> handleTriggers = new LinkedList<>();
 
     /**
      * Suppress default constructor.
@@ -100,11 +101,6 @@ public final class NecessarySubroutines {
 
         InstanceSocketUtil.startListening();
 
-        CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
-        if (OsUtil.OperatingSystem.OSX.isCurrentOperatingSystem()) {
-            throw new FatalException("Unsupported OS");
-        }
-
         CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
         OsUtil.ensureDynamicsCreated();
 
@@ -113,15 +109,6 @@ public final class NecessarySubroutines {
 
         CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
         UserUtil.cleanUsers();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
-        validateWidgets();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla annotations");
-        validateVanillaWidgets();
-
-        CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
-        validateHandles();
     }
 
     private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
@@ -148,7 +135,24 @@ public final class NecessarySubroutines {
             }, "Registering fonts", "Registering fonts failed"),
 
             new Subroutine(NecessarySubroutines::validateGuiTests,
-                    "Validating Gui Tests", "Validation of GuiTests failed")
+                    "Validating Gui Tests",
+                    "Validation of GuiTests failed"),
+
+            new Subroutine(NecessarySubroutines::validateWidgets,
+                    "Validating Widgets",
+                    "Validation of Widgets failed"),
+
+            new Subroutine(OsUtil.OperatingSystem.OSX::isCurrentOperatingSystem,
+                    "Ensuring Supported OS",
+                    "Unsupported OS"),
+
+            new Subroutine(NecessarySubroutines::validateVanillaAnnotations,
+                    "Validating vanilla classes",
+                    "Validation of vanilla classes failed"),
+
+            new Subroutine(NecessarySubroutines::validateHandles,
+                    "Validating handles",
+                    "Validation of handles failed")
     );
 
 
@@ -201,14 +205,34 @@ public final class NecessarySubroutines {
                 }
             }
 
-            Logger.log(LogTag.GUI_TEST_WARNING, "Method annotated with @GuiTest does not end"
-                    + " with \"test\"; name: " + method.getName());
+            Logger.log(LogTag.GUI_TEST_WARNING,
+                    "Method annotated with @GuiTest does not end"
+                            + space
+                            + "with"
+                            + space
+                            + CyderStrings.quote
+                            + "test"
+                            + CyderStrings.quote
+                            + "; name"
+                            + colon
+                            + space
+                            + method.getName());
         }
 
         if (StringUtil.in(trigger, true, guiTestTriggers)) {
-            Logger.log(LogTag.GUI_TEST_WARNING, "Method annotation with @GuiTest "
-                    + "has a trigger which has already been used; method: " + method.getName()
-                    + ", trigger: " + trigger);
+            Logger.log(LogTag.GUI_TEST_WARNING,
+                    "Method annotation with @GuiTest"
+                            + space
+                            + "has a trigger which has already been used; method"
+                            + colon
+                            + space
+                            + method.getName()
+                            + comma
+                            + space
+                            + "trigger"
+                            + colon
+                            + space
+                            + trigger);
             return false;
         }
 
@@ -218,85 +242,69 @@ public final class NecessarySubroutines {
 
     /**
      * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
-     * The annotated method MUST take no parameters, be named {@link #STANDARD_WIDGET_SHOW_METHOD_NAME},
-     * contain a valid description, and contain at least one trigger.
+     * All annotated methods are validated.
      *
-     * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
+     * @return whether all Cyder widget methods are valid
      */
-    private static void validateWidgets() {
+    private static boolean validateWidgets() {
+        boolean ret = true;
+
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
 
             for (Method method : clazz.getMethods()) {
                 if (method.isAnnotationPresent(Widget.class)) {
-
+                    if (!validateWidget(method)) {
+                        ret = false;
+                    }
                 }
             }
         }
+
+        return ret;
     }
 
     /**
      * Validates the provided widget method annotated with {@link Widget}.
      * A widget method is valid if the following conditions are met:
      * <ul>
+     *     <li>The method name equals showGui</li>
+     *     <li>The description is not empty</li>
+     *     <li>The widget is not missing triggers</li>
+     *     <li>The widget has non-empty triggers</li>
      *     <li></li>
      * </ul>
+     * <p>
+     * All of the above checks may be skipped if the the method contains a
+     * {@link CyderInspection#WidgetInspection} suppression.
      *
      * @param method the method to validate
      * @return whether the widget is valid
      */
     private static boolean validateWidget(Method method) {
+        Preconditions.checkNotNull(method);
         String[] triggers = method.getAnnotation(Widget.class).triggers();
         String description = method.getAnnotation(Widget.class).description();
 
-        CyderInspection[] suppressionValues = new CyderInspection[]{};
-
-        if (method.isAnnotationPresent(SuppressCyderInspections.class)) {
-            suppressionValues = method.getAnnotation(SuppressCyderInspections.class).value();
+        if (method.isAnnotationPresent(SuppressCyderInspections.class)
+                && ArrayUtil.toList(method.getAnnotation(SuppressCyderInspections.class).value())
+                .contains(CyderInspection.WidgetInspection)) {
+            return true;
         }
 
-        // Not standard name so check for suppression
         if (!method.getName().equals(STANDARD_WIDGET_SHOW_METHOD_NAME)) {
-            if (suppressionValues != null) {
-                boolean in = false;
-
-                for (CyderInspection inspection : suppressionValues) {
-                    if (inspection == CyderInspection.WidgetInspection) {
-                        in = true;
-                        break;
-                    }
-                }
-
-                if (in) {
-                    continue;
-                }
-            }
-
             Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget is not named "
                     + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + method.getName());
+            return false;
         }
 
         if (StringUtil.isNullOrEmpty(description)) {
-            if (suppressionValues != null) {
-                boolean in = false;
-
-                for (CyderInspection inspection : suppressionValues) {
-                    if (inspection == CyderInspection.WidgetInspection) {
-                        in = true;
-                        break;
-                    }
-                }
-
-                if (in) {
-                    continue;
-                }
-            }
-
-            throw new IllegalMethodException("Method annotated with @Widget has empty description");
+            Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget has empty description");
+            return false;
         }
 
         if (triggers.length == 0) {
-            Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget has empty triggers");
+            Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget has no triggers");
             return false;
         }
 
@@ -314,119 +322,164 @@ public final class NecessarySubroutines {
 
     /**
      * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
+     *
+     * @return whether all vanilla annotations are valid
      */
-    public static void validateVanillaWidgets() {
+    private static boolean validateVanillaAnnotations() {
+        boolean ret = true;
+
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
 
             if (clazz.isAnnotationPresent(Vanilla.class)) {
-                if (clazz.isAnnotationPresent(SuppressCyderInspections.class)) {
-                    CyderInspection[] suppressedInspections = clazz.getAnnotation(
-                            SuppressCyderInspections.class).value();
-
-                    if (suppressedInspections != null) {
-                        if (Arrays.stream(suppressedInspections).anyMatch(cyderInspection
-                                -> cyderInspection == CyderInspection.VanillaInspection)) {
-                            continue;
-                        }
-                    }
-                }
-
-                boolean widgetAnnotationFound = Arrays.stream(clazz.getMethods())
-                        .anyMatch(method -> method.getName().toLowerCase().endsWith(WIDGET));
-
-                if (!clazz.getName().toLowerCase().endsWith(WIDGET) && !widgetAnnotationFound) {
-                    Logger.log(LogTag.VANILLA_WARNING, "Class annotated with @Vanilla does not end"
-                            + " with Widget; name: " + clazz.getName());
-                }
-
-                if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
-                            + " does not contain a @CyderAuthor annotation");
-                } else {
-                    String author = clazz.getAnnotation(CyderAuthor.class).author();
-
-                    if (!StringUtil.in(author, true, DEVELOPER_NAMES)) {
-                        Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
-                                + " does not contain Nathan Cheshire as an author");
-                    }
+                if (!validateVanillaAnnotation(clazz)) {
+                    ret = false;
                 }
             }
         }
+
+        return ret;
+    }
+
+    /**
+     * Validates the provided vanilla class.
+     * A vanilla class is valid if the following are true
+     * <ul>
+     *     <li>The CyderAuthor annotation is present</li>
+     *     <li>The CyderAuthor annotation credits Nate Cheshire as the author</li>
+     * </ul>
+     *
+     * @param clazz the vanilla class to validate
+     * @return whether the vanilla class is valid
+     */
+    private static boolean validateVanillaAnnotation(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+        Preconditions.checkArgument(clazz.isAnnotationPresent(Vanilla.class));
+
+        if (clazz.isAnnotationPresent(SuppressCyderInspections.class)
+                && ArrayUtil.toList(clazz.getAnnotation(
+                SuppressCyderInspections.class).value()).contains(CyderInspection.VanillaInspection)) {
+            return true;
+        }
+
+        if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
+            Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
+                    + " does not contain a @CyderAuthor annotation");
+            return false;
+        }
+
+        String author = clazz.getAnnotation(CyderAuthor.class).author();
+
+        if (!StringUtil.in(author, true, DEVELOPER_NAMES)) {
+            Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
+                    + " does not contain Nathan Cheshire as an author");
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Validates all {@link Handle}s found throughout Cyder.
+     *
+     * @return whether all handles found are valid
      */
-    @SuppressWarnings("ConstantConditions") /* Check for final and primary handler */
-    public static void validateHandles() {
-        LinkedList<String> allTriggers = new LinkedList<>();
+    public static boolean validateHandles() {
+        boolean ret = true;
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
-
-            ImmutableList<Method> handleMethods = ReflectionUtil.getHandleMethods(clazz);
-
-            if (!ReflectionUtil.extendsInputHandler(clazz)) {
-                if (handleMethods.size() > 0) {
-                    logHandleWarning(HandleWarning.CONTAINS_HANDLE, ReflectionUtil.getBottomLevelClass(clazz));
-                }
-                continue;
+            if (!validateHandle(clazz)) {
+                ret = false;
             }
-
-            if (ReflectionUtil.clazzContainsMoreThanOneHandle(clazz)) {
-                logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            }
-
-            if (handleMethods.size() < 1) continue;
-            Method handleMethod = handleMethods.get(0);
-            boolean suppressCyderInspectionsPresent = handleMethod.isAnnotationPresent(SuppressCyderInspections.class);
-            boolean shouldSuppressHandleInspections = false;
-            if (suppressCyderInspectionsPresent) {
-                shouldSuppressHandleInspections = Arrays.stream(handleMethod.getAnnotation(
-                                SuppressCyderInspections.class).value())
-                        .anyMatch(suppressionValue -> suppressionValue == CyderInspection.HandleInspection);
-            }
-
-            if (shouldSuppressHandleInspections) continue;
-
-            boolean isPrimaryHandle = ReflectionUtil.isPrimaryHandler(clazz);
-            boolean isFinalHandler = ReflectionUtil.isFinalHandler(clazz);
-
-            ImmutableList<String> triggers = ReflectionUtil.getHandleTriggers(handleMethod);
-
-            if (isPrimaryHandle && triggers.size() < 1) {
-                logHandleWarning(HandleWarning.MISSING_TRIGGER, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            } else if (isFinalHandler && triggers.size() > 0) {
-                logHandleWarning(HandleWarning.FINAL_HANDLER_HAS_TRIGGERS, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            } else if (!isPrimaryHandle && !isFinalHandler) {
-                logHandleWarning(HandleWarning.HANDLER_NOT_USED, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            } else if (isPrimaryHandle && isFinalHandler) {
-                logHandleWarning(HandleWarning.PRIMARY_AND_FINAL, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            } else if (!ReflectionUtil.isPublicStaticBoolean(handleMethod)) {
-                logHandleWarning(HandleWarning.NOT_PUBLIC_STATIC_BOOLEAN, ReflectionUtil.getBottomLevelClass(clazz));
-                continue;
-            }
-
-            triggers.forEach(trigger -> {
-                trigger = trigger.trim();
-
-                if (StringUtil.isNullOrEmpty(trigger)) {
-                    logHandleWarning(HandleWarning.EMPTY_TRIGGER, ReflectionUtil.getBottomLevelClass(clazz));
-                } else {
-                    if (allTriggers.contains(trigger)) {
-                        logHandleWarning(HandleWarning.DUPLICATE_TRIGGER, trigger);
-                    } else {
-                        allTriggers.add(trigger);
-                    }
-                }
-            });
         }
+
+        return ret;
+    }
+
+    /**
+     * Returns whether the provided class contains valid triggers
+     * if any methods are annotated with {@link Handle}.
+     * A class is valid if the following conditions are met:
+     * <ul>
+     *     <li>One method at most exists with the handle annotation</li>
+     *     <li>The class contains one handle annotation if and only if the class extends {@link InputHandler}</li>
+     *     <li>The handle has at least one trigger if the method is a primary handler</li>
+     *     <li>The handle has no triggers if the method is a final handler</li>
+     *     <li>The method is either a primary or final handler, not both</li>
+     *     <li>The method is modified with public and static and returns a boolean</li>
+     *     <li>Each trigger of each method is universally unique and not empty</li>
+     * </ul>
+     *
+     * @param clazz the class to validate
+     * @return whether the provided class is valid
+     */
+    @SuppressWarnings("ConstantConditions") /* Might not always be true */
+    private static boolean validateHandle(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
+        ImmutableList<Method> handleMethods = ReflectionUtil.getHandleMethods(clazz);
+
+        if (!ReflectionUtil.extendsInputHandler(clazz)) {
+            if (handleMethods.size() > 0) {
+                logHandleWarning(HandleWarning.CONTAINS_HANDLE, ReflectionUtil.getBottomLevelClass(clazz));
+                return false;
+            }
+        }
+
+        if (ReflectionUtil.clazzContainsMoreThanOneHandle(clazz)) {
+            logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        }
+
+        Method handleMethod = handleMethods.get(0);
+        if (handleMethod.isAnnotationPresent(SuppressCyderInspections.class)
+                && ArrayUtil.toList(handleMethod.getAnnotation(
+                SuppressCyderInspections.class).value()).contains(CyderInspection.HandleInspection)) {
+            return true;
+        }
+
+        boolean isPrimaryHandle = ReflectionUtil.isPrimaryHandler(clazz);
+        boolean isFinalHandler = ReflectionUtil.isFinalHandler(clazz);
+
+        ImmutableList<String> triggers = ReflectionUtil.getHandleTriggers(handleMethod);
+
+        if (isPrimaryHandle && triggers.size() < 1) {
+            logHandleWarning(HandleWarning.MISSING_TRIGGER, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        } else if (isFinalHandler && triggers.size() > 0) {
+            logHandleWarning(HandleWarning.FINAL_HANDLER_HAS_TRIGGERS, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        } else if (!isPrimaryHandle && !isFinalHandler) {
+            logHandleWarning(HandleWarning.HANDLER_NOT_USED, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        } else if (isPrimaryHandle && isFinalHandler) {
+            logHandleWarning(HandleWarning.PRIMARY_AND_FINAL, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        } else if (!ReflectionUtil.isPublicStaticBoolean(handleMethod)) {
+            logHandleWarning(HandleWarning.NOT_PUBLIC_STATIC_BOOLEAN, ReflectionUtil.getBottomLevelClass(clazz));
+            return false;
+        }
+
+        AtomicBoolean triggersValid = new AtomicBoolean(true);
+
+        triggers.forEach(trigger -> {
+            trigger = trigger.trim();
+
+            if (StringUtil.isNullOrEmpty(trigger)) {
+                logHandleWarning(HandleWarning.EMPTY_TRIGGER, ReflectionUtil.getBottomLevelClass(clazz));
+                triggersValid.set(false);
+            } else {
+                if (handleTriggers.contains(trigger)) {
+                    logHandleWarning(HandleWarning.DUPLICATE_TRIGGER, trigger);
+                    triggersValid.set(false);
+                } else {
+                    handleTriggers.add(trigger);
+                }
+            }
+        });
+
+        return triggersValid.get();
     }
 
     /**
@@ -435,6 +488,7 @@ public final class NecessarySubroutines {
      * @param handleWarning     the handle warning
      * @param classOrMethodName the method or class name that caused in the handle warning
      */
+    @ForReadability
     private static void logHandleWarning(HandleWarning handleWarning, String classOrMethodName) {
         String errorMessagePrefix = handleWarning.getLogPrefix() + CyderStrings.colon + space + classOrMethodName;
 
