@@ -275,14 +275,15 @@ public final class HangmanGame {
      * @param chosenLetter the chosen letter
      */
     private static void letterChosen(char chosenLetter) {
-        String letterString = String.valueOf(chosenLetter);
-        if (chosenLetters.contains(letterString)) return;
+        String letter = String.valueOf(chosenLetter);
+        if (chosenLetters.contains(letter)) return;
 
-        chosenLetters.add(letterString);
+        chosenLetters.add(letter);
 
-        if (hangmanWord.toLowerCase().contains(letterString)) {
+        if (hangmanWord.toLowerCase().contains(letter)) {
             char[] wordChars = hangmanWord.toCharArray();
             StringBuilder labelTextBuilder = new StringBuilder();
+
             for (char currentLetter : wordChars) {
                 if (chosenLetters.contains(String.valueOf(currentLetter))) {
                     labelTextBuilder.append(currentLetter);

@@ -76,4 +76,20 @@ public final class ArrayUtil {
 
         return ImmutableList.copyOf(new ArrayList<>(Arrays.asList(array)));
     }
+
+    /**
+     * Converts the provided character array to a list of characters.
+     *
+     * @param chars the char array to convert
+     * @return the list of characters
+     */
+    public static ImmutableList<Character> charArrayToList(char[] chars) {
+        ArrayList<Character> ret = new ArrayList<>();
+
+        for (char c : chars) {
+            ret.add(c);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
 }

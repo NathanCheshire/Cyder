@@ -11,13 +11,11 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.ArrayUtil;
-import cyder.utils.OsUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -28,36 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Utilities related to processes and the Java {@link Process} API.
  */
 public final class ProcessUtil {
-    /**
-     * The version command line argument.
-     */
-    private static final String VERSION_ARGUMENT = "--version";
-
-    /**
-     * The Python version command result prefix.
-     */
-    private static final String pythonVersionResultPrefix = "Python" + CyderStrings.space;
-
-    /**
-     * The install keyword for pip installations.
-     */
-    private static final String INSTALL = "install";
-
-    /**
-     * The show keyword for getting a pip package version.
-     */
-    private static final String SHOW = "show";
-
-    /**
-     * The prefix of the pip show output for the package name.
-     */
-    private static final String namePrefix = "Name" + CyderStrings.colon + CyderStrings.space;
-
-    /**
-     * The prefix of the pip show output for the version.
-     */
-    private static final String versionPrefix = "Version" + CyderStrings.colon + CyderStrings.space;
-
     /**
      * Suppress default constructor.
      */
@@ -159,114 +127,6 @@ public final class ProcessUtil {
 
             return new ProcessResult(standardOutput, errorOutput);
         });
-    }
-
-    /**
-     * Installs the provided python pip dependency.
-     *
-     * @param packageName the pip dependency to install.
-     */
-    public static void installPipDependency(String packageName) {
-        Preconditions.checkNotNull(packageName);
-        Preconditions.checkArgument(!packageName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
-
-        getProcessOutput(Program.PIP.getProgramName()
-                + CyderStrings.space + INSTALL + CyderStrings.space + packageName);
-    }
-
-    /**
-     * Returns whether the provided python pip dependency is present.
-     *
-     * @param packageName the python pip dependency
-     * @return whether the provided python pip dependency is present
-     */
-    public static Future<Boolean> isPipDependencyPresent(String packageName) {
-        Preconditions.checkNotNull(packageName);
-        Preconditions.checkArgument(!packageName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
-
-        String threadName = "isPipDependencyPresent thread, packageName: "
-                + CyderStrings.quote + packageName + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
-                    + CyderStrings.space + SHOW + CyderStrings.space + packageName);
-            while (!futureResult.isDone()) Thread.onSpinWait();
-
-            try {
-                ProcessResult result = futureResult.get();
-                return result.getStandardOutput().stream().anyMatch(line -> line.startsWith(namePrefix)
-                        && line.substring(namePrefix.length()).equalsIgnoreCase(packageName));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            return false;
-        });
-    }
-
-    /**
-     * Returns the provided python pip dependency version if present. Empty optional else.
-     *
-     * @param packageName the dependency name
-     * @return the dependency version
-     */
-    public static Future<Optional<String>> getPipDependencyVersion(String packageName) {
-        Preconditions.checkNotNull(packageName);
-        Preconditions.checkArgument(!packageName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
-
-        String threadName = "getPipDependencyVersion thread, packageName: "
-                + CyderStrings.quote + packageName + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
-                    + CyderStrings.space + SHOW + CyderStrings.space + packageName);
-            while (!futureResult.isDone()) Thread.onSpinWait();
-
-            try {
-                ProcessResult result = futureResult.get();
-                for (String line : result.getStandardOutput()) {
-                    if (line.startsWith(versionPrefix)) {
-                        return Optional.of(line.substring(versionPrefix.length()));
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            return Optional.empty();
-        });
-    }
-
-    /**
-     * Returns the python version installed if present. Empty optional else.
-     *
-     * @return the python version installed if present
-     */
-    public static Optional<String> python3Installed() {
-        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
-                Program.PYTHON.getProgramName() + CyderStrings.space + VERSION_ARGUMENT);
-        while (!futureResult.isDone()) Thread.onSpinWait();
-
-        try {
-            ProcessResult result = futureResult.get();
-            if (!result.hasErrors()) {
-                if (!result.getStandardOutput().isEmpty()) {
-                    String line = result.getStandardOutput().get(0);
-                    if (line.contains(pythonVersionResultPrefix)) {
-                        String version = line.substring(pythonVersionResultPrefix.length()).trim();
-                        return Optional.of(version);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return Optional.empty();
     }
 
     /**

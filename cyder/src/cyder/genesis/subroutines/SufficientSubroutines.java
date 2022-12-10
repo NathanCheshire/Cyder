@@ -5,18 +5,15 @@ import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.process.ProcessUtil;
 import cyder.process.PythonPackage;
+import cyder.snakes.PythonUtil;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.JvmUtil;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.Future;
 
 /**
  * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
@@ -107,29 +104,14 @@ public final class SufficientSubroutines {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
                 JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
             }, JVM_LOGGER),
-            new SufficientSubroutine(() -> Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
-                String threadName = "Python Package Installed Ensurer, package = " + pythonPackage.getPackageName();
-                CyderThreadRunner.submit(() -> {
-                    Future<Boolean> futureInstalled = pythonPackage.isInstalled();
-                    while (!futureInstalled.isDone()) Thread.onSpinWait();
-                    try {
-                        boolean installed = futureInstalled.get();
-                        if (installed) {
-                            Logger.log(LogTag.PYTHON, "Python package "
-                                    + pythonPackage.getPackageName() + " found to be installed");
-                        } else {
-                            Logger.log(LogTag.PYTHON, "MISSING Python package "
-                                    + pythonPackage.getPackageName());
-                            Console.INSTANCE.getInputHandler().println("Missing Python dependency: "
-                                    + pythonPackage.getPackageName());
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, threadName);
-            }), PYTHON_PACKAGES_INSTALLED_ENSURER),
             new SufficientSubroutine(() -> {
-                Optional<String> optionalVersion = ProcessUtil.python3Installed();
+                for (PythonPackage missingPackage : PythonUtil.getMissingRequiredPythonPackages()) {
+                    Logger.log(LogTag.DEBUG, "Missing required Python package: "
+                            + missingPackage.getPackageName());
+                }
+            }, PYTHON_PACKAGES_INSTALLED_ENSURER),
+            new SufficientSubroutine(() -> {
+                Optional<String> optionalVersion = PythonUtil.isPython3Installed();
                 if (optionalVersion.isEmpty()) {
                     Logger.log(LogTag.PYTHON, "Failed to find installed Python version");
                 } else {

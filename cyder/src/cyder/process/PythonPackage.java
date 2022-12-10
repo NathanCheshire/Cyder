@@ -1,5 +1,7 @@
 package cyder.process;
 
+import cyder.snakes.PythonUtil;
+
 import java.util.Optional;
 import java.util.concurrent.Future;
 
@@ -39,7 +41,7 @@ public enum PythonPackage {
      * Installs this python package using pip if not already present.
      */
     public void install() {
-        ProcessUtil.installPipDependency(packageName);
+        PythonUtil.installPipDependency(this);
     }
 
     /**
@@ -48,7 +50,7 @@ public enum PythonPackage {
      * @return whether the python package is installed
      */
     public Future<Boolean> isInstalled() {
-        return ProcessUtil.isPipDependencyPresent(packageName);
+        return PythonUtil.isPipDependencyPresent(this);
     }
 
     /**
@@ -57,6 +59,6 @@ public enum PythonPackage {
      * @return the installed version of the python package
      */
     public Future<Optional<String>> getInstalledVersion() {
-        return ProcessUtil.getPipDependencyVersion(packageName);
+        return PythonUtil.getPipDependencyVersion(this);
     }
 }
