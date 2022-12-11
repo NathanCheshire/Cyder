@@ -157,7 +157,7 @@ public final class ToStringUtils {
                 .append("bounds")
                 .append(colon)
                 .append(space)
-                .append(closingParenthesis)
+                .append(openingParenthesis)
                 .append(component.getX())
                 .append(comma)
                 .append(space)

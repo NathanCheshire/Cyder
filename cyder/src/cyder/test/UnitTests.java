@@ -8,7 +8,6 @@ import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ElevationUtil;
-import cyder.utils.GitHubUtil;
 import cyder.utils.StatUtil;
 import cyder.utils.StaticUtil;
 import cyder.weather.WeatherWidget;
@@ -165,36 +164,6 @@ public class UnitTests {
     }
 
     @Test
-    public void testValidateGitHubRepoCloneUrl() {
-        // with protocols
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/cyder.git"));
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("https://github.com/nathancheshire/cyder.git"));
-
-        // without protocol
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("github.com/nathancheshire/cyder.git"));
-
-        // www prefix
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("www.github.com/nathancheshire/cyder.git"));
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://www.github.com/nathancheshire/cyder.git"));
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("https://www.github.com/nathancheshire/cyder.git"));
-
-        // user point
-        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire"));
-
-        // repo but not .git
-        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/cyder"));
-
-        // bogus url
-        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://www.youtube.com/nathancheshire/cyder.git"));
-
-        //bogus user yet url wont know that
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/loooppieloper/cyder.git"));
-
-        // bogus repo yet url wont know that
-        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/adverbs.git"));
-    }
-
-    @Test
     public void testFormatSeconds() {
         assertEquals(TimeUtil.formatMillis(0), "0ms");
         assertEquals(TimeUtil.formatMillis(30000), "30s");
@@ -209,6 +178,7 @@ public class UnitTests {
         assertEquals(TimeUtil.formatMillis(3661000), "1h 1m 1s");
     }
 
+    // todo for test suite this will require loading from a github secret the prop value in a setup method
     @Test
     public void testYouTubeVideoQueryConstruction() {
         String query = YoutubeUtil.buildYouTubeApiV3SearchQuery(1, "hello world");
@@ -316,8 +286,8 @@ public class UnitTests {
     /**
      * The expected definition for the define string.
      */
-    private static final String expectedDefinition = "The Act Of Defining, Or Of Making Something Definite,"
-            + " Distinct, or Clear: We Need A Better Definition Of Her Responsibilities.";
+    private static final String expectedDefinition = "the act of defining, or of making something definite, distinct,"
+            + " or clear: We need a better definition of her responsibilities.";
 
     @Test
     public void testDefine() {

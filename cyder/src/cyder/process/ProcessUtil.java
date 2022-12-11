@@ -171,4 +171,22 @@ public final class ProcessUtil {
         String threadName = "Successive Process Runner, pipeTo: " + pipeTo + ", builders: " + builders.size();
         CyderThreadRunner.submit(() -> builders.forEach(builder -> runAndPrintProcess(pipeTo, builder)), threadName);
     }
+
+    /**
+     * Runs the provided command using the Java process API and
+     * invokes {@link Process#waitFor()} after starting the process.
+     *
+     * @param command the command to run
+     */
+    public static void runAndWaitForProcess(String command) {
+        checkNotNull(command);
+        checkArgument(!command.isEmpty());
+
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 }

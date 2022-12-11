@@ -5,6 +5,7 @@ import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.github.GitHubUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.github.Issue;
@@ -14,7 +15,6 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
-import cyder.utils.GitHubUtil;
 import cyder.utils.OsUtil;
 
 import java.util.Map;
