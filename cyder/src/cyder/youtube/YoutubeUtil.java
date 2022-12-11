@@ -64,7 +64,7 @@ public final class YoutubeUtil {
             activeDownloads.add(youtubeDownload);
             youtubeDownload.download();
         } else {
-            noFfmpegOrYoutubeDl();
+            onNoFfmpegOrYoutubeDlInstalled();
         }
     }
 
@@ -84,7 +84,7 @@ public final class YoutubeUtil {
             youtubeDownload.setInputHandler(baseInputHandler);
             youtubeDownload.download();
         } else {
-            noFfmpegOrYoutubeDl();
+            onNoFfmpegOrYoutubeDlInstalled();
         }
     }
 
@@ -169,7 +169,7 @@ public final class YoutubeUtil {
                 }
             }
         } else {
-            noFfmpegOrYoutubeDl();
+            onNoFfmpegOrYoutubeDlInstalled();
         }
     }
 
@@ -188,6 +188,39 @@ public final class YoutubeUtil {
     }
 
     /**
+     * The unknown title string if a title cannot be extracted from a url.
+     */
+    private static final String UNKNOWN_TITLE = "Unknown_title";
+
+    /**
+     * Returns the name to save the YouTube video's audio/thumbnail as.
+     *
+     * @param url the url
+     * @return the save name
+     */
+    public static String getDownloadSaveName(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
+        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
+        String urlTitle = optionalUrlTitle.orElse(UNKNOWN_TITLE);
+
+        String parsedSaveName = StringUtil.removeNonAscii(urlTitle)
+                .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
+                .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
+
+        while (parsedSaveName.endsWith(".")) {
+            parsedSaveName = (parsedSaveName.substring(0, parsedSaveName.length() - 1));
+        }
+
+        if (parsedSaveName.isEmpty()) {
+            parsedSaveName = SecurityUtil.generateUuid();
+        }
+
+        return parsedSaveName;
+    }
+
+    /**
      * Downloads the YouTube video's thumbnail with the provided
      * url to the current user's album aart directory.
      *
@@ -201,31 +234,12 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(dimension);
         Preconditions.checkNotNull(Console.INSTANCE.getUuid());
 
-        // get thumbnail url and file name to save it as
         Optional<BufferedImage> optionalBi = getThumbnail(url, dimension);
-
-        // could not download thumbnail for some reason
         if (optionalBi.isEmpty()) {
             throw new YoutubeException("Could not get raw thumbnail");
         }
 
-        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
-        String urlTitle = "unknown_title";
-        if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
-        String parsedAsciiSaveName = StringUtil.removeNonAscii(urlTitle)
-                .replace("- YouTube", "")
-                .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
-
-        // Remove trailing periods if present
-        while (parsedAsciiSaveName.endsWith(".")) {
-            parsedAsciiSaveName = parsedAsciiSaveName
-                    .substring(0, parsedAsciiSaveName.length() - 1);
-        }
-
-        // if for some reason title was only periods and all were removed, assign a random title
-        if (parsedAsciiSaveName.isEmpty()) {
-            parsedAsciiSaveName = SecurityUtil.generateUuid();
-        }
+        String saveDownloadName = getDownloadSaveName(url);
 
         File albumArtDir = Dynamic.buildDynamic(
                 Dynamic.USERS.getFileName(),
@@ -240,7 +254,7 @@ public final class YoutubeUtil {
         }
 
         File saveAlbumArt = OsUtil.buildFile(albumArtDir.getAbsolutePath(),
-                parsedAsciiSaveName + Extension.PNG.getExtension());
+                saveDownloadName + Extension.PNG.getExtension());
 
         try {
             boolean written = ImageIO.write(optionalBi.get(), Extension.PNG.getExtensionWithoutPeriod(), saveAlbumArt);
@@ -251,7 +265,7 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Retrieves the first valid UUID for the provided query (if one exists)
+     * Retrieves the first valid UUID for the provided query using web scraping.
      *
      * @param youtubeQuery the user friendly query on YouTube. Example: "Gryffin Digital Mirage"
      * @return the first UUID obtained from the raw html page YouTube returns corresponding to the desired query
@@ -279,7 +293,7 @@ public final class YoutubeUtil {
     /**
      * Outputs instructions to the console due to youtube-dl or ffmpeg not being installed.
      */
-    private static void noFfmpegOrYoutubeDl() {
+    private static void onNoFfmpegOrYoutubeDlInstalled() {
         Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl "
                 + "couldn't be located. Please make sure they are both installed and added to your PATH Windows "
                 + "variable. Remember to also set the path to your youtube-dl executable in the user editor");
@@ -301,15 +315,14 @@ public final class YoutubeUtil {
      * Attempts to set the console background to the provided YouTube video's thumbnail
      *
      * @param url the url of the youtube video
-     * @throws YoutubeException if an exception occurred while downloading/processing the thumbnail
      */
-    public static void setAsConsoleBackground(String url) throws YoutubeException {
+    public static void setAsConsoleBackground(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
 
         Dimension consoleDimension = Console.INSTANCE.getConsoleCyderFrame().getSize();
 
-        Optional<BufferedImage> maxThumbnailOptional = getMaxResolutionThumbnail(getUuid(url));
+        Optional<BufferedImage> maxThumbnailOptional = getMaxResolutionThumbnail(extractUuid(url));
 
         if (maxThumbnailOptional.isEmpty()) {
             throw new YoutubeException("Could not get max resolution thumbnail");
@@ -329,23 +342,19 @@ public final class YoutubeUtil {
 
         maxThumbnail = ImageUtil.resizeImage(maxThumbnail, maxThumbnail.getType(), newConsoleWidth, newConsoleHeight);
 
-        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
-        String urlTitle = "Unknown_title";
-        if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
+        String saveNameAndExtension = getDownloadSaveName(url) + Extension.PNG.getExtension();
 
         File fullSaveFile = Dynamic.buildDynamic(
                 Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),
-                urlTitle + Extension.PNG.getExtension());
+                saveNameAndExtension);
 
         try {
             ImageIO.write(maxThumbnail, Extension.PNG.getExtensionWithoutPeriod(), fullSaveFile);
             Console.INSTANCE.setBackgroundFile(fullSaveFile);
         } catch (IOException e) {
             ExceptionHandler.handle(e);
-            throw new YoutubeException("Failed to write image to user background directory as: "
-                    + fullSaveFile.getAbsolutePath());
         }
     }
 
@@ -362,16 +371,16 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(dimension);
         Preconditions.checkArgument(!isPlaylistUrl(url));
 
-        String uuid = getUuid(url);
+        String uuid = extractUuid(url);
 
         BufferedImage save = null;
 
         try {
-            save = ImageUtil.read(buildMaxResThumbnailUrl(uuid));
+            save = ImageUtil.read(buildMaxResolutionThumbnailUrl(uuid));
         } catch (Exception e) {
             // exception here means no max res default was found
             try {
-                save = ImageUtil.read(buildSdDefThumbnailUrl(uuid));
+                save = ImageUtil.read(buildStandardDefinitionThumbnailUrl(uuid));
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
@@ -428,14 +437,14 @@ public final class YoutubeUtil {
     /**
      * Extracts the YouTube playlist id from the provided playlist url.
      *
-     * @param url the url of the playlist
+     * @param playlistUrl the url of the playlist
      * @return the YouTube playlist id
      */
-    public static String extractPlaylistId(String url) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(isPlaylistUrl(url));
+    public static String extractPlaylistId(String playlistUrl) {
+        Preconditions.checkNotNull(playlistUrl);
+        Preconditions.checkArgument(isPlaylistUrl(playlistUrl));
 
-        return url.replace(YOUTUBE_PLAYLIST_HEADER, "").trim();
+        return playlistUrl.replace(YOUTUBE_PLAYLIST_HEADER, "").trim();
     }
 
     /**
@@ -458,7 +467,7 @@ public final class YoutubeUtil {
      * @param uuid the uuid of the video
      * @return a URL for the maximum resolution version of the YouTube video's thumbnail
      */
-    public static String buildMaxResThumbnailUrl(String uuid) {
+    public static String buildMaxResolutionThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
@@ -471,7 +480,7 @@ public final class YoutubeUtil {
      * @param uuid the uuid of the video
      * @return a url for the default YouTube video's thumbnail
      */
-    public static String buildSdDefThumbnailUrl(String uuid) {
+    public static String buildStandardDefinitionThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
@@ -484,7 +493,7 @@ public final class YoutubeUtil {
      * @param url the YouTube url to extract the uuid from
      * @return the extracted uuid
      */
-    public static String getUuid(String url) {
+    public static String extractUuid(String url) {
         Preconditions.checkNotNull(url);
         Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(url);
 
@@ -539,13 +548,13 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        String thumbnailUrl = buildMaxResThumbnailUrl(uuid);
+        String thumbnailUrl = buildMaxResolutionThumbnailUrl(uuid);
 
         try {
             return Optional.of(ImageUtil.read(thumbnailUrl));
         } catch (Exception ignored) {
             try {
-                thumbnailUrl = buildSdDefThumbnailUrl(uuid);
+                thumbnailUrl = buildStandardDefinitionThumbnailUrl(uuid);
                 return Optional.of(ImageUtil.read(thumbnailUrl));
             } catch (Exception ignored2) {
                 return Optional.empty();
