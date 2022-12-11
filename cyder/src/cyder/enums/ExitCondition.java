@@ -31,7 +31,7 @@ public enum ExitCondition {
     /**
      * The standard Cyder exit.
      */
-    GenesisControlledExit(0, "Genesis Controlled Exit"),
+    StandardControlledExit(0, "Standard Controlled Exit"),
 
     /**
      * The exit was schedule by a Cyder user.

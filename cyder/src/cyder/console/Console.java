@@ -636,8 +636,12 @@ public enum Console {
      */
     public void refreshConsoleSuperTitle() {
         consoleCyderFrame.setTitle(CyderVersionManager.INSTANCE.getVersion()
-                + CyderVersionManager.INSTANCE.getProgramName() + space
-                + openingBracket + UserUtil.getCyderUser().getName() + closingBracket);
+                + space
+                + CyderVersionManager.INSTANCE.getProgramName()
+                + space
+                + openingBracket
+                + UserUtil.getCyderUser().getName()
+                + closingBracket);
     }
 
     /**
@@ -3493,7 +3497,7 @@ public enum Console {
             UserUtil.getCyderUser().setLoggedIn("0");
         }
 
-        if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.GenesisControlledExit));
+        if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
         consoleCyderFrame.dispose();
     }
 

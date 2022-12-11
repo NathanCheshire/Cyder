@@ -92,9 +92,8 @@ want to make sure the IDE supports gradle operations. Next, clone Cyder
 via `git clone https://github.com/NathanCheshire/Cyder.git --depth 1`. If you don't absolutely require the entire git
 history, I highly recommend shallow cloning as the extensive git history is quit large. Now load the project in your IDE
 and allow the gradle setup task to run and the IDE to synchronize. Now you'll be able to run Cyder by a runtime
-configuration which invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once
-started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
-account now.
+configuration which invokes the main method inside of `Cyder.java`. Once started, Cyder should recognize there are no
+users found and prompt for the creation of a user. Go ahead and create an account now.
 
 For development purposes, you may want to add three props within a props file:
 

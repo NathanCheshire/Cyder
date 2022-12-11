@@ -33,8 +33,7 @@ public enum SystemPropertyKey {
     USER_NAME("user.name", "User's account name"),
     USER_HOME("user.home", "User's home directory"),
     USER_DIR("user.dir", "User's current working directory"),
-    SUN_JAVA_COMMAND("sun.java.command", "The command used to invoke the"
-            + " Java program's main method. For Cyder this would resemble cyder.genesis.Cyder");
+    SUN_JAVA_COMMAND("sun.java.command", "The command used to invoke the Java program's main method");
 
     /**
      * The key of this system property.

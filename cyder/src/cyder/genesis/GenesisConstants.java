@@ -14,7 +14,7 @@ import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 
 /**
- * Constants for the genesis package.
+ * Constants for Cyder startup package.
  */
 public final class GenesisConstants {
     /**

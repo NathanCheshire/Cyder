@@ -282,7 +282,7 @@ public final class LoginHandler {
                 loginFrameClosed = true;
                 doLoginAnimations = false;
                 if (Console.INSTANCE.isClosed()) {
-                    OsUtil.exit(ExitCondition.GenesisControlledExit);
+                    OsUtil.exit(ExitCondition.StandardControlledExit);
                 }
             }
 

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
@@ -417,5 +418,108 @@ public final class GetInputBuilder extends GetBuilder {
     public GetInputBuilder addOnDialogDisposalRunnable(Runnable runnable) {
         onDialogDisposalRunnables.add(Preconditions.checkNotNull(runnable));
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof GetInputBuilder)) {
+            return false;
+        }
+
+        GetInputBuilder other = (GetInputBuilder) o;
+
+        return frameTitle.equals(other.getFrameTitle())
+                && labelText.equals(other.getLabelText())
+                && labelFont.equals(other.getLabelFont())
+                && labelColor.equals(other.getLabelColor())
+                && submitButtonText.equals(other.getSubmitButtonText())
+                && submitButtonFont.equals(other.getSubmitButtonFont())
+                && initialFieldText.equals(other.getInitialFieldText())
+                && fieldHintText.equals(other.getFieldHintText())
+                && fieldRegex.equals(other.getFieldRegex())
+                && fieldFont.equals(other.getFieldFont())
+                && fieldForeground.equals(other.getFieldForeground())
+                && disableRelativeTo == other.isDisableRelativeTo()
+                && relativeTo.equals(other.getRelativeTo())
+                && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = frameTitle.hashCode();
+        ret = 31 * ret + labelText.hashCode();
+        ret = 31 * ret + labelFont.hashCode();
+        ret = 31 * ret + labelColor.hashCode();
+        ret = 31 * ret + submitButtonText.hashCode();
+        ret = 31 * ret + submitButtonFont.hashCode();
+        ret = 31 * ret + submitButtonColor.hashCode();
+        ret = 31 * ret + initialFieldText.hashCode();
+        ret = 31 * ret + fieldHintText.hashCode();
+        ret = 31 * ret + fieldRegex.hashCode();
+        ret = 31 * ret + fieldFont.hashCode();
+        ret = 31 * ret + fieldForeground.hashCode();
+        ret = 31 * ret + Boolean.hashCode(disableRelativeTo);
+        ret = 31 * ret + relativeTo.hashCode();
+        ret = 31 * ret + onDialogDisposalRunnables.hashCode();
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "GetInputBuilder{"
+                + "frameTitle="
+                + CyderStrings.quote
+                + frameTitle
+                + CyderStrings.quote
+                + ", labelText="
+                + CyderStrings.quote
+                + labelText
+                + CyderStrings.quote
+                + ", labelFont="
+                + labelFont
+                + ", labelColor="
+                + labelColor
+                + ", submitButtonText="
+                + CyderStrings.quote
+                + submitButtonText
+                + CyderStrings.quote
+                + ", submitButtonFont="
+                + submitButtonFont
+                + ", submitButtonColor="
+                + submitButtonColor
+                + ", initialFieldText="
+                + CyderStrings.quote
+                + initialFieldText
+                + CyderStrings.quote
+                + ", fieldHintText="
+                + CyderStrings.quote
+                + fieldHintText
+                + CyderStrings.quote
+                + ", fieldRegex="
+                + CyderStrings.quote
+                + fieldRegex
+                + CyderStrings.quote
+                + ", fieldFont="
+                + fieldFont
+                + ", fieldForeground="
+                + fieldForeground
+                + ", disableRelativeTo="
+                + disableRelativeTo
+                + ", relativeTo="
+                + relativeTo
+                + ", onDialogDisposalRunnables="
+                + onDialogDisposalRunnables
+                + "}";
     }
 }

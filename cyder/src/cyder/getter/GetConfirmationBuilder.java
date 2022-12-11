@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
@@ -348,5 +349,96 @@ public final class GetConfirmationBuilder extends GetBuilder {
      */
     public ImmutableList<Runnable> getOnDialogDisposalRunnables() {
         return ImmutableList.copyOf(onDialogDisposalRunnables);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof GetConfirmationBuilder)) {
+            return false;
+        }
+
+        GetConfirmationBuilder other = (GetConfirmationBuilder) o;
+        return frameTitle.equals(other.getFrameTitle())
+                && labelText.equals(other.getLabelText())
+                && labelFont.equals(other.getLabelFont())
+                && labelColor.equals(other.getLabelColor())
+                && yesButtonText.equals(other.getYesButtonText())
+                && yesButtonColor.equals(other.getYesButtonColor())
+                && yesButtonFont.equals(other.getYesButtonFont())
+                && noButtonText.equals(other.getNoButtonText())
+                && noButtonColor.equals(other.getNoButtonColor())
+                && noButtonFont.equals(other.getNoButtonFont())
+                && relativeTo.equals(other.getRelativeTo())
+                && disableRelativeTo == other.isDisableRelativeTo()
+                && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = frameTitle.hashCode();
+        ret = ret * 31 + labelText.hashCode();
+        ret = ret * 31 + labelFont.hashCode();
+        ret = ret * 31 + labelColor.hashCode();
+        ret = ret * 31 + yesButtonText.hashCode();
+        ret = ret * 31 + yesButtonColor.hashCode();
+        ret = ret * 31 + yesButtonFont.hashCode();
+        ret = ret * 31 + noButtonText.hashCode();
+        ret = ret * 31 + noButtonColor.hashCode();
+        ret = ret * 31 + noButtonFont.hashCode();
+        ret = ret * 31 + relativeTo.hashCode();
+        ret = ret * 31 + Boolean.hashCode(disableRelativeTo);
+        ret = ret * 31 + onDialogDisposalRunnables.hashCode();
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "GetConfirmationBuilder{"
+                + "frameTitle="
+                + CyderStrings.quote
+                + frameTitle
+                + CyderStrings.quote
+                + ", labelText="
+                + CyderStrings.quote
+                + labelText
+                + CyderStrings.quote
+                + ", labelFont="
+                + labelFont
+                + ", labelColor="
+                + labelColor
+                + ", yesButtonText="
+                + CyderStrings.quote
+                + yesButtonText
+                + CyderStrings.quote
+                + ", yesButtonColor="
+                + yesButtonColor
+                + ", yesButtonFont="
+                + yesButtonFont
+                + ", noButtonText="
+                + CyderStrings.quote
+                + noButtonText
+                + CyderStrings.quote
+                + ", noButtonColor="
+                + noButtonColor
+                + ", noButtonFont="
+                + noButtonFont
+                + ", relativeTo="
+                + relativeTo
+                + ", disableRelativeTo="
+                + disableRelativeTo
+                + ", onDialogDisposalRunnables="
+                + onDialogDisposalRunnables
+                + "}";
     }
 }

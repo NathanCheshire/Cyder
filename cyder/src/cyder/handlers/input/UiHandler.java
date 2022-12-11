@@ -68,7 +68,7 @@ public class UiHandler extends InputHandler {
             if (shouldMinimize) {
                 UiUtil.minimizeAllFrames();
             } else {
-                OsUtil.exit(ExitCondition.GenesisControlledExit);
+                OsUtil.exit(ExitCondition.StandardControlledExit);
             }
         } else if (getInputHandler().commandIs("quit") ||
                 getInputHandler().commandIs("exit") ||

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.enums.SystemPropertyKey;
+import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
@@ -372,5 +373,93 @@ public final class GetFileBuilder extends GetBuilder {
     public GetFileBuilder setAllowableFileExtensions(ImmutableList<String> allowableFileExtensions) {
         this.allowableFileExtensions = Preconditions.checkNotNull(allowableFileExtensions);
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = frameTitle.hashCode();
+        ret = ret * 31 + initialDirectory.hashCode();
+        ret = ret * 31 + initialFieldText.hashCode();
+        ret = ret * 31 + fieldForeground.hashCode();
+        ret = ret * 31 + fieldFont.hashCode();
+        ret = ret * 31 + Boolean.hashCode(allowFileSubmission);
+        ret = ret * 31 + Boolean.hashCode(allowFolderSubmission);
+        ret = ret * 31 + submitButtonText.hashCode();
+        ret = ret * 31 + submitButtonColor.hashCode();
+        ret = ret * 31 + relativeTo.hashCode();
+        ret = ret * 31 + Boolean.hashCode(disableRelativeTo);
+        ret = ret * 31 + onDialogDisposalRunnables.hashCode();
+        ret = ret * 31 + allowableFileExtensions.hashCode();
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof GetFileBuilder)) {
+            return false;
+        }
+
+        GetFileBuilder other = (GetFileBuilder) o;
+
+        return frameTitle.equals(other.getFrameTitle())
+                && initialDirectory.equals(other.getInitialDirectory())
+                && initialFieldText.equals(other.getInitialFieldText())
+                && fieldForeground.equals(other.getFieldForeground())
+                && fieldFont.equals(other.getFieldFont())
+                && allowFileSubmission == other.isAllowFileSubmission()
+                && allowFolderSubmission == other.isAllowFolderSubmission()
+                && submitButtonText.equals(other.getSubmitButtonText())
+                && submitButtonColor.equals(other.getSubmitButtonColor())
+                && relativeTo.equals(other.getRelativeTo())
+                && disableRelativeTo == other.isDisableRelativeTo()
+                && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables())
+                && allowableFileExtensions == other.getAllowableFileExtensions();
+    }
+
+    @Override public String toString() {
+        return "GetFileBuilder{"
+                + "frameTitle="
+                + CyderStrings.quote
+                + frameTitle
+                + CyderStrings.quote
+                + ", initialDirectory="
+                + initialDirectory
+                + ", initialFieldText="
+                + CyderStrings.quote
+                + initialFieldText
+                + CyderStrings.quote
+                + ", fieldForeground="
+                + fieldForeground
+                + ", fieldFont="
+                + fieldFont
+                + ", allowFileSubmission="
+                + allowFileSubmission
+                + ", allowFolderSubmission="
+                + allowFolderSubmission
+                + ", submitButtonText="
+                + CyderStrings.quote
+                + submitButtonText
+                + CyderStrings.quote
+                + ", submitButtonFont="
+                + submitButtonFont
+                + ", submitButtonColor="
+                + submitButtonColor
+                + ", relativeTo="
+                + relativeTo
+                + ", disableRelativeTo="
+                + disableRelativeTo
+                + ", onDialogDisposalRunnables="
+                + onDialogDisposalRunnables
+                + ", allowableFileExtensions="
+                + allowableFileExtensions
+                + "}";
     }
 }
