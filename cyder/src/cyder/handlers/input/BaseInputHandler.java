@@ -23,7 +23,7 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.*;
-import cyder.youtube.YoutubeUtil;
+import cyder.youtube.YoutubeDownloadManager;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 
 import javax.swing.*;
@@ -978,7 +978,7 @@ public class BaseInputHandler {
         killThreads();
         escapeWrapShell = true;
         GeneralAndSystemAudioPlayer.stopGeneralAudio();
-        YoutubeUtil.cancelAllActiveDownloads();
+        YoutubeDownloadManager.INSTANCE.cancelAllActiveDownloads();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;
         println(ESCAPED);

@@ -1,6 +1,7 @@
 package cyder.youtube;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.audio.AudioUtil;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
@@ -17,6 +18,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.button.CyderButton;
 import cyder.user.UserFile;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
@@ -27,7 +29,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -43,29 +44,6 @@ public final class YoutubeUtil {
      */
     private YoutubeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * A list of YouTube videos currently being downloaded.
-     */
-    private static final LinkedList<YoutubeDownload> activeDownloads = new LinkedList<>();
-
-    /**
-     * Downloads the YouTube video with the provided url.
-     *
-     * @param url the url of the video to download
-     */
-    public static void downloadYouTubeAudio(String url) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
-
-        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YoutubeDownload youtubeDownload = new YoutubeDownload(url, DownloadType.AUDIO);
-            activeDownloads.add(youtubeDownload);
-            youtubeDownload.download();
-        } else {
-            onNoFfmpegOrYoutubeDlInstalled();
-        }
     }
 
     /**
@@ -86,35 +64,6 @@ public final class YoutubeUtil {
         } else {
             onNoFfmpegOrYoutubeDlInstalled();
         }
-    }
-
-    /**
-     * Removes the provided YouTube download from the active downloads list.
-     *
-     * @param youtubeDownload the YouTube download to remove from the active downloads list
-     */
-    static void removeActiveDownload(YoutubeDownload youtubeDownload) {
-        Preconditions.checkNotNull(youtubeDownload);
-
-        activeDownloads.remove(youtubeDownload);
-    }
-
-    /**
-     * Adds the provided YouTube download to the downloads list.
-     *
-     * @param youtubeDownload the youtube download to add to the list
-     */
-    static void addActiveDownload(YoutubeDownload youtubeDownload) {
-        Preconditions.checkNotNull(youtubeDownload);
-
-        activeDownloads.add(youtubeDownload);
-    }
-
-    /**
-     * Cancels all active youtube downloads.
-     */
-    public static void cancelAllActiveDownloads() {
-        activeDownloads.forEach(YoutubeDownload::cancel);
     }
 
     /**
@@ -144,28 +93,33 @@ public final class YoutubeUtil {
 
             if (StringUtil.isNullOrEmpty(Props.youtubeApi3key.getValue()) && baseInputHandler != null) {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
-            } else {
-                try {
-                    String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
-                            + "part=snippet%2C+id&playlistId=" + playlistID
-                            + "&key=" + Props.youtubeApi3key.getValue();
+                return;
+            }
 
-                    String jsonResponse = NetworkUtil.readUrl(link);
+            try {
+                String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
+                        + "part="
+                        + "snippet%2C+id"
+                        + "&playlistId="
+                        + playlistID
+                        + "&key="
+                        + Props.youtubeApi3key.getValue();
 
-                    Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern.matcher(jsonResponse);
-                    ArrayList<String> uuids = new ArrayList<>();
+                String jsonResponse = NetworkUtil.readUrl(link);
 
-                    while (m.find()) {
-                        uuids.add(m.group(1));
-                    }
+                Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern.matcher(jsonResponse);
+                ArrayList<String> uuids = new ArrayList<>();
 
-                    uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
+                while (m.find()) {
+                    uuids.add(m.group(1));
+                }
 
-                    if (baseInputHandler != null) {
-                        baseInputHandler.println("An exception occurred while downloading playlist: " + playlistID);
-                    }
+                uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+
+                if (baseInputHandler != null) {
+                    baseInputHandler.println("An exception occurred while downloading playlist: " + playlistID);
                 }
             }
         } else {
@@ -276,15 +230,15 @@ public final class YoutubeUtil {
 
         String ret = null;
 
-        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replaceAll(
-                CyderRegexPatterns.whiteSpaceRegex, "+");
+        String query = YOUTUBE_QUERY_BASE + youtubeQuery
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "+");
         String jsonString = NetworkUtil.readUrl(query);
 
         String videoIdIdentifier = quote + VIDEO_ID + quote + colon + quote;
         if (jsonString.contains(videoIdIdentifier)) {
             String[] parts = jsonString.split(videoIdIdentifier);
-            // Safe to access second index since we are checking for contains above
-            ret = parts[1].substring(0, UUID_LENGTH);
+            String firstUuidAndAfter = parts[1];
+            ret = firstUuidAndAfter.substring(0, UUID_LENGTH);
         }
 
         return ret;
@@ -377,39 +331,26 @@ public final class YoutubeUtil {
 
         try {
             save = ImageUtil.read(buildMaxResolutionThumbnailUrl(uuid));
-        } catch (Exception e) {
-            // exception here means no max res default was found
+        } catch (Exception ignored) {
             try {
                 save = ImageUtil.read(buildStandardDefinitionThumbnailUrl(uuid));
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
+            } catch (Exception ignored2) {}
         }
 
-        // Murphy's law so return failsafe
-        if (save == null) {
-            return Optional.empty();
+        if (save == null) return Optional.empty();
+
+        int width = save.getWidth();
+        int height = save.getHeight();
+
+        if (width > dimension.getWidth()) {
+            int cropWidthStart = (int) ((width - dimension.getWidth()) / 2.0);
+            save = save.getSubimage(cropWidthStart, 0, (int) dimension.getWidth(), height);
+            width = save.getWidth();
         }
-
-        // initialize size
-        int w = save.getWidth();
-        int h = save.getHeight();
-
-        // if width is greater than requested width, crop to middle
-        if (w > dimension.getWidth()) {
-            int cropWidthStart = (int) ((w - dimension.getWidth()) / 2.0);
-            save = save.getSubimage(cropWidthStart, 0, (int) dimension.getWidth(), h);
-            w = save.getWidth();
+        if (height > dimension.getHeight()) {
+            int cropHeightStart = (int) ((height - dimension.getHeight()) / 2);
+            save = save.getSubimage(0, cropHeightStart, width, (int) dimension.getHeight());
         }
-
-        // if height is greater than requested height, crop to middle
-        if (h > dimension.getHeight()) {
-            int cropHeightStart = (int) ((h - dimension.getHeight()) / 2);
-            save = save.getSubimage(0, cropHeightStart, w, (int) dimension.getHeight());
-        }
-
-        // now width and height are guaranteed to be less than or equal the provided dimension
-        // We can't really increase the resolution of the image from what was provided.
 
         return Optional.of(save);
     }
@@ -421,7 +362,9 @@ public final class YoutubeUtil {
      * @return whether the provided url references a YouTube playlist
      */
     public static boolean isPlaylistUrl(String url) {
-        return Preconditions.checkNotNull(url).startsWith(YOUTUBE_PLAYLIST_HEADER);
+        Preconditions.checkNotNull(url);
+
+        return url.startsWith(YOUTUBE_PLAYLIST_HEADER);
     }
 
     /**
@@ -519,21 +462,17 @@ public final class YoutubeUtil {
         Preconditions.checkArgument(Props.youtubeApi3key.valuePresent());
 
         String youtubeKey = Props.youtubeApi3key.getValue();
-        String[] queryWords = query.split(CyderRegexPatterns.whiteSpaceRegex);
+        ImmutableList<String> queryWords = ArrayUtil.toList(query.split(CyderRegexPatterns.whiteSpaceRegex));
 
-        StringBuilder queryBuilder = new StringBuilder();
-        for (int i = 0 ; i < queryWords.length ; i++) {
-            String append = queryWords[i].replaceAll(CyderRegexPatterns.illegalUrlCharsRegex, "");
-            queryBuilder.append(append.trim());
+        ArrayList<String> legalCharsQueryWords = new ArrayList<>();
+        queryWords.forEach(part -> legalCharsQueryWords.add(
+                part.replaceAll(CyderRegexPatterns.illegalUrlCharsRegex, "")));
 
-            if (i != queryWords.length - 1 && !append.isEmpty()) {
-                queryBuilder.append(NetworkUtil.URL_SPACE);
-            }
-        }
+        String builtQuery = StringUtil.joinParts(legalCharsQueryWords, NetworkUtil.URL_SPACE);
 
         return YOUTUBE_API_V3_SEARCH_BASE
                 + YoutubeConstants.MAX_RESULTS_PARAMETER + numResults
-                + queryParameter + queryBuilder
+                + queryParameter + builtQuery
                 + videoTypeParameter + video
                 + keyParameter + youtubeKey;
     }

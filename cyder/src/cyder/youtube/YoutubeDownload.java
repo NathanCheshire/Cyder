@@ -396,7 +396,7 @@ public class YoutubeDownload {
                 YoutubeDlFlag.OUTPUT.getFlag(), youtubeDlOutputName
         };
 
-        YoutubeUtil.addActiveDownload(this);
+        YoutubeDownloadManager.INSTANCE.addActiveDownload(this);
 
         downloadableName = downloadSaveName;
 
@@ -506,7 +506,7 @@ public class YoutubeDownload {
                     inputHandler.println("An exception occurred while attempting to download, url: " + url);
                 }
             } finally {
-                YoutubeUtil.removeActiveDownload(this);
+                YoutubeDownloadManager.INSTANCE.removeActiveDownload(this);
                 done = true;
                 downloading = false;
                 if (shouldPrintUiElements()) cleanUpPrintedUiElements();
