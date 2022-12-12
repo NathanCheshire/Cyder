@@ -65,17 +65,6 @@ public final class CyderRegexPatterns {
                     "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
 
     /**
-     * The pattern used to scrape the youtube uuids returned from the youtube api v3 instead
-     * of using JSON serialization via GSON.
-     */
-    public static final Pattern youtubeApiV3UuidPattern = Pattern.compile(
-            """
-                    "resourceId":\\s*\\{\\s*
-                    \\s*"kind":\\s*"youtube#video",\\s*
-                    \\s*"videoId":\\s*"(.*)"\\s*
-                    \\s*},""");
-
-    /**
      * The pattern used to extract the uuid from a youtube video.
      */
     public static final Pattern extractYoutubeUuidPattern

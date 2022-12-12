@@ -35,6 +35,34 @@ import java.util.regex.Matcher;
 import static cyder.strings.CyderStrings.*;
 import static cyder.youtube.YoutubeConstants.*;
 
+/*
+Downloads:
+- Audio
+- Thumbnail
+
+Audio:
+- uuid
+- url
+- query
+- playlist url
+- playlist id
+
+Thumbnail:
+- max resolution
+- default
+- specific w,h or max if cannot meet w or h
+
+Be able to provide a download save name, if not provided it will be generated using the url
+
+// calling these setters will just set a single string param and then also an enum of what it is
+new YoutubeDownload()
+    .setVideoLink(link)
+    .setPlaylistLink(link)
+    .setVideoId(id)
+    .setPlaylistId(id)
+    .setVideoQuery(query)
+ */
+
 /**
  * Utility methods related to YouTube videos.
  */
@@ -69,27 +97,15 @@ public final class YoutubeUtil {
     /**
      * Downloads the YouTube playlist provided the playlist exists.
      *
-     * @param playlist the url of the playlist to download
-     */
-    public static void downloadPlaylist(String playlist) {
-        Preconditions.checkNotNull(playlist);
-        Preconditions.checkArgument(!playlist.isEmpty());
-
-        downloadPlaylist(playlist, null);
-    }
-
-    /**
-     * Downloads the YouTube playlist provided the playlist exists.
-     *
-     * @param playlist         the url of the playlist to download
+     * @param playlistUrl      the url of the playlist to download
      * @param baseInputHandler the input handler to print updates to
      */
-    public static void downloadPlaylist(String playlist, BaseInputHandler baseInputHandler) {
-        Preconditions.checkNotNull(playlist);
-        Preconditions.checkArgument(!playlist.isEmpty());
+    public static void downloadPlaylist(String playlistUrl, BaseInputHandler baseInputHandler) {
+        Preconditions.checkNotNull(playlistUrl);
+        Preconditions.checkArgument(!playlistUrl.isEmpty());
 
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            String playlistID = extractPlaylistId(playlist);
+            String playlistID = extractPlaylistId(playlistUrl);
 
             if (StringUtil.isNullOrEmpty(Props.youtubeApi3key.getValue()) && baseInputHandler != null) {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
@@ -98,22 +114,18 @@ public final class YoutubeUtil {
 
             try {
                 String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
-                        + "part="
-                        + "snippet%2C+id"
+                        + "part=id"
                         + "&playlistId="
                         + playlistID
                         + "&key="
-                        + Props.youtubeApi3key.getValue();
+                        + Props.youtubeApi3key.getValue()
+                        + "&maxResults=50";
 
                 String jsonResponse = NetworkUtil.readUrl(link);
 
-                Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern.matcher(jsonResponse);
+                // todo
+
                 ArrayList<String> uuids = new ArrayList<>();
-
-                while (m.find()) {
-                    uuids.add(m.group(1));
-                }
-
                 uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
