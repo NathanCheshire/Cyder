@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+// todo this should be renamed and refactored to an enum singleton manager IpDataManager
 /**
  * Utility methods for ip data queries.
  */

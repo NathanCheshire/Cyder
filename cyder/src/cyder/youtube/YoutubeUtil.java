@@ -95,51 +95,6 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Downloads the YouTube playlist provided the playlist exists.
-     *
-     * @param playlistUrl      the url of the playlist to download
-     * @param baseInputHandler the input handler to print updates to
-     */
-    public static void downloadPlaylist(String playlistUrl, BaseInputHandler baseInputHandler) {
-        Preconditions.checkNotNull(playlistUrl);
-        Preconditions.checkArgument(!playlistUrl.isEmpty());
-
-        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            String playlistID = extractPlaylistId(playlistUrl);
-
-            if (StringUtil.isNullOrEmpty(Props.youtubeApi3key.getValue()) && baseInputHandler != null) {
-                baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
-                return;
-            }
-
-            try {
-                String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
-                        + "part=id"
-                        + "&playlistId="
-                        + playlistID
-                        + "&key="
-                        + Props.youtubeApi3key.getValue()
-                        + "&maxResults=50";
-
-                String jsonResponse = NetworkUtil.readUrl(link);
-
-                // todo
-
-                ArrayList<String> uuids = new ArrayList<>();
-                uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-
-                if (baseInputHandler != null) {
-                    baseInputHandler.println("An exception occurred while downloading playlist: " + playlistID);
-                }
-            }
-        } else {
-            onNoFfmpegOrYoutubeDlInstalled();
-        }
-    }
-
-    /**
      * Downloads the YouTube video's thumbnail with the provided
      * url to the current user's album art directory.
      *
@@ -176,7 +131,7 @@ public final class YoutubeUtil {
                 .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 
         while (parsedSaveName.endsWith(".")) {
-            parsedSaveName = (parsedSaveName.substring(0, parsedSaveName.length() - 1));
+            parsedSaveName = StringUtil.removeLastChar(parsedSaveName);
         }
 
         if (parsedSaveName.isEmpty()) {

@@ -483,7 +483,6 @@ public class YoutubeDownload {
                             downloadableName + outputExtension);
                     downloaded = true;
 
-                    // todo pass downloadSaveName
                     YoutubeUtil.downloadThumbnail(url);
                     AudioPlayer.addAudioNext(audioDownloadFile);
 

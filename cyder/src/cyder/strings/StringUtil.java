@@ -1253,4 +1253,17 @@ public final class StringUtil {
 
         return ret.toString();
     }
+
+    /**
+     * Removes the last character from the provided string.
+     *
+     * @param string the string to remove the last char from
+     * @return the string with the last character removed
+     */
+    public static String removeLastChar(String string) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        return string.substring(0, string.length() - 1);
+    }
 }

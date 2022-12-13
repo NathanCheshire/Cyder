@@ -119,7 +119,7 @@ public class PlayAudioHandler extends InputHandler {
             String url = getInputHandler().argsToString();
 
             if (YoutubeUtil.isPlaylistUrl(url)) {
-                YoutubeUtil.downloadPlaylist(url, Console.INSTANCE.getInputHandler());
+                // todo
             } else if (YoutubeUtil.isVideoUrl(url)) {
                 YoutubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             } else {

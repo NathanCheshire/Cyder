@@ -53,11 +53,6 @@ public final class YoutubeConstants {
     static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
     /**
-     * The key to get the youtube api v3 key from the props.
-     */
-    static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
-
-    /**
      * A link for how to install ffmpeg.
      */
     static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
@@ -129,11 +124,6 @@ public final class YoutubeConstants {
      * The regular exit code for a {@link Process}.
      */
     static final int SUCCESSFUL_EXIT_CODE = 0;
-
-    /**
-     * The key to obtain the audio output format for ffmpeg from the props.
-     */
-    static final String FFMPEG_AUDIO_OUTPUT_FORMAT = "ffmpeg_audio_output_format";
 
     /**
      * The suffix appended to all YouTube video titles in the URL of a webpage.

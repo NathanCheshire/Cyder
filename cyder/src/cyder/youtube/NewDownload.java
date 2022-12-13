@@ -2,11 +2,27 @@ package cyder.youtube;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.YoutubeException;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
+import cyder.strings.StringUtil;
+import cyder.user.UserFile;
+import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import static cyder.youtube.YoutubeConstants.YOUTUBE_VIDEO_URL_TITLE_SUFFIX;
 
 /**
  * An object to download audio and thumbnails from YouTube.
@@ -40,6 +56,21 @@ public class NewDownload {
      * The name to save the thumbnail download as.
      */
     private String thumbnailDownloadName;
+
+    /**
+     * The handler to use for printing updates and ui elements.
+     */
+    private BaseInputHandler printOutputHandler;
+
+    /**
+     * The width to crop the thumbnail to.
+     */
+    private int requestedThumbnailWidth = -1;
+
+    /**
+     * The height to crop the thumbnail to.
+     */
+    private int requestedThumbnailHeight = -1;
 
     /**
      * Constructs a new YoutubeDownload object.
@@ -163,32 +194,79 @@ public class NewDownload {
         this.thumbnailDownloadName = thumbnailDownloadName;
     }
 
-    private BaseInputHandler printOutputHandler;
-
-    public void setPrintOutputToConsole(boolean printOutputToConsole) {
-        if (printOutputToConsole) {
-            setPrintOutputHandler(Console.INSTANCE.getInputHandler());
-        } else {
-            printOutputHandler = null;
-        }
+    /**
+     * Sets the handler to use for printing updates and ui elements to the Console's.
+     */
+    public void setPrintOutputToConsole() {
+        setPrintOutputHandler(Console.INSTANCE.getInputHandler());
     }
 
+    /**
+     * Sets the handler to use for printing updates and ui elements.
+     *
+     * @param inputHandler the handler to use for printing updates and ui elements
+     */
     public void setPrintOutputHandler(BaseInputHandler inputHandler) {
         Preconditions.checkNotNull(inputHandler);
 
         this.printOutputHandler = inputHandler;
     }
 
+    /**
+     * Removes the handler to use for printing updates and ui elements.
+     */
     public void removePrintOutputHandler() {
         this.printOutputHandler = null;
     }
 
-    // todo
+    /**
+     * Sets the request width to download the thumbnail.
+     *
+     * @param requestedThumbnailWidth the request width to download the thumbnail
+     */
+    public void setRequestedThumbnailWidth(int requestedThumbnailWidth) {
+        this.requestedThumbnailWidth = requestedThumbnailWidth;
+    }
+
+    /**
+     * Sets the request height to download the thumbnail.
+     *
+     * @param requestedThumbnailHeight the request height to download the thumbnail
+     */
+    public void setRequestedThumbnailHeight(int requestedThumbnailHeight) {
+        this.requestedThumbnailHeight = requestedThumbnailHeight;
+    }
+
+    /**
+     * Sets the requested thumbnail dimensions, that of width and height, to the provided integer value.
+     * When the thumbnail is downloaded, the resulting image will have equal width and height.
+     * If a dimensional length exceeds that of the original thumbnail, the thumbnail's maximum length is used
+     * for both the width and height.
+     *
+     * @param sideLength the requested image side length
+     */
+    public void setThumbnailLength(int sideLength) {
+        Preconditions.checkArgument(sideLength > 0);
+
+        this.requestedThumbnailWidth = sideLength;
+        this.requestedThumbnailHeight = sideLength;
+    }
 
     /**
      * Starts the download of the audio and thumbnail file(s).
      */
     public void downloadAudioAndThumbnail() {
+        if (audioDownloadName == null && thumbnailDownloadName == null) {
+            initializeAudioAndThumbnailDownloadNames();
+        } else {
+            if (audioDownloadName == null) {
+                initializeAudioDownloadNames();
+            }
+            if (thumbnailDownloadName == null) {
+                initializeThumbnailDownloadName();
+            }
+        }
+
         downloadAudio();
         downloadThumbnail();
     }
@@ -197,8 +275,9 @@ public class NewDownload {
      * Starts the download of the audio file(s).
      */
     public void downloadAudio() {
-        Preconditions.checkState(providedDownloadString != null);
-
+        if (audioDownloadName == null) {
+            initializeAudioDownloadNames();
+        }
 
     }
 
@@ -206,8 +285,106 @@ public class NewDownload {
      * Starts the download of the thumbnail file(s).
      */
     public void downloadThumbnail() {
-        Preconditions.checkState(providedDownloadString != null);
+        if (thumbnailDownloadName == null) {
+            initializeThumbnailDownloadName();
+        }
 
+        if (downloadType == Type.VIDEO_LINK) {
+            String uuid = YoutubeUtil.extractUuid(providedDownloadString);
 
+            BufferedImage thumbnailImage = null;
+            try {
+                thumbnailImage = ImageUtil.read(YoutubeUtil.buildMaxResolutionThumbnailUrl(uuid));
+            } catch (Exception ignored) {
+                try {
+                    thumbnailImage = ImageUtil.read(YoutubeUtil.buildStandardDefinitionThumbnailUrl(uuid));
+                } catch (Exception ignored2) {}
+            }
+
+            if (thumbnailImage == null) {
+                throw new FatalException("Could not get max resolution or standard resolution"
+                        + " thumbnail for provided download string: " + providedDownloadString);
+            }
+
+            int width = thumbnailImage.getWidth();
+            int height = thumbnailImage.getHeight();
+
+            int cropOffsetX = 0;
+            int cropOffsetY = 0;
+
+            if (requestedThumbnailWidth != -1 && width > requestedThumbnailWidth) {
+                cropOffsetX = (width - requestedThumbnailWidth) / 2;
+            }
+
+            if (requestedThumbnailHeight != -1 && height > requestedThumbnailHeight) {
+                cropOffsetY = (height - requestedThumbnailHeight) / 2;
+            }
+
+            thumbnailImage = ImageUtil.cropImage(thumbnailImage, cropOffsetX, cropOffsetY,
+                    requestedThumbnailWidth, requestedThumbnailHeight);
+
+            File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
+                    UserFile.MUSIC.getName(), UserFile.ALBUM_ART, thumbnailDownloadName + Extension.PNG.getExtension());
+
+            try {
+                if (!ImageIO.write(thumbnailImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile)) {
+                    throw new IOException("Failed to write album art");
+                }
+            } catch (IOException e) {
+                throw new YoutubeException(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Initializes the name(s) of the audio and thumbnail download(s).
+     */
+    private void initializeAudioAndThumbnailDownloadNames() {
+        String safeDownloadName = getSafeDownloadName(providedDownloadString);
+
+        audioDownloadName = safeDownloadName;
+        thumbnailDownloadName = safeDownloadName;
+    }
+
+    /**
+     * Initializes the name(s) of the audio download(s).
+     */
+    private void initializeAudioDownloadNames() {
+        audioDownloadName = getSafeDownloadName(providedDownloadString);
+    }
+
+    /**
+     * Initializes the name(s) of the thumbnail download(s).
+     */
+    private void initializeThumbnailDownloadName() {
+        thumbnailDownloadName = getSafeDownloadName(providedDownloadString);
+    }
+
+    /**
+     * Returns a safe filename to save the audio/thumbnail downloaded from
+     * the provided youtube url as on the host computer.
+     *
+     * @param youtubeUrl the url of the video/thumbnail to download
+     * @return a safe filename to save the content from the url as when downloading
+     */
+    private static String getSafeDownloadName(String youtubeUrl) {
+        Preconditions.checkNotNull(youtubeUrl);
+        Preconditions.checkArgument(!youtubeUrl.isEmpty());
+
+        String urlTitle = NetworkUtil.getUrlTitle(youtubeUrl).orElse("Unknown_title");
+
+        String safeName = StringUtil.removeNonAscii(urlTitle)
+                .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
+                .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
+
+        while (safeName.endsWith(".")) {
+            safeName = StringUtil.removeLastChar(safeName);
+        }
+
+        if (safeName.isEmpty()) {
+            safeName = SecurityUtil.generateUuid();
+        }
+
+        return safeName;
     }
 }
