@@ -1,10 +1,17 @@
 package cyder.youtube;
 
 import com.google.common.base.Preconditions;
+import cyder.console.Console;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
 import cyder.utils.OsUtil;
 
+/**
+ * An object to download audio and thumbnails from YouTube.
+ * An instance of this class can represent a video/playlist of videos.
+ */
 public class NewDownload {
     /**
      * The string which could be a link, id, or query.
@@ -22,10 +29,17 @@ public class NewDownload {
     private enum Type {
         VIDEO_LINK,
         PLAYLIST_LINK,
-        VIDEO_ID,
-        PLAYLIST_ID,
-        VIDEO_QUERY,
     }
+
+    /**
+     * The name to save the audio download as.
+     */
+    private String audioDownloadName;
+
+    /**
+     * The name to save the thumbnail download as.
+     */
+    private String thumbnailDownloadName;
 
     /**
      * Constructs a new YoutubeDownload object.
@@ -42,6 +56,7 @@ public class NewDownload {
     public void setVideoLink(String videoLink) {
         Preconditions.checkNotNull(videoLink);
         Preconditions.checkArgument(!videoLink.isEmpty());
+        Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
         this.providedDownloadString = videoLink;
         this.downloadType = Type.VIDEO_LINK;
@@ -55,6 +70,7 @@ public class NewDownload {
     public void setPlaylistLink(String playlistLink) {
         Preconditions.checkNotNull(playlistLink);
         Preconditions.checkArgument(!playlistLink.isEmpty());
+        Preconditions.checkArgument(!NetworkUtil.readUrl(playlistLink).isEmpty());
 
         this.providedDownloadString = playlistLink;
         this.downloadType = Type.PLAYLIST_LINK;
@@ -68,9 +84,13 @@ public class NewDownload {
     public void setVideoId(String videoId) {
         Preconditions.checkNotNull(videoId);
         Preconditions.checkArgument(!videoId.isEmpty());
+        Preconditions.checkArgument(videoId.length() == YoutubeConstants.UUID_LENGTH);
 
-        this.providedDownloadString = videoId;
-        this.downloadType = Type.VIDEO_ID;
+        String link = YoutubeUtil.buildVideoUrl(videoId);
+        Preconditions.checkArgument(!NetworkUtil.readUrl(link).isEmpty());
+
+        this.providedDownloadString = link;
+        this.downloadType = Type.VIDEO_LINK;
     }
 
     /**
@@ -82,8 +102,11 @@ public class NewDownload {
         Preconditions.checkNotNull(playlistId);
         Preconditions.checkArgument(!playlistId.isEmpty());
 
-        this.providedDownloadString = playlistId;
-        this.downloadType = Type.PLAYLIST_ID;
+        String link = YoutubeConstants.YOUTUBE_PLAYLIST_HEADER + playlistId;
+        Preconditions.checkArgument(!NetworkUtil.readUrl(link).isEmpty());
+
+        this.providedDownloadString = link;
+        this.downloadType = Type.PLAYLIST_LINK;
     }
 
     /**
@@ -95,18 +118,30 @@ public class NewDownload {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
 
-        this.providedDownloadString = query;
-        this.downloadType = Type.VIDEO_QUERY;
+        String firstUuid = YoutubeUtil.getFirstUuid(query);
+        if (firstUuid == null || firstUuid.length() != YoutubeConstants.UUID_LENGTH) {
+            throw new IllegalArgumentException("Could not find video for query: " + query);
+        }
+
+        this.providedDownloadString = YoutubeUtil.buildVideoUrl(firstUuid);
+        this.downloadType = Type.VIDEO_LINK;
     }
 
-    private String audioDownloadName;
-    private String thumbnailDownloadName;
-
+    /**
+     * Sets the provided name as the name to save the .mp3 and .png audio and thumbnail downloads as.
+     *
+     * @param downloadNames the name to save the downloads as
+     */
     public void setDownloadNames(String downloadNames) {
         setAudioDownloadName(downloadNames);
         setThumbnailDownloadName(downloadNames);
     }
 
+    /**
+     * Sets the name to save the .mp3 download as.
+     *
+     * @param audioDownloadName the name to save the .mp3 download as
+     */
     public void setAudioDownloadName(String audioDownloadName) {
         Preconditions.checkNotNull(audioDownloadName);
         Preconditions.checkArgument(!audioDownloadName.isEmpty());
@@ -115,11 +150,64 @@ public class NewDownload {
         this.audioDownloadName = audioDownloadName;
     }
 
+    /**
+     * Sets the name to save the .png download as.
+     *
+     * @param thumbnailDownloadName the name to save the .png download as
+     */
     public void setThumbnailDownloadName(String thumbnailDownloadName) {
         Preconditions.checkNotNull(thumbnailDownloadName);
         Preconditions.checkArgument(!thumbnailDownloadName.isEmpty());
         Preconditions.checkArgument(OsUtil.isValidFilename(thumbnailDownloadName));
 
         this.thumbnailDownloadName = thumbnailDownloadName;
+    }
+
+    private BaseInputHandler printOutputHandler;
+
+    public void setPrintOutputToConsole(boolean printOutputToConsole) {
+        if (printOutputToConsole) {
+            setPrintOutputHandler(Console.INSTANCE.getInputHandler());
+        } else {
+            printOutputHandler = null;
+        }
+    }
+
+    public void setPrintOutputHandler(BaseInputHandler inputHandler) {
+        Preconditions.checkNotNull(inputHandler);
+
+        this.printOutputHandler = inputHandler;
+    }
+
+    public void removePrintOutputHandler() {
+        this.printOutputHandler = null;
+    }
+
+    // todo
+
+    /**
+     * Starts the download of the audio and thumbnail file(s).
+     */
+    public void downloadAudioAndThumbnail() {
+        downloadAudio();
+        downloadThumbnail();
+    }
+
+    /**
+     * Starts the download of the audio file(s).
+     */
+    public void downloadAudio() {
+        Preconditions.checkState(providedDownloadString != null);
+
+
+    }
+
+    /**
+     * Starts the download of the thumbnail file(s).
+     */
+    public void downloadThumbnail() {
+        Preconditions.checkState(providedDownloadString != null);
+
+
     }
 }
