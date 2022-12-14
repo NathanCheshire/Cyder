@@ -21,10 +21,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * An object to download audio and thumbnails from YouTube.
- * An instance of this class can represent a video/playlist of videos.
+ * An object to download an audio and thumbnail file from a singular YouTube video.
+ * An instance of this class can represent a singular YouTube video.
  */
-public class NewDownload {
+public class YoutubeVideoDownload {
+    /**
+     * The magic number to denote the thumbnail dimensions were not
+     * specified by the caller and thus may remain whatever the default is.
+     */
     private static final int DIMENSION_TO_BE_DETERMINED = -1;
 
     /**
@@ -58,9 +62,19 @@ public class NewDownload {
     private int requestedThumbnailHeight = DIMENSION_TO_BE_DETERMINED;
 
     /**
+     * The runnable to invoke when the download is canceled.
+     */
+    private Runnable onCanceledCallback;
+
+    /**
+     * The runnable to invoke when the download completes successfully.
+     */
+    private Runnable onDownloadedCallback;
+
+    /**
      * Constructs a new YoutubeDownload object.
      */
-    public NewDownload() {
+    public YoutubeVideoDownload() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
@@ -118,10 +132,6 @@ public class NewDownload {
         Preconditions.checkArgument(!query.isEmpty());
 
         String firstUuid = YoutubeUtil.getFirstUuid(query);
-        if (firstUuid == null || firstUuid.length() != YoutubeConstants.UUID_LENGTH) {
-            throw new IllegalArgumentException("Could not find video for query: " + query);
-        }
-
         this.providedDownloadString = YoutubeUtil.buildVideoUrl(firstUuid);
     }
 
@@ -217,6 +227,28 @@ public class NewDownload {
 
         this.requestedThumbnailWidth = sideLength;
         this.requestedThumbnailHeight = sideLength;
+    }
+
+    /**
+     * Sets the on download callback.
+     *
+     * @param onCanceledCallback the on download callback
+     */
+    public void setOnCanceledCallback(Runnable onCanceledCallback) {
+        Preconditions.checkNotNull(onCanceledCallback);
+
+        this.onCanceledCallback = onCanceledCallback;
+    }
+
+    /**
+     * Sets the on download complete callback.
+     *
+     * @param onDownloadedCallback the on download complete callback
+     */
+    public void setOnDownloadedCallback(Runnable onDownloadedCallback) {
+        Preconditions.checkNotNull(onDownloadedCallback);
+
+        this.onDownloadedCallback = onDownloadedCallback;
     }
 
     /**
@@ -319,5 +351,14 @@ public class NewDownload {
      */
     private void initializeThumbnailDownloadName() {
         thumbnailDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
+    }
+
+    /**
+     * Returns whether ui elements should be printed for this Youtube video download.
+     *
+     * @return whether ui elements should be printed for this Youtube video download
+     */
+    private boolean shouldPrintUiElements() {
+        return printOutputHandler != null;
     }
 }

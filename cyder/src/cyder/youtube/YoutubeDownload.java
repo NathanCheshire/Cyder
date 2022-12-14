@@ -359,17 +359,11 @@ public class YoutubeDownload {
         downloadableName = downloadSaveName;
 
         String threadName = "YouTube"
-                + CyderStrings.space
-                + downloadType.getRepresentation()
-                + CyderStrings.space
-                + "Downloader, saveName"
-                + CyderStrings.colon
-                + CyderStrings.space
-                + downloadSaveName
-                + ", uuid"
-                + CyderStrings.colon
-                + CyderStrings.space
-                + YoutubeUtil.extractUuid(url);
+                + CyderStrings.space + downloadType.getRepresentation()
+                + CyderStrings.space + "Downloader, saveName"
+                + CyderStrings.colon + CyderStrings.space + downloadSaveName
+                + CyderStrings.comma + CyderStrings.space + "uuid"
+                + CyderStrings.colon + CyderStrings.space + YoutubeUtil.extractUuid(url);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -377,86 +371,37 @@ public class YoutubeDownload {
                     String types = downloadType.getRepresentation();
                     String audioName = downloadableName + outputExtension;
                     inputHandler.println("Downloading"
-                            + CyderStrings.space
-                            + types
-                            + CyderStrings.space
-                            + "as"
-                            + CyderStrings.colon
-                            + CyderStrings.space
-                            + audioName);
+                            + CyderStrings.space + types
+                            + CyderStrings.space + "as"
+                            + CyderStrings.colon + CyderStrings.space + audioName);
 
                     createAndPrintUiElements();
                 }
 
                 downloading = true;
-                Process proc = Runtime.getRuntime().exec(command);
 
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                Process process = Runtime.getRuntime().exec(command);
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String outputString;
 
                 while ((outputString = stdInput.readLine()) != null) {
                     if (isCanceled()) {
-                        proc.destroy();
-
+                        process.destroy();
                         cleanUpFromCancel(userMusicDir, downloadableName);
-                        if (onDownloadedCallback != null) {
-                            onCanceledCallback.run();
-                        }
-
+                        if (onDownloadedCallback != null) onCanceledCallback.run();
                         break;
                     }
 
-                    Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
-
-                    if (updateMatcher.find()) {
-                        String progressPart = updateMatcher.group(progressIndex);
-                        float progress = Float.parseFloat(progressPart
-                                .replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, ""));
-                        downloadableProgress = progress;
-
-                        downloadableFileSize = updateMatcher.group(sizeIndex);
-                        downloadableRate = updateMatcher.group(rateIndex);
-                        downloadableEta = updateMatcher.group(etaIndex);
-
-                        if (shouldPrintUiElements() && downloadProgressBar != null) {
-                            int value = (int) ((progress / 100.0f) * downloadProgressBar.getMaximum());
-                            downloadProgressBar.setValue(value);
-                            updateProgressLabelText();
-                        }
-                    }
+                    updateUiElementsFromDownloadOutputString(outputString);
                 }
 
-                processExitCode = proc.waitFor();
+                processExitCode = process.waitFor();
 
-                if (processExitCode != SUCCESSFUL_EXIT_CODE) {
-                    onDownloadFailed();
-                } else if (!isCanceled()) {
-                    audioDownloadFile = OsUtil.buildFile(
-                            userMusicDir.getAbsolutePath(),
-                            downloadableName + outputExtension);
-                    downloaded = true;
-
-                    // todo remove me YoutubeUtil.downloadThumbnail(url);
-                    AudioPlayer.addAudioNext(audioDownloadFile);
-
-                    if (onDownloadedCallback != null) {
-                        onDownloadedCallback.run();
-                    }
-
-                    if (shouldPrintUiElements()) {
-                        inputHandler.println("Download complete: saved as"
-                                + CyderStrings.space
-                                + downloadableName
-                                + CyderStrings.space
-                                + "and added to audio queue");
-                    }
-                }
+                audioDownloadFile = OsUtil.buildFile(userMusicDir.getAbsolutePath(),
+                        downloadableName + outputExtension);
+                onDownloadProcessFinished(audioDownloadFile);
             } catch (Exception e) {
-                ExceptionHandler.handle(e);
-
-                if (shouldPrintUiElements()) {
-                    inputHandler.println("An exception occurred while attempting to download, url: " + url);
-                }
+                onDownloadProcessException(e);
             } finally {
                 YoutubeDownloadManager.INSTANCE.removeActiveDownload(this);
 
@@ -468,6 +413,79 @@ public class YoutubeDownload {
                 }
             }
         }, threadName);
+    }
+
+    /**
+     * The actions to invoke when an exception is thrown inside of the download thread.
+     *
+     * @param e the thrown exception
+     */
+    private void onDownloadProcessException(Exception e) {
+        ExceptionHandler.handle(e);
+
+        if (shouldPrintUiElements()) {
+            inputHandler.println("An exception occurred while attempting to download, url: " + url);
+        }
+    }
+
+    /**
+     * The actions to invoke when the download process exits.
+     * This does not indicate success or failure of the process.
+     *
+     * @param audioDownloadFile the file pointer the download file would be saved to
+     */
+    private void onDownloadProcessFinished(File audioDownloadFile) {
+        if (processExitCode != SUCCESSFUL_EXIT_CODE) {
+            onDownloadFailed();
+        } else if (!isCanceled()) {
+            downloaded = true;
+
+            // todo thumbnail download somewhere
+            AudioPlayer.addAudioNext(audioDownloadFile);
+
+            if (onDownloadedCallback != null) {
+                onDownloadedCallback.run();
+            }
+
+            if (shouldPrintUiElements()) {
+                inputHandler.println("Download complete: saved as"
+                        + CyderStrings.space + downloadableName + CyderStrings.space
+                        + "and added to audio queue");
+            }
+        }
+    }
+
+    /**
+     * Updates the ui elements and encapsulated variables from the process download output.
+     * Parsed members from the output string include:
+     * <ul>
+     *     <li>Download progress</li>
+     *     <li>Download file size</li>
+     *     <li>Download rate</li>
+     *     <li>Download eta</li>
+     * </ul>
+     *
+     * @param outputString the string output to the process' standard output
+     */
+    private void updateUiElementsFromDownloadOutputString(String outputString) {
+        Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
+
+        if (updateMatcher.find()) {
+            String progressPart = updateMatcher.group(progressIndex);
+            float progress = Float.parseFloat(progressPart
+                    .replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, ""));
+            downloadableProgress = progress;
+
+            downloadableFileSize = updateMatcher.group(sizeIndex);
+            downloadableRate = updateMatcher.group(rateIndex);
+            downloadableEta = updateMatcher.group(etaIndex);
+
+            if (shouldPrintUiElements() && downloadProgressBar != null) {
+                int value = (int) ((progress / 100.0f) * downloadProgressBar.getMaximum());
+                downloadProgressBar.setValue(value);
+                updateProgressLabelText();
+            }
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.YoutubeException;
 import cyder.handlers.input.BaseInputHandler;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.forwardSlash;
 import static cyder.youtube.YoutubeConstants.*;
 
 /**
@@ -69,7 +70,7 @@ public final class YoutubeUtil {
      * Returns the name to save the YouTube video's audio/thumbnail as.
      *
      * @param youtubeVideoUrl the url
-     * @return the save name
+     * @return the name to save the file as
      */
     public static String getDownloadSaveName(String youtubeVideoUrl) {
         Preconditions.checkNotNull(youtubeVideoUrl);
@@ -93,29 +94,33 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Retrieves the first valid UUID for the provided query using web scraping.
+     * Retrieves the first valid video UUID for the provided YouTube query using web scraping.
      *
-     * @param youtubeQuery the user friendly query on YouTube. Example: "Gryffin Digital Mirage"
-     * @return the first UUID obtained from the raw html page YouTube returns corresponding to the desired query
+     * @param youtubeQuery the raw query as if the input was entered directly into the YouTube search bar
+     * @return the first UUID obtained from the raw HTML page YouTube returns corresponding to the desired query
      */
     public static String getFirstUuid(String youtubeQuery) {
         Preconditions.checkNotNull(youtubeQuery);
         Preconditions.checkArgument(!youtubeQuery.isEmpty());
 
-        String ret = null;
-
         String query = YOUTUBE_QUERY_BASE + youtubeQuery
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "+");
         String jsonString = NetworkUtil.readUrl(query);
 
-        String videoIdIdentifier = quote + VIDEO_ID + quote + colon + quote;
-        if (jsonString.contains(videoIdIdentifier)) {
-            String[] parts = jsonString.split(videoIdIdentifier);
+        if (jsonString.contains(videoIdHtmlSubstring)) {
+            String[] parts = jsonString.split(videoIdHtmlSubstring);
             String firstUuidAndAfter = parts[1];
-            ret = firstUuidAndAfter.substring(0, UUID_LENGTH);
+
+            if (firstUuidAndAfter.length() >= UUID_LENGTH) {
+                String uuid = firstUuidAndAfter.substring(0, UUID_LENGTH);
+
+                if (UUID_PATTERN.matcher(uuid).matches()) {
+                    return uuid;
+                }
+            }
         }
 
-        return ret;
+        throw new FatalException("Could not find YouTube uuid for query: " + youtubeQuery);
     }
 
     /**
@@ -126,15 +131,15 @@ public final class YoutubeUtil {
                 + "couldn't be located. Please make sure they are both installed and added to your PATH Windows "
                 + "variable. Remember to also set the path to your youtube-dl executable in the user editor");
 
-        CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
+        CyderButton environmentVariableHelp = new CyderButton("Add Environment Variables");
         environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(environmentVariables));
         Console.INSTANCE.getInputHandler().println(environmentVariableHelp);
 
-        CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
+        CyderButton downloadFFMPEG = new CyderButton("Download FFMPEG");
         downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(FFMPEG_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
-        CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
+        CyderButton downloadYoutubeDL = new CyderButton("Download youtube-dl");
         downloadYoutubeDL.addActionListener(e -> NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
@@ -269,6 +274,8 @@ public final class YoutubeUtil {
      */
     public static String extractUuid(String url) {
         Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(url);
 
         if (matcher.find()) {
@@ -285,7 +292,6 @@ public final class YoutubeUtil {
      * @param query      the search query such as "black parade"
      * @return the constructed url to match the provided parameters
      */
-    @SuppressWarnings("ConstantConditions") /* Unit test asserts throws for query of null */
     public static String buildYouTubeApiV3SearchQuery(int numResults, String query) {
         Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
         Preconditions.checkNotNull(query);
@@ -351,6 +357,9 @@ public final class YoutubeUtil {
         for (String part : parts) {
             if (part.length() >= UUID_LENGTH) {
                 String uuid = part.substring(0, UUID_LENGTH);
+
+                // Just to be safe
+                if (!UUID_PATTERN.matcher(uuid).matches()) continue;
 
                 if (!uniqueVideoUuids.contains(uuid)) {
                     uniqueVideoUuids.add(uuid);

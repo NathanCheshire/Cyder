@@ -11,7 +11,6 @@ import cyder.utils.ElevationUtil;
 import cyder.utils.StatUtil;
 import cyder.utils.StaticUtil;
 import cyder.weather.WeatherWidget;
-import cyder.youtube.YoutubeUtil;
 import org.junit.Test;
 
 import java.awt.*;
@@ -176,53 +175,6 @@ public class UnitTests {
         assertEquals(TimeUtil.formatMillis(3600000), "1h");
         assertEquals(TimeUtil.formatMillis(3601000), "1h 1s");
         assertEquals(TimeUtil.formatMillis(3661000), "1h 1m 1s");
-    }
-
-    // todo for test suite this will require loading from a github secret the prop value in a setup method
-    @Test
-    public void testYouTubeVideoQueryConstruction() {
-        String query = YoutubeUtil.buildYouTubeApiV3SearchQuery(1, "hello world");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=1&q=hello%20world&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(15, "hello world");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=15&q=hello%20world&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello world");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=hello%20world&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello worldly");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=hello%20worldly&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=hello&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello      world");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=hello%20world&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "helloworld");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=helloworld&type=video&key="));
-
-        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello ''\\() world");
-        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=20&q=hello%20world&type=video&key="));
-
-        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
-                .buildYouTubeApiV3SearchQuery(0, "hello world"));
-        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
-                .buildYouTubeApiV3SearchQuery(-1, "hello world"));
-        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
-                .buildYouTubeApiV3SearchQuery(21, "hello world"));
-        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
-                .buildYouTubeApiV3SearchQuery(10, ""));
-        assertThrows(NullPointerException.class, () -> YoutubeUtil
-                .buildYouTubeApiV3SearchQuery(10, null));
     }
 
     @Test

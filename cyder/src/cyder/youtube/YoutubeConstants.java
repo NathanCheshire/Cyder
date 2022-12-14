@@ -77,11 +77,6 @@ public final class YoutubeConstants {
     static final String SD_DEFAULT = "sddefault.jpg";
 
     /**
-     * The id to look for in the document returned by a url query.
-     */
-    static final String VIDEO_ID = "videoId";
-
-    /**
      * The pattern to identify a valid YouTube UUID.
      */
     static final Pattern UUID_PATTERN = Pattern.compile("[-_A-Za-z0-9]{" + UUID_LENGTH + "}");
