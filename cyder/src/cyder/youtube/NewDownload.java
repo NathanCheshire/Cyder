@@ -2,7 +2,6 @@ package cyder.youtube;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -11,19 +10,15 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.strings.StringUtil;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.SecurityUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-
-import static cyder.youtube.YoutubeConstants.YOUTUBE_VIDEO_URL_TITLE_SUFFIX;
 
 /**
  * An object to download audio and thumbnails from YouTube.
@@ -306,7 +301,7 @@ public class NewDownload {
      * Initializes the name(s) of the audio and thumbnail download(s).
      */
     private void initializeAudioAndThumbnailDownloadNames() {
-        String safeDownloadName = getSafeDownloadName(providedDownloadString);
+        String safeDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
 
         audioDownloadName = safeDownloadName;
         thumbnailDownloadName = safeDownloadName;
@@ -316,41 +311,13 @@ public class NewDownload {
      * Initializes the name(s) of the audio download(s).
      */
     private void initializeAudioDownloadNames() {
-        audioDownloadName = getSafeDownloadName(providedDownloadString);
+        audioDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
     }
 
     /**
      * Initializes the name(s) of the thumbnail download(s).
      */
     private void initializeThumbnailDownloadName() {
-        thumbnailDownloadName = getSafeDownloadName(providedDownloadString);
-    }
-
-    /**
-     * Returns a safe filename to save the audio/thumbnail downloaded from
-     * the provided youtube url as on the host computer.
-     *
-     * @param youtubeUrl the url of the video/thumbnail to download
-     * @return a safe filename to save the content from the url as when downloading
-     */
-    private static String getSafeDownloadName(String youtubeUrl) {
-        Preconditions.checkNotNull(youtubeUrl);
-        Preconditions.checkArgument(!youtubeUrl.isEmpty());
-
-        String urlTitle = NetworkUtil.getUrlTitle(youtubeUrl).orElse("Unknown_title");
-
-        String safeName = StringUtil.removeNonAscii(urlTitle)
-                .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
-                .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
-
-        while (safeName.endsWith(".")) {
-            safeName = StringUtil.removeLastChar(safeName);
-        }
-
-        if (safeName.isEmpty()) {
-            safeName = SecurityUtil.generateUuid();
-        }
-
-        return safeName;
+        thumbnailDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
     }
 }

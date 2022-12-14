@@ -39,11 +39,6 @@ import static cyder.youtube.YoutubeConstants.*;
  */
 public final class YoutubeUtil {
     /**
-     * The unknown title string if a title cannot be extracted from a url.
-     */
-    private static final String UNKNOWN_TITLE = "Unknown_title";
-
-    /**
      * Suppress default constructor.
      */
     private YoutubeUtil() {
@@ -73,29 +68,28 @@ public final class YoutubeUtil {
     /**
      * Returns the name to save the YouTube video's audio/thumbnail as.
      *
-     * @param url the url
+     * @param youtubeVideoUrl the url
      * @return the save name
      */
-    public static String getDownloadSaveName(String url) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
+    public static String getDownloadSaveName(String youtubeVideoUrl) {
+        Preconditions.checkNotNull(youtubeVideoUrl);
+        Preconditions.checkArgument(!youtubeVideoUrl.isEmpty());
 
-        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
-        String urlTitle = optionalUrlTitle.orElse(UNKNOWN_TITLE);
+        String urlTitle = NetworkUtil.getUrlTitle(youtubeVideoUrl).orElse(UNKNOWN_TITLE);
 
-        String parsedSaveName = StringUtil.removeNonAscii(urlTitle)
+        String safeName = StringUtil.removeNonAscii(urlTitle)
                 .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
                 .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 
-        while (parsedSaveName.endsWith(".")) {
-            parsedSaveName = StringUtil.removeLastChar(parsedSaveName);
+        while (safeName.endsWith(".")) {
+            safeName = StringUtil.removeLastChar(safeName);
         }
 
-        if (parsedSaveName.isEmpty()) {
-            parsedSaveName = SecurityUtil.generateUuid();
+        if (safeName.isEmpty()) {
+            safeName = SecurityUtil.generateUuid();
         }
 
-        return parsedSaveName;
+        return safeName;
     }
 
     /**
@@ -336,5 +330,34 @@ public final class YoutubeUtil {
                 return Optional.empty();
             }
         }
+    }
+
+    /**
+     * Returns a list of video UUIDs contained in the YouTube playlist provided.
+     *
+     * @param playlistUrl the url of the youtube playlist
+     * @return the list of video UUIDs the playlist contains
+     */
+    public static ImmutableList<String> getPlaylistVideoUuids(String playlistUrl) {
+        Preconditions.checkNotNull(playlistUrl);
+        Preconditions.checkArgument(!playlistUrl.isEmpty());
+        Preconditions.checkArgument(isPlaylistUrl(playlistUrl));
+
+        String htmlContents = NetworkUtil.readUrl(playlistUrl);
+        String[] parts = htmlContents.split(videoIdHtmlSubstring);
+
+        ArrayList<String> uniqueVideoUuids = new ArrayList<>();
+
+        for (String part : parts) {
+            if (part.length() >= UUID_LENGTH) {
+                String uuid = part.substring(0, UUID_LENGTH);
+
+                if (!uniqueVideoUuids.contains(uuid)) {
+                    uniqueVideoUuids.add(uuid);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(uniqueVideoUuids);
     }
 }

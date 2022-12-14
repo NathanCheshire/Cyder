@@ -4,7 +4,6 @@ import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
-import java.awt.*;
 import java.util.regex.Pattern;
 
 /**
@@ -43,11 +42,6 @@ public final class YoutubeConstants {
     static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
 
     /**
-     * The google youtube api v3 for getting a playlist's items
-     */
-    static final String YOUTUBE_API_V3_PLAYLIST_ITEMS = "https://www.googleapis.com/youtube/v3/playlistItems?";
-
-    /**
      * The base for youtube api v3 search queries.
      */
     static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
@@ -61,19 +55,6 @@ public final class YoutubeConstants {
      * A link for how to install youtube-dl.
      */
     static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
-
-    /**
-     * The error message printed to the console if the YouTube api v3 key is not set.
-     */
-    static final String KEY_NOT_SET_ERROR_MESSAGE = "Sorry, your YouTubeAPI3 key has not been set. "
-            + "Visit the user editor to learn how to set this in order to download whole playlists. "
-            + "In order to download individual videos, simply use the same play "
-            + "command followed by a video URL or query";
-
-    /**
-     * The default resolution of thumbnails to download when the play command is invoked.
-     */
-    static final Dimension DEFAULT_THUMBNAIL_DIMENSION = new Dimension(720, 720);
 
     /**
      * The maximum number of chars that can be used for a filename from a youtube video's title.
@@ -199,6 +180,16 @@ public final class YoutubeConstants {
      * The key parameter for constructed youtube search query urls.
      */
     static final String keyParameter = "&key=";
+
+    /**
+     * The unknown title string if a title cannot be extracted from a url.
+     */
+    static final String UNKNOWN_TITLE = "Unknown_title";
+
+    /**
+     * The substring to locate in raw HTML in order to extract video UUIDs from a YouTube playlist.
+     */
+    static final String videoIdHtmlSubstring = "videoId\":\"";
 
     /**
      * Suppress default constructor.

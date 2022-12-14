@@ -279,21 +279,25 @@ public final class AudioUtil {
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("getMillisFfprobe, file: "
+                new CyderThreadFactory("getMillisFfprobe, file"
+                        + colon
+                        + space
                         + quote + FileUtil.getFilename(audioFile) + quote)).submit(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder(getFfprobeCommand(), INPUT_FLAG,
-                        quote + audioFile.getAbsolutePath() + quote, "-show_format");
-                Process p = pb.start();
+                ProcessBuilder processBuilder = new ProcessBuilder(getFfprobeCommand(),
+                        INPUT_FLAG,
+                        quote + audioFile.getAbsolutePath() + quote,
+                        "-show_format");
 
-                // another precaution to ensure process is completed before file is returned
-                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                Process process = processBuilder.start();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (durationPattern.matcher(line).matches()) {
-                        return (int) (Double.parseDouble(
-                                line.replace("duration=", "").trim()) * 1000);
+                        line = line.replace("duration=", "").trim();
+                        return (int) (Double.parseDouble(line) * 1000);
                     }
                 }
             } catch (Exception e) {
