@@ -30,7 +30,6 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 
 import static cyder.youtube.YoutubeConstants.*;
@@ -39,6 +38,12 @@ import static cyder.youtube.YoutubeConstants.*;
  * A utility class for downloading a video's audio and/or video from YouTube.
  */
 public class YoutubeDownload {
+    /**
+     * The width of the printed progress bar if enabled. This actually doesn't matter since
+     * the progress bar printed to a JTextPane will take the entire width of the pane.
+     */
+    private static final int processBarWidth = 400;
+
     /**
      * The name of this download object.
      */
@@ -238,15 +243,6 @@ public class YoutubeDownload {
     }
 
     /**
-     * Returns the on cancel callback.
-     *
-     * @return the on cancel callback
-     */
-    public Runnable getOnCanceledCallback() {
-        return onCanceledCallback;
-    }
-
-    /**
      * Sets the callback to invoke when/if a cancel action is invoked.
      *
      * @param onCanceledCallback the callback to invoke when/if a cancel action is invoked
@@ -255,15 +251,6 @@ public class YoutubeDownload {
         Preconditions.checkNotNull(onCanceledCallback);
 
         this.onCanceledCallback = onCanceledCallback;
-    }
-
-    /**
-     * Returns the on download callback.
-     *
-     * @return the on download callback
-     */
-    public Runnable getOnDownloadedCallback() {
-        return onDownloadedCallback;
     }
 
     /**
@@ -278,15 +265,6 @@ public class YoutubeDownload {
     }
 
     /**
-     * Returns the type of this download.
-     *
-     * @return the type of this download
-     */
-    public DownloadType getDownloadType() {
-        return downloadType;
-    }
-
-    /**
      * Returns the file this object downloaded from YouTube.
      *
      * @return the file this object downloaded from YouTube
@@ -298,19 +276,6 @@ public class YoutubeDownload {
         Preconditions.checkNotNull(audioDownloadFile);
 
         return audioDownloadFile;
-
-    }
-
-    /**
-     * Returns the exit code of the internal download process if completed.
-     *
-     * @return the exit code of the internal download process if completed
-     */
-    public int getProcessExitCode() {
-        Preconditions.checkState(processExitCode != DOWNLOAD_NOT_FINISHED,
-                "Process not yet finished");
-
-        return processExitCode;
     }
 
     /**
@@ -344,15 +309,6 @@ public class YoutubeDownload {
     private BaseInputHandler inputHandler;
 
     /**
-     * Returns the input handler set for this YouTube download.
-     *
-     * @return the input handler set for this YouTube download
-     */
-    public BaseInputHandler getInputHandler() {
-        return inputHandler;
-    }
-
-    /**
      * Returns whether ui elements should be printed for this download.
      *
      * @return whether ui elements should be printed for this download
@@ -375,11 +331,13 @@ public class YoutubeDownload {
     /**
      * Downloads this object's YouTube video audio and/or video.
      */
-    public void download() {
+    public void downloadAudioAndThumbnail() {
         Preconditions.checkState(!done, "Object attempted to download previously");
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName());
+        File userMusicDir = Dynamic.buildDynamic(
+                Dynamic.USERS.getFileName(),
+                Console.INSTANCE.getUuid(),
+                UserFile.MUSIC.getName());
 
         String ffmpegAudioOutputFormat = Props.ffmpegAudioOutputFormat.getValue();
         String outputExtension = "." + ffmpegAudioOutputFormat;
@@ -471,19 +429,14 @@ public class YoutubeDownload {
                 processExitCode = proc.waitFor();
 
                 if (processExitCode != SUCCESSFUL_EXIT_CODE) {
-                    if (shouldPrintUiElements()) {
-                        if (isCanceled()) {
-                            inputHandler.println("Canceled download due to user request");
-                        } else {
-                            inputHandler.println("Failed to download audio");
-                        }
-                    }
+                    onDownloadFailed();
                 } else if (!isCanceled()) {
-                    audioDownloadFile = OsUtil.buildFile(userMusicDir.getAbsolutePath(),
+                    audioDownloadFile = OsUtil.buildFile(
+                            userMusicDir.getAbsolutePath(),
                             downloadableName + outputExtension);
                     downloaded = true;
 
-                    YoutubeUtil.downloadThumbnail(url);
+                    // todo remove me YoutubeUtil.downloadThumbnail(url);
                     AudioPlayer.addAudioNext(audioDownloadFile);
 
                     if (onDownloadedCallback != null) {
@@ -506,18 +459,29 @@ public class YoutubeDownload {
                 }
             } finally {
                 YoutubeDownloadManager.INSTANCE.removeActiveDownload(this);
+
                 done = true;
                 downloading = false;
-                if (shouldPrintUiElements()) cleanUpPrintedUiElements();
+
+                if (shouldPrintUiElements()) {
+                    cleanUpPrintedUiElements();
+                }
             }
         }, threadName);
     }
 
     /**
-     * The width of the printed progress bar if enabled. This actually doesn't matter since
-     * the progress bar printed to a JTextPane will take the entire width of the pane.
+     * The actions to invoke when the download process ends without a successful exit code.
      */
-    private static final int processBarWidth = 400;
+    private void onDownloadFailed() {
+        if (shouldPrintUiElements()) {
+            if (isCanceled()) {
+                inputHandler.println("Canceled download due to user request");
+            } else {
+                inputHandler.println("Failed to download audio");
+            }
+        }
+    }
 
     /**
      * Creates and prints the progress bar, label, and cancel button to the linked input handler.
@@ -525,8 +489,10 @@ public class YoutubeDownload {
     private void createAndPrintUiElements() {
         Preconditions.checkState(inputHandler != null);
 
-        downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL,
-                downloadProgressMin, downloadProgressMax);
+        downloadProgressBar = new CyderProgressBar(
+                CyderProgressBar.HORIZONTAL,
+                downloadProgressMin,
+                downloadProgressMax);
 
         downloadProgressBarUi = new CyderProgressUI();
         downloadProgressBarUi.setAnimationColors(CyderColors.regularPink, CyderColors.regularBlue);
@@ -566,27 +532,41 @@ public class YoutubeDownload {
         cancelButton.setRightTextPadding(StringUtil.generateSpaces(4));
         cancelButton.setText(CANCEL);
         cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
-        cancelButton.addActionListener(e -> {
-            if (!isCanceled() && isDownloading()) {
-                cancel();
-                cancelButton.setText(CANCELED);
-            }
-        });
+        cancelButton.addActionListener(e -> onCancelButtonPressed());
 
         return cancelButton;
+    }
+
+    /**
+     * The actions to invoke when the cancel button is pressed.
+     */
+    private void onCancelButtonPressed() {
+        if (!isCanceled() && isDownloading()) {
+            cancel();
+            cancelButton.setText(CANCELED);
+        }
     }
 
     /**
      * Cleans up the printed ui elements.
      */
     private void cleanUpPrintedUiElements() {
-        Color resultColor = downloaded ? CyderColors.regularBlue : CyderColors.regularRed;
+        Color resultColor = downloaded
+                ? CyderColors.regularBlue
+                : CyderColors.regularRed;
 
         downloadProgressBarUi.setAnimationColor(resultColor);
         downloadProgressBarUi.stopAnimationTimer();
 
         downloadProgressBar.repaint();
 
+        refreshCancelButtonText();
+    }
+
+    /**
+     * Refreshes the cancel button text.
+     */
+    private void refreshCancelButtonText() {
         String buttonText;
         if (downloaded) {
             buttonText = DOWNLOADED;
@@ -606,20 +586,21 @@ public class YoutubeDownload {
      */
     private void cleanUpFromCancel(File parentDirectory, String nameWithoutExtension) {
         Preconditions.checkNotNull(parentDirectory);
-        Preconditions.checkNotNull(nameWithoutExtension);
+        Preconditions.checkArgument(parentDirectory.isDirectory());
         Preconditions.checkNotNull(nameWithoutExtension);
         Preconditions.checkArgument(!nameWithoutExtension.isEmpty());
 
         File[] children = parentDirectory.listFiles();
         if (children == null || children.length == 0) return;
 
-        Arrays.stream(children).filter(child -> FileUtil.getFilename(child).startsWith(nameWithoutExtension))
-                .forEach(child -> {
-                    if (!OsUtil.deleteFile(child)) {
-                        Logger.log(LogTag.SYSTEM_IO, "Could not delete file resulting from youtube "
-                                + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
-                                + ", name=" + nameWithoutExtension);
-                    }
-                });
+        for (File child : children) {
+            if (!FileUtil.getFilename(child).startsWith(nameWithoutExtension)) continue;
+
+            if (!OsUtil.deleteFile(child)) {
+                Logger.log(LogTag.SYSTEM_IO, "Could not delete file resulting from youtube "
+                        + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
+                        + ", name=" + nameWithoutExtension);
+            }
+        }
     }
 }

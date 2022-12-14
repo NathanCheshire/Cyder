@@ -2495,7 +2495,7 @@ public final class AudioPlayer {
                         });
                     }
 
-                    downloadable.get().download();
+                    downloadable.get().downloadAudioAndThumbnail();
 
                     startDownloadUpdater(downloadable, downloadButton, mouseEntered);
                 });

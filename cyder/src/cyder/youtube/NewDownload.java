@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import static cyder.youtube.YoutubeConstants.YOUTUBE_VIDEO_URL_TITLE_SUFFIX;
 
@@ -29,23 +30,12 @@ import static cyder.youtube.YoutubeConstants.YOUTUBE_VIDEO_URL_TITLE_SUFFIX;
  * An instance of this class can represent a video/playlist of videos.
  */
 public class NewDownload {
+    private static final int DIMENSION_TO_BE_DETERMINED = -1;
+
     /**
      * The string which could be a link, id, or query.
      */
     private String providedDownloadString;
-
-    /**
-     * The download type the provided download string refers to.
-     */
-    private Type downloadType;
-
-    /**
-     * The type of download
-     */
-    private enum Type {
-        VIDEO_LINK,
-        PLAYLIST_LINK,
-    }
 
     /**
      * The name to save the audio download as.
@@ -65,12 +55,12 @@ public class NewDownload {
     /**
      * The width to crop the thumbnail to.
      */
-    private int requestedThumbnailWidth = -1;
+    private int requestedThumbnailWidth = DIMENSION_TO_BE_DETERMINED;
 
     /**
      * The height to crop the thumbnail to.
      */
-    private int requestedThumbnailHeight = -1;
+    private int requestedThumbnailHeight = DIMENSION_TO_BE_DETERMINED;
 
     /**
      * Constructs a new YoutubeDownload object.
@@ -90,21 +80,6 @@ public class NewDownload {
         Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
         this.providedDownloadString = videoLink;
-        this.downloadType = Type.VIDEO_LINK;
-    }
-
-    /**
-     * Sets the download type of this download to a playlist link.
-     *
-     * @param playlistLink the playlist link
-     */
-    public void setPlaylistLink(String playlistLink) {
-        Preconditions.checkNotNull(playlistLink);
-        Preconditions.checkArgument(!playlistLink.isEmpty());
-        Preconditions.checkArgument(!NetworkUtil.readUrl(playlistLink).isEmpty());
-
-        this.providedDownloadString = playlistLink;
-        this.downloadType = Type.PLAYLIST_LINK;
     }
 
     /**
@@ -117,11 +92,10 @@ public class NewDownload {
         Preconditions.checkArgument(!videoId.isEmpty());
         Preconditions.checkArgument(videoId.length() == YoutubeConstants.UUID_LENGTH);
 
-        String link = YoutubeUtil.buildVideoUrl(videoId);
-        Preconditions.checkArgument(!NetworkUtil.readUrl(link).isEmpty());
+        String videoLink = YoutubeUtil.buildVideoUrl(videoId);
+        Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
-        this.providedDownloadString = link;
-        this.downloadType = Type.VIDEO_LINK;
+        this.providedDownloadString = videoLink;
     }
 
     /**
@@ -133,11 +107,10 @@ public class NewDownload {
         Preconditions.checkNotNull(playlistId);
         Preconditions.checkArgument(!playlistId.isEmpty());
 
-        String link = YoutubeConstants.YOUTUBE_PLAYLIST_HEADER + playlistId;
-        Preconditions.checkArgument(!NetworkUtil.readUrl(link).isEmpty());
+        String videoLink = YoutubeConstants.YOUTUBE_PLAYLIST_HEADER + playlistId;
+        Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
-        this.providedDownloadString = link;
-        this.downloadType = Type.PLAYLIST_LINK;
+        this.providedDownloadString = videoLink;
     }
 
     /**
@@ -155,7 +128,6 @@ public class NewDownload {
         }
 
         this.providedDownloadString = YoutubeUtil.buildVideoUrl(firstUuid);
-        this.downloadType = Type.VIDEO_LINK;
     }
 
     /**
@@ -279,60 +251,54 @@ public class NewDownload {
             initializeAudioDownloadNames();
         }
 
+        // todo
     }
 
     /**
      * Starts the download of the thumbnail file(s).
+     *
+     * @throws YoutubeException if an exception occurs when attempting to download/save the thumbnail image file
      */
-    public void downloadThumbnail() {
+    public void downloadThumbnail() throws YoutubeException {
         if (thumbnailDownloadName == null) {
             initializeThumbnailDownloadName();
         }
 
-        if (downloadType == Type.VIDEO_LINK) {
-            String uuid = YoutubeUtil.extractUuid(providedDownloadString);
+        String uuid = YoutubeUtil.extractUuid(providedDownloadString);
 
-            BufferedImage thumbnailImage = null;
-            try {
-                thumbnailImage = ImageUtil.read(YoutubeUtil.buildMaxResolutionThumbnailUrl(uuid));
-            } catch (Exception ignored) {
-                try {
-                    thumbnailImage = ImageUtil.read(YoutubeUtil.buildStandardDefinitionThumbnailUrl(uuid));
-                } catch (Exception ignored2) {}
-            }
+        Optional<BufferedImage> optionalThumbnail = YoutubeUtil.getMaxResolutionThumbnail(uuid);
+        BufferedImage thumbnailImage = optionalThumbnail.orElseThrow(
+                () -> new FatalException("Could not get max resolution or standard resolution"
+                        + " thumbnail for provided download string: " + providedDownloadString));
 
-            if (thumbnailImage == null) {
-                throw new FatalException("Could not get max resolution or standard resolution"
-                        + " thumbnail for provided download string: " + providedDownloadString);
-            }
+        int width = thumbnailImage.getWidth();
+        int height = thumbnailImage.getHeight();
 
-            int width = thumbnailImage.getWidth();
-            int height = thumbnailImage.getHeight();
+        int cropOffsetX = 0;
+        int cropOffsetY = 0;
 
-            int cropOffsetX = 0;
-            int cropOffsetY = 0;
+        if (requestedThumbnailWidth != DIMENSION_TO_BE_DETERMINED && width > requestedThumbnailWidth) {
+            cropOffsetX = (width - requestedThumbnailWidth) / 2;
+        }
 
-            if (requestedThumbnailWidth != -1 && width > requestedThumbnailWidth) {
-                cropOffsetX = (width - requestedThumbnailWidth) / 2;
-            }
+        if (requestedThumbnailHeight != DIMENSION_TO_BE_DETERMINED && height > requestedThumbnailHeight) {
+            cropOffsetY = (height - requestedThumbnailHeight) / 2;
+        }
 
-            if (requestedThumbnailHeight != -1 && height > requestedThumbnailHeight) {
-                cropOffsetY = (height - requestedThumbnailHeight) / 2;
-            }
-
+        if (cropOffsetX != 0 || cropOffsetY != 0) {
             thumbnailImage = ImageUtil.cropImage(thumbnailImage, cropOffsetX, cropOffsetY,
                     requestedThumbnailWidth, requestedThumbnailHeight);
+        }
 
-            File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
-                    UserFile.MUSIC.getName(), UserFile.ALBUM_ART, thumbnailDownloadName + Extension.PNG.getExtension());
+        File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
+                UserFile.MUSIC.getName(), UserFile.ALBUM_ART, thumbnailDownloadName + Extension.PNG.getExtension());
 
-            try {
-                if (!ImageIO.write(thumbnailImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile)) {
-                    throw new IOException("Failed to write album art");
-                }
-            } catch (IOException e) {
-                throw new YoutubeException(e.getMessage());
+        try {
+            if (!ImageIO.write(thumbnailImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile)) {
+                throw new IOException("Failed to write album art to file: " + saveFile);
             }
+        } catch (IOException e) {
+            throw new YoutubeException(e.getMessage());
         }
     }
 

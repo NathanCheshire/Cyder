@@ -20,7 +20,6 @@ import cyder.ui.button.CyderButton;
 import cyder.user.UserFile;
 import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.imageio.ImageIO;
@@ -35,38 +34,15 @@ import java.util.regex.Matcher;
 import static cyder.strings.CyderStrings.*;
 import static cyder.youtube.YoutubeConstants.*;
 
-/*
-Downloads:
-- Audio
-- Thumbnail
-
-Audio:
-- uuid
-- url
-- query
-- playlist url
-- playlist id
-
-Thumbnail:
-- max resolution
-- default
-- specific w,h or max if cannot meet w or h
-
-Be able to provide a download save name, if not provided it will be generated using the url
-
-// calling these setters will just set a single string param and then also an enum of what it is
-new YoutubeDownload()
-    .setVideoLink(link)
-    .setPlaylistLink(link)
-    .setVideoId(id)
-    .setPlaylistId(id)
-    .setVideoQuery(query)
- */
-
 /**
  * Utility methods related to YouTube videos.
  */
 public final class YoutubeUtil {
+    /**
+     * The unknown title string if a title cannot be extracted from a url.
+     */
+    private static final String UNKNOWN_TITLE = "Unknown_title";
+
     /**
      * Suppress default constructor.
      */
@@ -88,30 +64,11 @@ public final class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             YoutubeDownload youtubeDownload = new YoutubeDownload(url, DownloadType.AUDIO);
             youtubeDownload.setInputHandler(baseInputHandler);
-            youtubeDownload.download();
+            youtubeDownload.downloadAudioAndThumbnail();
         } else {
             onNoFfmpegOrYoutubeDlInstalled();
         }
     }
-
-    /**
-     * Downloads the YouTube video's thumbnail with the provided
-     * url to the current user's album art directory.
-     *
-     * @param url the url of the YouTube video to download
-     * @throws YoutubeException if an exception occurred while downloading or processing the thumbnail
-     */
-    public static void downloadThumbnail(String url) throws YoutubeException {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
-
-        downloadThumbnail(url, DEFAULT_THUMBNAIL_DIMENSION);
-    }
-
-    /**
-     * The unknown title string if a title cannot be extracted from a url.
-     */
-    private static final String UNKNOWN_TITLE = "Unknown_title";
 
     /**
      * Returns the name to save the YouTube video's audio/thumbnail as.
@@ -139,50 +96,6 @@ public final class YoutubeUtil {
         }
 
         return parsedSaveName;
-    }
-
-    /**
-     * Downloads the YouTube video's thumbnail with the provided
-     * url to the current user's album aart directory.
-     *
-     * @param url       the url of the YouTube video to download
-     * @param dimension the dimensions to crop the image to
-     * @throws YoutubeException if an error downloading or processing the thumbnail occurred
-     */
-    public static void downloadThumbnail(String url, Dimension dimension) throws YoutubeException {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
-        Preconditions.checkNotNull(dimension);
-        Preconditions.checkNotNull(Console.INSTANCE.getUuid());
-
-        Optional<BufferedImage> optionalBi = getThumbnail(url, dimension);
-        if (optionalBi.isEmpty()) {
-            throw new YoutubeException("Could not get raw thumbnail");
-        }
-
-        String saveDownloadName = getDownloadSaveName(url);
-
-        File albumArtDir = Dynamic.buildDynamic(
-                Dynamic.USERS.getFileName(),
-                Console.INSTANCE.getUuid(),
-                UserFile.MUSIC.getName(),
-                UserFile.ALBUM_ART);
-
-        if (!albumArtDir.exists()) {
-            if (!albumArtDir.mkdirs()) {
-                throw new YoutubeException("Could not create album art directory");
-            }
-        }
-
-        File saveAlbumArt = OsUtil.buildFile(albumArtDir.getAbsolutePath(),
-                saveDownloadName + Extension.PNG.getExtension());
-
-        try {
-            boolean written = ImageIO.write(optionalBi.get(), Extension.PNG.getExtensionWithoutPeriod(), saveAlbumArt);
-            if (!written) throw new IOException("Failed to write album art");
-        } catch (IOException e) {
-            throw new YoutubeException("Could not write thumbnail to: " + saveAlbumArt.getAbsolutePath());
-        }
     }
 
     /**
@@ -277,49 +190,6 @@ public final class YoutubeUtil {
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    /**
-     * Returns a BufferedImage of the provided YouTube video's thumbnail.
-     *
-     * @param url       the url of the YouTube video to query
-     * @param dimension the dimension of the image to return. If the raw image is not big enough
-     *                  the maximum square size image will be returned
-     * @return a squared off version of the thumbnail if possible and. Empty optional else
-     */
-    public static Optional<BufferedImage> getThumbnail(String url, Dimension dimension) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkNotNull(dimension);
-        Preconditions.checkArgument(!isPlaylistUrl(url));
-
-        String uuid = extractUuid(url);
-
-        BufferedImage save = null;
-
-        try {
-            save = ImageUtil.read(buildMaxResolutionThumbnailUrl(uuid));
-        } catch (Exception ignored) {
-            try {
-                save = ImageUtil.read(buildStandardDefinitionThumbnailUrl(uuid));
-            } catch (Exception ignored2) {}
-        }
-
-        if (save == null) return Optional.empty();
-
-        int width = save.getWidth();
-        int height = save.getHeight();
-
-        if (width > dimension.getWidth()) {
-            int cropWidthStart = (int) ((width - dimension.getWidth()) / 2.0);
-            save = save.getSubimage(cropWidthStart, 0, (int) dimension.getWidth(), height);
-            width = save.getWidth();
-        }
-        if (height > dimension.getHeight()) {
-            int cropHeightStart = (int) ((height - dimension.getHeight()) / 2);
-            save = save.getSubimage(0, cropHeightStart, width, (int) dimension.getHeight());
-        }
-
-        return Optional.of(save);
     }
 
     /**

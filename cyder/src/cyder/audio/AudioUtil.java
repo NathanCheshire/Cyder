@@ -268,6 +268,7 @@ public final class AudioUtil {
 
     /**
      * Uses ffprobe to get the length of the audio file in milliseconds.
+     * If the duration cannot be found, -1 is returned.
      *
      * @param audioFile the audio file to find the length of in milliseconds
      * @return the length of the audio file in milliseconds
@@ -314,7 +315,8 @@ public final class AudioUtil {
     public static boolean ffmpegInstalled() {
         if (Program.FFMPEG.isInstalled()) return true;
 
-        return OsUtil.isBinaryInExes(Program.FFMPEG.getProgramName() + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.FFMPEG.getProgramName()
+                + Extension.EXE.getExtension());
     }
 
     /**
@@ -327,8 +329,8 @@ public final class AudioUtil {
     public static boolean youtubeDlInstalled() {
         if (Program.YOUTUBE_DL.isInstalled()) return true;
 
-        // finally check dynamic/exes to see if a youtube-dl binary exists there
-        return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName()
+                + Extension.EXE.getExtension());
     }
 
     /**
@@ -337,8 +339,7 @@ public final class AudioUtil {
      * @return whether ffprobe is installed
      */
     public static boolean ffprobeInstalled() {
-        return Program.FFPROBE.isInstalled()
-                || OsUtil.isBinaryInExes(Program.FFPROBE.getFilename());
+        return Program.FFPROBE.isInstalled() || OsUtil.isBinaryInExes(Program.FFPROBE.getFilename());
     }
 
     /**
@@ -350,8 +351,9 @@ public final class AudioUtil {
     public static String getFfmpegCommand() {
         Preconditions.checkArgument(ffmpegInstalled());
 
-        return Program.FFMPEG.isInstalled() ? Program.FFMPEG.getProgramName()
-                : OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getFileName(), Program.FFPROBE.getFilename());
+        return Program.FFMPEG.isInstalled()
+                ? Program.FFMPEG.getProgramName()
+                : Dynamic.buildDynamic(Dynamic.EXES.getFileName(), Program.FFPROBE.getFilename()).getAbsolutePath();
 
     }
 
@@ -364,9 +366,9 @@ public final class AudioUtil {
     public static String getYoutubeDlCommand() {
         Preconditions.checkArgument(youtubeDlInstalled());
 
-        return Program.YOUTUBE_DL.isInstalled() ? Program.YOUTUBE_DL.getProgramName()
-                : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getFileName(), Program.YOUTUBE_DL.getFilename());
+        return Program.YOUTUBE_DL.isInstalled()
+                ? Program.YOUTUBE_DL.getProgramName()
+                : Dynamic.buildDynamic(Dynamic.EXES.getFileName(), Program.YOUTUBE_DL.getFilename()).getAbsolutePath();
     }
 
     /**
@@ -379,8 +381,8 @@ public final class AudioUtil {
 
         if (Program.FFPROBE.isInstalled()) return Program.FFPROBE.getProgramName();
 
-        return OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getFileName(),
-                Program.FFPROBE.getProgramName() + Extension.EXE.getExtension());
+        return Dynamic.buildDynamic(Dynamic.EXES.getFileName(),
+                Program.FFPROBE.getProgramName() + Extension.EXE.getExtension()).getAbsolutePath();
     }
 
     /**

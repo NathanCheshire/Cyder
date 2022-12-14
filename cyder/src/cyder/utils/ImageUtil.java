@@ -105,6 +105,10 @@ public final class ImageUtil {
         Preconditions.checkArgument(width <= image.getWidth());
         Preconditions.checkArgument(height <= image.getHeight());
 
+        if (x == 0 && y == 0 && width == image.getWidth() && height == image.getHeight()) {
+            return image;
+        }
+
         if (x + width > image.getWidth()) {
             x = 0;
             width = image.getWidth();
