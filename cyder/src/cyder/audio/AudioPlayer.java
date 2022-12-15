@@ -52,9 +52,8 @@ import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.utils.StaticUtil;
-import cyder.youtube.DownloadType;
+import cyder.youtube.YoutubeAudioDownload;
 import cyder.youtube.YoutubeConstants;
-import cyder.youtube.YoutubeDownload;
 import cyder.youtube.YoutubeUtil;
 
 import javax.imageio.ImageIO;
@@ -2460,8 +2459,9 @@ public final class AudioPlayer {
                 printSearchResultLabels(result);
 
                 String url = YoutubeUtil.buildVideoUrl(result.uuid);
-                AtomicReference<YoutubeDownload> downloadable
-                        = new AtomicReference<>(new YoutubeDownload(url, DownloadType.AUDIO));
+                YoutubeAudioDownload youtubeAudioDownload = new YoutubeAudioDownload();
+                youtubeAudioDownload.setVideoLink(url);
+                AtomicReference<YoutubeAudioDownload> downloadable = new AtomicReference<>(youtubeAudioDownload);
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                 CyderButton downloadButton = new CyderButton();
@@ -2486,7 +2486,8 @@ public final class AudioPlayer {
                     }
 
                     if (downloadable.get().isCanceled()) {
-                        downloadable.set(new YoutubeDownload(url, DownloadType.AUDIO));
+                        downloadable.set(new YoutubeAudioDownload());
+                        downloadable.get().setVideoLink(url);
                         downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                         downloadable.get().setOnDownloadedCallback(() -> {
                             downloadButton.setText(PLAY);
@@ -2499,8 +2500,8 @@ public final class AudioPlayer {
 
                     startDownloadUpdater(downloadable, downloadButton, mouseEntered);
                 });
-                downloadButton.addMouseListener(
-                        generateDownloadButtonMouseListener(downloadable, mouseEntered, downloadButton, alreadyExists));
+                downloadButton.addMouseListener(generateDownloadButtonMouseListener(downloadable,
+                        mouseEntered, downloadButton, alreadyExists));
                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                 downloadable.get().setOnDownloadedCallback(() -> {
                     downloadButton.setText(PLAY);
@@ -2576,7 +2577,7 @@ public final class AudioPlayer {
      * @return a download button mouse listener
      */
     private static MouseAdapter generateDownloadButtonMouseListener(
-            AtomicReference<YoutubeDownload> downloadable, AtomicBoolean mouseEntered,
+            AtomicReference<YoutubeAudioDownload> downloadable, AtomicBoolean mouseEntered,
             CyderButton downloadButton, boolean alreadyExists) {
         return new MouseAdapter() {
             @Override
@@ -2617,7 +2618,7 @@ public final class AudioPlayer {
      * @param downloadButton the download button
      * @param mouseEntered   whether the mouse is currently in the button
      */
-    private static void startDownloadUpdater(AtomicReference<YoutubeDownload> downloadable,
+    private static void startDownloadUpdater(AtomicReference<YoutubeAudioDownload> downloadable,
                                              CyderButton downloadButton, AtomicBoolean mouseEntered) {
 
         String threadName = "YouTube audio downloader, name: " + CyderStrings.quote

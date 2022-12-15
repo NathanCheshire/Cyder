@@ -58,8 +58,9 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(baseInputHandler);
 
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YoutubeDownload youtubeDownload = new YoutubeDownload(url, DownloadType.AUDIO);
-            youtubeDownload.setInputHandler(baseInputHandler);
+            YoutubeAudioDownload youtubeDownload = new YoutubeAudioDownload();
+            youtubeDownload.setVideoLink(url);
+            youtubeDownload.setPrintOutputHandler(baseInputHandler);
             youtubeDownload.downloadAudioAndThumbnail();
         } else {
             onNoFfmpegOrYoutubeDlInstalled();

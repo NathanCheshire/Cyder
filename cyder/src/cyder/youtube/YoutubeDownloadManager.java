@@ -16,14 +16,14 @@ public enum YoutubeDownloadManager {
     /**
      * A list of YouTube videos currently being downloaded.
      */
-    private final ArrayList<YoutubeDownload> activeDownloads = new ArrayList<>();
+    private final ArrayList<YoutubeAudioDownload> activeDownloads = new ArrayList<>();
 
     /**
      * Removes the provided YouTube download from the active downloads list.
      *
      * @param youtubeDownload the YouTube download to remove from the active downloads list
      */
-    void removeActiveDownload(YoutubeDownload youtubeDownload) {
+    void removeActiveDownload(YoutubeAudioDownload youtubeDownload) {
         Preconditions.checkNotNull(youtubeDownload);
 
         activeDownloads.remove(youtubeDownload);
@@ -34,7 +34,7 @@ public enum YoutubeDownloadManager {
      *
      * @param youtubeDownload the youtube download to add to the list
      */
-    void addActiveDownload(YoutubeDownload youtubeDownload) {
+    void addActiveDownload(YoutubeAudioDownload youtubeDownload) {
         Preconditions.checkNotNull(youtubeDownload);
 
         activeDownloads.add(youtubeDownload);
@@ -44,6 +44,6 @@ public enum YoutubeDownloadManager {
      * Cancels all active youtube downloads.
      */
     public void cancelAllActiveDownloads() {
-        activeDownloads.forEach(YoutubeDownload::cancel);
+        activeDownloads.forEach(YoutubeAudioDownload::cancel);
     }
 }
