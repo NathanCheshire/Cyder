@@ -377,6 +377,17 @@ public final class AudioPlayer {
     private static final float completedProgress = 100.0f;
 
     /**
+     * The default album art image.
+     */
+    private static BufferedImage defaultAlbumArtImage;
+
+    static {
+        try {
+            defaultAlbumArtImage = ImageUtil.read(DEFAULT_ALBUM_ART);
+        } catch (Exception ignored) {}
+    }
+
+    /**
      * Suppress default constructor.
      */
     private AudioPlayer() {
@@ -2117,7 +2128,7 @@ public final class AudioPlayer {
     /**
      * The length of the thumbnails.
      */
-    private static final int bufferedImageLen = 250;
+    private static final int thumbnailLength = 250;
 
     /**
      * The text pane used to display youtube search results.
@@ -2437,7 +2448,8 @@ public final class AudioPlayer {
                         video.getSnippet().getTitle(),
                         video.getSnippet().getDescription(),
                         video.getSnippet().getChannelTitle(),
-                        getMaxResolutionSquareThumbnail(video.getId().getVideoId())));
+                        YoutubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId(), thumbnailLength)
+                                .orElse(defaultAlbumArtImage)));
             }
 
             // if user has searched for something else while getting the search results, don't update pane
@@ -2547,7 +2559,7 @@ public final class AudioPlayer {
      */
     private static void printSearchResultLabels(YoutubeSearchResult result) {
         JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
-        imageLabel.setSize(bufferedImageLen, bufferedImageLen);
+        imageLabel.setSize(thumbnailLength, thumbnailLength);
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         imageLabel.setBorder(new LineBorder(Color.black, 4));
         printingUtil.printlnComponent(imageLabel);
@@ -2638,42 +2650,6 @@ public final class AudioPlayer {
                 ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
             }
         }, threadName);
-    }
-
-    /**
-     * Returns the maximum resolution square thumbnail possible for the YouTube video with the provided uuid.
-     *
-     * @param uuid the uuid of the video
-     * @return the maximum resolution square thumbnail
-     */
-    @SuppressWarnings("SuspiciousNameCombination")
-    private static BufferedImage getMaxResolutionSquareThumbnail(String uuid) {
-        Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(uuid);
-
-        BufferedImage bi = optionalBi.orElse(null);
-
-        if (bi == null) {
-            try {
-                bi = ImageUtil.read(DEFAULT_ALBUM_ART);
-            } catch (Exception ignored) {}
-        }
-
-        if (bi != null) {
-            int width = bi.getWidth();
-            int height = bi.getHeight();
-
-            if (width < height) {
-                bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
-            } else if (height < width) {
-                bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
-            } else {
-                bi = ImageUtil.cropImage(bi, 0, 0, width, height);
-            }
-
-            bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
-        }
-
-        return bi;
     }
 
     /**

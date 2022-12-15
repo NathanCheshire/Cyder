@@ -369,8 +369,8 @@ public class YoutubeAudioDownload {
             }
         }
 
-        downloadAudio();
         downloadThumbnail();
+        downloadAudio();
     }
 
     /**
@@ -581,6 +581,11 @@ public class YoutubeAudioDownload {
     }
 
     /**
+     * The downloaded thumbnail image if present, null otherwise.
+     */
+    private static BufferedImage downloadedThumbnailImage;
+
+    /**
      * Starts the download of the thumbnail file(s).
      *
      * @throws YoutubeException if an exception occurs when attempting to download/save the thumbnail image file
@@ -597,27 +602,16 @@ public class YoutubeAudioDownload {
                 () -> new FatalException("Could not get max resolution or standard resolution"
                         + " thumbnail for provided download string: " + providedDownloadString));
 
-        int width = thumbnailImage.getWidth();
-        int height = thumbnailImage.getHeight();
-
-        int cropOffsetX = 0;
-        int cropOffsetY = 0;
-
-        if (requestedThumbnailWidth != DIMENSION_TO_BE_DETERMINED && width > requestedThumbnailWidth) {
-            cropOffsetX = (width - requestedThumbnailWidth) / 2;
-        }
-
-        if (requestedThumbnailHeight != DIMENSION_TO_BE_DETERMINED && height > requestedThumbnailHeight) {
-            cropOffsetY = (height - requestedThumbnailHeight) / 2;
-        }
-
-        if (cropOffsetX != 0 || cropOffsetY != 0) {
-            thumbnailImage = ImageUtil.cropImage(thumbnailImage, cropOffsetX, cropOffsetY,
-                    requestedThumbnailWidth, requestedThumbnailHeight);
+        if (requestedThumbnailWidth != DIMENSION_TO_BE_DETERMINED
+                || requestedThumbnailHeight != DIMENSION_TO_BE_DETERMINED) {
+            // todo need to resize
+            // todo bug in audio player where image is stretched/squeezed, should just crop it
         }
 
         File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(), UserFile.ALBUM_ART, thumbnailDownloadName + Extension.PNG.getExtension());
+
+        downloadedThumbnailImage = thumbnailImage;
 
         try {
             if (!ImageIO.write(thumbnailImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile)) {
@@ -780,9 +774,42 @@ public class YoutubeAudioDownload {
 
         printOutputHandler.println(downloadProgressBar);
         printOutputHandler.println(downloadProgressLabel);
+        if (downloadedThumbnailImage != null) {
+            printDownloadedThumbnail();
+        }
         printOutputHandler.println(createCancelDownloadButton());
 
         printOutputHandler.addPrintedLabel(downloadProgressLabel);
+    }
+
+    private void printDownloadedThumbnail() {
+        int downloadedThumbnailImagePrintLength = 250;
+        int thumbnailPadding = 5;
+
+        downloadedThumbnailImage = ImageUtil.ensureFitsInBounds(downloadedThumbnailImage,
+                new Dimension(downloadedThumbnailImagePrintLength, downloadedThumbnailImagePrintLength));
+
+        int parentWidth = downloadedThumbnailImage.getWidth() + 2 * thumbnailPadding;
+        int parentHeight = downloadedThumbnailImage.getHeight() + 2 * thumbnailPadding;
+
+        JLabel parent = new JLabel(StringUtil.generateTextForCustomComponent(10)) {
+            @Override
+            public void paint(Graphics g) {
+                g.setColor(CyderColors.navy);
+                g.fillRect(0, 0, parentWidth, parentHeight);
+
+                super.paint(g);
+            }
+        };
+        parent.setSize(parentWidth, parentHeight);
+
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(ImageUtil.toImageIcon(downloadedThumbnailImage));
+        imageLabel.setBounds(thumbnailPadding, thumbnailPadding,
+                downloadedThumbnailImage.getWidth(), downloadedThumbnailImage.getHeight());
+        parent.add(imageLabel);
+
+        printOutputHandler.println(parent);
     }
 
     /**
