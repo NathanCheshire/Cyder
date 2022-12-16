@@ -51,7 +51,7 @@ public class YoutubeAudioDownload {
      * The magic number to denote the thumbnail dimensions were not
      * specified by the caller and thus may remain whatever the default is.
      */
-    private static final int DIMENSION_TO_BE_DETERMINED = -1;
+    private static final int DIMENSION_TO_BE_DETERMINED = Integer.MAX_VALUE;
 
     /**
      * The string which could be a link, id, or query.
@@ -602,10 +602,24 @@ public class YoutubeAudioDownload {
                 () -> new FatalException("Could not get max resolution or standard resolution"
                         + " thumbnail for provided download string: " + providedDownloadString));
 
-        if (requestedThumbnailWidth != DIMENSION_TO_BE_DETERMINED
-                || requestedThumbnailHeight != DIMENSION_TO_BE_DETERMINED) {
-            // todo need to resize
-            // todo bug in audio player where image is stretched/squeezed, should just crop it
+        if (requestedThumbnailWidth == DIMENSION_TO_BE_DETERMINED
+                && requestedThumbnailHeight == DIMENSION_TO_BE_DETERMINED) {
+            thumbnailImage = ImageUtil.cropToMaximumSizeSquare(thumbnailImage);
+        } else {
+            int w = Math.min(thumbnailImage.getWidth(), requestedThumbnailWidth);
+            int h = Math.min(thumbnailImage.getHeight(), requestedThumbnailHeight);
+
+            int xOffset = 0;
+            if (w < requestedThumbnailWidth) {
+                xOffset = (requestedThumbnailWidth - w) / 2;
+            }
+
+            int yOffset = 0;
+            if (h < requestedThumbnailHeight) {
+                yOffset = (requestedThumbnailHeight - h) / 2;
+            }
+
+            thumbnailImage = ImageUtil.cropImage(thumbnailImage, xOffset, yOffset, w, h);
         }
 
         File saveFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
@@ -783,7 +797,7 @@ public class YoutubeAudioDownload {
     }
 
     private void printDownloadedThumbnail() {
-        int downloadedThumbnailImagePrintLength = 250;
+        int downloadedThumbnailImagePrintLength = 150;
         int thumbnailPadding = 5;
 
         downloadedThumbnailImage = ImageUtil.ensureFitsInBounds(downloadedThumbnailImage,

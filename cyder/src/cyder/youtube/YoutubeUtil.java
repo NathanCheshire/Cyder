@@ -374,12 +374,10 @@ public final class YoutubeUtil {
     /**
      * Returns the maximum resolution square thumbnail possible for the YouTube video with the provided uuid.
      *
-     * @param uuid       the uuid of the video
-     * @param sideLength the width and height of the thumbnail
+     * @param uuid the uuid of the video
      * @return the maximum resolution square thumbnail
      */
-    @SuppressWarnings("SuspiciousNameCombination")
-    public static Optional<BufferedImage> getMaxResolutionSquareThumbnail(String uuid, int sideLength) {
+    public static Optional<BufferedImage> getMaxResolutionSquareThumbnail(String uuid) {
         Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(uuid);
 
         BufferedImage bi = optionalBi.orElse(null);
@@ -388,18 +386,6 @@ public final class YoutubeUtil {
             return Optional.empty();
         }
 
-        int width = bi.getWidth();
-        int height = bi.getHeight();
-
-        if (width < height) {
-            bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
-        } else if (height < width) {
-            bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
-        } else {
-            bi = ImageUtil.cropImage(bi, 0, 0, width, height);
-        }
-
-        bi = ImageUtil.resizeImage(bi, bi.getType(), sideLength, sideLength);
-        return Optional.of(bi);
+        return Optional.of(ImageUtil.cropToMaximumSizeSquare(bi));
     }
 }

@@ -1202,4 +1202,29 @@ public final class ImageUtil {
 
         return icon.getIconWidth() < icon.getIconHeight();
     }
+
+    /**
+     * Returns a copy of the provided buffered image cropped to the maximum possible square.
+     *
+     * @param image the image to crop
+     * @return the square image
+     */
+    @SuppressWarnings("SuspiciousNameCombination") /* Cropping logic */
+    public static BufferedImage cropToMaximumSizeSquare(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        if (width < height) {
+            image = ImageUtil.cropImage(image, 0, (height - width) / 2, width, width);
+        } else if (height < width) {
+            image = ImageUtil.cropImage(image, (width - height) / 2, 0, height, height);
+        } else {
+            image = ImageUtil.cropImage(image, 0, 0, width, height);
+        }
+
+        int sideLength = Math.min(width, height);
+        return ImageUtil.resizeImage(image, image.getType(), sideLength, sideLength);
+    }
 }

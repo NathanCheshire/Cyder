@@ -1509,8 +1509,8 @@ public final class AudioPlayer {
             ExceptionHandler.handle(e);
         }
 
-        ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
-                ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
+        ImageIcon regularIcon = ImageUtil.ensureFitsInBounds(customAlbumArt,
+                new Dimension(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
         if (dreamy) {
 
             ImageIcon distortedIcon = ImageUtil.toImageIcon(
@@ -2448,7 +2448,7 @@ public final class AudioPlayer {
                         video.getSnippet().getTitle(),
                         video.getSnippet().getDescription(),
                         video.getSnippet().getChannelTitle(),
-                        YoutubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId(), thumbnailLength)
+                        YoutubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
                                 .orElse(defaultAlbumArtImage)));
             }
 
