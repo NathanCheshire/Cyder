@@ -14,7 +14,7 @@ import java.util.Collection;
 
 /**
  * CyderPanels are what hold and manage where components go on them.
- * They basically are a wrapper for layouts (classes which extends {@link CyderLayout}).
+ * They are essentially a wrapper for layouts (classes which extends {@link CyderLayout}).
  */
 public class CyderPanel extends JLabel {
     /*

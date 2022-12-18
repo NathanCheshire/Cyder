@@ -1,4 +1,4 @@
-package cyder.test;
+package cyder.ui;
 
 import cyder.annotations.GuiTest;
 import cyder.constants.CyderColors;
@@ -11,7 +11,6 @@ import cyder.layouts.*;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.button.DragLabelTextButton;
