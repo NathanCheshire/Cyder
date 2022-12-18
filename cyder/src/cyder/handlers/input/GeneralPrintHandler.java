@@ -137,7 +137,7 @@ public class GeneralPrintHandler extends InputHandler {
                     .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
             getInputHandler().println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
         } else if (getInputHandler().commandIs("fibonacci")) {
-            for (long i : NumberUtil.fib(0, 1, 100))
+            for (long i : NumberUtil.computeFibonacci(0, 1, 100))
                 getInputHandler().println(i);
         } else if (getInputHandler().commandIs("break;")) {
             getInputHandler().println("Thankfully my pure console based infinite while loop days are over. <3 Nathan");

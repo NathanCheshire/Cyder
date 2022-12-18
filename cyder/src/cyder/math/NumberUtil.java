@@ -10,11 +10,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 
-import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 /**
@@ -38,11 +37,6 @@ public final class NumberUtil {
     }
 
     /**
-     * The random instance used for inner methods.
-     */
-    private static final Random random = new Random();
-
-    /**
      * Returns a random integer in the range [min, upperBound].
      *
      * @param lowerBound the minimum possible value to return (must be at least 0)
@@ -50,7 +44,7 @@ public final class NumberUtil {
      * @return a random integer in the provided range [0, upperBound]
      */
     public static int randInt(int lowerBound, int upperBound) {
-        return random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+        return ThreadLocalRandom.current().nextInt((upperBound - lowerBound) + 1) + lowerBound;
     }
 
     /**
@@ -60,7 +54,7 @@ public final class NumberUtil {
      * @return a random integer in the range [0, upperBound]
      */
     public static int randInt(int upperBound) {
-        return random.nextInt((upperBound) + 1);
+        return ThreadLocalRandom.current().nextInt((upperBound) + 1);
     }
 
     /**
@@ -105,14 +99,14 @@ public final class NumberUtil {
      *
      * @param a       the first fibonacci number to use
      * @param b       the second fibonacci number to use
-     * @param numFibs the number of fibonacci numbers to return
+     * @param numbers the number of fibonacci numbers to return
      * @return the requested number of fibonacci numbers
      */
-    public static ImmutableList<Long> fib(long a, long b, int numFibs) {
+    public static ImmutableList<Long> computeFibonacci(long a, long b, int numbers) {
         LinkedList<Long> ret = new LinkedList<>();
         ret.add(a);
 
-        for (int i = 1 ; i < numFibs ; i++) {
+        for (int i = 1 ; i < numbers ; i++) {
             ret.add(b);
 
             long next = a + b;
@@ -159,11 +153,17 @@ public final class NumberUtil {
         Preconditions.checkArgument(!word.isEmpty());
         if (word.contains(NEGATIVE_CHAR)) Preconditions.checkArgument(word.startsWith(NEGATIVE_CHAR));
 
-        BigInteger num = new BigInteger(word);
+        boolean negative = false;
+        try {
+            BigInteger num = new BigInteger(word);
 
-        if (num.compareTo(BigInteger.ZERO) == 0) return ZERO;
+            if (num.compareTo(BigInteger.ZERO) == 0) return ZERO;
 
-        boolean negative = num.compareTo(BigInteger.ZERO) < 0;
+            negative = num.compareTo(BigInteger.ZERO) < 0;
+        } catch (Exception ignored) {
+            // word not parsable by BigInteger
+        }
+
         word = word.replace(NEGATIVE_CHAR, "");
 
         StringBuilder wordRepBuilder = new StringBuilder(word);
@@ -388,29 +388,6 @@ public final class NumberUtil {
         }
 
         return ImmutableList.copyOf(ret);
-    }
-
-    /**
-     * The allowable range for font metrics.
-     * These consist of the following and their additions:
-     * <ul>
-     *     <li>{@link Font#PLAIN}</li>
-     *     <li>{@link Font#BOLD}</li>
-     *     <li>{@link Font#ITALIC}</li>
-     * </ul>
-     */
-    public static final Range<Integer> fontMetricRange = Range.closed(0, 3);
-
-    /**
-     * Returns whether the provided font metric is within the allowable range,
-     * that of Font.PLAIN, Font.BOLD, Font.ITALIC or a combination of these.
-     * In other words, the provided metric must be contained in {@link #fontMetricRange}.
-     *
-     * @param metric the font metric
-     * @return whether the provided metric is in the allowable bounds
-     */
-    public static boolean isValidFontMetric(int metric) {
-        return fontMetricRange.contains(metric);
     }
 
     /**

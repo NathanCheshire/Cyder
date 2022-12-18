@@ -2412,7 +2412,7 @@ public enum Console {
             int fontMetric = FontUtil.getFontMetricFromProps();
 
             Font newFont = new Font(fontName, fontMetric, fontSize);
-            if (NumberUtil.isValidFontMetric(fontMetric)) {
+            if (FontUtil.isValidFontMetric(fontMetric)) {
                 inputField.setFont(newFont);
                 outputArea.setFont(newFont);
 
@@ -2460,7 +2460,7 @@ public enum Console {
         int fontMetric = FontUtil.getFontMetricFromProps();
         int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
 
-        if (!NumberUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
+        if (!FontUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
 
         return new Font(fontName, fontMetric, fontSize);
     }

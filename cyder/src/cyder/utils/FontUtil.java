@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
@@ -10,6 +11,17 @@ import java.awt.*;
  * Utilities related to {@link java.awt.Font}s.
  */
 public final class FontUtil {
+    /**
+     * The allowable range for font metrics.
+     * These consist of the following and their additions:
+     * <ul>
+     *     <li>{@link Font#PLAIN}</li>
+     *     <li>{@link Font#BOLD}</li>
+     *     <li>{@link Font#ITALIC}</li>
+     * </ul>
+     */
+    public static final Range<Integer> fontMetricRange = Range.closed(0, 3);
+
     /**
      * Suppress default constructor.
      */
@@ -31,5 +43,17 @@ public final class FontUtil {
             case "bold italic", "italic bold" -> Font.BOLD + Font.ITALIC;
             default -> Font.PLAIN;
         };
+    }
+
+    /**
+     * Returns whether the provided font metric is within the allowable range,
+     * that of Font.PLAIN, Font.BOLD, Font.ITALIC or a combination of these.
+     * In other words, the provided metric must be contained in {@link #fontMetricRange}.
+     *
+     * @param metric the font metric
+     * @return whether the provided metric is in the allowable bounds
+     */
+    public static boolean isValidFontMetric(int metric) {
+        return fontMetricRange.contains(metric);
     }
 }

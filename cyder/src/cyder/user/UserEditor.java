@@ -29,7 +29,6 @@ import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -1432,7 +1431,7 @@ public final class UserEditor {
             UserUtil.getCyderUser().setFont(selectedFont);
 
             int requestedFontMetric = FontUtil.getFontMetricFromProps();
-            if (!NumberUtil.isValidFontMetric(requestedFontMetric)) {
+            if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
                 requestedFontMetric = Font.BOLD;
             }
 
