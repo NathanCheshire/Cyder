@@ -6,7 +6,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 /**
- * A class to store statistics about the Console and where it is.
+ * A class to store statistics about the Console frame and its location on the monitor.
  */
 public class ScreenStat {
     /**

@@ -71,4 +71,12 @@ public enum InputValidation {
     public String getMessage() {
         return message;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getMessage();
+    }
 }

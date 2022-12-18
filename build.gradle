@@ -37,7 +37,7 @@ ext {
     junitVersion = '4.13.2'
     annotationsVersion = '23.0.0'
     guavaVersion = '31.1-jre'
-    gsonVersion = '2.9.0'
+    gsonVersion = '2.10'
     jsoupVersion = '1.15.2'
     jlayerVersion = '1.0.1'
     javaulatorVersion = '3.0.3'

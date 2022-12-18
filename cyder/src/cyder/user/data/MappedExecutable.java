@@ -8,7 +8,7 @@ import cyder.logging.Logger;
 import cyder.strings.ToStringUtils;
 
 /**
- * Class representing a name and a path to an executable/file/link to open.
+ * A class representing a name and a path to an executable/file/link to open.
  * Instances of this class are immutable.
  */
 @SuppressWarnings("ClassCanBeRecord") /* GSON serialization */
