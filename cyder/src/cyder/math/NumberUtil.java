@@ -394,12 +394,11 @@ public final class NumberUtil {
      * Returns the magnitude of the vector represented by the provided values.
      *
      * @param first  the first dimensional value
-     * @param second the second dimensional value
      * @param others the other n dimensional values
      * @return the magnitude of the vector represented by the provided values.
      */
-    public static double calculateMagnitude(double first, double second, double... others) {
-        double summedSquares = Math.pow(first, 2) + Math.pow(second, 2);
+    public static double calculateMagnitude(double first, double... others) {
+        double summedSquares = Math.pow(first, 2);
         for (double other : others) {
             summedSquares += Math.pow(other, 2);
         }
@@ -410,11 +409,12 @@ public final class NumberUtil {
     /**
      * Finds the minimum of the provided integer array.
      *
-     * @param ints the array of ints
+     * @param firstInt the first integer
+     * @param ints     the other integers
      * @return the minimum integer value found
      */
-    public static int min(int... ints) {
-        int min = Integer.MAX_VALUE;
+    public static int min(int firstInt, int... ints) {
+        int min = firstInt;
 
         for (int i : ints) {
             if (i < min) {

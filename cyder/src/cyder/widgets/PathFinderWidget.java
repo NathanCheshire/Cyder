@@ -1183,8 +1183,7 @@ public final class PathFinderWidget {
      * @return the Euclidean distance between the two nodes
      */
     private static double euclideanDistance(PathNode node1, PathNode node2) {
-        return NumberUtil.calculateMagnitude(
-                node1.getX() - node2.getX(),
+        return NumberUtil.calculateMagnitude(node1.getX() - node2.getX(),
                 node1.getY() - node2.getY());
     }
 
