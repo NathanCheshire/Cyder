@@ -164,14 +164,14 @@ public class StatHandler extends InputHandler {
             } else {
                 if (getInputHandler().checkArgsLength(0)
                         || getInputHandler().checkArgsLength(1)) {
-                    File startDir = new File("cyder");
+                    File startDir = new File("src/main/java/cyder");
 
                     if (getInputHandler().checkArgsLength(1)) {
                         startDir = new File(getInputHandler().getArg(0));
 
                         if (!startDir.exists()) {
                             getInputHandler().println("Invalid root directory");
-                            startDir = new File("cyder");
+                            startDir = new File("src/main/java/cyder");
                         }
                     }
 

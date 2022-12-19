@@ -1,4 +1,4 @@
-package animation;
+package cyder.animation;
 
 import main.java.cyder.animation.AnimationUtil;
 import main.java.cyder.enums.Direction;
