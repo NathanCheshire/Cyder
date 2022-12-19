@@ -10,6 +10,7 @@ import main.java.cyder.threads.ThreadUtil;
 import main.java.cyder.ui.frame.CyderFrame;
 import main.java.cyder.utils.UiUtil;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -26,6 +27,17 @@ public final class AnimationUtil {
      * The amount of display pixels to decrement by when performing a close animation.
      */
     private static final int CLOSE_ANIMATION_INC = 15;
+
+    /**
+     * The amount of nanoseconds to sleep by when performing a minimize
+     * animation on a {@link CyderFrame} via {@link #minimizeAnimation(JFrame)}.
+     */
+    public static final int MINIMIZE_ANIMATION_TIMEOUT_NS = 250;
+
+    /**
+     * The amount of display pixels to increment by when performing a minimize animation.
+     */
+    public static final int MINIMIZE_ANIMATION_INC = 15;
 
     /**
      * Suppress default constructor.
@@ -61,45 +73,38 @@ public final class AnimationUtil {
     }
 
     /**
-     * The amount of nanoseconds to sleep by when performing a minimize
-     * animation on a {@link CyderFrame} via {@link #minimizeAnimation(CyderFrame)}.
-     */
-    public static final int MINIMIZE_ANIMATION_TIMEOUT_NS = 250;
-
-    /**
-     * The amount of display pixels to increment by when performing a minimize animation.
-     */
-    public static final int MINIMIZE_ANIMATION_INC = 15;
-
-    /**
-     * Moves the specified cyderFrame object down until it is no longer
-     * visible then sets the cyderFrame's state to Frame.ICONIFIED.
-     * This method works for anything that inherits from JFrame
+     * Moves the specified JFrame object down until it is no longer
+     * visible then sets the frame's state to {@link JFrame#ICONIFIED}.
+     * This method works for anything that inherits from {@link JFrame}.
      *
-     * @param cyderFrame the CyderFrame object to minimize and iconify
+     * @param frame the frame object to minimize and iconify
      */
-    public static void minimizeAnimation(CyderFrame cyderFrame) {
-        Preconditions.checkNotNull(cyderFrame);
+    public static void minimizeAnimation(JFrame frame) {
+        Preconditions.checkNotNull(frame);
 
-        boolean wasEnabled = cyderFrame.isDraggingEnabled();
+        boolean isCyderFrame = frame instanceof CyderFrame;
+        CyderFrame cyderFrameReference = null;
+        if (isCyderFrame) cyderFrameReference = (CyderFrame) frame;
 
-        cyderFrame.disableDragging();
+        boolean wasEnabled = isCyderFrame && cyderFrameReference.isDraggingEnabled();
+        if (isCyderFrame) cyderFrameReference.disableDragging();
 
-        Point point = cyderFrame.getLocationOnScreen();
+        Point point = frame.getLocationOnScreen();
         int x = (int) point.getX();
         int y = (int) point.getY();
 
-        int monitorHeight = (int) cyderFrame.getMonitorBounds().getHeight();
+        int monitorHeight = (int) frame.getGraphicsConfiguration().getDevice()
+                .getDefaultConfiguration().getBounds().getHeight();
 
         for (int i = y ; i <= monitorHeight ; i += MINIMIZE_ANIMATION_INC) {
             ThreadUtil.sleep(0, MINIMIZE_ANIMATION_TIMEOUT_NS);
-            cyderFrame.setLocation(x, i);
+            frame.setLocation(x, i);
         }
 
-        cyderFrame.setState(ConsoleConstants.FRAME_ICONIFIED);
+        frame.setState(ConsoleConstants.FRAME_ICONIFIED);
 
-        if (wasEnabled) {
-            cyderFrame.enableDragging();
+        if (isCyderFrame && wasEnabled) {
+            cyderFrameReference.enableDragging();
         }
     }
 
@@ -163,7 +168,7 @@ public final class AnimationUtil {
      * @param stopY     the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param component      the component to move
+     * @param component the component to move
      */
     public static void componentDown(int startY, int stopY, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
@@ -188,7 +193,7 @@ public final class AnimationUtil {
      * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param component      the component to move
+     * @param component the component to move
      */
     public static void componentLeft(int startX, int stopX, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
@@ -213,7 +218,7 @@ public final class AnimationUtil {
      * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
-     * @param component      the component to move
+     * @param component the component to move
      */
     public static void componentRight(int startX, int stopX, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);

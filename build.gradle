@@ -35,7 +35,6 @@ tasks.withType(JavaCompile) {
 }
 
 ext {
-    junitVersion = '4.13.2'
     annotationsVersion = '23.0.0'
     guavaVersion = '31.1-jre'
     gsonVersion = '2.10'
@@ -50,11 +49,10 @@ ext {
 }
 
 dependencies {
-    implementation 'junit:junit:' + junitVersion
     implementation 'org.jetbrains:annotations:' + annotationsVersion
     implementation 'com.google.guava:guava:' + guavaVersion
     implementation 'com.google.code.gson:gson:' + gsonVersion
-    implementation 'org.jsoup:jsoup:' + jsoupVersion
+    implementation 'org.jsoup:jsoup:' +jsoupVersion
     implementation 'javazoom:jlayer:' + jlayerVersion
     implementation 'com.fathzer:javaluator:' + javaulatorVersion
     implementation 'org.apache.commons:commons-lang3:' + commonsVersion
@@ -62,4 +60,5 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:' + httpClientVersion
     implementation 'commons-io:commons-io:' + commonsIoVersion
     implementation 'org.atteo:evo-inflector:' + inflectorVersion
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
 }
