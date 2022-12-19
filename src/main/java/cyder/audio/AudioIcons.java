@@ -7,7 +7,7 @@ import main.java.cyder.utils.StaticUtil;
 import javax.swing.*;
 
 /**
- * All icons from static/pictures/music in the form of {@link javax.swing.ImageIcon}s.
+ * All icons from static/pictures/audio in the form of {@link javax.swing.ImageIcon}s.
  */
 public final class AudioIcons {
     /**
