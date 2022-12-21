@@ -31,7 +31,7 @@ public final class BoundsString {
      * Suppress default constructor.
      */
     private BoundsString() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class BoundsString {
      * @param width  the width for the text
      * @param height the height for the text
      */
-    BoundsString(String text, int width, int height) {
+    public BoundsString(String text, int width, int height) {
         Preconditions.checkNotNull(text);
         Preconditions.checkArgument(width >= 0);
         Preconditions.checkArgument(height >= 0);
@@ -76,5 +76,43 @@ public final class BoundsString {
      */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = text.hashCode();
+        ret = 31 * ret + Integer.hashCode(width);
+        ret = 31 * ret + Integer.hashCode(height);
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "BoundsString{"
+                + "text=" + CyderStrings.quote + text + CyderStrings.quote + CyderStrings.comma
+                + CyderStrings.space + "width=" + width + CyderStrings.quote + CyderStrings.comma
+                + CyderStrings.space + "height=" + height + "}";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof BoundsString)) {
+            return false;
+        }
+
+        BoundsString other = (BoundsString) o;
+        return text.equals(other.getText())
+                && width == other.getWidth()
+                && height == other.getHeight();
     }
 }

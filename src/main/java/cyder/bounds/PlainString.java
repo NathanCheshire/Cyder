@@ -9,7 +9,7 @@ import main.java.cyder.strings.CyderStrings;
  * A plain, non-html formatted string.
  */
 @Immutable
-public class PlainString extends StringContainer {
+public final class PlainString extends StringContainer {
     /**
      * The string contained by this plain string.
      */
