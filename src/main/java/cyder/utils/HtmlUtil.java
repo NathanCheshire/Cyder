@@ -6,6 +6,7 @@ import main.java.cyder.exceptions.IllegalMethodException;
 import main.java.cyder.strings.CyderStrings;
 
 import java.awt.*;
+import java.util.regex.Pattern;
 
 /**
  * Utilities related to HTML formatting.
@@ -78,5 +79,18 @@ public final class HtmlUtil {
         ret.append(HtmlTags.closingHtml);
 
         return ret.toString();
+    }
+
+    /**
+     * Returns whether the provided string contains html.
+     *
+     * @param text the text
+     * @return whether the provided string contains html
+     */
+    public static boolean containsHtmlStyling(String text) {
+        Preconditions.checkNotNull(text);
+
+        Pattern htmlPattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL);
+        return htmlPattern.matcher(text).matches();
     }
 }

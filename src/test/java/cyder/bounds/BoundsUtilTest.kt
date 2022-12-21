@@ -1,6 +1,8 @@
 package cyder.bounds
 
+import main.java.cyder.bounds.BoundsString
 import main.java.cyder.bounds.BoundsUtil
+import main.java.cyder.constants.CyderFonts
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -17,6 +19,7 @@ class BoundsUtilTest {
     /**
      * Tests for inserting breaks.
      */
+    @Suppress("SpellCheckingInspection")
     @Test
     fun testInsertBreaks() {
         Assertions.assertThrows(NullPointerException::class.java) { BoundsUtil.insertBreaks(null, 0) }
@@ -64,5 +67,36 @@ class BoundsUtilTest {
         Assertions.assertEquals("Still it cried 'Sleep no<br/>more!' to all the house:"
                 + " Glamis<br/>hath murdered sleep, and therefore<br/>Cawdor shall sleep no more;<br/>"
                 + "Macbeth shall sleep no more.", BoundsUtil.insertBreaks(breakString, 5))
+    }
+
+    /**
+     * Tests for inserting breaks.
+     */
+    @Test
+    fun testWidthHeightCalculation() {
+        var result = BoundsString("<html>Still it cried 'Sleep no more!' to all the house:"
+                + " Glamis hath murdered<br/>sleep, and therefore Cawdor shall sleep no more;"
+                + " Macbeth shall sleep no more.</html>", 593, 72)
+        Assertions.assertEquals(result, BoundsUtil.widthHeightCalculation(breakString,
+                CyderFonts.AGENCY_FB_22, 600))
+        Assertions.assertEquals(result, BoundsUtil.widthHeightCalculation(breakString,
+                CyderFonts.AGENCY_FB_22, 800))
+
+        result = BoundsString("<html>Still it cried 'Sleep no more!' to all the"
+                + " house: Glamis hath murdered sleep, and therefore Cawdor shall sleep"
+                + " no more; Macbeth shall sleep no more.</html>", 1104, 36)
+        Assertions.assertEquals(result, BoundsUtil.widthHeightCalculation(breakString, CyderFonts.AGENCY_FB_22))
+
+        result = BoundsString("<html>Still it cried 'Sleep no more!' to all the house:<br/>Glamis"
+                + " hath murdered sleep, and therefore Cawdor<br/>shall sleep no more;"
+                + " Macbeth shall sleep no more.</html>", 389, 108)
+        Assertions.assertEquals(result, BoundsUtil.widthHeightCalculation(breakString,
+                CyderFonts.AGENCY_FB_22, 400))
+
+        result = BoundsString("<html>Still it cried 'Sleep no more!' to<br/>all the house:"
+                + " Glamis hath murdered<br/>sleep, and therefore Cawdor shall sleep no<br/>more;"
+                + " Macbeth shall sleep no more.</html>", 324, 144)
+        Assertions.assertEquals(result, BoundsUtil.widthHeightCalculation(breakString,
+                CyderFonts.AGENCY_FB_22, 300))
     }
 }

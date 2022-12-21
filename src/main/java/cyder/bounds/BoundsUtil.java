@@ -6,13 +6,13 @@ import main.java.cyder.constants.HtmlTags;
 import main.java.cyder.exceptions.IllegalMethodException;
 import main.java.cyder.strings.CyderStrings;
 import main.java.cyder.strings.StringUtil;
+import main.java.cyder.utils.HtmlUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.util.regex.Pattern;
 
 /**
  * Utility methods to calculate the needed space for a String of text.
@@ -93,7 +93,7 @@ public final class BoundsUtil {
                 font.isItalic(), true);
         int lineHeightForFont = StringUtil.getMinHeight(text, font);
 
-        if (containsHtmlStyling(text)) {
+        if (HtmlUtil.containsHtmlStyling(text)) {
             boolean inHtmlTag = false;
             StringBuilder htmlBuilder = new StringBuilder();
             StringBuilder currentLineBuilder = new StringBuilder();
@@ -224,19 +224,6 @@ public final class BoundsUtil {
     }
 
     /**
-     * Returns whether the provided string contains html.
-     *
-     * @param text the text
-     * @return whether the provided string contains html
-     */
-    private static boolean containsHtmlStyling(String text) {
-        Preconditions.checkNotNull(text);
-
-        Pattern htmlPattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL);
-        return htmlPattern.matcher(text).matches();
-    }
-
-    /**
      * Inserts breaks into the text based on the amount of lines needed.
      * Note that HTML tags should NOT exist in this string and should be parsed
      * away prior to invoking this method.
@@ -250,25 +237,26 @@ public final class BoundsUtil {
      */
     public static String insertBreaks(String text, int requiredLines) {
         Preconditions.checkNotNull(text);
-        Preconditions.checkArgument(!containsHtmlStyling(text), text);
+        Preconditions.checkArgument(!HtmlUtil.containsHtmlStyling(text), text);
         Preconditions.checkArgument(requiredLines > 0);
+
         if (requiredLines == 1) return text;
 
         String ret = text;
 
-        int splitFrequency = (int) Math.floor((float) text.length() / (float) requiredLines);
+        int splitFrequency = (int) Math.floor(text.length() / (float) requiredLines);
         int numChars = text.length();
 
-        int currentNumLines = 1;
+        int currentLines = 1;
 
         for (int i = splitFrequency ; i < numChars ; i += splitFrequency) {
-            if (currentNumLines == requiredLines) break;
+            if (currentLines == requiredLines) break;
 
             if (ret.charAt(i) == ' ') {
-                StringBuilder sb = new StringBuilder(ret);
-                sb.deleteCharAt(i);
-                sb.insert(i, HtmlTags.breakTag);
-                ret = sb.toString();
+                StringBuilder builder = new StringBuilder(ret);
+                builder.deleteCharAt(i);
+                builder.insert(i, HtmlTags.breakTag);
+                ret = builder.toString();
             } else {
                 boolean breakInserted = false;
 
@@ -287,7 +275,7 @@ public final class BoundsUtil {
                 }
 
                 if (breakInserted) {
-                    currentNumLines++;
+                    currentLines++;
                     i += HtmlTags.breakTag.length();
                     continue;
                 }
@@ -314,19 +302,22 @@ public final class BoundsUtil {
                 }
             }
 
-            currentNumLines++;
+            currentLines++;
             i += HtmlTags.breakTag.length();
         }
 
-        if (currentNumLines != requiredLines) {
+        if (currentLines != requiredLines) {
             int i = ret.length() - 1;
-            while (currentNumLines != requiredLines) {
+            while (currentLines != requiredLines) {
                 if (ret.charAt(i) == ' ') {
-                    StringBuilder sb = new StringBuilder(ret);
-                    sb.deleteCharAt(i);
-                    sb.insert(i, HtmlTags.breakTag);
-                    ret = sb.toString();
-                    currentNumLines++;
+                    StringBuilder builder = new StringBuilder(ret);
+
+                    // this will push to the right so our iterating index is still okay to insert at if needed
+                    builder.deleteCharAt(i);
+                    builder.insert(i, HtmlTags.breakTag);
+                    ret = builder.toString();
+
+                    currentLines++;
                 }
 
                 i--;
