@@ -11,16 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A rectangle which can grow and shrink in a particular direction.
+ * A rectangle which can grow and shrink (oscillate) horizontally or vertically.
  */
 public class HarmonicRectangle extends JLabel {
     /**
-     * The component's current width.
+     * The current width.
      */
     private int currentWidth;
 
     /**
-     * The component's current height.
+     * The current height.
      */
     private int currentHeight;
 
@@ -119,8 +119,8 @@ public class HarmonicRectangle extends JLabel {
         Preconditions.checkArgument(staticMaxHeight > 0);
         Preconditions.checkArgument(staticMinWidth >= 0);
         Preconditions.checkArgument(staticMinHeight >= 0);
-        Preconditions.checkArgument(staticMinWidth <= staticMaxWidth);
-        Preconditions.checkArgument(staticMinHeight <= staticMaxHeight);
+        Preconditions.checkArgument(staticMinWidth < staticMaxWidth);
+        Preconditions.checkArgument(staticMinHeight < staticMaxHeight);
 
         this.staticMaxWidth = staticMaxWidth;
         this.staticMaxHeight = staticMaxHeight;

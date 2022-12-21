@@ -1,59 +1,75 @@
-package cyder.animation;
+package cyder.animation
 
-import main.java.cyder.animation.HarmonicRectangle;
-import main.java.cyder.constants.CyderColors;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import main.java.cyder.animation.HarmonicRectangle
+import main.java.cyder.constants.CyderColors
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 /**
- * Tests for {@link main.java.cyder.animation.HarmonicRectangle}s.
+ * Tests for [HarmonicRectangle].
  */
-public class HarmonicRectangleTest {
+class HarmonicRectangleTest {
     /**
-     * Default constructor for JUnit.
+     * tests for creating and setting properties of the Harmonic Rectangle.
      */
-    public HarmonicRectangleTest() {}
-
     @Test
-    void testCreation() {
-        HarmonicRectangle rectangle = new HarmonicRectangle(20, 20,
-                30, 30);
+    fun testCreation() {
+        val setAnimationDelay = 20
+        val setAnimationInc = 2
+        val setBackgroundColor = CyderColors.regularPink
+        val setHarmonicDirection = HarmonicRectangle.HarmonicDirection.HORIZONTAL
 
-        rectangle.setAnimationDelay(20);
-        rectangle.setAnimationInc(2);
-        rectangle.setBackgroundColor(CyderColors.regularPink);
-        rectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.HORIZONTAL);
+        val rectangle = HarmonicRectangle(20, 20, 30, 30)
+        rectangle.animationDelay = setAnimationDelay
+        rectangle.animationInc = setAnimationInc
+        rectangle.backgroundColor = setBackgroundColor
+        rectangle.harmonicDirection = setHarmonicDirection
 
-        assertEquals(20, rectangle.getAnimationDelay());
-        assertEquals(2, rectangle.getAnimationInc());
-        assertEquals(CyderColors.regularPink, rectangle.getBackgroundColor());
-        assertEquals(HarmonicRectangle.HarmonicDirection.HORIZONTAL, rectangle.getHarmonicDirection());
+        Assertions.assertEquals(setAnimationDelay, rectangle.animationDelay)
+        Assertions.assertEquals(setAnimationInc, rectangle.animationInc)
+        Assertions.assertEquals(setBackgroundColor, rectangle.backgroundColor)
+        Assertions.assertEquals(setHarmonicDirection, rectangle.harmonicDirection)
+
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            HarmonicRectangle(-1, -1, -1, -1)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            HarmonicRectangle(0, 0, 0, 0)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            HarmonicRectangle(20, 20, 20, 20)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            HarmonicRectangle(20, 20, -1, -1)
+        }
     }
 
     /**
      * Tests for the animation step method.
      */
     @Test
-    void testAnimationStep() {
-        HarmonicRectangle rectangle = new HarmonicRectangle(20, 20,
-                30, 30);
+    fun testAnimationStep() {
+        val staticMin = 20
+        val staticMax = 30
 
-        rectangle.setAnimationDelay(20);
-        rectangle.setAnimationInc(2);
-        rectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.HORIZONTAL);
+        val animationDelay = 20
+        val animationInc = 2
 
-        rectangle.animationStep();
-        assertEquals(22, rectangle.getWidth());
-        rectangle.animationStep();
-        assertEquals(24, rectangle.getWidth());
-        rectangle.animationStep();
-        assertEquals(26, rectangle.getWidth());
-        rectangle.animationStep();
-        assertEquals(28, rectangle.getWidth());
-        rectangle.animationStep();
-        assertEquals(30, rectangle.getWidth());
-        rectangle.animationStep();
-        assertEquals(28, rectangle.getWidth());
+        val rectangle = HarmonicRectangle(staticMin, staticMin, staticMax, staticMax)
+        rectangle.animationDelay = animationDelay
+        rectangle.animationInc = animationInc
+        rectangle.harmonicDirection = HarmonicRectangle.HarmonicDirection.HORIZONTAL
+
+        var start = staticMin + animationInc
+        for (i in start..staticMax step animationInc) {
+            rectangle.animationStep()
+            Assertions.assertEquals(i, rectangle.width)
+        }
+
+        start = staticMax - animationInc
+        for (i in start downTo staticMin step animationInc) {
+            rectangle.animationStep()
+            Assertions.assertEquals(i, rectangle.width)
+        }
     }
 }
