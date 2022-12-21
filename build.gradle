@@ -33,6 +33,10 @@ tasks.withType(JavaCompile) {
     it.options.compilerArgs.add('--enable-preview') // For preview 17 features
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 ext {
     annotationsVersion = '23.0.0'
     guavaVersion = '31.1-jre'
