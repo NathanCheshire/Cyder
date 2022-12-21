@@ -256,10 +256,11 @@ public final class BoundsUtil {
 
         String ret = text;
 
-        int splitFrequency = (int) Math.ceil((float) text.length() / (float) requiredLines);
+        int splitFrequency = (int) Math.floor((float) text.length() / (float) requiredLines);
         int numChars = text.length();
 
         int currentNumLines = 1;
+
         for (int i = splitFrequency ; i < numChars ; i += splitFrequency) {
             if (currentNumLines == requiredLines) break;
 
@@ -271,39 +272,37 @@ public final class BoundsUtil {
             } else {
                 boolean breakInserted = false;
 
-                // Check right for a space
-                for (int j = i ; j < i + numLookAroundForSpaceChars ; j++) {
-                    if (j < numChars) {
-                        if (ret.charAt(j) == ' ') {
-                            StringBuilder sb = new StringBuilder(ret);
-                            sb.deleteCharAt(j);
-                            sb.insert(j, HtmlTags.breakTag);
+                // Check left for a space
+                for (int j = i ; j > i - numLookAroundForSpaceChars ; j--) {
+                    if (j > 0 && ret.charAt(j) == ' ') {
+                        StringBuilder sb = new StringBuilder(ret);
+                        sb.deleteCharAt(j);
+                        sb.insert(j, HtmlTags.breakTag);
 
-                            ret = sb.toString();
+                        ret = sb.toString();
 
-                            breakInserted = true;
-                            currentNumLines++;
-                            break;
-                        }
+                        breakInserted = true;
+                        break;
                     }
                 }
 
-                if (breakInserted) continue;
+                if (breakInserted) {
+                    currentNumLines++;
+                    i += HtmlTags.breakTag.length();
+                    continue;
+                }
 
-                // Check left for a space
-                for (int j = i ; j > i - numLookAroundForSpaceChars ; j--) {
-                    if (j > 0) {
-                        if (ret.charAt(j) == ' ') {
-                            StringBuilder sb = new StringBuilder(ret);
-                            sb.deleteCharAt(j);
-                            sb.insert(j, HtmlTags.breakTag);
+                // Check right for a space
+                for (int j = i ; j < i + numLookAroundForSpaceChars ; j++) {
+                    if (j < numChars && ret.charAt(j) == ' ') {
+                        StringBuilder sb = new StringBuilder(ret);
+                        sb.deleteCharAt(j);
+                        sb.insert(j, HtmlTags.breakTag);
 
-                            ret = sb.toString();
+                        ret = sb.toString();
 
-                            breakInserted = true;
-                            currentNumLines++;
-                            break;
-                        }
+                        breakInserted = true;
+                        break;
                     }
                 }
 
@@ -314,7 +313,24 @@ public final class BoundsUtil {
                     ret = sb.toString();
                 }
             }
+
             currentNumLines++;
+            i += HtmlTags.breakTag.length();
+        }
+
+        if (currentNumLines != requiredLines) {
+            int i = ret.length() - 1;
+            while (currentNumLines != requiredLines) {
+                if (ret.charAt(i) == ' ') {
+                    StringBuilder sb = new StringBuilder(ret);
+                    sb.deleteCharAt(i);
+                    sb.insert(i, HtmlTags.breakTag);
+                    ret = sb.toString();
+                    currentNumLines++;
+                }
+
+                i--;
+            }
         }
 
         return ret;
