@@ -17,6 +17,7 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Wrapper class for a wave (.wav) file.
@@ -133,10 +134,10 @@ public class WaveFile {
             clip.open(AudioSystem.getAudioInputStream(wavFile));
             clip.setFramePosition(0);
             isPlayable = true;
-            clip = null;
         } catch (Exception e) {
             // non 16/8-bit audio file
             isPlayable = false;
+            clip = null;
             ExceptionHandler.handle(e);
         }
     }
@@ -177,6 +178,8 @@ public class WaveFile {
      * Play the clip of this wav file.
      */
     public void play() {
+        Preconditions.checkNotNull(clip);
+
         clip.start();
     }
 
@@ -184,6 +187,8 @@ public class WaveFile {
      * Stops the clip of this wav file.
      */
     public void stop() {
+        Preconditions.checkNotNull(clip);
+
         clip.stop();
     }
 
@@ -250,7 +255,7 @@ public class WaveFile {
         ret = ret * 31 + Arrays.hashCode(data);
         ret = ret * 31 + Boolean.hashCode(isPlayable);
         ret = ret * 31 + audioFormat.hashCode();
-        ret = ret * 31 + clip.hashCode();
+        ret = ret * 31 + Objects.hashCode(clip);
         ret = ret * 31 + Integer.hashCode(sampleSize);
         ret = ret * 31 + Long.hashCode(numFrames);
         ret = ret * 31 + Integer.hashCode(sampleRate);
@@ -264,7 +269,7 @@ public class WaveFile {
     public String toString() {
         return "WaveFile{"
                 + "numChannels=" + numChannels
-                + ", data=" + Arrays.toString(data)
+                + ", dataLength=" + data.length
                 + ", isPlayable=" + isPlayable
                 + ", audioFormat=" + audioFormat
                 + ", clip=" + clip + ", sampleSize=" + sampleSize
