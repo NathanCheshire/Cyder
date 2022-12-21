@@ -1,7 +1,6 @@
-
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 }
 
 java {
@@ -46,13 +45,14 @@ ext {
     httpClientVersion = '4.5.13'
     commonsIoVersion = '20030203.000550'
     inflectorVersion = '1.2.2'
+    junitVersion = '5.9.1'
 }
 
 dependencies {
     implementation 'org.jetbrains:annotations:' + annotationsVersion
     implementation 'com.google.guava:guava:' + guavaVersion
     implementation 'com.google.code.gson:gson:' + gsonVersion
-    implementation 'org.jsoup:jsoup:' +jsoupVersion
+    implementation 'org.jsoup:jsoup:' + jsoupVersion
     implementation 'javazoom:jlayer:' + jlayerVersion
     implementation 'com.fathzer:javaluator:' + javaulatorVersion
     implementation 'org.apache.commons:commons-lang3:' + commonsVersion
@@ -60,5 +60,16 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:' + httpClientVersion
     implementation 'commons-io:commons-io:' + commonsIoVersion
     implementation 'org.atteo:evo-inflector:' + inflectorVersion
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    implementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
 }
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
