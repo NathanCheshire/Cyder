@@ -45,10 +45,10 @@ class HarmonicRectangleTest {
     }
 
     /**
-     * Tests for the animation step method.
+     * Tests for the animation step method on a horizontal Harmonic Rectangle.
      */
     @Test
-    fun testAnimationStep() {
+    fun testHorizontalOscillation() {
         val staticMin = 20
         val staticMax = 30
 
@@ -72,4 +72,10 @@ class HarmonicRectangleTest {
             Assertions.assertEquals(i, rectangle.width)
         }
     }
+
+    // todo vertical case of above method
+
+    // todo I think a purple color like kotlin or the purple syntax color here could replace the blue logo color
+    // todo maybe a new color for the author and tagline badges too
+    // todo need to add kotlin calculation into the statistic generated badge
 }

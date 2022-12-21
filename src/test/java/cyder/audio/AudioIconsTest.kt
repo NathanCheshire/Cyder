@@ -1,71 +1,64 @@
-package cyder.audio;
+package cyder.audio
 
-import main.java.cyder.audio.AudioIcons;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import main.java.cyder.audio.AudioIcons
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 /**
- * Tests for {@link main.java.cyder.audio.AudioIcons}s
+ * Tests for [AudioIcons]s.
  */
-public class AudioIconsTest {
-    /**
-     * Default constructor for JUnit.
-     */
-    public AudioIconsTest() {}
-
+class AudioIconsTest {
     /**
      * Tests for loading audio icons.
      */
     @Test
-    void testAudioIcons() {
-        assertNotNull(AudioIcons.lastIcon);
-        assertEquals(30, AudioIcons.lastIcon.getIconWidth());
-        assertEquals(30, AudioIcons.lastIcon.getIconHeight());
+    fun testAudioIcons() {
+        Assertions.assertNotNull(AudioIcons.lastIcon)
+        Assertions.assertEquals(30, AudioIcons.lastIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.lastIcon.iconHeight)
 
-        assertNotNull(AudioIcons.lastIconHover);
-        assertEquals(30, AudioIcons.lastIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.lastIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.lastIconHover)
+        Assertions.assertEquals(30, AudioIcons.lastIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.lastIconHover.iconHeight)
 
-        assertNotNull(AudioIcons.nextIcon);
-        assertEquals(30, AudioIcons.nextIcon.getIconWidth());
-        assertEquals(30, AudioIcons.nextIcon.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.nextIcon)
+        Assertions.assertEquals(30, AudioIcons.nextIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.nextIcon.iconHeight)
 
-        assertNotNull(AudioIcons.nextIconHover);
-        assertEquals(30, AudioIcons.nextIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.nextIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.nextIconHover)
+        Assertions.assertEquals(30, AudioIcons.nextIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.nextIconHover.iconHeight)
 
-        assertNotNull(AudioIcons.pauseIcon);
-        assertEquals(30, AudioIcons.pauseIcon.getIconWidth());
-        assertEquals(30, AudioIcons.pauseIcon.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.pauseIcon)
+        Assertions.assertEquals(30, AudioIcons.pauseIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.pauseIcon.iconHeight)
 
-        assertNotNull(AudioIcons.pauseIconHover);
-        assertEquals(30, AudioIcons.pauseIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.pauseIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.pauseIconHover)
+        Assertions.assertEquals(30, AudioIcons.pauseIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.pauseIconHover.iconHeight)
 
-        assertNotNull(AudioIcons.playIcon);
-        assertEquals(30, AudioIcons.playIcon.getIconWidth());
-        assertEquals(30, AudioIcons.playIcon.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.playIcon)
+        Assertions.assertEquals(30, AudioIcons.playIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.playIcon.iconHeight)
 
-        assertNotNull(AudioIcons.playIconHover);
-        assertEquals(30, AudioIcons.playIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.playIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.playIconHover)
+        Assertions.assertEquals(30, AudioIcons.playIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.playIconHover.iconHeight)
 
-        assertNotNull(AudioIcons.shuffleIcon);
-        assertEquals(30, AudioIcons.shuffleIcon.getIconWidth());
-        assertEquals(30, AudioIcons.shuffleIcon.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.shuffleIcon)
+        Assertions.assertEquals(30, AudioIcons.shuffleIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.shuffleIcon.iconHeight)
 
-        assertNotNull(AudioIcons.shuffleIconHover);
-        assertEquals(30, AudioIcons.shuffleIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.shuffleIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.shuffleIconHover)
+        Assertions.assertEquals(30, AudioIcons.shuffleIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.shuffleIconHover.iconHeight)
 
-        assertNotNull(AudioIcons.repeatIcon);
-        assertEquals(30, AudioIcons.repeatIcon.getIconWidth());
-        assertEquals(30, AudioIcons.repeatIcon.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.repeatIcon)
+        Assertions.assertEquals(30, AudioIcons.repeatIcon.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.repeatIcon.iconHeight)
 
-        assertNotNull(AudioIcons.repeatIconHover);
-        assertEquals(30, AudioIcons.repeatIconHover.getIconWidth());
-        assertEquals(30, AudioIcons.repeatIconHover.getIconHeight());
+        Assertions.assertNotNull(AudioIcons.repeatIconHover)
+        Assertions.assertEquals(30, AudioIcons.repeatIconHover.iconWidth)
+        Assertions.assertEquals(30, AudioIcons.repeatIconHover.iconHeight)
     }
 }
