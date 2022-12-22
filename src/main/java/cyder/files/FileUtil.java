@@ -74,6 +74,11 @@ public final class FileUtil {
             = ImmutableList.of(Extension.TTF.getExtension());
 
     /**
+     * The signature for true-type font file formats.
+     */
+    public static final ImmutableList<Integer> TTF_SIGNATURE = ImmutableList.of(0x00, 0x01, 0x00, 0x00, 0x00);
+
+    /**
      * The regex string for extracting the filename from the extension.
      */
     private static final String filenameRegex = "\\.([^.]+)$";
@@ -114,20 +119,6 @@ public final class FileUtil {
     }
 
     /**
-     * Returns whether the provided file is a supported audio file by validating
-     * the file extension.
-     *
-     * @param file the filename to determine if it is a supported audio type
-     * @return whether the provided file is a supported audio file
-     */
-    public static boolean isSupportedAudioExtension(String file) {
-        checkNotNull(file);
-        checkArgument(!file.isEmpty());
-
-        return StringUtil.in(getExtension(file), true, SUPPORTED_AUDIO_EXTENSIONS);
-    }
-
-    /**
      * Returns whether the provided file is a supported font file.
      *
      * @param file the file to validate
@@ -135,9 +126,9 @@ public final class FileUtil {
      */
     public static boolean isSupportedFontExtension(File file) {
         checkNotNull(file);
-        checkArgument(file.exists());
 
-        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_FONT_EXTENSIONS);
+        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_FONT_EXTENSIONS)
+                && fileMatchesSignature(file, TTF_SIGNATURE);
     }
 
     /**

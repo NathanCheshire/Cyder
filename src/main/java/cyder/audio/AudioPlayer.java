@@ -404,7 +404,8 @@ public final class AudioPlayer {
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
-        File[] userMusicFiles = userMusicDir.listFiles((dir, name) -> FileUtil.isSupportedAudioExtension(name));
+        File[] userMusicFiles = userMusicDir.listFiles((dir, name)
+                -> FileUtil.isSupportedAudioExtension(new File(name)));
 
         if (userMusicFiles != null && userMusicFiles.length > 0) {
             showGui(userMusicFiles[NumberUtil.randInt(userMusicFiles.length - 1)]);
@@ -2101,17 +2102,17 @@ public final class AudioPlayer {
             return 0;
         }
 
-        LinkedList<Integer> ints = new LinkedList<>();
+        LinkedList<Integer> integers = new LinkedList<>();
 
         for (int i = 0 ; i < validAudioFiles.size() ; i++) {
             if (i == getCurrentAudioIndex()) {
                 continue;
             }
 
-            ints.add(i);
+            integers.add(i);
         }
 
-        return ints.get(NumberUtil.randInt(ints.size() - 1));
+        return integers.get(NumberUtil.randInt(integers.size() - 1));
     }
 
     // --------------------------------
