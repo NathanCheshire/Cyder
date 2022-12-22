@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.util.Objects;
 
 /**
  * A {@link Console} taskbar icon for the console menu.
@@ -335,6 +336,8 @@ public class TaskbarIcon {
          */
         @CanIgnoreReturnValue
         public Builder setBorderColor(Color borderColor) {
+            Preconditions.checkNotNull(borderColor);
+
             this.borderColor = borderColor;
             return this;
         }
@@ -347,6 +350,8 @@ public class TaskbarIcon {
          */
         @CanIgnoreReturnValue
         public Builder setCustomIcon(ImageIcon customIcon) {
+            Preconditions.checkNotNull(customIcon);
+
             this.customIcon = customIcon;
             return this;
         }
@@ -359,6 +364,8 @@ public class TaskbarIcon {
          */
         @CanIgnoreReturnValue
         public Builder setRunnable(Runnable runnable) {
+            Preconditions.checkNotNull(runnable);
+
             this.runnable = runnable;
             return this;
         }
@@ -440,8 +447,11 @@ public class TaskbarIcon {
             Builder other = (Builder) o;
 
             boolean ret = other.isCompact() == compact
-                    && other.isFocused() == focused
-                    && other.getBorderColor().equals(borderColor);
+                    && other.isFocused() == focused;
+
+            if (other.getBorderColor() != null) {
+                ret = ret && other.getBorderColor().equals(borderColor);
+            }
 
             if (other.getCustomIcon() != null) {
                 ret = ret && other.getCustomIcon().equals(customIcon);
@@ -465,10 +475,10 @@ public class TaskbarIcon {
         public int hashCode() {
             int ret = Boolean.hashCode(compact);
             ret = 31 * ret + Boolean.hashCode(focused);
-            ret = 31 * ret + borderColor.hashCode();
-            ret = 31 * ret + customIcon.hashCode();
-            ret = 31 * ret + runnable.hashCode();
-            ret = 31 * ret + name.hashCode();
+            ret = 31 * ret + Objects.hashCode(borderColor);
+            ret = 31 * ret + Objects.hashCode(customIcon);
+            ret = 31 * ret + Objects.hashCode(runnable);
+            ret = 31 * ret + Objects.hashCode(name);
             return ret;
         }
 

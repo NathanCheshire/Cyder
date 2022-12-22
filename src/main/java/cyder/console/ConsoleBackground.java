@@ -1,7 +1,9 @@
 package main.java.cyder.console;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.Immutable;
 import main.java.cyder.exceptions.FatalException;
+import main.java.cyder.files.FileUtil;
 import main.java.cyder.handlers.internal.ExceptionHandler;
 import main.java.cyder.logging.LogTag;
 import main.java.cyder.logging.Logger;
@@ -16,11 +18,12 @@ import java.io.File;
 /**
  * A background for the Console.
  */
-public class ConsoleBackground {
+@Immutable
+public final class ConsoleBackground {
     /**
      * the file referenced by this object.
      */
-    private File referenceFile;
+    private final File referenceFile;
 
     /**
      * Constructs a new CyderBackground from the provided file if it can be read as an image.
@@ -31,9 +34,11 @@ public class ConsoleBackground {
     public ConsoleBackground(File referenceFile) {
         Preconditions.checkNotNull(referenceFile);
         Preconditions.checkArgument(referenceFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedImageExtension(referenceFile));
         Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
 
-        setReferenceFile(referenceFile);
+        this.referenceFile = referenceFile;
+
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
@@ -44,19 +49,6 @@ public class ConsoleBackground {
      */
     public File getReferenceFile() {
         return referenceFile;
-    }
-
-    /**
-     * Sets the file referenced by this object.
-     *
-     * @param referenceFile the file referenced by this object
-     */
-    public void setReferenceFile(File referenceFile) {
-        Preconditions.checkNotNull(referenceFile);
-        Preconditions.checkArgument(referenceFile.exists());
-        Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
-
-        this.referenceFile = referenceFile;
     }
 
     /**
@@ -108,5 +100,36 @@ public class ConsoleBackground {
      */
     public boolean isValid() {
         return referenceFile.exists() && generateBufferedImage() != null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof ConsoleBackground)) {
+            return false;
+        }
+
+        ConsoleBackground other = (ConsoleBackground) o;
+        return getReferenceFile().equals(other.getReferenceFile());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return referenceFile.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "ConsoleBackground{referenceFile=" + referenceFile.getAbsolutePath() + "}";
     }
 }

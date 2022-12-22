@@ -119,8 +119,7 @@ public class HarmonicRectangle extends JLabel {
         Preconditions.checkArgument(staticMaxHeight > 0);
         Preconditions.checkArgument(staticMinWidth >= 0);
         Preconditions.checkArgument(staticMinHeight >= 0);
-        Preconditions.checkArgument(staticMinWidth < staticMaxWidth);
-        Preconditions.checkArgument(staticMinHeight < staticMaxHeight);
+        Preconditions.checkArgument(staticMinWidth < staticMaxWidth || staticMinHeight < staticMaxHeight);
 
         this.staticMaxWidth = staticMaxWidth;
         this.staticMaxHeight = staticMaxHeight;
