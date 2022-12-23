@@ -225,8 +225,15 @@ public final class FileUtil {
      */
     public static String getExtensionWithoutPeriod(File file) {
         checkNotNull(file);
+        checkArgument(!file.getName().isEmpty());
 
-        return file.getName().replace(getFilename(file), "").substring(1);
+        String filename = getFilename(file);
+        String withoutFilename = file.getName().replace(filename, "");
+        if (withoutFilename.length() > 1) {
+            return withoutFilename.substring(1);
+        }
+
+        return "";
     }
 
     /**

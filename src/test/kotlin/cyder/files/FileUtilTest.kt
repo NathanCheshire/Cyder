@@ -118,4 +118,94 @@ class FileUtilTest {
         Assertions.assertEquals("My_File_second", FileUtil.getFilename("My_File_second.png"))
         Assertions.assertEquals("yyyy.mm.dd", FileUtil.getFilename("yyyy.mm.dd.png"))
     }
+
+    /**
+     * Tests for the get extension method.
+     */
+    @Test
+    fun testGetExtension() {
+        Assertions.assertThrows(IllegalArgumentException::class.java) { FileUtil.getExtension("") }
+        Assertions.assertEquals("", FileUtil.getExtension(File("")))
+        Assertions.assertEquals("", FileUtil.getExtension(File("MyFile")))
+        Assertions.assertEquals("", FileUtil.getExtension(File("My File")))
+        Assertions.assertEquals("", FileUtil.getExtension(File("My_File")))
+        Assertions.assertEquals(".png", FileUtil.getExtension(File(".png")))
+        Assertions.assertEquals(".png", FileUtil.getExtension(File("My_File.png")))
+        Assertions.assertEquals(".png", FileUtil.getExtension(File("My File.png")))
+        Assertions.assertEquals(".png", FileUtil.getExtension(File("mm.dd.yyyy.png")))
+    }
+
+    /**
+     * Tests for the get extension without period method.
+     */
+    @Test
+    fun testGetExtensionWithoutPeriod() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.getExtensionWithoutPeriod(null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getExtensionWithoutPeriod(File(""))
+        }
+
+        Assertions.assertEquals("png", FileUtil.getExtensionWithoutPeriod(File("MyFile.png")))
+        Assertions.assertEquals("pdf", FileUtil.getExtensionWithoutPeriod(File("mm.dd.yyyy.pdf")))
+        Assertions.assertEquals("", FileUtil.getExtensionWithoutPeriod(File("mm")))
+    }
+
+    /**
+     * Tests for the validate extension method.
+     */
+    @Test
+    fun testValidateExtension() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.validateExtension(null, "")
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.validateExtension(File(""), "")
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.validateExtension(File(""), ImmutableList.of())
+        }
+
+        Assertions.assertTrue(FileUtil.validateExtension(File("File.png"), ".png"))
+        Assertions.assertTrue(FileUtil.validateExtension(File("File.jpg"),
+                ".png", ".jpg"))
+        Assertions.assertTrue(FileUtil.validateExtension(File("File.pdf"),
+                ImmutableList.of(".png", ".jpg", ".pdf")))
+    }
+
+    /**
+     * Tests for the validate filename method.
+     */
+    @Test
+    fun testValidateFilename() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.validateFileName(null, "")
+        }
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.validateFileName(File(""), null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.validateFileName(File(""), "")
+        }
+        Assertions.assertTrue(FileUtil.validateFileName(File("My File"), "My File"))
+        Assertions.assertTrue(FileUtil.validateFileName(File("My File.png"), "My File"))
+        Assertions.assertTrue(FileUtil.validateFileName(File("My File.pdf"), "My File"))
+    }
+
+    /**
+     * Tests for the file contents equal method.
+     */
+    @Test
+    fun testFileContentsEqual() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.fileContentsEqual(null, null) }
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.fileContentsEqual(File(""), null) }
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.fileContentsEqual(null, File("")) }
+
+        Assertions.assertFalse(FileUtil.fileContentsEqual(File(""), File("")))
+        Assertions.assertTrue(FileUtil.fileContentsEqual(StaticUtil.getStaticResource("x.png"),
+                StaticUtil.getStaticResource("x.png")))
+        Assertions.assertFalse(FileUtil.fileContentsEqual(StaticUtil.getStaticResource("x.png"),
+                StaticUtil.getStaticResource("Default.png")))
+    }
 }
