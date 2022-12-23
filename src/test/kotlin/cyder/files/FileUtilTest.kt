@@ -1,11 +1,15 @@
 package cyder.files
 
 import com.google.common.collect.ImmutableList
+import main.java.cyder.enums.Extension
 import main.java.cyder.files.FileUtil
+import main.java.cyder.utils.OsUtil
 import main.java.cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 
 /**
  * Tests for [FileUtil]s.
@@ -209,5 +213,47 @@ class FileUtilTest {
                 StaticUtil.getStaticResource("Default.png")))
     }
 
+    /**
+     * Tests for zipping a file.
+     */
+    @Test
+    fun testZip() {
+        Assertions.assertThrows(java.lang.NullPointerException::class.java) {
+            FileUtil.zip(null, "")
+        }
+        Assertions.assertThrows(java.lang.NullPointerException::class.java) {
+            FileUtil.zip("test", null)
+        }
+        Assertions.assertThrows(java.lang.IllegalArgumentException::class.java) {
+            FileUtil.zip("", "destination")
+        }
+        Assertions.assertThrows(java.lang.IllegalArgumentException::class.java) {
+            FileUtil.zip("source", "")
+        }
 
+        val tmpDirectoryName = "tmp"
+        val testFileName = "test_zip_file"
+
+        val tmpFile = File(tmpDirectoryName)
+        tmpFile.mkdir()
+
+        val zipFile = File("$tmpDirectoryName/$testFileName${Extension.TXT.extension}")
+        val zipToPath = "$tmpDirectoryName/$testFileName${Extension.ZIP.extension}"
+        zipFile.createNewFile()
+
+        BufferedWriter(FileWriter(zipFile)).use {
+            it.write("Test String")
+            it.newLine()
+            it.write("Final String")
+            it.newLine()
+        }
+
+        Assertions.assertDoesNotThrow { FileUtil.zip(zipFile.absolutePath, zipToPath) }
+
+        val zippedFile = File(zipToPath)
+
+        Assertions.assertTrue(zippedFile.exists())
+        Assertions.assertEquals(855347585024L, zippedFile.totalSpace)
+        Assertions.assertTrue(OsUtil.deleteFile(File(tmpDirectoryName)))
+    }
 }

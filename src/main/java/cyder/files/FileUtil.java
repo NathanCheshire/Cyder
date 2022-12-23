@@ -333,6 +333,8 @@ public final class FileUtil {
     public static void zip(String source, String destination) {
         checkNotNull(source);
         checkNotNull(destination);
+        checkArgument(!source.isEmpty());
+        checkArgument(!destination.isEmpty());
 
         String usedFileName;
 
