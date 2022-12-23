@@ -208,17 +208,16 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
     return ret
 
 
-def analyze_file(file: str) -> tuple:
+def analyze_java_or_kotlin_file(file: str) -> tuple:
     """ 
-    Analyzes the provided file for source code.
+    Analyzes the provided java/kotline source file for code lines, comment lines, and blank lines.
 
-    :param file: the file to analyze
-    :return: a tuple in the following order (num_code_lines, num_comment_lines, num_blank_lines)
+    :param file: the source file to analyze
+    :return: a tuple in the following order (num_java_lines, num_kotlin_lines, num_comment_lines, num_blank_lines)
     """
 
     if not os.path.exists(file):
-        print('Error: provided file does not exist: ', file)
-        return ()
+        raise Exception('Error: provided file does not exist: ', file)
 
     file_lines = open(file, 'r').readlines()
 
@@ -231,12 +230,17 @@ def analyze_file(file: str) -> tuple:
         raise Exception(
             'Found file that does not end in .java or .kt: ' + file)
 
+    is_java_file = file.endswith('.java')
+    java_lines = num_code_lines if is_java_file else 0
+    kotlin_lines = num_code_lines if not is_java_file else 0
+
     print('---- Found code stats of', file, '----')
-    print('Code lines:', num_code_lines)
+    print('Java lines:', java_lines)
+    print('Kotlin lines:', kotlin_lines)
     print('Comment lines:', num_comments)
     print('Blank lines:', num_blank_lines)
 
-    return num_code_lines, num_comments, num_blank_lines
+    return java_lines, kotlin_lines, num_comments, num_blank_lines
 
 
 def count_code_lines(file_lines: list) -> int:
@@ -307,39 +311,42 @@ def regenerate_badges(total_rounded, font_size):
 def main():
     print("Finding files starting from:", os.getcwd())
 
-    files = find_files(starting_dir="cyder",
-                       extensions=['.java'], recursive=True)
+    files = find_files(starting_dir="src",
+                       extensions=['.java', '.kt'], recursive=True)
 
-    code_lines = 0
+    java_lines = 0
+    kotlin_lines = 0
     comment_lines = 0
     blank_lines = 0
 
     for file in files:
-        results = analyze_file(file)
+        results = analyze_java_or_kotlin_file(file)
+        java_lines += results[0]
+        kotlin_lines += results[1]
+        comment_lines += results[2]
+        blank_lines += results[3]
 
-        code_lines += results[0]
-        comment_lines += results[1]
-        blank_lines += results[2]
+    total = java_lines + kotlin_lines + comment_lines + blank_lines
 
-    total = code_lines + comment_lines + blank_lines
+    print(f'Total Java lines: {java_lines}')
+    print(f'Total Kotlin lines: {kotlin_lines}')
+    print(f'Total comment lines: {comment_lines}')
+    print(f'Total blank lines: {blank_lines}')
+    print(f'Total: {total}')
 
-    print('Total code lines:', code_lines)
-    print('Total comment lines:', comment_lines)
-    print('Total blank lines:', blank_lines)
-    print('Total:', total)
-
-    code_rounded = round(code_lines / 1000.0, 1)
+    java_rounded = round(java_lines / 1000.0, 1)
+    kotlin_rounded = round(kotlin_lines / 1000.0, 1)
     comment_rounded = round(comment_lines / 1000.0, 1)
     blank_rounded = round(blank_lines / 1000.0, 1)
 
-    total_rounded = round(code_rounded + comment_rounded + blank_rounded, 1)
-    print('Total rounded:', total_rounded)
+    total_rounded = round(java_rounded + kotlin_rounded + comment_rounded + blank_rounded, 1)
+    print('Total (Java, Kotlin, comment, and blank) rounded:', total_rounded)
 
-    font_size = 20
+    badge_and_stat_font_size = 20
 
-    export_stats(code_lines=code_lines, comment_lines=comment_lines,
-                 blank_lines=blank_lines, save_name="stats", font_size=font_size, width=275, height=275)
-    regenerate_badges(total_rounded, font_size=font_size)
+    export_stats(code_lines=total, comment_lines=comment_lines,
+                 blank_lines=blank_lines, save_name="stats", font_size=badge_and_stat_font_size, width=275, height=275)
+    regenerate_badges(total_rounded, font_size=badge_and_stat_font_size)
 
 
 if __name__ == '__main__':
