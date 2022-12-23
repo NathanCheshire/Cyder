@@ -7,7 +7,7 @@ from PIL import ImageFont, Image, ImageDraw
 FONT_PATH = os.path.join('actions', 'resources', 'oswald-semi-bold.ttf')
 
 JAVA_COLOR = (25, 114, 176)
-KOTLIN_COLO = (169, 123, 255)
+KOTLIN_COLOR = (169, 123, 255)
 COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
 
@@ -74,7 +74,7 @@ def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_l
 
     # Paint kotlin at middle top
     image = cv2.rectangle(image, (border_length, java_height - border_length),
-                          (width - border_length, java_height + comment_height), COMMENT_COLOR, -1)
+                          (width - border_length, java_height + comment_height), KOTLIN_COLOR, -1)
 
     # Paint comment background in middle bottom
     image = cv2.rectangle(image, (border_length, java_height + kotlin_height - border_length),
@@ -367,7 +367,7 @@ def main():
                           comment_rounded + blank_rounded, 1)
     print('Total (Java, Kotlin, comment, and blank) rounded:', total_rounded)
 
-    badge_and_stat_font_size = 20
+    badge_and_stat_font_size = 18
 
     export_stats(java_lines=java_lines, kotlin_lines=kotlin_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats", font_size=badge_and_stat_font_size, width=275, height=275)
