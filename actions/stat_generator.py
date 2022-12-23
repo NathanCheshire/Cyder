@@ -344,7 +344,7 @@ def main():
 
     badge_and_stat_font_size = 20
 
-    export_stats(code_lines=total, comment_lines=comment_lines,
+    export_stats(code_lines=(java_rounded + kotlin_rounded), comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats", font_size=badge_and_stat_font_size, width=275, height=275)
     regenerate_badges(total_rounded, font_size=badge_and_stat_font_size)
 
