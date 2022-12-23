@@ -208,4 +208,6 @@ class FileUtilTest {
         Assertions.assertFalse(FileUtil.fileContentsEqual(StaticUtil.getStaticResource("x.png"),
                 StaticUtil.getStaticResource("Default.png")))
     }
+
+
 }

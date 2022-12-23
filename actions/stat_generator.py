@@ -6,9 +6,16 @@ from PIL import ImageFont, Image, ImageDraw
 
 FONT_PATH = os.path.join('actions', 'resources', 'oswald-semi-bold.ttf')
 
-CODE_COLOR = (25, 114, 176)
+JAVA_COLOR = (25, 114, 176)
+KOTLIN_COLO = (169, 123, 255)
 COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
+
+STAT_IMAGE_OUTPUT_FORMAT = 'png'
+
+IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
+
+THOUSAND = 'K'
 
 
 def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_lines: int,
@@ -37,7 +44,8 @@ def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_l
     comment_percent = round(comment_lines / float(total) * 100.0, 1)
     java_percent = round(java_lines / float(total) * 100.0, 1)
     kotlin_percent = round(kotlin_lines / float(total) * 100.0, 1)
-    blank_percent = round(100.0 - comment_percent - java_percent - kotlin_percent, 1)
+    blank_percent = round(100.0 - comment_percent -
+                          java_percent - kotlin_percent, 1)
 
     print(f'Computed java percent: {java_percent}')
     print(f'Computed kotlin percent: {kotlin_percent}')
@@ -60,34 +68,46 @@ def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_l
     comment_height = int(height * (blank_percent / 100.0))
     blank_height = int(height * (comment_percent / 100.0))
 
-    # Paint code background at top
+    # Paint java background at top
     image = cv2.rectangle(outlined_image, (border_length, border_length),
-                          (width - border_length, java_height - border_length), CODE_COLOR, -1)
+                          (width - border_length, java_height - border_length), JAVA_COLOR, -1)
 
-    # Paint comment background in middle
+    # Paint kotlin at middle top
     image = cv2.rectangle(image, (border_length, java_height - border_length),
                           (width - border_length, java_height + comment_height), COMMENT_COLOR, -1)
 
+    # Paint comment background in middle bottom
+    image = cv2.rectangle(image, (border_length, java_height + kotlin_height - border_length),
+                          (width - border_length, java_height + kotlin_height + comment_height), COMMENT_COLOR, -1)
+
     # Paint blank lines background at bottom
-    image = cv2.rectangle(image, (border_length, java_height + comment_height - border_length),
+    image = cv2.rectangle(image, (border_length, java_height + kotlin_height + comment_height - border_length),
                           (width - border_length, height), BLANK_COLOR, -1)
 
     # Convert to pillow image
     pillow_image = Image.fromarray(image)
 
     draw = ImageDraw.Draw(pillow_image)
-    code_string = get_paint_string("Java", java_percent, java_lines)
-    w, h = draw.textsize(code_string, font=export_font)
-    code_area_center = (width / 2 - w / 2,
+    java_string = get_paint_string("Java", java_percent, java_lines)
+    w, h = draw.textsize(java_string, font=export_font)
+    java_area_center = (width / 2 - w / 2,
                         border_length + java_height / 2 - h / 2)
-    draw.text(code_area_center, code_string,
+    draw.text(java_area_center, java_string,
+              font=export_font, fill=text_foreground)
+
+    draw = ImageDraw.Draw(pillow_image)
+    kotlin_string = get_paint_string("Kotlin", kotlin_percent, kotlin_lines)
+    w, h = draw.textsize(kotlin_string, font=export_font)
+    kotlin_area_center = (width / 2 - w / 2,
+                          border_length + java_height + kotlin_height / 2 - h / 2)
+    draw.text(kotlin_area_center, kotlin_string,
               font=export_font, fill=text_foreground)
 
     draw = ImageDraw.Draw(pillow_image)
     blank_string = get_paint_string("Blank", blank_percent, blank_lines)
     w, h = draw.textsize(blank_string, font=export_font)
     blank_area_center = (width / 2 - w / 2,
-                         border_length + java_height + comment_height / 2 - h / 2)
+                         border_length + java_height + kotlin_height + comment_height / 2 - h / 2)
     draw.text(blank_area_center, blank_string,
               font=export_font, fill=text_foreground)
 
@@ -96,12 +116,13 @@ def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_l
         "Comment", comment_percent, comment_lines)
     w, h = draw.textsize(comment_string, font=export_font)
     comment_area_center = (width / 2 - w / 2,
-                           border_length + java_height + comment_height + blank_height / 2 - h / 2)
+                           border_length + java_height + kotlin_height + comment_height + blank_height / 2 - h / 2)
     draw.text(comment_area_center, comment_string,
               font=export_font, fill=text_foreground)
 
-    cv2.imwrite('actions/output/' + str(save_name) +
-                '.png', np.array(pillow_image))
+    image_output_path = 'actions/output/' + \
+        str(save_name) + '.' + STAT_IMAGE_OUTPUT_FORMAT
+    cv2.imwrite(image_output_path, np.array(pillow_image))
 
 
 def get_paint_string(header: str, percent: float, lines: int) -> str:
@@ -114,9 +135,6 @@ def get_paint_string(header: str, percent: float, lines: int) -> str:
     :param lines: the number of lines this group takes up
     """
     return header + " lines: " + str(percent) + "% (" + get_compressed_number(lines) + ")"
-
-
-THOUSAND = 'K'
 
 
 def get_compressed_number(num: int) -> str:
@@ -296,9 +314,6 @@ def count_comment_lines(file_lines: list) -> int:
             ret = ret + 1
 
     return ret
-
-
-IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
 
 
 def is_comment_line(line: str) -> bool:
