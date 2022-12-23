@@ -11,7 +11,7 @@ COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
 
 
-def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
+def export_stats(java_lines: int, kotlin_lines: int, comment_lines: int, blank_lines: int,
                  save_name: str, width: int = 300, height: int = 300,
                  border_length: int = 0, border_color: tuple = (255, 255, 255),
                  text_foreground: tuple = (245, 245, 245),
@@ -19,7 +19,8 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     """ 
     Exports a stats png using the provided information.
 
-    :param code_lines: the number of code lines in the project
+    :param java: the number of java code lines in the project
+    :param java: the number of kotlin code lines in the project
     :param comment_lines: the number of comment lines in the project
     :param blank_lines: the number of blank lines in the project
     :param save_name: the name of the png to export
@@ -31,11 +32,17 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     :param font_size: the size of the font to use for the painted strings
     """
 
-    total = code_lines + comment_lines + blank_lines
+    total = java_lines + kotlin_lines + comment_lines + blank_lines
 
     comment_percent = round(comment_lines / float(total) * 100.0, 1)
-    code_percent = round(code_lines / float(total) * 100.0, 1)
-    blank_percent = round(100.0 - comment_percent - code_percent, 1)
+    java_percent = round(java_lines / float(total) * 100.0, 1)
+    kotlin_percent = round(kotlin_lines / float(total) * 100.0, 1)
+    blank_percent = round(100.0 - comment_percent - java_percent - kotlin_percent, 1)
+
+    print(f'Computed java percent: {java_percent}')
+    print(f'Computed kotlin percent: {kotlin_percent}')
+    print(f'Computed comment percent: {comment_percent}')
+    print(f'Computed blank percent: {blank_percent}')
 
     export_font = ImageFont.truetype(FONT_PATH, font_size)
 
@@ -48,30 +55,31 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     outlined_image = cv2.rectangle(black_image, (border_length, border_length),
                                    (width - border_length, height - border_length), border_color, -1)
 
-    code_height = int(height * (code_percent / 100.0))
+    java_height = int(height * (java_percent / 100.0))
+    kotlin_height = int(height * (kotlin_percent) / 100.0)
     comment_height = int(height * (blank_percent / 100.0))
     blank_height = int(height * (comment_percent / 100.0))
 
     # Paint code background at top
     image = cv2.rectangle(outlined_image, (border_length, border_length),
-                          (width - border_length, code_height - border_length), CODE_COLOR, -1)
+                          (width - border_length, java_height - border_length), CODE_COLOR, -1)
 
     # Paint comment background in middle
-    image = cv2.rectangle(image, (border_length, code_height - border_length),
-                          (width - border_length, code_height + comment_height), COMMENT_COLOR, -1)
+    image = cv2.rectangle(image, (border_length, java_height - border_length),
+                          (width - border_length, java_height + comment_height), COMMENT_COLOR, -1)
 
     # Paint blank lines background at bottom
-    image = cv2.rectangle(image, (border_length, code_height + comment_height - border_length),
+    image = cv2.rectangle(image, (border_length, java_height + comment_height - border_length),
                           (width - border_length, height), BLANK_COLOR, -1)
 
     # Convert to pillow image
     pillow_image = Image.fromarray(image)
 
     draw = ImageDraw.Draw(pillow_image)
-    code_string = get_paint_string("Java", code_percent, code_lines)
+    code_string = get_paint_string("Java", java_percent, java_lines)
     w, h = draw.textsize(code_string, font=export_font)
     code_area_center = (width / 2 - w / 2,
-                        border_length + code_height / 2 - h / 2)
+                        border_length + java_height / 2 - h / 2)
     draw.text(code_area_center, code_string,
               font=export_font, fill=text_foreground)
 
@@ -79,7 +87,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     blank_string = get_paint_string("Blank", blank_percent, blank_lines)
     w, h = draw.textsize(blank_string, font=export_font)
     blank_area_center = (width / 2 - w / 2,
-                         border_length + code_height + comment_height / 2 - h / 2)
+                         border_length + java_height + comment_height / 2 - h / 2)
     draw.text(blank_area_center, blank_string,
               font=export_font, fill=text_foreground)
 
@@ -88,7 +96,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
         "Comment", comment_percent, comment_lines)
     w, h = draw.textsize(comment_string, font=export_font)
     comment_area_center = (width / 2 - w / 2,
-                           border_length + code_height + comment_height + blank_height / 2 - h / 2)
+                           border_length + java_height + comment_height + blank_height / 2 - h / 2)
     draw.text(comment_area_center, comment_string,
               font=export_font, fill=text_foreground)
 
@@ -328,6 +336,7 @@ def main():
 
     total = java_lines + kotlin_lines + comment_lines + blank_lines
 
+    print('-------------------------------')
     print(f'Total Java lines: {java_lines}')
     print(f'Total Kotlin lines: {kotlin_lines}')
     print(f'Total comment lines: {comment_lines}')
@@ -339,12 +348,13 @@ def main():
     comment_rounded = round(comment_lines / 1000.0, 1)
     blank_rounded = round(blank_lines / 1000.0, 1)
 
-    total_rounded = round(java_rounded + kotlin_rounded + comment_rounded + blank_rounded, 1)
+    total_rounded = round(java_rounded + kotlin_rounded +
+                          comment_rounded + blank_rounded, 1)
     print('Total (Java, Kotlin, comment, and blank) rounded:', total_rounded)
 
     badge_and_stat_font_size = 20
 
-    export_stats(code_lines=(java_rounded + kotlin_rounded), comment_lines=comment_lines,
+    export_stats(java_lines=java_lines, kotlin_lines=kotlin_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats", font_size=badge_and_stat_font_size, width=275, height=275)
     regenerate_badges(total_rounded, font_size=badge_and_stat_font_size)
 
