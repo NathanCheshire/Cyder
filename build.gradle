@@ -1,3 +1,5 @@
+//file:noinspection SpellCheckingInspection
+
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.6.21'
@@ -50,6 +52,7 @@ ext {
     commonsIoVersion = '20030203.000550'
     inflectorVersion = '1.2.2'
     junitVersion = '5.9.1'
+    zip4jVersion = '1.2.4'
 }
 
 dependencies {
@@ -65,6 +68,7 @@ dependencies {
     implementation 'commons-io:commons-io:' + commonsIoVersion
     implementation 'org.atteo:evo-inflector:' + inflectorVersion
     implementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
+    implementation 'net.lingala.zip4j:zip4j:' + zip4jVersion
 }
 compileKotlin {
     kotlinOptions {

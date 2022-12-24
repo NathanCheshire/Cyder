@@ -235,11 +235,11 @@ class FileUtilTest {
         val testFileName = "test_zip_file"
 
         val tmpFile = File(tmpDirectoryName)
-        tmpFile.mkdir()
+        Assertions.assertTrue(tmpFile.mkdir())
 
         val zipFile = File("$tmpDirectoryName/$testFileName${Extension.TXT.extension}")
         val zipToPath = "$tmpDirectoryName/$testFileName${Extension.ZIP.extension}"
-        zipFile.createNewFile()
+        Assertions.assertTrue(zipFile.createNewFile())
 
         BufferedWriter(FileWriter(zipFile)).use {
             it.write("Test String")
@@ -254,6 +254,61 @@ class FileUtilTest {
 
         Assertions.assertTrue(zippedFile.exists())
         Assertions.assertEquals(855347585024L, zippedFile.totalSpace)
-        Assertions.assertTrue(OsUtil.deleteFile(File(tmpDirectoryName)))
+        Assertions.assertTrue(OsUtil.deleteFile(File(tmpDirectoryName), false))
+    }
+
+    /**
+     * Tests unzipping a file.
+     */
+    @Test
+    fun testUnzip() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.unzip(null, File(""))
+        }
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.unzip(File(""), null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.unzip(File("file_that_does_not_exist.asdf"), File(""))
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.unzip(File(""), File("file_that_does_not_exist.asdf"))
+        }
+
+        val tmpDirectoryName = "tmp"
+        val testFileName = "test_zip_file"
+
+        val tmpFolder = File(tmpDirectoryName)
+        tmpFolder.mkdir()
+        Assertions.assertTrue(tmpFolder.exists())
+
+        val zipFile = File("$tmpDirectoryName/$testFileName${Extension.TXT.extension}")
+        val zipToPath = "$tmpDirectoryName/$testFileName${Extension.ZIP.extension}"
+        zipFile.createNewFile()
+        Assertions.assertTrue(zipFile.exists())
+
+        BufferedWriter(FileWriter(zipFile, false)).use {
+            it.write("Test String")
+            it.newLine()
+            it.write("Final String")
+            it.newLine()
+        }
+
+        Assertions.assertDoesNotThrow { FileUtil.zip(zipFile.absolutePath, zipToPath) }
+
+        val zippedFile = File(zipToPath)
+
+        Assertions.assertTrue(zippedFile.exists())
+        Assertions.assertEquals(855347585024L, zippedFile.totalSpace)
+
+        Assertions.assertTrue(zipFile.delete())
+        Assertions.assertTrue(FileUtil.unzip(zippedFile, tmpFolder))
+        Assertions.assertTrue(zipFile.exists())
+
+        val contents = FileUtil.readFileContents(zipFile)
+        Assertions.assertFalse(contents.isEmpty())
+        Assertions.assertEquals(contents, "Test String\r\nFinal String\r\n")
+
+        Assertions.assertTrue(OsUtil.deleteFile(File(tmpDirectoryName), false))
     }
 }

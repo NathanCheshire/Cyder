@@ -12,19 +12,16 @@ import main.java.cyder.logging.Logger;
 import main.java.cyder.strings.CyderStrings;
 import main.java.cyder.strings.StringUtil;
 import main.java.cyder.utils.ArrayUtil;
-import main.java.cyder.utils.OsUtil;
+import net.lingala.zip4j.core.ZipFile;
 
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -329,109 +326,59 @@ public final class FileUtil {
      *
      * @param source      the file/dir to zip
      * @param destination the destination of the zip archive
+     * @return whether the zip operation was successful
      */
-    public static void zip(String source, String destination) {
+    @CanIgnoreReturnValue
+    public static boolean zip(String source, String destination) {
         checkNotNull(source);
         checkNotNull(destination);
         checkArgument(!source.isEmpty());
         checkArgument(!destination.isEmpty());
 
-        String usedFileName;
-
         try {
-            if (new File(destination).exists()) {
-                int incrementer = 1;
-                usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
-                        + CyderStrings.underscore + incrementer + Extension.ZIP.getExtension();
+            FileOutputStream fos = new FileOutputStream(destination);
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
 
-                while (new File(usedFileName).exists()) {
-                    incrementer++;
-                    usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
-                            + CyderStrings.underscore + incrementer + Extension.ZIP.getExtension();
-                }
-            } else {
-                usedFileName = destination;
+            File fileToZip = new File(source);
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
             }
 
-            Path zipFile = Files.createFile(Paths.get(usedFileName));
-            Path sourceDirPath = Paths.get(source);
-
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))
-                 ; Stream<Path> paths = Files.walk(sourceDirPath)) {
-                paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
-                    ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                    try {
-                        zipOutputStream.putNextEntry(zipEntry);
-                        Files.copy(path, zipOutputStream);
-                        zipOutputStream.closeEntry();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                });
-            }
+            zipOut.close();
+            fis.close();
+            fos.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            return false;
         }
-    }
 
-    /**
-     * The buffer sized used for zip file extraction.
-     */
-    public static final int ZIP_BUFFER_SIZE = 1024;
+        return true;
+    }
 
     /**
      * Unzips the provided zip directory to the provided directory.
      *
-     * @param sourceZip         the source zip file
-     * @param destinationFolder the folder to save the contents of the zip to
+     * @param sourceZip         the source zip archive
+     * @param destinationFolder the folder to extract the contents of the zip archive to
      * @return whether the unzipping process was successful
      */
-    @CanIgnoreReturnValue /* some callers don't care */
+    @CanIgnoreReturnValue /* Some callers don't care */
     public static boolean unzip(File sourceZip, File destinationFolder) {
         checkNotNull(sourceZip);
         checkNotNull(destinationFolder);
         checkArgument(sourceZip.exists());
         checkArgument(destinationFolder.exists());
 
-        byte[] buffer = new byte[ZIP_BUFFER_SIZE];
-
         try {
-            FileInputStream fis = new FileInputStream(sourceZip);
-            ZipInputStream zis = new ZipInputStream(fis);
-            ZipEntry zipEntry = zis.getNextEntry();
-
-            // for all zip entries
-            while (zipEntry != null) {
-                File zippedFile = OsUtil.buildFile(destinationFolder.getAbsolutePath(), zipEntry.getName());
-
-                // ensure parents of zip entry exist
-                File zipEntryParent = new File(zippedFile.getParent());
-                boolean made = zipEntryParent.mkdirs();
-
-                if (!made) {
-                    throw new IOException("Failed to create parent zip");
-                }
-
-                FileOutputStream fos = new FileOutputStream(zippedFile);
-
-                int len;
-
-                while ((len = zis.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-
-                // clean up
-                closeIfNotNull(fos);
-                zis.closeEntry();
-
-                zipEntry = zis.getNextEntry();
-            }
-
-            zis.closeEntry();
-            closeIfNotNull(zis);
-            closeIfNotNull(fis);
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
+            ZipFile zipFile = new ZipFile(sourceZip);
+            zipFile.extractAll(destinationFolder.getAbsolutePath());
+        } catch (Exception e) {
             return false;
         }
 
