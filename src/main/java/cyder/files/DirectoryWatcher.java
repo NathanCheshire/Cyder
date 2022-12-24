@@ -55,6 +55,7 @@ public class DirectoryWatcher {
 
     /**
      * Constructs a new directory watcher.
+     * Note this does not invoke {@link #startWatching()}.
      *
      * @param watchDirectory the directory to watch
      * @param pollTimeout    the timeout between checking the directory
