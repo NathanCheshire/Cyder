@@ -70,6 +70,7 @@ public abstract class WatchDirectorySubscriber {
      */
     public void subscribeTo(WatchDirectoryEvent watchDirectoryEvent, WatchDirectoryEvent... watchDirectoryEvents) {
         Preconditions.checkNotNull(watchDirectoryEvents);
+
         subscribeTo(watchDirectoryEvent);
         Arrays.stream(watchDirectoryEvents).forEach(this::subscribeTo);
     }
@@ -235,7 +236,7 @@ public abstract class WatchDirectorySubscriber {
      * @return whether the set patterns match the filename/extension
      */
     @SuppressWarnings("RedundantIfStatement") /* Readability */
-    public boolean patternsMatch(File file) {
+    boolean patternsMatch(File file) {
         Preconditions.checkNotNull(file);
 
         boolean isDirectory = file.isDirectory();
