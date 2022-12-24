@@ -1,7 +1,6 @@
 package main.java.cyder.files;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.annotations.CyderTest;
 import main.java.cyder.exceptions.FatalException;
 import main.java.cyder.handlers.internal.ExceptionHandler;
 
@@ -80,12 +79,6 @@ public enum DosAttribute {
      */
     public String getMethodName() {
         return methodName;
-    }
-
-    @CyderTest
-    public static void test() {
-        File f = new File(".");
-        getAttribute(f, DosAttribute.CREATION_TIME);
     }
 
     /**
