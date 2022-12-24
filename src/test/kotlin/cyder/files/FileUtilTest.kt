@@ -7,9 +7,7 @@ import main.java.cyder.utils.OsUtil
 import main.java.cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import java.io.*
 
 /**
  * Tests for [FileUtil]s.
@@ -310,5 +308,48 @@ class FileUtilTest {
         Assertions.assertEquals(contents, "Test String\r\nFinal String\r\n")
 
         Assertions.assertTrue(OsUtil.deleteFile(File(tmpDirectoryName), false))
+    }
+
+    /**
+     * Tests for the close if not null method.
+     */
+    @Test
+    fun testCloseIfNotNull() {
+        val tmpFolder = File("tmp")
+        Assertions.assertTrue(tmpFolder.mkdir())
+        Assertions.assertTrue(tmpFolder.exists())
+
+        val tmpFile = File("tmp/tmp.txt")
+        Assertions.assertTrue(tmpFile.createNewFile())
+        Assertions.assertTrue(tmpFile.exists())
+
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull(null) }
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull { } }
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull(FileReader(tmpFile)) }
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull(BufferedReader(FileReader(tmpFile))) }
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull(FileWriter(tmpFile)) }
+        Assertions.assertDoesNotThrow { FileUtil.closeIfNotNull(BufferedWriter(FileWriter(tmpFile))) }
+
+        Assertions.assertTrue(OsUtil.deleteFile(tmpFolder, false))
+    }
+
+    /**
+     * Tests for the get files method.
+     */
+    @Test
+    fun testGetFiles() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFiles(null, "") }
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFiles(File("."), null) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { FileUtil.getFiles(File(""), "") }
+
+        Assertions.assertDoesNotThrow { FileUtil.getFiles(File("."), "png") }
+    }
+
+    /**
+     * Tests for the construct unique name method.
+     */
+    @Test
+    fun testConstructUniqueName() {
+
     }
 }
