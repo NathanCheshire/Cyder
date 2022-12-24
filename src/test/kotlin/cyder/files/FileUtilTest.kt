@@ -342,7 +342,7 @@ class FileUtilTest {
         Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFiles(File("."), null) }
         Assertions.assertThrows(IllegalArgumentException::class.java) { FileUtil.getFiles(File(""), "") }
 
-        Assertions.assertDoesNotThrow { FileUtil.getFiles(File("."), "png") }
+        Assertions.assertDoesNotThrow { FileUtil.getFiles(File("."), Extension.PNG.extensionWithoutPeriod) }
     }
 
     /**
@@ -350,6 +350,27 @@ class FileUtilTest {
      */
     @Test
     fun testConstructUniqueName() {
+        val tmpDirectory = File("tmp")
+        Assertions.assertTrue(tmpDirectory.mkdir())
 
+        val tmpFileName = "tmp_file"
+        val tmpFile = File("tmp/$tmpFileName.txt")
+        Assertions.assertTrue(tmpFile.createNewFile())
+
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.constructUniqueName(null, File(""))
+        }
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.constructUniqueName(File(""), null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.constructUniqueName(File("/"), File("directory_that_does_not_exist"))
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.constructUniqueName(File("/"), tmpFile)
+        }
+        Assertions.assertEquals(tmpFileName + "_1.txt", FileUtil.constructUniqueName(tmpFile, tmpDirectory))
+
+        Assertions.assertTrue(OsUtil.deleteFile(tmpDirectory, false))
     }
 }

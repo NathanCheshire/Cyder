@@ -437,10 +437,10 @@ public final class FileUtil {
     /**
      * Determines a unique name for the provided file so that it may be placed
      * in the provided directory without collisions.
-     * Note that this returns the complete filename and not a created {@link File} object.
+     * Note that this returns the complete filename and not a {@link File} object.
      *
-     * @param file      the file to find a unique name for
-     * @param directory the directory to place the file in
+     * @param file      the file to ensure a unique name for
+     * @param directory the directory the file will e placed in
      * @return a unique name for the file. Note this may or may not equal
      * the original file name
      */
