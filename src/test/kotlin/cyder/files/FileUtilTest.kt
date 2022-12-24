@@ -334,18 +334,6 @@ class FileUtilTest {
     }
 
     /**
-     * Tests for the get files method.
-     */
-    @Test
-    fun testGetFiles() {
-        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFiles(null, "") }
-        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFiles(File("."), null) }
-        Assertions.assertThrows(IllegalArgumentException::class.java) { FileUtil.getFiles(File(""), "") }
-
-        Assertions.assertDoesNotThrow { FileUtil.getFiles(File("."), Extension.PNG.extensionWithoutPeriod) }
-    }
-
-    /**
      * Tests for the construct unique name method.
      */
     @Test
@@ -372,5 +360,24 @@ class FileUtilTest {
         Assertions.assertEquals(tmpFileName + "_1.txt", FileUtil.constructUniqueName(tmpFile, tmpDirectory))
 
         Assertions.assertTrue(OsUtil.deleteFile(tmpDirectory, false))
+    }
+
+    /**
+     * Tests for the get file method.
+     */
+    @Test
+    fun testGetFiles() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.getFiles(null, false, "")
+        }
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.getFiles(File("."), false, null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getFiles(File("directory_that_does_not_exist"), false, "")
+        }
+
+        Assertions.assertEquals(7, FileUtil.getFiles(File("."), false, "").size)
+        Assertions.assertTrue(FileUtil.getFiles(File("."), true, "").size > 100)
     }
 }

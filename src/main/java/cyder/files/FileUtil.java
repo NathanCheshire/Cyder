@@ -403,38 +403,6 @@ public final class FileUtil {
     }
 
     /**
-     * Returns a list of all files contained within the startDir and subdirectories
-     * that have the specified extension.
-     *
-     * @param startDir  the starting directory
-     * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
-     * @return an ArrayList of all files with the given extension found within the startDir and
-     * subdirectories
-     */
-    public static ImmutableList<File> getFiles(File startDir, String extension) {
-        checkNotNull(startDir);
-        checkArgument(startDir.exists());
-        checkNotNull(extension);
-        checkArgument(!extension.isEmpty());
-
-        // init return set
-        ArrayList<File> ret = new ArrayList<>();
-
-        // should be directory but test anyway
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            if (files == null) return ImmutableList.copyOf(ret);
-
-            Arrays.stream(files).forEach(file -> ret.addAll(getFiles(file, extension)));
-        } else if (getExtension(startDir).equals(extension)) {
-            ret.add(startDir);
-        }
-
-        return ImmutableList.copyOf(ret);
-    }
-
-    /**
      * Determines a unique name for the provided file so that it may be placed
      * in the provided directory without collisions.
      * Note that this returns the complete filename and not a {@link File} object.
@@ -498,7 +466,7 @@ public final class FileUtil {
      *
      * @param topLevelDirectory the top level directory to search for files in
      * @param recursive         whether to find files recursively starting from the provided directory
-     * @param extensionRegex    the regex to match extensions for such as "(txt|jpg)"
+     * @param extensionRegex    the regex to match extensions for such as "(txt|jpg)". leave blank for all extensions
      * @return an immutable list of files found within the provided directory
      */
     public static ImmutableList<File> getFiles(File topLevelDirectory, boolean recursive, String extensionRegex) {
@@ -512,9 +480,10 @@ public final class FileUtil {
 
         ArrayList<File> ret = new ArrayList<>();
 
+
         for (File file : topLevelFiles) {
             if (file.isFile()) {
-                String extension = FileUtil.getExtension(file).substring(1);
+                String extension = FileUtil.getExtension(file).replace("\\.", "");
 
                 if (extensionRegex.isEmpty() || extension.matches(extensionRegex)) {
                     ret.add(file);

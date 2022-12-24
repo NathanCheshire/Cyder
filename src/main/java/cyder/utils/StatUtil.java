@@ -171,7 +171,7 @@ public final class StatUtil {
         StringBuilder ret = new StringBuilder("Numbers in order represent: "
                 + "code lines, comment lines, and blank lines respectively" + CyderStrings.newline);
 
-        FileUtil.getFiles(startDir, Extension.JAVA.getExtension()).forEach(javaFile ->
+        FileUtil.getFiles(startDir, true, Extension.JAVA.getExtension()).forEach(javaFile ->
                 ret.append(javaFile.getName().replace(Extension.JAVA.getExtension(), ""))
                         .append(": ").append(totalLines(javaFile)).append(CyderStrings.comma)
                         .append(totalComments(javaFile)).append(CyderStrings.comma)
