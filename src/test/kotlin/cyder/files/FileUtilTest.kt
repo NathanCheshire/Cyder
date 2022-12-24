@@ -380,4 +380,118 @@ class FileUtilTest {
         Assertions.assertEquals(7, FileUtil.getFiles(File("."), false, "").size)
         Assertions.assertTrue(FileUtil.getFiles(File("."), true, "").size > 100)
     }
+
+    /**
+     * Tests for the get folder method.
+     */
+    @Test
+    fun testGetFolders() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getFolders(null) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getFolders(File("folder_that_does_not_exist"))
+        }
+        Assertions.assertEquals(13, FileUtil.getFolders(File("."), false).size)
+        Assertions.assertTrue(FileUtil.getFolders(File(".")).size >= 474)
+    }
+
+    /**
+     * Tests for the read file contents method.
+     */
+    @Test
+    fun readFileContents() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.readFileContents(null) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.readFileContents(File("file_that_does_not_exist"))
+        }
+
+        Assertions.assertDoesNotThrow { FileUtil.readFileContents(File(".gitignore")) }
+        Assertions.assertEquals(".idea/\r\nbin/\r\nout/\r\n*.iml\r\n*.git\r\n.gradle/*"
+                + "\r\nbuild/\r\nprops/propkeys.ini\r\n__pycache__/\r\nvenv/\r\ndynamic/logs/",
+                FileUtil.readFileContents(File(".gitignore")))
+    }
+
+    /**
+     * Tests for the get hex string method.
+     */
+    @Test
+    fun testGetHexString() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getHexString(null) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getHexString(File("file_that_does_not_exist.bin"))
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getHexString(File(".gitignore"))
+        }
+    }
+
+    /**
+     * Tests for the get binary string method.
+     */
+    @Test
+    fun testGetBinaryString() {
+        Assertions.assertThrows(NullPointerException::class.java) { FileUtil.getBinaryString(null) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getBinaryString(File("file_that_does_not_exist.bin"))
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getBinaryString(File(".gitignore"))
+        }
+    }
+
+    /**
+     * Tests for the get file lines method.
+     */
+    @Test
+    fun testGetFileLines() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.getFileLines(null)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getFileLines(File("file_that_does_not_exist.txt"))
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.getFileLines(File("src"))
+        }
+
+        Assertions.assertEquals(ImmutableList.of(".idea/",
+                "bin/",
+                "out/",
+                "*.iml",
+                "*.git",
+                ".gradle/*",
+                "build/",
+                "props/propkeys.ini",
+                "__pycache__/",
+                "venv/",
+                "dynamic/logs/"), FileUtil.getFileLines(File(".gitignore")))
+    }
+
+    /**
+     * Tests for the write lines to file method.
+     */
+    @Test
+    fun testWriteLinesToFile() {
+        Assertions.assertThrows(NullPointerException::class.java) {
+            FileUtil.writeLinesToFile(null, null, false)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.writeLinesToFile(File("file_that_does_not_exist"), null, false)
+        }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            FileUtil.writeLinesToFile(File("."), null, false)
+        }
+
+        val tmpDir = File("tmp")
+        Assertions.assertTrue(tmpDir.mkdir())
+
+        val tmpFile = File("tmp/tmp.txt")
+        Assertions.assertTrue(tmpFile.createNewFile())
+
+        val writeLines = ImmutableList.of("one", "two", "three", "four", "five")
+        Assertions.assertDoesNotThrow { FileUtil.writeLinesToFile(tmpFile, writeLines, false) }
+        Assertions.assertEquals(writeLines,
+                ImmutableList.copyOf(FileUtil.readFileContents(tmpFile).trim().split("\r\n")))
+
+        Assertions.assertTrue(OsUtil.deleteFile(tmpDir, false))
+    }
 }

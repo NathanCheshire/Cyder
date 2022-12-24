@@ -545,6 +545,9 @@ public final class FileUtil {
      * @throws IOException if reading the file fails
      */
     public static String readFileContents(File file) throws IOException {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         return Files.readString(Path.of(file.getAbsolutePath()));
     }
 
@@ -607,6 +610,9 @@ public final class FileUtil {
      * @param useCyderHandlerIfPossible whether to attempt to open the resource using a Cyder handler if possible
      */
     public static void openResource(String resource, boolean useCyderHandlerIfPossible) {
+        Preconditions.checkNotNull(resource);
+        Preconditions.checkArgument(!resource.isEmpty());
+
         File referenceFile = new File(resource);
         boolean referenceFileExists = referenceFile.exists();
 
