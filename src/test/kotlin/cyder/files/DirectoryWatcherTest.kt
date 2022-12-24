@@ -90,18 +90,18 @@ class DirectoryWatcherTest {
     @Test
     fun testDirectoryWatchEventPublishing() {
         val pollDelays = ImmutableList.of(5, 10, 50, 75, 100, 200, 500)
-        pollDelays.stream().forEach { testDirectoryWatchEventPushing(it) }
+        pollDelays.stream().forEach { innerTestDirectoryWatchEventPublishing(it) }
     }
 
     /**
      * Tests for each [WatchDirectoryEvent] a [DirectoryWatcher] can push to subscribers.
      */
-    @Test
-    fun testDirectoryWatchEventPushing(pollTimeout: Int) {
+    private fun innerTestDirectoryWatchEventPublishing(pollTimeout: Int = 8) {
         val pollMagnitudeTestingDelays = 8
 
         val tmpDirectory = File("tmp")
-        assertTrue(tmpDirectory.mkdir())
+        tmpDirectory.mkdir()
+        assertTrue(tmpDirectory.exists())
 
         val directoryWatcher = DirectoryWatcher(tmpDirectory, pollTimeout)
         directoryWatcher.startWatching()

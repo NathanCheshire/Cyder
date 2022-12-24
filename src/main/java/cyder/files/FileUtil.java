@@ -481,7 +481,6 @@ public final class FileUtil {
 
         ArrayList<File> ret = new ArrayList<>();
 
-
         for (File file : topLevelFiles) {
             if (file.isFile()) {
                 String extension = FileUtil.getExtension(file).replace("\\.", "");
