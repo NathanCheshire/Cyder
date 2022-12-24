@@ -20,6 +20,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DirectoryWatcher {
     /**
+     * The file type a file path represents.
+     */
+    private enum FileType {
+        FILE,
+        DIRECTORY
+    }
+
+    /**
+     * A record to associate a file type with its size.
+     *
+     * @param type     the type of file
+     * @param size     the size of the file/directory
+     * @param numFiles the number of files, 1 for a file, 0 or more for a directory
+     */
+    private record FileTypeSize(FileType type, long size, int numFiles) {}
+
+    /**
      * The directory this watcher watches.
      */
     private final File watchDirectory;
@@ -37,7 +54,7 @@ public class DirectoryWatcher {
     /**
      * The map of file paths to byte sizes last cached by this directory watcher.
      */
-    private ImmutableMap<String, Long> oldDirectoryContents = ImmutableMap.of();
+    private ImmutableMap<String, FileTypeSize> oldDirectoryContents = ImmutableMap.of();
 
     /**
      * The subscribers of {@link WatchDirectoryEvent}s this watcher produces.
@@ -141,8 +158,8 @@ public class DirectoryWatcher {
                     throw new FatalException("Watch directory no longer exists: " + watchDirectory.getAbsolutePath());
                 }
 
-                ImmutableMap<String, Long> newDirectoryContents = getUpdatedDirectoryContents();
-                HashMap<String, Long> unionContents = new HashMap<>(newDirectoryContents);
+                ImmutableMap<String, FileTypeSize> newDirectoryContents = getUpdatedDirectoryContents();
+                HashMap<String, FileTypeSize> unionContents = new HashMap<>(newDirectoryContents);
                 unionContents.putAll(oldDirectoryContents);
 
                 unionContents.keySet().forEach(path -> {
@@ -152,23 +169,27 @@ public class DirectoryWatcher {
                     File currentFilePointer = new File(path);
 
                     if (inOldContents && inNewContents) {
-                        long oldSize = oldDirectoryContents.get(path);
-                        long newSize = newDirectoryContents.get(path);
-                        if (oldSize != newSize) {
-                            if (currentFilePointer.isDirectory()) {
+                        FileTypeSize oldTypeSize = oldDirectoryContents.get(path);
+                        FileTypeSize newTypeSize = newDirectoryContents.get(path);
+
+                        boolean sizesDifferent = oldTypeSize.size() != newTypeSize.size();
+                        boolean numFilesDifferent = oldTypeSize.numFiles() != newTypeSize.numFiles();
+
+                        if (sizesDifferent || numFilesDifferent) {
+                            if (oldTypeSize.type() == FileType.DIRECTORY) {
                                 notifySubscribers(WatchDirectoryEvent.DIRECTORY_MODIFIED, currentFilePointer);
                             } else {
                                 notifySubscribers(WatchDirectoryEvent.FILE_MODIFIED, currentFilePointer);
                             }
                         }
                     } else if (inOldContents) {
-                        if (currentFilePointer.isDirectory()) {
+                        if (oldDirectoryContents.get(path).type() == FileType.DIRECTORY) {
                             notifySubscribers(WatchDirectoryEvent.DIRECTORY_DELETED, currentFilePointer);
                         } else {
                             notifySubscribers(WatchDirectoryEvent.FILE_DELETED, currentFilePointer);
                         }
                     } else if (inNewContents) {
-                        if (currentFilePointer.isDirectory()) {
+                        if (newDirectoryContents.get(path).type() == FileType.DIRECTORY) {
                             notifySubscribers(WatchDirectoryEvent.DIRECTORY_ADDED, currentFilePointer);
                         } else {
                             notifySubscribers(WatchDirectoryEvent.FILE_ADDED, currentFilePointer);
@@ -197,12 +218,24 @@ public class DirectoryWatcher {
      *
      * @return the list of directories/files and sizes contained in the watch directory
      */
-    private ImmutableMap<String, Long> getUpdatedDirectoryContents() {
-        HashMap<String, Long> ret = new HashMap<>();
+    private ImmutableMap<String, FileTypeSize> getUpdatedDirectoryContents() {
+        HashMap<String, FileTypeSize> ret = new HashMap<>();
 
         File[] files = watchDirectory.listFiles();
         if (files != null && files.length > 0) {
-            Arrays.stream(files).forEach(file -> ret.put(file.getAbsolutePath(), file.getTotalSpace()));
+            Arrays.stream(files).forEach(file -> {
+                FileType type = file.isFile() ? FileType.FILE : FileType.DIRECTORY;
+
+                int numFiles = 1;
+                if (file.isDirectory()) {
+                    File[] length = file.listFiles();
+                    if (length != null) numFiles = length.length;
+                }
+
+                FileTypeSize add = new FileTypeSize(type, FileUtil.size(file), numFiles);
+
+                ret.put(file.getAbsolutePath(), add);
+            });
         }
 
         return ImmutableMap.copyOf(ret);

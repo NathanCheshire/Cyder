@@ -19,6 +19,7 @@ import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -699,5 +700,40 @@ public final class FileUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Returns the size of the file in bytes.
+     * If the provided file is a directory, the sum of contained files is returned recursively.
+     * Empty directories are reported as length 0, files which do not exist are also reported as 0.
+     *
+     * @param file the file
+     * @return the size of the file in bytes
+     */
+    public static long size(File file) {
+        Preconditions.checkNotNull(file);
+
+        if (file.exists()) {
+            if (file.isFile()) {
+                try {
+                    return Files.size(Paths.get(file.getAbsolutePath()));
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            } else {
+                long ret = 0L;
+                File[] files = file.listFiles();
+
+                if (files != null && files.length > 0) {
+                    for (File child : files) {
+                        ret += size(child);
+                    }
+                }
+
+                return ret;
+            }
+        }
+
+        return 0L;
     }
 }
