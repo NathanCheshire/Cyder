@@ -10,6 +10,7 @@ import main.java.cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A builder for a get confirmation getter method.
@@ -363,7 +364,7 @@ public final class GetConfirmationBuilder extends GetBuilder {
         }
 
         GetConfirmationBuilder other = (GetConfirmationBuilder) o;
-        return frameTitle.equals(other.getFrameTitle())
+        boolean ret = frameTitle.equals(other.getFrameTitle())
                 && labelText.equals(other.getLabelText())
                 && labelFont.equals(other.getLabelFont())
                 && labelColor.equals(other.getLabelColor())
@@ -373,9 +374,14 @@ public final class GetConfirmationBuilder extends GetBuilder {
                 && noButtonText.equals(other.getNoButtonText())
                 && noButtonColor.equals(other.getNoButtonColor())
                 && noButtonFont.equals(other.getNoButtonFont())
-                && relativeTo.equals(other.getRelativeTo())
                 && disableRelativeTo == other.isDisableRelativeTo()
                 && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables());
+
+        if (relativeTo != null) {
+            ret = ret && relativeTo.equals(other.getRelativeTo());
+        }
+
+        return ret;
     }
 
     /**
@@ -393,7 +399,7 @@ public final class GetConfirmationBuilder extends GetBuilder {
         ret = ret * 31 + noButtonText.hashCode();
         ret = ret * 31 + noButtonColor.hashCode();
         ret = ret * 31 + noButtonFont.hashCode();
-        ret = ret * 31 + relativeTo.hashCode();
+        ret = ret * 31 + Objects.hashCode(relativeTo);
         ret = ret * 31 + Boolean.hashCode(disableRelativeTo);
         ret = ret * 31 + onDialogDisposalRunnables.hashCode();
         return ret;

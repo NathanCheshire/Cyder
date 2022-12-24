@@ -4,8 +4,7 @@ import main.java.cyder.constants.CyderColors
 import main.java.cyder.constants.CyderFonts
 import main.java.cyder.getter.GetConfirmationBuilder
 import main.java.cyder.ui.frame.CyderFrame
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
@@ -62,6 +61,9 @@ class GetConfirmationBuilderTest {
         assertEquals(relativeTo, builder.relativeTo)
 
         // todo dialog dispose runnable comparison
+        val runnable: () -> Unit = { println() }
+        assertDoesNotThrow { builder.addOnDialogDisposalRunnable(runnable) }
+        assertEquals(runnable, builder.onDialogDisposalRunnables[0])
 
         assertDoesNotThrow { builder.setDisableRelativeTo(true) }
         assertEquals(true, builder.isDisableRelativeTo)
@@ -72,7 +74,19 @@ class GetConfirmationBuilderTest {
      */
     @Test
     fun testEquals() {
+        val first = GetConfirmationBuilder("One", "Two")
+        val second = GetConfirmationBuilder("One", "Three")
+        val third = GetConfirmationBuilder("One", "Two")
 
+        assertEquals(first, third)
+        assertEquals(third, first)
+        assertNotEquals(first, second)
+        assertNotEquals(second, first)
+
+        first.yesButtonColor = CyderColors.regularPink
+        assertNotEquals(first, third)
+        third.yesButtonColor = CyderColors.regularPink
+        assertEquals(first, third)
     }
 
     /**
@@ -80,7 +94,19 @@ class GetConfirmationBuilderTest {
      */
     @Test
     fun testHashCode() {
+        val first = GetConfirmationBuilder("One", "Two")
+        val second = GetConfirmationBuilder("One", "Three")
+        val third = GetConfirmationBuilder("One", "Two")
 
+        assertEquals(first.hashCode(), third.hashCode())
+        assertEquals(third.hashCode(), first.hashCode())
+        assertNotEquals(first.hashCode(), second.hashCode())
+        assertNotEquals(second.hashCode(), first.hashCode())
+
+        first.yesButtonColor = CyderColors.regularPink
+        assertNotEquals(first.hashCode(), third.hashCode())
+        third.yesButtonColor = CyderColors.regularPink
+        assertEquals(first.hashCode(), third.hashCode())
     }
 
     /**
@@ -88,6 +114,10 @@ class GetConfirmationBuilderTest {
      */
     @Test
     fun testToString() {
+        val first = GetConfirmationBuilder("One", "Two")
+        assertEquals("", first.toString())
 
+        val second = GetConfirmationBuilder("One", "Two")
+        // todo assign all properties for toString
     }
 }
