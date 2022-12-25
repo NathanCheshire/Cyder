@@ -163,7 +163,7 @@ public final class ReflectionUtil {
     /**
      * The top level package for Cyder.
      */
-    public static final String TOP_LEVEL_PACKAGE_NAME = "cyder";
+    public static final String TOP_LEVEL_PACKAGE_NAME = "main.java.cyder";
 
     /**
      * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE_NAME}.

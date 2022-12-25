@@ -27,16 +27,17 @@ sourceSets {
 
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
     }
 }
 
-tasks.withType(JavaCompile) {
+for (it in tasks.withType(JavaCompile)) {
     it.options.compilerArgs.add('--enable-preview') // For preview 17 features
 }
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("--enable-preview")
 }
 
 ext {
@@ -72,12 +73,15 @@ dependencies {
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
+test {
+    useJUnitPlatform()
+}

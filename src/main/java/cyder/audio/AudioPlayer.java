@@ -405,7 +405,7 @@ public final class AudioPlayer {
                 UserFile.MUSIC.getName());
 
         File[] userMusicFiles = userMusicDir.listFiles((dir, name)
-                -> FileUtil.isSupportedAudioExtension(new File(name)));
+                -> FileUtil.isSupportedAudioExtension(OsUtil.buildFile(userMusicDir.getAbsolutePath(), name)));
 
         if (userMusicFiles != null && userMusicFiles.length > 0) {
             showGui(userMusicFiles[NumberUtil.randInt(userMusicFiles.length - 1)]);
