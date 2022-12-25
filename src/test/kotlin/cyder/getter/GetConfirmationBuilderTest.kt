@@ -60,10 +60,9 @@ class GetConfirmationBuilderTest {
         assertDoesNotThrow { builder.setRelativeTo(relativeTo) }
         assertEquals(relativeTo, builder.relativeTo)
 
-        // todo dialog dispose runnable comparison
         val runnable: () -> Unit = { println() }
         assertDoesNotThrow { builder.addOnDialogDisposalRunnable(runnable) }
-        assertEquals(runnable, builder.onDialogDisposalRunnables[0])
+        // assertEquals(runnable, builder.onDialogDisposalRunnables[0])
 
         assertDoesNotThrow { builder.setDisableRelativeTo(true) }
         assertEquals(true, builder.isDisableRelativeTo)
@@ -115,9 +114,35 @@ class GetConfirmationBuilderTest {
     @Test
     fun testToString() {
         val first = GetConfirmationBuilder("One", "Two")
-        assertEquals("", first.toString())
+        assertEquals("GetConfirmationBuilder{frameTitle=\"One\", labelText=\"Two\","
+                + " labelFont=java.awt.Font[family=Agency FB,name=Agency FB,style=bold,size=22],"
+                + " labelColor=java.awt.Color[r=26,g=32,b=51], yesButtonText=\"Yes\","
+                + " yesButtonColor=java.awt.Color[r=223,g=85,b=83], yesButtonFont=java.awt.Font[family=Segoe"
+                + " UI Black,name=Segoe UI Black,style=bold,size=20], noButtonText=\"No\","
+                + " noButtonColor=java.awt.Color[r=223,g=85,b=83], noButtonFont=java.awt.Font[family=Segoe"
+                + " UI Black,name=Segoe UI Black,style=bold,size=20], relativeTo=null,"
+                + " disableRelativeTo=false, onDialogDisposalRunnables=[]}", first.toString())
 
         val second = GetConfirmationBuilder("One", "Two")
-        // todo assign all properties for toString
+        second.yesButtonColor = CyderColors.regularPink
+        second.yesButtonFont = CyderFonts.DEFAULT_FONT_SMALL
+        second.yesButtonText = "Sure"
+        second.noButtonColor = CyderColors.regularPink
+        second.noButtonFont = CyderFonts.DEFAULT_FONT_SMALL
+        second.noButtonText = "Sure"
+        second.labelFont = CyderFonts.DEFAULT_FONT
+        second.labelColor = CyderColors.regularPink
+        second.isDisableRelativeTo = true
+        second.relativeTo = CyderFrame(400, 412)
+        assertEquals("GetConfirmationBuilder{frameTitle=\"One\","
+                + " labelText=\"Two\", labelFont=java.awt.Font[family=Agency"
+                + " FB,name=Agency FB,style=bold,size=30], labelColor=java.awt.Color[r=236,g=64,b=122],"
+                + " yesButtonText=\"Sure\", yesButtonColor=java.awt.Color[r=236,g=64,b=122],"
+                + " yesButtonFont=java.awt.Font[family=Agency FB,name=Agency FB,style=bold,size=22],"
+                + " noButtonText=\"Sure\", noButtonColor=java.awt.Color[r=236,g=64,b=122],"
+                + " noButtonFont=java.awt.Font[family=Agency FB,name=Agency FB,style=bold,size=22],"
+                + " relativeTo=Component: CyderFrame, hash: 1184124073, bounds: (0, 0, 400, 412),"
+                + " parent frame: Component itself is a CyderFrame, disableRelativeTo=true,"
+                + " onDialogDisposalRunnables=[]}", second.toString())
     }
 }
