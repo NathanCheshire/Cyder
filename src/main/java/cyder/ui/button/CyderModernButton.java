@@ -1,15 +1,15 @@
-package main.java.cyder.ui.button;
+package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.selection.CyderCheckbox;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.selection.CyderCheckbox;
 
 import javax.swing.*;
 import javax.swing.border.Border;

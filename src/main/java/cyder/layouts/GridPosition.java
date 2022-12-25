@@ -1,4 +1,4 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 /**
  * Enum to use to figure out how to position components if/when overflow occurs.

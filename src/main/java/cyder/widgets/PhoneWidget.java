@@ -1,28 +1,28 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.audio.GeneralAndSystemAudioPlayer;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.button.CyderModernButton;
-import main.java.cyder.ui.button.ThemeBuilder;
-import main.java.cyder.ui.field.CyderTextField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.utils.StaticUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.utils.StaticUtil;
+import cyder.utils.UiUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A phone number dialing widget.

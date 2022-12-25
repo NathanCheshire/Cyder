@@ -1,20 +1,20 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.DeviceNotFoundException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.user.UserUtil;
+import cyder.annotations.ForReadability;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.Extension;
+import cyder.exceptions.DeviceNotFoundException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.time.TimeUtil;
+import cyder.ui.frame.CyderFrame;
+import cyder.user.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

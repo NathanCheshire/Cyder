@@ -1,4 +1,4 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 import com.google.common.base.Preconditions;
 

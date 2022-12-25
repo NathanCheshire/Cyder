@@ -1,14 +1,14 @@
-package main.java.cyder.ui.pane;
+package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.user.UserUtil;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
+import cyder.user.UserUtil;
 
 import javax.annotation.Nullable;
 import javax.swing.*;

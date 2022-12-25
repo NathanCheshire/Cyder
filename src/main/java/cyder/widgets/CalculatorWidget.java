@@ -1,19 +1,19 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.button.CyderModernButton;
-import main.java.cyder.ui.button.ThemeBuilder;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.ui.field.CyderTextField;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

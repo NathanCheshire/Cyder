@@ -1,10 +1,10 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.audio.GeneralAndSystemAudioPlayer;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.MasterYoutubeThread;
+import cyder.annotations.Handle;
+import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.threads.MasterYoutubeThread;
 
 /**
  * A handler to handle things related to thread ops.

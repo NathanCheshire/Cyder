@@ -1,21 +1,21 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.TitlePosition;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.user.data.MappedExecutable;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
+import cyder.user.UserUtil;
+import cyder.user.data.MappedExecutable;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

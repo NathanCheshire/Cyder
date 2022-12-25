@@ -1,8 +1,8 @@
-package main.java.cyder.files;
+package cyder.files;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
+import cyder.exceptions.FatalException;
+import cyder.handlers.internal.ExceptionHandler;
 
 import java.io.File;
 import java.nio.file.Files;

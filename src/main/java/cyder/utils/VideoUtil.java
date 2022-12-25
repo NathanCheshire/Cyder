@@ -1,12 +1,12 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.audio.GeneralAndSystemAudioPlayer;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.threads.ThreadUtil;
+import cyder.ui.frame.CyderFrame;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

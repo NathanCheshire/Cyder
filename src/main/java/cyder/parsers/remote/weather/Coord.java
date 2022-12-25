@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.weather;
+package cyder.parsers.remote.weather;
 
 public class Coord {
     private double lon;

@@ -1,9 +1,9 @@
-package main.java.cyder.bounds;
+package cyder.bounds;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * A plain, non-html formatted string.

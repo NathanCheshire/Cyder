@@ -1,13 +1,13 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.console.Console;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
-import main.java.cyder.console.Console;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
 
 import java.io.BufferedInputStream;
 import java.io.File;

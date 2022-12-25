@@ -1,10 +1,10 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
+import cyder.annotations.Handle;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 /**
  * A handler for handling mathematical expressions.

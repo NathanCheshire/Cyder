@@ -1,20 +1,20 @@
-package main.java.cyder.session;
+package cyder.session;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.IgnoreThread;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SecurityUtil;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.IgnoreThread;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -85,7 +85,7 @@ public final class InstanceSocketUtil {
     /**
      * Binds the instance socket to the instance socket port and starts listening for a connection.
      *
-     * @throws main.java.cyder.exceptions.FatalException if an exception occurs
+     * @throws cyder.exceptions.FatalException if an exception occurs
      */
     public static void startListening() {
         Preconditions.checkState(!instanceSocketBindAttempted.get());

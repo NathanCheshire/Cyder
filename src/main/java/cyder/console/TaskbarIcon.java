@@ -1,15 +1,15 @@
-package main.java.cyder.console;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.utils.ImageUtil;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.ui.label.CyderLabel;
+import cyder.utils.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;

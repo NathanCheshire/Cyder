@@ -1,4 +1,4 @@
-package main.java.cyder.time;
+package cyder.time;
 
 /**
  * The manager for Cyder's program state.

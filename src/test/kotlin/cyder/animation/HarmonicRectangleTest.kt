@@ -1,7 +1,6 @@
 package cyder.animation
 
-import main.java.cyder.animation.HarmonicRectangle
-import main.java.cyder.constants.CyderColors
+import cyder.constants.CyderColors
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

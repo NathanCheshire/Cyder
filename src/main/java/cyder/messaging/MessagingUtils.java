@@ -1,19 +1,19 @@
-package main.java.cyder.messaging;
+package cyder.messaging;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.audio.AudioUtil;
-import main.java.cyder.audio.WaveFile;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.utils.ImageUtil;
+import cyder.audio.AudioUtil;
+import cyder.audio.WaveFile;
+import cyder.constants.CyderColors;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
+import cyder.ui.button.CyderButton;
+import cyder.utils.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

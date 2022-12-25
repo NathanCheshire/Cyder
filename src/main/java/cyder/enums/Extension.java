@@ -1,4 +1,4 @@
-package main.java.cyder.enums;
+package cyder.enums;
 
 /**
  * Common extensions used and checked for throughout Cyder.

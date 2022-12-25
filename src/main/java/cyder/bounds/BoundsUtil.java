@@ -1,12 +1,12 @@
-package main.java.cyder.bounds;
+package cyder.bounds;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.HtmlTags;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.utils.HtmlUtil;
+import cyder.constants.CyderFonts;
+import cyder.constants.HtmlTags;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.utils.HtmlUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

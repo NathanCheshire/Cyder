@@ -1,14 +1,14 @@
-package main.java.cyder.ui.button;
+package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.time.TimeUtil;
+import cyder.annotations.ForReadability;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 
 import javax.swing.*;
 import java.awt.event.*;

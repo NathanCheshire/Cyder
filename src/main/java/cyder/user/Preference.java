@@ -1,22 +1,22 @@
-package main.java.cyder.user;
+package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.pane.CyderScrollList;
-import main.java.cyder.utils.ColorUtil;
-import main.java.cyder.utils.UiUtil;
-import main.java.cyder.weather.WeatherWidget;
-import main.java.cyder.widgets.ClockWidget;
+import cyder.console.Console;
+import cyder.exceptions.FatalException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.ui.pane.CyderScrollList;
+import cyder.utils.ColorUtil;
+import cyder.utils.UiUtil;
+import cyder.weather.WeatherWidget;
+import cyder.widgets.ClockWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import static main.java.cyder.strings.CyderStrings.EMPTY;
+import static cyder.strings.CyderStrings.EMPTY;
 
 /**
  * Preference class used to hold user data in the form of strings.

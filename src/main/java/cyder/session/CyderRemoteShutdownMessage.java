@@ -1,4 +1,4 @@
-package main.java.cyder.session;
+package cyder.session;
 
 /**
  * A serialization class for messages which pertain to the remote shutdown API.

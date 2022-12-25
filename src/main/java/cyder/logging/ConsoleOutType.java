@@ -1,4 +1,4 @@
-package main.java.cyder.logging;
+package cyder.logging;
 
 import com.google.common.collect.ImmutableList;
 

@@ -1,8 +1,8 @@
-package main.java.cyder.ui.selection;
+package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 import java.util.LinkedList;
 

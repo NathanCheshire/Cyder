@@ -1,11 +1,11 @@
-package main.java.cyder.constants;
+package cyder.constants;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.StaticUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.StaticUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

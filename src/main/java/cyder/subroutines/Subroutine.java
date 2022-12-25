@@ -1,9 +1,9 @@
-package main.java.cyder.subroutines;
+package cyder.subroutines;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 public final class Subroutine {
     /**

@@ -1,23 +1,23 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.ClassPath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.annotations.CyderTest;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.utils.ReflectionUtil;
+import cyder.annotations.CyderTest;
+import cyder.annotations.Handle;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 
 /**
- * A handler for invoking {@link main.java.cyder.annotations.CyderTest}s.
+ * A handler for invoking {@link cyder.annotations.CyderTest}s.
  */
 public class TestHandler extends InputHandler {
     /**

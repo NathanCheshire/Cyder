@@ -1,17 +1,17 @@
-package main.java.cyder.files;
+package cyder.files;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.utils.ArrayUtil;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.utils.ArrayUtil;
 import net.lingala.zip4j.core.ZipFile;
 
 import java.awt.*;

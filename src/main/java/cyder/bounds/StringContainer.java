@@ -1,4 +1,4 @@
-package main.java.cyder.bounds;
+package cyder.bounds;
 
 /**
  * A string container.

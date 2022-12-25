@@ -1,13 +1,13 @@
-package main.java.cyder.ui.drag.button;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.drag.CyderDragLabel;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.ui.drag.CyderDragLabel;
 
 import javax.swing.*;
 import java.awt.*;

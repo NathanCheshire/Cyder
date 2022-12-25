@@ -1,9 +1,8 @@
 package cyder.getter
 
-import main.java.cyder.constants.CyderColors
-import main.java.cyder.constants.CyderFonts
-import main.java.cyder.getter.GetConfirmationBuilder
-import main.java.cyder.ui.frame.CyderFrame
+import cyder.constants.CyderColors
+import cyder.constants.CyderFonts
+import cyder.ui.frame.CyderFrame
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

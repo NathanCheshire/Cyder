@@ -1,9 +1,9 @@
-package main.java.cyder.ui.pane;
+package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 
 import javax.swing.*;
 import java.util.concurrent.Semaphore;

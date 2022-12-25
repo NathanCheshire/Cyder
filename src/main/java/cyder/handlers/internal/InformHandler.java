@@ -1,21 +1,21 @@
-package main.java.cyder.handlers.internal;
+package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.bounds.BoundsString;
-import main.java.cyder.bounds.BoundsUtil;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.FrameType;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.HtmlUtil;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
+import cyder.constants.CyderColors;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
+import cyder.ui.label.CyderLabel;
+import cyder.user.UserUtil;
+import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
 import java.awt.*;

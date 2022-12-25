@@ -1,4 +1,4 @@
-package main.java.cyder.strings;
+package cyder.strings;
 
 import com.google.common.collect.ImmutableList;
 

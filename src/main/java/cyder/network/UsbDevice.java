@@ -1,9 +1,9 @@
-package main.java.cyder.network;
+package cyder.network;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * A representation of a USB device connected to the host computer.

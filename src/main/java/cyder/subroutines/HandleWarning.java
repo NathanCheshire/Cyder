@@ -1,6 +1,6 @@
-package main.java.cyder.subroutines;
+package cyder.subroutines;
 
-import main.java.cyder.annotations.Handle;
+import cyder.annotations.Handle;
 
 /**
  * The possible warnings for invalid {@link Handle}s.

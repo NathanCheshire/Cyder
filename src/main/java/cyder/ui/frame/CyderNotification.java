@@ -1,19 +1,19 @@
-package main.java.cyder.ui.frame;
+package cyder.ui.frame;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.constants.CyderColors;
+import cyder.enums.Direction;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.user.UserUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

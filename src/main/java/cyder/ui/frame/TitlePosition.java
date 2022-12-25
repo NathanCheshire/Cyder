@@ -1,4 +1,4 @@
-package main.java.cyder.ui.frame;
+package cyder.ui.frame;
 
 /**
  * The possible title positions for a {@link CyderFrame} title label.

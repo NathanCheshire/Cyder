@@ -1,17 +1,17 @@
-package main.java.cyder.subroutines;
+package cyder.subroutines;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.genesis.CyderSplash;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.process.PythonPackage;
-import main.java.cyder.snakes.PythonUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.utils.JvmUtil;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.CyderSplash;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.process.PythonPackage;
+import cyder.snakes.PythonUtil;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.utils.JvmUtil;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public final class SufficientSubroutines {
 
     /**
      * The name of the sufficient subroutine to ensure the needed Python dependencies defined in
-     * {@link main.java.cyder.process.PythonPackage} are installed.
+     * {@link cyder.process.PythonPackage} are installed.
      */
     private static final String PYTHON_PACKAGES_INSTALLED_ENSURER = "Python Packages Installed Ensurer";
 

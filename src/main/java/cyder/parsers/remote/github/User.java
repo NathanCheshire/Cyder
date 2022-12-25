@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.github;
+package cyder.parsers.remote.github;
 
 /**
  * A json serialization class for a GitHub user.

@@ -1,6 +1,6 @@
-package main.java.cyder.enums;
+package cyder.enums;
 
-import main.java.cyder.utils.OsUtil;
+import cyder.utils.OsUtil;
 
 /**
  * Cyder exit codes and their corresponding meanings.

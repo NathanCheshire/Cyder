@@ -1,22 +1,22 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.enums.SystemPropertyKey;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.exceptions.UnsupportedOsException;
-import main.java.cyder.genesis.Cyder;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.managers.ProgramModeManager;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.user.UserUtil;
+import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.enums.SystemPropertyKey;
+import cyder.exceptions.IllegalMethodException;
+import cyder.exceptions.UnsupportedOsException;
+import cyder.genesis.Cyder;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.managers.ProgramModeManager;
+import cyder.strings.CyderStrings;
+import cyder.user.UserUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;

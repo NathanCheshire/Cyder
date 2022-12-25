@@ -1,4 +1,4 @@
-package main.java.cyder.threads;
+package cyder.threads;
 
 /**
  * Thread names to ignore when determining if Cyder should be classified as busy.

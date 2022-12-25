@@ -1,4 +1,4 @@
 /**
- * Utilities and encapsulating classes related to audio and the {@link main.java.cyder.audio.AudioPlayer}.
+ * Utilities and encapsulating classes related to audio and the {@link cyder.audio.AudioPlayer}.
  */
-package main.java.cyder.audio;
+package cyder.audio;

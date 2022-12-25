@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.youtube;
+package cyder.parsers.remote.youtube;
 
 /**
  * A class used to serialize a YouTube API 3 search result.

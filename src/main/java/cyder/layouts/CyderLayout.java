@@ -1,7 +1,7 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.ui.CyderPanel;
+import cyder.exceptions.IllegalMethodException;
+import cyder.ui.CyderPanel;
 
 import javax.swing.*;
 import java.awt.*;

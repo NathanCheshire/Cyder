@@ -1,9 +1,9 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.collect.Range;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
 
 import java.awt.*;
 

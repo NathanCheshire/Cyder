@@ -1,11 +1,11 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
+import cyder.enums.Dynamic;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
 
 import java.io.File;
 import java.math.BigInteger;

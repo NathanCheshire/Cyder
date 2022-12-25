@@ -1,10 +1,10 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.ui.CyderPanel;
+import cyder.annotations.ForReadability;
+import cyder.ui.CyderPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,14 +1,14 @@
-package main.java.cyder.math;
+package cyder.math;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
+import cyder.annotations.ForReadability;
+import cyder.constants.CyderRegexPatterns;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

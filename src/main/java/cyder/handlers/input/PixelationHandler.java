@@ -1,18 +1,18 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.google.common.collect.Range;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ImageUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

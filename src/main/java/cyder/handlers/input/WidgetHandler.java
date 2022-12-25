@@ -1,16 +1,16 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.google.common.reflect.ClassPath;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.ReflectionUtil;
+import cyder.annotations.Handle;
+import cyder.annotations.Widget;
+import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 

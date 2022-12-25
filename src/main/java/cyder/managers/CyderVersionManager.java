@@ -1,7 +1,7 @@
-package main.java.cyder.managers;
+package cyder.managers;
 
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 /**
  * A manager for the program's name, version name, release date, released state, and similar states.

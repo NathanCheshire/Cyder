@@ -1,15 +1,15 @@
-package main.java.cyder.ui.selection;
+package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import main.java.cyder.animation.AnimationUtil;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.utils.UiUtil;
+import cyder.animation.AnimationUtil;
+import cyder.annotations.ForReadability;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.ui.button.CyderButton;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

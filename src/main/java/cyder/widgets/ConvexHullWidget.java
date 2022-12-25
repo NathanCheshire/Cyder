@@ -1,19 +1,19 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.*;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.CyderInspection;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.layouts.CyderPartitionedLayout;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.CyderPanel;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.grid.CyderGrid;
-import main.java.cyder.ui.grid.GridNode;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.*;
+import cyder.constants.CyderColors;
+import cyder.enums.CyderInspection;
+import cyder.exceptions.IllegalMethodException;
+import cyder.layouts.CyderPartitionedLayout;
+import cyder.strings.CyderStrings;
+import cyder.ui.CyderPanel;
+import cyder.ui.button.CyderButton;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.grid.CyderGrid;
+import cyder.ui.grid.GridNode;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

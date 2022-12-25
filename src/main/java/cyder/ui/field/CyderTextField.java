@@ -1,19 +1,19 @@
-package main.java.cyder.ui.field;
+package cyder.ui.field;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.utils.ColorUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.ForReadability;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

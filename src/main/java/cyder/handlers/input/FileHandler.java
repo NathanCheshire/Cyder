@@ -1,15 +1,15 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.DosAttribute;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SpotlightUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.DosAttribute;
+import cyder.files.FileUtil;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.utils.OsUtil;
+import cyder.utils.SpotlightUtil;
 
 import java.io.File;
 import java.util.Arrays;

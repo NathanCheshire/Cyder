@@ -1,9 +1,9 @@
-package main.java.cyder.structures;
+package cyder.structures;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 import java.util.function.Function;
 

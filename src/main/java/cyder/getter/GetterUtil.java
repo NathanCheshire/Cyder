@@ -1,24 +1,24 @@
-package main.java.cyder.getter;
+package cyder.getter;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.bounds.BoundsString;
-import main.java.cyder.bounds.BoundsUtil;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.ui.field.CyderTextField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.FrameType;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.ui.pane.CyderScrollList;
-import main.java.cyder.utils.HtmlUtil;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.ui.button.CyderButton;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
+import cyder.ui.label.CyderLabel;
+import cyder.ui.pane.CyderScrollList;
+import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.

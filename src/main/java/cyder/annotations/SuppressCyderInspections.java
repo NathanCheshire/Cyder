@@ -1,6 +1,6 @@
-package main.java.cyder.annotations;
+package cyder.annotations;
 
-import main.java.cyder.enums.CyderInspection;
+import cyder.enums.CyderInspection;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

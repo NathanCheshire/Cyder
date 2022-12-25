@@ -1,7 +1,7 @@
-package main.java.cyder.temperature;
+package cyder.temperature;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Utility methods related to temperature conversions.

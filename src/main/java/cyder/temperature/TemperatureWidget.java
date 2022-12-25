@@ -1,28 +1,28 @@
-package main.java.cyder.temperature;
+package cyder.temperature;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.ui.button.CyderModernButton;
-import main.java.cyder.ui.button.ThemeBuilder;
-import main.java.cyder.ui.field.CyderTextField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.selection.CyderCheckbox;
-import main.java.cyder.ui.selection.CyderCheckboxGroup;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.ui.button.CyderModernButton;
+import cyder.ui.button.ThemeBuilder;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.selection.CyderCheckbox;
+import cyder.ui.selection.CyderCheckboxGroup;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
-import static main.java.cyder.temperature.TemperatureUtil.*;
+import static cyder.temperature.TemperatureUtil.*;
 
 /**
  * A temperature conversion widget.

@@ -1,18 +1,18 @@
-package main.java.cyder.handlers.external;
+package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.field.CyderTextField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.pane.CyderScrollList;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.strings.CyderStrings;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderScrollList;
+import cyder.utils.OsUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

@@ -1,31 +1,31 @@
-package main.java.cyder.user;
+package cyder.user;
 
-import main.java.cyder.annotations.*;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.CyderInspection;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.getter.GetFileBuilder;
-import main.java.cyder.getter.GetterUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.handlers.internal.InformHandler;
-import main.java.cyder.layouts.CyderPartitionedLayout;
-import main.java.cyder.login.LoginHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.field.CyderModernTextField;
-import main.java.cyder.ui.field.CyderPasswordField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.user.data.ScreenStat;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SecurityUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.CyderInspection;
+import cyder.enums.Direction;
+import cyder.enums.Dynamic;
+import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
+import cyder.getter.GetterUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
+import cyder.layouts.CyderPartitionedLayout;
+import cyder.login.LoginHandler;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderModernTextField;
+import cyder.ui.field.CyderPasswordField;
+import cyder.ui.frame.CyderFrame;
+import cyder.user.data.ScreenStat;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -39,7 +39,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
 
-import static main.java.cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A widget to create a Cyder user.

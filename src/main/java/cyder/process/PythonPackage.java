@@ -1,6 +1,6 @@
-package main.java.cyder.process;
+package cyder.process;
 
-import main.java.cyder.snakes.PythonUtil;
+import cyder.snakes.PythonUtil;
 
 import java.util.Optional;
 import java.util.concurrent.Future;

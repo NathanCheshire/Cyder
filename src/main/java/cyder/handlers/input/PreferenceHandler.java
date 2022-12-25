@@ -1,15 +1,15 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.annotations.SuppressCyderInspections;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.CyderInspection;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.user.Preference;
-import main.java.cyder.user.UserEditor;
-import main.java.cyder.user.UserUtil;
+import cyder.annotations.Handle;
+import cyder.annotations.SuppressCyderInspections;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.CyderInspection;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.user.Preference;
+import cyder.user.UserEditor;
+import cyder.user.UserUtil;
 
 /**
  * A handler for switching/toggling preferences.

@@ -20,7 +20,7 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['src/main/java']
         }
     }
 }
@@ -51,9 +51,9 @@ ext {
     commonsTextVersion = '1.9'
     httpClientVersion = '4.5.13'
     commonsIoVersion = '20030203.000550'
-    inflectorVersion = '1.2.2'
-    junitVersion = '5.9.1'
-    zip4jVersion = '1.2.4'
+    inflectorVersion = '1.3' // Pluralization of words
+    junitVersion = '5.9.1' // Testing
+    zip4jVersion = '1.2.4' // Zip files
 }
 
 dependencies {
@@ -71,17 +71,16 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     implementation 'net.lingala.zip4j:zip4j:' + zip4jVersion
 }
+
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "16"
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "16"
     }
 }
 
-test {
-    useJUnitPlatform()
-}
+// todo jar job

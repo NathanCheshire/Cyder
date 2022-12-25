@@ -1,10 +1,10 @@
-package main.java.cyder.ui.progress;
+package cyder.ui.progress;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.math.InterpolationUtil;
+import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.math.InterpolationUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;

@@ -1,9 +1,9 @@
-package main.java.cyder.threads;
+package cyder.threads;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 
 import java.util.concurrent.ThreadFactory;
 

@@ -1,4 +1,4 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 import java.awt.*;
 

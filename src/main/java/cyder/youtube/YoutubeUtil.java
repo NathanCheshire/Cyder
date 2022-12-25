@@ -1,27 +1,27 @@
-package main.java.cyder.youtube;
+package cyder.youtube;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.audio.AudioUtil;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.exceptions.YoutubeException;
-import main.java.cyder.handlers.input.BaseInputHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.utils.ArrayUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.SecurityUtil;
+import cyder.audio.AudioUtil;
+import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderUrls;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.exceptions.YoutubeException;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.ui.button.CyderButton;
+import cyder.user.UserFile;
+import cyder.utils.ArrayUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.SecurityUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static main.java.cyder.strings.CyderStrings.forwardSlash;
-import static main.java.cyder.youtube.YoutubeConstants.*;
+import static cyder.strings.CyderStrings.forwardSlash;
+import static cyder.youtube.YoutubeConstants.*;
 
 /**
  * Utility methods related to YouTube videos.

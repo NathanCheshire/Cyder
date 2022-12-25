@@ -1,8 +1,8 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.StaticUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 

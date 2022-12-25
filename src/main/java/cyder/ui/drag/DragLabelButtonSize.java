@@ -1,4 +1,4 @@
-package main.java.cyder.ui.drag;
+package cyder.ui.drag;
 
 /**
  * Valid sizes for an icon button.

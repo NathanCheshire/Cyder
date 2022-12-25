@@ -1,19 +1,19 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.SecurityUtil;
-import main.java.cyder.utils.SpotlightUtil;
-import main.java.cyder.utils.StaticUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.SpotlightUtil;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 import java.io.File;

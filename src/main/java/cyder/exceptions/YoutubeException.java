@@ -1,4 +1,4 @@
-package main.java.cyder.exceptions;
+package cyder.exceptions;
 
 /**
  * An exception used to indicate that an operation involving YouTube failed.

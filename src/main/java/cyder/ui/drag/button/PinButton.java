@@ -1,11 +1,11 @@
-package main.java.cyder.ui.drag.button;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.ui.drag.DragLabelButtonSize;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.ui.drag.DragLabelButtonSize;
+import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

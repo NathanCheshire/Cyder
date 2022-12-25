@@ -1,34 +1,34 @@
-package main.java.cyder.login;
+package cyder.login;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.genesis.CyderSplash;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.managers.CyderVersionManager;
-import main.java.cyder.managers.ProgramModeManager;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.field.CyderCaret;
-import main.java.cyder.ui.field.CyderPasswordField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.pane.CyderOutputPane;
-import main.java.cyder.ui.pane.CyderScrollPane;
-import main.java.cyder.user.User;
-import main.java.cyder.user.UserCreator;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SecurityUtil;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Widget;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.CyderSplash;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.managers.CyderVersionManager;
+import cyder.managers.ProgramModeManager;
+import cyder.props.Props;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.field.CyderCaret;
+import cyder.ui.field.CyderPasswordField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderOutputPane;
+import cyder.ui.pane.CyderScrollPane;
+import cyder.user.User;
+import cyder.user.UserCreator;
+import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A widget to log into Cyder or any other way that the Console might be invoked.

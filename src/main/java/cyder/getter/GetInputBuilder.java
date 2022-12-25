@@ -1,12 +1,12 @@
-package main.java.cyder.getter;
+package cyder.getter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.strings.CyderStrings;
+import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;

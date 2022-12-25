@@ -1,16 +1,16 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.SuppressCyderInspections;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.enums.CyderInspection;
-import main.java.cyder.layouts.CyderGridLayout;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.user.UserUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.enums.CyderInspection;
+import cyder.layouts.CyderGridLayout;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.ui.button.CyderButton;
+import cyder.ui.frame.CyderFrame;
+import cyder.user.UserUtil;
 
 /**
  * An example widget for new Cyder developers to learn the standard widget construction.

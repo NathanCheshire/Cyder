@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.ip;
+package cyder.parsers.remote.ip;
 
 import java.util.LinkedList;
 

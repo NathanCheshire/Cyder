@@ -1,32 +1,32 @@
-package main.java.cyder.youtube;
+package cyder.youtube;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.audio.AudioPlayer;
-import main.java.cyder.audio.AudioUtil;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.constants.HtmlTags;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.YoutubeException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.input.BaseInputHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.progress.CyderProgressBar;
-import main.java.cyder.ui.progress.CyderProgressUI;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.OsUtil;
+import cyder.audio.AudioPlayer;
+import cyder.audio.AudioUtil;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.HtmlTags;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.YoutubeException;
+import cyder.files.FileUtil;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.ui.button.CyderButton;
+import cyder.ui.progress.CyderProgressBar;
+import cyder.ui.progress.CyderProgressUI;
+import cyder.user.UserFile;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -40,7 +40,7 @@ import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static main.java.cyder.youtube.YoutubeConstants.*;
+import static cyder.youtube.YoutubeConstants.*;
 
 /**
  * An object to download an audio and thumbnail file from a singular YouTube video.

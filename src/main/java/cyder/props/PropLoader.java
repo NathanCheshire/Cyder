@@ -1,18 +1,18 @@
-package main.java.cyder.props;
+package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CheckReturnValue;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
+import cyder.annotations.ForReadability;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-import static main.java.cyder.props.PropConstants.*;
+import static cyder.props.PropConstants.*;
 
 /**
  * A class for loading props from prop files from the props directory for usage throughout Cyder.

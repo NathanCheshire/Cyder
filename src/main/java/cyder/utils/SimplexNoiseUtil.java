@@ -1,8 +1,8 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 
 /**
  * Class for generated OpenSimplexNoise. I obviously didn't write this since I

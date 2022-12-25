@@ -1,4 +1,4 @@
-package main.java.cyder.user;
+package cyder.user;
 
 /**
  * An enum representing the status of some field input.

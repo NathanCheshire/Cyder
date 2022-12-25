@@ -2,11 +2,8 @@ package cyder.files
 
 
 import com.google.common.collect.ImmutableList
-import main.java.cyder.files.DirectoryWatcher
-import main.java.cyder.files.WatchDirectoryEvent
-import main.java.cyder.files.WatchDirectorySubscriber
-import main.java.cyder.threads.ThreadUtil
-import main.java.cyder.utils.OsUtil
+import cyder.threads.ThreadUtil
+import cyder.utils.OsUtil
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

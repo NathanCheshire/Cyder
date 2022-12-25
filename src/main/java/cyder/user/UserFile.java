@@ -1,9 +1,9 @@
-package main.java.cyder.user;
+package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.console.Console;
-import main.java.cyder.enums.Dynamic;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
 
 import java.io.File;
 

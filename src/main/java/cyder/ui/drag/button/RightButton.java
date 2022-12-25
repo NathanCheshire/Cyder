@@ -1,7 +1,7 @@
-package main.java.cyder.ui.drag.button;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.ui.drag.DragLabelButtonSize;
+import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 

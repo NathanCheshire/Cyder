@@ -1,16 +1,16 @@
-package main.java.cyder.ui.frame;
+package cyder.ui.frame;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.time.TimeUtil;
+import cyder.enums.Direction;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.time.TimeUtil;
 
 import javax.swing.*;
 
-import static main.java.cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.quote;
 
 /**
  * A builder for a CyderFrame notification.

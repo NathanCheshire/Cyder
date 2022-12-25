@@ -1,8 +1,8 @@
-package main.java.cyder.session;
+package cyder.session;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.SecurityUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.utils.SecurityUtil;
 
 /**
  * The session manager for this instance of Cyder.

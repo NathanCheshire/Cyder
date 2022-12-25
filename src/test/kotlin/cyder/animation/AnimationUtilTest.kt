@@ -1,9 +1,8 @@
 package cyder.animation
 
-import main.java.cyder.animation.AnimationUtil
-import main.java.cyder.enums.Direction
-import main.java.cyder.threads.ThreadUtil
-import main.java.cyder.ui.frame.CyderFrame
+import cyder.enums.Direction
+import cyder.threads.ThreadUtil
+import cyder.ui.frame.CyderFrame
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.awt.Frame

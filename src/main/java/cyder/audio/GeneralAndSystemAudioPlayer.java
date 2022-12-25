@@ -1,18 +1,18 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.utils.StaticUtil;
 import javazoom.jl.player.Player;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.utils.StaticUtil;
 
 import java.io.BufferedInputStream;
 import java.io.File;

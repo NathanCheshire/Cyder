@@ -1,10 +1,10 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.ui.CyderPanel;
+import cyder.strings.ToStringUtils;
+import cyder.ui.CyderPanel;
 
 import java.awt.*;
 import java.util.ArrayList;

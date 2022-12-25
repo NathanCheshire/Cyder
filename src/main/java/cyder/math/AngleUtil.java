@@ -1,8 +1,8 @@
-package main.java.cyder.math;
+package cyder.math;
 
 import com.google.common.collect.Range;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Utilities related to angles.

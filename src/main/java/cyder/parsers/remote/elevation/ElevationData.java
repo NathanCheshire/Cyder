@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.elevation;
+package cyder.parsers.remote.elevation;
 
 import com.google.gson.annotations.SerializedName;
 

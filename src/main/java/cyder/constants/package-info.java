@@ -1,4 +1,4 @@
 /**
  * Constants used throughout Cyder.
  */
-package main.java.cyder.constants;
+package cyder.constants;

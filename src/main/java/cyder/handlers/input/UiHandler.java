@@ -1,18 +1,18 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.slider.CyderSliderUi;
-import main.java.cyder.ui.slider.ThumbShape;
-import main.java.cyder.user.UserCreator;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.slider.CyderSliderUi;
+import cyder.ui.slider.ThumbShape;
+import cyder.user.UserCreator;
+import cyder.user.UserUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

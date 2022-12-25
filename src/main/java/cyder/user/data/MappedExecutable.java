@@ -1,11 +1,11 @@
-package main.java.cyder.user.data;
+package cyder.user.data;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.console.Console;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
+import cyder.console.Console;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
 
 /**
  * A class representing a name and a path to an executable/file/link to open.

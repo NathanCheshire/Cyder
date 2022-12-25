@@ -1,13 +1,13 @@
-package main.java.cyder.network;
+package cyder.network;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.process.ProcessResult;
-import main.java.cyder.process.ProcessUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadFactory;
+import cyder.constants.CyderRegexPatterns;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.process.ProcessResult;
+import cyder.process.ProcessUtil;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;

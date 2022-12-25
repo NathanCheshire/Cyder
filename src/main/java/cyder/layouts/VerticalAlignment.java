@@ -1,4 +1,4 @@
-package main.java.cyder.layouts;
+package cyder.layouts;
 
 /**
  * An alignment property to determine how components are laid out

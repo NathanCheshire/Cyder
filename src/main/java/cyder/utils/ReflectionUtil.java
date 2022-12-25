@@ -1,15 +1,15 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.input.BaseInputHandler;
-import main.java.cyder.handlers.input.InputHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.annotations.Handle;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.input.InputHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.StringUtil;
+import cyder.ui.frame.CyderFrame;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities for Jvm reflection.
@@ -163,7 +163,7 @@ public final class ReflectionUtil {
     /**
      * The top level package for Cyder.
      */
-    public static final String TOP_LEVEL_PACKAGE_NAME = "main.java.cyder";
+    public static final String TOP_LEVEL_PACKAGE_NAME = "cyder";
 
     /**
      * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE_NAME}.

@@ -1,6 +1,5 @@
 package cyder.audio
 
-import main.java.cyder.audio.AudioIcons
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

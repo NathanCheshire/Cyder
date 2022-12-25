@@ -1,4 +1,4 @@
-package main.java.cyder.login;
+package cyder.login;
 
 /**
  * The result of a password check.

@@ -1,9 +1,9 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.slider.CyderSliderUi;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.slider.CyderSliderUi;
 
 import javax.swing.*;
 

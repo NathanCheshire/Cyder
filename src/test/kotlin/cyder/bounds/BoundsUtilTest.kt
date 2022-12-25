@@ -1,8 +1,6 @@
 package cyder.bounds
 
-import main.java.cyder.bounds.BoundsString
-import main.java.cyder.bounds.BoundsUtil
-import main.java.cyder.constants.CyderFonts
+import cyder.constants.CyderFonts
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

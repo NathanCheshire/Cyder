@@ -1,4 +1,4 @@
-package main.java.cyder.exceptions;
+package cyder.exceptions;
 
 /**
  * An exception used to indicate the host's operating system could not be validated

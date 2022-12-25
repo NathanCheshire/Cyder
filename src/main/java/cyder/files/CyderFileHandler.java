@@ -1,11 +1,11 @@
-package main.java.cyder.files;
+package cyder.files;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.audio.AudioPlayer;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.handlers.external.DirectoryViewer;
-import main.java.cyder.handlers.external.PhotoViewer;
-import main.java.cyder.handlers.external.TextViewer;
+import cyder.audio.AudioPlayer;
+import cyder.enums.Extension;
+import cyder.handlers.external.DirectoryViewer;
+import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.TextViewer;
 
 import java.io.File;
 import java.util.function.Consumer;

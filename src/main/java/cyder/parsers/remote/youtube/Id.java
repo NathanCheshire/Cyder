@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.youtube;
+package cyder.parsers.remote.youtube;
 
 /**
  * An id of a YouTube video.

@@ -1,4 +1,4 @@
 /**
  * Math utility classes.
  */
-package main.java.cyder.math;
+package cyder.math;

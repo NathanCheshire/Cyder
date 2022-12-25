@@ -1,11 +1,11 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;

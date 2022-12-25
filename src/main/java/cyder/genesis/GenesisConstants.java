@@ -1,13 +1,13 @@
-package main.java.cyder.genesis;
+package cyder.genesis;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.utils.OsUtil;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.enums.Dynamic;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.utils.OsUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;

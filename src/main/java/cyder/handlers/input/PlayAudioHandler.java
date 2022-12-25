@@ -1,19 +1,19 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.audio.GeneralAndSystemAudioPlayer;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderIcons;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.BletchyThread;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.utils.StaticUtil;
-import main.java.cyder.youtube.YoutubeUtil;
+import cyder.annotations.Handle;
+import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.console.Console;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.BletchyThread;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.utils.StaticUtil;
+import cyder.youtube.YoutubeUtil;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

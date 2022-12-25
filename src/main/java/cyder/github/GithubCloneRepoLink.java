@@ -1,10 +1,10 @@
-package main.java.cyder.github;
+package cyder.github;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

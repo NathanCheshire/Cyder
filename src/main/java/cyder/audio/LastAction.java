@@ -1,4 +1,4 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 /**
  * Possible ways a user can interact with the audio player.

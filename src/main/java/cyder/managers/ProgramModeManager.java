@@ -1,10 +1,10 @@
-package main.java.cyder.managers;
+package cyder.managers;
 
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.login.LoginHandler;
-import main.java.cyder.utils.JvmUtil;
-import main.java.cyder.utils.OsUtil;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.login.LoginHandler;
+import cyder.utils.JvmUtil;
+import cyder.utils.OsUtil;
 
 /**
  * A manager for the program mode.

@@ -1,21 +1,21 @@
-package main.java.cyder.threads;
+package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.TitlePosition;
-import main.java.cyder.ui.pane.CyderOutputPane;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.youtube.YoutubeConstants;
+import cyder.console.Console;
+import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.time.TimeUtil;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.TitlePosition;
+import cyder.ui.pane.CyderOutputPane;
+import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
+import cyder.youtube.YoutubeConstants;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

@@ -1,14 +1,14 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.math.NumberUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
+import cyder.annotations.Handle;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
 
 import java.io.File;
 import java.io.FileInputStream;

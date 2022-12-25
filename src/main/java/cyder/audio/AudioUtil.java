@@ -1,25 +1,25 @@
-package main.java.cyder.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
-import main.java.cyder.console.Console;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.process.Program;
-import main.java.cyder.snakes.PythonArgument;
-import main.java.cyder.snakes.PythonCommand;
-import main.java.cyder.snakes.PythonFunctionsWrapper;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.utils.OsUtil;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
+import cyder.process.Program;
+import cyder.snakes.PythonArgument;
+import cyder.snakes.PythonCommand;
+import cyder.snakes.PythonFunctionsWrapper;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
+import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
+import cyder.user.UserFile;
+import cyder.utils.OsUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities related to audio files, typically mp3 and wav files.

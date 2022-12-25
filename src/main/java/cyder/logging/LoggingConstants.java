@@ -1,10 +1,10 @@
-package main.java.cyder.logging;
+package cyder.logging;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.StaticUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.strings.CyderStrings;
+import cyder.utils.StaticUtil;
 
 import java.util.regex.Pattern;
 

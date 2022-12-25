@@ -1,10 +1,9 @@
 package cyder.files
 
 import com.google.common.collect.ImmutableList
-import main.java.cyder.enums.Extension
-import main.java.cyder.files.FileUtil
-import main.java.cyder.utils.OsUtil
-import main.java.cyder.utils.StaticUtil
+import cyder.enums.Extension
+import cyder.utils.OsUtil
+import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.*

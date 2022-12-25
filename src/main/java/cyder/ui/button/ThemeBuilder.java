@@ -1,9 +1,9 @@
-package main.java.cyder.ui.button;
+package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 import java.awt.*;
 

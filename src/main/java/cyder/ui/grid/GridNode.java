@@ -1,9 +1,9 @@
-package main.java.cyder.ui.grid;
+package cyder.ui.grid;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 import java.awt.*;
 

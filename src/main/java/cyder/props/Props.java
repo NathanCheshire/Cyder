@@ -1,9 +1,9 @@
-package main.java.cyder.props;
+package cyder.props;
 
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
-import static main.java.cyder.strings.CyderStrings.EMPTY;
+import static cyder.strings.CyderStrings.EMPTY;
 
 /**
  * The props recognized by Cyder.

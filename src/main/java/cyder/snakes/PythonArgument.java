@@ -1,6 +1,6 @@
-package main.java.cyder.snakes;
+package cyder.snakes;
 
-import main.java.cyder.strings.CyderStrings;
+import cyder.strings.CyderStrings;
 
 /**
  * The arguments accepted by argparse for the python_functions script.

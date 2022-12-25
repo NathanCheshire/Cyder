@@ -1,55 +1,55 @@
-package main.java.cyder.console;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.audio.AudioIcons;
-import main.java.cyder.audio.AudioPlayer;
-import main.java.cyder.audio.GeneralAndSystemAudioPlayer;
-import main.java.cyder.bounds.BoundsString;
-import main.java.cyder.bounds.BoundsUtil;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.enums.*;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.genesis.CyderSplash;
-import main.java.cyder.handlers.input.BaseInputHandler;
-import main.java.cyder.handlers.input.TestHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.login.LoginHandler;
-import main.java.cyder.managers.CyderVersionManager;
-import main.java.cyder.managers.ProgramModeManager;
-import main.java.cyder.math.GeometryUtil;
-import main.java.cyder.math.NumberUtil;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.IgnoreThread;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.time.ProgramState;
-import main.java.cyder.time.ProgramStateManager;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.ui.drag.button.*;
-import main.java.cyder.ui.field.CyderCaret;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.NotificationBuilder;
-import main.java.cyder.ui.frame.ScreenPosition;
-import main.java.cyder.ui.frame.TitlePosition;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.ui.pane.CyderOutputPane;
-import main.java.cyder.ui.pane.CyderScrollPane;
-import main.java.cyder.user.UserEditor;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.user.data.MappedExecutable;
-import main.java.cyder.user.data.ScreenStat;
-import main.java.cyder.utils.*;
+import cyder.annotations.ForReadability;
+import cyder.audio.AudioIcons;
+import cyder.audio.AudioPlayer;
+import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.bounds.BoundsString;
+import cyder.bounds.BoundsUtil;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
+import cyder.enums.*;
+import cyder.exceptions.FatalException;
+import cyder.files.FileUtil;
+import cyder.genesis.CyderSplash;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.input.TestHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.login.LoginHandler;
+import cyder.managers.CyderVersionManager;
+import cyder.managers.ProgramModeManager;
+import cyder.math.GeometryUtil;
+import cyder.math.NumberUtil;
+import cyder.network.NetworkUtil;
+import cyder.props.Props;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.IgnoreThread;
+import cyder.threads.ThreadUtil;
+import cyder.time.ProgramState;
+import cyder.time.ProgramStateManager;
+import cyder.time.TimeUtil;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.*;
+import cyder.ui.field.CyderCaret;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.NotificationBuilder;
+import cyder.ui.frame.ScreenPosition;
+import cyder.ui.frame.TitlePosition;
+import cyder.ui.label.CyderLabel;
+import cyder.ui.pane.CyderOutputPane;
+import cyder.ui.pane.CyderScrollPane;
+import cyder.user.UserEditor;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.ScreenStat;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -75,8 +75,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static main.java.cyder.console.ConsoleConstants.*;
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.console.ConsoleConstants.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -324,7 +324,7 @@ public enum Console {
 
     /**
      * Checks for testing mode from the props which will invoke all
-     * public static void methods found annotated with {@link main.java.cyder.annotations.CyderTest}.
+     * public static void methods found annotated with {@link cyder.annotations.CyderTest}.
      */
     private void checkForTestingMode() {
         String currentProgramMode = ProgramModeManager.INSTANCE.getProgramMode().getName();

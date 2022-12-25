@@ -1,8 +1,8 @@
-package main.java.cyder.enums;
+package cyder.enums;
 
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.OsUtil;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.utils.OsUtil;
 
 import java.io.File;
 

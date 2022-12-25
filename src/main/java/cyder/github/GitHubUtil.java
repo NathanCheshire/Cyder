@@ -1,16 +1,16 @@
-package main.java.cyder.github;
+package cyder.github;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.parsers.remote.github.Issue;
-import main.java.cyder.process.ProcessUtil;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SerializationUtil;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.remote.github.Issue;
+import cyder.process.ProcessUtil;
+import cyder.threads.CyderThreadFactory;
+import cyder.utils.OsUtil;
+import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities involving REST APIs for GitHub.

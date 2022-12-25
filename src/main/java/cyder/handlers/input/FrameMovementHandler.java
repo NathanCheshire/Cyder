@@ -1,12 +1,12 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.ScreenPosition;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.ScreenPosition;
+import cyder.utils.UiUtil;
 
 import java.awt.*;
 

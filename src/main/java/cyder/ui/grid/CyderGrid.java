@@ -1,12 +1,12 @@
-package main.java.cyder.ui.grid;
+package cyder.ui.grid;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.widgets.PaintWidget;
+import cyder.constants.CyderColors;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
+import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,10 +1,10 @@
-package main.java.cyder.constants;
+package cyder.constants;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ColorUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.user.UserUtil;
+import cyder.utils.ColorUtil;
 
 import java.awt.*;
 

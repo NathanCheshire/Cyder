@@ -1,9 +1,9 @@
-package main.java.cyder.ui.drag;
+package cyder.ui.drag;
 
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.ToStringUtils;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.props.Props;
+import cyder.strings.ToStringUtils;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

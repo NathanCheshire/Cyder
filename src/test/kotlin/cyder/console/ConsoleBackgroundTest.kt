@@ -1,8 +1,7 @@
 package cyder.console
 
-import main.java.cyder.console.ConsoleBackground
-import main.java.cyder.utils.ImageUtil
-import main.java.cyder.utils.StaticUtil
+import cyder.utils.ImageUtil
+import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File

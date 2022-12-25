@@ -1,9 +1,6 @@
 package cyder.files
 
 import com.google.common.collect.ImmutableList
-import main.java.cyder.files.DirectoryWatcher
-import main.java.cyder.files.WatchDirectoryEvent
-import main.java.cyder.files.WatchDirectorySubscriber
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.File

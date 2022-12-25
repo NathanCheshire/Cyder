@@ -1,4 +1,4 @@
-package main.java.cyder.ui.slider;
+package cyder.ui.slider;
 
 /**
  * Slider thumb shapes for a {@link javax.swing.JSlider}.

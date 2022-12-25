@@ -1,4 +1,4 @@
-package main.java.cyder.enums;
+package cyder.enums;
 
 /**
  * A suggestion to a user for how to use Cyder.

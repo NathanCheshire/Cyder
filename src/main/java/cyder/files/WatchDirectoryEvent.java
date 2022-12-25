@@ -1,4 +1,4 @@
-package main.java.cyder.files;
+package cyder.files;
 
 /**
  * File events that may occur inside of a directory.

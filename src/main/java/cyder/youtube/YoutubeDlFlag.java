@@ -1,4 +1,4 @@
-package main.java.cyder.youtube;
+package cyder.youtube;
 
 /**
  * Supported YouTube-DL flags.

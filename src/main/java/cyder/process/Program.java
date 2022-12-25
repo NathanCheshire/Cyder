@@ -1,6 +1,6 @@
-package main.java.cyder.process;
+package cyder.process;
 
-import main.java.cyder.utils.OsUtil;
+import cyder.utils.OsUtil;
 
 /**
  * Common external programs/binaries utilized by Cyder.

@@ -1,4 +1,4 @@
-package main.java.cyder.ui.frame;
+package cyder.ui.frame;
 
 /**
  * The types of menus that a frame can use for its menu.

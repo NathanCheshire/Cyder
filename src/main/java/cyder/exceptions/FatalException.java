@@ -1,4 +1,4 @@
-package main.java.cyder.exceptions;
+package cyder.exceptions;
 
 /**
  * An exception fatal to the operation of Cyder such that Cyder should likely exit.

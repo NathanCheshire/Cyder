@@ -1,13 +1,13 @@
-package main.java.cyder.time;
+package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.user.UserUtil;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.user.UserUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

@@ -1,6 +1,6 @@
-package main.java.cyder.logging;
+package cyder.logging;
 
-import main.java.cyder.enums.Dynamic;
+import cyder.enums.Dynamic;
 
 /**
  * Supported tags for log entries.
@@ -173,7 +173,7 @@ public enum LogTag {
     USER_GET("User Get"),
 
     /**
-     * A warning related to a {@link main.java.cyder.annotations.CyderTest} method not constructed properly.
+     * A warning related to a {@link cyder.annotations.CyderTest} method not constructed properly.
      */
     CYDER_TEST_WARNING("CyderTest Warning");
 

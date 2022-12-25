@@ -1,4 +1,4 @@
-package main.java.cyder.ui.drag;
+package cyder.ui.drag;
 
 /**
  * The possible types of {@link CyderDragLabel}s.

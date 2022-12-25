@@ -1,29 +1,29 @@
-package main.java.cyder.subroutines;
+package cyder.subroutines;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
-import main.java.cyder.annotations.*;
-import main.java.cyder.enums.CyderInspection;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.genesis.CyderSplash;
-import main.java.cyder.handlers.input.InputHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.handlers.internal.InformHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.session.InstanceSocketUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ArrayUtil;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.ReflectionUtil;
-import main.java.cyder.utils.StaticUtil;
+import cyder.annotations.*;
+import cyder.enums.CyderInspection;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.genesis.CyderSplash;
+import cyder.handlers.input.InputHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.session.InstanceSocketUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.user.UserUtil;
+import cyder.utils.ArrayUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.StaticUtil;
 
 import java.awt.*;
 import java.io.File;
@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Subroutines which must complete in order for Cyder to start.
@@ -321,7 +321,7 @@ public final class NecessarySubroutines {
     }
 
     /**
-     * Validates all widget classes annotated with with {@link main.java.cyder.annotations.Vanilla} annotation.
+     * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
      *
      * @return whether all vanilla annotations are valid
      */

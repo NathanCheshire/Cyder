@@ -1,4 +1,4 @@
-package main.java.cyder.exceptions;
+package cyder.exceptions;
 
 /**
  * An exception thrown when an illegal method is invoked or triggered.

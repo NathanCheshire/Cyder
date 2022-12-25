@@ -1,13 +1,13 @@
-package main.java.cyder.weather;
+package cyder.weather;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.parsers.remote.weather.WeatherData;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.SerializationUtil;
+import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.remote.weather.WeatherData;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

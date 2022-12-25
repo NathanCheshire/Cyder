@@ -1,4 +1,4 @@
-package main.java.cyder.ui.selection;
+package cyder.ui.selection;
 
 /**
  * The possible states for a {@link CyderSwitch}.

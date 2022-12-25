@@ -1,4 +1,4 @@
-package main.java.cyder.exceptions;
+package cyder.exceptions;
 
 /**
  * An exception for when a device such as a monitor or keyboard cannot be located.

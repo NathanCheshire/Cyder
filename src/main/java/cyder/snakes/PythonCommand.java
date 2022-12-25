@@ -1,4 +1,4 @@
-package main.java.cyder.snakes;
+package cyder.snakes;
 
 import com.google.common.base.Preconditions;
 

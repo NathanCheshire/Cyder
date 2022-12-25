@@ -1,4 +1,4 @@
-package main.java.cyder.process;
+package cyder.process;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

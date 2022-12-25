@@ -1,19 +1,19 @@
-package main.java.cyder.snakes;
+package cyder.snakes;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.process.ProcessResult;
-import main.java.cyder.process.ProcessUtil;
-import main.java.cyder.process.Program;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.utils.StaticUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.process.ProcessResult;
+import cyder.process.ProcessUtil;
+import cyder.process.Program;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
+import cyder.utils.StaticUtil;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static main.java.cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A wrapper for the python_functions.py utility functions script.

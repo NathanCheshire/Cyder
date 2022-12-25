@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.weather;
+package cyder.parsers.remote.weather;
 
 import java.util.LinkedList;
 

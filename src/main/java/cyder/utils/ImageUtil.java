@@ -1,22 +1,22 @@
-package main.java.cyder.utils;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.math.AngleUtil;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.process.Program;
-import main.java.cyder.snakes.PythonArgument;
-import main.java.cyder.snakes.PythonCommand;
-import main.java.cyder.snakes.PythonFunctionsWrapper;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.ui.drag.CyderDragLabel;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.enums.Direction;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.AngleUtil;
+import cyder.network.NetworkUtil;
+import cyder.process.Program;
+import cyder.snakes.PythonArgument;
+import cyder.snakes.PythonCommand;
+import cyder.snakes.PythonFunctionsWrapper;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.frame.CyderFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -34,8 +34,8 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static main.java.cyder.strings.CyderStrings.quote;
-import static main.java.cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * Static utility methods revolving around Image manipulation.

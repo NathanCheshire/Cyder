@@ -1,6 +1,6 @@
-package main.java.cyder.getter;
+package cyder.getter;
 
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 
 /**
  * A base getter util builder for all specific get method builders to extend.

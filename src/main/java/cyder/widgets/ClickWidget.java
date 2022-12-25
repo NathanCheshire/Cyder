@@ -1,18 +1,18 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.math.NumberUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.FrameType;
-import main.java.cyder.utils.UiUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.FrameType;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

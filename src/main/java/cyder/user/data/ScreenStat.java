@@ -1,9 +1,9 @@
-package main.java.cyder.user.data;
+package cyder.user.data;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.enums.Direction;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 /**
  * A class to store statistics about the Console frame and its location on the monitor.

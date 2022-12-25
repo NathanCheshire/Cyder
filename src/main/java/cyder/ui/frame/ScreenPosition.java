@@ -1,4 +1,4 @@
-package main.java.cyder.ui.frame;
+package cyder.ui.frame;
 
 /**
  * The screen positions for a {@link CyderFrame} to be placed at.

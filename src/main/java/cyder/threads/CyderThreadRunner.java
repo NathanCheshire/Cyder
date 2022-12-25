@@ -1,12 +1,12 @@
-package main.java.cyder.threads;
+package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
+import cyder.annotations.ForReadability;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;

@@ -1,9 +1,9 @@
-package main.java.cyder.ui.slider;
+package cyder.ui.slider;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
+import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;

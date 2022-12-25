@@ -1,11 +1,11 @@
-package main.java.cyder.console;
+package cyder.console;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.enums.Direction;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.StaticUtil;
+import cyder.enums.Direction;
+import cyder.exceptions.IllegalMethodException;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 import java.awt.*;

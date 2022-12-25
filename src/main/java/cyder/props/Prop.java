@@ -1,8 +1,8 @@
-package main.java.cyder.props;
+package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.exceptions.FatalException;
+import cyder.exceptions.FatalException;
 
 import java.util.Optional;
 

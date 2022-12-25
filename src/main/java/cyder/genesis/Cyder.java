@@ -1,19 +1,19 @@
-package main.java.cyder.genesis;
+package cyder.genesis;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.login.LoginHandler;
-import main.java.cyder.props.PropLoader;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.subroutines.NecessarySubroutines;
-import main.java.cyder.subroutines.SufficientSubroutines;
-import main.java.cyder.time.CyderWatchdog;
-import main.java.cyder.utils.JvmUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.Logger;
+import cyder.login.LoginHandler;
+import cyder.props.PropLoader;
+import cyder.strings.CyderStrings;
+import cyder.subroutines.NecessarySubroutines;
+import cyder.subroutines.SufficientSubroutines;
+import cyder.time.CyderWatchdog;
+import cyder.utils.JvmUtil;
 
 import javax.swing.*;
 
-import static main.java.cyder.genesis.GenesisConstants.*;
+import static cyder.genesis.GenesisConstants.*;
 
 /**
  * The main Cyder entry point that performs checks on data and

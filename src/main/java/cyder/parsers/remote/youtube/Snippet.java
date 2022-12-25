@@ -1,4 +1,4 @@
-package main.java.cyder.parsers.remote.youtube;
+package cyder.parsers.remote.youtube;
 
 /**
  * The actual content of a YoutubeVideo object we are usually interested in.

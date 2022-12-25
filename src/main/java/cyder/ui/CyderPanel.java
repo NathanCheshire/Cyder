@@ -1,12 +1,12 @@
-package main.java.cyder.ui;
+package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.layouts.CyderLayout;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.ui.frame.CyderFrame;
+import cyder.exceptions.IllegalMethodException;
+import cyder.layouts.CyderLayout;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.ToStringUtils;
+import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;

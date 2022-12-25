@@ -1,21 +1,21 @@
-package main.java.cyder.time;
+package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.IgnoreThread;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.utils.JvmUtil;
-import main.java.cyder.utils.OsUtil;
+import cyder.annotations.ForReadability;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.IgnoreThread;
+import cyder.threads.ThreadUtil;
+import cyder.utils.JvmUtil;
+import cyder.utils.OsUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -199,7 +199,7 @@ public final class CyderWatchdog {
      * The following conditions must be met in order for a boostrap to be attempted:
      *
      * <ul>
-     *     <li>The operating system is {@link main.java.cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
+     *     <li>The operating system is {@link cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
      *     <li>The attempt_boostrap prop is true if present</li>
      *     <li>The current JVM instance was not launched with JDWP args (debug mode)</li>
      * </ul>

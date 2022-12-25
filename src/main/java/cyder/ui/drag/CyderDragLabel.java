@@ -1,17 +1,17 @@
-package main.java.cyder.ui.drag;
+package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.ui.drag.button.CloseButton;
-import main.java.cyder.ui.drag.button.MinimizeButton;
-import main.java.cyder.ui.drag.button.PinButton;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.utils.UiUtil;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.props.Props;
+import cyder.strings.ToStringUtils;
+import cyder.ui.drag.button.CloseButton;
+import cyder.ui.drag.button.MinimizeButton;
+import cyder.ui.drag.button.PinButton;
+import cyder.ui.frame.CyderFrame;
+import cyder.utils.UiUtil;
 
 import javax.annotation.Nullable;
 import javax.swing.*;

@@ -1,7 +1,7 @@
-package main.java.cyder.ui.drag.button;
+package cyder.ui.drag.button;
 
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.ui.drag.DragLabelButtonSize;
+import cyder.constants.CyderColors;
+import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 

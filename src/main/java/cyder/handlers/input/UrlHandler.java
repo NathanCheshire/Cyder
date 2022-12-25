@@ -1,13 +1,13 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.strings.CyderStrings;
+import cyder.annotations.Handle;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
+import cyder.network.NetworkUtil;
+import cyder.strings.CyderStrings;
 
 import java.net.URL;
 

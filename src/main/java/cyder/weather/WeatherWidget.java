@@ -1,36 +1,36 @@
-package main.java.cyder.weather;
+package cyder.weather;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.CyderRegexPatterns;
-import main.java.cyder.constants.HtmlTags;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.getter.GetInputBuilder;
-import main.java.cyder.getter.GetterUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.math.AngleUtil;
-import main.java.cyder.network.IpUtil;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.parsers.remote.weather.WeatherData;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.frame.NotificationBuilder;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.*;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.HtmlTags;
+import cyder.enums.Extension;
+import cyder.getter.GetInputBuilder;
+import cyder.getter.GetterUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.math.AngleUtil;
+import cyder.network.IpUtil;
+import cyder.network.NetworkUtil;
+import cyder.parsers.remote.weather.WeatherData;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.NotificationBuilder;
+import cyder.user.UserUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static main.java.cyder.strings.CyderStrings.colon;
+import static cyder.strings.CyderStrings.colon;
 
 /**
  * A widget for showing the weather for a local area.

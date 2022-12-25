@@ -1,7 +1,6 @@
 package cyder.audio
 
-import main.java.cyder.audio.WaveFile
-import main.java.cyder.utils.StaticUtil
+import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

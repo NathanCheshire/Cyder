@@ -1,14 +1,14 @@
-package main.java.cyder.threads;
+package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.console.Console;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.math.NumberUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.ui.pane.CyderOutputPane;
+import cyder.console.Console;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.ui.pane.CyderOutputPane;
 
 import java.util.Arrays;
 import java.util.LinkedList;

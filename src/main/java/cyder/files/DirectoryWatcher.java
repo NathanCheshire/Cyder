@@ -1,10 +1,10 @@
-package main.java.cyder.files;
+package cyder.files;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
+import cyder.exceptions.FatalException;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import java.io.File;
 import java.util.ArrayList;

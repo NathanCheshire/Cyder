@@ -1,20 +1,20 @@
-package main.java.cyder.ui.label;
+package cyder.ui.label;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.bounds.HtmlString;
-import main.java.cyder.bounds.PlainString;
-import main.java.cyder.bounds.StringContainer;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.utils.UiUtil;
+import cyder.bounds.HtmlString;
+import cyder.bounds.PlainString;
+import cyder.bounds.StringContainer;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.frame.CyderFrame;
+import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

@@ -1,14 +1,14 @@
-package main.java.cyder.ui.drag.button;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.ui.drag.DragLabelButtonSize;
+import cyder.annotations.ForReadability;
+import cyder.exceptions.FatalException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.ToStringUtils;
+import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.console.Console;
+import cyder.console.Console;
 
 /**
  * A base class for InputHandlers to extend in order to enhance readability.

@@ -1,14 +1,14 @@
-package main.java.cyder.console;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.utils.ImageUtil;
+import cyder.exceptions.FatalException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.ui.frame.CyderFrame;
+import cyder.utils.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;

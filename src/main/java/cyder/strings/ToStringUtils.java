@@ -1,17 +1,17 @@
-package main.java.cyder.strings;
+package cyder.strings;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.utils.ReflectionUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.ui.frame.CyderFrame;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
 
-import static main.java.cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities for casting things to strings.

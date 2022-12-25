@@ -1,11 +1,11 @@
-package main.java.cyder.user;
+package cyder.user;
 
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.strings.ToStringUtils;
-import main.java.cyder.user.data.MappedExecutable;
-import main.java.cyder.user.data.ScreenStat;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtils;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.ScreenStat;
 
 import java.util.LinkedList;
 

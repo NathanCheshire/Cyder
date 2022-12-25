@@ -1,27 +1,27 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.constants.CyderUrls;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.github.GitHubUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.network.NetworkUtil;
-import main.java.cyder.parsers.remote.github.Issue;
-import main.java.cyder.process.ProcessUtil;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.OsUtil;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Handle;
+import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
+import cyder.github.GitHubUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
+import cyder.parsers.remote.github.Issue;
+import cyder.process.ProcessUtil;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.utils.OsUtil;
 
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static main.java.cyder.strings.CyderStrings.quote;
-import static main.java.cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A handler for commands and inputs related to git/github/gitlab.

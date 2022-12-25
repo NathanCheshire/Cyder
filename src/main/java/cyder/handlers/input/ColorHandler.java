@@ -1,19 +1,19 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.console.Console;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.field.CyderCaret;
-import main.java.cyder.user.Preference;
-import main.java.cyder.user.UserFile;
-import main.java.cyder.user.UserUtil;
-import main.java.cyder.utils.ColorUtil;
-import main.java.cyder.utils.ImageUtil;
+import cyder.annotations.Handle;
+import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.enums.Dynamic;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.ui.field.CyderCaret;
+import cyder.user.Preference;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

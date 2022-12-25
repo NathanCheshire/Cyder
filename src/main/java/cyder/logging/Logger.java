@@ -1,25 +1,25 @@
-package main.java.cyder.logging;
+package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.enums.Dynamic;
-import main.java.cyder.enums.ExitCondition;
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.FatalException;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.files.FileUtil;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.IgnoreThread;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.time.TimeUtil;
-import main.java.cyder.utils.ColorUtil;
-import main.java.cyder.utils.JvmUtil;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.ReflectionUtil;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.IgnoreThread;
+import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.JvmUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -30,10 +30,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static cyder.logging.LoggingConstants.*;
+import static cyder.logging.LoggingUtil.*;
+import static cyder.strings.CyderStrings.*;
 import static java.lang.System.out;
-import static main.java.cyder.logging.LoggingConstants.*;
-import static main.java.cyder.logging.LoggingUtil.*;
-import static main.java.cyder.strings.CyderStrings.*;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at

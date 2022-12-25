@@ -1,8 +1,8 @@
-package main.java.cyder.strings;
+package cyder.strings;
 
 import com.google.common.base.Preconditions;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.math.NumberUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.math.NumberUtil;
 
 /**
  * Utilities related to the Levenshtein distance of strings.

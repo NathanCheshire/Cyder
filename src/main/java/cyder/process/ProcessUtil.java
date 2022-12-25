@@ -1,16 +1,16 @@
-package main.java.cyder.process;
+package cyder.process;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.handlers.input.BaseInputHandler;
-import main.java.cyder.handlers.internal.ExceptionHandler;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.strings.StringUtil;
-import main.java.cyder.threads.CyderThreadFactory;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.utils.ArrayUtil;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
+import cyder.threads.CyderThreadRunner;
+import cyder.utils.ArrayUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

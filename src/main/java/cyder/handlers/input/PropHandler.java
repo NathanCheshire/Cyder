@@ -1,12 +1,12 @@
-package main.java.cyder.handlers.input;
+package cyder.handlers.input;
 
-import main.java.cyder.annotations.Handle;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.props.PropLoader;
-import main.java.cyder.props.Props;
-import main.java.cyder.strings.CyderStrings;
+import cyder.annotations.Handle;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.props.PropLoader;
+import cyder.props.Props;
+import cyder.strings.CyderStrings;
 
 /**
  * A handler for utilities related to props.

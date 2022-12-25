@@ -1,24 +1,24 @@
-package main.java.cyder.widgets;
+package cyder.widgets;
 
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.annotations.CyderAuthor;
-import main.java.cyder.annotations.ForReadability;
-import main.java.cyder.annotations.Vanilla;
-import main.java.cyder.annotations.Widget;
-import main.java.cyder.constants.CyderFonts;
-import main.java.cyder.constants.HtmlTags;
-import main.java.cyder.handlers.internal.InformHandler;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.ui.button.CyderButton;
-import main.java.cyder.ui.field.CyderPasswordField;
-import main.java.cyder.ui.frame.CyderFrame;
-import main.java.cyder.ui.label.CyderLabel;
-import main.java.cyder.ui.selection.CyderCheckbox;
-import main.java.cyder.ui.selection.CyderComboBox;
-import main.java.cyder.utils.OsUtil;
-import main.java.cyder.utils.SecurityUtil;
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
+import cyder.annotations.Vanilla;
+import cyder.annotations.Widget;
+import cyder.constants.CyderFonts;
+import cyder.constants.HtmlTags;
+import cyder.handlers.internal.InformHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderPasswordField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
+import cyder.ui.selection.CyderCheckbox;
+import cyder.ui.selection.CyderComboBox;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
 
 /**
  * A widget for computing the hash of strings.

@@ -1,14 +1,14 @@
-package main.java.cyder.ui.field;
+package cyder.ui.field;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.ImageUtil;
-import main.java.cyder.utils.UiUtil;
+import cyder.constants.CyderColors;
+import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
+import cyder.utils.ImageUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

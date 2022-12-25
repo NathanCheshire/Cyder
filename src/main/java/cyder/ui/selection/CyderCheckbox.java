@@ -1,14 +1,14 @@
-package main.java.cyder.ui.selection;
+package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import main.java.cyder.constants.CyderColors;
-import main.java.cyder.logging.LogTag;
-import main.java.cyder.logging.Logger;
-import main.java.cyder.threads.CyderThreadRunner;
-import main.java.cyder.threads.ThreadUtil;
-import main.java.cyder.ui.drag.CyderDraggableComponent;
-import main.java.cyder.utils.ColorUtil;
+import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.drag.CyderDraggableComponent;
+import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;

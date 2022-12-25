@@ -1,4 +1,4 @@
-package main.java.cyder.enums;
+package cyder.enums;
 
 /**
  * {@link System#getProperty(String)} keys.

@@ -1,9 +1,9 @@
-package main.java.cyder.session;
+package cyder.session;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
-import main.java.cyder.strings.CyderStrings;
-import main.java.cyder.utils.SerializationUtil;
+import cyder.strings.CyderStrings;
+import cyder.utils.SerializationUtil;
 
 /**
  * A serialization class for serializing messages between instances of Cyder.

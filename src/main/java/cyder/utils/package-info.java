@@ -1,4 +1,4 @@
 /**
  * General utility classes.
  */
-package main.java.cyder.utils;
+package cyder.utils;

@@ -1,8 +1,8 @@
-package main.java.cyder.props;
+package cyder.props;
 
-import main.java.cyder.enums.Extension;
-import main.java.cyder.exceptions.IllegalMethodException;
-import main.java.cyder.strings.CyderStrings;
+import cyder.enums.Extension;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
 /**
  * Constants necessary for the {@link PropLoader}.

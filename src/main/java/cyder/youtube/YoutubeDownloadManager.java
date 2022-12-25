@@ -1,4 +1,4 @@
-package main.java.cyder.youtube;
+package cyder.youtube;
 
 import com.google.common.base.Preconditions;
 
