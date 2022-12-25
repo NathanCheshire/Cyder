@@ -32,7 +32,7 @@ allprojects {
 }
 
 for (it in tasks.withType(JavaCompile)) {
-    it.options.compilerArgs.add('--enable-preview') // For preview 17 features
+    it.options.compilerArgs.add('--enable-preview')
 }
 
 tasks.test {
@@ -84,3 +84,5 @@ compileTestKotlin {
 }
 
 // todo jar job
+// todo build job
+// todo run tests job
