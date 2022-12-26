@@ -141,19 +141,7 @@ public final class GitHubUtil {
         return cloningExecutor.submit(() -> {
             Console.INSTANCE.getInputHandler().println("Validating github link: " + cloneLink);
 
-            GithubCloneRepoLink githubCloneRepoLink;
-
-            try {
-                githubCloneRepoLink = new GithubCloneRepoLink(cloneLink);
-
-                if (!githubCloneRepoLink.urlExists()) {
-                    Console.INSTANCE.getInputHandler().println("Invalid clone link");
-                    return false;
-                }
-            } catch (Exception ignored) {
-                Console.INSTANCE.getInputHandler().println("Invalid clone link");
-                return false;
-            }
+            GithubCloneRepoLink githubCloneRepoLink = new GithubCloneRepoLink(cloneLink);
 
             String repoName = githubCloneRepoLink.getRepository();
             File saveDirectory = OsUtil.buildFile(directory.getAbsolutePath(), repoName);

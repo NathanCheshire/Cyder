@@ -17,7 +17,7 @@ public class GithubCloneRepoLink {
     /**
      * The regex to extract the user and repo name from a valid github .git repo link.
      */
-    private static final String githubRepoCloneRegex = ".*github\\.com/(.*)/(.*)\\.git";
+    private static final String githubRepoCloneRegex = "^((http|https)://)?(www\\.)?github\\.com/(.*)/(.*)\\.git";
 
     /**
      * The compiled pattern matcher for {@link #githubRepoCloneRegex}.
@@ -43,7 +43,7 @@ public class GithubCloneRepoLink {
      * Suppress default constructor.
      */
     private GithubCloneRepoLink() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -58,9 +58,10 @@ public class GithubCloneRepoLink {
         Matcher matcher = githubRepoClonePattern.matcher(link);
         Preconditions.checkArgument(matcher.matches());
 
-        this.link = link;
-        this.user = matcher.group(1);
-        this.repository = matcher.group(2);
+        this.link = correctCloneLink(link);
+
+        this.user = matcher.group(4);
+        this.repository = matcher.group(5);
     }
 
     /**
@@ -96,16 +97,11 @@ public class GithubCloneRepoLink {
      * @return whether the link actually exists
      */
     public boolean urlExists() {
-        boolean ret;
-
         try {
-            String contents = NetworkUtil.readUrl(link);
-            ret = !contents.isEmpty();
-        } catch (Exception ignored) {
-            ret = false;
-        }
+            return !NetworkUtil.readUrl(link).isEmpty();
+        } catch (Exception ignored) {}
 
-        return ret;
+        return false;
     }
 
     /**
@@ -150,5 +146,44 @@ public class GithubCloneRepoLink {
     @Override
     public int hashCode() {
         return link.hashCode();
+    }
+
+    /**
+     * Corrects the provided github clone link to ensure it begins with https://www.github.com.
+     *
+     * @param link the provided clone link which is valid but not in proper form
+     * @return the corrected link
+     */
+    private static String correctCloneLink(String link) {
+        Preconditions.checkNotNull(link);
+        Preconditions.checkArgument(!link.isEmpty());
+
+        StringBuilder ret = new StringBuilder(link);
+
+        // Insert www if starts with github.com
+        if (!link.startsWith("www") && !link.startsWith("https://") && !link.startsWith("http://")) {
+            ret.insert(0, "www.");
+        }
+
+        // Insert https if http not present
+        if (!link.startsWith("https://") && !link.startsWith("http://")) {
+            ret.insert(0, "https://");
+        }
+
+        // Convert non-safe to safe
+        if (ret.toString().startsWith("http") && !ret.toString().startsWith("https")) {
+            ret.insert(4, "s");
+        }
+
+        String[] parts = ret.toString().split("://");
+        String protocol = parts[0];
+        String domainAndRemainingUrl = parts[1];
+
+        // Ensure www precedes github.com
+        if (!domainAndRemainingUrl.startsWith("www")) {
+            domainAndRemainingUrl = "www." + domainAndRemainingUrl;
+        }
+
+        return protocol + "://" + domainAndRemainingUrl;
     }
 }
