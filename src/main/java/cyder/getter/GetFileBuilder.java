@@ -11,6 +11,7 @@ import cyder.ui.frame.CyderFrame;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A builder for a get file getter method.
@@ -382,14 +383,15 @@ public final class GetFileBuilder extends GetBuilder {
     public int hashCode() {
         int ret = frameTitle.hashCode();
         ret = ret * 31 + initialDirectory.hashCode();
-        ret = ret * 31 + initialFieldText.hashCode();
+        if (initialFieldText != null) ret = ret * 31 + initialFieldText.hashCode();
         ret = ret * 31 + fieldForeground.hashCode();
         ret = ret * 31 + fieldFont.hashCode();
         ret = ret * 31 + Boolean.hashCode(allowFileSubmission);
         ret = ret * 31 + Boolean.hashCode(allowFolderSubmission);
         ret = ret * 31 + submitButtonText.hashCode();
         ret = ret * 31 + submitButtonColor.hashCode();
-        ret = ret * 31 + relativeTo.hashCode();
+        ret = ret * 31 + submitButtonFont.hashCode();
+        if (this.relativeTo != null) ret = ret * 31 + relativeTo.hashCode();
         ret = ret * 31 + Boolean.hashCode(disableRelativeTo);
         ret = ret * 31 + onDialogDisposalRunnables.hashCode();
         ret = ret * 31 + allowableFileExtensions.hashCode();
@@ -411,20 +413,25 @@ public final class GetFileBuilder extends GetBuilder {
 
         return frameTitle.equals(other.getFrameTitle())
                 && initialDirectory.equals(other.getInitialDirectory())
-                && initialFieldText.equals(other.getInitialFieldText())
+                && Objects.equals(initialFieldText, other.getInitialFieldText())
                 && fieldForeground.equals(other.getFieldForeground())
                 && fieldFont.equals(other.getFieldFont())
                 && allowFileSubmission == other.isAllowFileSubmission()
                 && allowFolderSubmission == other.isAllowFolderSubmission()
                 && submitButtonText.equals(other.getSubmitButtonText())
                 && submitButtonColor.equals(other.getSubmitButtonColor())
-                && relativeTo.equals(other.getRelativeTo())
+                && Objects.equals(relativeTo, other.getRelativeTo())
                 && disableRelativeTo == other.isDisableRelativeTo()
                 && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables())
-                && allowableFileExtensions == other.getAllowableFileExtensions();
+                && allowableFileExtensions == other.getAllowableFileExtensions()
+                && submitButtonFont == other.getSubmitButtonFont();
     }
 
-    @Override public String toString() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
         return "GetFileBuilder{"
                 + "frameTitle="
                 + CyderStrings.quote
