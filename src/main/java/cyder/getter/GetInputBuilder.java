@@ -10,6 +10,7 @@ import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A builder for a get input getter method.
@@ -439,13 +440,13 @@ public final class GetInputBuilder extends GetBuilder {
                 && labelColor.equals(other.getLabelColor())
                 && submitButtonText.equals(other.getSubmitButtonText())
                 && submitButtonFont.equals(other.getSubmitButtonFont())
-                && initialFieldText.equals(other.getInitialFieldText())
-                && fieldHintText.equals(other.getFieldHintText())
-                && fieldRegex.equals(other.getFieldRegex())
+                && Objects.equals(initialFieldText, other.getInitialFieldText())
+                && Objects.equals(fieldHintText, other.getFieldHintText())
+                && Objects.equals(fieldRegex, other.getFieldRegex())
                 && fieldFont.equals(other.getFieldFont())
                 && fieldForeground.equals(other.getFieldForeground())
                 && disableRelativeTo == other.isDisableRelativeTo()
-                && relativeTo.equals(other.getRelativeTo())
+                && Objects.equals(relativeTo, other.getRelativeTo())
                 && onDialogDisposalRunnables.equals(other.getOnDialogDisposalRunnables());
     }
 
@@ -461,13 +462,13 @@ public final class GetInputBuilder extends GetBuilder {
         ret = 31 * ret + submitButtonText.hashCode();
         ret = 31 * ret + submitButtonFont.hashCode();
         ret = 31 * ret + submitButtonColor.hashCode();
-        ret = 31 * ret + initialFieldText.hashCode();
-        ret = 31 * ret + fieldHintText.hashCode();
-        ret = 31 * ret + fieldRegex.hashCode();
+        if (initialFieldText != null) ret = 31 * ret + initialFieldText.hashCode();
+        if (fieldHintText != null) ret = 31 * ret + fieldHintText.hashCode();
+        if (fieldRegex != null) ret = 31 * ret + fieldRegex.hashCode();
         ret = 31 * ret + fieldFont.hashCode();
         ret = 31 * ret + fieldForeground.hashCode();
         ret = 31 * ret + Boolean.hashCode(disableRelativeTo);
-        ret = 31 * ret + relativeTo.hashCode();
+        if (relativeTo != null) ret = 31 * ret + relativeTo.hashCode();
         ret = 31 * ret + onDialogDisposalRunnables.hashCode();
         return ret;
     }
