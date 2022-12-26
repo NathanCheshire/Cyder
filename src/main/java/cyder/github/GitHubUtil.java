@@ -3,7 +3,6 @@ package cyder.github;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
-import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.github.Issue;
@@ -14,7 +13,6 @@ import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -23,10 +21,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.ATTEMPTED_INSTANTIATION;
+import static cyder.strings.CyderStrings.space;
 
 /**
- * Utilities involving REST APIs for GitHub.
+ * Utilities for working with REST APIs provided by <a href="https://www.github.com">GitHub.com</a>.
  */
 public final class GitHubUtil {
     /**
@@ -48,7 +47,7 @@ public final class GitHubUtil {
     /**
      * The link to download git from.
      */
-    private static final String GIT_DOWNLOAD = "https://git-scm.com/downloads";
+    private static final String DOWNLOAD_GIT = "https://git-scm.com/downloads";
 
     /**
      * The url to get the languages used throughout Cyder from.
@@ -71,6 +70,7 @@ public final class GitHubUtil {
         Issue[] ret = null;
 
         try {
+            // todo make this dynamic and able to take a repo and not just cyder
             URL url = new URL(CYDER_ISSUES);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -123,6 +123,7 @@ public final class GitHubUtil {
         return ret;
     }
 
+    // todo accept print to console boolean
     /**
      * Clones the provided github repo to the provided directory.
      *
@@ -139,56 +140,56 @@ public final class GitHubUtil {
         Preconditions.checkArgument(directory.isDirectory());
 
         return cloningExecutor.submit(() -> {
-            Console.INSTANCE.getInputHandler().println("Validating github link: " + cloneLink);
+            // Console.INSTANCE.getInputHandler().println("Validating github link: " + cloneLink);
 
-            GithubCloneRepoLink githubCloneRepoLink = new GithubCloneRepoLink(cloneLink);
+            GithubCloneRepoLink githubCloneRepoLink = null;
+
+            try {
+                githubCloneRepoLink = new GithubCloneRepoLink(cloneLink);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                //                Console.INSTANCE.getInputHandler().println("Failed to create github clone repo link wrapper object: "
+                //                        + e.getMessage());
+            }
+
+            if (githubCloneRepoLink == null) {
+                return false;
+            }
 
             String repoName = githubCloneRepoLink.getRepository();
             File saveDirectory = OsUtil.buildFile(directory.getAbsolutePath(), repoName);
 
             if (!saveDirectory.exists()) {
                 if (!saveDirectory.mkdirs()) {
-                    throw new IOException("Failed to create save directory"
-                            + colon
-                            + space
-                            + saveDirectory.getAbsolutePath());
+                    //                    Console.INSTANCE.getInputHandler().println("Failed to create save directory"
+                    //                            + colon + space + saveDirectory.getAbsolutePath());
+                    return false;
                 }
             }
 
-            Console.INSTANCE.getInputHandler().println("Checking for git");
+            // Console.INSTANCE.getInputHandler().println("Checking for git");
 
             if (!OsUtil.isBinaryInstalled("git")) {
-                Console.INSTANCE.getInputHandler().println("Git not installed."
-                        + " Please install it at: " + GIT_DOWNLOAD);
+                //                Console.INSTANCE.getInputHandler().println("Git not installed."
+                //                        + " Please install it at: " + DOWNLOAD_GIT);
+                // todo potential to print clickable link here
                 return false;
             }
 
-            Console.INSTANCE.getInputHandler().println("Cloning"
-                    + colon
-                    + space
-                    + quote
-                    + repoName
-                    + quote
-                    + space
-                    + "to"
-                    + space
-                    + quote
-                    + saveDirectory.getName()
-                    + OsUtil.FILE_SEP
-                    + quote);
+            // todo: Cloning capsfirst-NathanCheshire's capsfirst-Cyder into dynamic/users/asdf/files/cyder/
+            //            Console.INSTANCE.getInputHandler().println("Cloning" + colon + space
+            //                    + quote + repoName + quote
+            //                    + space + "to" + space
+            //                    + quote + saveDirectory.getName()
+            //                    + OsUtil.FILE_SEP + quote);
 
             try {
-                String command = "git"
-                        + space
-                        + "clone"
-                        + space
-                        + cloneLink
-                        + space
-                        + saveDirectory.getAbsolutePath();
+                String command = "git" + space
+                        + "clone" + space + githubCloneRepoLink.getLink()
+                        + space + saveDirectory.getAbsolutePath();
                 ProcessUtil.runAndWaitForProcess(command);
             } catch (Exception ignored) {
-                Console.INSTANCE.getInputHandler().println("Failed to clone repo " + repoName);
-
+                // Console.INSTANCE.getInputHandler().println("Failed to clone repo " + repoName);
                 return false;
             }
 
