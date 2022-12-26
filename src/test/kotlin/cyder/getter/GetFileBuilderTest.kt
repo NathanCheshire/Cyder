@@ -42,17 +42,40 @@ class GetFileBuilderTest {
         val builder = GetFileBuilder("Title", File("."))
 
         assertDoesNotThrow { builder.initialFieldText = "Field text" }
+        assertEquals("Field text", builder.initialFieldText)
+
         assertDoesNotThrow { builder.fieldForeground = CyderColors.navy }
+        assertEquals(CyderColors.navy, builder.fieldForeground)
+
         assertDoesNotThrow { builder.fieldFont = CyderFonts.DEFAULT_FONT }
+        assertEquals(CyderFonts.DEFAULT_FONT, builder.fieldFont)
+
         assertDoesNotThrow { builder.isAllowFileSubmission = false }
+        assertEquals(false, builder.isAllowFileSubmission)
+
         assertDoesNotThrow { builder.isAllowFolderSubmission = false }
+        assertEquals(false, builder.isAllowFolderSubmission)
+
         assertDoesNotThrow { builder.submitButtonText = "Button text" }
+        assertEquals("Button text", builder.submitButtonText)
+
         assertDoesNotThrow { builder.submitButtonColor = CyderColors.navy }
+        assertEquals(CyderColors.navy, builder.submitButtonColor)
+
         assertDoesNotThrow { builder.submitButtonFont = CyderFonts.DEFAULT_FONT }
+        assertEquals(CyderFonts.DEFAULT_FONT, builder.submitButtonFont)
+
         assertDoesNotThrow { builder.relativeTo = null }
+        assertEquals(null, builder.relativeTo)
+
         assertDoesNotThrow { builder.isDisableRelativeTo = true }
+        assertEquals(true, builder.isDisableRelativeTo)
+
         assertDoesNotThrow { builder.addOnDialogDisposalRunnable { println("") } }
+        // assertEquals(ImmutableList.of { println("") }, builder.onDialogDisposalRunnables)
+
         assertDoesNotThrow { builder.allowableFileExtensions = ImmutableList.of("png") }
+        assertEquals(ImmutableList.of("png"), builder.allowableFileExtensions)
     }
 
     /**
