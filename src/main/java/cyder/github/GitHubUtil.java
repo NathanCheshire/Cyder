@@ -3,10 +3,13 @@ package cyder.github;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
+import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.github.Issue;
 import cyder.process.ProcessUtil;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -21,13 +24,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static cyder.strings.CyderStrings.ATTEMPTED_INSTANTIATION;
-import static cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * Utilities for working with REST APIs provided by <a href="https://www.github.com">GitHub.com</a>.
  */
 public final class GitHubUtil {
+    /**
+     * The nathan cheshire user string.
+     */
+    private static final String nathanCheshireUserName = "nathancheshire";
+
+    /**
+     * The repo name for cyder.
+     */
+    private static final String cyderRepoName = "cyder";
+
     /**
      * The name of the thread for cloning repos from GitHub.
      */
@@ -40,19 +52,20 @@ public final class GitHubUtil {
             new CyderThreadFactory(GIT_REPO_CLONER_THREAD_NAME));
 
     /**
-     * The link for the github api to return a json of currently open issues for Cyder.
-     */
-    private static final String CYDER_ISSUES = "https://api.github.com/repos/nathancheshire/cyder/issues";
-
-    /**
      * The link to download git from.
      */
     private static final String DOWNLOAD_GIT = "https://git-scm.com/downloads";
 
     /**
+     * The GitHub repos API header.
+     */
+    private static final String GITHUB_REPOS_API_HEADER = "https://api.github.com/repos/";
+
+    /**
      * The url to get the languages used throughout Cyder from.
      */
-    private static final String LANGUAGES_URL = "https://api.github.com/repos/nathancheshire/cyder/languages";
+    private static final String cyderLanguagesUrl = GITHUB_REPOS_API_HEADER + nathanCheshireUserName
+            + "/" + cyderRepoName + "/languages";
 
     /**
      * Suppress default constructor.
@@ -66,12 +79,28 @@ public final class GitHubUtil {
      *
      * @return the list of currently open issues for Cyder
      */
-    public static ImmutableList<Issue> getIssues() {
-        Issue[] ret = null;
+    public static ImmutableList<Issue> getCyderIssues() {
+        return getIssues(nathanCheshireUserName, cyderRepoName);
+    }
+
+    /**
+     * Returns a list of issues for the repo under the provided user.
+     *
+     * @param user       the github user
+     * @param githubRepo the github repo
+     * @return a list of issues
+     */
+    public static ImmutableList<Issue> getIssues(String user, String githubRepo) {
+        Preconditions.checkNotNull(user);
+        Preconditions.checkNotNull(githubRepo);
+        Preconditions.checkArgument(!user.isEmpty());
+        Preconditions.checkArgument(!githubRepo.isEmpty());
+
+        Issue[] ret = new Issue[0];
 
         try {
-            // todo make this dynamic and able to take a repo and not just cyder
-            URL url = new URL(CYDER_ISSUES);
+            String urlString = GITHUB_REPOS_API_HEADER + user + "/" + githubRepo + "/issues";
+            URL url = new URL(urlString);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder sb = new StringBuilder();
@@ -89,7 +118,7 @@ public final class GitHubUtil {
             ExceptionHandler.handle(e);
         }
 
-        return ret == null ? ImmutableList.of() : ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -101,7 +130,7 @@ public final class GitHubUtil {
         HashMap<String, Integer> ret = new HashMap<>();
 
         try {
-            URL url = new URL(LANGUAGES_URL);
+            URL url = new URL(cyderLanguagesUrl);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder sb = new StringBuilder();
@@ -123,9 +152,9 @@ public final class GitHubUtil {
         return ret;
     }
 
-    // todo accept print to console boolean
     /**
      * Clones the provided github repo to the provided directory.
+     * Updates are printed to the {@link Console}s {@link BaseInputHandler}.
      *
      * @param cloneLink the URL of the github repository to clone
      * @param directory the directory to save the repo to
@@ -133,14 +162,32 @@ public final class GitHubUtil {
      * @return whether the repo was successfully cloned and saved
      */
     public static Future<Boolean> cloneRepoToDirectory(String cloneLink, File directory) {
+        return cloneRepoToDirectory(cloneLink, directory, Console.INSTANCE.getInputHandler());
+    }
+
+    /**
+     * Clones the provided github repo to the provided directory.
+     *
+     * @param cloneLink    the URL of the github repository to clone
+     * @param directory    the directory to save the repo to
+     *                     Note this directory must exist prior to method invocation
+     * @param inputHandler the input handler to print operation updates to. Provide {@code null} to avoid
+     * @return whether the repo was successfully cloned and saved
+     */
+    public static Future<Boolean> cloneRepoToDirectory(String cloneLink, File directory,
+                                                       BaseInputHandler inputHandler) {
         Preconditions.checkNotNull(cloneLink);
         Preconditions.checkArgument(!cloneLink.isEmpty());
         Preconditions.checkNotNull(directory);
         Preconditions.checkArgument(directory.exists());
         Preconditions.checkArgument(directory.isDirectory());
 
+        boolean print = inputHandler != null;
+
         return cloningExecutor.submit(() -> {
-            // Console.INSTANCE.getInputHandler().println("Validating github link: " + cloneLink);
+            if (print) {
+                inputHandler.println("Validating GitHub clone link: " + cloneLink);
+            }
 
             GithubCloneRepoLink githubCloneRepoLink = null;
 
@@ -148,8 +195,9 @@ public final class GitHubUtil {
                 githubCloneRepoLink = new GithubCloneRepoLink(cloneLink);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-                //                Console.INSTANCE.getInputHandler().println("Failed to create github clone repo link wrapper object: "
-                //                        + e.getMessage());
+                if (print) {
+                    inputHandler.println("Failed to create github clone repo link wrapper object: " + e.getMessage());
+                }
             }
 
             if (githubCloneRepoLink == null) {
@@ -161,27 +209,32 @@ public final class GitHubUtil {
 
             if (!saveDirectory.exists()) {
                 if (!saveDirectory.mkdirs()) {
-                    //                    Console.INSTANCE.getInputHandler().println("Failed to create save directory"
-                    //                            + colon + space + saveDirectory.getAbsolutePath());
+                    if (print) {
+                        inputHandler.println("Failed to create save directory"
+                                + colon + space + saveDirectory.getAbsolutePath());
+                    }
                     return false;
                 }
             }
 
-            // Console.INSTANCE.getInputHandler().println("Checking for git");
+            if (print) {
+                inputHandler.println("Checking for git");
+            }
 
             if (!OsUtil.isBinaryInstalled("git")) {
-                //                Console.INSTANCE.getInputHandler().println("Git not installed."
-                //                        + " Please install it at: " + DOWNLOAD_GIT);
-                // todo potential to print clickable link here
+                if (print) {
+                    inputHandler.println("Git not installed. Please install it at: " + DOWNLOAD_GIT);
+                }
                 return false;
             }
 
-            // todo: Cloning capsfirst-NathanCheshire's capsfirst-Cyder into dynamic/users/asdf/files/cyder/
-            //            Console.INSTANCE.getInputHandler().println("Cloning" + colon + space
-            //                    + quote + repoName + quote
-            //                    + space + "to" + space
-            //                    + quote + saveDirectory.getName()
-            //                    + OsUtil.FILE_SEP + quote);
+            if (print) {
+                String printString = "Cloning" + space + StringUtil.getPlural(
+                        StringUtil.capsFirst(githubCloneRepoLink.getUser()))
+                        + space + quote + StringUtil.capsFirst(repoName) + quote + space + "to" + space
+                        + quote + saveDirectory.getName() + OsUtil.FILE_SEP + quote;
+                inputHandler.println(printString);
+            }
 
             try {
                 String command = "git" + space
@@ -189,7 +242,9 @@ public final class GitHubUtil {
                         + space + saveDirectory.getAbsolutePath();
                 ProcessUtil.runAndWaitForProcess(command);
             } catch (Exception ignored) {
-                // Console.INSTANCE.getInputHandler().println("Failed to clone repo " + repoName);
+                if (print) {
+                    inputHandler.println("Failed to clone repo " + repoName);
+                }
                 return false;
             }
 

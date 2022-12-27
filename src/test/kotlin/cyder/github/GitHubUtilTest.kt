@@ -1,6 +1,8 @@
 package cyder.github
 
+import com.google.common.collect.ImmutableList
 import cyder.files.FileUtil
+import cyder.parsers.remote.github.Issue
 import cyder.strings.LevenshteinUtil
 import cyder.utils.OsUtil
 import org.junit.jupiter.api.Assertions.*
@@ -13,11 +15,26 @@ import java.util.concurrent.Future
  */
 class GitHubUtilTest {
     /**
-     * Tests for the get issues method
+     * Tests for the get issues method.
      */
     @Test
     fun testGetIssues() {
-        assertDoesNotThrow { GitHubUtil.getIssues() }
+        assertThrows(NullPointerException::class.java) { GitHubUtil.getIssues(null, null) }
+        assertThrows(NullPointerException::class.java) { GitHubUtil.getIssues("user", null) }
+        assertThrows(IllegalArgumentException::class.java) { GitHubUtil.getIssues("", "") }
+        assertThrows(IllegalArgumentException::class.java) { GitHubUtil.getIssues("user", "") }
+
+        var punchIssues: ImmutableList<Issue>? = null
+        assertDoesNotThrow { punchIssues = GitHubUtil.getIssues("nathancheshire", "punch") }
+        assertTrue(punchIssues!!.isEmpty())
+    }
+
+    /**
+     * Tests for the get Cyder issues method.
+     */
+    @Test
+    fun testGetCyderIssues() {
+        assertDoesNotThrow { GitHubUtil.getCyderIssues() }
 
         val testIssue = ("Issue{url=\"https://api.github.com/repos/NathanCheshire/Cyder/issues/244\","
                 + " repository_url=\"https://api.github.com/repos/NathanCheshire/Cyder\","
@@ -34,7 +51,7 @@ class GitHubUtilTest {
                 + " unit tests. DO NOT CLOSE.\", reactions=cyder.parsers.remote.github.Reaction@79dc5318,"
                 + " timeline_url=\"https://api.github.com/repos/NathanCheshire/Cyder/issues/244/timeline\","
                 + " performed_via_github_app=false, state_reason=\"null\"}")
-        assertTrue(GitHubUtil.getIssues().stream().filter {
+        assertTrue(GitHubUtil.getCyderIssues().stream().filter {
             LevenshteinUtil.computeLevenshteinDistance(it.toString(), testIssue) <= 32 // 4 * 8
         }.count() > 0)
     }

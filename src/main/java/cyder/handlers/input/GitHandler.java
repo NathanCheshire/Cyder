@@ -165,7 +165,7 @@ public class GitHandler extends InputHandler {
      */
     private static void printIssues() {
         CyderThreadRunner.submit(() -> {
-            ImmutableList<Issue> issues = GitHubUtil.getIssues();
+            ImmutableList<Issue> issues = GitHubUtil.getCyderIssues();
 
             StringBuilder builder = new StringBuilder();
             builder.append(issues.size()).append(space)
