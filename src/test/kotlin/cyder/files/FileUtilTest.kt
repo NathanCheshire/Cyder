@@ -376,7 +376,7 @@ class FileUtilTest {
             FileUtil.getFiles(File("directory_that_does_not_exist"), false, "")
         }
 
-        Assertions.assertEquals(7, FileUtil.getFiles(File("."), false, "").size)
+        Assertions.assertEquals(6, FileUtil.getFiles(File("."), false, "").size)
         Assertions.assertTrue(FileUtil.getFiles(File("."), true, "").size > 100)
     }
 

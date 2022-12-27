@@ -1,8 +1,14 @@
 package cyder.logging
 
 import com.google.common.collect.ImmutableList
+import cyder.strings.LevenshteinUtil
+import cyder.time.TimeUtil
+import cyder.utils.OsUtil
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 
 /**
  * Tests for [LoggingUtil] methods.
@@ -72,5 +78,222 @@ class LoggingUtilTest {
                 LoggingUtil.checkLogLineLength("longer line with spaces and such and much more length of course"
                         + " to try and break it up, longer line with spaces and such and"
                         + " much more length of course to try and break it up"))
+    }
+
+    /**
+     * Tests for the get log recovery line method.
+     */
+    @Test
+    fun testGetLogRecoveryLine() {
+        val recoveryLine = LoggingUtil.getLogRecoveryDebugLine()
+        val baseline = ("[16-29-19.873] [Debug]: Log was deleted during runtime, recreating"
+                + " and restarting log at: Tuesday, 12/27/2022 04:29PM CST")
+
+        assertTrue(LevenshteinUtil.computeLevenshteinDistance(baseline, recoveryLine)
+                < TimeUtil.userFormat.toPattern().length)
+    }
+
+    /**
+     * Tests for the construct log tags prepend method.
+     */
+    @Test
+    fun testConstructLogTagsPrepend() {
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.constructTagsPrepend(null, null)
+        }
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.constructTagsPrepend(null, null, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.constructTagsPrepend("", "", null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.constructTagsPrepend("", null, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.constructTagsPrepend("tag", "", null)
+        }
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.constructTagsPrepend("tag", null, null)
+        }
+
+        val nullString: String? = null
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.constructTagsPrepend(ImmutableList.of(nullString))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.constructTagsPrepend(ImmutableList.of(""))
+        }
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.constructTagsPrepend(ImmutableList.of("tag", nullString))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.constructTagsPrepend(ImmutableList.of("tag", ""))
+        }
+    }
+
+    /**
+     * Tests for the count exceptions method.
+     */
+    @Test
+    fun testCountExceptions() {
+        val exceptionsToWrite = 21
+
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val tmpFile = File("tmp/tmp.log")
+        tmpFile.createNewFile()
+        assertTrue(tmpFile.exists())
+
+        BufferedWriter(FileWriter(tmpFile, false)).use {
+            for (i in 0 until exceptionsToWrite) {
+                it.write(LoggingUtil.constructTagsPrepend(LogTag.EXCEPTION.logName))
+                it.newLine()
+            }
+        }
+
+        assertEquals(exceptionsToWrite, LoggingUtil.countExceptions(tmpFile))
+        assertTrue(OsUtil.deleteFile(tmpDir, false))
+    }
+
+    /**
+     * Tests for the count threads ran method.
+     */
+    @Test
+    fun testCountThreadsRan() {
+        val threadsRanToWrite = 25
+
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val tmpFile = File("tmp/tmp.log")
+        tmpFile.createNewFile()
+        assertTrue(tmpFile.exists())
+
+        BufferedWriter(FileWriter(tmpFile, false)).use {
+            for (i in 0 until threadsRanToWrite) {
+                it.write(LoggingUtil.constructTagsPrepend(LogTag.THREAD_STARTED.logName))
+                it.newLine()
+            }
+        }
+
+        assertEquals(threadsRanToWrite, LoggingUtil.countThreadsRan(tmpFile))
+        assertTrue(OsUtil.deleteFile(tmpDir, false))
+    }
+
+    /**
+     * Tests for the count tags method.
+     */
+    @Test
+    fun testCountTags() {
+        val exceptionsToWrite = 20
+        val threadsRanToWrite = 25
+
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val tmpFile = File("tmp/tmp.log")
+        tmpFile.createNewFile()
+        assertTrue(tmpFile.exists())
+
+        BufferedWriter(FileWriter(tmpFile, false)).use {
+            for (i in 0 until threadsRanToWrite) {
+                it.write(LoggingUtil.constructTagsPrepend(LogTag.THREAD_STARTED.logName))
+                it.newLine()
+            }
+            for (i in 0 until exceptionsToWrite) {
+                it.write(LoggingUtil.constructTagsPrepend(LogTag.EXCEPTION.logName))
+                it.newLine()
+            }
+        }
+
+        assertEquals(threadsRanToWrite, LoggingUtil.countTags(tmpFile, LogTag.THREAD_STARTED.logName))
+        assertEquals(exceptionsToWrite, LoggingUtil.countTags(tmpFile, LogTag.EXCEPTION.logName))
+        assertTrue(OsUtil.deleteFile(tmpDir, false))
+    }
+
+    /**
+     * Tests for the extract lines with tag method.
+     */
+    @Test
+    fun testExtractLinesWithTag() {
+        assertThrows(NullPointerException::class.java) { LoggingUtil.extractLinesWithTag(null, null) }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.extractLinesWithTag(File("."), null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.extractLinesWithTag(File(".gitignore"), null)
+        }
+
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val tmpFile = File("tmp/log.log")
+        tmpFile.createNewFile()
+        assertTrue(tmpFile.exists())
+
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.extractLinesWithTag(tmpFile, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.extractLinesWithTag(tmpFile, "")
+        }
+
+        // Remaining functionality of method is tested via above methods
+    }
+
+    /**
+     * Tests for the extract tags method.
+     */
+    @Test
+    fun testExtractTags() {
+        val emptyList: ImmutableList<String> = ImmutableList.of()
+
+        assertThrows(NullPointerException::class.java) { LoggingUtil.extractTags(null) }
+        assertEquals(emptyList, LoggingUtil.extractTags(""))
+        assertEquals(ImmutableList.of("[234-234-234.111]"),
+                LoggingUtil.extractTags("[234-234-234.111]:"))
+        assertEquals(ImmutableList.of("[234-234-234.111]"),
+                LoggingUtil.extractTags("[234-234-234.111]: content"))
+        assertEquals(ImmutableList.of("[234-234-234.111]"),
+                LoggingUtil.extractTags("[234-234-234.111]: content [not a tag] [not a tag 2]"))
+        assertEquals(ImmutableList.of("[234-234-234.111]", "[tag1]"),
+                LoggingUtil.extractTags("[234-234-234.111] [tag1]: content"))
+
+        assertEquals(ImmutableList.of("[234-234-234.111]", "[tag1]", "[tag2]"),
+                LoggingUtil.extractTags("[234-234-234.111] [tag1] [tag2]: content"))
+        assertEquals(ImmutableList.of("[234-234-234.111]", "[tag1]", "[tag2]", "[tag3]"),
+                LoggingUtil.extractTags("[234-234-234.111] [tag1] [tag2] [tag3]: content"))
+    }
+
+    /**
+     * Tests for the generate consolidation line method.
+     */
+    @Test
+    fun testGenerateConsolidationLine() {
+        assertThrows(NullPointerException::class.java) {
+            LoggingUtil.generateConsolidationLine(null, 0)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.generateConsolidationLine("", 0)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.generateConsolidationLine("Line", 0)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            LoggingUtil.generateConsolidationLine("Line", -1)
+        }
+
+        assertEquals("Line [2x]", LoggingUtil.generateConsolidationLine("Line", 2))
+        assertEquals("Line [44x]", LoggingUtil.generateConsolidationLine("Line", 44))
+        assertEquals("Line [" + Int.MAX_VALUE + "x]",
+                LoggingUtil.generateConsolidationLine("Line", Int.MAX_VALUE))
+        assertEquals("[time] [tag] [" + Int.MAX_VALUE + "x]: content",
+                LoggingUtil.generateConsolidationLine("[time] [tag]: content", Int.MAX_VALUE))
     }
 }

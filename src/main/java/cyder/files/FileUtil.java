@@ -212,7 +212,9 @@ public final class FileUtil {
     public static String getExtension(File file) {
         checkNotNull(file);
 
-        return file.getName().replace(getFilename(file), "");
+        String filename = getFilename(file);
+
+        return file.getName().substring(filename.length());
     }
 
     /**

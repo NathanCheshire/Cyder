@@ -121,8 +121,7 @@ public final class LoggingUtil {
             line = line.substring(maxLogLineLength);
         }
 
-        // Add remaining line
-        lines.add(line);
+        if (!line.isEmpty()) lines.add(line);
 
         return ImmutableList.copyOf(lines);
     }
@@ -147,14 +146,24 @@ public final class LoggingUtil {
      * Example, passing "Exception", "My Exception"
      * would return "[11-27-32.322] [Exception] [My Exception]:"
      *
-     * @param tags the tags without brackets
+     * @param tag  the first tag without any brackets
+     * @param tags the additional tags without brackets
      * @return the prepend for the beginning of a log line
      */
-    static String constructTagsPrepend(String... tags) {
-        Preconditions.checkNotNull(tags);
-        Preconditions.checkArgument(!ArrayUtil.isEmpty(tags));
+    static String constructTagsPrepend(String tag, String... tags) {
+        Preconditions.checkNotNull(tag);
+        Preconditions.checkArgument(!tag.isEmpty());
 
-        return constructTagsPrepend(ArrayUtil.toList(tags));
+        for (String tagsTag : tags) {
+            Preconditions.checkNotNull(tagsTag);
+            Preconditions.checkArgument(!tagsTag.isEmpty());
+        }
+
+        ImmutableList<String> tagsList = new ImmutableList.Builder<String>()
+                .add(tag)
+                .addAll(ArrayUtil.toList(tags)).build();
+
+        return constructTagsPrepend(tagsList);
     }
 
     /**
@@ -170,6 +179,10 @@ public final class LoggingUtil {
     static String constructTagsPrepend(List<String> tags) {
         Preconditions.checkNotNull(tags);
         Preconditions.checkArgument(!tags.isEmpty());
+        for (String tag : tags) {
+            Preconditions.checkNotNull(tag);
+            Preconditions.checkArgument(!tag.isEmpty());
+        }
 
         StringBuilder ret = new StringBuilder();
 
@@ -244,7 +257,8 @@ public final class LoggingUtil {
 
     /**
      * Extracts all tags from the provided log line.
-     * Note tags are strings which are surrounded with brackets before the first colon.
+     * Note tags are strings which are surrounded with brackets before
+     * the first colon, thus, this includes the time tag.
      *
      * @param logLine the log line.
      * @return the tags extracted from the log line
@@ -280,6 +294,8 @@ public final class LoggingUtil {
      */
     static String generateConsolidationLine(String line, int numLines) {
         Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(numLines > 0);
 
         String tag = openingBracket + numLines + X + closingBracket;
 
