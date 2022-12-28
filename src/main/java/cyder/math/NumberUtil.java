@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.exceptions.IllegalMethodException;
@@ -28,6 +29,99 @@ public final class NumberUtil {
             16, 65535,
             24, 16777215
     );
+
+    /**
+     * The negative string.
+     */
+    private static final String NEGATIVE = "Negative";
+
+    /**
+     * The zero string.
+     */
+    private static final String ZERO = "Zero";
+
+    /**
+     * The character to denote a negative number.
+     */
+    private static final String NEGATIVE_CHAR = CyderStrings.dash;
+
+    /**
+     * The range for an integer to be in to be in the teen range.
+     */
+    private static final Range<Integer> TEENS_RANGE = Range.closedOpen(10, 20);
+
+    /**
+     * String representations for all digits in the one's place.
+     */
+    private static final ImmutableList<String> ONES_STRINGS = ImmutableList.of(
+            "",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine");
+
+    /**
+     * String representations for all digits in the ten's place in base 10.
+     */
+    private static final ImmutableList<String> TENS_STRINGS = ImmutableList.of(
+            "",
+            "",
+            "twenty",
+            "thirty",
+            "forty",
+            "fifty",
+            "sixty",
+            "seventy",
+            "eighty",
+            "ninety");
+
+    /**
+     * String representations for numbers in the range [10, 19].
+     */
+    private static final ImmutableList<String> TEEN_STRINGS = ImmutableList.of(
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "fifteen",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen");
+
+    /**
+     * String prefixes for digit trios in base 10.
+     */
+    private static final ImmutableList<String> THOUSAND_PREFIXES = ImmutableList.of(
+            "",
+            "-thousand",
+            "-million",
+            "-billion",
+            "-trillion",
+            "-quadrillion",
+            "-quintillion",
+            "-sextillion",
+            "-septillion",
+            "-octillion",
+            "-nonillion",
+            "-decillion",
+            "-undecillion",
+            "-duodecillion",
+            "-tredecillion",
+            "-quattuordecillion",
+            "-quindecillion",
+            "-sexdexillion",
+            "-septendecillion",
+            "-octodecillion",
+            "-novemdecillion",
+            "-vigintillion",
+            "-centillion");
 
     /**
      * Suppress default constructor.
@@ -83,12 +177,38 @@ public final class NumberUtil {
      * @return a list of prime factors of num
      */
     public static ImmutableList<Integer> primeFactors(int num) {
-        ArrayList<Integer> ret = new ArrayList<>();
+        ArrayList<Integer> ret = new ArrayList<>() {
+            /**
+             * Adds the provided integer to the array list if it is not already contained.
+             *
+             * @param i the integer to add
+             * @return whether the integer was added
+             */
+            @Override
+            @CanIgnoreReturnValue
+            public boolean add(Integer i) {
+                if (!contains(i)) {
+                    return super.add(i);
+                }
 
-        for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i++) {
-            if (num % i == 0) {
-                ret.add(i);
+                return false;
             }
+        };
+
+        while (num % 2 == 0) {
+            ret.add(2);
+            num /= 2;
+        }
+
+        for (int i = 3 ; i <= Math.sqrt(num) ; i += 2) {
+            while (num % i == 0) {
+                ret.add(i);
+                num /= i;
+            }
+        }
+
+        if (num > 2) {
+            ret.add(num);
         }
 
         return ImmutableList.copyOf(ret);
@@ -103,6 +223,10 @@ public final class NumberUtil {
      * @return the requested number of fibonacci numbers
      */
     public static ImmutableList<Long> computeFibonacci(long a, long b, int numbers) {
+        Preconditions.checkArgument(numbers > 0);
+        Preconditions.checkArgument(a >= 0);
+        Preconditions.checkArgument(b >= 0);
+
         LinkedList<Long> ret = new LinkedList<>();
         ret.add(a);
 
@@ -126,21 +250,6 @@ public final class NumberUtil {
     public static String toWords(int num) {
         return toWords(String.valueOf(num));
     }
-
-    /**
-     * The negative string.
-     */
-    private static final String NEGATIVE = "Negative";
-
-    /**
-     * The zero string.
-     */
-    private static final String ZERO = "Zero";
-
-    /**
-     * The character to denote a negative number.
-     */
-    private static final String NEGATIVE_CHAR = CyderStrings.dash;
 
     /**
      * Returns the string representation for the provided raw text field input straight from a user.
@@ -252,26 +361,6 @@ public final class NumberUtil {
     }
 
     /**
-     * The range for an integer to be in to be in the teen range.
-     */
-    private static final Range<Integer> TEENS_RANGE = Range.closedOpen(10, 20);
-
-    /**
-     * String representations for all digits in the one's place.
-     */
-    private static final ImmutableList<String> ONES_STRINGS = ImmutableList.of(
-            "",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine");
-
-    /**
      * Returns the word representation for any digit in the inclusive range [0, 9].
      *
      * @param num the number to get a word representation for
@@ -282,64 +371,6 @@ public final class NumberUtil {
 
         return ONES_STRINGS.get(num);
     }
-
-    /**
-     * String representations for all digits in the ten's place in base 10.
-     */
-    private static final ImmutableList<String> TENS_STRINGS = ImmutableList.of(
-            "",
-            "",
-            "twenty",
-            "thirty",
-            "forty",
-            "fifty",
-            "sixty",
-            "seventy",
-            "eighty",
-            "ninety");
-
-    /**
-     * String representations for numbers in the range [10, 19].
-     */
-    private static final ImmutableList<String> TEEN_STRINGS = ImmutableList.of(
-            "ten",
-            "eleven",
-            "twelve",
-            "thirteen",
-            "fourteen",
-            "fifteen",
-            "sixteen",
-            "seventeen",
-            "eighteen",
-            "nineteen");
-
-    /**
-     * String prefixes for digit trios in base 10.
-     */
-    private static final ImmutableList<String> THOUSAND_PREFIXES = ImmutableList.of(
-            "",
-            "-thousand",
-            "-million",
-            "-billion",
-            "-trillion",
-            "-quadrillion",
-            "-quintillion",
-            "-sextillion",
-            "-septillion",
-            "-octillion",
-            "-nonillion",
-            "-decillion",
-            "-undecillion",
-            "-duodecillion",
-            "-tredecillion",
-            "-quattuordecillion",
-            "-quindecillion",
-            "-sexdexillion",
-            "-septendecillion",
-            "-octodecillion",
-            "-novemdecillion",
-            "-vigintillion",
-            "-centillion");
 
     /**
      * Returns the prefix associated with the place of a trio of digits in base 10.
