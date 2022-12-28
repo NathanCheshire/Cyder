@@ -7,7 +7,7 @@ from PIL import ImageFont, Image, ImageDraw
 FONT_PATH = os.path.join('actions', 'resources', 'oswald-semi-bold.ttf')
 
 JAVA_COLOR = (25, 114, 176)
-KOTLIN_COLOR = (225, 123, 169)
+KOTLIN_COLOR = (169, 123, 225)
 COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
 
