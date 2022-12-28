@@ -947,6 +947,7 @@ public enum Console {
         // Add custom close button
         closeButton = new CloseButton();
         closeButton.setForConsole(true);
+        // todo need to invoke this on taskbar right click actions
         closeButton.setClickAction(() -> {
             boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
             if (shouldMinimize) {
