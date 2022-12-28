@@ -515,7 +515,7 @@ public final class PerlinWidget {
         } else {
             timeStep = 0;
 
-            noise = new SimplexNoiseUtil(NumberUtil.randInt(1000));
+            noise = new SimplexNoiseUtil(NumberUtil.generateRandomInt(1000));
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
                     double value = noise.eval(x / featureSize, y / featureSize, timeStep);

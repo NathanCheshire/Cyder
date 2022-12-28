@@ -602,7 +602,7 @@ public enum Console {
 
         boolean randombackground = UserUtil.getCyderUser().getRandomBackground().equals("1");
         if (randombackground && reloadAndGetBackgrounds().size() > 1) {
-            backgroundIndex = NumberUtil.randInt(backgrounds.size() - 1);
+            backgroundIndex = NumberUtil.generateRandomInt(backgrounds.size() - 1);
         }
 
         boolean fullscreen = UserUtil.getCyderUser().getFullscreen().equals("1");
@@ -1375,7 +1375,7 @@ public enum Console {
         }
 
         if (!musicList.isEmpty()) {
-            int randomFileIndex = NumberUtil.randInt(files.length - 1);
+            int randomFileIndex = NumberUtil.generateRandomInt(files.length - 1);
             GeneralAndSystemAudioPlayer.playGeneralAudio(files[randomFileIndex]);
         } else {
             GeneralAndSystemAudioPlayer.playGeneralAudio(DEFAULT_INTRO_MUSIC);
@@ -1421,7 +1421,7 @@ public enum Console {
 
             if (grayscale) {
                 int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
-                int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
+                int grayscaleAudioRandomIndex = NumberUtil.generateRandomInt(upperBound);
                 GeneralAndSystemAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
             } else {
                 GeneralAndSystemAudioPlayer.playGeneralAudio(introTheme);

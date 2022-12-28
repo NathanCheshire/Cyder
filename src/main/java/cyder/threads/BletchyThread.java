@@ -290,7 +290,7 @@ public final class BletchyThread {
                 StringBuilder current = new StringBuilder();
 
                 for (int k = 0 ; k <= len ; k++) {
-                    current.append(charsToUse.get(NumberUtil.randInt(charsToUse.size() - 1)));
+                    current.append(charsToUse.get(NumberUtil.generateRandomInt(charsToUse.size() - 1)));
                 }
 
                 retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());

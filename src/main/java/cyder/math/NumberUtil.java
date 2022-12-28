@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
+import com.google.common.math.BigIntegerMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
@@ -13,7 +14,9 @@ import cyder.strings.StringUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
@@ -137,7 +140,7 @@ public final class NumberUtil {
      * @param upperBound the upper bound of random range (included in the possible return values)
      * @return a random integer in the provided range [0, upperBound]
      */
-    public static int randInt(int lowerBound, int upperBound) {
+    public static int generateRandomInt(int lowerBound, int upperBound) {
         return ThreadLocalRandom.current().nextInt((upperBound - lowerBound) + 1) + lowerBound;
     }
 
@@ -147,7 +150,7 @@ public final class NumberUtil {
      * @param upperBound the upper bound of the random range (upperBound is included from the possible values)
      * @return a random integer in the range [0, upperBound]
      */
-    public static int randInt(int upperBound) {
+    public static int generateRandomInt(int upperBound) {
         return ThreadLocalRandom.current().nextInt((upperBound) + 1);
     }
 
@@ -242,6 +245,56 @@ public final class NumberUtil {
     }
 
     /**
+     * Computes the nth number of the Fibonacci sequence.
+     *
+     * @param n the index of the Fibonacci number to compute
+     * @return the nth number of the Fibonacci sequence
+     */
+    public static int computeNthFibonacci(int n) {
+        Preconditions.checkArgument(n >= 0);
+
+        int a = 0;
+        int b = 1;
+        int c;
+
+        if (n == 0) return a;
+
+        for (int i = 2 ; i <= n ; i++) {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+
+        return b;
+    }
+
+    /**
+     * Computes the nth Catalan number.
+     *
+     * @param n the index of the Catalan number to compute
+     * @return the nth Catalan number
+     */
+    public static int computeNthCatalan(int n) {
+        Preconditions.checkArgument(n >= 0);
+
+        return computeFactorial(2 * n).divide(computeFactorial(n).multiply(computeFactorial(n + 1))).intValue();
+    }
+
+    /**
+     * Computes the factorial of the provided number.
+     * Note this method does not calculate the Gamma function definition of factorial.
+     * Thus, this method only works for n >= 0.
+     *
+     * @param n the number to compute the factorial of
+     * @return the factorial of the provided number
+     */
+    public static BigInteger computeFactorial(int n) {
+        Preconditions.checkArgument(n >= 0);
+
+        return BigIntegerMath.factorial(n);
+    }
+
+    /**
      * Returns the string representation for the provided integer.
      *
      * @param num the number of find a string representation for
@@ -333,6 +386,8 @@ public final class NumberUtil {
      */
     private static final String HUNDRED = "hundred";
 
+    // todo number to words util
+
     /**
      * Returns the word representation for a trio of base 10 digits.
      * Example: 123 will return "one-hundred twenty three"
@@ -360,6 +415,8 @@ public final class NumberUtil {
         return StringUtil.getTrimmedText((hundredsString + CyderStrings.space + belowOneHundredString));
     }
 
+    // todo number to words util
+
     /**
      * Returns the word representation for any digit in the inclusive range [0, 9].
      *
@@ -371,6 +428,8 @@ public final class NumberUtil {
 
         return ONES_STRINGS.get(num);
     }
+
+    // todo number to words util
 
     /**
      * Returns the prefix associated with the place of a trio of digits in base 10.
@@ -394,30 +453,36 @@ public final class NumberUtil {
      * @param allowDuplicates allow duplicate random values for a pure random experience vs unique random elements
      * @return an array of ints of the desired size of random elements from min to max
      */
-    public static ImmutableList<Integer> randInt(int min, int max, int numInts, boolean allowDuplicates) {
-        if (allowDuplicates) {
-            Preconditions.checkArgument(max - min >= numInts);
+    public static ImmutableList<Integer> generateRandomInts(int min, int max,
+                                                            int numInts, boolean allowDuplicates) {
+        Preconditions.checkArgument(min < max);
+        Preconditions.checkArgument(numInts > 0);
+
+        if (!allowDuplicates) {
+            Preconditions.checkArgument(max - min + 1 >= numInts);
         }
 
         if (!allowDuplicates) {
             ArrayList<Integer> uniqueInts = new ArrayList<>(numInts);
 
             while (uniqueInts.size() < numInts) {
-                int rand = randInt(min, max);
+                int rand = generateRandomInt(min, max);
 
                 if (!uniqueInts.contains(rand)) {
                     uniqueInts.add(rand);
                 }
             }
 
+            Collections.sort(uniqueInts);
             return ImmutableList.copyOf(uniqueInts);
         }
 
         ArrayList<Integer> ret = new ArrayList<>();
         for (int i = 0 ; i < numInts ; i++) {
-            ret.add(randInt(min, max));
+            ret.add(generateRandomInt(min, max));
         }
 
+        Collections.sort(ret);
         return ImmutableList.copyOf(ret);
     }
 
@@ -488,31 +553,32 @@ public final class NumberUtil {
     /**
      * Finds the lcm of the provided array.
      *
-     * @param array the array to find the lcm of
+     * @param numbers the list of numbers to find the lcm of
      * @return the lcm of the provided array
      */
-    public static int lcmArray(int[] array) {
-        Preconditions.checkNotNull(array);
+    public static int lcm(List<Integer> numbers) {
+        Preconditions.checkNotNull(numbers);
+        Preconditions.checkArgument(!numbers.isEmpty());
 
-        return lcmArrayInner(array, 0, array.length);
+        return lcmInner(numbers, 0, numbers.size());
     }
 
     /**
-     * Helper method for finding the lcm of an Array.
+     * Helper method for finding the lcm of a list.
      *
-     * @param array the array to find the lcm of
-     * @param start the starting index for the array
-     * @param end   the ending index for the array
-     * @return the lcm of the provided array
+     * @param list  the list to find the lcm of
+     * @param start the starting index for the list
+     * @param end   the ending index for the list
+     * @return the lcm of the provided list
      */
-    @ForReadability
-    private static int lcmArrayInner(int[] array, int start, int end) {
-        Preconditions.checkNotNull(array);
+    private static int lcmInner(List<Integer> list, int start, int end) {
+        Preconditions.checkNotNull(list);
+        Preconditions.checkArgument(!list.isEmpty());
 
         if ((end - start) == 1) {
-            return lcm(array[start], array[end - 1]);
+            return lcm(list.get(start), list.get(end - 1));
         } else {
-            return lcm(array[start], lcmArrayInner(array, start + 1, end));
+            return lcm(list.get(start), lcmInner(list, start + 1, end));
         }
     }
 }

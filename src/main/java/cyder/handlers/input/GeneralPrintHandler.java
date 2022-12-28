@@ -45,7 +45,7 @@ public class GeneralPrintHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("shakespeare")) {
-            if (NumberUtil.randInt(0, 1) == 1) {
+            if (NumberUtil.generateRandomInt(0, 1) == 1) {
                 getInputHandler().println("Glamis hath murdered sleep, "
                         + "and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {
@@ -74,7 +74,7 @@ public class GeneralPrintHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("hello")
                 || getInputHandler().commandIs("hi")) {
-            switch (NumberUtil.randInt(1, 7)) {
+            switch (NumberUtil.generateRandomInt(1, 7)) {
                 case 1:
                     getInputHandler().println("Hello, " + UserUtil.getCyderUser().getName() + ".");
                     break;

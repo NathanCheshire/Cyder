@@ -266,7 +266,7 @@ public final class HangmanGame {
      * Chooses a new hangman word.
      */
     private static void chooseHangmanWord() {
-        hangmanWord = words.get(NumberUtil.randInt(words.size() - 1)).toLowerCase();
+        hangmanWord = words.get(NumberUtil.generateRandomInt(words.size() - 1)).toLowerCase();
     }
 
     /**

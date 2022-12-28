@@ -115,8 +115,8 @@ public final class ClickWidget {
         int minY = (int) bounds.getMinY();
         int maxY = (int) (minY + bounds.getHeight());
 
-        int randomX = NumberUtil.randInt(minX + monitorMinOffset, maxX - monitorMinOffset);
-        int randomY = NumberUtil.randInt(minY + monitorMinOffset, maxY - monitorMinOffset);
+        int randomX = NumberUtil.generateRandomInt(minX + monitorMinOffset, maxX - monitorMinOffset);
+        int randomY = NumberUtil.generateRandomInt(minY + monitorMinOffset, maxY - monitorMinOffset);
 
         clickMeFrame.setLocation(randomX, randomY);
     }
