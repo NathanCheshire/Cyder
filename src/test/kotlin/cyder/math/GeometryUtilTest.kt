@@ -60,7 +60,21 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointInOrOnRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointInOrOnRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointInOrOnRectangle(Point(), null) }
 
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(), Rectangle()))
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)))
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)))
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)))
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)))
+        assertTrue(GeometryUtil.pointInOrOnRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)))
+
+
+        assertFalse(GeometryUtil.pointInOrOnRectangle(Point(-6, -6), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointInOrOnRectangle(Point(-6, 6), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointInOrOnRectangle(Point(6, -6), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointInOrOnRectangle(Point(6, 6), Rectangle(-5, -5, 10, 10)))
     }
 
     /**
@@ -68,12 +82,43 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointInRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointInRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointInRectangle(Point(), null) }
 
+        assertFalse { GeometryUtil.pointInRectangle(Point(), Rectangle()) }
+        assertTrue { GeometryUtil.pointInRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointInRectangle(Point(-4, -4), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointInRectangle(Point(-4, 4), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointInRectangle(Point(4, -4), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointInRectangle(Point(4, 4), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse { GeometryUtil.pointInRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointInRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointInRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointInRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)) }
     }
 
     @Test
     fun testPointOnRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnRectangle(Point(), null) }
 
+        assertFalse { GeometryUtil.pointInRectangle(Point(), Rectangle()) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(-4, -4), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(-4, 4), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(4, -4), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(4, 4), Rectangle(-5, -5, 10, 10)) }
+
+        assertTrue { GeometryUtil.pointOnRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse { GeometryUtil.pointOnRectangle(Point(-6, -6), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(-6, 6), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(6, -6), Rectangle(-5, -5, 10, 10)) }
+        assertFalse { GeometryUtil.pointOnRectangle(Point(6, 6), Rectangle(-5, -5, 10, 10)) }
     }
 
     /**
@@ -81,7 +126,16 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointOnTopOfRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnTopOfRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnTopOfRectangle(Point(), null) }
 
+        assertTrue { GeometryUtil.pointOnTopOfRectangle(Point(), Rectangle()) }
+        assertFalse { GeometryUtil.pointOnTopOfRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnTopOfRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnTopOfRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse(GeometryUtil.pointOnTopOfRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointOnTopOfRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)))
     }
 
     /**
@@ -89,7 +143,17 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointOnLeftOfRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnLeftOfRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnLeftOfRectangle(Point(), null) }
 
+        assertTrue { GeometryUtil.pointOnLeftOfRectangle(Point(), Rectangle()) }
+        assertFalse { GeometryUtil.pointOnLeftOfRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnLeftOfRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnLeftOfRectangle(Point(-5, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnLeftOfRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse(GeometryUtil.pointOnLeftOfRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointOnLeftOfRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)))
     }
 
     /**
@@ -97,7 +161,17 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointOnRightOfRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnRightOfRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnRightOfRectangle(Point(), null) }
 
+        assertTrue { GeometryUtil.pointOnRightOfRectangle(Point(), Rectangle()) }
+        assertFalse { GeometryUtil.pointOnRightOfRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRightOfRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRightOfRectangle(Point(5, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnRightOfRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse(GeometryUtil.pointOnRightOfRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointOnRightOfRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)))
     }
 
     /**
@@ -105,6 +179,16 @@ class GeometryUtilTest {
      */
     @Test
     fun testPointOnBottomOfRectangle() {
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnBottomOfRectangle(null, Rectangle()) }
+        assertThrows(NullPointerException::class.java) { GeometryUtil.pointOnBottomOfRectangle(Point(), null) }
 
+        assertTrue { GeometryUtil.pointOnBottomOfRectangle(Point(), Rectangle()) }
+        assertFalse { GeometryUtil.pointOnBottomOfRectangle(Point(0, 0), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnBottomOfRectangle(Point(-5, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnBottomOfRectangle(Point(0, -5), Rectangle(-5, -5, 10, 10)) }
+        assertTrue { GeometryUtil.pointOnBottomOfRectangle(Point(5, -5), Rectangle(-5, -5, 10, 10)) }
+
+        assertFalse(GeometryUtil.pointOnBottomOfRectangle(Point(-5, 5), Rectangle(-5, -5, 10, 10)))
+        assertFalse(GeometryUtil.pointOnBottomOfRectangle(Point(5, 5), Rectangle(-5, -5, 10, 10)))
     }
 }

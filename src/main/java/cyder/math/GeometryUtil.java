@@ -158,7 +158,7 @@ public final class GeometryUtil {
         Preconditions.checkNotNull(point);
         Preconditions.checkNotNull(bounds);
 
-        return point.y == bounds.y + bounds.height  // same y value as bottom line
+        return point.y == bounds.y  // same y value as bottom line
                 && point.x >= bounds.x // left most point or greater
                 && point.x <= bounds.x + bounds.width;  // right most point or less
     }
