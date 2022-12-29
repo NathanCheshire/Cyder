@@ -5,7 +5,7 @@ import com.google.errorprone.annotations.Immutable;
 import cyder.console.Console;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 
 /**
  * A class representing a name and a path to an executable/file/link to open.
@@ -91,7 +91,7 @@ public class MappedExecutable {
      */
     @Override
     public String toString() {
-        return ToStringUtils.commonCyderToString(this);
+        return ToStringUtil.commonCyderToString(this);
     }
 
     /**

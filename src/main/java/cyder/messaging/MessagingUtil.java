@@ -23,11 +23,13 @@ import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Utilities related to the messaging client.
  */
-public final class MessagingUtils {
+public final class MessagingUtil {
     /**
      * The default large width for waveform image generation.
      */
@@ -114,7 +116,7 @@ public final class MessagingUtils {
     /**
      * The name of the executor service which waits for the waveform image to finish generation.
      */
-    private static final String waveformGeneratorThreadName = "Waveform Generator Waiter";
+    private static final String waveformGeneratorThreadName = "Audio Waveform Generator";
 
     /**
      * The name of the executor service which waits for the waveform image to
@@ -126,7 +128,7 @@ public final class MessagingUtils {
     /**
      * Suppress default constructor.
      */
-    private MessagingUtils() {
+    private MessagingUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -138,9 +140,6 @@ public final class MessagingUtils {
      * @return the generated image
      */
     public static Future<BufferedImage> generateLargeWaveform(File wavOrMp3File) {
-        Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
-
         return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
     }
 
@@ -152,9 +151,6 @@ public final class MessagingUtils {
      * @return the generated image
      */
     public static Future<BufferedImage> generateSmallWaveform(File wavOrMp3File) {
-        Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
-
         return generateWaveform(wavOrMp3File, DEFAULT_SMALL_WAVEFORM_WIDTH, DEFAULT_SMALL_WAVEFORM_HEIGHT);
     }
 
@@ -165,115 +161,131 @@ public final class MessagingUtils {
      * @return the waveform image
      */
     public static Future<BufferedImage> generateWaveform(File wavOrMp3File, int width, int height) {
-        Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(width > 0);
-        Preconditions.checkArgument(height > 0);
-
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(waveformGeneratorThreadName)).submit(() -> {
-            File usageWav = wavOrMp3File;
-
-            if (FileUtil.validateExtension(usageWav, Extension.MP3.getExtension())) {
-                Future<Optional<File>> futureWav = AudioUtil.mp3ToWav(usageWav);
-                while (!futureWav.isDone()) Thread.onSpinWait();
-                if (futureWav.get().isPresent()) usageWav = futureWav.get().get();
-            }
-
-            return generateWaveform(usageWav, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
-        });
+        return generateWaveform(wavOrMp3File, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
     }
 
     /**
-     * Generates a png depicting the waveform of the provided wav file.
+     * Generates a png depicting the waveform of the provided wav or mp3 file.
      *
-     * @param wavFile         the wav file
+     * @param wavOrMp3File    the wav or mp3 file
      * @param width           the width of the image
      * @param height          the height of the image
      * @param backgroundColor the background color of the image
      * @param waveColor       the color of the waveform
      * @return the generated waveform image
      */
-    public static BufferedImage generateWaveform(File wavFile,
-                                                 int width, int height,
-                                                 Color backgroundColor, Color waveColor) {
-        Preconditions.checkNotNull(wavFile);
-        Preconditions.checkArgument(wavFile.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, Extension.WAV.getExtension()));
+    public static Future<BufferedImage> generateWaveform(final File wavOrMp3File,
+                                                         final int width, final int height,
+                                                         final Color backgroundColor, final Color waveColor) {
+        Preconditions.checkNotNull(wavOrMp3File);
+        Preconditions.checkArgument(wavOrMp3File.exists());
+        Preconditions.checkArgument(wavOrMp3File.isFile());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(backgroundColor);
         Preconditions.checkNotNull(waveColor);
         Preconditions.checkArgument(!backgroundColor.equals(waveColor));
 
-        BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = ret.createGraphics();
+        AtomicReference<File> wavOrMp3FileReference = new AtomicReference<>(wavOrMp3File);
+        AtomicInteger widthReference = new AtomicInteger(width);
+        AtomicInteger heightReference = new AtomicInteger(height);
 
-        WaveFile wav = new WaveFile(wavFile);
-
-        int numFrames = (int) wav.getNumFrames();
-        if (numFrames < width) width = numFrames;
-
-        int[] nonNormalizedSamples = new int[width];
-
-        int sampleLocationIncrement = (int) Math.ceil(numFrames / (double) width);
-
-        int maxAmplitude = 0;
-        int inc = 0;
-        for (int i = 0 ; i < numFrames ; i += sampleLocationIncrement) {
-            maxAmplitude = Math.max(maxAmplitude, wav.getSample(i));
-            nonNormalizedSamples[inc] = wav.getSample(i);
-            inc++;
-        }
-
-        g2d.setPaint(backgroundColor);
-        g2d.fillRect(0, 0, width, height);
-        g2d.setColor(waveColor);
-
-        int[] normalizedSamples = new int[width];
-        for (int i = 0 ; i < nonNormalizedSamples.length ; i++) {
-            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmplitude) * height);
-            if (normalizedValue > height / 2) normalizedValue = interpolationNeededValue;
-            normalizedSamples[i] = normalizedValue;
-        }
-
-        // Loop through samples and interpolate where needed
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            int currentSample = normalizedSamples[i];
-            if (currentSample != interpolationNeededValue) continue;
-
-            int nextValue = 0;
-            for (int j = i ; j < normalizedSamples.length ; j++) {
-                int currentNextValue = normalizedSamples[j];
-                if (currentNextValue != interpolationNeededValue) {
-                    nextValue = currentNextValue;
-                    break;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(waveformGeneratorThreadName)).submit(() -> {
+            try {
+                if (FileUtil.validateExtension(wavOrMp3FileReference.get(), Extension.MP3.getExtension())) {
+                    Future<Optional<File>> futureWav = AudioUtil.mp3ToWav(wavOrMp3FileReference.get());
+                    while (!futureWav.isDone()) Thread.onSpinWait();
+                    if (futureWav.get().isPresent()) wavOrMp3FileReference.set(futureWav.get().get());
                 }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
 
-            // Last value that isn't an interpolation value
-            int lastValue = 0;
-            for (int j = i ; j >= 0 ; j--) {
-                int currentLastValue = normalizedSamples[j];
-                if (currentLastValue != interpolationNeededValue) {
-                    lastValue = currentLastValue;
-                    break;
-                }
+            if (FileUtil.validateExtension(wavOrMp3FileReference.get(), Extension.MP3.getExtension())) {
+                throw new FatalException("Failed to convert mp3 to wav");
             }
 
-            normalizedSamples[i] = (nextValue + lastValue) / 2;
-        }
+            BufferedImage ret =
+                    new BufferedImage(widthReference.get(), heightReference.get(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = ret.createGraphics();
 
-        // Draw center line
-        for (int i = 0 ; i < width ; i++) {
-            g2d.drawLine(i, height / 2, i, height / 2);
-        }
+            WaveFile wav;
+            try {
+                wav = new WaveFile(wavOrMp3FileReference.get());
+            } catch (Exception e) {
+                throw new FatalException(e.getMessage());
+            }
 
-        // Paint wave extending upwards and downwards
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            g2d.drawLine(i, height / 2, i, height / 2 + normalizedSamples[i]);
-            g2d.drawLine(i, height / 2 - normalizedSamples[i], i, height / 2);
-        }
+            int numFrames = (int) wav.getNumFrames();
+            if (numFrames < widthReference.get()) {
+                widthReference.set(numFrames);
+            }
 
-        return ret;
+            int[] nonNormalizedSamples = new int[widthReference.get()];
+
+            int sampleLocationIncrement = (int) Math.ceil(numFrames / (double) widthReference.get());
+
+            int maxAmplitude = 0;
+            int nonNormalizedSamplesIndex = 0;
+            for (int i = 0 ; i < numFrames ; i += sampleLocationIncrement) {
+                maxAmplitude = Math.max(maxAmplitude, wav.getSample(i));
+
+                nonNormalizedSamples[nonNormalizedSamplesIndex] = wav.getSample(i);
+                nonNormalizedSamplesIndex++;
+            }
+
+            g2d.setPaint(backgroundColor);
+            g2d.fillRect(0, 0, widthReference.get(), heightReference.get());
+            g2d.setColor(waveColor);
+
+            int[] normalizedSamples = new int[widthReference.get()];
+            for (int i = 0 ; i < nonNormalizedSamples.length ; i++) {
+                int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmplitude) * heightReference.get());
+                if (normalizedValue > heightReference.get() / 2) normalizedValue = interpolationNeededValue;
+                normalizedSamples[i] = normalizedValue;
+            }
+
+            // Loop through samples and interpolate where needed
+            for (int i = 0 ; i < normalizedSamples.length ; i++) {
+                int currentSample = normalizedSamples[i];
+                if (currentSample != interpolationNeededValue) continue;
+
+                int nextValue = 0;
+                for (int j = i ; j < normalizedSamples.length ; j++) {
+                    int currentNextValue = normalizedSamples[j];
+                    if (currentNextValue != interpolationNeededValue) {
+                        nextValue = currentNextValue;
+                        break;
+                    }
+                }
+
+                // Last value that isn't an interpolation value
+                int lastValue = 0;
+                for (int j = i ; j >= 0 ; j--) {
+                    int currentLastValue = normalizedSamples[j];
+                    if (currentLastValue != interpolationNeededValue) {
+                        lastValue = currentLastValue;
+                        break;
+                    }
+                }
+
+                normalizedSamples[i] = (nextValue + lastValue) / 2;
+            }
+
+            // Draw center line
+            for (int i = 0 ; i < widthReference.get() ; i++) {
+                g2d.drawLine(i, heightReference.get() / 2, i, heightReference.get() / 2);
+            }
+
+            // Paint wave extending upwards and downwards
+            for (int i = 0 ; i < normalizedSamples.length ; i++) {
+                g2d.drawLine(i, heightReference.get() / 2, i, heightReference.get() / 2 + normalizedSamples[i]);
+                g2d.drawLine(i, heightReference.get() / 2 - normalizedSamples[i], i, heightReference.get() / 2);
+            }
+
+            return ret;
+        });
     }
 
     /**
@@ -286,6 +298,7 @@ public final class MessagingUtils {
     public static Future<JLabel> generateAudioPreviewLabel(File mp3OrWavFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(mp3OrWavFile);
         Preconditions.checkArgument(mp3OrWavFile.exists());
+        Preconditions.checkArgument(mp3OrWavFile.isFile());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(mp3OrWavFile));
         Preconditions.checkNotNull(onSaveRunnable);
 
@@ -349,17 +362,17 @@ public final class MessagingUtils {
     public static JLabel generateImagePreviewLabel(File imageFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkArgument(imageFile.isFile());
         Preconditions.checkArgument(FileUtil.isSupportedImageExtension(imageFile));
         Preconditions.checkNotNull(onSaveRunnable);
 
-        BufferedImage readImage = null;
+        BufferedImage readImage;
         try {
             readImage = ImageUtil.read(imageFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            throw new FatalException("Failed to read image: " + imageFile.getAbsolutePath());
         }
-
-        if (readImage == null) throw new FatalException("Failed to read image: " + imageFile.getAbsolutePath());
 
         ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(readImage),
                 IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);

@@ -3,7 +3,7 @@ package cyder.ui.drag;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -61,6 +61,6 @@ public class CyderDraggableComponent implements MouseMotionListener {
      */
     @Override
     public final String toString() {
-        return ToStringUtils.commonCyderToString(this);
+        return ToStringUtil.commonCyderToString(this);
     }
 }

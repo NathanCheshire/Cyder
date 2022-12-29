@@ -3,7 +3,7 @@ package cyder.layouts;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 import cyder.ui.CyderPanel;
 
 import java.awt.*;
@@ -382,6 +382,6 @@ public class CyderGridLayout extends CyderLayout {
      */
     @Override
     public String toString() {
-        return ToStringUtils.commonCyderUiToString(this);
+        return ToStringUtil.commonCyderUiToString(this);
     }
 }

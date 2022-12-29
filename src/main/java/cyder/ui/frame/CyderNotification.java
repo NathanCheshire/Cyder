@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDragLabel;
@@ -804,7 +804,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public String toString() {
-        return ToStringUtils.commonCyderUiToString(this);
+        return ToStringUtil.commonCyderUiToString(this);
     }
 
     /**

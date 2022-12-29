@@ -23,7 +23,7 @@ import cyder.math.AngleUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
@@ -2408,7 +2408,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public String toString() {
-        return ToStringUtils.commonCyderUiToString(this);
+        return ToStringUtil.commonCyderUiToString(this);
     }
 
     /**

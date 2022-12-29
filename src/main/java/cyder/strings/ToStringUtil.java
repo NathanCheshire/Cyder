@@ -16,7 +16,7 @@ import static cyder.strings.CyderStrings.*;
 /**
  * Utilities for casting things to strings.
  */
-public final class ToStringUtils {
+public final class ToStringUtil {
     /**
      * Special methods which should be attempted to be found
      * and invoked if found when reflecting on a {@link Component}.
@@ -30,7 +30,7 @@ public final class ToStringUtils {
     /**
      * Suppress default constructor.
      */
-    private ToStringUtils() {
+    private ToStringUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -197,7 +197,7 @@ public final class ToStringUtils {
      *
      * @param object the object
      * @return the String representation for the provided object
-     * detailing the classname, hashcode, and reflected data detailed by the {@link GetterMethodResult}s
+     * detailing the class name, hashcode, and reflected data detailed by the {@link GetterMethodResult}s
      */
     public static String commonCyderToString(Object object) {
         Preconditions.checkNotNull(object);

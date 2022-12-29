@@ -6,7 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.ToStringUtils;
+import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.UiUtil;
@@ -545,6 +545,6 @@ public class CyderScrollPane extends JScrollPane {
      */
     @Override
     public String toString() {
-        return ToStringUtils.commonCyderUiToString(this);
+        return ToStringUtil.commonCyderUiToString(this);
     }
 }

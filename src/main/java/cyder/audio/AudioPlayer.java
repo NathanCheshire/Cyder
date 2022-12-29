@@ -25,7 +25,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.math.NumberUtil;
-import cyder.messaging.MessagingUtils;
+import cyder.messaging.MessagingUtil;
 import cyder.parsers.remote.youtube.YoutubeSearchResultPage;
 import cyder.parsers.remote.youtube.YoutubeVideo;
 import cyder.strings.CyderStrings;
@@ -1032,7 +1032,7 @@ public final class AudioPlayer {
                         UserFile.FILES.getName(),
                         saveName + "." + WAVEFORM_EXPORT_FORMAT);
 
-                Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
+                Future<BufferedImage> waveform = MessagingUtil.generateLargeWaveform(currentAudioFile.get());
 
                 waveformExporterLocked.set(true);
 
