@@ -6,6 +6,7 @@ import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberToWordUtil;
 import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
@@ -123,7 +124,7 @@ public class NumberHandler extends InputHandler {
                 || getInputHandler().commandIs("number2word")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (CyderRegexPatterns.numberPattern.matcher(getInputHandler().getArg(0)).matches()) {
-                    getInputHandler().println(NumberUtil.toWords(getInputHandler().getArg(0)));
+                    getInputHandler().println(NumberToWordUtil.toWords(getInputHandler().getArg(0)));
                 } else {
                     getInputHandler().println("Could not parse input as number: "
                             + getInputHandler().getArg(0));

@@ -506,7 +506,8 @@ public final class StringUtil {
      */
     public static String capsFirstWords(String word) {
         Preconditions.checkNotNull(word);
-        Preconditions.checkArgument(!word.isEmpty());
+
+        if (word.isEmpty()) return word;
 
         StringBuilder sb = new StringBuilder(word.length());
         String[] words = word.split(CyderRegexPatterns.whiteSpaceRegex);

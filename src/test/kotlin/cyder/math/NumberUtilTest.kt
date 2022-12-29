@@ -153,6 +153,35 @@ class NumberUtilTest {
      */
     @Test
     fun testMin() {
+        assertEquals(0, NumberUtil.min(0))
+        assertEquals(-1, NumberUtil.min(0, -1))
+        assertEquals(-1, NumberUtil.min(-1, -1))
+        assertEquals(-10, NumberUtil.min(-1, -10))
+        assertEquals(200, NumberUtil.min(200, 300))
+        assertEquals(200, NumberUtil.min(200, 300, 400, 500))
+        assertEquals(4, NumberUtil.min(200, 300, 400, 500, 4))
+    }
 
+    /**
+     * Tests for the gcd method.
+     */
+    @Test
+    fun testGcd() {
+        assertEquals(1, NumberUtil.gcd(4, 5))
+        assertEquals(2, NumberUtil.gcd(2, 4))
+        assertEquals(4, NumberUtil.gcd(4, 8))
+        assertEquals(6, NumberUtil.gcd(6, 18))
+        assertEquals(1, NumberUtil.gcd(5, 11))
+        assertEquals(6, NumberUtil.gcd(12, 18))
+    }
+
+    /**
+     * Tests for the lcm method.
+     */
+    @Test
+    fun testLcm() {
+        assertEquals(40, NumberUtil.lcm(ImmutableList.of(1, 5, 8)))
+        assertEquals(24, NumberUtil.lcm(ImmutableList.of(2, 6, 8)))
+        assertEquals(105, NumberUtil.lcm(ImmutableList.of(5, 7, 15)))
     }
 }

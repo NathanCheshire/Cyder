@@ -3,14 +3,10 @@ package cyder.math;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Range;
 import com.google.common.math.BigIntegerMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.annotations.ForReadability;
-import cyder.constants.CyderRegexPatterns;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
-import cyder.strings.StringUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -18,7 +14,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 /**
  * A util for working with numbers and not necessarily math.
@@ -32,99 +27,6 @@ public final class NumberUtil {
             16, 65535,
             24, 16777215
     );
-
-    /**
-     * The negative string.
-     */
-    private static final String NEGATIVE = "Negative";
-
-    /**
-     * The zero string.
-     */
-    private static final String ZERO = "Zero";
-
-    /**
-     * The character to denote a negative number.
-     */
-    private static final String NEGATIVE_CHAR = CyderStrings.dash;
-
-    /**
-     * The range for an integer to be in to be in the teen range.
-     */
-    private static final Range<Integer> TEENS_RANGE = Range.closedOpen(10, 20);
-
-    /**
-     * String representations for all digits in the one's place.
-     */
-    private static final ImmutableList<String> ONES_STRINGS = ImmutableList.of(
-            "",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine");
-
-    /**
-     * String representations for all digits in the ten's place in base 10.
-     */
-    private static final ImmutableList<String> TENS_STRINGS = ImmutableList.of(
-            "",
-            "",
-            "twenty",
-            "thirty",
-            "forty",
-            "fifty",
-            "sixty",
-            "seventy",
-            "eighty",
-            "ninety");
-
-    /**
-     * String representations for numbers in the range [10, 19].
-     */
-    private static final ImmutableList<String> TEEN_STRINGS = ImmutableList.of(
-            "ten",
-            "eleven",
-            "twelve",
-            "thirteen",
-            "fourteen",
-            "fifteen",
-            "sixteen",
-            "seventeen",
-            "eighteen",
-            "nineteen");
-
-    /**
-     * String prefixes for digit trios in base 10.
-     */
-    private static final ImmutableList<String> THOUSAND_PREFIXES = ImmutableList.of(
-            "",
-            "-thousand",
-            "-million",
-            "-billion",
-            "-trillion",
-            "-quadrillion",
-            "-quintillion",
-            "-sextillion",
-            "-septillion",
-            "-octillion",
-            "-nonillion",
-            "-decillion",
-            "-undecillion",
-            "-duodecillion",
-            "-tredecillion",
-            "-quattuordecillion",
-            "-quindecillion",
-            "-sexdexillion",
-            "-septendecillion",
-            "-octodecillion",
-            "-novemdecillion",
-            "-vigintillion",
-            "-centillion");
 
     /**
      * Suppress default constructor.
@@ -295,156 +197,6 @@ public final class NumberUtil {
     }
 
     /**
-     * Returns the string representation for the provided integer.
-     *
-     * @param num the number of find a string representation for
-     * @return the string representation for the provided integer
-     */
-    public static String toWords(int num) {
-        return toWords(String.valueOf(num));
-    }
-
-    /**
-     * Returns the string representation for the provided raw text field input straight from a user.
-     *
-     * @param word the result of calling textField.getText() on (an integer in the form of a String)
-     * @return the string representation for the provided raw text field input
-     */
-    public static String toWords(String word) {
-        Preconditions.checkNotNull(word);
-        Preconditions.checkArgument(!word.isEmpty());
-        if (word.contains(NEGATIVE_CHAR)) Preconditions.checkArgument(word.startsWith(NEGATIVE_CHAR));
-
-        boolean negative = false;
-        try {
-            BigInteger num = new BigInteger(word);
-
-            if (num.compareTo(BigInteger.ZERO) == 0) return ZERO;
-
-            negative = num.compareTo(BigInteger.ZERO) < 0;
-        } catch (Exception ignored) {
-            // word not parsable by BigInteger
-        }
-
-        word = word.replace(NEGATIVE_CHAR, "");
-
-        StringBuilder wordRepBuilder = new StringBuilder(word);
-        while (wordRepBuilder.length() % 3 != 0) {
-            wordRepBuilder.insert(0, 0);
-        }
-        word = wordRepBuilder.toString();
-
-        ImmutableList<String> baseTrios = splitToTrios(word);
-        ArrayList<String> trioStrings = new ArrayList<>(baseTrios.size());
-        baseTrios.forEach(trio -> trioStrings.add(trioToWords(Integer.parseInt(trio))));
-
-        ArrayList<String> reversed = new ArrayList<>(trioStrings.size());
-        trioStrings.forEach(trioString -> reversed.add(0, trioString));
-        trioStrings.clear();
-
-        for (int i = 0 ; i < reversed.size() ; i++) {
-            boolean firstAndReversedSizeGreaterThanOne = i == 0 && reversed.size() > 1;
-            boolean secondToLastDigitIsZero = baseTrios.get(baseTrios.size() - 1).charAt(1) == '0';
-            boolean lastDigitNotZero = baseTrios.get(baseTrios.size() - 1).charAt(2) != '0';
-            trioStrings.add((firstAndReversedSizeGreaterThanOne && secondToLastDigitIsZero && lastDigitNotZero
-                    ? " and " : "") + reversed.get(i) + getThousandsPrefix(i));
-        }
-
-        StringBuilder wordFormBuilder = new StringBuilder();
-        if (negative) wordFormBuilder.append(NEGATIVE).append(CyderStrings.space);
-
-        int trioStringsSize = trioStrings.size();
-        IntStream.range(0, trioStringsSize).forEach(index -> {
-            wordFormBuilder.append(trioStrings.get(trioStringsSize - index - 1).trim());
-            wordFormBuilder.append(CyderStrings.space);
-        });
-
-        return wordFormBuilder.toString().trim();
-    }
-
-    @ForReadability
-    private static ImmutableList<String> splitToTrios(String combinedWord) {
-        String[] trios = combinedWord.split("(?<=\\G...)");
-        ArrayList<String> ret = new ArrayList<>(trios.length);
-
-        for (String trio : trios) {
-            ret.add(trio.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                    .replace(CyderStrings.openingBracket, "")
-                    .replace(CyderStrings.closingBracket, ""));
-        }
-
-        return ImmutableList.copyOf(ret);
-    }
-
-    /**
-     * The range a trio must be in.
-     */
-    private static final Range<Integer> THOUSAND_RANGE = Range.closedOpen(0, 1000);
-
-    /**
-     * The hundreds word.
-     */
-    private static final String HUNDRED = "hundred";
-
-    // todo number to words util
-
-    /**
-     * Returns the word representation for a trio of base 10 digits.
-     * Example: 123 will return "one-hundred twenty three"
-     *
-     * @param num the number to get a word representation for
-     * @return the word representation for the provided trio of base 10 digits
-     */
-    private static String trioToWords(int num) {
-        Preconditions.checkArgument(THOUSAND_RANGE.contains(num));
-
-        int onesDigit = num % 10;
-        int tensDigit = (num % 100) / 10;
-        int onesAndTensNumber = onesDigit + 10 * tensDigit;
-        int hundredsDigit = num / 100;
-
-        String hundredsDigitString = ONES_STRINGS.get(hundredsDigit);
-        String hundredsString = StringUtil.isNullOrEmpty(hundredsDigitString)
-                ? "" : hundredsDigitString + CyderStrings.space + HUNDRED;
-
-        String belowOneHundredString;
-        belowOneHundredString = TEENS_RANGE.contains(onesAndTensNumber)
-                ? TEEN_STRINGS.get(onesAndTensNumber - 10)
-                : TENS_STRINGS.get(tensDigit) + CyderStrings.space + ONES_STRINGS.get(onesDigit);
-
-        return StringUtil.getTrimmedText((hundredsString + CyderStrings.space + belowOneHundredString));
-    }
-
-    // todo number to words util
-
-    /**
-     * Returns the word representation for any digit in the inclusive range [0, 9].
-     *
-     * @param num the number to get a word representation for
-     * @return the word representation for any digit in the inclusive range [0, 9]
-     */
-    private static String getOnesPlaceWord(int num) {
-        Preconditions.checkArgument(num >= 0 && num <= 9);
-
-        return ONES_STRINGS.get(num);
-    }
-
-    // todo number to words util
-
-    /**
-     * Returns the prefix associated with the place of a trio of digits in base 10.
-     * Example: 1 will return "-thousand" and 3 will return "-billion"
-     *
-     * @param trioPlace the place of the trio in its parent number
-     * @return the prefix associated with the palace of a trio of digits in base 10
-     */
-    private static String getThousandsPrefix(int trioPlace) {
-        Preconditions.checkArgument(trioPlace >= 0 && trioPlace < THOUSAND_PREFIXES.size());
-
-        return THOUSAND_PREFIXES.get(trioPlace);
-    }
-
-    /**
      * Returns the requested amount of random numbers within the provided range.
      *
      * @param min             the minimum random number possible
@@ -540,17 +292,6 @@ public final class NumberUtil {
     }
 
     /**
-     * Finds the least common multiple of the provided integers.
-     *
-     * @param first  the first integer
-     * @param second the second integer
-     * @return the least common multiple of the provided integers
-     */
-    public static int lcm(int first, int second) {
-        return ((first * second) / gcd(first, second));
-    }
-
-    /**
      * Finds the lcm of the provided array.
      *
      * @param numbers the list of numbers to find the lcm of
@@ -580,5 +321,16 @@ public final class NumberUtil {
         } else {
             return lcm(list.get(start), lcmInner(list, start + 1, end));
         }
+    }
+
+    /**
+     * Finds the least common multiple of the provided integers.
+     *
+     * @param first  the first integer
+     * @param second the second integer
+     * @return the least common multiple of the provided integers
+     */
+    private static int lcm(int first, int second) {
+        return ((first * second) / gcd(first, second));
     }
 }
