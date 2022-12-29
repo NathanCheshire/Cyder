@@ -524,7 +524,7 @@ public final class ImageUtil {
 
     /**
      * Resizes the provided ImageIcon to have the requested
-     * dimensions using bilinear interpolation.
+     * dimensions using bi-linear interpolation.
      *
      * @param image the image to resize
      * @param w     the width of the new image

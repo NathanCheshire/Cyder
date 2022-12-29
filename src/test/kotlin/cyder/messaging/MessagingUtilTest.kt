@@ -1,10 +1,15 @@
 package cyder.messaging
 
 import cyder.constants.CyderColors
+import cyder.enums.Dynamic
+import cyder.enums.Extension
+import cyder.utils.ImageUtil
+import cyder.utils.OsUtil
 import cyder.utils.StaticUtil
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.File
+import javax.imageio.ImageIO
 
 /**
  * Tests for [MessagingUtil]s
@@ -50,7 +55,32 @@ class MessagingUtilTest {
                     500, 250, CyderColors.vanilla, CyderColors.vanilla)
         }
 
-        // todo test for wav and mp3 succeeding and being of proper width and height
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val futureBi = MessagingUtil.generateWaveform(StaticUtil.getStaticResource("223.mp3"),
+                500, 250, CyderColors.vanilla, CyderColors.navy)
+        while (!futureBi.isDone) Thread.onSpinWait()
+        val bi = futureBi.get()
+
+        val outputFile = File("tmp/223_waveform.png")
+
+        try {
+            ImageIO.write(bi, Extension.PNG.extensionWithoutPeriod, outputFile)
+        } catch (ignored: Exception) {
+        }
+
+        assertTrue(outputFile.exists())
+
+        val savedImageBi = ImageUtil.read(outputFile)
+        assertTrue(savedImageBi.width == 500)
+        assertTrue(savedImageBi.height == 250)
+
+        assertTrue(OsUtil.deleteFile(tmpDir, false))
+        OsUtil.deleteFile(Dynamic.TEMP.pointerFile, false)
+
+        assertFalse(Dynamic.TEMP.pointerFile.exists())
     }
 
     /**

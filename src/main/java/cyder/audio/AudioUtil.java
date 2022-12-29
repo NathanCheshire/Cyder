@@ -144,18 +144,23 @@ public final class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
+            File tmpDir = Dynamic.buildDynamic(Dynamic.TEMP.getFileName());
+            if (!tmpDir.exists()) {
+                tmpDir.mkdir();
+            }
+
             String builtPath = Dynamic.buildDynamic(Dynamic.TEMP.getFileName(),
                     FileUtil.getFilename(mp3File) + Extension.WAV.getExtension()).getAbsolutePath();
             String safePath = quote + builtPath + quote;
 
             File outputFile = new File(builtPath);
-            ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
+            ProcessBuilder processBuilder = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                     quote + mp3File.getAbsolutePath() + quote, safePath);
-            pb.redirectErrorStream();
-            Process p = pb.start();
+            processBuilder.redirectErrorStream();
+            Process process = processBuilder.start();
 
             // another precaution to ensure process is completed before file is returned
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             while (reader.readLine() != null) {
                 Thread.onSpinWait();
             }

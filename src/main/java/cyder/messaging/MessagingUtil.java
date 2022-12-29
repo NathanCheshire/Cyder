@@ -174,6 +174,7 @@ public final class MessagingUtil {
      * @param waveColor       the color of the waveform
      * @return the generated waveform image
      */
+    @SuppressWarnings("UnusedAssignment") /* Freeing resource */
     public static Future<BufferedImage> generateWaveform(final File wavOrMp3File,
                                                          final int width, final int height,
                                                          final Color backgroundColor, final Color waveColor) {
@@ -283,6 +284,10 @@ public final class MessagingUtil {
                 g2d.drawLine(i, heightReference.get() / 2, i, heightReference.get() / 2 + normalizedSamples[i]);
                 g2d.drawLine(i, heightReference.get() / 2 - normalizedSamples[i], i, heightReference.get() / 2);
             }
+
+            wavOrMp3FileReference.set(null);
+            wav.stop();
+            wav = null;
 
             return ret;
         });

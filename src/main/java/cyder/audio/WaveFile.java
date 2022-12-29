@@ -14,6 +14,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -62,6 +63,11 @@ public class WaveFile {
      * The clip object for the wav.
      */
     private Clip clip;
+
+    /**
+     * The stream for the clip.
+     */
+    private AudioInputStream clipStream;
 
     /**
      * The sample size of the wav.
@@ -125,13 +131,18 @@ public class WaveFile {
             if (bytesRead == -1) {
                 throw new FatalException("Failed to read bytes from fis constructed from: " + wavFile);
             }
+
+            audioInputStream.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         try {
             clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(wavFile));
+
+            clipStream = AudioSystem.getAudioInputStream(wavFile);
+            clip.open(clipStream);
+
             clip.setFramePosition(0);
             isPlayable = true;
         } catch (Exception e) {
@@ -186,10 +197,12 @@ public class WaveFile {
     /**
      * Stops the clip of this wav file.
      */
-    public void stop() {
+    public void stop() throws IOException {
         Preconditions.checkNotNull(clip);
+        Preconditions.checkNotNull(clipStream);
 
         clip.stop();
+        clipStream.close();
     }
 
     /**
