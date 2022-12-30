@@ -21,14 +21,16 @@ class MessagingUtilTest {
     @Test
     fun testGenerateWaveform() {
         assertThrows(NullPointerException::class.java) {
-            MessagingUtil.generateWaveform(null, 0, 0, null, null)
+            MessagingUtil.generateWaveform(null, 0, 0,
+                    null, null)
         }
         assertThrows(IllegalArgumentException::class.java) {
             MessagingUtil.generateWaveform(File("file_that_does_not_exist.mp3"),
                     0, 0, null, null)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            MessagingUtil.generateWaveform(File("."), 0, 0, null, null)
+            MessagingUtil.generateWaveform(File("."), 0, 0,
+                    null, null)
         }
         assertThrows(IllegalArgumentException::class.java) {
             MessagingUtil.generateWaveform(File(".gitignore"),
@@ -74,8 +76,8 @@ class MessagingUtilTest {
         assertTrue(outputFile.exists())
 
         val savedImageBi = ImageUtil.read(outputFile)
-        assertTrue(savedImageBi.width == 500)
-        assertTrue(savedImageBi.height == 250)
+        assertEquals(500, savedImageBi.width)
+        assertEquals(250, savedImageBi.height)
 
         assertTrue(OsUtil.deleteFile(tmpDir, false))
         OsUtil.deleteFile(Dynamic.TEMP.pointerFile, false)
@@ -88,7 +90,33 @@ class MessagingUtilTest {
      */
     @Test
     fun testGenerateAudioPreviewLabel() {
+        assertThrows(NullPointerException::class.java) {
+            MessagingUtil.generateAudioPreviewLabel(null, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateAudioPreviewLabel(File("file_that_does_not_exist.txt"), null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateAudioPreviewLabel(File("."), null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateAudioPreviewLabel(File(".gitignore"), null)
+        }
+        assertThrows(NullPointerException::class.java) {
+            MessagingUtil.generateAudioPreviewLabel(StaticUtil.getStaticResource("223.mp3"), null)
+        }
 
+        val futureJLabel = MessagingUtil.generateAudioPreviewLabel(StaticUtil.getStaticResource("223.mp3")) { }
+        while (!futureJLabel.isDone) Thread.onSpinWait()
+        val jLabel = futureJLabel.get()
+
+        assertNotNull(jLabel)
+
+        val bi = ImageUtil.screenshotComponent(jLabel)
+
+        assertNotNull(jLabel)
+        assertEquals(150, bi.width)
+        assertEquals(94, bi.height)
     }
 
     /**
@@ -96,6 +124,28 @@ class MessagingUtilTest {
      */
     @Test
     fun testGenerateImagePreviewLabel() {
+        assertThrows(NullPointerException::class.java) {
+            MessagingUtil.generateImagePreviewLabel(null, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateImagePreviewLabel(File("file_that_does_not_exist.txt"), null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateImagePreviewLabel(File("."), null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MessagingUtil.generateImagePreviewLabel(File(".gitignore"), null)
+        }
+        assertThrows(NullPointerException::class.java) {
+            MessagingUtil.generateImagePreviewLabel(StaticUtil.getStaticResource("Me.png"), null)
+        }
 
+        val jLabel = MessagingUtil.generateImagePreviewLabel(StaticUtil.getStaticResource("Me.png")) {}
+        assertNotNull(jLabel)
+
+        val bi = ImageUtil.screenshotComponent(jLabel)
+
+        assertEquals(150, bi.width)
+        assertEquals(150 + 40, bi.height)
     }
 }

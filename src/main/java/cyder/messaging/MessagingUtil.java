@@ -398,6 +398,7 @@ public final class MessagingUtil {
 
         saveButton.setLocation(0, IMAGE_PREVIEW_LEN - 5);
         ret.add(saveButton);
+        ret.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_BUTTON_HEIGHT + IMAGE_PREVIEW_LEN);
 
         return ret;
     }

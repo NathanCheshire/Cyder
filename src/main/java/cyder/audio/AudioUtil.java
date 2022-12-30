@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.Futures;
 import cyder.console.Console;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -154,6 +155,12 @@ public final class AudioUtil {
             String safePath = quote + builtPath + quote;
 
             File outputFile = new File(builtPath);
+            if (outputFile.exists()) {
+                if (!OsUtil.deleteFile(outputFile)) {
+                    throw new FatalException("Output file already exists in temp directory");
+                }
+            }
+
             ProcessBuilder processBuilder = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                     quote + mp3File.getAbsolutePath() + quote, safePath);
             processBuilder.redirectErrorStream();
