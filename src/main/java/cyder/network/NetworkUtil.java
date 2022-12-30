@@ -367,6 +367,34 @@ public final class NetworkUtil {
     }
 
     /**
+     * Returns whether the local port is available for binding.
+     * Note this method blocks for approximately {@link #LOCAL_PORT_AVAILABLE_TIMEOUT}ms.
+     *
+     * @param port the local port
+     * @return whether the local port is available for binding
+     */
+    public static boolean localPortAvailable(int port) {
+        Preconditions.checkArgument(portRange.contains(port));
+
+        AtomicBoolean ret = new AtomicBoolean(false);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                ServerSocket socket = new ServerSocket(port);
+                ret.set(true);
+                socket.close();
+            } catch (Exception ignored) {}
+        }, "Local Port Available Finder, port: " + port);
+
+        ThreadUtil.sleep(LOCAL_PORT_AVAILABLE_TIMEOUT);
+
+        return ret.get();
+    }
+
+    // todo this functionality should probably be extracted
+    // todo maybe a web-scraping package
+
+    /**
      * The url for determining network details.
      */
     public static final String ispQueryUrl = "https://www.whatismyisp.com/";
@@ -423,9 +451,6 @@ public final class NetworkUtil {
      */
     private static final int ipElementIndex = 0;
 
-    // todo this functionality should probably be extracted
-    // todo maybe a web-scraping package
-
     /**
      * Returns information about this user's isp, their ip, location, city, state/region, and country.
      *
@@ -475,29 +500,5 @@ public final class NetworkUtil {
         String ip = ipElement.text().replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
 
         return new IspQueryResult(isp, hostname, ip, city, state, country);
-    }
-
-    /**
-     * Returns whether the local port is available for binding.
-     *
-     * @param port the local port
-     * @return whether the local port is available for binding
-     */
-    public static boolean localPortAvailable(int port) {
-        Preconditions.checkArgument(portRange.contains(port));
-
-        AtomicBoolean ret = new AtomicBoolean(false);
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                ServerSocket socket = new ServerSocket(port);
-                ret.set(true);
-                socket.close();
-            } catch (Exception ignored) {}
-        }, "Local Port Available Finder, port: " + port);
-
-        ThreadUtil.sleep(LOCAL_PORT_AVAILABLE_TIMEOUT);
-
-        return ret.get();
     }
 }

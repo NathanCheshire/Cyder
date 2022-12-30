@@ -1,5 +1,6 @@
 package cyder.network;
 
+import com.google.common.base.Preconditions;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -94,6 +95,8 @@ public enum LatencyManager {
      * @return the latency in ms between the host system and the latency ip
      */
     public int getLatency(int timeout) {
+        Preconditions.checkArgument(timeout > 0);
+
         Socket socket = new Socket();
         SocketAddress address = new InetSocketAddress(latencyIp, latencyPort);
         long start = System.currentTimeMillis();
@@ -114,9 +117,13 @@ public enum LatencyManager {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(LogTag.NETWORK, "Latency of "
-                + latencyIp + CyderStrings.colon + latencyPort
-                + " (" + latencyHostName + ") found to be " + TimeUtil.formatMillis(latency));
+        Logger.log(LogTag.NETWORK, "Latency of"
+                + CyderStrings.space + latencyIp
+                + CyderStrings.colon + latencyPort
+                + CyderStrings.space + CyderStrings.openingParenthesis
+                + latencyHostName
+                + CyderStrings.closingParenthesis + CyderStrings.space
+                + "found to be " + TimeUtil.formatMillis(latency));
 
         return latency;
     }

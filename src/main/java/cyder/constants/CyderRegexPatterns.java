@@ -22,13 +22,6 @@ public final class CyderRegexPatterns {
     public static final Pattern numberPattern = Pattern.compile("[0-9]+");
 
     /**
-     * Pattern to identify common phone number patterns.
-     */
-    public static final Pattern phoneNumberPattern =
-            Pattern.compile("\\s*[0-9]?\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*[)]?\\s*" +
-                    "[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
-
-    /**
      * Regex pattern to determine if a line is a comment.
      */
     public static final Pattern commentPattern = Pattern.compile(

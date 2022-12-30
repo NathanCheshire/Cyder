@@ -8,6 +8,7 @@ import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
@@ -73,7 +75,9 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("wikisum usage: wikisum YOUR_WORD/expression");
             }
         } else if (getInputHandler().commandIs("ip")) {
-            getInputHandler().println(NetworkUtil.getIp().orElse("IP not found"));
+            String ipDataFoundIp = IpDataManager.INSTANCE.getIpData().getIp();
+            getInputHandler().println(Objects.requireNonNullElseGet(ipDataFoundIp,
+                    () -> NetworkUtil.getIp().orElse("IP not found")));
         } else if (getInputHandler().commandIs("pastebin")) {
             if (getInputHandler().checkArgsLength(1)) {
                 String urlString;
