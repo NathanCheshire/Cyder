@@ -361,9 +361,7 @@ public final class Logger {
         Preconditions.checkArgument(!line.isEmpty());
 
         if (logStarted.get() && currentLog == null) {
-            generateAndSetLogFile();
-            writeCyderAsciiArtToFile(currentLog);
-            awaitingLogCalls.addAll(checkLogLineLength(getLogRecoveryDebugLine()));
+            onLogFileDeletedMidRuntime();
         }
 
         boolean isException = tags.contains(LogTag.EXCEPTION.getLogName());
@@ -400,6 +398,10 @@ public final class Logger {
         if (!logStarted.get()) {
             awaitingLogCalls.addAll(lines);
             return;
+        }
+
+        if (!currentLog.exists()) {
+            onLogFileDeletedMidRuntime();
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentLog, true))) {
@@ -663,5 +665,14 @@ public final class Logger {
                 + colon + space + objectsCreated;
 
         log(LogTag.OBJECT_CREATION, line);
+    }
+
+    /**
+     * The actions to invoke when the log file is deleted mid-runtime.
+     */
+    private static void onLogFileDeletedMidRuntime() {
+        generateAndSetLogFile();
+        writeCyderAsciiArtToFile(currentLog);
+        awaitingLogCalls.addAll(checkLogLineLength(getLogRecoveryDebugLine()));
     }
 }
