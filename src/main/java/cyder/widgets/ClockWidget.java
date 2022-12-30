@@ -15,7 +15,7 @@ import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
-import cyder.network.IpUtil;
+import cyder.network.IpDataManager;
 import cyder.parsers.remote.ip.IpData;
 import cyder.parsers.remote.weather.Coord;
 import cyder.parsers.remote.weather.WeatherData;
@@ -268,8 +268,8 @@ public final class ClockWidget {
             setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
             setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
 
-            IpData ipData = IpUtil.getIpData();
-            currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
+            IpData data = IpDataManager.INSTANCE.getIpData();
+            currentLocation = commaJoiner.join(data.getCity(), data.getRegion(), data.getCountry_name());
             currentGmtOffset = getGmtFromUserLocation();
 
             clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {

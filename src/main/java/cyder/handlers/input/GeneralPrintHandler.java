@@ -9,7 +9,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.NumberUtil;
-import cyder.network.IpUtil;
+import cyder.network.IpDataManager;
+import cyder.parsers.remote.ip.IpData;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.BletchyThread;
@@ -185,11 +186,10 @@ public class GeneralPrintHandler extends InputHandler {
             BletchyThread.bletchy(getInputHandler().argsToString(), false, 50, true);
         } else if (getInputHandler().commandIs("dst")) {
             CyderThreadRunner.submit(() -> {
-                String location = IpUtil.getIpData().getCity() + ", "
-                        + IpUtil.getIpData().getRegion() + ", "
-                        + IpUtil.getIpData().getCountry_name();
+                IpData data = IpDataManager.INSTANCE.getIpData();
 
-                if (IpUtil.getIpData().getTime_zone().isIs_dst()) {
+                String location = data.getCity() + ", " + data.getRegion() + ", " + data.getCountry_name();
+                if (data.getTime_zone().isIs_dst()) {
                     getInputHandler().println("DST is underway in " + location + ".");
                 } else {
                     getInputHandler().println("DST is not underway in " + location + ".");

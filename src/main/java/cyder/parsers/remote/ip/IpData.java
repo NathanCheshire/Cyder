@@ -1,5 +1,7 @@
 package cyder.parsers.remote.ip;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.LinkedList;
 
 /**
@@ -97,8 +99,8 @@ public class IpData {
         return asn;
     }
 
-    public LinkedList<Language> getLanguages() {
-        return languages;
+    public ImmutableList<Language> getLanguages() {
+        return ImmutableList.copyOf(languages);
     }
 
     public Currency getCurrency() {

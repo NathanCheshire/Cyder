@@ -12,8 +12,9 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.managers.ProgramMode;
 import cyder.managers.ProgramModeManager;
-import cyder.network.IpUtil;
+import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
+import cyder.parsers.remote.ip.IpData;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.time.TimeUtil;
@@ -116,7 +117,9 @@ public final class StatUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-            BufferedImage flag = ImageUtil.read(IpUtil.getIpData().getFlag());
+            IpData data = IpDataManager.INSTANCE.getIpData();
+
+            BufferedImage flag = ImageUtil.read(data.getFlag());
 
             int x = 2 * flag.getWidth();
             int y = 2 * flag.getHeight();
@@ -127,15 +130,15 @@ public final class StatUtil {
             return new DebugStats(
                     ImmutableList.of(
                             "Time requested: " + TimeUtil.weatherTime(),
-                            "ISP: " + IpUtil.getIpData().getAsn().getName(),
-                            "IP: " + IpUtil.getIpData().getIp(),
-                            "Postal Code: " + IpUtil.getIpData().getPostal(),
-                            "City: " + IpUtil.getIpData().getCity(),
-                            "State: " + IpUtil.getIpData().getRegion(),
-                            "Country: " + IpUtil.getIpData().getCountry_name()
-                                    + " (" + IpUtil.getIpData().getCountry_code() + CyderStrings.closingParenthesis,
-                            "Latitude: " + IpUtil.getIpData().getLatitude() + " Degrees N",
-                            "Longitude: " + IpUtil.getIpData().getLongitude() + " Degrees W",
+                            "ISP: " + data.getAsn().getName(),
+                            "IP: " + data.getIp(),
+                            "Postal Code: " + data.getPostal(),
+                            "City: " + data.getCity(),
+                            "State: " + data.getRegion(),
+                            "Country: " + data.getCountry_name()
+                                    + " (" + data.getCountry_code() + CyderStrings.closingParenthesis,
+                            "Latitude: " + data.getLatitude() + " Degrees N",
+                            "Longitude: " + data.getLongitude() + " Degrees W",
                             "latency: " + NetworkUtil.getLatency(10000) + " ms",
                             "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
                             "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),

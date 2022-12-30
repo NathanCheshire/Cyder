@@ -3,11 +3,11 @@ package cyder.network;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.parsers.remote.ip.IpData;
 import cyder.props.Props;
-import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
@@ -17,49 +17,51 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-// todo this should be renamed and refactored to an enum singleton manager IpDataManager
 /**
- * Utility methods for ip data queries.
+ * A manager for this session's IP data.
  */
-public final class IpUtil {
+public enum IpDataManager {
     /**
-     * Suppress default constructor.
+     * The IpDataManager instance.
      */
-    private IpUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    INSTANCE;
+
+    IpDataManager() {
+        Logger.log(LogTag.OBJECT_CREATION,
+                "IpDataManager constructed, initializing encapsulated IpData object");
     }
 
     /**
      * The most recent IpData object.
      */
-    private static final AtomicReference<IpData> mostRecentIpData = new AtomicReference<>();
+    private final AtomicReference<IpData> ipData = new AtomicReference<>();
 
     /**
      * Updates the ip data object encapsulated and returns it.
      *
      * @return the encapsulated ip data object
      */
-    public static IpData getIpData() {
-        Preconditions.checkState(Props.ipKey.valuePresent());
+    public IpData getIpData() {
+        IpData ret = ipData.get();
+        if (ret != null) return ret;
 
-        IpData mostRecent = mostRecentIpData.get();
-        if (mostRecent != null) {
-            return mostRecent;
-        } else {
-            Optional<IpData> optionalData = pullIpData();
-            if (optionalData.isEmpty()) throw new FatalException("Could not get IP data");
-            IpData data = optionalData.get();
-            mostRecentIpData.set(data);
-            return data;
+        Optional<IpData> pulledData = pullIpData();
+        if (pulledData.isPresent()) {
+            ret = ipData.get();
+            ipData.set(ret);
+            return ret;
         }
+
+        throw new FatalException("Could not get IP data");
     }
 
     /**
-     * Pulls and serializes ip data into an ip data object and returns that object if found. Empty optional else.
+     * Pulls and serializes the ip data into an ip data object and
+     * returns that object if successful. Empty optional else.
      *
-     * @return an ip data object
+     * @return the ip data object
      */
-    public static Optional<IpData> pullIpData() {
+    private Optional<IpData> pullIpData() {
         Preconditions.checkState(Props.ipKey.valuePresent());
 
         String key = Props.ipKey.getValue();
