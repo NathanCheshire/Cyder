@@ -1,5 +1,7 @@
 package cyder.network
 
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 /**
@@ -11,7 +13,16 @@ class IpDataManagerTest {
      */
     @Test
     fun testGetIpData() {
-        // todo somehow need to have a github secret and assert this method does not throw and then output
-        //  the json string of the massive IpData object.
+        assertTrue(IpDataManager.INSTANCE.pullIpData(null).isEmpty)
+        assertTrue(IpDataManager.INSTANCE.pullIpData("").isEmpty)
+        assertTrue(IpDataManager.INSTANCE.pullIpData("random_key_that_does_not_exist").isEmpty)
+
+        // todo
+        val ipData = IpDataManager.INSTANCE.pullIpData("actual key here")
+        assertTrue(ipData.isPresent)
+        println(ipData.get())
+
+        assertDoesNotThrow { IpDataManager.INSTANCE.ipData }
+        println(IpDataManager.INSTANCE.ipData)
     }
 }

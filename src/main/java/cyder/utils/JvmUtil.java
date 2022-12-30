@@ -294,6 +294,10 @@ public final class JvmUtil {
     public static void logMainMethodArgs(ImmutableList<String> cyderArgs) {
         Preconditions.checkNotNull(cyderArgs);
 
+        if (Props.autocypher.getValue()) {
+            Logger.log(LogTag.JVM_ARGS, OBFUSCATION_MESSAGE);
+        }
+
         CyderThreadRunner.submit(() -> {
             try {
                 StringBuilder argBuilder = new StringBuilder();
@@ -321,8 +325,7 @@ public final class JvmUtil {
                         .append(comma).append(space).append("hostname")
                         .append(colon).append(space).append(result.hostname());
 
-                boolean autoCypher = Props.autocypher.getValue();
-                Logger.log(LogTag.JVM_ARGS, autoCypher ? OBFUSCATION_MESSAGE : argBuilder);
+                Logger.log(LogTag.JVM_ARGS, argBuilder);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

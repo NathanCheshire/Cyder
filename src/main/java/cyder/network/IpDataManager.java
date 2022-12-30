@@ -8,6 +8,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.parsers.remote.ip.IpData;
 import cyder.props.Props;
+import cyder.strings.StringUtil;
 import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
@@ -27,8 +28,7 @@ public enum IpDataManager {
     INSTANCE;
 
     IpDataManager() {
-        Logger.log(LogTag.OBJECT_CREATION,
-                "IpDataManager constructed, initializing encapsulated IpData object");
+        Logger.log(LogTag.OBJECT_CREATION, "IpDataManager constructed");
     }
 
     /**
@@ -56,15 +56,14 @@ public enum IpDataManager {
     }
 
     /**
-     * Pulls and serializes the ip data into an ip data object and
-     * returns that object if successful. Empty optional else.
+     * Pulls and serializes the ip data into an ip data object
+     * and returns that object if successful. Empty optional else.
      *
+     * @param key the key to use for the ip data query
      * @return the ip data object
      */
-    private Optional<IpData> pullIpData() {
-        Preconditions.checkState(Props.ipKey.valuePresent());
-
-        String key = Props.ipKey.getValue();
+    public Optional<IpData> pullIpData(String key) {
+        if (StringUtil.isNullOrEmpty(key)) return Optional.empty();
 
         String url = CyderUrls.IPDATA_BASE + key;
 
@@ -75,5 +74,17 @@ public enum IpDataManager {
         }
 
         return Optional.empty();
+    }
+
+    /**
+     * Pulls and serializes the ip data into an ip data object and
+     * returns that object if successful. Empty optional else.
+     *
+     * @return the ip data object
+     */
+    private Optional<IpData> pullIpData() {
+        Preconditions.checkState(Props.ipKey.valuePresent());
+
+        return pullIpData(Props.ipKey.getValue());
     }
 }

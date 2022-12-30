@@ -13,6 +13,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.managers.ProgramMode;
 import cyder.managers.ProgramModeManager;
 import cyder.network.IpDataManager;
+import cyder.network.LatencyManager;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.ip.IpData;
 import cyder.strings.CyderStrings;
@@ -139,7 +140,7 @@ public final class StatUtil {
                                     + " (" + data.getCountry_code() + CyderStrings.closingParenthesis,
                             "Latitude: " + data.getLatitude() + " Degrees N",
                             "Longitude: " + data.getLongitude() + " Degrees W",
-                            "latency: " + NetworkUtil.getLatency(10000) + " ms",
+                            "latency: " + LatencyManager.INSTANCE.getLatency(10000) + " ms",
                             "Google Reachable: " + NetworkUtil.urlReachable(CyderUrls.GOOGLE),
                             "YouTube Reachable: " + NetworkUtil.urlReachable(CyderUrls.YOUTUBE),
                             "Apple Reachable: " + NetworkUtil.urlReachable(CyderUrls.APPLE),

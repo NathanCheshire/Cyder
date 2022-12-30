@@ -17,6 +17,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.network.LatencyManager;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
@@ -1213,7 +1214,7 @@ public final class UserUtil {
 
         BufferedImage createMe = CyderIcons.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
 
-        int latency = NetworkUtil.getLatency(maxLatencyToDownloadDefaultBackground);
+        int latency = LatencyManager.INSTANCE.getLatency(maxLatencyToDownloadDefaultBackground);
         if (latency < maxLatencyToDownloadDefaultBackground) {
             try {
                 createMe = ImageUtil.read(CyderUrls.DEFAULT_BACKGROUND_URL);

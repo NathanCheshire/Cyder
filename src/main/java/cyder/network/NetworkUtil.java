@@ -3,7 +3,6 @@ package cyder.network;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.exceptions.FatalException;
@@ -11,9 +10,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.Props;
 import cyder.strings.CyderStrings;
-import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -34,7 +31,7 @@ import java.util.function.Supplier;
  * Utility methods revolving around networking, urls, servers, etc.
  */
 @SuppressWarnings("unused") /* Response codes */
-public class NetworkUtil {
+public final class NetworkUtil {
     /**
      * The local host string.
      */
@@ -118,7 +115,7 @@ public class NetworkUtil {
         CyderThreadRunner.submit(() -> {
             try {
                 while (highPingCheckerRunning.get()) {
-                    setHighLatency(!currentConnectionHasDecentPing());
+                    setHighLatency(!LatencyManager.INSTANCE.currentConnectionHasDecentPing());
 
                     ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK,
                             shouldExitHighPingCheckerThread);
@@ -233,153 +230,6 @@ public class NetworkUtil {
         } catch (Exception ignored) {}
 
         return false;
-    }
-
-    /**
-     * The unknown string.
-     */
-    private static final String UNKNOWN = "Unknown";
-
-    /**
-     * The default ip to use when pinging determine a user's latency.
-     * DNS changing for this would be highly unlikely.
-     */
-    private static final String defaultLatencyIp = "172.217.4.78";
-
-    /**
-     * The default port to use when pinging the default latency ip to determine a user's latency.
-     */
-    private static final int defaultLatencyPort = 80;
-
-    /**
-     * The default name of the latency ip and port.
-     */
-    private static final String defaultLatencyName = "Google";
-
-    /**
-     * The currently set latency ip.
-     */
-    private static final String latencyIp;
-
-    /**
-     * The currently set latency port.
-     */
-    private static final int latencyPort;
-
-    /**
-     * The currently set latency host name.
-     */
-    private static String latencyHostName;
-
-    // todo this is a scope and a half. Surely someone can save us
-    static {
-        boolean customLatencyIpPresent = Props.latencyIp.valuePresent();
-        boolean customLatencyPortPreset = Props.latencyPort.valuePresent();
-        boolean customLatencyNamePresent = Props.latencyName.valuePresent();
-
-        if (customLatencyIpPresent) {
-            latencyIp = Props.latencyIp.getValue();
-            Logger.log(LogTag.NETWORK, "Set latency ip as " + latencyIp);
-
-            latencyPort = customLatencyPortPreset ? Props.latencyPort.getValue() : defaultLatencyPort;
-            Logger.log(LogTag.NETWORK, "Set latency port as " + latencyPort);
-
-            if (customLatencyNamePresent) {
-                latencyHostName = Props.latencyName.getValue();
-                Logger.log(LogTag.NETWORK, "Set latency host name as " + latencyHostName);
-            } else {
-                CyderThreadRunner.submit(() -> {
-                    latencyHostName = UNKNOWN;
-
-                    try {
-                        String getTitleUrl = HTTP + CyderStrings.colon + slashSlash
-                                + latencyIp + CyderStrings.colon + latencyPort;
-                        Optional<String> latencyHostNameOptional = NetworkUtil.getUrlTitle(getTitleUrl);
-                        if (latencyHostNameOptional.isEmpty()) {
-                            throw new FatalException("Failed to get latency host name using JSoup");
-                        } else {
-                            latencyHostName = StringUtil.capsFirstWords(latencyHostNameOptional.get());
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-
-                        try {
-                            latencyHostName = InetAddress.getByName(latencyIp).getHostName();
-                        } catch (Exception e2) {
-                            ExceptionHandler.handle(e2);
-                        }
-                    }
-
-                    Logger.log(LogTag.NETWORK, "Found and set latency host name as " + latencyHostName);
-                }, IgnoreThread.LatencyHostnameFinder.getName());
-            }
-        } else {
-            latencyIp = defaultLatencyIp;
-            latencyPort = defaultLatencyPort;
-            latencyHostName = defaultLatencyName;
-        }
-    }
-
-    /**
-     * Returns the latency of the host system to {@link #latencyIp}.
-     *
-     * @param timeout the time in ms to wait before timing out
-     * @return the latency in ms between the host system and the latency ip
-     */
-    public static int getLatency(int timeout) {
-        Socket socket = new Socket();
-        SocketAddress address = new InetSocketAddress(latencyIp, latencyPort);
-        long start = System.currentTimeMillis();
-
-        try {
-            socket.connect(address, timeout);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            return Integer.MAX_VALUE;
-        }
-
-        long stop = System.currentTimeMillis();
-        int latency = (int) (stop - start);
-
-        try {
-            socket.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        Logger.log(LogTag.NETWORK, "Latency of "
-                + latencyIp + CyderStrings.colon + latencyPort
-                + " (" + latencyHostName + ") found to be " + TimeUtil.formatMillis(latency));
-
-        return latency;
-    }
-
-    /**
-     * The default timeout to use when pinging the latency ip to determine a user's latency.
-     */
-    public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
-
-    /**
-     * Pings {@link #defaultLatencyIp} to find the latency.
-     *
-     * @return the latency of the local internet connection to the latency ip
-     */
-    public int getLatency() {
-        return getLatency(DEFAULT_LATENCY_TIMEOUT);
-    }
-
-    /**
-     * The maximum possible ping for Cyder to consider a user's connection "decent."
-     */
-    public static final int DECENT_PING_MAXIMUM_LATENCY = 5000;
-
-    /**
-     * Determines if the connection to the internet is usable by pinging {@link #latencyIp}.
-     *
-     * @return if the connection to the internet is usable
-     */
-    public static boolean currentConnectionHasDecentPing() {
-        return getLatency(DECENT_PING_MAXIMUM_LATENCY) < DECENT_PING_MAXIMUM_LATENCY;
     }
 
     /**
@@ -614,7 +464,8 @@ public class NetworkUtil {
         }
 
         String rawHostname = hostnameElements.get(hostnameIndex).text();
-        String hostname = filterHostname(rawHostname);
+        String rawClassResult = rawHostname.substring(rawHostname.indexOf(CyderStrings.singleQuote) + 1);
+        String hostname = rawClassResult.substring(0, rawClassResult.indexOf(CyderStrings.singleQuote));
 
         Elements ipElements = locationDocument.getElementsByClass(ipElementClassName);
         if (ipElements.isEmpty()) {
@@ -624,18 +475,6 @@ public class NetworkUtil {
         String ip = ipElement.text().replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
 
         return new IspQueryResult(isp, hostname, ip, city, state, country);
-    }
-
-    /**
-     * Filters the hostname out of the rest of the text of the element.
-     *
-     * @param rawClassResult the element text
-     * @return the filtered hostname
-     */
-    @ForReadability
-    private static String filterHostname(String rawClassResult) {
-        rawClassResult = rawClassResult.substring(rawClassResult.indexOf(CyderStrings.singleQuote) + 1);
-        return rawClassResult.substring(0, rawClassResult.indexOf(CyderStrings.singleQuote));
     }
 
     /**
