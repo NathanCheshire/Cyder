@@ -11,7 +11,10 @@ import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.*;
+import cyder.enums.Direction;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
@@ -947,7 +950,6 @@ public enum Console {
         // Add custom close button
         closeButton = new CloseButton();
         closeButton.setForConsole(true);
-        // todo need to invoke this on taskbar right click actions
         closeButton.setClickAction(() -> {
             boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
             if (shouldMinimize) {
@@ -1113,13 +1115,27 @@ public enum Console {
      * The window adapter for window iconification/de-iconification actions.
      */
     private final WindowAdapter consoleWindowAdapter = new WindowAdapter() {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void windowDeiconified(WindowEvent e) {
             onConsoleWindowDeiconified();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        public void windowOpened(WindowEvent e) {
+        public void windowClosed(WindowEvent e) {
+            if (!consoleClosed.get()) {
+                boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
+                if (shouldMinimize) {
+                    UiUtil.minimizeAllFrames();
+                } else {
+                    closeFrame(true, false);
+                }
+            }
         }
     };
 
@@ -1884,14 +1900,7 @@ public enum Console {
      */
     private ImmutableList<TaskbarIcon> constructNonCompactDefaultTaskbarIcons() {
         try {
-            File prefsImageFile = StaticUtil.getStaticResource(PREFERENCES + Extension.PNG);
-            File logoutImageFile = StaticUtil.getStaticResource(LOGOUT + Extension.PNG);
-
-            BufferedImage prefsImage = ImageUtil.read(prefsImageFile);
-            BufferedImage logoutImage = ImageUtil.read(logoutImageFile);
-
             TaskbarIcon prefsTaskbarIcon = new TaskbarIcon.Builder(PREFERENCES)
-                    .setCustomIcon(ImageUtil.toImageIcon(prefsImage))
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(prefsRunnable)
@@ -1899,7 +1908,6 @@ public enum Console {
                     .build();
 
             TaskbarIcon logoutTaskbarIcon = new TaskbarIcon.Builder(LOGOUT)
-                    .setCustomIcon(ImageUtil.toImageIcon(logoutImage))
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(this::logout)
@@ -3499,7 +3507,11 @@ public enum Console {
         }
 
         if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
-        consoleCyderFrame.dispose();
+        if (consoleCyderFrame.isDisposed()) {
+            OsUtil.exit(ExitCondition.StandardControlledExit);
+        } else {
+            consoleCyderFrame.dispose();
+        }
     }
 
     /**
