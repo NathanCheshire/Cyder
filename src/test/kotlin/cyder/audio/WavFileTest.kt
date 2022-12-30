@@ -1,5 +1,6 @@
 package cyder.audio
 
+import cyder.strings.LevenshteinUtil
 import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -29,17 +30,21 @@ class WavFileTest {
     fun testToString() {
         var starsWavFile: WaveFile? = null
         assertDoesNotThrow { starsWavFile = WaveFile(StaticUtil.getStaticResource("allthestars.wav")) }
-        Assertions.assertEquals("WaveFile{numChannels=2, dataLength=44221200, isPlayable=true,"
-                + " audioFormat=PCM_SIGNED 48000.0 Hz, 16 bit, stereo, 4 bytes/frame, little-endian,"
-                + " clip=null, sampleSize=2, numFrames=11055300, sampleRate=48000,"
-                + " wavFile=static\\audio\\allthestars.wav}", starsWavFile.toString())
+        Assertions.assertTrue(LevenshteinUtil.computeLevenshteinDistance(
+                "WaveFile{numChannels=2, dataLength=44221200, isPlayable=true,"
+                        + " audioFormat=PCM_SIGNED 48000.0 Hz, 16 bit, stereo, 4 bytes/frame, little-endian,"
+                        + " clip=com.sun.media.sound.DirectAudioDevice\$DirectClip@42561fba, sampleSize=2,"
+                        + " numFrames=11055300, sampleRate=48000, wavFile=static\\audio\\allthestars.wav}\n",
+                starsWavFile.toString()) <= 9)
 
         var commandoWavFile: WaveFile? = null
         assertDoesNotThrow { commandoWavFile = WaveFile(StaticUtil.getStaticResource("commando.wav")) }
-        Assertions.assertEquals("WaveFile{numChannels=2, dataLength=37384192, isPlayable=true,"
-                + " audioFormat=PCM_SIGNED 44100.0 Hz, 16 bit, stereo, 4 bytes/frame, little-endian,"
-                + " clip=null, sampleSize=2, numFrames=9346048, sampleRate=44100,"
-                + " wavFile=static\\audio\\commando.wav}", commandoWavFile.toString())
+        Assertions.assertTrue(LevenshteinUtil.computeLevenshteinDistance(
+                "WaveFile{numChannels=2, dataLength=37384192, isPlayable=true,"
+                        + " audioFormat=PCM_SIGNED 44100.0 Hz, 16 bit, stereo, 4 bytes/frame, little-endian,"
+                        + " clip=com.sun.media.sound.DirectAudioDevice\$DirectClip@6105f8a3, sampleSize=2,"
+                        + " numFrames=9346048, sampleRate=44100, wavFile=static\\audio\\commando.wav}\n",
+                commandoWavFile.toString()) <= 9)
     }
 
     /**
@@ -49,11 +54,9 @@ class WavFileTest {
     fun testHashCode() {
         var starsWavFile: WaveFile? = null
         assertDoesNotThrow { starsWavFile = WaveFile(StaticUtil.getStaticResource("allthestars.wav")) }
-        Assertions.assertEquals(1235034749, starsWavFile.hashCode())
 
         var commandoWavFile: WaveFile? = null
         assertDoesNotThrow { commandoWavFile = WaveFile(StaticUtil.getStaticResource("commando.wav")) }
-        Assertions.assertEquals(-160793697, commandoWavFile.hashCode())
 
         Assertions.assertNotEquals(starsWavFile.hashCode(), commandoWavFile.hashCode())
     }

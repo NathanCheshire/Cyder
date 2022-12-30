@@ -165,21 +165,21 @@ public final class AnimationUtil {
      * in between increments.
      *
      * @param startY    the starting y value
-     * @param stopY     the ending y value
+     * @param endY      the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param component the component to move
      */
-    public static void componentDown(int startY, int stopY, int delay, int increment, Component component) {
+    public static void componentDown(int startY, int endY, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
 
         if (component.getY() == startY) {
             CyderThreadRunner.submit(() -> {
-                for (int i = startY ; i <= stopY ; i += increment) {
+                for (int i = startY ; i <= endY ; i += increment) {
                     ThreadUtil.sleep(delay);
                     component.setLocation(component.getX(), i);
                 }
-                component.setLocation(component.getX(), stopY);
+                component.setLocation(component.getX(), endY);
             }, "Component Down Animator, component=" + component);
         }
     }
@@ -190,21 +190,21 @@ public final class AnimationUtil {
      * in between increments.
      *
      * @param startX    the starting x value
-     * @param stopX     the ending x value
+     * @param endX      the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param component the component to move
      */
-    public static void componentLeft(int startX, int stopX, int delay, int increment, Component component) {
+    public static void componentLeft(int startX, int endX, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
 
         if (component.getX() == startX) {
             CyderThreadRunner.submit(() -> {
-                for (int i = startX ; i >= stopX ; i -= increment) {
+                for (int i = startX ; i >= endX ; i -= increment) {
                     ThreadUtil.sleep(delay);
                     component.setLocation(i, component.getY());
                 }
-                component.setLocation(stopX, component.getY());
+                component.setLocation(endX, component.getY());
             }, "Component Left Animator, component=" + component);
         }
     }
@@ -215,21 +215,21 @@ public final class AnimationUtil {
      * in between increments.
      *
      * @param startX    the starting x value
-     * @param stopX     the ending x value
+     * @param endX      the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param component the component to move
      */
-    public static void componentRight(int startX, int stopX, int delay, int increment, Component component) {
+    public static void componentRight(int startX, int endX, int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
 
         if (component.getX() == startX) {
             CyderThreadRunner.submit(() -> {
-                for (int i = startX ; i <= stopX ; i += increment) {
+                for (int i = startX ; i <= endX ; i += increment) {
                     ThreadUtil.sleep(delay);
                     component.setLocation(i, component.getY());
                 }
-                component.setLocation(stopX, component.getY());
+                component.setLocation(endX, component.getY());
             }, "Component Right Animator, component=" + component);
         }
     }

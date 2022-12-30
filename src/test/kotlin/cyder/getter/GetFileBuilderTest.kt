@@ -17,7 +17,7 @@ class GetFileBuilderTest {
      * The length of a memory address in Kotlin. Used to ensure the Levenshtein distance between two strings
      * is of acceptable form (not off by more than different memory addresses for the runnables).
      */
-    private val lambdaMemoryAddressLength: Int = 16
+    private val lambdaMemoryAddressLength: Int = 32
 
     /**
      * Tests for creation of get file builders.

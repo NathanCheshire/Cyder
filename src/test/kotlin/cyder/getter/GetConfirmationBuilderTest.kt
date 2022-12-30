@@ -132,7 +132,7 @@ class GetConfirmationBuilderTest {
         second.labelFont = CyderFonts.DEFAULT_FONT
         second.labelColor = CyderColors.regularPink
         second.isDisableRelativeTo = true
-        second.relativeTo = CyderFrame(400, 412)
+        second.relativeTo = null
         assertEquals("GetConfirmationBuilder{frameTitle=\"One\","
                 + " labelText=\"Two\", labelFont=java.awt.Font[family=Agency"
                 + " FB,name=Agency FB,style=bold,size=30], labelColor=java.awt.Color[r=236,g=64,b=122],"
@@ -140,8 +140,7 @@ class GetConfirmationBuilderTest {
                 + " yesButtonFont=java.awt.Font[family=Agency FB,name=Agency FB,style=bold,size=22],"
                 + " noButtonText=\"Sure\", noButtonColor=java.awt.Color[r=236,g=64,b=122],"
                 + " noButtonFont=java.awt.Font[family=Agency FB,name=Agency FB,style=bold,size=22],"
-                + " relativeTo=Component: CyderFrame, hash: 1184124073, bounds: (0, 0, 400, 412),"
-                + " parent frame: Component itself is a CyderFrame, disableRelativeTo=true,"
+                + " relativeTo=null, disableRelativeTo=true,"
                 + " onDialogDisposalRunnables=[]}", second.toString())
     }
 }

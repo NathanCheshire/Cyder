@@ -71,7 +71,7 @@ class AnimationUtilTest {
             AnimationUtil.animateComponentMovement(Direction.TOP,
                     100, 0, delay, increment, upFrame)
         }
-        ThreadUtil.sleep((delay * 100).toLong())
+        ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(0, upFrame.y)
 
         val downFrame = CyderFrame()
@@ -80,7 +80,7 @@ class AnimationUtilTest {
             AnimationUtil.animateComponentMovement(Direction.BOTTOM,
                     0, 100, delay, increment, downFrame)
         }
-        ThreadUtil.sleep((delay * 100).toLong())
+        ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(100, downFrame.y)
 
         val leftFrame = CyderFrame()
@@ -89,7 +89,7 @@ class AnimationUtilTest {
             AnimationUtil.animateComponentMovement(Direction.LEFT,
                     100, 0, delay, increment, leftFrame)
         }
-        ThreadUtil.sleep((delay * 100).toLong())
+        ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(0, leftFrame.x)
 
         val rightFrame = CyderFrame()
@@ -98,7 +98,7 @@ class AnimationUtilTest {
             AnimationUtil.animateComponentMovement(Direction.RIGHT,
                     0, 100, delay, increment, rightFrame)
         }
-        ThreadUtil.sleep((delay * 100).toLong())
+        ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(100, rightFrame.x)
     }
 }
