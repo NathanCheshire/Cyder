@@ -1,4 +1,4 @@
-package cyder.network;
+package cyder.usb;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
@@ -7,6 +7,8 @@ import cyder.strings.CyderStrings;
 
 /**
  * A representation of a USB device connected to the host computer.
+ * Directly, this class encapsulates a line of data output from the PowerShell command to discover
+ * PnP (Plug and Play) components connected to the host computer.
  */
 @Immutable
 public class UsbDevice {

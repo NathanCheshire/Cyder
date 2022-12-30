@@ -1,4 +1,4 @@
-package cyder.network;
+package cyder.usb;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;

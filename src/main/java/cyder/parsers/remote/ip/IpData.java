@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.LinkedList;
 
+// todo java doc all this and have some add toString methods to that it can all be logged in json format
 /**
  * An object for parsing returned ip data timezone objects.
  */

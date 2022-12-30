@@ -52,7 +52,7 @@ public enum IpDataManager {
             return ret;
         }
 
-        throw new FatalException("Could not get IP data");
+        throw new FatalException("Could not fetch IP data");
     }
 
     /**

@@ -207,14 +207,14 @@ public class NetworkUtil {
     private static final String HTTP = "http";
 
     /**
-     * Pings an HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
-     * if the response code is in the 200-399 range.
+     * Pings an HTTP URL. This effectively sends a HEAD request and returns {@code true}
+     * if the response code is contained by {@link #SITE_REACHABLE_RESPONSE_CODE_RANGE}.
      *
      * @param url The HTTP URL to be pinged
      * @return whether the given HTTP URL has returned response code 200-399 on a HEAD request within the
      * given timeout
      */
-    public static boolean siteReachable(String url) {
+    public static boolean urlReachable(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
@@ -271,6 +271,7 @@ public class NetworkUtil {
      */
     private static String latencyHostName;
 
+    // todo this is a scope and a half. Surely someone can save us
     static {
         boolean customLatencyIpPresent = Props.latencyIp.valuePresent();
         boolean customLatencyPortPreset = Props.latencyPort.valuePresent();
@@ -573,6 +574,7 @@ public class NetworkUtil {
     private static final int ipElementIndex = 0;
 
     // todo this functionality should probably be extracted
+    // todo maybe a web-scraping package
 
     /**
      * Returns information about this user's isp, their ip, location, city, state/region, and country.
