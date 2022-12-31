@@ -85,7 +85,7 @@ public final class ThreadUtil {
 
     /**
      * Sleeps on the currently executing thread for the provided amount of time in ms.
-     * This method is intended to be used as a static import so that a method can
+     * This method is intended to be used as a static helper so that a method can
      * invoke this method without having to surround with a try/catch block or type
      * out all of {@link Thread#sleep(long)}.
      *
@@ -99,7 +99,7 @@ public final class ThreadUtil {
 
     /**
      * Sleeps on the currently executing thread for the provided amount of time in ms.
-     * This method is intended to be used as a static import so that a method can
+     * This method is intended to be used as a static helper so that a method can
      * invoke this method without having to surround with a try/catch block or type
      * out all of {@link Thread#sleep(long)}.
      *
@@ -109,6 +109,20 @@ public final class ThreadUtil {
     public static void sleep(long sleepTimeMs, int sleepTimeNano) {
         try {
             Thread.sleep(sleepTimeMs, sleepTimeNano);
+        } catch (Exception ignored) {}
+    }
+
+    /**
+     * Sleeps on the currently executing thread for the provided amount of time in seconds.
+     * This method is intended to be used as a static helper so that a method can
+     * invoke this method without having to surround with a try/catch block or type
+     * out all of {@link Thread#sleep(long)}.
+     *
+     * @param seconds the time to sleep for in seconds
+     */
+    public static void sleepSeconds(long seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
         } catch (Exception ignored) {}
     }
 

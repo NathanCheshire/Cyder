@@ -3,6 +3,7 @@ package cyder.network;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.exceptions.FatalException;
@@ -20,9 +21,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.awt.*;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -134,22 +137,37 @@ public final class NetworkUtil {
     }
 
     /**
+     * Returns whether the high ping checker is running.
+     *
+     * @return whether the high ping checker is running
+     */
+    public static boolean highPingCheckerRunning() {
+        return highPingCheckerRunning.get();
+    }
+
+    /**
      * Opens the provided url using the native browser.
      *
      * @param url the url to open
+     * @return a pointer to the {@link Process} instance that opened the url if successful. Empty optional else
      */
-    public static void openUrl(String url) {
+    @CheckReturnValue
+    @CanIgnoreReturnValue
+    public static Optional<Process> openUrl(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
-
-        Desktop desktop = Desktop.getDesktop();
+        Preconditions.checkArgument(isValidUrl(url));
 
         try {
-            desktop.browse(new URI(url));
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "start", url);
+            Process process = builder.start();
             Logger.log(LogTag.LINK, url);
+            return Optional.of(process);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
+
+        return Optional.empty();
     }
 
     /**
@@ -314,8 +332,8 @@ public final class NetworkUtil {
      */
     public static boolean downloadResource(String urlResource, File referenceFile) throws IOException {
         Preconditions.checkNotNull(urlResource);
-        Preconditions.checkArgument(isValidUrl(urlResource));
         Preconditions.checkArgument(!urlResource.isEmpty());
+        Preconditions.checkArgument(isValidUrl(urlResource));
         Preconditions.checkNotNull(referenceFile);
         Preconditions.checkArgument(!referenceFile.exists());
 

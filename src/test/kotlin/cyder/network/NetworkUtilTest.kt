@@ -1,7 +1,13 @@
 package cyder.network
 
+import cyder.files.FileUtil
+import cyder.threads.ThreadUtil
+import cyder.utils.OsUtil
+import org.jsoup.Jsoup
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.io.File
+import java.util.*
 
 /**
  * Tests for [NetworkUtil]s.
@@ -12,7 +18,8 @@ class NetworkUtilTest {
      */
     @Test
     fun highLatency() {
-
+        assertDoesNotThrow { NetworkUtil.isHighLatency() }
+        assertFalse { NetworkUtil.isHighLatency() }
     }
 
     /**
@@ -20,7 +27,11 @@ class NetworkUtilTest {
      */
     @Test
     fun testHighPingChecker() {
-
+        assertFalse { NetworkUtil.highPingCheckerRunning() }
+        assertDoesNotThrow { NetworkUtil.startHighPingChecker() }
+        assertTrue { NetworkUtil.highPingCheckerRunning() }
+        assertDoesNotThrow { NetworkUtil.terminateHighPingChecker() }
+        assertFalse { NetworkUtil.highPingCheckerRunning() }
     }
 
     /**
@@ -28,7 +39,17 @@ class NetworkUtilTest {
      */
     @Test
     fun testOpenUrl() {
+        assertThrows(NullPointerException::class.java) { NetworkUtil.openUrl(null) }
+        assertThrows(IllegalArgumentException::class.java) { NetworkUtil.openUrl("") }
 
+        var optionalProcess: Optional<Process>? = null
+        assertDoesNotThrow { optionalProcess = NetworkUtil.openUrl("https://www.google.com") }
+        assertTrue(optionalProcess!!.isPresent)
+
+        val process = optionalProcess!!.get()
+        assertNotNull(process)
+        ThreadUtil.sleepSeconds(5)
+        assertDoesNotThrow { process.destroy() }
     }
 
     /**
@@ -36,7 +57,12 @@ class NetworkUtilTest {
      */
     @Test
     fun testUrlReachable() {
+        assertThrows(NullPointerException::class.java) { NetworkUtil.urlReachable(null) }
+        assertThrows(IllegalArgumentException::class.java) { NetworkUtil.urlReachable("") }
 
+        assertDoesNotThrow { NetworkUtil.urlReachable("https://www.youtube.com") }
+        assertDoesNotThrow { NetworkUtil.urlReachable("https://www.google.com") }
+        assertDoesNotThrow { NetworkUtil.urlReachable("https://www.github.com") }
     }
 
     /**
@@ -47,8 +73,9 @@ class NetworkUtilTest {
         assertThrows(NullPointerException::class.java) { NetworkUtil.readUrl(null) }
         assertThrows(IllegalArgumentException::class.java) { NetworkUtil.readUrl("") }
 
-        assertEquals("", NetworkUtil.readUrl("https://www.google.com/"))
-        assertEquals("", NetworkUtil.readUrl("https://www.google.com/"))
+        assertDoesNotThrow { Jsoup.parse(NetworkUtil.readUrl("https://www.google.com/")) }
+        assertDoesNotThrow { Jsoup.parse(NetworkUtil.readUrl("https://www.youtube.com/")) }
+        assertDoesNotThrow { Jsoup.parse(NetworkUtil.readUrl("https://www.github.com/")) }
     }
 
     /**
@@ -56,7 +83,24 @@ class NetworkUtilTest {
      */
     @Test
     fun testGetUrlTitle() {
+        assertThrows(NullPointerException::class.java) { NetworkUtil.getUrlTitle(null) }
+        assertThrows(IllegalArgumentException::class.java) { NetworkUtil.getUrlTitle("") }
 
+        var optionalTitle: Optional<String>? = null
+        assertDoesNotThrow { optionalTitle = NetworkUtil.getUrlTitle("https://www.google.com") }
+        assertNotNull(optionalTitle)
+        assertTrue(optionalTitle!!.isPresent)
+        assertEquals("Google", optionalTitle!!.get())
+
+        assertDoesNotThrow { optionalTitle = NetworkUtil.getUrlTitle("https://www.youtube.com") }
+        assertNotNull(optionalTitle)
+        assertTrue(optionalTitle!!.isPresent)
+        assertEquals("YouTube", optionalTitle!!.get())
+
+        assertDoesNotThrow { optionalTitle = NetworkUtil.getUrlTitle("https://www.github.com") }
+        assertNotNull(optionalTitle)
+        assertTrue(optionalTitle!!.isPresent)
+        assertEquals("GitHub: Let’s build from here · GitHub", optionalTitle!!.get())
     }
 
     /**
@@ -85,7 +129,37 @@ class NetworkUtilTest {
      */
     @Test
     fun testDownloadResource() {
+        assertThrows(NullPointerException::class.java) {
+            NetworkUtil.downloadResource(null, null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkUtil.downloadResource("", null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkUtil.downloadResource("asdf", null)
+        }
+        assertThrows(NullPointerException::class.java) {
+            NetworkUtil.downloadResource("https://www.google.com", null)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            NetworkUtil.downloadResource("https://www.google.com", File(".gitignore"))
+        }
 
+        val tmpDir = File("tmp")
+        tmpDir.mkdir()
+        assertTrue(tmpDir.exists())
+
+        val downloadFile = File("tmp/readme.md")
+        assertDoesNotThrow {
+            NetworkUtil.downloadResource(
+                    "https://raw.githubusercontent.com/NathanCheshire/Cyder/main/README.md", downloadFile)
+        }
+
+        assertTrue(downloadFile.exists())
+        assertEquals(FileUtil.getFileLines(downloadFile), FileUtil.getFileLines(File("readme.md")))
+
+        OsUtil.deleteFile(tmpDir, false)
+        assertFalse(tmpDir.exists())
     }
 
     /**
