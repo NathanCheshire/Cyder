@@ -10,6 +10,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
+import cyder.network.ScrapingUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
@@ -180,7 +181,7 @@ public class NetworkHandler extends InputHandler {
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("whereami")) {
             CyderThreadRunner.submit(() -> {
-                NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
+                ScrapingUtil.IspQueryResult result = ScrapingUtil.getIspAndNetworkDetails();
                 getInputHandler().println("You live in " + result.city() + ", " + result.state());
                 getInputHandler().println("Your country is: " + result.country());
                 getInputHandler().println("Your ip is: " + result.ip());

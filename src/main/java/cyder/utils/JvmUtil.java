@@ -9,7 +9,7 @@ import cyder.genesis.Cyder;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.network.NetworkUtil;
+import cyder.network.ScrapingUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -286,7 +286,7 @@ public final class JvmUtil {
 
     /**
      * Logs any main method command line arguments passed in to Cyder upon starting.
-     * {@link NetworkUtil#getIspAndNetworkDetails()} is queried and the details appended
+     * {@link ScrapingUtil#getIspAndNetworkDetails()} is queried and the details appended
      * to the resulting log statement if {@link Props#autocypher} is {@code false}.
      *
      * @param cyderArgs the main method command line arguments passed in
@@ -310,7 +310,7 @@ public final class JvmUtil {
                     argBuilder.append(cyderArgs.get(i));
                 }
 
-                NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
+                ScrapingUtil.IspQueryResult result = ScrapingUtil.getIspAndNetworkDetails();
 
                 argBuilder.append("city")
                         .append(colon).append(space).append(result.city())
