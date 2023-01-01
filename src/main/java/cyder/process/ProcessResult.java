@@ -2,8 +2,10 @@ package cyder.process;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.exceptions.IllegalMethodException;
+import cyder.strings.CyderStrings;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The result of a {@link ProcessUtil#getProcessOutput(String) invocation}.
@@ -20,12 +22,19 @@ public class ProcessResult {
     private final ImmutableList<String> errorOutput;
 
     /**
+     * Suppress default constructor.
+     */
+    private ProcessResult() {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
      * Constructs a new process result.
      *
      * @param standardOutput the standard output
      * @param errorOutput    the error output
      */
-    public ProcessResult(ArrayList<String> standardOutput, ArrayList<String> errorOutput) {
+    public ProcessResult(List<String> standardOutput, List<String> errorOutput) {
         Preconditions.checkNotNull(standardOutput);
         Preconditions.checkNotNull(errorOutput);
 
@@ -58,5 +67,43 @@ public class ProcessResult {
      */
     public boolean hasErrors() {
         return !errorOutput.isEmpty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof ProcessResult)) {
+            return false;
+        }
+
+        ProcessResult other = (ProcessResult) o;
+
+        return other.standardOutput.equals(standardOutput)
+                && other.errorOutput.equals(errorOutput);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = standardOutput.hashCode();
+        ret = 31 * ret + errorOutput.hashCode();
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "ProcessResult{"
+                + "standardOutput=" + standardOutput
+                + ", errorOutput=" + errorOutput
+                + "}";
     }
 }

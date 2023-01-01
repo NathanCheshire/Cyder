@@ -157,7 +157,8 @@ public class GitHandler extends InputHandler {
 
         ImmutableList<ProcessBuilder> builders = ImmutableList.of(
                 gitAddProcessBuilder, gitCommitProcessBuilder, gitPushProcessBuilder);
-        ProcessUtil.runAndPrintProcessesSequential(getInputHandler(), builders);
+        // todo sep thread and print using base input handler
+        ImmutableList<String> results = ProcessUtil.runProcesses(builders);
     }
 
     /**

@@ -4,12 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
-import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.CyderThreadRunner;
 import cyder.utils.ArrayUtil;
 
 import java.io.BufferedReader;
@@ -36,6 +33,20 @@ public final class ProcessUtil {
     /**
      * Returns the output as a result of the running the provided command using a {@link Process}.
      *
+     * @param command the command string array to run
+     * @return the process result
+     */
+    @CanIgnoreReturnValue
+    public static Future<ProcessResult> getProcessOutput(String[] command) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(command));
+
+        return getProcessOutput(ArrayUtil.toList(command));
+    }
+
+    /**
+     * Returns the output as a result of the running the provided command using a {@link Process}.
+     *
      * @param command the command list
      * @return the process result
      */
@@ -50,45 +61,6 @@ public final class ProcessUtil {
         }
 
         return getProcessOutput(passThrough);
-    }
-
-    /**
-     * Returns the output as a result of the running the provided command using a {@link Process}.
-     *
-     * @param command the command string array to run
-     * @return the process result
-     */
-    @CanIgnoreReturnValue
-    public static Future<ProcessResult> getProcessOutput(String[] command) {
-        Preconditions.checkNotNull(command);
-        Preconditions.checkArgument(!ArrayUtil.isEmpty(command));
-
-        String threadName = "getProcessOutput waiter thread, command"
-                + CyderStrings.colon + CyderStrings.space + CyderStrings.quote
-                + StringUtil.joinParts(ArrayUtil.toList(command), CyderStrings.space) + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            ArrayList<String> standardOutput = new ArrayList<>();
-            ArrayList<String> errorOutput = new ArrayList<>();
-
-            try {
-                Process process = Runtime.getRuntime().exec(command);
-                process.getOutputStream().close();
-
-                String outputLine;
-                BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
-                outReader.close();
-
-                String errorLine;
-                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-                while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
-                errorReader.close();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            return new ProcessResult(standardOutput, errorOutput);
-        });
     }
 
     /**
@@ -130,16 +102,17 @@ public final class ProcessUtil {
     }
 
     /**
-     * Executes the provided process and prints the output to the provided input handler in real time.
+     * Executes the provided process and returns the output.
      * Note that this process is executed on the current thread so callers should invoke this method
      * in a separate thread if blocking is to be avoided.
      *
-     * @param pipeTo  the input handle to print the output to
      * @param builder the process builder to run
+     * @return the output
      */
-    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
-        checkNotNull(pipeTo);
+    public static ImmutableList<String> runProcess(ProcessBuilder builder) {
         checkNotNull(builder);
+
+        ArrayList<String> ret = new ArrayList<>();
 
         try {
             builder.redirectErrorStream(true);
@@ -149,27 +122,34 @@ public final class ProcessUtil {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                pipeTo.println(line);
+                ret.add(line);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
-     * Executes the provided processes successively and prints the output to the provided input handler.
+     * Executes the provided processes successively and returns the output.
      *
-     * @param pipeTo   the input handle to print the output to
      * @param builders the process builders to run
+     * @return the output
      */
-    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo,
-                                                      ImmutableList<ProcessBuilder> builders) {
-        checkNotNull(pipeTo);
+    public static ImmutableList<String> runProcesses(ImmutableList<ProcessBuilder> builders) {
         checkNotNull(builders);
         checkArgument(!builders.isEmpty());
+        for (ProcessBuilder builder : builders) {
+            checkNotNull(builder);
+        }
 
-        String threadName = "Successive Process Runner, pipeTo: " + pipeTo + ", builders: " + builders.size();
-        CyderThreadRunner.submit(() -> builders.forEach(builder -> runAndPrintProcess(pipeTo, builder)), threadName);
+        ArrayList<String> ret = new ArrayList<>();
+        for (ProcessBuilder builder : builders) {
+            ret.addAll(runProcess(builder));
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
