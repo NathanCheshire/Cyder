@@ -137,7 +137,7 @@ public class GitHandler extends InputHandler {
      * Performs the following git commands at the repo level:
      * <ul>
      *     <li>git add .</li>
-     *     <li>git commit -m getArg(0)</li>
+     *     <li>git commit -m {getArg(0)}</li>
      *     <li>git push -u origin main</li>
      * </ul>
      */
@@ -157,8 +157,7 @@ public class GitHandler extends InputHandler {
 
         ImmutableList<ProcessBuilder> builders = ImmutableList.of(
                 gitAddProcessBuilder, gitCommitProcessBuilder, gitPushProcessBuilder);
-        // todo sep thread and print using base input handler
-        ImmutableList<String> results = ProcessUtil.runProcesses(builders);
+        ProcessUtil.runProcesses(builders).forEach(getInputHandler()::println);
     }
 
     /**

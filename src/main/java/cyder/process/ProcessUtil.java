@@ -55,12 +55,12 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        String[] passThrough = new String[command.size()];
-        for (int i = 0 ; i < command.size() ; i++) {
-            passThrough[i] = command.get(i);
+        StringBuilder passThroughBuilder = new StringBuilder();
+        for (String commandString : command) {
+            passThroughBuilder.append(commandString).append(CyderStrings.space);
         }
 
-        return getProcessOutput(passThrough);
+        return getProcessOutput(passThroughBuilder.toString().trim());
     }
 
     /**
@@ -102,7 +102,7 @@ public final class ProcessUtil {
     }
 
     /**
-     * Executes the provided process and returns the output.
+     * Executes the provided process and returns the standard output.
      * Note that this process is executed on the current thread so callers should invoke this method
      * in a separate thread if blocking is to be avoided.
      *
@@ -111,6 +111,7 @@ public final class ProcessUtil {
      */
     public static ImmutableList<String> runProcess(ProcessBuilder builder) {
         checkNotNull(builder);
+        checkArgument(!builder.command().isEmpty());
 
         ArrayList<String> ret = new ArrayList<>();
 
@@ -132,7 +133,7 @@ public final class ProcessUtil {
     }
 
     /**
-     * Executes the provided processes successively and returns the output.
+     * Executes the provided processes successively and returns the standard output.
      *
      * @param builders the process builders to run
      * @return the output
@@ -140,9 +141,6 @@ public final class ProcessUtil {
     public static ImmutableList<String> runProcesses(ImmutableList<ProcessBuilder> builders) {
         checkNotNull(builders);
         checkArgument(!builders.isEmpty());
-        for (ProcessBuilder builder : builders) {
-            checkNotNull(builder);
-        }
 
         ArrayList<String> ret = new ArrayList<>();
         for (ProcessBuilder builder : builders) {
