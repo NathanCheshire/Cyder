@@ -7,7 +7,7 @@ import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.remote.github.Issue;
+import cyder.parsers.github.Issue;
 import cyder.process.ProcessUtil;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;

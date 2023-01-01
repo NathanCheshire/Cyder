@@ -2,7 +2,7 @@ package cyder.github
 
 import com.google.common.collect.ImmutableList
 import cyder.files.FileUtil
-import cyder.parsers.remote.github.Issue
+import cyder.parsers.github.Issue
 import cyder.strings.LevenshteinUtil
 import cyder.utils.OsUtil
 import org.junit.jupiter.api.Assertions.*

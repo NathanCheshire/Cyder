@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.remote.weather.WeatherData;
+import cyder.parsers.weather.WeatherData;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
@@ -65,6 +65,7 @@ public final class WeatherUtil {
         }
     }
 
+    // todo util for key validation
     /**
      * Validates the weather key from the propkeys.ini file.
      *

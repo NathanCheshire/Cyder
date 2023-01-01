@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.github.GitHubUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
-import cyder.parsers.remote.github.Issue;
+import cyder.parsers.github.Issue;
 import cyder.process.ProcessUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;

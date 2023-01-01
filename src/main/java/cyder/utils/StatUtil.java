@@ -15,7 +15,7 @@ import cyder.managers.ProgramModeManager;
 import cyder.network.IpDataManager;
 import cyder.network.LatencyManager;
 import cyder.network.NetworkUtil;
-import cyder.parsers.remote.ip.IpData;
+import cyder.parsers.ip.IpData;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.time.TimeUtil;

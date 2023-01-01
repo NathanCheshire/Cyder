@@ -10,7 +10,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.NumberUtil;
 import cyder.network.IpDataManager;
-import cyder.parsers.remote.ip.IpData;
+import cyder.parsers.ip.IpData;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.BletchyThread;

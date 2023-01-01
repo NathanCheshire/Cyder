@@ -3,7 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.remote.elevation.ElevationData;
+import cyder.parsers.elevation.ElevationData;
 import cyder.strings.CyderStrings;
 
 import java.awt.*;

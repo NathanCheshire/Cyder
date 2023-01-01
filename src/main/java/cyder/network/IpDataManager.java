@@ -6,7 +6,7 @@ import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.parsers.remote.ip.IpData;
+import cyder.parsers.ip.IpData;
 import cyder.props.Props;
 import cyder.strings.StringUtil;
 import cyder.utils.SerializationUtil;
