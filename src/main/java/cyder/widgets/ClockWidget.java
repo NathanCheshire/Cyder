@@ -17,8 +17,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
 import cyder.network.IpDataManager;
 import cyder.parsers.ip.IpData;
-import cyder.parsers.weather.Coord;
-import cyder.parsers.weather.WeatherData;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -34,6 +32,8 @@ import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.UiUtil;
 import cyder.weather.WeatherUtil;
+import cyder.weather.parsers.Coord;
+import cyder.weather.parsers.WeatherData;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

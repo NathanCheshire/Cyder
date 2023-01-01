@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.weather.WeatherData;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
+import cyder.weather.parsers.WeatherData;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

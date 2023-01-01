@@ -1,4 +1,4 @@
-package cyder.parsers.weather;
+package cyder.weather.parsers;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;

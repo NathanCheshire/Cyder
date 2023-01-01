@@ -1,4 +1,4 @@
-package cyder.parsers.weather;
+package cyder.weather.parsers;
 
 import com.google.gson.annotations.SerializedName;
 import cyder.logging.LogTag;

@@ -21,7 +21,6 @@ import cyder.math.AngleUtil;
 import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
 import cyder.parsers.ip.IpData;
-import cyder.parsers.weather.WeatherData;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -32,6 +31,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
 import cyder.utils.*;
+import cyder.weather.parsers.WeatherData;
 
 import javax.swing.*;
 import java.awt.*;
