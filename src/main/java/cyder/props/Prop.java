@@ -48,6 +48,7 @@ public final class Prop<T> {
         Preconditions.checkArgument(!key.isEmpty());
         Preconditions.checkNotNull(defaultValue);
         Preconditions.checkNotNull(type);
+        Preconditions.checkArgument(defaultValue.getClass().equals(type));
 
         this.key = key;
         this.defaultValue = defaultValue;
