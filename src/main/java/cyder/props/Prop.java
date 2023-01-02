@@ -97,12 +97,15 @@ public final class Prop<T> {
     public T getValue() {
         Optional<String> optionalStringValue = PropLoader.getPropValueStringFromFile(getKey());
         if (optionalStringValue.isPresent()) {
-
             String stringValue = optionalStringValue.get();
+
+            // Custom types first
             if (type == PropValueList.class) {
                 ImmutableList<String> list = ImmutableList.copyOf(stringValue.split(PropConstants.splitListsAtChar));
                 return type.cast(new PropValueList(list));
-            } else if (type == String.class) {
+            }
+            // Primitive types last
+            else if (type == String.class) {
                 return type.cast(stringValue);
             } else if (type == Boolean.class) {
                 return type.cast(Boolean.valueOf(stringValue));

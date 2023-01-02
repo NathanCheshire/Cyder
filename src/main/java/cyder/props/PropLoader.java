@@ -12,6 +12,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.utils.ArrayUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -77,7 +78,7 @@ public final class PropLoader {
 
         if (props.containsKey(key)) {
             String value = props.get(key);
-            assert value != null;
+            if (value == null) return Optional.empty();
             return Optional.of(value);
         }
 
@@ -212,32 +213,47 @@ public final class PropLoader {
         }
 
         // Figure out where key ends and value starts
-        int lastKeyIndex = -1;
+        int firstValueIndex = -1;
         for (int i = 0 ; i < parts.length - 1 ; i++) {
             if (parts[i].endsWith(escapeSequence)) {
                 parts[i] = parts[i].substring(0, parts[i].length() - 1);
                 continue;
             }
 
-            if (lastKeyIndex != -1) throw new IllegalStateException("Could not parse line: " + line);
-            lastKeyIndex = i;
+            firstValueIndex = i;
         }
 
-        if (lastKeyIndex == -1) throw new IllegalStateException("Could not parse line: " + line);
+        if (firstValueIndex == -1) {
+            throw new IllegalStateException("Could not parse line: " + line);
+        }
 
-        // Build key
+        return mergeParts(parts, firstValueIndex);
+    }
+
+    /**
+     * Splits the parts array into a key/value pair with the firstValueIndex being used
+     * as the first part of the returned value.
+     *
+     * @param parts           the parts array
+     * @param firstValueIndex the index of the first value part in the parts array
+     * @return the key/value pair for a prop
+     */
+    private static Pair<String, String> mergeParts(String[] parts, int firstValueIndex) {
+        Preconditions.checkNotNull(parts);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(parts));
+        Preconditions.checkArgument(firstValueIndex > 0 && firstValueIndex < parts.length - 1);
+
         StringBuilder keyBuilder = new StringBuilder();
-        for (int i = 0 ; i <= lastKeyIndex ; i++) {
+        for (int i = 0 ; i <= firstValueIndex ; i++) {
             keyBuilder.append(parts[i]);
 
-            if (i != lastKeyIndex) {
+            if (i != firstValueIndex) {
                 keyBuilder.append(keyValueSeparator);
             }
         }
 
-        // Build value
         StringBuilder valueBuilder = new StringBuilder();
-        for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
+        for (int i = firstValueIndex + 1 ; i < parts.length ; i++) {
             valueBuilder.append(parts[i]);
 
             if (i != parts.length - 1) {
@@ -245,8 +261,6 @@ public final class PropLoader {
             }
         }
 
-        String key = keyBuilder.toString().trim();
-        String value = valueBuilder.toString().trim();
-        return Pair.of(key, value);
+        return Pair.of(keyBuilder.toString().trim(), valueBuilder.toString().trim());
     }
 }

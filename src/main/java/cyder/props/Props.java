@@ -9,12 +9,8 @@ import static cyder.strings.CyderStrings.EMPTY;
 /**
  * The props recognized by Cyder.
  */
-@SuppressWarnings("unused") /* Readability */
+@SuppressWarnings("unused") /* Have yet to be used */
 public final class Props {
-    /*
-    Regular props.
-     */
-
     /**
      * Whether the props can be reloaded mid-runtime (Meta AF).
      */
@@ -32,21 +28,18 @@ public final class Props {
      * The data stored within a User object which should not be logged on access.
      */
     public static final Prop<PropValueList> ignoreData = new Prop<>(
-            "ignore_data",
-            new PropValueList(ImmutableList.of(
-                    "typinganimation",
-                    "showseconds",
-                    "roundedwindows",
-                    "windowcolor",
-                    "audiolength",
-                    "capsmode",
-                    "typingsound",
-                    "showbusyicon",
-                    "clockonconsole",
-                    "consoleclockformat",
-                    "doanimations")),
-            PropValueList.class
-    );
+            "ignore_data", new PropValueList(ImmutableList.of(
+            "typinganimation",
+            "showseconds",
+            "roundedwindows",
+            "windowcolor",
+            "audiolength",
+            "capsmode",
+            "typingsound",
+            "showbusyicon",
+            "clockonconsole",
+            "consoleclockformat",
+            "doanimations")), PropValueList.class);
 
     /**
      * The font metric for the input/output areas (One of: bold, italic, bold-italic, or plain).
@@ -245,9 +238,9 @@ public final class Props {
     public static final Prop<Boolean> preferJavawOverJavaForBootstrapping =
             new Prop<>("prefer_javaw_over_java_for_bootstrapping", false, Boolean.class);
 
-    /*
-    Props which should not be logged or tracked by VCS.
-     */
+    // ---------------------------------------------------
+    // Props which should not be logged or tracked by VCS.
+    // ---------------------------------------------------
 
     /**
      * The key used to access the Open Weather Map API.
