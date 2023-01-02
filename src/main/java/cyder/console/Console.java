@@ -37,6 +37,7 @@ import cyder.threads.ThreadUtil;
 import cyder.time.ProgramState;
 import cyder.time.ProgramStateManager;
 import cyder.time.TimeUtil;
+import cyder.ui.UiConstants;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.*;
 import cyder.ui.field.CyderCaret;
@@ -3528,7 +3529,7 @@ public enum Console {
      */
     public void saveScreenStat() {
         if (consoleCyderFrame == null) return;
-        if (consoleCyderFrame.getState() == FRAME_ICONIFIED) return;
+        if (consoleCyderFrame.getState() == UiConstants.FRAME_ICONIFIED) return;
         if (getUuid() == null) return;
 
         ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();

@@ -7,7 +7,6 @@ import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
-import cyder.console.ConsoleConstants;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
@@ -34,6 +33,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiConstants;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.DragLabelTextButton;
@@ -2238,7 +2238,7 @@ public final class UserEditor {
      * @return whether the edit user frame is currently minimized
      */
     public static boolean isMinimized() {
-        return editUserFrame.getState() == ConsoleConstants.FRAME_ICONIFIED;
+        return editUserFrame.getState() == UiConstants.FRAME_ICONIFIED;
     }
 
     /**
@@ -2253,7 +2253,7 @@ public final class UserEditor {
      */
     public static void restore() {
         if (isMinimized()) {
-            editUserFrame.setState(ConsoleConstants.FRAME_NORMAL);
+            editUserFrame.setState(UiConstants.FRAME_NORMAL);
         }
     }
 

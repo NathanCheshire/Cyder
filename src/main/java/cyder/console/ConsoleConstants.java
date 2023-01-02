@@ -7,7 +7,6 @@ import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.utils.StaticUtil;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -15,7 +14,7 @@ import java.io.File;
 /**
  * Constants used for the {@link Console}.
  */
-public final class ConsoleConstants {
+final class ConsoleConstants {
     /**
      * The absolute minimum size allowable for the Console.
      */
@@ -138,16 +137,6 @@ public final class ConsoleConstants {
      * The x,y padding value for title notifications.
      */
     static final int NOTIFICATION_PADDING = 20;
-
-    /**
-     * The value to indicate a frame is iconified.
-     */
-    public static final int FRAME_ICONIFIED = JFrame.ICONIFIED;
-
-    /**
-     * The value to indicate a frame is in a normal state.
-     */
-    public static final int FRAME_NORMAL = JFrame.NORMAL;
 
     /**
      * The font used for the clock label.

@@ -7,7 +7,6 @@ import cyder.annotations.ForReadability;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
-import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.exceptions.FatalException;
 import cyder.getter.GetConfirmationBuilder;
@@ -28,6 +27,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiConstants;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.DragLabelType;
 import cyder.ui.drag.button.MenuButton;
@@ -1433,9 +1433,9 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setState(int state) {
-        if (state == ConsoleConstants.FRAME_ICONIFIED) {
+        if (state == UiConstants.FRAME_ICONIFIED) {
             setDisableContentRepainting(true);
-        } else if (state == ConsoleConstants.FRAME_NORMAL) {
+        } else if (state == UiConstants.FRAME_NORMAL) {
             setDisableContentRepainting(false);
         }
 
