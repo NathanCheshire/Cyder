@@ -89,47 +89,64 @@ public final class Prop<T> {
     }
 
     /**
+     * The cache of the prop value specified in a local prop file after being cast to T.
+     */
+    private T cachedCastedPropSpecifiedValue = null;
+
+    /**
      * Returns the value of this prop by first checking the prop files for the
      * prop and if not present, returning the default value.
      *
      * @return the prop value
      */
     public T getValue() {
-        // todo the custom value should be cached
+        if (cachedCastedPropSpecifiedValue == null) {
+            attemptToSetCachedCastedPropSpecifiedValue();
+        }
+
+        if (cachedCastedPropSpecifiedValue != null) {
+            return cachedCastedPropSpecifiedValue;
+        }
+
+        return type.cast(defaultValue);
+    }
+
+    /**
+     * Attempts to set the cached casted prop specified value by invoking
+     * {@link PropLoader#getPropValueStringFromFile(String)} and providing {@link #key}.
+     * The result is then attempted to be casted to T and stored for future reference.
+     */
+    private void attemptToSetCachedCastedPropSpecifiedValue() {
         Optional<String> optionalStringValue = PropLoader.getPropValueStringFromFile(getKey());
+
         if (optionalStringValue.isPresent()) {
             String stringValue = optionalStringValue.get();
 
-            // Custom types first
             if (type == PropValueList.class) {
-                ImmutableList<String> list = ImmutableList.copyOf(stringValue.split(PropConstants.splitListsAtChar));
-                return type.cast(new PropValueList(list));
-            }
-            // Primitive types last
-            else if (type == String.class) {
-                return type.cast(stringValue);
+                cachedCastedPropSpecifiedValue = type.cast(new PropValueList(
+                        ImmutableList.copyOf(stringValue.split(PropConstants.splitListsAtChar))));
+            } else if (type == String.class) {
+                cachedCastedPropSpecifiedValue = type.cast(stringValue);
             } else if (type == Boolean.class) {
-                return type.cast(Boolean.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Boolean.valueOf(stringValue));
             } else if (type == Integer.class) {
-                return type.cast(Integer.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Integer.valueOf(stringValue));
             } else if (type == Double.class) {
-                return type.cast(Double.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Double.valueOf(stringValue));
             } else if (type == Float.class) {
-                return type.cast(Float.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Float.valueOf(stringValue));
             } else if (type == Byte.class) {
-                return type.cast(Byte.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Byte.valueOf(stringValue));
             } else if (type == Short.class) {
-                return type.cast(Short.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Short.valueOf(stringValue));
             } else if (type == Long.class) {
-                return type.cast(Long.valueOf(stringValue));
+                cachedCastedPropSpecifiedValue = type.cast(Long.valueOf(stringValue));
             } else if (type == Character.class) {
-                return type.cast(stringValue.charAt(0));
+                cachedCastedPropSpecifiedValue = type.cast(stringValue.charAt(0));
             } else {
                 throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }
         }
-
-        return type.cast(defaultValue);
     }
 
     /**
