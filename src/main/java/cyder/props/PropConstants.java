@@ -4,10 +4,12 @@ import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
+import java.io.File;
+
 /**
  * Constants necessary for the {@link PropLoader}.
  */
-public final class PropConstants {
+final class PropConstants {
     /**
      * The possible annotations for props.
      */
@@ -47,9 +49,9 @@ public final class PropConstants {
     static final String commentPrefix = CyderStrings.hash;
 
     /**
-     * The name of the props directory.
+     * The local props directory.
      */
-    static final String propDirectoryName = "props";
+    static final File localPropsDirectory = new File("props");
 
     /**
      * The extension for prop files.

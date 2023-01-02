@@ -27,19 +27,19 @@ public final class Props {
     /**
      * The data stored within a User object which should not be logged on access.
      */
-    public static final Prop<PropValueList> ignoreData = new Prop<>(
-            "ignore_data", new PropValueList(ImmutableList.of(
-            "typinganimation",
-            "showseconds",
-            "roundedwindows",
-            "windowcolor",
-            "audiolength",
-            "capsmode",
-            "typingsound",
-            "showbusyicon",
-            "clockonconsole",
-            "consoleclockformat",
-            "doanimations")), PropValueList.class);
+    public static final Prop<PropValueList> ignoreData =
+            new Prop<>("ignore_data", new PropValueList(ImmutableList.of(
+                    "typinganimation",
+                    "showseconds",
+                    "roundedwindows",
+                    "windowcolor",
+                    "audiolength",
+                    "capsmode",
+                    "typingsound",
+                    "showbusyicon",
+                    "clockonconsole",
+                    "consoleclockformat",
+                    "doanimations")), PropValueList.class);
 
     /**
      * The font metric for the input/output areas (One of: bold, italic, bold-italic, or plain).
@@ -270,8 +270,7 @@ public final class Props {
     /**
      * The password used for an autocypher if {@link #autocypher} is true.
      */
-    public static final Prop<String> autocypherPassword =
-            new Prop<>("autocypher_password", EMPTY, String.class);
+    public static final Prop<String> autocypherPassword = new Prop<>("autocypher_password", EMPTY, String.class);
 
     /**
      * Suppress default constructor.

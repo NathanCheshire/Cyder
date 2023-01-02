@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.Immutable;
 import cyder.exceptions.FatalException;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -29,6 +30,11 @@ public final class Prop<T> {
      * The type of this prop.
      */
     private final Class<T> type;
+
+    /**
+     * The cache of the prop value specified in a local prop file after being cast to T.
+     */
+    private T cachedCastedPropSpecifiedValue = null;
 
     /**
      * Constructs a new prop.
@@ -87,11 +93,6 @@ public final class Prop<T> {
             return true;
         }
     }
-
-    /**
-     * The cache of the prop value specified in a local prop file after being cast to T.
-     */
-    private T cachedCastedPropSpecifiedValue = null;
 
     /**
      * Returns the value of this prop by first checking the prop files for the
@@ -164,7 +165,8 @@ public final class Prop<T> {
         return getKey().equals(other.getKey())
                 && getValue().equals(other.getValue())
                 && getType().equals(other.getType())
-                && defaultValue.equals(other.getDefaultValue());
+                && defaultValue.equals(other.getDefaultValue())
+                && Objects.equals(cachedCastedPropSpecifiedValue, other.cachedCastedPropSpecifiedValue);
     }
 
     /**
@@ -176,6 +178,7 @@ public final class Prop<T> {
         ret = 31 * ret + getValue().hashCode();
         ret = 31 * ret + type.hashCode();
         ret = 31 * ret + defaultValue.hashCode();
+        if (cachedCastedPropSpecifiedValue != null) ret = 31 * ret + cachedCastedPropSpecifiedValue.hashCode();
         return ret;
     }
 
@@ -189,6 +192,7 @@ public final class Prop<T> {
                 + ", value=" + getValue()
                 + ", type=" + type
                 + ", defaultValue=" + defaultValue
+                + ", cachedCastedPropSpecifiedValue=" + cachedCastedPropSpecifiedValue
                 + "}";
     }
 }

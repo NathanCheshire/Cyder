@@ -12,7 +12,7 @@ import java.util.List;
 @Immutable
 public class PropValueList {
     /**
-     * The encapsulated list containing the list of values for a prop.
+     * The list containing the values for a prop.
      */
     public final ImmutableList<String> list;
 
@@ -28,9 +28,9 @@ public class PropValueList {
     }
 
     /**
-     * Returns the list containing the list of values for the a prop.
+     * Returns the list containing the values for a prop.
      *
-     * @return the list containing the list of values for the a prop
+     * @return the list containing the values for a prop
      */
     public ImmutableList<String> getList() {
         return list;

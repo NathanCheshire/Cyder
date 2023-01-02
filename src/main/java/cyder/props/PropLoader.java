@@ -12,7 +12,6 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.utils.ArrayUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -86,11 +85,11 @@ public final class PropLoader {
     }
 
     /**
-     * Loads the props from the {@link PropConstants#propDirectoryName} local directory.
+     * Loads the props from the {@link PropConstants#localPropsDirectory}.
      * This overwrites any previously loaded props.
      */
     private static void loadProps() {
-        loadProps(new File(propDirectoryName));
+        loadProps(localPropsDirectory);
     }
 
     /**
@@ -126,26 +125,20 @@ public final class PropLoader {
      *
      * @param propsDirectory the directory to discover prop files from and load
      */
+    @SuppressWarnings("SameParameterValue") /* Currently this is always called from loadProps() */
     private static void loadProps(File propsDirectory) {
         Preconditions.checkNotNull(propsDirectory);
         Preconditions.checkArgument(propsDirectory.exists());
         Preconditions.checkArgument(propsDirectory.isDirectory());
         Preconditions.checkState(!propsLoaded);
 
-        try {
-            LinkedHashMap<String, String> tempPropMap = new LinkedHashMap<>();
+        LinkedHashMap<String, String> tempPropMap = new LinkedHashMap<>();
 
-            discoverPropFiles(propsDirectory)
-                    .forEach(propFile -> tempPropMap.putAll(extractPropsFromFile(propFile)));
+        discoverPropFiles(propsDirectory)
+                .forEach(propFile -> tempPropMap.putAll(extractPropsFromFile(propFile)));
 
-            props = ImmutableMap.copyOf(tempPropMap);
-            propsLoaded = true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-
-            props = ImmutableMap.of();
-            propsLoaded = false;
-        }
+        props = ImmutableMap.copyOf(tempPropMap);
+        propsLoaded = true;
     }
 
     /**
@@ -268,22 +261,6 @@ public final class PropLoader {
         if (firstValueIndex == -1) {
             throw new IllegalStateException("Could not parse line: " + line);
         }
-
-        return splitToKeyValuePair(parts, firstValueIndex);
-    }
-
-    /**
-     * Splits the parts array into a key/value pair with the firstValueIndex being used
-     * as the first part of the returned value.
-     *
-     * @param parts           the parts array
-     * @param firstValueIndex the index of the first value part in the parts array
-     * @return the key/value pair for a prop
-     */
-    private static Pair<String, String> splitToKeyValuePair(String[] parts, int firstValueIndex) {
-        Preconditions.checkNotNull(parts);
-        Preconditions.checkArgument(!ArrayUtil.isEmpty(parts));
-        Preconditions.checkArgument(firstValueIndex > 0 && firstValueIndex < parts.length - 1);
 
         StringBuilder keyBuilder = new StringBuilder();
         for (int i = 0 ; i <= firstValueIndex ; i++) {
