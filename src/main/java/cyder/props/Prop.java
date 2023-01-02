@@ -95,6 +95,7 @@ public final class Prop<T> {
      * @return the prop value
      */
     public T getValue() {
+        // todo the custom value should be cached
         Optional<String> optionalStringValue = PropLoader.getPropValueStringFromFile(getKey());
         if (optionalStringValue.isPresent()) {
             String stringValue = optionalStringValue.get();
