@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CheckReturnValue;
-import cyder.annotations.ForReadability;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
@@ -29,9 +28,9 @@ import static cyder.props.PropConstants.*;
  */
 public final class PropLoader {
     /**
-     * The new props map of keys to the string values which require casting.
+     * The props map of keys to the string values which require casting.
      */
-    private static ImmutableMap<String, String> newProps = ImmutableMap.of();
+    private static ImmutableMap<String, String> props = ImmutableMap.of();
 
     /**
      * Whether the props have been loaded.
@@ -47,10 +46,12 @@ public final class PropLoader {
 
     /**
      * Reloads the props from the found prop files.
+     * Note this does not check whether reloading props is permitted.
+     * The caller is required to validate that before invoking this method.
      */
     public static void reloadProps() {
         propsLoaded = false;
-        newProps = ImmutableMap.of();
+        props = ImmutableMap.of();
         loadProps();
     }
 
@@ -59,23 +60,23 @@ public final class PropLoader {
      *
      * @return the props list
      */
-    public static int getNumProps() {
-        return newProps.size();
+    public static int getPropsSize() {
+        return props.size();
     }
 
     /**
-     * Returns the string for the prop with the provided key from the props list if found. Empty optional else.
+     * Returns the value string for the prop with the provided key from the props list if found. Empty optional else.
      *
      * @param key the key of the prop to find within the present prop files
      * @return the prop value string from the located prop file is present. Empty optional else
      */
     @CheckReturnValue
-    static Optional<String> getStringPropFromFile(String key) {
+    static Optional<String> getPropValueStringFromFile(String key) {
         Preconditions.checkNotNull(key);
         Preconditions.checkArgument(!key.isEmpty());
 
-        if (newProps.containsKey(key)) {
-            String value = newProps.get(key);
+        if (props.containsKey(key)) {
+            String value = props.get(key);
             assert value != null;
             return Optional.of(value);
         }
@@ -86,7 +87,7 @@ public final class PropLoader {
     /**
      * Loads the props from all discovered prop files.
      */
-    static void loadProps() {
+    private static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
 
         ArrayList<File> propFiles = new ArrayList<>();
@@ -95,7 +96,7 @@ public final class PropLoader {
         File[] propFilesArray = propsDirectory.listFiles();
 
         if (propFilesArray == null || propFilesArray.length == 0) {
-            newProps = ImmutableMap.of();
+            props = ImmutableMap.of();
             propsLoaded = false;
             return;
         }
@@ -108,8 +109,7 @@ public final class PropLoader {
         });
 
         try {
-            ArrayList<Pair<String, String>> propsList = new ArrayList<>();
-            LinkedHashMap<String, String> newPropsList = new LinkedHashMap<>();
+            LinkedHashMap<String, String> tempPropMap = new LinkedHashMap<>();
 
             propFiles.forEach(propFile -> {
                 ImmutableList<String> currentFileLines = ImmutableList.of();
@@ -140,27 +140,30 @@ public final class PropLoader {
                     String fullLine = previousLinesOfMultilineProp.toString();
                     fullLine += fullLine.isEmpty() ? line : StringUtil.trimLeft(line);
 
-                    Pair<String, String> addProp = extractProp(fullLine);
-                    if (propsList.contains(addProp)) {
-                        throw new FatalException("Duplicate prop found: " + addProp);
+                    Pair<String, String> extractedKeyValue = extractProp(fullLine);
+                    String key = extractedKeyValue.getKey();
+                    String value = extractedKeyValue.getValue();
+
+                    if (tempPropMap.containsKey(key)) {
+                        throw new FatalException("Duplicate prop found: " + extractedKeyValue);
                     }
 
-                    propsList.add(addProp);
-                    newPropsList.put(addProp.getKey(), addProp.getValue());
-                    Logger.log(LogTag.PROPS_ACTION, "key: " + addProp.getKey()
-                            + (logNextProp ? ", value: " + addProp.getValue() : ""));
+                    tempPropMap.put(key, value);
+
+                    String logValue = logNextProp ? ", value: " + value : "";
+                    Logger.log(LogTag.PROPS_ACTION, "key: " + key + logValue);
 
                     logNextProp = true;
                     previousLinesOfMultilineProp = new StringBuilder();
                 }
             });
 
-            newProps = ImmutableMap.copyOf(newPropsList);
+            props = ImmutableMap.copyOf(tempPropMap);
             propsLoaded = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
 
-            newProps = ImmutableMap.of();
+            props = ImmutableMap.of();
             propsLoaded = false;
         }
     }
@@ -171,7 +174,6 @@ public final class PropLoader {
      * @param line the line to parse a prop from
      * @return whether the provided line is a comment
      */
-    @ForReadability
     private static boolean isComment(String line) {
         Preconditions.checkNotNull(line);
 
@@ -184,7 +186,6 @@ public final class PropLoader {
      * @param line the line to parse a prop from
      * @return whether the provided line is a no log annotation
      */
-    @ForReadability
     private static boolean isNoLogAnnotation(String line) {
         Preconditions.checkNotNull(line);
 

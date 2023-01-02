@@ -1,6 +1,7 @@
 package cyder.props;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.Immutable;
 import cyder.exceptions.FatalException;
 
@@ -94,12 +95,13 @@ public final class Prop<T> {
      * @return the prop value
      */
     public T getValue() {
-        Optional<String> optionalStringValue = PropLoader.getStringPropFromFile(getKey());
+        Optional<String> optionalStringValue = PropLoader.getPropValueStringFromFile(getKey());
         if (optionalStringValue.isPresent()) {
-            String stringValue = optionalStringValue.get();
 
-            if (type == String[].class) {
-                return type.cast(stringValue.split(PropConstants.splitListsAtChar));
+            String stringValue = optionalStringValue.get();
+            if (type == PropValueList.class) {
+                ImmutableList<String> list = ImmutableList.copyOf(stringValue.split(PropConstants.splitListsAtChar));
+                return type.cast(new PropValueList(list));
             } else if (type == String.class) {
                 return type.cast(stringValue);
             } else if (type == Boolean.class) {
@@ -161,7 +163,7 @@ public final class Prop<T> {
      */
     @Override
     public String toString() {
-        return "Proper{"
+        return "Prop{"
                 + "key=" + key
                 + ", value=" + getValue()
                 + ", type=" + type

@@ -31,7 +31,7 @@ public class PropHandler extends InputHandler {
                 Logger.log(LogTag.PROPS_ACTION, "Reloading props");
                 PropLoader.reloadProps();
                 Logger.log(LogTag.PROPS_ACTION, "Props reloaded");
-                getInputHandler().println("Reloaded props. Props loaded: " + PropLoader.getNumProps());
+                getInputHandler().println("Reloaded props. Props loaded: " + PropLoader.getPropsSize());
             }
         } else ret = false;
 

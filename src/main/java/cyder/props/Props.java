@@ -1,5 +1,6 @@
 package cyder.props;
 
+import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
@@ -30,19 +31,22 @@ public final class Props {
     /**
      * The data stored within a User object which should not be logged on access.
      */
-    public static final Prop<?> ignoreData = new Prop<>("ignore_data", new String[]{
-            "typinganimation",
-            "showseconds",
-            "roundedwindows",
-            "windowcolor",
-            "audiolength",
-            "capsmode",
-            "typingsound",
-            "showbusyicon",
-            "clockonconsole",
-            "consoleclockformat",
-            "doanimations"},
-            String[].class);
+    public static final Prop<PropValueList> ignoreData = new Prop<>(
+            "ignore_data",
+            new PropValueList(ImmutableList.of(
+                    "typinganimation",
+                    "showseconds",
+                    "roundedwindows",
+                    "windowcolor",
+                    "audiolength",
+                    "capsmode",
+                    "typingsound",
+                    "showbusyicon",
+                    "clockonconsole",
+                    "consoleclockformat",
+                    "doanimations")),
+            PropValueList.class
+    );
 
     /**
      * The font metric for the input/output areas (One of: bold, italic, bold-italic, or plain).
@@ -242,7 +246,7 @@ public final class Props {
             new Prop<>("prefer_javaw_over_java_for_bootstrapping", false, Boolean.class);
 
     /*
-    Props which should be logged or tracked by VCS.
+    Props which should not be logged or tracked by VCS.
      */
 
     /**
