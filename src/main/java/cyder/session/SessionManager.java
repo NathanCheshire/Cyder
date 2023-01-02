@@ -1,23 +1,39 @@
 package cyder.session;
 
-import cyder.exceptions.IllegalMethodException;
-import cyder.strings.CyderStrings;
+import com.google.common.base.Preconditions;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.utils.SecurityUtil;
 
 /**
  * The session manager for this instance of Cyder.
  */
-public final class SessionManager {
+public enum SessionManager {
+    /**
+     * The session manager instance.
+     */
+    INSTANCE;
+
     /**
      * The ID of this session of Cyder.
      */
-    private static final String sessionId = SecurityUtil.generateUuid();
+    private String sessionId;
 
     /**
      * Suppress default constructor.
      */
-    private SessionManager() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    SessionManager() {
+        Logger.log(LogTag.OBJECT_CREATION, "Session Manager singleton constructed");
+    }
+
+    /**
+     * Initializes the session id.
+     */
+    public void initializeSessionId() {
+        Preconditions.checkState(sessionId == null);
+
+        sessionId = SecurityUtil.generateUuid();
+        Logger.log(LogTag.DEBUG, "Set session ID as " + sessionId);
     }
 
     /**
@@ -25,7 +41,7 @@ public final class SessionManager {
      *
      * @return the session ID for this instance of Cyder
      */
-    public static String getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 }

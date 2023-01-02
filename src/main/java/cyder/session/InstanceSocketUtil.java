@@ -170,6 +170,7 @@ public final class InstanceSocketUtil {
                 inputBuilder.append(line);
             }
 
+            // todo here we could try and figure out type and return it, then instance of would work from caller
             return CyderCommunicationMessage.fromJson(inputBuilder.toString());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -206,30 +207,36 @@ public final class InstanceSocketUtil {
         /**
          * The password was not found.
          */
-        PASSWORD_NOT_FOUND(false),
+        PASSWORD_NOT_FOUND(false, "Shutdown request denied, password not found"),
 
         /**
          * The password was incorrect.
          */
-        PASSWORD_INCORRECT(false),
+        PASSWORD_INCORRECT(false, "Shutdown request denied, password incorrect"),
 
         /**
          * The password was correct.
          */
-        PASSWORD_CORRECT(true),
+        PASSWORD_CORRECT(true, "Shutdown request accepted, password correct"),
 
         /**
          * The auto compliance prop for remote shutdown requests is enabled.
          */
-        AUTO_COMPLIANCE_ENABLED(true);
+        AUTO_COMPLIANCE_ENABLED(true, "Shutdown request accepted, auto comply is enabled");
 
         /**
          * Whether this result indicates compliance.
          */
         private final boolean shouldComply;
 
-        RemoteShutdownRequestResult(boolean shouldComply) {
+        /**
+         * The message for the result.
+         */
+        private final String message;
+
+        RemoteShutdownRequestResult(boolean shouldComply, String message) {
             this.shouldComply = shouldComply;
+            this.message = message;
         }
 
         /**
@@ -239,6 +246,15 @@ public final class InstanceSocketUtil {
          */
         public boolean isShouldComply() {
             return shouldComply;
+        }
+
+        /**
+         * Returns the message for the result.
+         *
+         * @return the message for the result
+         */
+        public String getMessage() {
+            return message;
         }
     }
 
@@ -283,16 +299,8 @@ public final class InstanceSocketUtil {
         Preconditions.checkNotNull(responseWriter);
 
         Logger.log(LogTag.DEBUG, "Shutdown requested from instance: " + message.getSessionId());
-
         RemoteShutdownRequestResult result = determineRemoteShutdownRequestResult(message.getContent());
-
-        String logRepresentation = switch (result) {
-            case PASSWORD_NOT_FOUND -> "Shutdown request denied, password not found";
-            case PASSWORD_INCORRECT -> "Shutdown request denied, password incorrect";
-            case PASSWORD_CORRECT -> "Shutdown request accepted, password correct";
-            case AUTO_COMPLIANCE_ENABLED -> "Shutdown request accepted, auto comply is enabled";
-        };
-        Logger.log(LogTag.DEBUG, logRepresentation);
+        Logger.log(LogTag.DEBUG, result.getMessage());
 
         if (result.isShouldComply()) {
             try {
@@ -319,9 +327,10 @@ public final class InstanceSocketUtil {
         Preconditions.checkArgument(!content.isEmpty());
 
         CyderCommunicationMessage responseShutdownMessage = new CyderCommunicationMessage(
-                message, content, SessionManager.getSessionId());
+                message, content, SessionManager.INSTANCE.getSessionId());
 
         String sendHash = SecurityUtil.generateUuid();
+
         responseWriter.println(sendHash);
         responseWriter.println(responseShutdownMessage);
         responseWriter.println(sendHash);

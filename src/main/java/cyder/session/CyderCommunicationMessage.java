@@ -1,6 +1,7 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.Immutable;
 import com.google.gson.annotations.SerializedName;
 import cyder.strings.CyderStrings;
 import cyder.utils.SerializationUtil;
@@ -8,6 +9,7 @@ import cyder.utils.SerializationUtil;
 /**
  * A serialization class for serializing messages between instances of Cyder.
  */
+@Immutable
 public class CyderCommunicationMessage {
     /**
      * The message json identifier.
@@ -27,24 +29,18 @@ public class CyderCommunicationMessage {
     /**
      * The type of message.
      */
-    private String message;
+    private final String message;
 
     /**
      * The content of the message
      */
-    private String content;
+    private final String content;
 
     /**
      * The Cyder instance session ID.
      */
     @SerializedName("session_id")
-    private String sessionId;
-
-    /**
-     * Constructs a new Cyder communication message.
-     * Method exposed for usage by {@link SerializationUtil}.
-     */
-    private CyderCommunicationMessage() {}
+    private final String sessionId;
 
     /**
      * Constructs a new Cyder communication message.
@@ -94,42 +90,6 @@ public class CyderCommunicationMessage {
     }
 
     /**
-     * Sets the message type of this message.
-     *
-     * @param message the message type of this message
-     */
-    public void setMessage(String message) {
-        Preconditions.checkNotNull(message);
-        Preconditions.checkArgument(!message.isEmpty());
-
-        this.message = message;
-    }
-
-    /**
-     * Sets the content of this message.
-     *
-     * @param content the content of this message
-     */
-    public void setContent(String content) {
-        Preconditions.checkNotNull(content);
-        Preconditions.checkArgument(!content.isEmpty());
-
-        this.content = content;
-    }
-
-    /**
-     * Sets the session ID of the instance of Cyder this message originated from.
-     *
-     * @param sessionId the session ID of the instance of Cyder this message originated from
-     */
-    public void setSessionId(String sessionId) {
-        Preconditions.checkNotNull(sessionId);
-        Preconditions.checkArgument(!sessionId.isEmpty());
-
-        this.sessionId = sessionId;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -162,7 +122,6 @@ public class CyderCommunicationMessage {
      */
     @Override
     public String toString() {
-
         return "{"
                 + CyderStrings.quote + MESSAGE + CyderStrings.quote
                 + CyderStrings.colon

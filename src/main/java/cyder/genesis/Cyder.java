@@ -5,6 +5,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
+import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.subroutines.NecessarySubroutines;
 import cyder.subroutines.SufficientSubroutines;
@@ -34,6 +35,8 @@ public final class Cyder {
      */
     public static void main(String[] arguments) {
         JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
+
+        SessionManager.INSTANCE.initializeSessionId();
 
         PropLoader.reloadProps();
 
@@ -74,7 +77,7 @@ public final class Cyder {
     }
 
     /**
-     * Adds the exit hooks to this Jvm.
+     * Adds the exit hooks to the JVM.
      */
     private static void addExitHooks() {
         shutdownHooks.forEach(hook -> Runtime.getRuntime().addShutdownHook(hook));
