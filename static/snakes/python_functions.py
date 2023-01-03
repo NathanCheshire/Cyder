@@ -97,9 +97,7 @@ def main():
         print("Audio length: " + length)
 
     else:
-        print("Supported commands:")
-        for command in COMMANDS:
-            print("•", command)
+        print(f"Unsupported command: {args.command}")
 
 if __name__ == '__main__':
     main()
