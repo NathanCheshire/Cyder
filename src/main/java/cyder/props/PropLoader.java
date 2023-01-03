@@ -98,7 +98,7 @@ public final class PropLoader {
      * @param directory the directory to discover prop files in
      * @return a list of prop files from the provided directory
      */
-    private static ImmutableList<File> discoverPropFiles(File directory) {
+    static ImmutableList<File> discoverPropFiles(File directory) {
         Preconditions.checkNotNull(directory);
         Preconditions.checkArgument(directory.exists());
         Preconditions.checkArgument(directory.isDirectory());
@@ -132,13 +132,27 @@ public final class PropLoader {
         Preconditions.checkArgument(propsDirectory.isDirectory());
         Preconditions.checkState(!propsLoaded);
 
-        LinkedHashMap<String, String> tempPropMap = new LinkedHashMap<>();
+        props = extractPropsFromDirectory(propsDirectory);
+        propsLoaded = true;
+    }
+
+    /**
+     * Returns a map of all the props loaded from prop files contained in the provided directory.
+     *
+     * @param propsDirectory the directory to discovery prop files in
+     * @return the map of prop keys to values
+     */
+    static ImmutableMap<String, String> extractPropsFromDirectory(File propsDirectory) {
+        Preconditions.checkNotNull(propsDirectory);
+        Preconditions.checkArgument(propsDirectory.exists());
+        Preconditions.checkArgument(propsDirectory.isDirectory());
+
+        LinkedHashMap<String, String> ret = new LinkedHashMap<>();
 
         discoverPropFiles(propsDirectory)
-                .forEach(propFile -> tempPropMap.putAll(extractPropsFromFile(propFile)));
+                .forEach(propFile -> ret.putAll(extractPropsFromFile(propFile)));
 
-        props = ImmutableMap.copyOf(tempPropMap);
-        propsLoaded = true;
+        return ImmutableMap.copyOf(ret);
     }
 
     /**
@@ -184,7 +198,7 @@ public final class PropLoader {
             String fullLine = previousLinesOfMultilineProp.toString();
             fullLine += fullLine.isEmpty() ? line : StringUtil.trimLeft(line);
 
-            Pair<String, String> extractedKeyValue = extractProp(fullLine);
+            Pair<String, String> extractedKeyValue = extractPropFromLine(fullLine);
             String key = extractedKeyValue.getKey();
             String value = extractedKeyValue.getValue();
 
@@ -210,7 +224,7 @@ public final class PropLoader {
      * @param line the line to parse a prop from
      * @return whether the provided line is a comment
      */
-    private static boolean isComment(String line) {
+    static boolean isComment(String line) {
         Preconditions.checkNotNull(line);
 
         return line.trim().startsWith(commentPrefix);
@@ -222,7 +236,7 @@ public final class PropLoader {
      * @param line the line to parse a prop from
      * @return whether the provided line is a no log annotation
      */
-    private static boolean isNoLogAnnotation(String line) {
+    static boolean isNoLogAnnotation(String line) {
         Preconditions.checkNotNull(line);
 
         return line.trim().equals(Annotation.NO_LOG.getAnnotation());
@@ -230,13 +244,16 @@ public final class PropLoader {
 
     /**
      * Attempts to extract a prop key and value from the provided line.
+     * The first unescaped colon is what dictates where the line is split into
+     * the key and value.
      *
      * @param line the line to extract the prop from
-     * @return the extracted prop
+     * @return a pair containing the prop key and value
      */
-    private static Pair<String, String> extractProp(String line) {
+    static Pair<String, String> extractPropFromLine(String line) {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
+        Preconditions.checkArgument(line.contains(keyValueSeparator));
 
         String[] parts = line.split(keyValueSeparator);
         Preconditions.checkArgument(parts.length > 1);
@@ -256,6 +273,7 @@ public final class PropLoader {
             }
 
             firstValueIndex = i;
+            break;
         }
 
         if (firstValueIndex == -1) {
