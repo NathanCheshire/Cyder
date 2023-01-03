@@ -102,13 +102,8 @@ public final class OsUtil {
      */
     public static final boolean JAR_MODE;
 
-    /**
-     * The Cyder class resource. todo can this be dynamic?
-     */
-    private static final String CYDER_CLASS = "Cyder.class";
-
     static {
-        URL resource = Cyder.class.getResource(CYDER_CLASS);
+        URL resource = Cyder.class.getResource("Cyder.class");
         JAR_MODE = Objects.requireNonNull(resource).toString().startsWith(jarModeResourcePrefix);
         Logger.log(LogTag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
         ProgramModeManager.INSTANCE.refreshProgramMode();
