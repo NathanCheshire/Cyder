@@ -2,6 +2,7 @@ package cyder.snakes;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.process.ProcessResult;
@@ -10,7 +11,6 @@ import cyder.process.Program;
 import cyder.process.PythonPackage;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.CyderThreadRunner;
 import cyder.utils.OsUtil;
 
 import java.util.ArrayList;
@@ -65,29 +65,26 @@ public final class PythonUtil {
      *
      * @return a list of required Python packages which were not found to be installed
      */
-    public static ImmutableList<PythonPackage> getMissingRequiredPythonPackages() {
-        ArrayList<PythonPackage> missingPackages = new ArrayList<>();
+    public static Future<ImmutableList<PythonPackage>> getMissingRequiredPythonPackages() {
+        return Executors.newSingleThreadExecutor(
+                        new CyderThreadFactory("Python package Installer Ensurer"))
+                .submit(() -> {
+                    ArrayList<PythonPackage> missingPackages = new ArrayList<>();
 
-        Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
-            String threadName = "Python Package Installed Ensurer, package"
-                    + CyderStrings.colon
-                    + CyderStrings.space
-                    + pythonPackage.getPackageName();
+                    Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
+                        Future<Boolean> futureInstalled = pythonPackage.isInstalled();
+                        while (!futureInstalled.isDone()) Thread.onSpinWait();
 
-            CyderThreadRunner.submit(() -> {
-                Future<Boolean> futureInstalled = pythonPackage.isInstalled();
-                while (!futureInstalled.isDone()) Thread.onSpinWait();
+                        try {
+                            boolean installed = futureInstalled.get();
+                            if (!installed) missingPackages.add(pythonPackage);
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    });
 
-                try {
-                    boolean installed = futureInstalled.get();
-                    if (!installed) missingPackages.add(pythonPackage);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, threadName);
-        });
-
-        return ImmutableList.copyOf(missingPackages);
+                    return ImmutableList.copyOf(missingPackages);
+                });
     }
 
     /**
@@ -95,43 +92,48 @@ public final class PythonUtil {
      *
      * @return the python version installed if present
      */
-    public static Optional<String> isPython3Installed() {
-        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
-                Program.PYTHON.getProgramName()
-                        + CyderStrings.space
-                        + VERSION_ARGUMENT);
+    public static Future<Optional<String>> getPythonVersion() {
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory("Python Version Finder"))
+                .submit(() -> {
+                    Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
+                            Program.PYTHON.getProgramName()
+                                    + CyderStrings.space
+                                    + VERSION_ARGUMENT);
 
-        while (!futureResult.isDone()) Thread.onSpinWait();
+                    while (!futureResult.isDone()) Thread.onSpinWait();
 
-        try {
-            ProcessResult result = futureResult.get();
-            if (result.hasErrors()) return Optional.empty();
+                    try {
+                        ProcessResult result = futureResult.get();
+                        if (result.hasErrors()) return Optional.empty();
 
-            ImmutableList<String> output = result.getStandardOutput();
-            if (output.isEmpty()) return Optional.empty();
+                        ImmutableList<String> output = result.getStandardOutput();
+                        if (output.isEmpty()) return Optional.empty();
 
-            String line = output.get(0);
-            if (!line.contains(pythonVersionResultPrefix)) return Optional.empty();
+                        String line = output.get(0);
+                        if (!line.contains(pythonVersionResultPrefix)) return Optional.empty();
 
-            return Optional.of(line.substring(pythonVersionResultPrefix.length()).trim());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+                        return Optional.of(line.substring(pythonVersionResultPrefix.length()).trim());
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
 
-        return Optional.empty();
+                    return Optional.empty();
+                });
     }
 
     /**
      * Installs the provided python pip dependency.
      *
      * @param pythonPackage the python package to install
+     * @return the process result of installing the PIP dependency
      */
-    public static void installPipDependency(PythonPackage pythonPackage) {
+    @CanIgnoreReturnValue
+    public static Future<ProcessResult> installPipDependency(PythonPackage pythonPackage) {
         Preconditions.checkNotNull(pythonPackage);
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        ProcessUtil.getProcessOutput(
+        return ProcessUtil.getProcessOutput(
                 Program.PIP.getProgramName()
                         + CyderStrings.space
                         + INSTALL

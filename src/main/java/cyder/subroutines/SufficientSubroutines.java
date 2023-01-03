@@ -14,6 +14,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.utils.JvmUtil;
 
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 /**
  * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
@@ -64,18 +65,35 @@ public final class SufficientSubroutines {
             }, JVM_LOGGER),
 
             new Subroutine(() -> {
-                ImmutableList<PythonPackage> missingPackages = PythonUtil.getMissingRequiredPythonPackages();
+                Future<ImmutableList<PythonPackage>> futureMissingPackages =
+                        PythonUtil.getMissingRequiredPythonPackages();
 
-                for (PythonPackage missingPackage : missingPackages) {
-                    Logger.log(LogTag.PYTHON, "Missing required Python package: "
-                            + missingPackage.getPackageName());
+                while (!futureMissingPackages.isDone()) Thread.onSpinWait();
+
+                try {
+                    ImmutableList<PythonPackage> missingPackages = futureMissingPackages.get();
+
+                    for (PythonPackage missingPackage : missingPackages) {
+                        Logger.log(LogTag.PYTHON, "Missing required Python package: "
+                                + missingPackage.getPackageName());
+                    }
+
+                    return missingPackages.isEmpty();
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
                 }
 
-                return missingPackages.isEmpty();
+                return false;
             }, PYTHON_PACKAGES_INSTALLED_ENSURER),
 
             new Subroutine(() -> {
-                Optional<String> optionalVersion = PythonUtil.isPython3Installed();
+                Future<Optional<String>> futureOptionalVersion = PythonUtil.getPythonVersion();
+                while (!futureOptionalVersion.isDone()) Thread.onSpinWait();
+
+                Optional<String> optionalVersion = Optional.empty();
+                try {
+                    optionalVersion = futureOptionalVersion.get();
+                } catch (Exception ignored) {}
 
                 if (optionalVersion.isEmpty()) {
                     Logger.log(LogTag.PYTHON, "Failed to find installed Python version");
