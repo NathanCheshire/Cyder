@@ -32,8 +32,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 /**
@@ -46,31 +44,20 @@ import java.util.stream.IntStream;
 @SuppressWarnings("SpellCheckingInspection") /* urls */
 public final class StringUtil {
     /**
+     * The default number of elements of a {@link JTextPane}s {@link StyledDocument}.
+     */
+    private static final int defaultDocumentElements = 3;
+
+    /**
      * The output pane to print to in the case an object is created.
      */
     private final CyderOutputPane linkedCyderPane;
 
     /**
-     * The error message if the private constructor is invoked via reflection.
-     */
-    private static final String INSTANTIATION_MESSAGE
-            = "Instantiation of StringUtil is not permitted without a CyderOutputPane";
-
-    /**
-     * The opening char for html tags.
-     */
-    private static final String openingTagChar = "<";
-
-    /**
-     * The closing char for html tags.
-     */
-    private static final String closingTagChar = ">";
-
-    /**
      * Suppress default constructor.
      */
     private StringUtil() {
-        throw new IllegalMethodException(INSTANTIATION_MESSAGE);
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -166,11 +153,6 @@ public final class StringUtil {
         while (iterator.next() != null) count++;
         return count;
     }
-
-    /**
-     * The default number of elements of a {@link JTextPane}s {@link StyledDocument}.
-     */
-    private static final int defaultDocumentElements = 3;
 
     /**
      * Returns whether the inner {@link JTextPane}s {@link StyledDocument} contains more than the default
@@ -379,6 +361,8 @@ public final class StringUtil {
      */
     private static final Color DEFAULT_MENU_SEP_COLOR = CyderColors.vanilla;
 
+    // todo these should be extracted to UiUtil
+
     /**
      * Returns a menu separator label.
      *
@@ -408,19 +392,6 @@ public final class StringUtil {
         };
         sepLabel.setForeground(color);
         return sepLabel;
-    }
-
-    /**
-     * Reverses the given array
-     *
-     * @param array the array to reverse
-     * @return the reversed array
-     */
-    public static char[] reverseArray(char[] array) {
-        Preconditions.checkNotNull(array);
-
-        String reverse = new StringBuilder(new String(array)).reverse().toString();
-        return reverse.toCharArray();
     }
 
     /**
@@ -493,8 +464,10 @@ public final class StringUtil {
     public static boolean isPalindrome(String word) {
         Preconditions.checkNotNull(word);
 
-        return Arrays.equals(word.toLowerCase().toCharArray(),
-                reverseArray(word.toLowerCase().toCharArray()));
+        ImmutableList<Character> chars = ArrayUtil.charArrayToList(word.toLowerCase().toCharArray());
+        ImmutableList<Character> reversed = chars.reverse();
+
+        return chars.equals(reversed);
     }
 
     /**
@@ -526,7 +499,7 @@ public final class StringUtil {
      * @param word the word to capitalize the first letter of
      * @return the capitalized word
      */
-    public static String capsFirst(String word) {
+    public static String capsFirstWord(String word) {
         Preconditions.checkNotNull(word);
 
         return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
@@ -616,7 +589,7 @@ public final class StringUtil {
      *
      * @param userInput the master string to search through
      * @param findWord  the word to search the master string for
-     * @return a boolean depicting whether the given string contains the test word
+     * @return whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord) {
         return hasWord(userInput, findWord, false);
@@ -628,7 +601,7 @@ public final class StringUtil {
      * @param userInput      the master string to search through
      * @param findWord       the word to search the master string for
      * @param removeComments whether to remove comment tags from the input
-     * @return a boolean depicting whether the given string contains the test word
+     * @return whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
         Preconditions.checkNotNull(userInput);
@@ -711,18 +684,20 @@ public final class StringUtil {
     /**
      * Provides the exact string object but with the first character converted to lowercase.
      *
-     * @param str the string to convert the first character to lowercase
+     * @param string the string to convert the first character to lowercase
      * @return the resultant string
      */
-    public static String firstCharToLowerCase(String str) {
-        if (isNullOrEmpty(str)) {
+    public static String firstCharToLowerCase(String string) {
+        Preconditions.checkNotNull(string);
+
+        if (isNullOrEmpty(string)) {
             return "";
         }
 
-        if (str.length() == 1) {
-            return str.toLowerCase();
+        if (string.length() == 1) {
+            return string.toLowerCase();
         } else {
-            return str.substring(0, 1).toLowerCase() + str.substring(1);
+            return string.substring(0, 1).toLowerCase() + string.substring(1);
         }
     }
 
@@ -733,11 +708,12 @@ public final class StringUtil {
      * @return the word count of the requested string
      */
     public static int countWords(String str) {
-        return (str == null || str.isEmpty()) ? 0 : str.split(CyderRegexPatterns.whiteSpaceRegex).length;
+        return (str == null || str.isEmpty())
+                ? 0 : str.split(CyderRegexPatterns.whiteSpaceRegex).length;
     }
 
     /**
-     * Ensures that there is a space after every comma within the input.
+     * Ensures that there is a singular space after every comma within the input.
      *
      * @param input the potentially wrongly formatted string
      * @return the corrected string
@@ -870,9 +846,9 @@ public final class StringUtil {
         ArrayList<StringContainer> taggedStrings = new ArrayList<>();
         String textCopy = htmlText;
 
-        while ((textCopy.contains(openingTagChar) && textCopy.contains(closingTagChar))) {
-            int firstOpeningTagIndex = textCopy.indexOf(openingTagChar);
-            int firstClosingTagIndex = textCopy.indexOf(closingTagChar);
+        while ((textCopy.contains(HtmlTags.opening) && textCopy.contains(HtmlTags.closing))) {
+            int firstOpeningTagIndex = textCopy.indexOf(HtmlTags.opening);
+            int firstClosingTagIndex = textCopy.indexOf(HtmlTags.closing);
             if (firstClosingTagIndex < firstOpeningTagIndex) break;
 
             String nextText = textCopy.substring(0, firstOpeningTagIndex);
@@ -1007,6 +983,12 @@ public final class StringUtil {
     public static final int SIZE_ADDITIVE = 10;
 
     /**
+     * The font render context to use for string bounds calculations.
+     */
+    private static final FontRenderContext fontRenderContext =
+            new FontRenderContext(new AffineTransform(), true, true);
+
+    /**
      * Returns the minimum width required for the given String using the given font.
      *
      * @param text the text you want to determine the width of
@@ -1018,9 +1000,7 @@ public final class StringUtil {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(text, frc).getWidth() + SIZE_ADDITIVE;
+        return (int) font.getStringBounds(text, fontRenderContext).getWidth() + SIZE_ADDITIVE;
     }
 
     /**
@@ -1034,9 +1014,7 @@ public final class StringUtil {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(text, frc).getWidth();
+        return (int) font.getStringBounds(text, fontRenderContext).getWidth();
     }
 
     /**
@@ -1051,9 +1029,7 @@ public final class StringUtil {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(text, frc).getHeight() + SIZE_ADDITIVE;
+        return (int) font.getStringBounds(text, fontRenderContext).getHeight() + SIZE_ADDITIVE;
     }
 
     /**
@@ -1068,9 +1044,7 @@ public final class StringUtil {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(font);
 
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) font.getStringBounds(text, frc).getHeight();
+        return (int) font.getStringBounds(text, fontRenderContext).getHeight();
     }
 
     /**
@@ -1109,28 +1083,6 @@ public final class StringUtil {
     }
 
     /**
-     * Splits the provided string using the provided pattern and returns a
-     * linked list as opposed to an array containing the parts of the split.
-     *
-     * @param string  the string to split on using the pattern
-     * @param pattern the pattern to split the string on
-     * @return a list of the split parts
-     */
-    public static LinkedList<String> split(String string, Pattern pattern) {
-        Preconditions.checkNotNull(string);
-        Preconditions.checkNotNull(pattern);
-
-        Matcher m = pattern.matcher(string);
-        LinkedList<String> ret = new LinkedList<>();
-
-        while (m.find()) {
-            ret.add(m.group(0));
-        }
-
-        return ret;
-    }
-
-    /**
      * Strips all new lines and replaces them with a space.
      * Returns the resulting string trimmed.
      *
@@ -1143,6 +1095,8 @@ public final class StringUtil {
         return line.replace(CyderStrings.newline, CyderStrings.space)
                 .replace(CyderStrings.carriageReturnChar, CyderStrings.space).trim();
     }
+
+    // todo ui util
 
     /**
      * Generates the text to use for a custom component that extends JLabel to
@@ -1224,6 +1178,7 @@ public final class StringUtil {
 
     /**
      * Escapes all the quotes in the provided string.
+     * All instances of {\"} are replaced with {\\\"}.
      *
      * @param string the string
      * @return the string with quotes escaped

@@ -498,6 +498,6 @@ public final class NecessarySubroutines {
 
         Logger.log(LogTag.HANDLE_WARNING, errorMessagePrefix);
         InformHandler.inform(new InformHandler.Builder(errorMessagePrefix).setTitle(
-                StringUtil.capsFirst(handleWarning.name().replace(CyderStrings.underscore, space))));
+                StringUtil.capsFirstWord(handleWarning.name().replace(CyderStrings.underscore, space))));
     }
 }

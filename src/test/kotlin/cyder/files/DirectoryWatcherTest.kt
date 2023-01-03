@@ -86,6 +86,7 @@ class DirectoryWatcherTest {
      */
     @Test
     fun testDirectoryWatchEventPublishing() {
+        // The currently set list values takes around a minute to complete
         val pollDelays = ImmutableList.of(5, 10, 50, 75, 100, 200, 500)
         pollDelays.stream().forEach { innerTestDirectoryWatchEventPublishing(it) }
     }

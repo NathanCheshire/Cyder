@@ -68,10 +68,10 @@ public final class BletchyThread {
      *
      * @param decodeString the final string to decode and display after
      *                     the bletchy animation has finished
-     * @param useNumbers   a boolean depicting whether to use
+     * @param useNumbers   whether to use
      *                     numbers in the alphabetic characters for the animation
      * @param milliDelay   the millisecond delay in between animation frames
-     * @param useUnicode   a boolean depicting whether to use
+     * @param useUnicode   whether to use
      *                     more than just latin letters and possibly numbers
      */
     public static void bletchy(String decodeString, boolean useNumbers, int milliDelay, boolean useUnicode) {

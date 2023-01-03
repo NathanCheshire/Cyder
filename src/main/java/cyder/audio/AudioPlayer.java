@@ -1461,7 +1461,7 @@ public final class AudioPlayer {
         String title = DEFAULT_FRAME_TITLE;
 
         if (currentAudioFile.get() != null) {
-            title = StringUtil.capsFirst(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile.get())));
+            title = StringUtil.capsFirstWord(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile.get())));
         }
 
         audioPlayerFrame.setTitle(title);
@@ -1548,7 +1548,7 @@ public final class AudioPlayer {
      * in the title label container and creates a new instance based on the current audio file's title.
      */
     static void refreshAudioTitleLabel() {
-        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.get().getName()));
+        String text = StringUtil.capsFirstWord(FileUtil.getFilename(currentAudioFile.get().getName()));
 
         // end old object
         if (scrollingTitleLabel != null) {

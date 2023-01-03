@@ -92,4 +92,24 @@ public final class ArrayUtil {
 
         return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * Returns a copy of the provided array reversed
+     *
+     * @param array the array to reverse
+     * @param <T>   the type contained in the array
+     * @return a copy of the array reversed
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] reverseArray(T[] array) {
+        Preconditions.checkNotNull(array);
+
+        ImmutableList<T> reversedList = ImmutableList.copyOf(array).reverse();
+
+        T[] reversedAArray = (T[]) java.lang.reflect.Array.newInstance(
+                reversedList.get(0).getClass(), reversedList.size());
+        for (int i = 0 ; i < reversedList.size() ; i++) reversedAArray[i] = reversedList.get(i);
+
+        return reversedAArray;
+    }
 }

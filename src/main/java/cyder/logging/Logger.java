@@ -621,7 +621,8 @@ public final class Logger {
                 + newline
                 + constructTagsPrepend(THREADS_RAN)
                 + threadsRan;
-        out.println(write);
+
+        out.println(write); // todo shouldn't always print
         FileUtil.writeLinesToFile(file, ImmutableList.of(write), true);
     }
 

@@ -1791,14 +1791,19 @@ public enum Console {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!currentActiveFrames.isEmpty()) {
-            Lists.reverse(currentActiveFrames).forEach(currentFrame ->
-                    ret.add(new TaskbarIcon.Builder(currentFrame.getTitle())
-                            .setCompact(compactMode)
-                            .setFocused(false)
-                            .setBorderColor(currentFrame.getTaskbarIconBorderColor())
-                            .setCustomIcon(currentFrame.getCustomTaskbarIcon())
-                            .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
-                            .build()));
+            Lists.reverse(currentActiveFrames).forEach(currentFrame -> {
+                TaskbarIcon.Builder builder = new TaskbarIcon.Builder(currentFrame.getTitle())
+                        .setCompact(compactMode)
+                        .setFocused(false)
+                        .setBorderColor(currentFrame.getTaskbarIconBorderColor())
+                        .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame));
+
+                if (currentFrame.getCustomTaskbarIcon() != null) {
+                    builder.setCustomIcon(currentFrame.getCustomTaskbarIcon());
+                }
+
+                ret.add(builder.build());
+            });
         }
 
         return ImmutableList.copyOf(ret);

@@ -9,6 +9,16 @@ import cyder.strings.CyderStrings;
 @SuppressWarnings("unused")
 public final class HtmlTags {
     /**
+     * The opening character for html tags.
+     */
+    public static final String opening = "<";
+
+    /**
+     * The closing character for html tags.
+     */
+    public static final String closing = ">";
+
+    /**
      * An opening paragraph tag.
      */
     public static final String openingP = "<p>";

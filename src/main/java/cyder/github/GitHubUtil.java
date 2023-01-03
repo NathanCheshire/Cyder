@@ -230,8 +230,8 @@ public final class GitHubUtil {
 
             if (print) {
                 String printString = "Cloning" + space + StringUtil.getPlural(
-                        StringUtil.capsFirst(githubCloneRepoLink.getUser()))
-                        + space + quote + StringUtil.capsFirst(repoName) + quote + space + "to" + space
+                        StringUtil.capsFirstWord(githubCloneRepoLink.getUser()))
+                        + space + quote + StringUtil.capsFirstWord(repoName) + quote + space + "to" + space
                         + quote + saveDirectory.getName() + OsUtil.FILE_SEP + quote;
                 inputHandler.println(printString);
             }
