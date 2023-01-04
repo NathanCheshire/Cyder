@@ -1,7 +1,9 @@
 package cyder.strings
 
+import com.google.common.collect.ImmutableList
 import cyder.ui.button.CyderButton
 import cyder.ui.pane.CyderOutputPane
+import cyder.utils.SecurityUtil
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import javax.swing.JTextPane
@@ -133,6 +135,152 @@ class StringUtilTest {
      */
     @Test
     fun testPrintComponent() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
 
+        val componentId = SecurityUtil.generateUuid()
+        val name = "Test Button"
+        assertDoesNotThrow { stringUtilInstance.printComponent(CyderButton(), name, componentId) }
+        assertEquals(36, pane.styledDocument.length)
+        assertEquals(componentId, stringUtilInstance.lastTextLine)
+    }
+
+    /**
+     * Tests for the println component method.
+     */
+    @Test
+    fun testPrintlnComponent() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
+
+        val componentId = SecurityUtil.generateUuid()
+        val name = "Test Button"
+        assertDoesNotThrow { stringUtilInstance.printlnComponent(CyderButton(), name, componentId) }
+        assertEquals(37, pane.styledDocument.length)
+        assertEquals(componentId, stringUtilInstance.lastTextLine.replace("\\s+".toRegex(), ""))
+    }
+
+    /**
+     * Tests for the print method.
+     */
+    @Test
+    fun testPrint() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
+
+        stringUtilInstance.print("Test String")
+        assertEquals("Test String", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(0)
+        assertEquals("Test String0", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print("World")
+        assertEquals("Test String0World", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(0.0)
+        assertEquals("Test String0World0.0", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(0.0f)
+        assertEquals("Test String0World0.00.0", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(0.toShort())
+        assertEquals("Test String0World0.00.00", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(27000L)
+        assertEquals("Test String0World0.00.0027000", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print('a')
+        assertEquals("Test String0World0.00.0027000a", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print(0b1111)
+        assertEquals("Test String0World0.00.0027000a15", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.println("")
+        val button = CyderButton()
+        stringUtilInstance.print(button)
+        assertEquals(button.toString(), stringUtilInstance.lastTextLine)
+    }
+
+    /**
+     * Tests for the println method.
+     */
+    @Test
+    fun testPrintln() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
+
+        stringUtilInstance.println("Test String")
+        assertEquals("Test String", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(0)
+        assertEquals("0", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println("World")
+        assertEquals("World", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(0.0)
+        assertEquals("0.0", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(0.0f)
+        assertEquals("0.0", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(0.toShort())
+        assertEquals("0", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(27000L)
+        assertEquals("27000", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println('a')
+        assertEquals("a", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.println(0b1111)
+        assertEquals("15", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        val button = CyderButton()
+        stringUtilInstance.println(button)
+        assertEquals(button.toString(), stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+    }
+
+    /**
+     * Tests for the print lines method.
+     */
+    @Test
+    fun testPrintLines() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
+
+        val nullList: ImmutableList<String>? = null
+        assertThrows(NullPointerException::class.java) { stringUtilInstance.printLines(nullList) }
+
+        assertDoesNotThrow { stringUtilInstance.printLines(ImmutableList.of("Hello", "World")) }
+        assertEquals("World", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+
+        stringUtilInstance.removeLastElement()
+        stringUtilInstance.removeLastElement()
+        assertEquals("Hello", stringUtilInstance.lastTextLine.replace("[\\r\\n]+".toRegex(), ""))
+    }
+
+    /**
+     * Tests for the newline method.
+     */
+    @Test
+    fun testNewline() {
+        val pane = JTextPane()
+        val stringUtilInstance = StringUtil(CyderOutputPane(pane))
+
+        stringUtilInstance.newline()
+        assertEquals("\r", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print("Hello")
+        assertEquals("Hello", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.newline(true)
+        assertEquals("Hello\r", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.print("World")
+        assertEquals("World", stringUtilInstance.lastTextLine)
+
+        stringUtilInstance.newline(false)
+        assertEquals("World", stringUtilInstance.lastTextLine)
     }
 }

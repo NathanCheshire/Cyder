@@ -175,7 +175,7 @@ public final class StringUtil {
      * @param name      the name identifier for the style
      * @param stringId  the string identifier for the underlying insert string call
      */
-    private synchronized void printComponent(Component component, String name, String stringId) {
+    public synchronized void printComponent(Component component, String name, String stringId) {
         Preconditions.checkNotNull(component);
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(stringId);
@@ -284,13 +284,15 @@ public final class StringUtil {
     }
 
     /**
-     * Prints the object array to {@link this} object's JTextPane.
+     * Prints the list to {@link this} object's JTextPane.
      *
-     * @param arr the array of objects to print
+     * @param list the list of objects to print
      */
-    public synchronized void printLines(Object[] arr) {
-        for (Object o : arr) {
-            println(o);
+    public synchronized <T> void printLines(List<T> list) {
+        Preconditions.checkNotNull(list);
+
+        for (T tee : list) {
+            println(tee);
         }
     }
 
