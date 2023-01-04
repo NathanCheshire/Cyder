@@ -726,7 +726,7 @@ public final class NotesWidget {
         switch (currentView) {
             case LIST -> {
                 String name = UserUtil.getCyderUser().getName();
-                noteFrame.setTitle(name + StringUtil.getApostrophe(name) + " notes");
+                noteFrame.setTitle(name + StringUtil.getApostropheSuffix(name) + " notes");
             }
             case ADD -> noteFrame.setTitle(ADD_NOTE);
             case EDIT -> {

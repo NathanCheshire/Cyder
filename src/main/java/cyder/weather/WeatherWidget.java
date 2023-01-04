@@ -942,7 +942,7 @@ public class WeatherWidget {
 
         if (!city.isEmpty()) {
             String correctedCityName = StringUtil.capsFirstWords(city).trim();
-            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName)
+            weatherFrame.setTitle(correctedCityName + StringUtil.getApostropheSuffix(correctedCityName)
                     + CyderStrings.space + WEATHER);
         } else {
             weatherFrame.setTitle(DEFAULT_TITLE);
@@ -1064,7 +1064,7 @@ public class WeatherWidget {
 
             if (!currentLocationCityPart.isEmpty()) {
                 String city = StringUtil.capsFirstWords(currentLocationCityPart);
-                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + CyderStrings.space + WEATHER);
+                weatherFrame.setTitle(city + StringUtil.getApostropheSuffix(city) + CyderStrings.space + WEATHER);
             } else {
                 weatherFrame.setTitle(DEFAULT_TITLE);
             }

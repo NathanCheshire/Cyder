@@ -314,7 +314,7 @@ public final class ImageAveragerWidget {
                     }
 
                     averagerFrame.notify("Average computed and saved to "
-                            + StringUtil.getApostrophe(UserUtil.getCyderUser().getName())
+                            + StringUtil.getApostropheSuffix(UserUtil.getCyderUser().getName())
                             + "backgrounds/ directory");
                     drawFrame.dispose(true);
                 }));

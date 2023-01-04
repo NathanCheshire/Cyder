@@ -319,13 +319,16 @@ public final class StringUtil {
     // ------------------------------------
 
     /**
-     * Determines the proper english grammar when attempting to use possession
+     * Determines the proper suffix when attempting to use possession
      * on a string that represents a noun.
      *
      * @param name the proper singular form of the noun
      * @return the string to be appended to the proper noun ('s or simply ')
      */
-    public static String getApostrophe(String name) {
+    public static String getApostropheSuffix(String name) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+
         if (name.endsWith("s")) {
             return "'";
         } else {
@@ -355,7 +358,9 @@ public final class StringUtil {
      * @return the plural form of the word
      */
     public static String getWordFormBasedOnNumber(int num, String word) {
+        Preconditions.checkArgument(num > 0);
         Preconditions.checkNotNull(word);
+        Preconditions.checkArgument(!word.isEmpty());
 
         if (num == 1) {
             return word;
@@ -374,9 +379,11 @@ public final class StringUtil {
      * @return the resultant filled array
      */
     public static String fillString(int count, String character) {
+        Preconditions.checkArgument(count >= 0);
         Preconditions.checkNotNull(character);
+        Preconditions.checkArgument(!character.isEmpty());
 
-        return character.repeat(Math.max(0, count));
+        return character.repeat(count);
     }
 
     /**
@@ -398,17 +405,17 @@ public final class StringUtil {
      * Converts the first character of all words in the string ot the
      * capital version if the character is a standard latin character.
      *
-     * @param word the word to capitalize the first letter of
+     * @param sentence the sentence to capitalize the first letter of each word
      * @return the resultant string
      */
-    public static String capsFirstWords(String word) {
-        Preconditions.checkNotNull(word);
+    public static String capsFirstWords(String sentence) {
+        Preconditions.checkNotNull(sentence);
 
-        if (word.isEmpty()) return word;
+        if (sentence.isEmpty()) return sentence;
 
-        StringBuilder sb = new StringBuilder(word.length());
+        StringBuilder sb = new StringBuilder(sentence.length());
 
-        Arrays.stream(word.split(CyderRegexPatterns.whiteSpaceRegex)).forEach(wordy -> {
+        Arrays.stream(sentence.split(CyderRegexPatterns.whiteSpaceRegex)).forEach(wordy -> {
             sb.append(Character.toUpperCase(wordy.charAt(0)));
             sb.append(wordy.substring(1).toLowerCase()).append(CyderStrings.space);
         });
@@ -425,6 +432,7 @@ public final class StringUtil {
     public static String capsFirstWord(String word) {
         Preconditions.checkNotNull(word);
 
+        if (word.isEmpty()) return word;
         return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
     }
 
@@ -1021,7 +1029,6 @@ public final class StringUtil {
         return line.replace(CyderStrings.newline, CyderStrings.space)
                 .replace(CyderStrings.carriageReturnChar, CyderStrings.space).trim();
     }
-
 
     /**
      * Returns whether the provided array contains at least one letter.

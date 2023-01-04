@@ -268,7 +268,7 @@ public final class ImagePixelatorWidget {
         }
 
         pixelFrame.notify("Successfully saved pixelated image to "
-                + StringUtil.getApostrophe(UserUtil.getCyderUser().getName())
+                + StringUtil.getApostropheSuffix(UserUtil.getCyderUser().getName())
                 + " files/ directory");
     }
 

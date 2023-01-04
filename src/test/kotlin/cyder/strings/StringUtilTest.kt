@@ -283,4 +283,117 @@ class StringUtilTest {
         stringUtilInstance.newline(false)
         assertEquals("World", stringUtilInstance.lastTextLine)
     }
+
+    /**
+     * Tests for the get apostrophe suffix method.
+     */
+    @Test
+    fun testGetApostropheSuffix() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getApostropheSuffix(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getApostropheSuffix("") }
+
+        assertEquals("'s", StringUtil.getApostropheSuffix("Nathan"))
+        assertEquals("'", StringUtil.getApostropheSuffix("Brookes"))
+    }
+
+    /**
+     * Tests for the get plural method.
+     */
+    @Test
+    fun testGetPlural() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getPlural(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getPlural("") }
+
+        assertEquals("Houses", StringUtil.getPlural("House"))
+        assertEquals("geese", StringUtil.getPlural("Goose"))
+        assertEquals("Persons", StringUtil.getPlural("Person"))
+        assertEquals("Apples", StringUtil.getPlural("Apple"))
+        assertEquals("Sheep", StringUtil.getPlural("Sheep"))
+    }
+
+    @Test
+    fun testGetWordFormBasedOnNumber() {
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getWordFormBasedOnNumber(0, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getWordFormBasedOnNumber(1, null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getWordFormBasedOnNumber(1, "") }
+
+        assertEquals("Issue", StringUtil.getWordFormBasedOnNumber(1, "Issue"))
+        assertEquals("Issues", StringUtil.getWordFormBasedOnNumber(2, "Issue"))
+
+        assertEquals("Moss", StringUtil.getWordFormBasedOnNumber(1, "Moss"))
+        assertEquals("Mosses", StringUtil.getWordFormBasedOnNumber(2, "Moss"))
+    }
+
+    /**
+     * Tests for the fill string method.
+     */
+    @Test
+    fun testFillString() {
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.fillString(-1, "") }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.fillString(0, "") }
+        assertThrows(NullPointerException::class.java) { StringUtil.fillString(1, null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.fillString(1, "") }
+
+        assertEquals(" ", StringUtil.fillString(1, " "))
+        assertEquals("  ", StringUtil.fillString(2, " "))
+        assertEquals("aaaa", StringUtil.fillString(2, "aa"))
+    }
+
+    /**
+     * Tests for the is palindrome method.
+     */
+    @Test
+    fun testIsPalindrome() {
+        assertThrows(NullPointerException::class.java) { StringUtil.isPalindrome(null) }
+
+        assertTrue(StringUtil.isPalindrome(""))
+        assertTrue(StringUtil.isPalindrome("pop"))
+        assertTrue(StringUtil.isPalindrome("ogopogo"))
+        assertTrue(StringUtil.isPalindrome("racecar"))
+        assertTrue(StringUtil.isPalindrome("noon"))
+        assertTrue(StringUtil.isPalindrome("civic"))
+        assertTrue(StringUtil.isPalindrome("repaper"))
+        assertTrue(StringUtil.isPalindrome("rotator"))
+        assertTrue(StringUtil.isPalindrome("kayak"))
+
+        assertFalse(StringUtil.isPalindrome("take"))
+        assertFalse(StringUtil.isPalindrome("my"))
+        assertFalse(StringUtil.isPalindrome("hand"))
+        assertFalse(StringUtil.isPalindrome("we'll"))
+        assertFalse(StringUtil.isPalindrome("make"))
+        assertFalse(StringUtil.isPalindrome("it"))
+        assertTrue(StringUtil.isPalindrome("I"))
+        assertFalse(StringUtil.isPalindrome("swear"))
+    }
+
+    /**
+     * Tests for the caps first words method.
+     */
+    @Test
+    fun testCapsFirstWords() {
+        assertThrows(NullPointerException::class.java) { StringUtil.capsFirstWords(null) }
+
+        assertEquals("", StringUtil.capsFirstWords(""))
+        assertEquals("Word", StringUtil.capsFirstWords("word"))
+        assertEquals("Word", StringUtil.capsFirstWords("Word"))
+        assertEquals("Sentence Of Words And Other Things",
+                StringUtil.capsFirstWords("Sentence of words and other things"))
+        assertEquals("Sentence Of Words And Other Things 1weird Word \$word$",
+                StringUtil.capsFirstWords("Sentence of words and other things 1weird word \$word$"))
+    }
+
+    /**
+     * Tests for the caps first word method.
+     */
+    @Test
+    fun testCapsFirstWord() {
+        assertThrows(NullPointerException::class.java) { StringUtil.capsFirstWord(null) }
+
+        assertEquals("", StringUtil.capsFirstWord(""))
+        assertEquals("L", StringUtil.capsFirstWord("L"))
+        assertEquals("L", StringUtil.capsFirstWord("l"))
+        assertEquals("Word", StringUtil.capsFirstWord("word"))
+        assertEquals("Word", StringUtil.capsFirstWord("Word"))
+        assertEquals("1word", StringUtil.capsFirstWord("1word"))
+    }
 }
