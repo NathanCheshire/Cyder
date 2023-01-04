@@ -74,7 +74,7 @@ public final class StringUtil {
      *
      * @return the Linked CyderOutputPane
      */
-    public CyderOutputPane getLinkedJTextPane() {
+    public CyderOutputPane getLinkedCyderPane() {
         return linkedCyderPane;
     }
 
@@ -175,7 +175,7 @@ public final class StringUtil {
      * @param name      the name identifier for the style
      * @param stringId  the string identifier for the underlying insert string call
      */
-    public synchronized void printComponent(Component component, String name, String stringId) {
+    private synchronized void printComponent(Component component, String name, String stringId) {
         Preconditions.checkNotNull(component);
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(stringId);
