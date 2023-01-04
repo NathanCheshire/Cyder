@@ -10,10 +10,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
-import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -63,8 +63,7 @@ public final class MessagingUtil {
     /**
      * The text used for the audio preview label component.
      */
-    private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT =
-            StringUtil.generateTextForCustomComponent(6);
+    private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT = UiUtil.generateTextForCustomComponent(6);
 
     /**
      * The border length for generated audio preview.
@@ -100,8 +99,7 @@ public final class MessagingUtil {
     /**
      * The text used for generated image preview labels.
      */
-    private static final String IMAGE_PREVIEW_LABEL_TEXT
-            = StringUtil.generateTextForCustomComponent(12);
+    private static final String IMAGE_PREVIEW_LABEL_TEXT = UiUtil.generateTextForCustomComponent(12);
 
     /**
      * The save text for generated image and audio preview labels.

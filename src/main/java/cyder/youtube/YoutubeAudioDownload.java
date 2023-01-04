@@ -27,6 +27,7 @@ import cyder.ui.progress.CyderProgressUI;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
+import cyder.utils.UiUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -806,7 +807,7 @@ public class YoutubeAudioDownload {
         int parentWidth = downloadedThumbnailImage.getWidth() + 2 * thumbnailPadding;
         int parentHeight = downloadedThumbnailImage.getHeight() + 2 * thumbnailPadding;
 
-        JLabel parent = new JLabel(StringUtil.generateTextForCustomComponent(10)) {
+        JLabel parent = new JLabel(UiUtil.generateTextForCustomComponent(10)) {
             @Override
             public void paint(Graphics g) {
                 g.setColor(CyderColors.navy);

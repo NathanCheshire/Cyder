@@ -2044,6 +2044,11 @@ public enum Console {
     private static final int menuScrollVerticalPadding = 5;
 
     /**
+     * The output pane for the console taskbar menu.
+     */
+    private CyderOutputPane menuPaneOutputPane;
+
+    /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
@@ -2066,6 +2071,8 @@ public enum Console {
         menuPane.setFocusable(false);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.getGuiThemeColor());
+
+        menuPaneOutputPane = new CyderOutputPane(menuPane);
 
         menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
@@ -2090,51 +2097,57 @@ public enum Console {
      */
     private void reinstallCurrentTaskbarIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
-        StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
+
+        menuPaneOutputPane.printMenuSeparator();
 
         menuPane.setText("");
 
-        printingUtil.newline(!compactMode);
+        menuPaneOutputPane.getStringUtil().newline(!compactMode);
 
         currentFrameMenuItems.forEach(frameItem -> {
             frameItem.generateTaskbarIcon();
-            printingUtil.printlnComponent(frameItem.getTaskbarIcon());
-            printingUtil.newline(!compactMode);
+            menuPaneOutputPane.getStringUtil().printlnComponent(frameItem.getTaskbarIcon());
+            menuPaneOutputPane.getStringUtil().newline(!compactMode);
         });
 
         if (currentFrameMenuItems.size() > 0 && !compactMode) {
-            printingUtil.printSeparator();
+            menuPaneOutputPane.printMenuSeparator();
         }
 
         currentMappedExeItems.forEach(mappedExe -> {
             mappedExe.generateTaskbarIcon();
-            printingUtil.printlnComponent(mappedExe.getTaskbarIcon());
-            printingUtil.newline(!compactMode);
+            menuPaneOutputPane.getStringUtil().printlnComponent(mappedExe.getTaskbarIcon());
+            menuPaneOutputPane.getStringUtil().newline(!compactMode);
         });
 
         if (currentMappedExeItems.size() > 0 && currentFrameMenuItems.size() > 0 && !compactMode) {
-            printingUtil.printSeparator();
+            menuPaneOutputPane.printMenuSeparator();
         }
 
         currentDefaultMenuItems.forEach(taskbarIcon -> {
             taskbarIcon.generateTaskbarIcon();
-            printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
-            printingUtil.newline(!compactMode);
+            menuPaneOutputPane.getStringUtil().printlnComponent(taskbarIcon.getTaskbarIcon());
+            menuPaneOutputPane.getStringUtil().newline(!compactMode);
         });
 
         menuPane.setCaretPosition(0);
     }
 
+    // todo adding files bug to user editor
+    // todo music thumbnails downloaded aren't square? looks ugly
+    // todo only notify of opening something if it's taking more than 500ms
+    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
+
     /**
      * Removes the provided frame reference from the taskbar frame list.
      *
-     * @param associatedFrame the frame reference to remove from the taskbar frame list
+     * @param frame the frame reference to remove from the taskbar frame list
      */
-    public void removeTaskbarIcon(CyderFrame associatedFrame) {
-        Preconditions.checkNotNull(associatedFrame);
+    public void removeTaskbarIcon(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
 
-        if (currentActiveFrames.contains(associatedFrame)) {
-            currentActiveFrames.remove(associatedFrame);
+        if (currentActiveFrames.contains(frame)) {
+            currentActiveFrames.remove(frame);
             revalidateMenu();
         }
     }

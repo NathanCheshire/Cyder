@@ -1,11 +1,14 @@
 package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -14,6 +17,41 @@ import java.util.concurrent.Semaphore;
  * Note that this does not make the provided objects immutable or thread-safe.
  */
 public class CyderOutputPane {
+    /**
+     * The text used to generate a menu separation label.
+     */
+    private static final String magicMenuSepText = "NateCheshire";
+
+    /**
+     * The starting x value for a menu separation.
+     */
+    private static final int menuSepX = 0;
+
+    /**
+     * The starting y value for a menu separation.
+     */
+    private static final int menuSepY = 7;
+
+    /**
+     * The width of menu separation components.
+     */
+    private static final int menuSepWidth = 175;
+
+    /**
+     * The height of menu separation components.
+     */
+    private static final int menuSepHeight = 5;
+
+    /**
+     * The bounds for a menu separation label.
+     */
+    private static final Rectangle menuSepBounds = new Rectangle(menuSepX, menuSepY, menuSepWidth, menuSepHeight);
+
+    /**
+     * The default color of menu separator components.
+     */
+    private static final Color DEFAULT_MENU_SEP_COLOR = CyderColors.vanilla;
+
     /**
      * The linked JTextPane.
      */
@@ -29,14 +67,11 @@ public class CyderOutputPane {
      */
     private final Semaphore semaphore;
 
-    private static final String INSTANTIATION_MESSAGE = "Instances of CyderOutputPane are not allowed "
-            + "unless all parameters are given at once";
-
     /**
      * Instantiation not allowed unless all three arguments are provided
      */
     private CyderOutputPane() {
-        throw new IllegalStateException(INSTANTIATION_MESSAGE);
+        throw new IllegalStateException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -45,9 +80,8 @@ public class CyderOutputPane {
      * @param jTextPane the JTextPane to link to this instance of CyderOutputPane
      */
     public CyderOutputPane(JTextPane jTextPane) {
-        Preconditions.checkNotNull(jTextPane);
+        this.jTextPane = Preconditions.checkNotNull(jTextPane);
 
-        this.jTextPane = jTextPane;
         stringUtil = new StringUtil(this);
         semaphore = new Semaphore(1);
 
@@ -79,5 +113,44 @@ public class CyderOutputPane {
      */
     public Semaphore getSemaphore() {
         return semaphore;
+    }
+
+    /**
+     * Prints a menu separator to the {@link JTextPane}.
+     */
+    public void printMenuSeparator() {
+        stringUtil.printlnComponent(getMenuSeparator());
+        stringUtil.newline();
+    }
+
+    /**
+     * Returns a menu separator label.
+     *
+     * @return a menu separator label
+     */
+    private JLabel getMenuSeparator() {
+        return getMenuSeparator(DEFAULT_MENU_SEP_COLOR);
+    }
+
+    /**
+     * Returns a menu separator label.
+     *
+     * @return a menu separator label
+     */
+    @SuppressWarnings("SameParameterValue")
+    private JLabel getMenuSeparator(Color color) {
+        Preconditions.checkNotNull(color);
+
+        JLabel sepLabel = new JLabel(magicMenuSepText) {
+            @Override
+            public void paintComponent(Graphics g) {
+                g.setColor(getForeground());
+                g.fillRect((int) menuSepBounds.getX(), (int) menuSepBounds.getY(),
+                        (int) menuSepBounds.getWidth(), (int) menuSepBounds.getHeight());
+                g.dispose();
+            }
+        };
+        sepLabel.setForeground(color);
+        return sepLabel;
     }
 }

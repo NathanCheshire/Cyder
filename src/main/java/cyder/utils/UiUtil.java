@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.HtmlTags;
 import cyder.enums.Extension;
 import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.IllegalMethodException;
@@ -26,6 +27,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * Utilities to control, update, modify, and create CyderFrames and ui components.
@@ -566,5 +568,25 @@ public final class UiUtil {
                 return getUI().getPreferredSize(this).width <= getParent().getSize().width;
             }
         };
+    }
+
+    /**
+     * Generates the text to use for a custom component that extends JLabel to
+     * for the component to paint with the necessary size for the component
+     * to be visible. This is a Cyder specific method.
+     *
+     * @param numLines the number of lines of text to return
+     * @return the text to use for the JLabel's text
+     */
+    public static String generateTextForCustomComponent(int numLines) {
+        Preconditions.checkArgument(numLines > 0);
+
+        StringBuilder ret = new StringBuilder();
+        ret.append(HtmlTags.openingHtml);
+
+        IntStream.range(0, numLines).forEach(index
+                -> ret.append(CyderStrings.space).append(HtmlTags.breakTag));
+        ret.append(CyderStrings.space).append(HtmlTags.closingHtml);
+        return ret.toString();
     }
 }

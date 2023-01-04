@@ -1577,7 +1577,7 @@ public final class UserEditor {
     /**
      * The text used for preference labels.
      */
-    private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
+    private static final String PRINT_LABEL_MAGIC_TEXT = UiUtil.generateTextForCustomComponent(6);
 
     /**
      * The list of most recently generated checkboxes.
@@ -1764,7 +1764,7 @@ public final class UserEditor {
         changeUsernameLayout.addComponent(changeUsernameButton);
 
         CyderPanel changeUsernamePanel = new CyderPanel(changeUsernameLayout);
-        changeUsernamePanel.setText(StringUtil.generateTextForCustomComponent(12));
+        changeUsernamePanel.setText(UiUtil.generateTextForCustomComponent(12));
         changeUsernamePanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changeUsernamePanel);
 
@@ -1810,7 +1810,7 @@ public final class UserEditor {
         changePasswordLayout.addComponent(changePasswordButton);
 
         CyderPanel changePasswordPanel = new CyderPanel(changePasswordLayout);
-        changePasswordPanel.setText(StringUtil.generateTextForCustomComponent(14));
+        changePasswordPanel.setText(UiUtil.generateTextForCustomComponent(14));
         changePasswordPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changePasswordPanel);
 
@@ -1844,7 +1844,7 @@ public final class UserEditor {
         changeConsoleDaterPatternLayout.addComponent(changeConsoleDaterPatternButton);
 
         CyderPanel changeConsoleDaterPatternPanel = new CyderPanel(changeConsoleDaterPatternLayout);
-        changeConsoleDaterPatternPanel.setText(StringUtil.generateTextForCustomComponent(12));
+        changeConsoleDaterPatternPanel.setText(UiUtil.generateTextForCustomComponent(12));
         changeConsoleDaterPatternPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changeConsoleDaterPatternPanel);
 
@@ -1877,7 +1877,7 @@ public final class UserEditor {
         deleteUserLayout.addComponent(deleteUserButton);
 
         CyderPanel deleteUserPanel = new CyderPanel(deleteUserLayout);
-        deleteUserPanel.setText(StringUtil.generateTextForCustomComponent(12));
+        deleteUserPanel.setText(UiUtil.generateTextForCustomComponent(12));
         deleteUserPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(deleteUserPanel);
 
@@ -1920,7 +1920,7 @@ public final class UserEditor {
         addMapLayout.addComponent(showCurrentMapsButton);
 
         CyderPanel addMapPanel = new CyderPanel(addMapLayout);
-        addMapPanel.setText(StringUtil.generateTextForCustomComponent(16));
+        addMapPanel.setText(UiUtil.generateTextForCustomComponent(16));
         addMapPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(addMapPanel);
 
@@ -1955,7 +1955,7 @@ public final class UserEditor {
         removeMapLayout.addComponent(showCurrentMapsButtonForRemoveSection);
 
         CyderPanel removeMapPanel = new CyderPanel(removeMapLayout);
-        removeMapPanel.setText(StringUtil.generateTextForCustomComponent(14));
+        removeMapPanel.setText(UiUtil.generateTextForCustomComponent(14));
         removeMapPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(removeMapPanel);
 

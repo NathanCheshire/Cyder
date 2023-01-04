@@ -169,7 +169,7 @@ public class GitHandler extends InputHandler {
 
             StringBuilder builder = new StringBuilder();
             builder.append(issues.size()).append(space)
-                    .append(StringUtil.getPlural(issues.size(), "issue"))
+                    .append(StringUtil.getWordFormBasedOnNumber(issues.size(), "issue"))
                     .append(space).append("found:").append(CyderStrings.newline);
             builder.append(issueSeparator).append(CyderStrings.newline);
 

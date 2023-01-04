@@ -613,7 +613,7 @@ public final class Logger {
                 + constructTagsPrepend(RUNTIME)
                 + TimeUtil.formatMillis(runtime)
                 + newline
-                + constructTagsPrepend(StringUtil.getPlural(exceptions, EXCEPTION))
+                + constructTagsPrepend(StringUtil.getWordFormBasedOnNumber(exceptions, EXCEPTION))
                 + exceptions
                 + newline
                 + constructTagsPrepend(OBJECTS_CREATED)

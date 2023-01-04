@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableList;
 import cyder.bounds.HtmlString;
 import cyder.bounds.PlainString;
 import cyder.bounds.StringContainer;
-import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderUrls;
 import cyder.constants.HtmlTags;
@@ -32,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
 import java.util.*;
-import java.util.stream.IntStream;
 
 /**
  * String utility methods along with JTextPane utility methods
@@ -314,85 +312,9 @@ public final class StringUtil {
         }
     }
 
-    /**
-     * Prints a separator surrounded by newlines to the linked JTextPane.
-     */
-    public synchronized void printSeparator() {
-        printlnComponent(getMenuSeparator());
-        newline();
-    }
-
     // ------------------------------------
     // End methods which require an instance
     // ------------------------------------
-
-    /**
-     * The text used to generate a menu separation label.
-     */
-    private static final String magicMenuSepText = "NateCheshire";
-
-    /**
-     * The starting x value for a menu separation.
-     */
-    private static final int menuSepX = 0;
-
-    /**
-     * The starting y value for a menu separation.
-     */
-    private static final int menuSepY = 7;
-
-    /**
-     * The width of menu separation components.
-     */
-    private static final int menuSepWidth = 175;
-
-    /**
-     * The height of menu separation components.
-     */
-    private static final int menuSepHeight = 5;
-
-    /**
-     * The bounds for a menu separation label.
-     */
-    private static final Rectangle menuSepBounds = new Rectangle(menuSepX, menuSepY, menuSepWidth, menuSepHeight);
-
-    /**
-     * The default color of menu separator components.
-     */
-    private static final Color DEFAULT_MENU_SEP_COLOR = CyderColors.vanilla;
-
-    // todo these should be extracted to UiUtil
-
-    /**
-     * Returns a menu separator label.
-     *
-     * @return a menu separator label
-     */
-    private JLabel getMenuSeparator() {
-        return getMenuSeparator(DEFAULT_MENU_SEP_COLOR);
-    }
-
-    /**
-     * Returns a menu separator label.
-     *
-     * @return a menu separator label
-     */
-    @SuppressWarnings("SameParameterValue")
-    private JLabel getMenuSeparator(Color color) {
-        Preconditions.checkNotNull(color);
-
-        JLabel sepLabel = new JLabel(magicMenuSepText) {
-            @Override
-            public void paintComponent(Graphics g) {
-                g.setColor(getForeground());
-                g.fillRect((int) menuSepBounds.getX(), (int) menuSepBounds.getY(),
-                        (int) menuSepBounds.getWidth(), (int) menuSepBounds.getHeight());
-                g.dispose();
-            }
-        };
-        sepLabel.setForeground(color);
-        return sepLabel;
-    }
 
     /**
      * Determines the proper english grammar when attempting to use possession
@@ -430,7 +352,7 @@ public final class StringUtil {
      * @param word the word to be converted to plural
      * @return the plural form of the word
      */
-    public static String getPlural(int num, String word) {
+    public static String getWordFormBasedOnNumber(int num, String word) {
         Preconditions.checkNotNull(word);
 
         if (num == 1) {
@@ -483,9 +405,8 @@ public final class StringUtil {
         if (word.isEmpty()) return word;
 
         StringBuilder sb = new StringBuilder(word.length());
-        String[] words = word.split(CyderRegexPatterns.whiteSpaceRegex);
 
-        Arrays.stream(words).forEach(wordy -> {
+        Arrays.stream(word.split(CyderRegexPatterns.whiteSpaceRegex)).forEach(wordy -> {
             sb.append(Character.toUpperCase(wordy.charAt(0)));
             sb.append(wordy.substring(1).toLowerCase()).append(CyderStrings.space);
         });
@@ -703,13 +624,16 @@ public final class StringUtil {
 
     /**
      * Count the number of words of the provided string.
+     * A word is defined as a sequence of non-whitespace chars surrounded on both sides by whitespace.
+     * The starting or ending word(s) in a provided string, need not be surrounded on both sides by whitespace.
      *
-     * @param str the string ot count the words of
+     * @param string the string ot count the words of
      * @return the word count of the requested string
      */
-    public static int countWords(String str) {
-        return (str == null || str.isEmpty())
-                ? 0 : str.split(CyderRegexPatterns.whiteSpaceRegex).length;
+    public static int countWords(String string) {
+        if (isNullOrEmpty(string)) return 0;
+
+        return string.split(CyderRegexPatterns.whiteSpaceRegex).length;
     }
 
     /**
@@ -725,13 +649,8 @@ public final class StringUtil {
         String[] parts = input.split(CyderStrings.comma);
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0 ; i < parts.length ; i++) {
-            sb.append(parts[i]);
-
-            if (i != parts.length - 1) {
-                sb.append(", ");
-            }
-        }
+        ArrayUtil.forEachElementExcludingLast(part -> sb.append(part).append(", "), ArrayUtil.toList(parts));
+        sb.append(ArrayUtil.getLastElement(parts));
 
         return sb.toString();
 
@@ -780,9 +699,9 @@ public final class StringUtil {
     }
 
     /**
-     * The additional part for a wikipedia summary scrape.
+     * The suffix for a wikipedia summary scrape.
      */
-    private static final String WIKI_SUM_PROP = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
+    private static final String WIKI_SUM_URL_SUFFIX = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
 
     /**
      * The string to split the wikisum results on.
@@ -798,7 +717,7 @@ public final class StringUtil {
      */
     public static Optional<String> getWikipediaSummary(String query) {
         try {
-            String queryUrl = CyderUrls.WIKIPEDIA_SUMMARY_BASE + WIKI_SUM_PROP
+            String queryUrl = CyderUrls.WIKIPEDIA_SUMMARY_BASE + WIKI_SUM_URL_SUFFIX
                     + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
             String urlContents = NetworkUtil.readUrl(queryUrl);
 
@@ -834,12 +753,12 @@ public final class StringUtil {
     }
 
     /**
-     * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
+     * Finds the non-html text and html tags of a string and returns a linked list representing the parts.
      *
      * @param htmlText the text containing html tags
      * @return a linked list where each object represents either a complete tag or raw text
      */
-    public static ImmutableList<StringContainer> getTaggedStrings(String htmlText) {
+    public static ImmutableList<StringContainer> splitToHtmlTagsAndContent(String htmlText) {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
@@ -864,7 +783,7 @@ public final class StringUtil {
             textCopy = textCopy.substring(firstClosingTagIndex + 1);
         }
 
-        // Remaining text is non-html since the textCopy doesn't contain opening nor closing tags
+        // Remaining text is non-html since the textCopy contain neither opening or closing tags
         if (!textCopy.isEmpty()) {
             taggedStrings.add(new PlainString(textCopy));
         }
@@ -898,7 +817,7 @@ public final class StringUtil {
 
         int length = 0;
 
-        ImmutableList<StringContainer> taggedStrings = getTaggedStrings(htmlText);
+        ImmutableList<StringContainer> taggedStrings = splitToHtmlTagsAndContent(htmlText);
 
         if (taggedStrings.isEmpty()) {
             length = htmlText.length();
@@ -980,7 +899,7 @@ public final class StringUtil {
      * The amount added to {@link #getMinWidth(String, Font)} and
      * {@link #getMinHeight(String, Font)} to account for possible weird bugs.
      */
-    public static final int SIZE_ADDITIVE = 10;
+    private static final int SIZE_ADDITIVE = 10;
 
     /**
      * The font render context to use for string bounds calculations.
@@ -990,11 +909,11 @@ public final class StringUtil {
 
     /**
      * Returns the minimum width required for the given String using the given font.
+     * {@link #SIZE_ADDITIVE} is added to the returned value to avoid a graphical bug.
      *
-     * @param text the text you want to determine the width of
+     * @param text the text to determine the width of
      * @param font the font for the text
-     * @return an integer value determining the minimum width of
-     * a string of text (10 is added to avoid ... bug)
+     * @return the minimum width
      */
     public static int getMinWidth(String text, Font font) {
         Preconditions.checkNotNull(text);
@@ -1006,9 +925,9 @@ public final class StringUtil {
     /**
      * Returns the minimum width required for the given String using the given font.
      *
-     * @param text the text you want to determine the width of
+     * @param text the text to determine the width of
      * @param font the font for the text
-     * @return an integer value determining the minimum width of a string of text
+     * @return the absolute minimum width
      */
     public static int getAbsoluteMinWidth(String text, Font font) {
         Preconditions.checkNotNull(text);
@@ -1019,11 +938,11 @@ public final class StringUtil {
 
     /**
      * Returns the minimum height required for the given String using the given font.
+     * {@link #SIZE_ADDITIVE} is added to the returned value to avoid a graphical bug.
      *
-     * @param text the text you want to determine the height of
-     * @param font the font to use to determine the min height
-     * @return an integer value determining the minimum height
-     * of a string of text (10 is added to avoid ... bug)
+     * @param text the text to determine the width of
+     * @param font the font
+     * @return the minimum height
      */
     public static int getMinHeight(String text, Font font) {
         Preconditions.checkNotNull(text);
@@ -1033,12 +952,11 @@ public final class StringUtil {
     }
 
     /**
-     * Returns the minimum height required for the given String
-     * using the given font without adding 10.
+     * Returns the minimum height required for the given String.
      *
-     * @param text the text you want to determine the height of
+     * @param text the text to determine the width of
      * @param font the font to use to determine the min height
-     * @return an integer value determining the minimum height of a string of text
+     * @return the absolute minimum height
      */
     public static int getAbsoluteMinHeight(String text, Font font) {
         Preconditions.checkNotNull(text);
@@ -1046,6 +964,11 @@ public final class StringUtil {
 
         return (int) font.getStringBounds(text, fontRenderContext).getHeight();
     }
+
+    /**
+     * The regex to target non Ascii characters.
+     */
+    private static final String nonAsciiRegex = "[^\\x00-\\x7F]";
 
     /**
      * Removes all non-ascii characters from the provided string.
@@ -1056,7 +979,7 @@ public final class StringUtil {
     public static String removeNonAscii(String nonAsciiContaining) {
         Preconditions.checkNotNull(nonAsciiContaining);
 
-        return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", CyderStrings.space));
+        return getTrimmedText(nonAsciiContaining.replaceAll(nonAsciiRegex, CyderStrings.space));
     }
 
     /**
@@ -1079,6 +1002,7 @@ public final class StringUtil {
      */
     public static String generateSpaces(int n) {
         Preconditions.checkArgument(n >= 0);
+
         return CyderStrings.space.repeat(n);
     }
 
@@ -1096,27 +1020,6 @@ public final class StringUtil {
                 .replace(CyderStrings.carriageReturnChar, CyderStrings.space).trim();
     }
 
-    // todo ui util
-
-    /**
-     * Generates the text to use for a custom component that extends JLabel to
-     * for the component to paint with the necessary size for the component
-     * to be visible. This is a Cyder specific method.
-     *
-     * @param numLines the number of lines of text to return
-     * @return the text to use for the JLabel's text
-     */
-    public static String generateTextForCustomComponent(int numLines) {
-        Preconditions.checkArgument(numLines > 0);
-
-        StringBuilder ret = new StringBuilder();
-        ret.append(HtmlTags.openingHtml);
-
-        IntStream.range(0, numLines).forEach(index
-                -> ret.append(CyderStrings.space).append(HtmlTags.breakTag));
-        ret.append(CyderStrings.space).append(HtmlTags.closingHtml);
-        return ret.toString();
-    }
 
     /**
      * Returns whether the provided array contains at least one letter.
@@ -1174,6 +1077,27 @@ public final class StringUtil {
         }
 
         return string.substring(startIndex);
+    }
+
+    /**
+     * Trims the whitespace from the right of the provided string.
+     *
+     * @param string the string to trim the right side of
+     * @return the right-trimmed string
+     */
+    public static String trimRight(String string) {
+        Preconditions.checkNotNull(string);
+
+        char[] chars = string.toCharArray();
+
+        int endIndex = 0;
+        for (int i = chars.length - 1 ; i >= 0 ; i--) {
+            if (chars[i] == ' ') continue;
+            endIndex = i + 1;
+            break;
+        }
+
+        return string.substring(0, endIndex);
     }
 
     /**

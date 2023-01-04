@@ -224,7 +224,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
-                ImmutableList<StringContainer> taggedStrings = StringUtil.getTaggedStrings(originalText);
+                ImmutableList<StringContainer> taggedStrings = StringUtil.splitToHtmlTagsAndContent(originalText);
 
                 //init ripple iterations list
                 LinkedList<String> rippleTextIterations = new LinkedList<>();
