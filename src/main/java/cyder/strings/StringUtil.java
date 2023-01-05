@@ -451,7 +451,7 @@ public final class StringUtil {
 
         StringBuilder sb = new StringBuilder();
         Arrays.stream(words).forEach(word ->
-                sb.append(replaceLeet(word)).append(CyderStrings.space));
+                sb.append(replaceLeetChars(word)).append(CyderStrings.space));
         return sb.toString().trim();
     }
 
@@ -461,8 +461,8 @@ public final class StringUtil {
      * @param word the word to filter leet out of
      * @return the word having leet removed to the best of our abilities
      */
-    private static String replaceLeet(String word) {
-        char[] chars = word.toLowerCase().toCharArray();
+    private static String replaceLeetChars(String word) {
+        char[] chars = word.toCharArray();
 
         for (int i = 0 ; i < chars.length ; i++) {
             char c = chars[i];
@@ -473,7 +473,7 @@ public final class StringUtil {
             https://cleanspeak.com/images/blog/leet-wiki-table.png
              */
 
-            if (c == '4' || c == '@' || c == '^' || c == 'z') {
+            if (c == '4' || c == '@' || c == '^' || c == 'z' || c == 'Z') {
                 chars[i] = 'a';
             } else if (c == '8' || c == '6') {
                 chars[i] = 'b';
@@ -497,7 +497,7 @@ public final class StringUtil {
                 chars[i] = 'n';
             } else if (c == '0') {
                 chars[i] = 'o';
-            } else if (c == '?' || c == 'q') {
+            } else if (c == '?' || c == 'q' || c == 'Q') {
                 chars[i] = 'p';
             } else if (c == '2') {
                 chars[i] = 'r';
@@ -654,16 +654,10 @@ public final class StringUtil {
      */
     public static String formatCommas(String input) {
         Preconditions.checkNotNull(input);
-        Preconditions.checkArgument(!input.isEmpty());
 
-        String[] parts = input.split(CyderStrings.comma);
-        StringBuilder sb = new StringBuilder();
+        if (input.isEmpty()) return input;
 
-        ArrayUtil.forEachElementExcludingLast(part -> sb.append(part).append(", "), ArrayUtil.toList(parts));
-        sb.append(ArrayUtil.getLastElement(parts));
-
-        return sb.toString();
-
+        return input.replaceAll(",\\s*", ", ");
     }
 
     /**
@@ -693,6 +687,9 @@ public final class StringUtil {
      * @return the definition of the requested word if found
      */
     public static Optional<String> getDefinition(String word) {
+        Preconditions.checkNotNull(word);
+        Preconditions.checkArgument(!word.isEmpty());
+
         try {
             Document doc = Jsoup.connect(DICTIONARY_BASE + word).get();
             Elements els = doc.getElementsByClass(DEFINITION_ELEMENT_NAME).not(PAD_10).not(PAD_20);

@@ -396,4 +396,123 @@ class StringUtilTest {
         assertEquals("Word", StringUtil.capsFirstWord("Word"))
         assertEquals("1word", StringUtil.capsFirstWord("1word"))
     }
+
+    /**
+     * Tests for the filter leet method.
+     */
+    @Test
+    fun testFilterLeet() {
+        assertThrows(NullPointerException::class.java) { StringUtil.filterLeet(null) }
+
+        assertEquals("", StringUtil.filterLeet(""))
+        assertEquals("Hello", StringUtil.filterLeet("Hello"))
+        assertEquals("shittt", StringUtil.filterLeet("$#!ttt"))
+        assertEquals("cunters", StringUtil.filterLeet("(u~+ers"))
+    }
+
+    /**
+     * Tests for the has word method.
+     */
+    @Test
+    fun testHasWord() {
+        assertThrows(NullPointerException::class.java) { StringUtil.hasWord(null, null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.hasWord("", null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.hasWord("input", null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.hasWord("input", "") }
+
+        assertFalse(StringUtil.hasWord("user input", "potato", true))
+        assertFalse(StringUtil.hasWord("user input", "spuds", true))
+        assertFalse(StringUtil.hasWord("user input", "userinput", true))
+        assertFalse(StringUtil.hasWord("user input", "users", true))
+
+        assertTrue(StringUtil.hasWord("user input", "user", true))
+        assertTrue(StringUtil.hasWord("user input", "USER", true))
+        assertTrue(StringUtil.hasWord("user input", "input", true))
+        assertTrue(StringUtil.hasWord("user input", "inPut", true))
+    }
+
+    /**
+     * Tests for the contains blocked words method.
+     */
+    @Test
+    fun testContainsBlockedWords() {
+        assertThrows(NullPointerException::class.java) { StringUtil.containsBlockedWords(null, true) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.containsBlockedWords("", true) }
+
+        assertTrue { StringUtil.containsBlockedWords("$#!t", true).failed }
+        assertTrue { StringUtil.containsBlockedWords("(u~+", true).failed }
+
+        assertFalse { StringUtil.containsBlockedWords("hello world", true).failed }
+        assertFalse { StringUtil.containsBlockedWords("hello (unt", false).failed }
+    }
+
+    /**
+     * Test for the first char to lower case method.
+     */
+    @Test
+    fun testFirstCharToLowerCase() {
+        assertThrows(NullPointerException::class.java) { StringUtil.firstCharToLowerCase(null) }
+
+        assertEquals("", StringUtil.firstCharToLowerCase(""))
+        assertEquals("hello world", StringUtil.firstCharToLowerCase("Hello world"))
+        assertEquals("hello world", StringUtil.firstCharToLowerCase("hello world"))
+        assertEquals("pretty", StringUtil.firstCharToLowerCase("Pretty"))
+        assertEquals("toxic", StringUtil.firstCharToLowerCase("Toxic"))
+        assertEquals("revolver", StringUtil.firstCharToLowerCase("Revolver"))
+    }
+
+    /**
+     * Tests for the count words method.
+     */
+    @Test
+    fun testCountWords() {
+        assertEquals(0, StringUtil.countWords(null))
+        assertEquals(0, StringUtil.countWords(""))
+        assertEquals(1, StringUtil.countWords("Hello"))
+        assertEquals(2, StringUtil.countWords("Hello world"))
+        assertEquals(9, StringUtil.countWords(CyderStrings.QUICK_BROWN_FOX))
+    }
+
+    /**
+     * Tests for the format commas method.
+     */
+    @Test
+    fun testFormatCommas() {
+        assertThrows(NullPointerException::class.java) { StringUtil.formatCommas(null) }
+
+        assertEquals("", StringUtil.formatCommas(""))
+        assertEquals("Something, ", StringUtil.formatCommas("Something,"))
+        assertEquals("Something, just", StringUtil.formatCommas("Something,just"))
+        assertEquals("Something, just, like, this",
+                StringUtil.formatCommas("Something,just,like,this"))
+        assertEquals("Something, just, like, this, ",
+                StringUtil.formatCommas("Something,just,like,this,"))
+    }
+
+    /**
+     * Tests for the get definition method.
+     */
+    @Test
+    fun testGetDefinition() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getDefinition(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getDefinition("") }
+
+        var optionalDefinition = StringUtil.getDefinition("Guitar")
+        assertTrue(optionalDefinition.isPresent)
+        assertEquals("a stringed musical instrument with a long, fretted neck, a flat,"
+                + " somewhat violinlike body, and typically six strings, which are plucked with "
+                + "the fingers or with a plectrum.", optionalDefinition.get())
+
+        optionalDefinition = StringUtil.getDefinition("Genesis")
+        assertTrue(optionalDefinition.isPresent)
+        assertEquals("an origin, creation, or beginning.", optionalDefinition.get())
+    }
+
+    /**
+     * Tests for the get wikipedia summary method.
+     */
+    @Test
+    fun testGetWikipediaSummary() {
+
+    }
 }
