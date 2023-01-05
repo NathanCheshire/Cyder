@@ -897,12 +897,9 @@ public final class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         Preconditions.checkNotNull(lookFor);
-        Preconditions.checkArgument(!lookFor.isEmpty());
         Preconditions.checkNotNull(strings);
-        Preconditions.checkArgument(!strings.isEmpty());
         for (String string : strings) {
             Preconditions.checkNotNull(string);
-            Preconditions.checkArgument(!string.isEmpty());
         }
 
         for (String look : strings) {

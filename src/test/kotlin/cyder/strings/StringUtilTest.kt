@@ -686,26 +686,14 @@ class StringUtilTest {
         assertThrows(NullPointerException::class.java) {
             StringUtil.`in`(null, false, ImmutableList.of())
         }
-        assertThrows(IllegalArgumentException::class.java) {
-            StringUtil.`in`("", false, ImmutableList.of())
-        }
-        assertThrows(IllegalArgumentException::class.java) {
-            StringUtil.`in`("word", false, ImmutableList.of())
-        }
 
         val nullString: String? = null
 
         assertThrows(NullPointerException::class.java) {
             StringUtil.`in`("word", false, ImmutableList.of(nullString))
         }
-        assertThrows(IllegalArgumentException::class.java) {
-            StringUtil.`in`("word", false, ImmutableList.of(""))
-        }
         assertThrows(NullPointerException::class.java) {
             StringUtil.`in`("word", false, ImmutableList.of("word", nullString))
-        }
-        assertThrows(IllegalArgumentException::class.java) {
-            StringUtil.`in`("word", false, ImmutableList.of("word", ""))
         }
 
         assertFalse(StringUtil.`in`("word", false, "wOrD"))

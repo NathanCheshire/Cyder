@@ -103,7 +103,10 @@ public final class NecessarySubroutines {
         InstanceSocketUtil.startListening();
     }
 
-    private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
+    /**
+     * The list of necessary subroutines which must complete successfully before builds of Cyder are released.
+     */
+    public static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
             new Subroutine(() -> {
                 File[] fontFiles = StaticUtil.getStaticDirectory(fonts).listFiles();
 

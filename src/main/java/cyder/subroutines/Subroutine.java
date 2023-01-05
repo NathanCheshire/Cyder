@@ -2,9 +2,13 @@ package cyder.subroutines;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import cyder.exceptions.IllegalMethodException;
+import com.google.errorprone.annotations.Immutable;
 import cyder.strings.CyderStrings;
 
+/**
+ * A subroutine to execute on Cyder startup.
+ */
+@Immutable
 public final class Subroutine {
     /**
      * The subroutine failed string.
@@ -25,13 +29,6 @@ public final class Subroutine {
      * The failure message to use in the case of the supplier returning false.
      */
     private final String onFailureMessage;
-
-    /**
-     * Suppress default constructor.
-     */
-    private Subroutine() {
-        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
-    }
 
     /**
      * Constructs a new sufficient subroutine.
