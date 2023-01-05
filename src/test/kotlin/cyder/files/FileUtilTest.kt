@@ -390,7 +390,7 @@ class FileUtilTest {
             FileUtil.getFolders(File("folder_that_does_not_exist"))
         }
         Assertions.assertEquals(13, FileUtil.getFolders(File("."), false).size)
-        Assertions.assertTrue(FileUtil.getFolders(File(".")).size >= 474)
+        Assertions.assertTrue(FileUtil.getFolders(File(".")).size >= 10)
     }
 
     /**

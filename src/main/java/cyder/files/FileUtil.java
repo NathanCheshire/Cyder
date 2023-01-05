@@ -98,7 +98,10 @@ public final class FileUtil {
     public static boolean isSupportedImageExtension(File file) {
         checkNotNull(file);
 
-        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
+        String extension = getExtension(file.getName());
+        if (StringUtil.isNullOrEmpty(extension)) return false;
+
+        return StringUtil.in(extension, true, SUPPORTED_IMAGE_EXTENSIONS)
                 && (fileMatchesSignature(file, PNG_SIGNATURE) || fileMatchesSignature(file, JPG_SIGNATURE));
     }
 
@@ -112,7 +115,10 @@ public final class FileUtil {
     public static boolean isSupportedAudioExtension(File file) {
         checkNotNull(file);
 
-        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_AUDIO_EXTENSIONS)
+        String extension = getExtension(file.getName());
+        if (StringUtil.isNullOrEmpty(extension)) return false;
+
+        return StringUtil.in(extension, true, SUPPORTED_AUDIO_EXTENSIONS)
                 && (fileMatchesSignature(file, WAV_SIGNATURE) || fileMatchesSignature(file, MP3_SIGNATURE));
     }
 
@@ -125,7 +131,10 @@ public final class FileUtil {
     public static boolean isSupportedFontExtension(File file) {
         checkNotNull(file);
 
-        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_FONT_EXTENSIONS)
+        String extension = getExtension(file.getName());
+        if (StringUtil.isNullOrEmpty(extension)) return false;
+
+        return StringUtil.in(extension, true, SUPPORTED_FONT_EXTENSIONS)
                 && fileMatchesSignature(file, TTF_SIGNATURE);
     }
 

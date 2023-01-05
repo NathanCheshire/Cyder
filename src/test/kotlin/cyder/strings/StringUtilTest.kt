@@ -905,7 +905,7 @@ class StringUtilTest {
         assertEquals("", StringUtil.stripNewLinesAndTrim("\n\t    "))
 
         assertEquals("hello world", StringUtil.stripNewLinesAndTrim("\thello world\t"))
-        assertEquals("hello", StringUtil.stripNewLinesAndTrim("\thello world\t"))
+        assertEquals("hello world", StringUtil.stripNewLinesAndTrim("\thello world\t"))
     }
 
     /**
