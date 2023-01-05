@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package cyder.strings
 
 import com.google.common.collect.ImmutableList
@@ -850,6 +852,126 @@ class StringUtilTest {
      */
     @Test
     fun testRemoveNonAscii() {
+        assertThrows(NullPointerException::class.java) { StringUtil.removeNonAscii(null) }
 
+        assertEquals("Hello World", StringUtil.removeNonAscii("Hello World"))
+        assertEquals("Hello World", StringUtil.removeNonAscii("Hello🔥😏World"))
+        assertEquals("", StringUtil.removeNonAscii("😂❤️"))
+    }
+
+    /**
+     * Tests for the contains non ascii method.
+     */
+    @Test
+    fun testContainsNonAscii() {
+        assertThrows(NullPointerException::class.java) { StringUtil.containsNonAscii(null) }
+
+        assertFalse(StringUtil.containsNonAscii("Hello World"))
+        assertTrue(StringUtil.containsNonAscii("Hello中國的World"))
+        assertTrue(StringUtil.containsNonAscii("😂❤️"))
+
+        assertFalse(StringUtil.containsNonAscii("Hello world"))
+        assertFalse(StringUtil.containsNonAscii("1234567890"))
+        assertFalse(StringUtil.containsNonAscii("!@#$%^&*()_+-="))
+    }
+
+    /**
+     * Tests for the generate spaces method.
+     */
+    @Test
+    fun testGenerateSpaces() {
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.generateSpaces(-1) }
+
+        assertEquals("", StringUtil.generateSpaces(0))
+        assertEquals(" ", StringUtil.generateSpaces(1))
+        assertEquals("  ", StringUtil.generateSpaces(2))
+        assertEquals("   ", StringUtil.generateSpaces(3))
+        assertEquals("    ", StringUtil.generateSpaces(4))
+        assertEquals("     ", StringUtil.generateSpaces(5))
+    }
+
+    /**
+     * Tests for the strip new lines and trim method.
+     */
+    @Test
+    fun testStripNewLinesAndTrim() {
+        assertThrows(NullPointerException::class.java) { StringUtil.stripNewLinesAndTrim(null) }
+
+        assertEquals("", StringUtil.stripNewLinesAndTrim(""))
+        assertEquals("", StringUtil.stripNewLinesAndTrim("\t\t"))
+        assertEquals("", StringUtil.stripNewLinesAndTrim("\n\n"))
+        assertEquals("", StringUtil.stripNewLinesAndTrim("\n\n\t\t"))
+        assertEquals("", StringUtil.stripNewLinesAndTrim(" \t\t  "))
+        assertEquals("", StringUtil.stripNewLinesAndTrim("\n\t    "))
+
+        assertEquals("hello world", StringUtil.stripNewLinesAndTrim("\thello world\t"))
+        assertEquals("hello", StringUtil.stripNewLinesAndTrim("\thello world\t"))
+    }
+
+    /**
+     * Tests for the contains letter method.
+     */
+    @Test
+    fun testContainsLetter() {
+        assertThrows(NullPointerException::class.java) { StringUtil.containsLetter(null) }
+
+        assertTrue(StringUtil.containsLetter("1234a".toCharArray()))
+        assertFalse(StringUtil.containsLetter("1234567890".toCharArray()))
+        assertFalse(StringUtil.containsLetter("".toCharArray()))
+        assertFalse(StringUtil.containsLetter("7".toCharArray()))
+    }
+
+    /**
+     * Tests for the contains number method.
+     */
+    @Test
+    fun testContainsNumber() {
+        assertThrows(NullPointerException::class.java) { StringUtil.containsNumber(null) }
+
+        assertTrue(StringUtil.containsNumber("aaaa2".toCharArray()))
+        assertFalse(StringUtil.containsNumber("asdfasdf".toCharArray()))
+        assertFalse(StringUtil.containsNumber("".toCharArray()))
+        assertFalse(StringUtil.containsNumber("a".toCharArray()))
+    }
+
+    /**
+     * Tests for the escape quotes method.
+     */
+    @Test
+    fun testEscapeQuotes() {
+        assertThrows(NullPointerException::class.java) { StringUtil.escapeQuotes(null) }
+
+        assertEquals("", StringUtil.escapeQuotes(""))
+        assertEquals("hello", StringUtil.escapeQuotes("hello"))
+        assertEquals("hello\\\"", StringUtil.escapeQuotes("hello\""))
+        assertEquals("\\\"hello\\\"", StringUtil.escapeQuotes("\"hello\""))
+    }
+
+    /**
+     * Tests for the join parts method.
+     */
+    @Test
+    fun testJoinParts() {
+        assertThrows(NullPointerException::class.java) { StringUtil.joinParts(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.joinParts(ImmutableList.of(), null) }
+
+        assertEquals("", StringUtil.joinParts(ImmutableList.of("", ""), ""))
+        assertEquals("aa", StringUtil.joinParts(ImmutableList.of("a", "a"), ""))
+        assertEquals("a a", StringUtil.joinParts(ImmutableList.of("a", "a"), " "))
+        assertEquals("a a b", StringUtil.joinParts(ImmutableList.of("a", "a", "b"), " "))
+    }
+
+    /**
+     * Tests for the remove last char method.
+     */
+    @Test
+    fun testRemoveLastChar() {
+        assertThrows(NullPointerException::class.java) { StringUtil.removeLastChar(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.removeLastChar("") }
+
+        assertEquals("", StringUtil.removeLastChar("a"))
+        assertEquals("a", StringUtil.removeLastChar("ab"))
+        assertEquals("Hell", StringUtil.removeLastChar("Hello"))
+        assertEquals("Hello", StringUtil.removeLastChar("Hello1"))
     }
 }

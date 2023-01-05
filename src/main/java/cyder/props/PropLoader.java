@@ -196,7 +196,7 @@ public final class PropLoader {
             }
 
             String fullLine = previousLinesOfMultilineProp.toString();
-            fullLine += fullLine.isEmpty() ? line : StringUtil.trimLeft(line);
+            fullLine += fullLine.isEmpty() ? line : line.stripLeading();
 
             Pair<String, String> extractedKeyValue = extractPropFromLine(fullLine);
             String key = extractedKeyValue.getKey();

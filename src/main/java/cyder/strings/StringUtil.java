@@ -1,6 +1,5 @@
 package cyder.strings;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.bounds.HtmlString;
@@ -993,25 +992,25 @@ public final class StringUtil {
     /**
      * Removes all non-ascii characters from the provided string.
      *
-     * @param nonAsciiContaining the string containing non-ascii characters
+     * @param string the string containing non-ascii characters
      * @return the string with the non-ascii characters removed
      */
-    public static String removeNonAscii(String nonAsciiContaining) {
-        Preconditions.checkNotNull(nonAsciiContaining);
+    public static String removeNonAscii(String string) {
+        Preconditions.checkNotNull(string);
 
-        return getTrimmedText(nonAsciiContaining.replaceAll(nonAsciiRegex, CyderStrings.space));
+        return getTrimmedText(string.replaceAll(nonAsciiRegex, CyderStrings.space));
     }
 
     /**
      * Returns whether the provided string contains non-ascii characters.
      *
-     * @param nonAsciiContaining the string which may contain non-ascii characters
+     * @param string the string which may contain non-ascii characters
      * @return whether the provided string contains non-ascii characters
      */
-    public static boolean containsNonAscii(String nonAsciiContaining) {
-        Preconditions.checkNotNull(nonAsciiContaining);
+    public static boolean containsNonAscii(String string) {
+        Preconditions.checkNotNull(string);
 
-        return CharMatcher.ascii().matchesAllOf(nonAsciiContaining);
+        return removeNonAscii(string).length() != string.length();
     }
 
     /**
@@ -1079,47 +1078,6 @@ public final class StringUtil {
     }
 
     /**
-     * Trims the whitespace from the left of the provided string.
-     *
-     * @param string the string to trim the left side of
-     * @return the left-trimmed string
-     */
-    public static String trimLeft(String string) {
-        Preconditions.checkNotNull(string);
-
-        char[] chars = string.toCharArray();
-
-        int startIndex = 0;
-        for (char aChar : chars) {
-            if (aChar != ' ') break;
-            startIndex++;
-        }
-
-        return string.substring(startIndex);
-    }
-
-    /**
-     * Trims the whitespace from the right of the provided string.
-     *
-     * @param string the string to trim the right side of
-     * @return the right-trimmed string
-     */
-    public static String trimRight(String string) {
-        Preconditions.checkNotNull(string);
-
-        char[] chars = string.toCharArray();
-
-        int endIndex = 0;
-        for (int i = chars.length - 1 ; i >= 0 ; i--) {
-            if (chars[i] == ' ') continue;
-            endIndex = i + 1;
-            break;
-        }
-
-        return string.substring(0, endIndex);
-    }
-
-    /**
      * Escapes all the quotes in the provided string.
      * All instances of {\"} are replaced with {\\\"}.
      *
@@ -1129,7 +1087,7 @@ public final class StringUtil {
     public static String escapeQuotes(String string) {
         Preconditions.checkNotNull(string);
 
-        return string.replaceAll("\"", "\\\"");
+        return string.replace("\"", "\\\"");
     }
 
     /**
