@@ -210,7 +210,7 @@ public final class InformHandler {
          */
         public Builder(String htmlText) {
             Preconditions.checkNotNull(htmlText);
-            Preconditions.checkArgument(StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
+            Preconditions.checkArgument(StringUtil.getTextLengthIgnoringHtmlTags(htmlText) >= MINIMUM_TEXT_LENGTH);
 
             this.htmlText = htmlText;
             Logger.log(LogTag.OBJECT_CREATION, this);

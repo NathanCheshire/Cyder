@@ -1,6 +1,9 @@
 package cyder.strings
 
 import com.google.common.collect.ImmutableList
+import cyder.bounds.HtmlString
+import cyder.bounds.PlainString
+import cyder.constants.CyderFonts
 import cyder.ui.button.CyderButton
 import cyder.ui.pane.CyderOutputPane
 import cyder.utils.SecurityUtil
@@ -506,6 +509,9 @@ class StringUtilTest {
         optionalDefinition = StringUtil.getDefinition("Genesis")
         assertTrue(optionalDefinition.isPresent)
         assertEquals("an origin, creation, or beginning.", optionalDefinition.get())
+
+        optionalDefinition = StringUtil.getDefinition("asdfasdfasdfasdf")
+        assertTrue(optionalDefinition.isEmpty)
     }
 
     /**
@@ -513,6 +519,337 @@ class StringUtilTest {
      */
     @Test
     fun testGetWikipediaSummary() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getWikipediaSummary(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getWikipediaSummary("") }
+
+        var optionalSummary = StringUtil.getWikipediaSummary("MGK")
+        assertTrue(optionalSummary.isPresent)
+        assertEquals("Colson Baker (born April 22, 1990), known professionally as Machine"
+                + " Gun Kelly (MGK), is an American rapper, singer, songwriter, and actor. He is noted"
+                + " for his genre duality across alternative rock with hip hop.\\nMachine Gun Kelly"
+                + " released four mixtapes between 2007 and 2010 before signing with Bad Boy Records."
+                + " He released his debut studio album, Lace Up, in 2012, which peaked at number four"
+                + " on the US Billboard 200 and contained his breakout single \\\"Wild Boy\\\""
+                + " (featuring Waka Flocka Flame). His second and third albums, General Admission"
+                + " (2015) and Bloom (2017), achieved similar commercial success; the latter included"
+                + " the single \\\"Bad Things\\\" (with Camila Cabello), which peaked at number 4 on"
+                + " the Billboard Hot 100. His fourth album, Hotel Diablo (2019), included rap rock.\\nMachine"
+                + " Gun Kelly released his fifth album, Tickets to My Downfall, in 2020; it marked a complete"
+                + " departure from hip hop and entry into pop punk. It debuted at number one on the Billboard"
+                + " 200, the only rock album to do so that year, and contained the single \\\"My Ex's Best Friend\\\","
+                + " which reached number 20 on the Hot 100. He achieved similar commercial success with its follow"
+                + " up Mainstream Sellout (2022).\\nMachine Gun Kelly had his first starring role in the romantic"
+                + " drama Beyond the Lights (2014), and since appeared in the techno-thriller Nerve (2016), the horror"
+                + " Bird Box (2018), the comedy Big Time Adolescence and portrayed Tommy Lee in the biopic"
+                + " The Dirt (both 2019).", optionalSummary.get())
+
+        optionalSummary = StringUtil.getWikipediaSummary("Rust")
+        assertTrue(optionalSummary.isPresent)
+        assertEquals("Rust is an iron oxide, a usually reddish-brown oxide formed by the reaction of"
+                + " iron and oxygen in the catalytic presence of water or air moisture. Rust consists of hydrous"
+                + " iron(III) oxides (Fe2O3\\u00b7nH2O) and iron(III) oxide-hydroxide (FeO(OH), Fe(OH)3), and is"
+                + " typically associated with the corrosion of refined iron.\\nGiven sufficient time, any iron mass,"
+                + " in the presence of water and oxygen, could eventually convert entirely to rust. Surface rust is"
+                + " commonly flaky and friable, and provides no passivational protection to the underlying iron,"
+                +
+                " unlike the formation of patina on copper surfaces. Rusting is the common term for corrosion of"
+                + " elemental iron and its alloys such as steel. Many other metals undergo similar corrosion, but the"
+                + " resulting oxides are not commonly called \\\"rust\\\".Several forms of rust are distinguishable"
+                + " both visually and by spectroscopy, and form under different circumstances. Other forms of rust"
+                + " include the result of reactions between iron and chloride in an environment deprived of oxygen."
+                + " Rebar used in underwater concrete pillars, which generates green rust, is an example. Although"
+                + " rusting is generally a negative aspect of iron, a particular form of rusting, known as stable"
+                + " rust, causes the object to have a thin coating of rust over the top. If kept in low relative"
+                + " humidity, it makes the \\\"stable\\\" layer protective to the iron below, but not to the extent"
+                + " of other oxides such as aluminium oxide on aluminium.", optionalSummary.get())
+
+        optionalSummary = StringUtil.getWikipediaSummary("asdfasdf")
+        assertTrue(optionalSummary.isEmpty)
+    }
+
+    /**
+     * Tests for the are anagrams method.
+     */
+    @Test
+    fun testAreAnagrams() {
+        assertThrows(NullPointerException::class.java) { StringUtil.areAnagrams(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.areAnagrams("", null) }
+
+        assertTrue(StringUtil.areAnagrams("", ""))
+        assertTrue(StringUtil.areAnagrams("something", "thingeosm"))
+        assertFalse(StringUtil.areAnagrams("something", "somethings"))
+    }
+
+    /**
+     * Tests for the split to html tags and content method.
+     */
+    @Test
+    fun testSplitToHtmlTagsAndContent() {
+        assertThrows(NullPointerException::class.java) { StringUtil.splitToHtmlTagsAndContent(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.splitToHtmlTagsAndContent("") }
+
+        assertEquals(ImmutableList.of(PlainString("Hello")),
+                StringUtil.splitToHtmlTagsAndContent("Hello"))
+
+        assertEquals(ImmutableList.of(HtmlString("<Hello>")),
+                StringUtil.splitToHtmlTagsAndContent("<Hello>"))
+
+        assertEquals(ImmutableList.of(HtmlString("<html>"),
+                PlainString("content"), HtmlString("</html>")),
+                StringUtil.splitToHtmlTagsAndContent("<html>content</html>"))
+
+        assertEquals(ImmutableList.of(
+                HtmlString("<html>"),
+                HtmlString("<b>"),
+                PlainString("bold-content"),
+                HtmlString("</b>"),
+                PlainString("non-bold content"),
+                HtmlString("</html>")),
+                StringUtil.splitToHtmlTagsAndContent("<html><b>bold-content</b>non-bold content</html>"))
+    }
+
+    /**
+     * Tests for the is null or empty method.
+     */
+    @Test
+    fun testIsNullOrEmpty() {
+        assertTrue(StringUtil.isNullOrEmpty(null))
+        assertTrue(StringUtil.isNullOrEmpty(""))
+        assertTrue(StringUtil.isNullOrEmpty("\t"))
+        assertTrue(StringUtil.isNullOrEmpty("\t\t"))
+        assertTrue(StringUtil.isNullOrEmpty("\t\t\t"))
+        assertTrue(StringUtil.isNullOrEmpty("\n"))
+        assertTrue(StringUtil.isNullOrEmpty("\n\n"))
+        assertTrue(StringUtil.isNullOrEmpty("\n\n\n"))
+        assertTrue(StringUtil.isNullOrEmpty("      "))
+
+        assertFalse(StringUtil.isNullOrEmpty("\u1040"))
+        assertFalse(StringUtil.isNullOrEmpty("u"))
+        assertFalse(StringUtil.isNullOrEmpty("\\"))
+        assertFalse(StringUtil.isNullOrEmpty("\""))
+        assertFalse(StringUtil.isNullOrEmpty("Hello world"))
+    }
+
+    /**
+     * Tests for the get text length ignoring html tags.
+     */
+    @Test
+    fun testGetTextLengthIgnoringHtmlTags() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getTextLengthIgnoringHtmlTags(null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getTextLengthIgnoringHtmlTags("") }
+
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("<html>"))
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("</html>"))
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("<b>"))
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("</b>"))
+        assertEquals(5, StringUtil.getTextLengthIgnoringHtmlTags("Hello"))
+        assertEquals(5, StringUtil.getTextLengthIgnoringHtmlTags("World"))
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("<html></html>"))
+        assertEquals(0, StringUtil.getTextLengthIgnoringHtmlTags("<b></b>"))
+        assertEquals(11, StringUtil.getTextLengthIgnoringHtmlTags("<b>Hello World</b>"))
+    }
+
+    /**
+     * Tests for the get trimmed text method.
+     */
+    @Test
+    fun testGetTrimmedText() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getTrimmedText(null) }
+
+        assertEquals("", StringUtil.getTrimmedText(""))
+        assertEquals("hello world", StringUtil.getTrimmedText("hello world"))
+        assertEquals("hello world", StringUtil.getTrimmedText("hello\tworld"))
+        assertEquals("hello world", StringUtil.getTrimmedText("hello\t\tworld"))
+        assertEquals("hello world", StringUtil.getTrimmedText("hello\t\tworld\t"))
+        assertEquals("hello world", StringUtil.getTrimmedText("\thello\t\tworld"))
+        assertEquals("hello world", StringUtil.getTrimmedText("\thello\t\tworld\t"))
+        assertEquals("hello world", StringUtil.getTrimmedText("   hello world"))
+        assertEquals("hello world", StringUtil.getTrimmedText("   hello world    "))
+        assertEquals("hello world", StringUtil.getTrimmedText("hello world    "))
+        assertEquals("hello world", StringUtil.getTrimmedText("    hello     world    "))
+    }
+
+    /**
+     * Tests for the in method.
+     */
+    @Test
+    fun testIn() {
+        assertThrows(NullPointerException::class.java) { StringUtil.`in`(null, null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.`in`("", null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.`in`("string", null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.`in`("string", "") }
+        assertThrows(NullPointerException::class.java) { StringUtil.`in`("string", "string", null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.`in`("string", "string", "") }
+
+        assertThrows(NullPointerException::class.java) {
+            StringUtil.`in`(null, false, ImmutableList.of())
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            StringUtil.`in`("", false, ImmutableList.of())
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            StringUtil.`in`("word", false, ImmutableList.of())
+        }
+
+        val nullString: String? = null
+
+        assertThrows(NullPointerException::class.java) {
+            StringUtil.`in`("word", false, ImmutableList.of(nullString))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            StringUtil.`in`("word", false, ImmutableList.of(""))
+        }
+        assertThrows(NullPointerException::class.java) {
+            StringUtil.`in`("word", false, ImmutableList.of("word", nullString))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            StringUtil.`in`("word", false, ImmutableList.of("word", ""))
+        }
+
+        assertFalse(StringUtil.`in`("word", false, "wOrD"))
+        assertTrue(StringUtil.`in`("word", true, "wOrD"))
+        assertTrue(StringUtil.`in`("word", false, "word"))
+        assertTrue(StringUtil.`in`("word", true, "word"))
+
+        assertTrue(StringUtil.`in`("word", false, "wOrD", "word"))
+        assertTrue(StringUtil.`in`("STUFF", true, "wOrD", "stuff"))
+        assertFalse(StringUtil.`in`("Word", false, "word", "Stuffs"))
+        assertTrue(StringUtil.`in`("word", true, "word", "Stuffs"))
+
+        assertTrue(StringUtil.`in`("word", true, ImmutableList.of("word")))
+        assertTrue(StringUtil.`in`("word", true, ImmutableList.of("word", "words")))
+        assertFalse(StringUtil.`in`("word", false, ImmutableList.of("wOrd", "words")))
+    }
+
+    /**
+     * Tests for the get min width and get absolute min width methods.
+     */
+    @Test
+    fun testGetMinAndGetAbsoluteMinWidth() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getMinWidth(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getMinWidth("", null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getAbsoluteMinWidth(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getAbsoluteMinWidth("", null) }
+
+        var font = CyderFonts.DEFAULT_FONT_SMALL
+
+        assertEquals(StringUtil.SIZE_ADDITIVE, StringUtil.getMinWidth("", font))
+        assertEquals(0, StringUtil.getAbsoluteMinWidth("", font))
+
+        assertEquals(57, StringUtil.getMinWidth("Pretty", font))
+        assertEquals(57 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Pretty", font))
+
+        assertEquals(48, StringUtil.getMinWidth("Toxic", font))
+        assertEquals(48 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Toxic", font))
+
+        assertEquals(55, StringUtil.getMinWidth("Heavy", font))
+        assertEquals(55 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Heavy", font))
+
+        assertEquals(95, StringUtil.getMinWidth("Conscience", font))
+        assertEquals(95 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Conscience", font))
+
+        font = CyderFonts.DEFAULT_FONT
+
+        assertEquals(StringUtil.SIZE_ADDITIVE, StringUtil.getMinWidth("", font))
+        assertEquals(0, StringUtil.getAbsoluteMinWidth("", font))
+
+        assertEquals(74, StringUtil.getMinWidth("Pretty", font))
+        assertEquals(74 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Pretty", font))
+
+        assertEquals(63, StringUtil.getMinWidth("Toxic", font))
+        assertEquals(63 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Toxic", font))
+
+        assertEquals(71, StringUtil.getMinWidth("Heavy", font))
+        assertEquals(71 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Heavy", font))
+
+        assertEquals(126, StringUtil.getMinWidth("Conscience", font))
+        assertEquals(126 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Conscience", font))
+
+        font = CyderFonts.DEFAULT_FONT_LARGE
+
+        assertEquals(StringUtil.SIZE_ADDITIVE, StringUtil.getMinWidth("", font))
+        assertEquals(0, StringUtil.getAbsoluteMinWidth("", font))
+
+        assertEquals(85, StringUtil.getMinWidth("Pretty", font))
+        assertEquals(85 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Pretty", font))
+
+        assertEquals(71, StringUtil.getMinWidth("Toxic", font))
+        assertEquals(71 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Toxic", font))
+
+        assertEquals(81, StringUtil.getMinWidth("Heavy", font))
+        assertEquals(81 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Heavy", font))
+
+        assertEquals(145, StringUtil.getMinWidth("Conscience", font))
+        assertEquals(145 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinWidth("Conscience", font))
+    }
+
+    /**
+     * Tests for the get min height and get absolute min height methods.
+     */
+    @Test
+    fun testGetMinAndGetAbsoluteMinHeight() {
+        assertThrows(NullPointerException::class.java) { StringUtil.getMinHeight(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getMinHeight("", null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getAbsoluteMinHeight(null, null) }
+        assertThrows(NullPointerException::class.java) { StringUtil.getAbsoluteMinHeight("", null) }
+
+        var font = CyderFonts.DEFAULT_FONT_SMALL
+
+        assertEquals(36, StringUtil.getMinHeight("", font))
+        assertEquals(36 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("", font))
+
+        assertEquals(36, StringUtil.getMinHeight("Pretty", font))
+        assertEquals(36 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Pretty", font))
+
+        assertEquals(36, StringUtil.getMinHeight("Toxic", font))
+        assertEquals(36 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Toxic", font))
+
+        assertEquals(36, StringUtil.getMinHeight("Heavy", font))
+        assertEquals(36 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Heavy", font))
+
+        assertEquals(36, StringUtil.getMinHeight("Conscience", font))
+        assertEquals(36 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Conscience", font))
+
+        font = CyderFonts.DEFAULT_FONT
+
+        assertEquals(45, StringUtil.getMinHeight("", font))
+        assertEquals(45 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("", font))
+
+        assertEquals(45, StringUtil.getMinHeight("Pretty", font))
+        assertEquals(45 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Pretty", font))
+
+        assertEquals(45, StringUtil.getMinHeight("Toxic", font))
+        assertEquals(45 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Toxic", font))
+
+        assertEquals(45, StringUtil.getMinHeight("Heavy", font))
+        assertEquals(45 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Heavy", font))
+
+        assertEquals(45, StringUtil.getMinHeight("Conscience", font))
+        assertEquals(45 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Conscience", font))
+
+        font = CyderFonts.DEFAULT_FONT_LARGE
+
+        assertEquals(51, StringUtil.getMinHeight("", font))
+        assertEquals(0, StringUtil.getAbsoluteMinWidth("", font))
+
+        assertEquals(51, StringUtil.getMinHeight("Pretty", font))
+        assertEquals(51 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Pretty", font))
+
+        assertEquals(51, StringUtil.getMinHeight("Toxic", font))
+        assertEquals(51 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Toxic", font))
+
+        assertEquals(81, StringUtil.getMinWidth("Heavy", font))
+        assertEquals(41, StringUtil.getAbsoluteMinHeight("Heavy", font))
+
+        assertEquals(145, StringUtil.getMinWidth("Conscience", font))
+        assertEquals(51 - StringUtil.SIZE_ADDITIVE, StringUtil.getAbsoluteMinHeight("Conscience", font))
+    }
+
+    /**
+     * Tests for the remove non-ascii method.
+     */
+    @Test
+    fun testRemoveNonAscii() {
 
     }
 }

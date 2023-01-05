@@ -723,6 +723,9 @@ public final class StringUtil {
      * @return the wiki body result
      */
     public static Optional<String> getWikipediaSummary(String query) {
+        Preconditions.checkNotNull(query);
+        Preconditions.checkArgument(!query.isEmpty());
+
         try {
             String queryUrl = CyderUrls.WIKIPEDIA_SUMMARY_BASE + WIKI_SUM_URL_SUFFIX
                     + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
@@ -818,7 +821,7 @@ public final class StringUtil {
      * @param htmlText the text containing html tags and styling
      * @return the length of the non-html text
      */
-    public static int getRawTextLength(String htmlText) {
+    public static int getTextLengthIgnoringHtmlTags(String htmlText) {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
@@ -862,6 +865,10 @@ public final class StringUtil {
     public static boolean in(String lookFor, String... strings) {
         Preconditions.checkNotNull(lookFor);
         Preconditions.checkArgument(!lookFor.isEmpty());
+        for (String string : strings) {
+            Preconditions.checkNotNull(string);
+            Preconditions.checkArgument(!string.isEmpty());
+        }
 
         return in(lookFor, false, strings);
     }
@@ -891,7 +898,13 @@ public final class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         Preconditions.checkNotNull(lookFor);
+        Preconditions.checkArgument(!lookFor.isEmpty());
         Preconditions.checkNotNull(strings);
+        Preconditions.checkArgument(!strings.isEmpty());
+        for (String string : strings) {
+            Preconditions.checkNotNull(string);
+            Preconditions.checkArgument(!string.isEmpty());
+        }
 
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
@@ -906,7 +919,7 @@ public final class StringUtil {
      * The amount added to {@link #getMinWidth(String, Font)} and
      * {@link #getMinHeight(String, Font)} to account for possible weird bugs.
      */
-    private static final int SIZE_ADDITIVE = 10;
+    public static final int SIZE_ADDITIVE = 10;
 
     /**
      * The font render context to use for string bounds calculations.
