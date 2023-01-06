@@ -37,9 +37,10 @@ public final class Cyder {
         SessionManager.INSTANCE.initializeSessionId();
 
         JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
-        JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
 
         PropLoader.reloadProps();
+
+        JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
 
         addExitHooks();
 

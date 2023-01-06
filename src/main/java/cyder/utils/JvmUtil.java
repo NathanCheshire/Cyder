@@ -288,6 +288,7 @@ public final class JvmUtil {
      * Logs any main method command line arguments passed in to Cyder upon starting.
      * {@link ScrapingUtil#getIspAndNetworkDetails()} is queried and the details appended
      * to the resulting log statement if {@link Props#autocypher} is {@code false}.
+     * This is queried in a separate thread so invoking this method on the UI thread is safe.
      *
      * @param cyderArgs the main method command line arguments passed in
      */
@@ -296,6 +297,7 @@ public final class JvmUtil {
 
         if (Props.autocypher.getValue()) {
             Logger.log(LogTag.JVM_ARGS, OBFUSCATION_MESSAGE);
+            return;
         }
 
         CyderThreadRunner.submit(() -> {
