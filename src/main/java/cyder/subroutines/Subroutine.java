@@ -94,8 +94,7 @@ public final class Subroutine {
      */
     @Override
     public int hashCode() {
-        int ret = routine.hashCode();
-        ret = 31 * ret + threadName.hashCode();
+        int ret = threadName.hashCode();
         ret = 31 * ret + onFailureMessage.hashCode();
         return ret;
     }
@@ -112,8 +111,7 @@ public final class Subroutine {
         }
 
         Subroutine other = (Subroutine) o;
-        return getRoutine().equals(other.getRoutine())
-                && getThreadName().equals(other.getThreadName())
+        return getThreadName().equals(other.getThreadName())
                 && getOnFailureMessage().equals(other.getOnFailureMessage());
     }
 
