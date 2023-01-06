@@ -3,7 +3,6 @@ package cyder.subroutines;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -11,7 +10,6 @@ import cyder.process.PythonPackage;
 import cyder.snakes.PythonUtil;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.JvmUtil;
 
 import java.util.Optional;
 import java.util.concurrent.Future;
@@ -24,11 +22,6 @@ public final class SufficientSubroutines {
      * The minimum acceptable Python major version.
      */
     private static final int MIN_PYTHON_MAJOR_VERSION = 3;
-
-    /**
-     * The name of the sufficient subroutine to log the JVM args.
-     */
-    private static final String JVM_LOGGER = "JVM Logger";
 
     /**
      * The name of the sufficient subroutine to ensure the needed Python dependencies defined in
@@ -56,14 +49,7 @@ public final class SufficientSubroutines {
     /**
      * The subroutines to execute.
      */
-    private static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
-            new Subroutine(() -> {
-                CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-                JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
-
-                return true;
-            }, JVM_LOGGER),
-
+    public static final ImmutableList<Subroutine> subroutines = ImmutableList.of(
             new Subroutine(() -> {
                 Future<ImmutableList<PythonPackage>> futureMissingPackages =
                         PythonUtil.getMissingRequiredPythonPackages();

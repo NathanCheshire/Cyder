@@ -34,9 +34,10 @@ public final class Cyder {
      * @param arguments the command line arguments passed in
      */
     public static void main(String[] arguments) {
-        JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
-
         SessionManager.INSTANCE.initializeSessionId();
+
+        JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
+        JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
 
         PropLoader.reloadProps();
 
