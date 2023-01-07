@@ -47,11 +47,15 @@ public class YoutubeUuidChecker {
      * YouTube's base 64 system used for UUID construction.
      */
     private static final ImmutableList<Character> uuidChars = ImmutableList.of(
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_');
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+            'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+            'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+            'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+            'W', 'X', 'Y', 'Z', '0', '1', '2', '3',
+            '4', '5', '6', '7', '8', '9', '-', '_'
+    );
 
     /**
      * Whether this uuid checker instance has been killed.
@@ -226,7 +230,7 @@ public class YoutubeUuidChecker {
                 ret = incrementUuid(uuid, pos - 1);
             }
         } else {
-            positionChar = uuidChars.get(findIndex(positionChar) + 1);
+            positionChar = uuidChars.get(findCharIndex(positionChar) + 1);
             char[] copy = uuid.clone();
             copy[pos] = positionChar;
 
@@ -246,7 +250,7 @@ public class YoutubeUuidChecker {
      * @param c the character to find in the provided array
      * @return the index of the provided char in the provided array
      */
-    private int findIndex(char c) {
+    private int findCharIndex(char c) {
         int i = 0;
 
         while (i < uuidChars.size()) {

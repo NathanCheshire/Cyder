@@ -7,6 +7,7 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.strings.CyderStrings.*;
@@ -222,32 +222,39 @@ public final class LoginHandler {
         );
         printingList.addAll(standardPrints);
 
-        CyderOutputPane referencePane = new CyderOutputPane(loginArea);
+        CyderOutputPane outputPane = new CyderOutputPane(loginArea);
 
         CyderThreadRunner.submit(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
-                    Semaphore semaphore = referencePane.getSemaphore();
                     if (!priorityPrintingList.isEmpty()) {
-                        semaphore.acquire();
+                        if (!outputPane.acquireLock()) {
+                            throw new FatalException("Failed to acquire output pane lock");
+                        }
+
                         String line = priorityPrintingList.removeFirst();
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         for (char c : line.toCharArray()) {
-                            referencePane.getStringUtil().print(String.valueOf(c));
+                            outputPane.getStringUtil().print(String.valueOf(c));
                             ThreadUtil.sleep(charTimeout);
                         }
-                        semaphore.release();
+
+                        outputPane.releaseLock();
                     } else if (!printingList.isEmpty()) {
-                        semaphore.acquire();
+                        if (!outputPane.acquireLock()) {
+                            throw new FatalException("Failed to acquire output pane lock");
+                        }
+
                         String line = printingList.removeFirst();
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         for (char c : line.toCharArray()) {
-                            referencePane.getStringUtil().print(String.valueOf(c));
+                            outputPane.getStringUtil().print(String.valueOf(c));
                             ThreadUtil.sleep(charTimeout);
                         }
-                        semaphore.release();
+
+                        outputPane.releaseLock();
                     }
 
                     ThreadUtil.sleep(lineTimeout);

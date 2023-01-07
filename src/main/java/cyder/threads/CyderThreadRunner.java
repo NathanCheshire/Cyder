@@ -2,7 +2,6 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import cyder.annotations.ForReadability;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -17,16 +16,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class CyderThreadRunner {
     /**
+     * The threads ran for this session of Cyder.
+     */
+    private static final AtomicInteger threadsRan = new AtomicInteger();
+
+    /**
      * Suppress default constructor.
      */
     private CyderThreadRunner() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    /**
-     * The threads ran for this session of Cyder.
-     */
-    private static final AtomicInteger threadsRan = new AtomicInteger();
 
     /**
      * Returns the number of threads CyderThreadRunner has created and started.
@@ -91,11 +90,6 @@ public final class CyderThreadRunner {
         scheduleAtFixedRate(runnable, name, frequency, null);
     }
 
-    @ForReadability
-    private static String generateFixedRateSchedulerThreadName(String name, Duration frequency) {
-        return "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency;
-    }
-
     /**
      * Constructs a new thread to run the provided runnable at the provided fixed rate.
      *
@@ -113,6 +107,7 @@ public final class CyderThreadRunner {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkNotNull(frequency);
 
+        String threadName = "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency;
         submit(() -> {
             while (true) {
                 if (shouldExit != null && shouldExit.get()) {
@@ -122,6 +117,6 @@ public final class CyderThreadRunner {
                 submit(runnable, name);
                 ThreadUtil.sleep(frequency.toMillis());
             }
-        }, generateFixedRateSchedulerThreadName(name, frequency));
+        }, threadName);
     }
 }

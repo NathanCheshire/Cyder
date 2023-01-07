@@ -122,13 +122,13 @@ public class BaseInputHandler {
      * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}, that of the following:
      * <ul>
      *     <li>{@link YoutubeUuidCheckerManager}</li>
-     *     <li>{@link BletchyThread}</li>
+     *     <li>{@link BletchyAnimationManager}</li>
      * </ul>
      */
     @ForReadability
     private void initializeSpecialThreads() {
         YoutubeUuidCheckerManager.INSTANCE.initialize(linkedOutputPane);
-        BletchyThread.initialize(linkedOutputPane);
+        BletchyAnimationManager.INSTANCE.initialize(linkedOutputPane);
     }
 
     /**
@@ -544,7 +544,7 @@ public class BaseInputHandler {
      */
     public final void killThreads() {
         YoutubeUuidCheckerManager.INSTANCE.killAll();
-        BletchyThread.kill();
+        BletchyAnimationManager.INSTANCE.kill();
     }
 
     /**
@@ -834,7 +834,9 @@ public class BaseInputHandler {
         Preconditions.checkNotNull(line);
 
         try {
-            linkedOutputPane.getSemaphore().acquire();
+            if (!linkedOutputPane.acquireLock()) {
+                throw new FatalException("Failed to acquire output pane lock");
+            }
 
             for (char c : line.toCharArray()) {
                 String character = String.valueOf(c);
@@ -865,7 +867,7 @@ public class BaseInputHandler {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            linkedOutputPane.getSemaphore().release();
+            linkedOutputPane.releaseLock();
         }
     }
 
@@ -894,13 +896,15 @@ public class BaseInputHandler {
             int count = 0;
             while (iterator.next() != null) count++;
 
-            linkedOutputPane.getSemaphore().acquire();
+            if (!linkedOutputPane.acquireLock()) {
+                throw new FatalException("Failed to acquire output pane lock");
+            }
 
             removeLastElement();
             removeLastElement();
             if (count > defaultDocumentEntities + removeLastElementCalls) println("");
 
-            linkedOutputPane.getSemaphore().release();
+            linkedOutputPane.releaseLock();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1169,7 +1173,8 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean threadsActive() {
-        return YoutubeUuidCheckerManager.INSTANCE.hasActiveCheckers() || BletchyThread.isActive();
+        return YoutubeUuidCheckerManager.INSTANCE.hasActiveCheckers()
+                || BletchyAnimationManager.INSTANCE.isActive();
     }
 
     // ---------------------

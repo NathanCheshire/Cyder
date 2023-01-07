@@ -2,7 +2,6 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.time.TimeUtil;
 import cyder.ui.pane.CyderOutputPane;
 
@@ -58,26 +57,20 @@ public enum YoutubeUuidCheckerManager {
     private final AtomicLong startTime = new AtomicLong();
 
     /**
-     * Attempts to acquire the output pane's semaphore.
+     * Attempts to acquire the output pane's lock.
      *
      * @return whether the lock was acquired
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean acquireLock() {
-        try {
-            outputPane.getSemaphore().acquire();
-            return true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            return false;
-        }
+        return outputPane.acquireLock();
     }
 
     /**
-     * Releases the output pane's semaphore.
+     * Releases the output pane's lock.
      */
     public void releaseLock() {
-        outputPane.getSemaphore().release();
+        outputPane.releaseLock();
     }
 
     /**
@@ -103,6 +96,8 @@ public enum YoutubeUuidCheckerManager {
         Preconditions.checkNotNull(outputPane);
         Preconditions.checkArgument(!initialized.get());
 
+        initialized.set(true);
+
         this.outputPane = outputPane;
     }
 
@@ -125,7 +120,7 @@ public enum YoutubeUuidCheckerManager {
         Preconditions.checkArgument(number > 0);
         Preconditions.checkState(!initialized.get());
 
-        if (BletchyThread.isActive() || hasActiveCheckers()) {
+        if (BletchyAnimationManager.INSTANCE.isActive() || hasActiveCheckers()) {
             Console.INSTANCE.getConsoleCyderFrame().notify(
                     "Cannot start bletchy/youtube thread at the same time as another instance");
             return;

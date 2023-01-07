@@ -2,6 +2,7 @@ package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
@@ -107,12 +108,26 @@ public class CyderOutputPane {
     }
 
     /**
-     * Returns the Semaphore which controls the JTextPane.
+     * Attempts to acquire the semaphore lock.
      *
-     * @return the Semaphore which controls the JTextPane
+     * @return whether the lock was acquired properly.
      */
-    public Semaphore getSemaphore() {
-        return semaphore;
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* Readability */
+    public boolean acquireLock() {
+        try {
+            semaphore.acquire();
+            return true;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+    }
+
+    /**
+     * Releases the semaphore lock.
+     */
+    public void releaseLock() {
+        semaphore.release();
     }
 
     /**

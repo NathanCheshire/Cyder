@@ -13,7 +13,7 @@ import cyder.network.IpDataManager;
 import cyder.parsers.ip.IpData;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.threads.BletchyThread;
+import cyder.threads.BletchyAnimationManager;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
 import cyder.user.UserUtil;
@@ -178,12 +178,14 @@ public class GeneralPrintHandler extends InputHandler {
         } else if (getInputHandler().commandIs("easter")) {
             getInputHandler().println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
         } else if (getInputHandler().commandIs("age")) {
-            BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
+            BletchyAnimationManager.INSTANCE.bletchy("I am somewhere between 69 and 420 years old.",
                     true, 50, false);
         } else if (getInputHandler().commandIs("scrub")) {
-            BletchyThread.bletchy("No you!", false, 50, true);
+            BletchyAnimationManager.INSTANCE.bletchy(
+                    "No you!", false, 50, true);
         } else if (getInputHandler().commandIs("bletchy")) {
-            BletchyThread.bletchy(getInputHandler().argsToString(), false, 50, true);
+            BletchyAnimationManager.INSTANCE.bletchy(
+                    getInputHandler().argsToString(), false, 50, true);
         } else if (getInputHandler().commandIs("dst")) {
             CyderThreadRunner.submit(() -> {
                 IpData data = IpDataManager.INSTANCE.getIpData();

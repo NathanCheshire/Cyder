@@ -9,7 +9,7 @@ import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.threads.BletchyThread;
+import cyder.threads.BletchyAnimationManager;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.StaticUtil;
@@ -141,7 +141,8 @@ public class PlayAudioHandler extends InputHandler {
 
             GeneralAndSystemAudioPlayer.playGeneralAudio(allTheStars);
             getInputHandler().getJTextPane().setFont(beynoFont);
-            BletchyThread.bletchy(chadwickBosemanBletchyText, false, 15, false);
+            BletchyAnimationManager.INSTANCE.bletchy(
+                    chadwickBosemanBletchyText, false, 15, false);
 
             ThreadUtil.sleep(chadwickBosemanResetFontDelay);
 

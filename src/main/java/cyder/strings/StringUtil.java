@@ -86,13 +86,16 @@ public final class StringUtil {
      */
     public synchronized void removeFirst() {
         try {
-            linkedCyderPane.getSemaphore().acquire();
+            if (!linkedCyderPane.acquireLock()) {
+                throw new FatalException("Failed to acquire output pane lock");
+            }
 
             Element root = linkedCyderPane.getJTextPane().getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
             linkedCyderPane.getJTextPane().getDocument().remove(first.getStartOffset(), first.getEndOffset());
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-            linkedCyderPane.getSemaphore().release();
+
+            linkedCyderPane.releaseLock();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

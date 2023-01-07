@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.Immutable;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.ToStringUtil;
@@ -10,29 +11,25 @@ import java.util.concurrent.ThreadFactory;
 /**
  * A custom thread factory for Cyder.
  */
+@Immutable
 public class CyderThreadFactory implements ThreadFactory {
+    /**
+     * The name of this thread factory.
+     */
+    private final String name;
+
     /**
      * Constructs a new thread factory using the provided name
      *
      * @param name the name of the thread factory
      */
     public CyderThreadFactory(String name) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+
         this.name = name;
+
         Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * The name of this thread factory.
-     */
-    private String name;
-
-    /**
-     * Sets the name of this thread factory.
-     *
-     * @param name the name of this thread factory
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
