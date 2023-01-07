@@ -10,13 +10,6 @@ import javax.swing.*;
  */
 public final class UiConstants {
     /**
-     * Constants related to Ui.
-     */
-    private UiConstants() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The value to indicate a frame is iconified.
      */
     public static final int FRAME_ICONIFIED = JFrame.ICONIFIED;
@@ -25,4 +18,11 @@ public final class UiConstants {
      * The value to indicate a frame is in a normal state.
      */
     public static final int FRAME_NORMAL = JFrame.NORMAL;
+
+    /**
+     * Constants related to Ui.
+     */
+    private UiConstants() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 }

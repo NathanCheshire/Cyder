@@ -73,6 +73,7 @@ public class CyderSliderUi extends BasicSliderUI {
      */
     public void setThumbRadius(int radius) {
         Preconditions.checkArgument(radius > 0);
+
         thumbRadius = radius;
     }
 
@@ -91,6 +92,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param shape the shape of the slider thumb
      */
     public void setThumbShape(ThumbShape shape) {
+        Preconditions.checkNotNull(shape);
+
         thumbShape = shape;
     }
 
@@ -100,6 +103,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param color the track color to the left of the thumb
      */
     public void setLeftThumbColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         leftThumbColor = color;
     }
 
@@ -109,6 +114,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param color the track color to the right of the thumb
      */
     public void setRightThumbColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         rightThumbColor = color;
     }
 
@@ -118,6 +125,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param color the fill color of the thumb
      */
     public void setThumbFillColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         thumbFillColor = color;
     }
 
@@ -127,6 +136,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param color the outline color of the thumb
      */
     public void setThumbOutlineColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         thumbOutlineColor = color;
     }
 
@@ -145,6 +156,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param stroke the stroke of the thumb
      */
     public void setThumbStroke(BasicStroke stroke) {
+        Preconditions.checkNotNull(stroke);
+
         thumbStroke = stroke;
     }
 
@@ -154,7 +167,7 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param slider the slider this ui is controlling and styling
      */
     public CyderSliderUi(JSlider slider) {
-        super(slider);
+        super(Preconditions.checkNotNull(slider));
         this.slider = slider;
 
         Logger.log(LogTag.OBJECT_CREATION, this);
@@ -246,9 +259,14 @@ public class CyderSliderUi extends BasicSliderUI {
     }
 
     /**
+     * The value used to indicate the animation has not yet started.
+     */
+    private static final int ANIMATION_NOT_STARTED = Integer.MIN_VALUE;
+
+    /**
      * The atomic holder for the current x value start of the animated color line to be drawn if enabled.
      */
-    private final AtomicInteger animationStart = new AtomicInteger(Integer.MIN_VALUE);
+    private final AtomicInteger animationStart = new AtomicInteger(ANIMATION_NOT_STARTED);
 
     /**
      * The length of the animation bar to draw if enabled.
@@ -316,6 +334,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @param animationColor the color used for the animation if enabled
      */
     public void setAnimationColor(Color animationColor) {
+        Preconditions.checkNotNull(animationColor);
+
         this.animationColor = animationColor;
     }
 
@@ -330,7 +350,7 @@ public class CyderSliderUi extends BasicSliderUI {
         g2d.setPaint(rightThumbColor);
 
         if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
-            if (animationStart.get() == Integer.MIN_VALUE) {
+            if (animationStart.get() == ANIMATION_NOT_STARTED) {
                 animationStart.set(trackRect.x - animationLen);
             }
 
@@ -367,6 +387,7 @@ public class CyderSliderUi extends BasicSliderUI {
      * @return the relative x value of the thumb's center x value
      */
     public int getThumbCenterX() {
+        // todo what's 10 here?
         return thumbRect.x + (thumbRect.width / 2) - trackRect.x - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
     }
 
@@ -377,11 +398,9 @@ public class CyderSliderUi extends BasicSliderUI {
     public void incrementAnimation() {
         Preconditions.checkArgument(animationEnabled);
 
-        if (thumbRect == null) {
-            return;
-        }
+        if (thumbRect == null) return;
 
-        if (animationStart.get() == Integer.MIN_VALUE) {
+        if (animationStart.get() == ANIMATION_NOT_STARTED) {
             animationStart.set(trackRect.x - animationLen);
         }
 
@@ -405,10 +424,15 @@ public class CyderSliderUi extends BasicSliderUI {
      * @return the location of the center of the thumb relative to the slider's bounds
      */
     public Point getThumbCenter() {
-        return new Point((int) (trackRect.getX() + trackRect.getWidth()
-                * ((float) slider.getValue() / slider.getMaximum())),
-                (int) (trackRect.getY() + trackRect.getHeight()
-                        * ((float) slider.getValue() / slider.getMaximum())));
+        float sliderPercent = (float) slider.getValue() / slider.getMaximum();
+
+        double thumbXOnParent = trackRect.getX() + trackRect.getWidth();
+        double thumbYOnParent = trackRect.getY() + trackRect.getHeight();
+
+        int x = (int) (thumbXOnParent * sliderPercent);
+        int y = (int) (thumbYOnParent * sliderPercent);
+
+        return new Point(x, y);
     }
 
     /**
@@ -423,36 +447,35 @@ public class CyderSliderUi extends BasicSliderUI {
                 g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setColor(thumbFillColor);
-                int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / slider.getMaximum() -
-                        (thumbRadius / 4));
+
+                int x = (int) (trackRect.getX() + trackRect.getWidth()
+                        * slider.getValue() / slider.getMaximum() - (thumbRadius / 4));
                 int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbRadius / 4));
+
                 g.fillOval(x, y, thumbRadius / 2, thumbRadius / 2);
-                g2d.dispose();
             }
             case RECTANGLE -> {
-                Rectangle knobBounds = thumbRect;
-                int w = knobBounds.width;
-                int h = knobBounds.height;
-                g2d = (Graphics2D) g.create();
+                int w = thumbRect.width;
+                int h = thumbRect.height;
+
                 Shape thumbShape = createRectangularThumbShape(w - 1, h - 1);
+
+                g2d = (Graphics2D) g.create();
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.translate(knobBounds.x, knobBounds.y);
+                g2d.translate(thumbRect.x, thumbRect.y);
                 g2d.setColor(thumbFillColor);
                 g2d.fill(thumbShape);
-
                 g2d.setColor(thumbOutlineColor);
                 g2d.draw(thumbShape);
-                g2d.dispose();
             }
             case HOLLOW_CIRCLE -> {
                 g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setStroke(thumbStroke);
-                Rectangle t = thumbRect;
+
                 g2d.setColor(thumbFillColor);
-                g2d.drawOval(t.x - 5, t.y, 20, 20);
-                g2d.dispose();
+                g2d.drawOval(thumbRect.x - 5, thumbRect.y, 20, 20);
             }
             case NONE -> {}
             default -> throw new IllegalArgumentException("Invalid slider shape: " + thumbShape);
