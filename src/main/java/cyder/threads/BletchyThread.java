@@ -79,7 +79,7 @@ public final class BletchyThread {
         Preconditions.checkArgument(!decodeString.isEmpty());
         Preconditions.checkArgument(milliDelay > 0);
 
-        if (isActive() || MasterYoutubeThread.isActive()) {
+        if (isActive() || YoutubeUuidCheckerManager.INSTANCE.hasActiveCheckers()) {
             Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread"
                     + " at the same time as another instance.");
         } else {

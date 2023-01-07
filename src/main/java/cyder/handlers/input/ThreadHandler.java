@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
-import cyder.threads.MasterYoutubeThread;
+import cyder.threads.YoutubeUuidCheckerManager;
 
 /**
  * A handler to handle things related to thread ops.
@@ -22,9 +22,9 @@ public class ThreadHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("randomyoutube")) {
-            MasterYoutubeThread.start(1);
+            YoutubeUuidCheckerManager.INSTANCE.start(1);
         } else if (getInputHandler().inputIgnoringSpacesMatches("stopscript")) {
-            MasterYoutubeThread.killAll();
+            YoutubeUuidCheckerManager.INSTANCE.killAll();
             getInputHandler().println("YouTube scripts have been killed.");
         } else if (getInputHandler().inputIgnoringSpacesMatches("stopmusic")) {
             GeneralAndSystemAudioPlayer.stopGeneralAudio();

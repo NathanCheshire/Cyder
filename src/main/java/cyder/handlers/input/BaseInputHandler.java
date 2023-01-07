@@ -121,13 +121,13 @@ public class BaseInputHandler {
     /**
      * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}, that of the following:
      * <ul>
-     *     <li>{@link MasterYoutubeThread}</li>
+     *     <li>{@link YoutubeUuidCheckerManager}</li>
      *     <li>{@link BletchyThread}</li>
      * </ul>
      */
     @ForReadability
     private void initializeSpecialThreads() {
-        MasterYoutubeThread.initialize(linkedOutputPane);
+        YoutubeUuidCheckerManager.INSTANCE.initialize(linkedOutputPane);
         BletchyThread.initialize(linkedOutputPane);
     }
 
@@ -543,7 +543,7 @@ public class BaseInputHandler {
      * that may have been invoked via this input handler.
      */
     public final void killThreads() {
-        MasterYoutubeThread.killAll();
+        YoutubeUuidCheckerManager.INSTANCE.killAll();
         BletchyThread.kill();
     }
 
@@ -1169,7 +1169,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean threadsActive() {
-        return MasterYoutubeThread.isActive() || BletchyThread.isActive();
+        return YoutubeUuidCheckerManager.INSTANCE.hasActiveCheckers() || BletchyThread.isActive();
     }
 
     // ---------------------
