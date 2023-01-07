@@ -366,7 +366,7 @@ public class CyderDragLabel extends JLabel {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderUiToString(this);
+        return ToStringUtil.commonUiComponentToString(this);
     }
 
     /**

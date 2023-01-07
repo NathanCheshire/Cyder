@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -24,19 +23,39 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class CyderModernButton extends JLabel {
     /**
+     * The default border length.
+     */
+    public static final int DEFAULT_BORDER_LENGTH = 5;
+
+    /**
+     * The default delay between alert iterations.
+     */
+    private static final int DEFAULT_ALERT_DELAY = 250;
+
+    /**
+     * The default number of alert iterations.
+     */
+    private static final int DEFAULT_ALERT_ITERATIONS = 10;
+
+    /**
+     * The default padding value used for the x axis when performing bounds calculations for this button.
+     */
+    private static final int DEFAULT_X_PADDING = 5;
+
+    /**
+     * The default padding value used for the y axis when performing bounds calculations for this button.
+     */
+    private static final int DEFAULT_Y_PADDING = 0;
+
+    /**
      * The radius to use when {@link #roundedCorners} is enabled.
      */
     private static final int CORNER_RADIUS = 20;
 
     /**
-     * The default text for the modern button.
-     */
-    private static final String DEFAULT_TEXT = "Modern Button";
-
-    /**
      * The text this modern button holds.
      */
-    private String text;
+    private final String text;
 
     /**
      * The font of the modern button text label.
@@ -93,8 +112,6 @@ public class CyderModernButton extends JLabel {
      */
     private boolean isFlashing;
 
-    public static final int DEFAULT_BORDER_LENGTH = 5;
-
     /**
      * The length of the border painted around the button.
      */
@@ -126,16 +143,6 @@ public class CyderModernButton extends JLabel {
     private final AtomicBoolean mousePressed = new AtomicBoolean();
 
     /**
-     * The default padding value used for the x axis when performing bounds calculations for this button.
-     */
-    public static final int DEFAULT_X_PADDING = 5;
-
-    /**
-     * The default padding value used for the y axis when performing bounds calculations for this button.
-     */
-    public static final int DEFAULT_Y_PADDING = 0;
-
-    /**
      * The x padding for left and right of the text on this button.
      */
     private int xPadding = DEFAULT_X_PADDING;
@@ -144,13 +151,6 @@ public class CyderModernButton extends JLabel {
      * The y padding for top and bottom of the text on this button.
      */
     private int yPadding = DEFAULT_Y_PADDING;
-
-    /**
-     * Constructs a new modern button.
-     */
-    public CyderModernButton() {
-        this(DEFAULT_TEXT);
-    }
 
     /**
      * Constructs a new modern button.
@@ -521,7 +521,7 @@ public class CyderModernButton extends JLabel {
 
         if (newWidth != width || newHeight != height) {
             if (maintainRelativeCenter) {
-                Point center = getCenter();
+                Point center = getCenterOnParent();
                 setBounds((int) (center.getX() - newWidth / 2), (int) (center.getY() - newHeight / 2),
                         newWidth, newHeight);
             } else {
@@ -554,20 +554,8 @@ public class CyderModernButton extends JLabel {
      *
      * @return the center point of the button on the parent component
      */
-    public Point getCenter() {
+    public Point getCenterOnParent() {
         return new Point(this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
-    }
-
-    /**
-     * Sets the text of this modern button.
-     *
-     * @param text the text of this modern button
-     */
-    public void setText(String text) {
-        Preconditions.checkNotNull(text);
-
-        this.text = text;
-        refreshInnerTextLabel();
     }
 
     /**
@@ -575,6 +563,7 @@ public class CyderModernButton extends JLabel {
      *
      * @return the text this modern button holds
      */
+    @Override
     public String getText() {
         return this.text;
     }
@@ -615,6 +604,8 @@ public class CyderModernButton extends JLabel {
      * @param borderLength the length of the button border
      */
     public void setBorderLength(int borderLength) {
+        Preconditions.checkArgument(borderLength >= 0);
+
         this.borderLength = borderLength;
         repaint();
     }
@@ -669,6 +660,8 @@ public class CyderModernButton extends JLabel {
      * @param foregroundColor the foreground color for the button text
      */
     public void setForegroundColor(Color foregroundColor) {
+        Preconditions.checkNotNull(foregroundColor);
+
         this.foregroundColor = foregroundColor;
         refreshInnerTextLabel();
     }
@@ -688,6 +681,8 @@ public class CyderModernButton extends JLabel {
      * @param backgroundColor the background color for the button
      */
     public void setBackgroundColor(Color backgroundColor) {
+        Preconditions.checkNotNull(backgroundColor);
+
         this.backgroundColor = backgroundColor;
         repaint();
     }
@@ -707,12 +702,15 @@ public class CyderModernButton extends JLabel {
      * @param borderColor the color for the border
      */
     public void setBorderColor(Color borderColor) {
+        Preconditions.checkNotNull(borderColor);
+
         this.borderColor = borderColor;
         repaint();
     }
 
     /**
-     * {@inheritDoc}
+     * Set border method not allowed for a {@link CyderModernButton}.
+     * See {@link #setBorderLength(int)} and {@link #setBorderColor(Color)}.
      */
     @Deprecated
     public void setBorder(Border border) {
@@ -734,6 +732,8 @@ public class CyderModernButton extends JLabel {
      * @param hoverColor the color for hover events
      */
     public void setHoverColor(Color hoverColor) {
+        Preconditions.checkNotNull(hoverColor);
+
         this.hoverColor = hoverColor;
         repaint();
     }
@@ -753,6 +753,8 @@ public class CyderModernButton extends JLabel {
      * @param pressedColor the color used for when the button model is pressed
      */
     public void setPressedColor(Color pressedColor) {
+        Preconditions.checkNotNull(pressedColor);
+
         this.pressedColor = pressedColor;
         repaint();
     }
@@ -787,6 +789,8 @@ public class CyderModernButton extends JLabel {
      * @param disabledForeground the color used for the label text when the button is disabled
      */
     public void setDisabledForeground(Color disabledForeground) {
+        Preconditions.checkNotNull(disabledForeground);
+
         this.disabledForeground = disabledForeground;
         repaint();
     }
@@ -806,6 +810,8 @@ public class CyderModernButton extends JLabel {
      * @param disabledBackground the color used for when the button is disabled
      */
     public void setDisabledBackground(Color disabledBackground) {
+        Preconditions.checkNotNull(disabledBackground);
+
         this.disabledBackground = disabledBackground;
         repaint();
     }
@@ -846,16 +852,6 @@ public class CyderModernButton extends JLabel {
     public void removeDefaultFocusListener() {
         removeFocusListener(defaultFocusListener);
     }
-
-    /**
-     * The default delay between alert iterations.
-     */
-    private static final int DEFAULT_ALERT_DELAY = 250;
-
-    /**
-     * The default number of alert iterations.
-     */
-    private static final int DEFAULT_ALERT_ITERATIONS = 10;
 
     /**
      * Alerts the button for {@link #DEFAULT_ALERT_ITERATIONS} iterations.
@@ -939,6 +935,8 @@ public class CyderModernButton extends JLabel {
      * @param xPadding the x padding for left and right of the text for this button
      */
     public void setXPadding(int xPadding) {
+        Preconditions.checkArgument(xPadding >= 0);
+
         this.xPadding = xPadding;
     }
 
@@ -957,6 +955,8 @@ public class CyderModernButton extends JLabel {
      * @param yPadding the y padding for top and bottom of the text for this button
      */
     public void setYPadding(int yPadding) {
+        Preconditions.checkArgument(yPadding >= 0);
+
         this.yPadding = yPadding;
     }
 
@@ -981,8 +981,24 @@ public class CyderModernButton extends JLabel {
      */
     @Override
     public String toString() {
-        return "Cyder Modern Button {" + this.getX() + ", " + this.getY()
-                + ", " + width + CyderStrings.X + height + "}, text=\"" + text + "\", hash = " + hashCode();
+        return "CyderModernButton{"
+                + "text=\"" + text + "\""
+                + ", font=" + font
+                + ", foregroundColor=" + foregroundColor
+                + ", backgroundColor=" + backgroundColor
+                + ", borderColor=" + borderColor
+                + ", hoverColor=" + hoverColor
+                + ", pressedColor=" + pressedColor
+                + ", disabledForeground=" + disabledForeground
+                + ", disabledBackground=" + disabledBackground
+                + ", disabled=" + disabled
+                + ", isFlashing=" + isFlashing
+                + ", borderLength=" + borderLength
+                + ", width=" + width
+                + ", height=" + height
+                + ", xPadding=" + xPadding
+                + ", yPadding=" + yPadding
+                + "}";
     }
 
     /**

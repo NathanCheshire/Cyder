@@ -199,7 +199,7 @@ public final class ImageAveragerWidget {
         removeSelectedImagesButton.addActionListener(e -> removeSelectedImagesButtonAction());
 
         CyderButton average = new CyderButton(AVERAGE_IMAGES);
-        average.setColors(CyderColors.regularPink);
+        average.setBackground(CyderColors.regularPink);
         average.setBounds(90, 580, 420, 40);
         averagerFrame.getContentPane().add(average);
         average.addActionListener(e -> averageButtonAction());

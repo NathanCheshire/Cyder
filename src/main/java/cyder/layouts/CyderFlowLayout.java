@@ -471,7 +471,7 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderUiToString(this);
+        return ToStringUtil.commonUiComponentToString(this);
     }
 
     /**

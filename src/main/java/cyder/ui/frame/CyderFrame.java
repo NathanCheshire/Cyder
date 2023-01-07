@@ -2408,7 +2408,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderUiToString(this);
+        return ToStringUtil.commonUiComponentToString(this);
     }
 
     /**

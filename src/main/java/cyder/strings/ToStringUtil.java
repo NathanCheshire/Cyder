@@ -115,7 +115,7 @@ public final class ToStringUtil {
      * @param component the component
      * @return a string representation of the provided component
      */
-    public static String commonCyderUiToString(Component component) {
+    public static String commonUiComponentToString(Component component) {
         Preconditions.checkNotNull(component);
 
         String parentFrame = getComponentParentFrameRepresentation(component);

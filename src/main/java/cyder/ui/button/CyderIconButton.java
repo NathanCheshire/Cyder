@@ -145,15 +145,6 @@ public class CyderIconButton extends JButton {
     }
 
     /**
-     * Returns the builder used to construct this cyder icon button.
-     *
-     * @return the builder used to construct this cyder icon button
-     */
-    public Builder getBuilder() {
-        return builder;
-    }
-
-    /**
      * Flashes the icon button between the regular icon and
      * hoverAndFocus icon for the provided number of iterations with
      * the provided delay.

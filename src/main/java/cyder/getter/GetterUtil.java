@@ -545,7 +545,7 @@ public final class GetterUtil {
                 shouldUpdateSubmitButtonText.set(buttonText.equals(SUBMIT));
 
                 submitFileButton = new CyderButton(buttonText);
-                submitFileButton.setColors(getFileBuilder.getSubmitButtonColor());
+                submitFileButton.setBackground(getFileBuilder.getSubmitButtonColor());
                 submitFileButton.setFont(getFileBuilder.getSubmitButtonFont());
                 submitFileButton.setBounds(getFilePadding, submitFileButtonY, directoryScrollWidth, navButtonSize);
                 submitFileButton.addActionListener(e -> {
@@ -876,7 +876,7 @@ public final class GetterUtil {
                 currentY += textHeight + confirmationTextBottomPadding;
 
                 CyderButton yesButton = new CyderButton(getConfirmationBuilder.getYesButtonText());
-                yesButton.setColors(getConfirmationBuilder.getYesButtonColor());
+                yesButton.setBackground(getConfirmationBuilder.getYesButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getYesButtonFont());
                 yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
                 yesButton.setBounds(confirmationButtonXPadding, currentY,
@@ -884,7 +884,7 @@ public final class GetterUtil {
                 confirmationFrame.getContentPane().add(yesButton);
 
                 CyderButton noButton = new CyderButton(getConfirmationBuilder.getNoButtonText());
-                noButton.setColors(getConfirmationBuilder.getNoButtonColor());
+                noButton.setBackground(getConfirmationBuilder.getNoButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getNoButtonFont());
                 noButton.addActionListener(e -> ret.set(Boolean.FALSE));
                 noButton.setBounds(noButtonX, currentY, confirmationButtonWidth, confirmationButtonHeight);

@@ -55,6 +55,6 @@ public class CyderProgressBar extends JProgressBar {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderUiToString(this);
+        return ToStringUtil.commonUiComponentToString(this);
     }
 }

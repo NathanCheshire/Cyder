@@ -214,14 +214,14 @@ public final class FileSignatureWidget {
         signatureFrame.getContentPane().add(fileSignaturesSheetLabel);
 
         getFile = new CyderButton(SELECT_FILE);
-        getFile.setColors(CyderColors.regularPink);
+        getFile.setBackground(CyderColors.regularPink);
         getFile.setBounds(50, 190, 300, 40);
         getFile.addActionListener(e -> getFileAction());
         getFile.setToolTipText(CHOOSE_FILE);
         signatureFrame.getContentPane().add(getFile);
 
         checkFile = new CyderButton(VALIDATE_FILE_TYPE);
-        checkFile.setColors(CyderColors.regularBlue);
+        checkFile.setBackground(CyderColors.regularBlue);
         checkFile.setBounds(50, 260, 300, 40);
         checkFile.addActionListener(e -> validate());
         checkFile.setToolTipText(VALIDATE);

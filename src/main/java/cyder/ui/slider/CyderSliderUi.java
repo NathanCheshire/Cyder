@@ -387,8 +387,8 @@ public class CyderSliderUi extends BasicSliderUI {
      * @return the relative x value of the thumb's center x value
      */
     public int getThumbCenterX() {
-        // todo what's 10 here?
-        return thumbRect.x + (thumbRect.width / 2) - trackRect.x - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
+        return thumbRect.x + (thumbRect.width / 2) - trackRect.x
+                - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? thumbRadius : 0);
     }
 
     /**

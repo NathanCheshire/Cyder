@@ -17,12 +17,31 @@ import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * A custom styled button for use throughout Cyder.
  */
 public class CyderButton extends JButton {
+    /**
+     * The text color to use when the button is disabled.
+     */
+    public static final Color DISABLED_TEXT_COLOR = Color.black;
+
+    /**
+     * The background color to use when the button is disabled.
+     */
+    public static final Color DISABLED_BACKGROUND_COLOR = Color.darkGray;
+
+    /**
+     * The amount to delay by when alerting.
+     */
+    public static final int ALERT_DELAY = 300;
+
+    /**
+     * The number of times to alert by default.
+     */
+    public static final int ALERT_ITERATIONS = 8;
+
     /**
      * The hover color for when the button is hovered via a mouse.
      */
@@ -42,21 +61,6 @@ public class CyderButton extends JButton {
      * The background color of the button.
      */
     private Color backgroundColor;
-
-    /**
-     * The color to use when the button is disabled.
-     */
-    public static final Color DISABLED_TEXT_COLOR = Color.black;
-
-    /**
-     * The amount to delay by when alerting.
-     */
-    public static final int ALERT_DELAY = 300;
-
-    /**
-     * The number of times to alert by default.
-     */
-    public static final int ALERT_ITERATIONS = 8;
 
     /**
      * The text to place to the left of the text on {@link #setText(String)} calls.
@@ -81,9 +85,7 @@ public class CyderButton extends JButton {
      * @param text the text to use for the button
      */
     public CyderButton(String text) {
-        super(text);
-
-        Preconditions.checkNotNull(text);
+        super(Preconditions.checkNotNull(text));
 
         super.setContentAreaFilled(false);
 
@@ -91,7 +93,7 @@ public class CyderButton extends JButton {
         addActionListener(e -> Logger.log(LogTag.UI_ACTION, this));
 
         setFont(CyderFonts.SEGOE_20);
-        setColors(CyderColors.buttonColor);
+        setBackground(CyderColors.buttonColor);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
         setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -101,10 +103,21 @@ public class CyderButton extends JButton {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
+    /**
+     * Generates and returns a new metal button UI.
+     *
+     * @return a new metal button UI
+     */
     private static MetalButtonUI generateMetalButtonUi() {
         return new MetalButtonUI() {
+            @Override
             protected Color getDisabledTextColor() {
                 return DISABLED_TEXT_COLOR;
+            }
+
+            @Override
+            protected Color getSelectColor() {
+                return DISABLED_BACKGROUND_COLOR;
             }
         };
     }
@@ -149,26 +162,19 @@ public class CyderButton extends JButton {
     public void setContentAreaFilled(boolean ignored) {}
 
     /**
-     * {@inheritDoc}
+     * Sets the background color of this button.
+     * The hover color is set to {@link Color#darker()} and the pressed color
+     * is set to color.darker().darker().
+     *
+     * @param color the background color
      */
     @Override
     public void setBackground(Color color) {
-        super.setBackground(color);
+        super.setBackground(Preconditions.checkNotNull(color));
+
+        backgroundColor = color;
         pressedBackgroundColor = color.darker().darker();
         hoverBackgroundColor = color.darker();
-    }
-
-    /**
-     * Sets the colors of the pressed, hover, and background color.
-     *
-     * @param c the color to use for the outlined properties
-     */
-    public void setColors(Color c) {
-        backgroundColor = c;
-
-        pressedBackgroundColor = c.darker().darker();
-        hoverBackgroundColor = c.darker();
-        setBackground(c);
     }
 
     /**
@@ -186,6 +192,8 @@ public class CyderButton extends JButton {
      * @param hoverBackgroundColor the hover background color
      */
     public void setHoverBackgroundColor(Color hoverBackgroundColor) {
+        Preconditions.checkNotNull(hoverBackgroundColor);
+
         this.hoverBackgroundColor = hoverBackgroundColor;
     }
 
@@ -204,6 +212,8 @@ public class CyderButton extends JButton {
      * @param pressedBackgroundColor the pressed background color
      */
     public void setPressedBackgroundColor(Color pressedBackgroundColor) {
+        Preconditions.checkNotNull(pressedBackgroundColor);
+
         this.pressedBackgroundColor = pressedBackgroundColor;
     }
 
@@ -224,8 +234,8 @@ public class CyderButton extends JButton {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Color background = getBackground();
-                Color darkerBackground = background.darker();
+                Color background = backgroundColor;
+                Color darkerBackground = backgroundColor.darker();
 
                 for (int i = 0 ; i < iterations ; i++) {
                     setBackground(darkerBackground);
@@ -260,37 +270,32 @@ public class CyderButton extends JButton {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderUiToString(this);
+        return ToStringUtil.commonUiComponentToString(this);
     }
-
-    /**
-     * The focus listener to show when the button is the focus owner.
-     */
-    private final FocusListener defaultFocusListener = new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-
-            if (isEnabled()) {
-                setBackground(backgroundColor.darker());
-            }
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-            super.focusLost(e);
-
-            if (isEnabled()) {
-                setBackground(backgroundColor);
-            }
-        }
-    };
 
     /**
      * Adds the default focus listener to this CyderButton.
      */
     public void addDefaultFocusListener() {
-        addFocusListener(defaultFocusListener);
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+
+                if (isEnabled()) {
+                    setBackground(backgroundColor.darker());
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+
+                if (isEnabled()) {
+                    setBackground(backgroundColor);
+                }
+            }
+        });
     }
 
     /**
@@ -308,6 +313,8 @@ public class CyderButton extends JButton {
      * @param leftTextPadding the left text padding
      */
     public void setLeftTextPadding(String leftTextPadding) {
+        Preconditions.checkNotNull(leftTextPadding);
+
         this.leftTextPadding = leftTextPadding;
         setText(getText());
     }
@@ -327,6 +334,8 @@ public class CyderButton extends JButton {
      * @param rightTextPadding the right text padding
      */
     public void setRightTextPadding(String rightTextPadding) {
+        Preconditions.checkNotNull(rightTextPadding);
+
         this.rightTextPadding = rightTextPadding;
         setText(getText());
     }

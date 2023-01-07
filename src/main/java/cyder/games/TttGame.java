@@ -139,7 +139,7 @@ public final class TttGame {
             for (int x = 0 ; x < boardLength ; x++) {
                 CyderButton button = new CyderButton("");
                 button.setPreferredSize(buttonSize);
-                button.setColors(CyderColors.vanilla);
+                button.setBackground(CyderColors.vanilla);
                 button.setFocusPainted(false);
                 button.setBackground(CyderColors.vanilla);
                 button.setFont(CyderFonts.SEGOE_30);
