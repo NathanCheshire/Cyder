@@ -351,7 +351,6 @@ public enum Console {
         }
         UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
 
-        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
         long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
@@ -1308,10 +1307,6 @@ public enum Console {
 
         if (TimeUtil.isEaster()) {
             consoleCyderFrame.notify("Happy Easter!");
-        }
-
-        if (TimeUtil.isDeveloperBirthday()) {
-            getInputHandler().println("Thanks for creating me, Nate :,) Happy Birthday bud");
         }
     }
 

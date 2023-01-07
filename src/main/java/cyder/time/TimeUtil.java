@@ -16,11 +16,11 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
+@SuppressWarnings("SpellCheckingInspection") /* Date time patterns */
 public final class TimeUtil {
     /**
      * The number of milliseconds in a single second.
@@ -93,13 +93,6 @@ public final class TimeUtil {
     public static final String MILLISECOND_ABBREVIATION = "ms";
 
     /**
-     * Suppress default constructor.
-     */
-    private TimeUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The calendar instance to use for calculations within this class.
      */
     private static final Calendar calendarInstance = Calendar.getInstance();
@@ -108,8 +101,128 @@ public final class TimeUtil {
      * The date formatter to use when the weather time is requested.
      */
     @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat weatherFormat
-            = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+    public static final SimpleDateFormat weatherFormat =
+            new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+
+    /**
+     * The date formatter to use when the log sub dir time is requested.
+     */
+    public static final SimpleDateFormat logSubDirFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * The date formatter to use when the year is requested.
+     */
+    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+
+    /**
+     * The date formatter to use when the log line time is requested.
+     */
+    public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
+
+    /**
+     * The date formatter used for when a log line is being written to the log file.
+     */
+    public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss.SSS");
+
+    /**
+     * The date formatter to use when formatting a date object to the notified at time.
+     */
+    public static final SimpleDateFormat notificationFormat = new SimpleDateFormat("HH:mm:ss");
+
+    /**
+     * The date formatter to use when formatting a date object to the console clock time format.
+     */
+    public static final SimpleDateFormat userFormat = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
+
+    /**
+     * The date formatter to use when formatting a date object to the console clock time format.
+     */
+    public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
+
+    /**
+     * The date formatter to use when formatting a date object to the console clock time format without seconds.
+     */
+    public static final SimpleDateFormat consoleNoSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mmaa");
+
+    /**
+     * An immutable map of month ordinals to their names.
+     */
+    public static final ImmutableMap<Integer, String> months = new ImmutableMap.Builder<Integer, String>()
+            .put(1, "January")
+            .put(2, "February")
+            .put(3, "March")
+            .put(4, "April")
+            .put(5, "May")
+            .put(6, "June")
+            .put(7, "July")
+            .put(8, "August")
+            .put(9, "September")
+            .put(10, "October")
+            .put(11, "November")
+            .put(12, "December")
+            .build();
+
+    /**
+     * The range an hour must fall within to be counted as in the morning.
+     */
+    private static final Range<Integer> MORNING_RANGE = Range.openClosed(0, 12);
+
+    /**
+     * The range an hour must fall within to be counted as in the after-noon.
+     */
+    private static final Range<Integer> AFTERNOON_RANGE = Range.openClosed(12, 18);
+
+    /**
+     * The decimal formatter for the {@link #formatMillis(long)} method.
+     */
+    private static final DecimalFormat milliFormatter = new DecimalFormat("#.##");
+
+    /**
+     * The Christmas month day object.
+     */
+    private static final MonthDay christmas = new MonthDay(12, 25);
+
+    /**
+     * The Halloween month day object.
+     */
+    private static final MonthDay halloween = new MonthDay(10, 31);
+
+    /**
+     * The independence day month day object.
+     */
+    private static final MonthDay independenceDay = new MonthDay(7, 4);
+
+    /**
+     * The valentines day month day object.
+     */
+    private static final MonthDay valentinesDay = new MonthDay(2, 14);
+
+    /**
+     * The month thanksgiving falls in.
+     */
+    private static final int thanksgivingMonth = 11;
+
+    /**
+     * The nth thursday thanksgiving falls on.
+     */
+    private static final int thanksgivingNthThursday = 4;
+
+    /**
+     * The april fools month day object.
+     */
+    private static final MonthDay aprilFoolsDay = new MonthDay(4, 1);
+
+    /**
+     * The pi day month day object.
+     */
+    private static final MonthDay piDay = new MonthDay(3, 14);
+
+    /**
+     * Suppress default constructor.
+     */
+    private TimeUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Returns the time used for the weather widget.
@@ -121,11 +234,6 @@ public final class TimeUtil {
     }
 
     /**
-     * The date formatter to use when the log sub dir time is requested.
-     */
-    public static final SimpleDateFormat logSubDirFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-    /**
      * Returns the time used for log subdirectories.
      *
      * @return the time used for log subdirectories
@@ -133,11 +241,6 @@ public final class TimeUtil {
     public static String logSubDirTime() {
         return getFormattedTime(logSubDirFormat);
     }
-
-    /**
-     * The date formatter to use when the year is requested.
-     */
-    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     /**
      * Returns the current year in the format "yyyy".
@@ -149,11 +252,6 @@ public final class TimeUtil {
     }
 
     /**
-     * The date formatter to use when the log line time is requested.
-     */
-    public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
-
-    /**
      * Returns the time used for log files.
      *
      * @return the time used for log files
@@ -161,11 +259,6 @@ public final class TimeUtil {
     public static String logTime() {
         return getFormattedTime(LOG_TIME_FORMAT);
     }
-
-    /**
-     * The date formatter used for when a log line is being written to the log file.
-     */
-    public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss.SSS");
 
     /**
      * The time used for lines of log files.
@@ -177,11 +270,6 @@ public final class TimeUtil {
     }
 
     /**
-     * The date formatter to use when formatting a date object to the notified at time.
-     */
-    public static final SimpleDateFormat notificationFormat = new SimpleDateFormat("HH:mm:ss");
-
-    /**
      * Returns the time used for determining what time notifications were originally added to the queue at.
      *
      * @return the time used for determining what time notifications were originally added to the queue at
@@ -189,13 +277,6 @@ public final class TimeUtil {
     public static String notificationTime() {
         return getFormattedTime(notificationFormat);
     }
-
-    /**
-     * The date formatter to use when formatting a date object to the console clock time format.
-     */
-    @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat userFormat =
-            new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
 
     /**
      * Returns a nice, common, easy to read time.
@@ -221,12 +302,6 @@ public final class TimeUtil {
     }
 
     /**
-     * The date formatter to use when formatting a date object to the console clock time format.
-     */
-    @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
-
-    /**
      * Returns the default console clock format with seconds showing.
      *
      * @return the default console clock format with seconds showing
@@ -234,12 +309,6 @@ public final class TimeUtil {
     public static String consoleSecondTime() {
         return getFormattedTime(consoleSecondFormat);
     }
-
-    /**
-     * The date formatter to use when formatting a date object to the console clock time format without seconds.
-     */
-    @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat consoleNoSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mmaa");
 
     /**
      * Returns the default console clock format without seconds showing.
@@ -271,9 +340,6 @@ public final class TimeUtil {
         return formatter.format(new Date());
     }
 
-    private static final int christmasMonth = 12;
-    private static final int christmasDay = 25;
-
     /**
      * Returns whether the current day is Christmas day.
      *
@@ -283,11 +349,8 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        return (month == christmasMonth && date == christmasDay);
+        return new MonthDay(month, date).equals(christmas);
     }
-
-    private static final int halloweenMonth = 10;
-    private static final int halloweenDay = 31;
 
     /**
      * Returns whether the current day is halloween.
@@ -298,11 +361,8 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        return (month == halloweenMonth && date == halloweenDay);
+        return new MonthDay(month, date).equals(halloween);
     }
-
-    private static final int independenceMonth = 7;
-    private static final int independenceDay = 4;
 
     /**
      * Returns whether the current day is independence day (U.S. Holiday).
@@ -313,11 +373,8 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        return (month == independenceMonth && date == independenceDay);
+        return new MonthDay(month, date).equals(independenceDay);
     }
-
-    private static final int valentinesMonth = 2;
-    private static final int valentinesDay = 14;
 
     /**
      * Returns whether the current day is Valentine's Day.
@@ -328,7 +385,7 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        return (month == valentinesMonth && date == valentinesDay);
+        return new MonthDay(month, date).equals(valentinesDay);
     }
 
     /**
@@ -342,11 +399,9 @@ public final class TimeUtil {
         int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
         int currentDate = calendarInstance.get(Calendar.DATE);
 
-        return thanksgivingMonthDay.month() == currentMonth && thanksgivingMonthDay.date() == currentDate;
+        return thanksgivingMonthDay.getMonth() == currentMonth
+                && thanksgivingMonthDay.getDate() == currentDate;
     }
-
-    private static final int thanksgivingMonth = 11;
-    private static final int thanksgivingNthThursday = 4;
 
     /**
      * Returns the thanksgiving month date for the provided year.
@@ -357,6 +412,7 @@ public final class TimeUtil {
     public static MonthDay getThanksgiving(int year) {
         LocalDate thanksgivingDay = LocalDate.of(year, thanksgivingMonth, 1)
                 .with(TemporalAdjusters.dayOfWeekInMonth(thanksgivingNthThursday, DayOfWeek.THURSDAY));
+
         return new MonthDay(thanksgivingMonth, thanksgivingDay.getDayOfMonth());
     }
 
@@ -366,10 +422,10 @@ public final class TimeUtil {
      * @return whether the current day is April Fools' Day
      */
     public static boolean isAprilFoolsDay() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
 
-        return (Month == 4 && Date == 1);
+        return new MonthDay(month, date).equals(aprilFoolsDay);
     }
 
     /**
@@ -378,10 +434,10 @@ public final class TimeUtil {
      * @return whether the current day is Pi day
      */
     public static boolean isPiDay() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
 
-        return (Month == 3 && Date == 14);
+        return new MonthDay(month, date).equals(piDay);
     }
 
     /**
@@ -390,25 +446,13 @@ public final class TimeUtil {
      * @return whether the current day is Easter
      */
     public static boolean isEaster() {
-        int m = calendarInstance.get(Calendar.MONTH) + 1;
-        int d = calendarInstance.get(Calendar.DATE);
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
 
         MonthDay sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
-        return (m == sundayDate.month && d == sundayDate.date);
+        return month == sundayDate.getMonth() && date == sundayDate.getDate();
     }
-
-    public static boolean isDeveloperBirthday() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-
-        return (Month == 6 && Date == 2);
-    }
-
-    /**
-     * A record used to represent a month and date such as June 2nd.
-     */
-    public record MonthDay(int month, int date) {}
 
     /**
      * Returns an int array representing the date easter is on for the given year.
@@ -443,7 +487,9 @@ public final class TimeUtil {
      */
     public static String getEasterSundayString() {
         MonthDay sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
-        return monthFromNumber(sundayDate.month) + CyderStrings.space + formatNumberSuffix(sundayDate.date);
+
+        return monthFromNumber(sundayDate.getMonth())
+                + CyderStrings.space + formatNumberSuffix(sundayDate.getDate());
     }
 
     /**
@@ -451,7 +497,7 @@ public final class TimeUtil {
      * Example, 1 returns "1st".
      *
      * @param dateInMonth the date to format, this should typically be between
-     *                    1 and 31 but technically this method can handle any value.
+     *                    1 and 31 but technically this method can handle any value
      * @return the number with a proper suffix appended
      */
     public static String formatNumberSuffix(int dateInMonth) {
@@ -468,24 +514,6 @@ public final class TimeUtil {
             return dateInMonth + "th";
         }
     }
-
-    /**
-     * An immutable map of month ordinals to their names.
-     */
-    public static final ImmutableMap<Integer, String> months = new ImmutableMap.Builder<Integer, String>()
-            .put(1, "January")
-            .put(2, "February")
-            .put(3, "March")
-            .put(4, "April")
-            .put(5, "May")
-            .put(6, "June")
-            .put(7, "July")
-            .put(8, "August")
-            .put(9, "September")
-            .put(10, "October")
-            .put(11, "November")
-            .put(12, "December")
-            .build();
 
     /**
      * Converts the month number to the month string.
@@ -512,8 +540,6 @@ public final class TimeUtil {
         return hour >= 18;
     }
 
-    private static final Range<Integer> MORNING_RANGE = Range.openClosed(0, 12);
-
     /**
      * Returns whether the local time is before 12:00pm.
      *
@@ -523,8 +549,6 @@ public final class TimeUtil {
         return MORNING_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
 
-    private static final Range<Integer> AFTERNOON_RANGE = Range.openClosed(12, 18);
-
     /**
      * Returns whether the current time is between 12:00pm and 6:00pm.
      *
@@ -533,11 +557,6 @@ public final class TimeUtil {
     public static boolean isAfterNoon() {
         return AFTERNOON_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
-
-    /**
-     * The decimal formatter for the {@link #formatMillis(long)} method.
-     */
-    private static final DecimalFormat milliFormatter = new DecimalFormat("#.##");
 
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
@@ -695,35 +714,5 @@ public final class TimeUtil {
      */
     public static double millisToYears(long msTime) {
         return millisToMonths(msTime) / MONTHS_IN_YEAR;
-    }
-
-    // -----------------------------------
-    // Relative timing methods and members
-    // -----------------------------------
-
-    /**
-     * The time at which the console was first shown.
-     */
-    private static final AtomicLong consoleFirstShownTime = new AtomicLong(0);
-
-    /**
-     * Returns the time at which the console was first shown.
-     * This is not affected by a user logout and successive login.
-     *
-     * @return the time at which the console was first shown
-     */
-    public static long getConsoleFirstShownTime() {
-        return consoleFirstShownTime.get();
-    }
-
-    /**
-     * Sets the time at which the console was first shown.
-     *
-     * @param consoleFirstShownTimeMs the time at which the console was first shown
-     */
-    public static void setConsoleFirstShownTime(long consoleFirstShownTimeMs) {
-        if (consoleFirstShownTime.get() != 0) return;
-
-        consoleFirstShownTime.set(consoleFirstShownTimeMs);
     }
 }
