@@ -1,6 +1,7 @@
 package cyder.ui.grid;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -12,35 +13,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
 /**
- * A custom UI grid component.
+ * A custom grid component which allows nodes at an x,y coordinate to be placed/removed,
+ * customized colors, grid lines, and much more.
  */
 public class CyderGrid extends JLabel {
-    /**
-     * The number of one dimension of nodes on the grid.
-     */
-    private int nodes;
-
-    /**
-     * The default dimensional number of nodes.
-     */
-    public static final int DEFAULT_MIN_NODES = 2;
-
-    /**
-     * The minimum nodes associated with the current grid.
-     */
-    private int minNodes = DEFAULT_MIN_NODES;
-
-    /**
-     * The maximum number of nodes associated with the current grid.
-     */
-    private int maxNodes = Integer.MAX_VALUE;
-
     /**
      * The dimension of nodes associated with the current grid.
      */
@@ -57,6 +39,26 @@ public class CyderGrid extends JLabel {
     public static final int MIN_LENGTH = 50;
 
     /**
+     * The default dimensional number of nodes.
+     */
+    public static final int DEFAULT_MIN_NODES = 2;
+
+    /**
+     * The number of nodes on the grid on one axis.
+     */
+    private int nodes;
+
+    /**
+     * The minimum nodes associated with the current grid.
+     */
+    private int minNodes = DEFAULT_MIN_NODES;
+
+    /**
+     * The maximum number of nodes associated with the current grid.
+     */
+    private int maxNodes = Integer.MAX_VALUE;
+
+    /**
      * The physical length of the grid component.
      */
     private final int gridComponentLength;
@@ -69,7 +71,7 @@ public class CyderGrid extends JLabel {
     /**
      * The list which holds the nodes to display on the grid.
      */
-    private LinkedList<GridNode> grid;
+    private ArrayList<GridNode> grid;
 
     /**
      * The color to use for new nodes added to the grid.
@@ -110,7 +112,7 @@ public class CyderGrid extends JLabel {
     /**
      * The linked list of callables to invoke when the next node is placed.
      */
-    private final LinkedList<Runnable> runnablesForWhenNextNodePlaced = new LinkedList<>();
+    private final ArrayList<Runnable> runnablesForWhenNextNodePlaced = new ArrayList<>();
 
     /**
      * The semaphore used to ensure thread-safety.
@@ -118,18 +120,23 @@ public class CyderGrid extends JLabel {
     private final Semaphore semaphore = new Semaphore(1);
 
     /**
-     * Acquires the semaphore.
+     * Acquires the semaphore, restricting access to {@link #grid}.
+     *
+     * @return whether the lock was acquired properly
      */
-    private void lock() {
+    @CanIgnoreReturnValue
+    private boolean lock() {
         try {
             semaphore.acquire();
+            return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            return false;
         }
     }
 
     /**
-     * Releases the semaphore.
+     * Releases the semaphore, releasing access to {@link #grid}.
      */
     private void unlock() {
         semaphore.release();
@@ -161,7 +168,7 @@ public class CyderGrid extends JLabel {
         this.gridComponentLength = gridComponentLength;
 
         // override add and remove methods to ensure duplicates aren't added
-        grid = new LinkedList<>() {
+        grid = new ArrayList<>() {
             @Override
             public boolean add(GridNode gridNode) {
                 // most recently added node with x,y pair is what will show up
@@ -173,8 +180,9 @@ public class CyderGrid extends JLabel {
 
             @Override
             public boolean remove(Object o) {
-                if (!(o instanceof GridNode other))
+                if (!(o instanceof GridNode other)) {
                     throw new IllegalArgumentException("Attempting to add non GridNode to grid");
+                }
 
                 if (!grid.contains(other)) {
                     return false;
@@ -265,7 +273,7 @@ public class CyderGrid extends JLabel {
      *
      * @return the nodes on the current grid
      */
-    public LinkedList<GridNode> getGridNodes() {
+    public ArrayList<GridNode> getGridNodes() {
         return grid;
     }
 
@@ -274,7 +282,7 @@ public class CyderGrid extends JLabel {
      *
      * @param newGrid the nodes for the current grid
      */
-    public void setGridNodes(LinkedList<GridNode> newGrid) {
+    public void setGridNodes(Collection<GridNode> newGrid) {
         Preconditions.checkNotNull(newGrid);
 
         grid.clear();
@@ -493,7 +501,7 @@ public class CyderGrid extends JLabel {
             return;
 
         // the nodes to add/remove
-        LinkedList<GridNode> nodesInBoundsOfClick = new LinkedList<>();
+        ArrayList<GridNode> nodesInBoundsOfClick = new ArrayList<>();
 
         // simply add the center node
         if (drawWidth == 1) {
@@ -553,14 +561,14 @@ public class CyderGrid extends JLabel {
      *
      * @param nextState the new grid state
      */
-    public void setGridState(LinkedList<GridNode> nextState) {
+    public void setGridState(Collection<GridNode> nextState) {
         Preconditions.checkNotNull(nextState);
 
         if (backwardStates.isEmpty() || !backwardStates.peek().equals(nextState)) {
-            saveState(new LinkedList<>(grid));
+            saveState(new ArrayList<>(grid));
         }
 
-        grid = nextState;
+        grid = new ArrayList<>(nextState);
 
         // new history so clear forward traversal
         forwardStates.clear();
@@ -579,7 +587,7 @@ public class CyderGrid extends JLabel {
         public void mousePressed(MouseEvent e) {
             // push grid as a past state if it is not equal to the last one
             if (backwardStates.isEmpty() || !backwardStates.peek().equals(grid))
-                saveState(new LinkedList<>(grid));
+                saveState(new ArrayList<>(grid));
 
             // new history so clear forward traversal
             forwardStates.clear();
@@ -872,7 +880,7 @@ public class CyderGrid extends JLabel {
      *
      * @param pushState the state to push to the backward states
      */
-    private void saveState(LinkedList<GridNode> pushState) {
+    private void saveState(ArrayList<GridNode> pushState) {
         Preconditions.checkNotNull(pushState);
 
         if (saveStates) {
@@ -883,12 +891,12 @@ public class CyderGrid extends JLabel {
     /**
      * The forward states of the grid.
      */
-    private final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
+    private final Stack<ArrayList<GridNode>> forwardStates = new Stack<>();
 
     /**
      * The backward states of the grid.
      */
-    private final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
+    private final Stack<ArrayList<GridNode>> backwardStates = new Stack<>();
 
     /**
      * Sets the grid state to the next state if available.
@@ -896,7 +904,7 @@ public class CyderGrid extends JLabel {
     public void forwardState() {
         if (!forwardStates.isEmpty()) {
             // push current state backwards
-            saveState(new LinkedList<>(grid));
+            saveState(new ArrayList<>(grid));
 
             // set to next state
             grid = forwardStates.pop();
@@ -912,7 +920,7 @@ public class CyderGrid extends JLabel {
     public void backwardState() {
         if (!backwardStates.isEmpty()) {
             // push current state forward
-            forwardStates.push(new LinkedList<>(grid));
+            forwardStates.push(new ArrayList<>(grid));
 
             // set to last state
             grid = backwardStates.pop();
@@ -979,7 +987,7 @@ public class CyderGrid extends JLabel {
                 }
             }
 
-            LinkedList<GridNode> croppedNodes = new LinkedList<>();
+            ArrayList<GridNode> croppedNodes = new ArrayList<>();
 
             // for nodes in the current grid
             for (GridNode node : grid) {
@@ -988,7 +996,7 @@ public class CyderGrid extends JLabel {
                 }
             }
 
-            LinkedList<GridNode> croppedOffsetNodes = new LinkedList<>();
+            ArrayList<GridNode> croppedOffsetNodes = new ArrayList<>();
 
             for (GridNode node : croppedNodes) {
                 croppedOffsetNodes.add(new GridNode(node.getColor(),
@@ -996,7 +1004,7 @@ public class CyderGrid extends JLabel {
             }
 
             // push current state and set new grid
-            saveState(new LinkedList<>(grid));
+            saveState(new ArrayList<>(grid));
             grid = croppedOffsetNodes;
 
             // reset selection
@@ -1026,7 +1034,7 @@ public class CyderGrid extends JLabel {
             int maxX = Math.max(firstX, secondX);
             int maxY = Math.max(firstY, secondY);
 
-            LinkedList<GridNode> croppedNodes = new LinkedList<>();
+            ArrayList<GridNode> croppedNodes = new ArrayList<>();
 
             // for nodes in the current grid
             for (GridNode node : grid) {
@@ -1036,11 +1044,11 @@ public class CyderGrid extends JLabel {
             }
 
             // now invert cropped nodes, remove them from the new grid
-            LinkedList<GridNode> deletedState = new LinkedList<>(grid);
+            ArrayList<GridNode> deletedState = new ArrayList<>(grid);
             deletedState.removeAll(croppedNodes);
 
             // push current state and set new grid
-            saveState(new LinkedList<>(grid));
+            saveState(new ArrayList<>(grid));
             grid = deletedState;
 
             // reset selection
@@ -1052,8 +1060,8 @@ public class CyderGrid extends JLabel {
         }
         // no region so delete everything
         else {
-            saveState(new LinkedList<>(grid));
-            grid = new LinkedList<>();
+            saveState(new ArrayList<>(grid));
+            grid = new ArrayList<>();
         }
     }
 
@@ -1090,7 +1098,7 @@ public class CyderGrid extends JLabel {
         }
 
         // the new state to push/add to
-        LinkedList<GridNode> newState = new LinkedList<>();
+        ArrayList<GridNode> newState = new ArrayList<>();
 
         // center of rotation is the average of the min/max points
         Point centerOfRotation = new Point((topLeftX + bottomRightX) / 2,
@@ -1128,7 +1136,7 @@ public class CyderGrid extends JLabel {
         }
 
         // push current state and set new grid
-        saveState(new LinkedList<>(grid));
+        saveState(new ArrayList<>(grid));
         grid = newState;
 
         if (point1Selection != null && point2Selection != null
@@ -1197,7 +1205,7 @@ public class CyderGrid extends JLabel {
         }
 
         // the new state to push/add to
-        LinkedList<GridNode> newState = new LinkedList<>();
+        ArrayList<GridNode> newState = new ArrayList<>();
 
         // center of reflection
         int centerLine = (bottomRightX - topLeftX) / 2 + topLeftX;
@@ -1229,7 +1237,7 @@ public class CyderGrid extends JLabel {
         }
 
         // push current state and set new grid
-        saveState(new LinkedList<>(grid));
+        saveState(new ArrayList<>(grid));
         grid = newState;
 
         // repaint
@@ -1292,14 +1300,17 @@ public class CyderGrid extends JLabel {
 
     /**
      * Returns a linked list of all nodes with the provided color.
+     * Note the returned list contains non-defensive copies of the nodes meaning
+     * the nodes returned are the same as the ones on the grid. Any modifications
+     * to the node's will be reflected on grid repaint.
      *
      * @param color the color of the nodes to find on the grid
      * @return a linked list of all nodes with the provided color
      */
-    public LinkedList<GridNode> getNodesOfColor(Color color) {
+    public ArrayList<GridNode> getNodesOfColor(Color color) {
         Preconditions.checkNotNull(color);
 
-        LinkedList<GridNode> ret = new LinkedList<>();
+        ArrayList<GridNode> ret = new ArrayList<>();
 
         lock();
         for (GridNode node : grid) {
@@ -1341,7 +1352,7 @@ public class CyderGrid extends JLabel {
     public void removeNodesOfColor(Color color) {
         Preconditions.checkNotNull(color);
 
-        LinkedList<GridNode> remove = new LinkedList<>();
+        ArrayList<GridNode> remove = new ArrayList<>();
 
         lock();
         for (GridNode node : grid) {

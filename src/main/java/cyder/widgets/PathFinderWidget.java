@@ -361,7 +361,7 @@ public final class PathFinderWidget {
         pathfindingGrid.setBackground(CyderColors.vanilla);
         pathfindingGrid.setResizable(true);
         pathfindingGrid.addOnResizeCallback(() -> {
-            LinkedList<GridNode> goals = pathfindingGrid.getNodesOfColor(goalNodeColor);
+            ArrayList<GridNode> goals = pathfindingGrid.getNodesOfColor(goalNodeColor);
             if (goals.size() == 1) {
                 GridNode localGoal = goals.get(0);
                 int maxGoalCoordinate = Math.max(localGoal.getX(), localGoal.getY());
@@ -370,7 +370,7 @@ public final class PathFinderWidget {
                 }
             }
 
-            LinkedList<GridNode> starts = pathfindingGrid.getNodesOfColor(startNodeColor);
+            ArrayList<GridNode> starts = pathfindingGrid.getNodesOfColor(startNodeColor);
             if (starts.size() == 1) {
                 GridNode localStart = starts.get(0);
                 int maxStartCoordinate = Math.max(localStart.getX(), localStart.getY());
@@ -632,7 +632,7 @@ public final class PathFinderWidget {
         endPathAnimator();
         removePathingNodes();
 
-        LinkedList<GridNode> walls = pathfindingGrid.getNodesOfColor(wallsColor);
+        ArrayList<GridNode> walls = pathfindingGrid.getNodesOfColor(wallsColor);
 
         GridNode gridGoal = pathfindingGrid.getNodesOfColor(goalNodeColor).get(0);
         goalNode = new PathNode(gridGoal.getX(), gridGoal.getY());

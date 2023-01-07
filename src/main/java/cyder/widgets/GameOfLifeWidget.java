@@ -44,10 +44,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Conway's game of life visualizer.
@@ -752,7 +749,7 @@ public final class GameOfLifeWidget {
      * @param nodes the list of cyder grid nodes
      * @return the 2D array consisting of 1s and 0s
      */
-    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes) {
+    private static int[][] cyderGridToConwayGrid(Collection<GridNode> nodes) {
         int len = conwayGrid.getNodeDimensionLength();
 
         int[][] ret = new int[len][len];

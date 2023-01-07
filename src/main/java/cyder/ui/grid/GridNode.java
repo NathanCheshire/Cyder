@@ -150,7 +150,10 @@ public final class GridNode {
      */
     @Override
     public String toString() {
-        return "GridNode{" + "color=" + color
-                + ", x=" + x + ", y=" + y + "}";
+        return "GridNode{"
+                + "color=" + color
+                + ", x=" + x
+                + ", y=" + y
+                + "}";
     }
 }
