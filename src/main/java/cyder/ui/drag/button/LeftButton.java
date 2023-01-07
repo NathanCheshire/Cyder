@@ -10,6 +10,21 @@ import java.awt.*;
  */
 public class LeftButton extends CyderDragLabelButton {
     /**
+     * The text for the left button.
+     */
+    private static final String LEFT = "Left";
+
+    /**
+     * The padding between the edges of the painted left button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
+     * The size of the rectangles to draw in the paint method.
+     */
+    private static final int drawnRectangleLength = 2;
+
+    /**
      * The size this left button will be painted with.
      */
     private DragLabelButtonSize size;
@@ -20,11 +35,6 @@ public class LeftButton extends CyderDragLabelButton {
     public LeftButton() {
         this(DEFAULT_SIZE);
     }
-
-    /**
-     * The text for the left button.
-     */
-    private static final String LEFT = "Left";
 
     /**
      * Constructs a new left button.
@@ -49,16 +59,6 @@ public class LeftButton extends CyderDragLabelButton {
         Preconditions.checkNotNull(size);
         return size.getSize() - 2 * PAINT_PADDING;
     }
-
-    /**
-     * The padding between the edges of the painted left button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
-     * The size of the rectangles to draw in the paint method.
-     */
-    private static final int drawnRectangleLength = 2;
 
     /**
      * {@inheritDoc}

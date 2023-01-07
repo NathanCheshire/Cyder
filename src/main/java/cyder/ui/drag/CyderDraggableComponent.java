@@ -10,7 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 /**
- * A mouse motion listener to allow a component to be dragged during runtime.
+ * A {@link MouseMotionListener} to allow a component to be dragged during on its parent during runtime.
+ * This class is valid for any component added to an instance of a {@link JFrame}.
  */
 public class CyderDraggableComponent implements MouseMotionListener {
     /**

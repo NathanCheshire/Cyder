@@ -21,6 +21,11 @@ public class PinButton extends CyderDragLabelButton {
     public static final DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
 
     /**
+     * The padding between the edges of the painted pin button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
      * The current state of this pin button.
      */
     private PinState currentState;
@@ -177,17 +182,13 @@ public class PinButton extends CyderDragLabelButton {
     }
 
     /**
-     * The padding between the edges of the painted pin button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
      * Returns the actual size of the painted pin button after accounting for padding.
      *
      * @return the actual size of the painted pin button after accounting for padding
      */
     private int getPaintLength() {
         Preconditions.checkNotNull(size);
+
         return size.getSize() - 2 * PAINT_PADDING;
     }
 
@@ -265,8 +266,19 @@ public class PinButton extends CyderDragLabelButton {
          */
         PINNED_TO_CONSOLE("Unpin", CyderColors.regularPink, CyderColors.vanilla);
 
+        /**
+         * The hover tooltip text.
+         */
         private final String tooltip;
+
+        /**
+         * The current color.
+         */
         private final Color currentColor;
+
+        /**
+         * The next state color and thus the current hover color.
+         */
         private final Color nextColor;
 
         PinState(String tooltip, Color currentColor, Color nextColor) {

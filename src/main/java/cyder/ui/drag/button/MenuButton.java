@@ -10,14 +10,24 @@ import java.awt.*;
  */
 public class MenuButton extends CyderDragLabelButton {
     /**
-     * The size this menu button will be painted with.
-     */
-    private DragLabelButtonSize size;
-
-    /**
      * The text for the menu button.
      */
     private static final String MENU = "Menu";
+
+    /**
+     * The padding between the edges of the painted menu button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
+     * The size of the rectangles to draw in the paint method.
+     */
+    private static final int drawnRectangleLength = 2;
+
+    /**
+     * The size this menu button will be painted with.
+     */
+    private DragLabelButtonSize size;
 
     /**
      * Constructs a new menu button.
@@ -49,16 +59,6 @@ public class MenuButton extends CyderDragLabelButton {
         Preconditions.checkNotNull(size);
         return size.getSize() - 2 * PAINT_PADDING;
     }
-
-    /**
-     * The padding between the edges of the painted menu button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
-     * The size of the rectangles to draw in the paint method.
-     */
-    private static final int drawnRectangleLength = 2;
 
     /**
      * {@inheritDoc}

@@ -8,12 +8,14 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.HtmlTags;
 import cyder.enums.Extension;
 import cyder.exceptions.DeviceNotFoundException;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.time.TimeUtil;
+import cyder.ui.drag.DragLabelButtonSize;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 
@@ -588,5 +590,21 @@ public final class UiUtil {
                 -> ret.append(CyderStrings.space).append(HtmlTags.breakTag));
         ret.append(CyderStrings.space).append(HtmlTags.closingHtml);
         return ret.toString();
+    }
+
+    /**
+     * Returns the drag label button size corresponding to the provided string.
+     *
+     * @param size the size string
+     * @return the drag label button size
+     */
+    public static DragLabelButtonSize dragLabelButtonSizeFromString(String size) {
+        return switch (size) {
+            case "small" -> DragLabelButtonSize.SMALL;
+            case "medium" -> DragLabelButtonSize.MEDIUM;
+            case "large" -> DragLabelButtonSize.LARGE;
+            case "full_drag_label" -> DragLabelButtonSize.FULL_DRAG_LABEL;
+            default -> throw new FatalException("Invalid drag label button size specified by prop: " + size);
+        };
     }
 }

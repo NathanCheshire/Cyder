@@ -16,6 +16,26 @@ public class MinimizeButton extends CyderDragLabelButton {
     private DragLabelButtonSize size;
 
     /**
+     * The text for the minimize button.
+     */
+    private static final String MINIMIZE = "Minimize";
+
+    /**
+     * The padding between the edges of the painted minimize button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
+     * The stroke to paint with for this minimize button.
+     */
+    private static final BasicStroke minimizeStroke = new BasicStroke(2);
+
+    /**
+     * The offset from the bottom for drawing this minimize button.
+     */
+    private static final int MINIMIZE_BOTTOM_OFFSET = 4;
+
+    /**
      * Constructs a new minimize button.
      *
      * @param effectFrame the frame this minimize button will be on
@@ -23,11 +43,6 @@ public class MinimizeButton extends CyderDragLabelButton {
     public MinimizeButton(CyderFrame effectFrame) {
         this(effectFrame, DEFAULT_SIZE);
     }
-
-    /**
-     * The text for the minimize button.
-     */
-    private static final String MINIMIZE = "Minimize";
 
     /**
      * Constructs a new minimize button.
@@ -55,21 +70,6 @@ public class MinimizeButton extends CyderDragLabelButton {
         Preconditions.checkNotNull(size);
         return size.getSize() - 2 * PAINT_PADDING;
     }
-
-    /**
-     * The padding between the edges of the painted minimize button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
-     * The stroke to paint with for this minimize button.
-     */
-    private static final BasicStroke minimizeStroke = new BasicStroke(2);
-
-    /**
-     * The offset from the bottom for drawing this minimize button.
-     */
-    private static final int MINIMIZE_BOTTOM_OFFSET = 4;
 
     /**
      * {@inheritDoc}

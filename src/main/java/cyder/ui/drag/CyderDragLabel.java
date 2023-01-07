@@ -12,8 +12,8 @@ import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.UiUtil;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -109,12 +109,7 @@ public class CyderDragLabel extends JLabel {
 
         leftButtonList = new LinkedList<>();
 
-        /* This is better for readability */
-        if (type == DragLabelType.TOP) {
-            rightButtonList = buildRightButtonList();
-        } else {
-            rightButtonList = new LinkedList<>();
-        }
+        initializeRightButtonList();
 
         setSize(width, height);
         setOpaque(true);
@@ -135,6 +130,17 @@ public class CyderDragLabel extends JLabel {
         effectFrame.addWindowListener(createWindowListener(effectFrame));
 
         Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Determines the contents of the right button list depending on the type of this drag label.
+     */
+    private void initializeRightButtonList() {
+        if (type == DragLabelType.TOP) {
+            rightButtonList = buildRightButtonList();
+        } else {
+            rightButtonList = new LinkedList<>();
+        }
     }
 
     /**
@@ -325,6 +331,8 @@ public class CyderDragLabel extends JLabel {
      * @param color the background color of this drag label
      */
     public void setColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         backgroundColor = color;
         repaint();
     }
@@ -377,12 +385,9 @@ public class CyderDragLabel extends JLabel {
         int ret = Integer.hashCode(width);
         ret = 31 * ret + Integer.hashCode(height);
         ret = 31 * ret + backgroundColor.hashCode();
-        for (Component leftComponent : leftButtonList) {
-            ret = 31 * ret + leftComponent.hashCode();
-        }
-        for (Component rightComponent : rightButtonList) {
-            ret = 31 * ret + rightComponent.hashCode();
-        }
+        ret = 31 * ret + type.hashCode();
+        ret = 31 * ret + leftButtonList.hashCode();
+        ret = 31 * ret + rightButtonList.hashCode();
         return ret;
     }
 
@@ -650,9 +655,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param rightButtonList the button list to use for this drag label's right list
      */
-    public void setRightButtonList(
-            @Nullable
-                    LinkedList<Component> rightButtonList) {
+    public void setRightButtonList(@Nullable LinkedList<Component> rightButtonList) {
         removeRightButtons();
         this.rightButtonList = rightButtonList;
         refreshRightButtons();
@@ -663,9 +666,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param leftButtonList the button list to use for this drag label's left list
      */
-    public void setLeftButtonList(
-            @Nullable
-                    LinkedList<Component> leftButtonList) {
+    public void setLeftButtonList(@Nullable LinkedList<Component> leftButtonList) {
         removeLeftButtons();
         this.leftButtonList = leftButtonList;
         refreshLeftButtons();
@@ -814,6 +815,8 @@ public class CyderDragLabel extends JLabel {
      * @param xOffset the x offset of this drag label
      */
     public void setXOffset(int xOffset) {
+        Preconditions.checkArgument(xOffset >= 0);
+
         this.xOffset.set(xOffset);
     }
 
@@ -823,6 +826,8 @@ public class CyderDragLabel extends JLabel {
      * @param yOffset the y offset of this drag label
      */
     public void setYOffset(int yOffset) {
+        Preconditions.checkArgument(yOffset >= 0);
+
         this.yOffset.set(yOffset);
     }
 

@@ -29,6 +29,7 @@ public class DragLabelTextButton extends JLabel {
      */
     private DragLabelTextButton() {
         Logger.log(LogTag.OBJECT_CREATION, this);
+
         this.hovered = new AtomicBoolean();
     }
 
@@ -43,7 +44,7 @@ public class DragLabelTextButton extends JLabel {
      * @param builder the builder for this drag label text button
      */
     public void setBuilder(Builder builder) {
-        this.builder = builder;
+        this.builder = Preconditions.checkNotNull(builder);
     }
 
     /**
@@ -213,6 +214,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setClickAction(Runnable clickAction) {
             this.clickAction = Preconditions.checkNotNull(clickAction);
+
             return this;
         }
 
@@ -225,6 +227,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setMouseEnterAction(Runnable mouseEnterAction) {
             this.mouseEnterAction = Preconditions.checkNotNull(mouseEnterAction);
+
             return this;
         }
 
@@ -237,6 +240,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setMouseExitAction(Runnable mouseExitAction) {
             this.mouseExitAction = Preconditions.checkNotNull(mouseExitAction);
+
             return this;
         }
 
@@ -249,6 +253,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setFont(Font font) {
             this.font = Preconditions.checkNotNull(font);
+
             return this;
         }
 
@@ -261,6 +266,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setDefaultColor(Color color) {
             this.defaultColor = Preconditions.checkNotNull(color);
+
             return this;
         }
 
@@ -273,6 +279,7 @@ public class DragLabelTextButton extends JLabel {
         @CanIgnoreReturnValue
         public Builder setHoverColor(Color color) {
             this.hoverColor = Preconditions.checkNotNull(color);
+
             return this;
         }
 
@@ -286,6 +293,7 @@ public class DragLabelTextButton extends JLabel {
         public Builder setTooltip(String tooltip) {
             Preconditions.checkNotNull(tooltip);
             Preconditions.checkArgument(!tooltip.isEmpty());
+
             this.tooltip = tooltip;
             return this;
         }
@@ -299,6 +307,7 @@ public class DragLabelTextButton extends JLabel {
          */
         @CanIgnoreReturnValue
         public Builder setStateSelectedAtomicBoolean(AtomicBoolean stateSelected) {
+
             Preconditions.checkNotNull(stateSelected);
             this.stateSelected = stateSelected;
             return this;

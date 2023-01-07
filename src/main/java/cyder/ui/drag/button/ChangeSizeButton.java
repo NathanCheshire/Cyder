@@ -10,6 +10,31 @@ import java.awt.*;
  */
 public class ChangeSizeButton extends CyderDragLabelButton {
     /**
+     * The padding between the edges of the painted change size button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
+     * The stroke for painting the change size button.
+     */
+    private static final BasicStroke changeSizeStroke = new BasicStroke(2);
+
+    /**
+     * The offset from the top of for the painting the change size button.
+     */
+    private static final int changeSizeYOffset = 1;
+
+    /**
+     * The value to subtract from the paint length when painting the change size button.
+     */
+    private static final int changeSizeHeightSubtrahend = 2;
+
+    /**
+     * The text for the change size button.
+     */
+    private static final String CHANGE_SIZE = "Change size";
+
+    /**
      * The size this change size button will be painted with.
      */
     private DragLabelButtonSize size;
@@ -20,11 +45,6 @@ public class ChangeSizeButton extends CyderDragLabelButton {
     public ChangeSizeButton() {
         this(DEFAULT_SIZE);
     }
-
-    /**
-     * The text for the change size button.
-     */
-    private static final String CHANGE_SIZE = "Change size";
 
     /**
      * Constructs a new change size button.
@@ -51,26 +71,6 @@ public class ChangeSizeButton extends CyderDragLabelButton {
     }
 
     /**
-     * The padding between the edges of the painted change size button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
-     * The stroke for painting the change size button.
-     */
-    private static final BasicStroke changeSizeStroke = new BasicStroke(2);
-
-    /**
-     * The offset from the top of for the painting the change size button.
-     */
-    private static final int changeSizeYOffset = 1;
-
-    /**
-     * The value to subtract from the paint length when painting the change size button.
-     */
-    private static final int changeSizeHeightSubtrahend = 2;
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -93,6 +93,7 @@ public class ChangeSizeButton extends CyderDragLabelButton {
     @Override
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
+
         repaint();
     }
 

@@ -15,16 +15,26 @@ public class RightButton extends CyderDragLabelButton {
     private DragLabelButtonSize size;
 
     /**
+     * The text for the right button.
+     */
+    private static final String RIGHT = "Right";
+
+    /**
+     * The padding between the edges of the painted right button.
+     */
+    private static final int PAINT_PADDING = 4;
+
+    /**
+     * The size of the rectangles to draw in the paint method.
+     */
+    private static final int drawnRectangleLength = 2;
+
+    /**
      * Constructs a new right button.
      */
     public RightButton() {
         this(DEFAULT_SIZE);
     }
-
-    /**
-     * The text for the right button.
-     */
-    private static final String RIGHT = "Right";
 
     /**
      * Constructs a new right button.
@@ -49,16 +59,6 @@ public class RightButton extends CyderDragLabelButton {
         Preconditions.checkNotNull(size);
         return size.getSize() - 2 * PAINT_PADDING;
     }
-
-    /**
-     * The padding between the edges of the painted right button.
-     */
-    private static final int PAINT_PADDING = 4;
-
-    /**
-     * The size of the rectangles to draw in the paint method.
-     */
-    private static final int drawnRectangleLength = 2;
 
     /**
      * {@inheritDoc}

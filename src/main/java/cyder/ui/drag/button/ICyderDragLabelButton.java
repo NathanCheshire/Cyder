@@ -10,6 +10,16 @@ import java.awt.*;
  */
 public interface ICyderDragLabelButton {
     /**
+     * The default color for a non hovered or focused button.
+     */
+    Color defaultColor = CyderColors.vanilla;
+
+    /**
+     * The hover and focus color.
+     */
+    Color defaultHoverAndFocusColor = CyderColors.regularRed;
+
+    /**
      * Sets the size of this drag label button and repaints this button.
      *
      * @param size the new size of this drag label button
@@ -170,16 +180,6 @@ public interface ICyderDragLabelButton {
      * Invokes all focus lost actions.
      */
     void invokeFocusLostActions();
-
-    /**
-     * The default color for a non hovered or focused button.
-     */
-    Color defaultColor = CyderColors.vanilla;
-
-    /**
-     * The hover and focus color.
-     */
-    Color defaultHoverAndFocusColor = CyderColors.regularRed;
 
     /**
      * Returns the color to paint the button as based on the current state
