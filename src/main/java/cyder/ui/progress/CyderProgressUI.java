@@ -275,14 +275,4 @@ public class CyderProgressUI extends BasicProgressBarUI {
             }
         }
     }
-
-    /**
-     * The direction to animate the colors in.
-     */
-    public enum AnimationDirection {
-        LEFT_TO_RIGHT,
-        RIGHT_TO_LEFT,
-        TOP_TO_BOTTOM,
-        BOTTOM_TO_TOP
-    }
 }

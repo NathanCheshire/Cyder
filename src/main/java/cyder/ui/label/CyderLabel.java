@@ -1,11 +1,13 @@
 package cyder.ui.label;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.bounds.HtmlString;
 import cyder.bounds.PlainString;
 import cyder.bounds.StringContainer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.HtmlTags;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -14,6 +16,7 @@ import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.utils.HtmlUtil;
 import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -32,72 +35,9 @@ public class CyderLabel extends JLabel {
     public static final String DEFAULT_TEXT = "I miss you";
 
     /**
-     * Constructs a new CyderLabel.
-     */
-    public CyderLabel() {
-        this(DEFAULT_TEXT);
-    }
-
-    /**
-     * Constructs a new CyderLabel.
-     *
-     * @param text the initial text
-     */
-    public CyderLabel(String text) {
-        setText(text);
-        setForeground(CyderColors.navy);
-        setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        setHorizontalAlignment(JLabel.CENTER);
-        setVerticalAlignment(JLabel.CENTER);
-
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
-
-        Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Returns html text which constrains its parent label to the provided pixel bounds.
-     *
-     * @param text   the text of the label
-     * @param width  the width of the label
-     * @param height the height of the label
-     * @return html text which constrains its parent label to the provided pixel bounds
-     */
-    public static String generateConstrainedWidthTag(String text, int width, int height) {
-        return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
-    }
-
-    /**
      * The center alignment left tag.
      */
-    private static final String alignTextTagLeft = "<html><div style='text-align: center;'>";
-
-    /**
-     * The center alignment right tag.
-     */
-    private static final String alignTextTagRight = "</html>";
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(String text) {
-        if (text == null || text.isEmpty()) {
-            super.setText(text);
-        } else if (!text.startsWith("<html>")) {
-            super.setText(alignTextTagLeft + text + alignTextTagRight);
-        } else {
-            super.setText(text);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ToStringUtil.commonUiComponentToString(this);
-    }
+    private static final String alignTextTagLeft = HtmlTags.openingHtml + "<div style='text-align: center;'>";
 
     /**
      * The color used for the rippling text animation.
@@ -118,6 +58,54 @@ public class CyderLabel extends JLabel {
      * Whether the ripple animation is currently active.
      */
     private boolean isRippling;
+
+    /**
+     * Constructs a new CyderLabel.
+     */
+    public CyderLabel() {
+        this(DEFAULT_TEXT);
+    }
+
+    /**
+     * Constructs a new CyderLabel.
+     *
+     * @param text the initial text
+     */
+    public CyderLabel(String text) {
+        Preconditions.checkNotNull(text);
+
+        setText(text);
+        setForeground(CyderColors.navy);
+        setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        setHorizontalAlignment(JLabel.CENTER);
+        setVerticalAlignment(JLabel.CENTER);
+
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        if (text == null || text.isEmpty()) {
+            super.setText(text);
+        } else if (!text.startsWith(HtmlTags.openingHtml)) {
+            super.setText(alignTextTagLeft + text + HtmlTags.closingHtml);
+        } else {
+            super.setText(text);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return ToStringUtil.commonUiComponentToString(this);
+    }
 
     /**
      * Returns the raw, non-html styled text length of this component's current text.
@@ -165,6 +153,8 @@ public class CyderLabel extends JLabel {
      * @param rippleColor the color used for the ripple animation
      */
     public void setRippleColor(Color rippleColor) {
+        Preconditions.checkNotNull(rippleColor);
+
         this.rippleColor = rippleColor;
     }
 
@@ -183,6 +173,8 @@ public class CyderLabel extends JLabel {
      * @param rippleMsTimeout the timeout between ripple animation frames
      */
     public void setRippleMsTimeout(long rippleMsTimeout) {
+        Preconditions.checkArgument(rippleMsTimeout >= 0);
+
         this.rippleMsTimeout = rippleMsTimeout;
     }
 
@@ -256,7 +248,7 @@ public class CyderLabel extends JLabel {
                                 // we haven't used up all the ripple chars for this iteration
                                 if (charSum >= i && rippled < rippleChars) {
                                     //ripple this char and inc rippled
-                                    builder.append(getColoredText(String.valueOf(c), rippleColor));
+                                    builder.append(HtmlUtil.generateColoredHtmlText(String.valueOf(c), rippleColor));
                                     rippled++;
                                 }
                                 //otherwise append the char normal, without extra styling
@@ -270,11 +262,11 @@ public class CyderLabel extends JLabel {
                         }
                     }
 
-                    //add this text iteration to our list
-                    if (builder.toString().startsWith("<html>"))
+                    if (builder.toString().startsWith(HtmlTags.openingHtml)) {
                         rippleTextIterations.add(builder.toString());
-                    else
-                        rippleTextIterations.add("<html>" + builder + "</html>");
+                    } else {
+                        rippleTextIterations.add(HtmlTags.openingHtml + builder + HtmlTags.closingHtml);
+                    }
                 }
 
                 //now ripple through our ripple iterations
@@ -302,18 +294,6 @@ public class CyderLabel extends JLabel {
                 ExceptionHandler.handle(e);
             }
         }, threadName);
-    }
-
-    /**
-     * Styles the provided text using html to be the color provided.
-     *
-     * @param text  the text to style
-     * @param color the color of the text
-     * @return the color styled text
-     */
-    private String getColoredText(String text, Color color) {
-        return "<font color = rgb(" + color.getRed() + "," + color.getGreen()
-                + "," + color.getBlue() + ")>" + text + "</font>";
     }
 
     /**

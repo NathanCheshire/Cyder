@@ -17,6 +17,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderComboBox;
+import cyder.ui.selection.CyderComboBoxState;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
@@ -89,10 +90,10 @@ public class HashingWidget {
     /**
      * The valid hashing algorithms for the combo box chooser.
      */
-    private static final ImmutableList<CyderComboBox.ComboItem> HASH_ALGORITHMS = ImmutableList.of(
-            new CyderComboBox.ComboItem(SHA_256, "SHA256 Algorithm"),
-            new CyderComboBox.ComboItem(SHA_1, "SHA-1 Algorithm"),
-            new CyderComboBox.ComboItem(MD5, "MD5 Algorithm (Do not use for passwords)")
+    private static final ImmutableList<CyderComboBoxState> HASH_ALGORITHMS = ImmutableList.of(
+            new CyderComboBoxState(SHA_256, "SHA256 Algorithm"),
+            new CyderComboBoxState(SHA_1, "SHA-1 Algorithm"),
+            new CyderComboBoxState(MD5, "MD5 Algorithm (Do not use for passwords)")
     );
 
     /**
@@ -166,7 +167,7 @@ public class HashingWidget {
         char[] hashFieldContents = hashField.getPassword();
         if (hashFieldContents.length == 0) return;
 
-        String algorithm = comboBox.getCurrentState().displayValue();
+        String algorithm = comboBox.getCurrentState().getDisplayValue();
         String hashResult = switch (algorithm) {
             case SHA_256 -> SecurityUtil.toHexString(SecurityUtil.getSha256(hashFieldContents));
             case SHA_1 -> SecurityUtil.toHexString(SecurityUtil.getSha1(hashFieldContents));

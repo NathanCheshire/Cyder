@@ -19,6 +19,7 @@ import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.*;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.label.CyderLabel;
+import cyder.ui.progress.AnimationDirection;
 import cyder.ui.progress.CyderProgressUI;
 import cyder.ui.selection.*;
 import cyder.ui.slider.CyderSliderUi;
@@ -48,22 +49,18 @@ public final class GuiTests {
         CyderFrame testFrame = new CyderFrame(280, 120);
         testFrame.setTitle("Switcher test");
 
-        ArrayList<CyderComboBox.ComboItem> states = new ArrayList<>();
-        states.add(new CyderComboBox.ComboItem("One", "Mapped one"));
-        states.add(new CyderComboBox.ComboItem("Two", "Mapped two"));
-        states.add(new CyderComboBox.ComboItem("Three", "Mapped three"));
-        states.add(new CyderComboBox.ComboItem("Four", "Mapped four"));
+        ArrayList<CyderComboBoxState> states = new ArrayList<>();
+        states.add(new CyderComboBoxState("One", "Mapped one"));
+        states.add(new CyderComboBoxState("Two", "Mapped two"));
+        states.add(new CyderComboBoxState("Three", "Mapped three"));
+        states.add(new CyderComboBoxState("Four", "Mapped four"));
 
-        CyderComboBox.ComboItem startingState = states.get(0);
+        CyderComboBoxState startingState = states.get(0);
 
         CyderComboBox switcher = new CyderComboBox(200, 40, states, startingState);
         switcher.setBounds(40, 40, 200, 40);
         testFrame.getContentPane().add(switcher);
-        switcher.addOnChangeListener((param) -> {
-            testFrame.notify(switcher.getNextState().mappedValue());
-
-            return param;
-        });
+        switcher.addOnChangeRunnable(() -> testFrame.notify(switcher.getNextState().getMappedValue()));
 
         testFrame.finalizeAndShow();
     }
@@ -369,7 +366,7 @@ public final class GuiTests {
         jpb.setBounds(40, 40, 320, 20);
         jpb.setOrientation(SwingConstants.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
-        ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
+        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         ui.setAnimationColors(CyderColors.regularBlue, CyderColors.regularPink);
         jpb.setUI(ui);
         jpb.setValue(50);

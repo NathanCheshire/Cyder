@@ -30,6 +30,31 @@ import java.util.Optional;
  */
 public class CyderScrollList {
     /**
+     * The color selected items are given.
+     */
+    public static final Color selectedColor = CyderColors.regularRed;
+
+    /**
+     * The default length of the scroll list.
+     */
+    public static final int DEFAULT_LEN = 400;
+
+    /**
+     * The string for sep labels. This text is irrelevant as it is not rendered but may not be an empty string.
+     */
+    private static final String SEP_LABEL_TEXT = ";)";
+
+    /**
+     * The y value of separation labels.
+     */
+    private static final int SEP_LABEL_Y = 10;
+
+    /**
+     * The height of separation labels.
+     */
+    private static final int SEP_LABEL_HEIGHT = 5;
+
+    /**
      * The width of this scroll list.
      */
     private int width;
@@ -43,11 +68,6 @@ public class CyderScrollList {
      * Whether dark mode is active for this scroll list.
      */
     private final boolean darkMode;
-
-    /**
-     * The color selected items are given.
-     */
-    public static final Color selectedColor = CyderColors.regularRed;
 
     /**
      * The color non-selected items are given.
@@ -73,7 +93,8 @@ public class CyderScrollList {
      * The selection policies for the scroll list.
      */
     public enum SelectionPolicy {
-        SINGLE, MULTIPLE
+        SINGLE,
+        MULTIPLE
     }
 
     /**
@@ -82,9 +103,19 @@ public class CyderScrollList {
     private SelectionPolicy selectionPolicy;
 
     /**
-     * The default length of the scroll list.
+     * The font to use for the scroll list.
      */
-    public static final int DEFAULT_LEN = 400;
+    private Font scrollFont = CyderFonts.SEGOE_20;
+
+    /**
+     * The list of scroll lists created during the current instance of Cyder.
+     */
+    private static final ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
+
+    /**
+     * The inner scroll pane object.
+     */
+    private CyderScrollPane scrollPane;
 
     /**
      * Constructs a new scroll list object.
@@ -151,11 +182,6 @@ public class CyderScrollList {
     }
 
     /**
-     * The font to use for the scroll list.
-     */
-    private Font scrollFont = CyderFonts.SEGOE_20;
-
-    /**
      * Returns the font for this scroll list.
      *
      * @return the font for this scroll list
@@ -188,11 +214,6 @@ public class CyderScrollList {
                     Border border) {
         this.border = border;
     }
-
-    /**
-     * The list of scroll lists created during the current instance of Cyder.
-     */
-    private static final ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
 
     /**
      * Refreshes all CyderScrollLists that have been created during the current instance of Cyder.
@@ -276,11 +297,6 @@ public class CyderScrollList {
 
         return retLabel;
     }
-
-    /**
-     * The inner scroll pane object.
-     */
-    private CyderScrollPane scrollPane;
 
     /**
      * Returns the inner scroll pane object.
@@ -624,21 +640,6 @@ public class CyderScrollList {
     public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
         this.selectionPolicy = Preconditions.checkNotNull(selectionPolicy);
     }
-
-    /**
-     * The string for sep labels. This text is irrelevant as it is not rendered but may not be an empty string.
-     */
-    private static final String SEP_LABEL_TEXT = ";)";
-
-    /**
-     * The y value of separation labels.
-     */
-    private static final int SEP_LABEL_Y = 10;
-
-    /**
-     * The height of separation labels.
-     */
-    private static final int SEP_LABEL_HEIGHT = 5;
 
     /**
      * Generates a separation label to use for the scroll list when compact mode is not active.

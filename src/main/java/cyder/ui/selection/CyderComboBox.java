@@ -11,12 +11,16 @@ import cyder.ui.field.CyderTextField;
 import javax.swing.*;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.function.Function;
 
 /**
  * A combo box which cycles through the possible values.
  */
 public class CyderComboBox extends JLabel {
+    /**
+     * The border offset for constructing the field toggle button.
+     */
+    private static final int borderOffset = 5;
+
     /**
      * The field in which the current value is displayed in.
      */
@@ -30,12 +34,12 @@ public class CyderComboBox extends JLabel {
     /**
      * The current switch state.
      */
-    private ComboItem currentState;
+    private CyderComboBoxState currentState;
 
     /**
      * The list of valid states for this switcher.
      */
-    private final Collection<ComboItem> states;
+    private final Collection<CyderComboBoxState> states;
 
     /**
      * The width of the whole switcher.
@@ -48,11 +52,6 @@ public class CyderComboBox extends JLabel {
     private final int height;
 
     /**
-     * The border offset for constructing the field toggle button.
-     */
-    private static final int borderOffset = 5;
-
-    /**
      * Constructs a new CyderComboBox. Note, you will need to add an action listener
      * to the internal button if you wish to invoke actions whenever the
      * switch button is clicked. Use the getNextState() and getCurrentState() as needed.
@@ -62,7 +61,8 @@ public class CyderComboBox extends JLabel {
      * @param states        the valid states
      * @param startingState the starting state
      */
-    public CyderComboBox(int width, int height, Collection<ComboItem> states, ComboItem startingState) {
+    public CyderComboBox(int width, int height, Collection<CyderComboBoxState> states,
+                         CyderComboBoxState startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(states);
@@ -82,8 +82,8 @@ public class CyderComboBox extends JLabel {
         valueDisplayField.setFocusable(false);
         valueDisplayField.setSize(width - height + borderOffset, height);
         add(valueDisplayField);
-        valueDisplayField.setText(currentState.displayValue());
-        valueDisplayField.setToolTipText(currentState.mappedValue());
+        valueDisplayField.setText(currentState.getDisplayValue());
+        valueDisplayField.setToolTipText(currentState.getMappedValue());
 
         int iterationButtonLength = Math.min(width, height);
         iterationButton = new CyderButton(CyderStrings.DOWN_ARROW);
@@ -93,11 +93,11 @@ public class CyderComboBox extends JLabel {
 
         iterationButton.addActionListener(e -> {
             currentState = getNextState();
-            valueDisplayField.setText(currentState.displayValue());
-            valueDisplayField.setToolTipText(currentState.mappedValue());
+            valueDisplayField.setText(currentState.getDisplayValue());
+            valueDisplayField.setToolTipText(currentState.getMappedValue());
         });
 
-        valueDisplayField.setText(startingState.displayValue());
+        valueDisplayField.setText(startingState.getDisplayValue());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -136,7 +136,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the states of this switcher
      */
-    public Collection<ComboItem> getStates() {
+    public Collection<CyderComboBoxState> getStates() {
         return ImmutableList.copyOf(states);
     }
 
@@ -145,7 +145,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the current state of this switcher
      */
-    public ComboItem getCurrentState() {
+    public CyderComboBoxState getCurrentState() {
         return currentState;
     }
 
@@ -154,15 +154,15 @@ public class CyderComboBox extends JLabel {
      *
      * @return the state just after the current state
      */
-    public ComboItem getNextState() {
+    public CyderComboBoxState getNextState() {
         Preconditions.checkNotNull(states);
         Preconditions.checkState(!states.isEmpty());
 
-        Iterator<ComboItem> iterator = states.iterator();
-        ComboItem firstItem = null;
+        Iterator<CyderComboBoxState> iterator = states.iterator();
+        CyderComboBoxState firstItem = null;
 
         while (iterator.hasNext()) {
-            ComboItem currentIterationItem = iterator.next();
+            CyderComboBoxState currentIterationItem = iterator.next();
             if (firstItem == null) {
                 firstItem = currentIterationItem;
             }
@@ -184,22 +184,20 @@ public class CyderComboBox extends JLabel {
      *
      * @param currentState the current state of this switcher
      */
-    public void setCurrentState(ComboItem currentState) {
+    public void setCurrentState(CyderComboBoxState currentState) {
         this.currentState = Preconditions.checkNotNull(currentState);
-        valueDisplayField.setText(currentState.displayValue());
+        valueDisplayField.setText(currentState.getDisplayValue());
     }
 
-    // todo runnable?
-
     /**
-     * Invokes the provided function before the state changes.
+     * Invokes the provided runnable before the state changes.
      *
-     * @param function the provided function to invoke before the state changes
+     * @param runnable the provided runnable to invoke before the state changes
      */
-    public void addOnChangeListener(Function<Void, Void> function) {
-        Preconditions.checkNotNull(function);
+    public void addOnChangeRunnable(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
 
-        iterationButton.addActionListener((OptionalParam) -> function.apply(null));
+        iterationButton.addActionListener(e -> runnable.run());
     }
 
     /**
@@ -210,30 +208,4 @@ public class CyderComboBox extends JLabel {
         iterationButton.setEnabled(enabled);
     }
 
-    /**
-     * An enum used to map a preview value to the actual value to switch on.
-     */
-    public record ComboItem(String displayValue, String mappedValue) {
-        /**
-         * Constructs a new switch state
-         *
-         * @param value the display value and underlying map value of the state
-         */
-        public ComboItem(String value) {
-            this(value, value);
-        }
-
-        /**
-         * Constructs a new switch state
-         *
-         * @param displayValue the display value of the state
-         * @param mappedValue  the underlying value of the state
-         */
-        public ComboItem(String displayValue, String mappedValue) {
-            this.displayValue = Preconditions.checkNotNull(displayValue);
-            this.mappedValue = Preconditions.checkNotNull(mappedValue);
-
-            Logger.log(LogTag.OBJECT_CREATION, this);
-        }
-    }
 }

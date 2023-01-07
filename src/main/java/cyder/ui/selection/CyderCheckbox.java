@@ -560,7 +560,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override /* To ensure setLocation calls work same as set bounds */
+    @Override
     public void setLocation(int x, int y) {
         super.setBounds(x, y, getWidth(), getHeight());
     }
@@ -568,7 +568,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override /* To ensure length is not changed via get bounds */
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, sideLength, sideLength);
     }
@@ -576,7 +576,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override /* To ensure same len */
+    @Override
     public void setSize(int width, int height) {
         Preconditions.checkArgument(width == height);
         sideLength = width;
@@ -586,7 +586,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override /* To ensure same len */
+    @Override
     public void setSize(Dimension dimension) {
         Preconditions.checkArgument(dimension.width == dimension.height);
         sideLength = dimension.width;

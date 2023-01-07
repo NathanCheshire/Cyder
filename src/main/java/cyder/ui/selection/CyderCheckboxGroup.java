@@ -3,8 +3,9 @@ package cyder.ui.selection;
 import com.google.common.base.Preconditions;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * A group of {@link CyderCheckbox}s in which only one may be checked at a time.
@@ -13,7 +14,7 @@ public class CyderCheckboxGroup {
     /**
      * The list of checkboxes.
      */
-    private final LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
+    private final ArrayList<CyderCheckbox> checkboxes = new ArrayList<>();
 
     /**
      * The currently checked checkbox.
@@ -43,8 +44,7 @@ public class CyderCheckboxGroup {
      * @param checkbox the checkbox to add
      */
     public void addCheckbox(CyderCheckbox checkbox) {
-        if (checkboxes.contains(checkbox))
-            return;
+        if (checkboxes.contains(checkbox)) return;
 
         checkboxes.add(checkbox);
         checkbox.setCyderCheckboxGroup(this);
@@ -123,17 +123,17 @@ public class CyderCheckboxGroup {
     @Override
     public String toString() {
         if (checkboxes.isEmpty()) {
-            return "Empty checkbox group";
+            return "CyderCheckboxGroup{}";
         }
 
-        StringBuilder sb = new StringBuilder();
+        ArrayList<String> toStrings = new ArrayList<>();
+        checkboxes.forEach(checkbox -> toStrings.add(checkbox.toString()));
+        String csv = StringUtil.joinParts(toStrings, ", ");
 
-        for (int i = 0 ; i < getCheckboxCount() ; i++) {
-            sb.append(checkboxes.get(i).toString());
+        return "CyderCheckboxGroup{"
+                + "Checkboxes: " + checkboxes.size()
+                + "Contents: " + csv
+                + "}";
 
-            if (i != getCheckboxCount() - 1) sb.append(", ");
-        }
-
-        return sb.toString();
     }
 }

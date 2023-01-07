@@ -22,6 +22,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
+import cyder.ui.progress.AnimationDirection;
 import cyder.ui.progress.CyderProgressBar;
 import cyder.ui.progress.CyderProgressUI;
 import cyder.user.UserFile;
@@ -769,7 +770,7 @@ public class YoutubeAudioDownload {
 
         downloadProgressBarUi = new CyderProgressUI();
         downloadProgressBarUi.setAnimationColors(CyderColors.regularPink, CyderColors.regularBlue);
-        downloadProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
+        downloadProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
 
         downloadProgressBar.setUI(downloadProgressBarUi);
         downloadProgressBar.setMinimum(downloadProgressMin);

@@ -24,6 +24,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderScrollPane extends JScrollPane {
     /**
+     * The default thumb color for a scroll pane.
+     */
+    private static final Color DEFAULT_THUMB_COLOR = CyderColors.regularPink;
+
+    /**
      * The maximum alpha of the scroll bar (the value for when the mouse is hovering).
      */
     private int maxScrollbarAlpha = 140;
@@ -42,11 +47,6 @@ public class CyderScrollPane extends JScrollPane {
      * The size of the scrollbar.
      */
     private static int scrollbarSize = 10;
-
-    /**
-     * The default thumb color for a scroll pane.
-     */
-    private static final Color DEFAULT_THUMB_COLOR = CyderColors.regularPink;
 
     /**
      * The color the scroll bar.

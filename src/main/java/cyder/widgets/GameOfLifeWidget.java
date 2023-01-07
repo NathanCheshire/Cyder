@@ -27,6 +27,7 @@ import cyder.ui.grid.CyderGrid;
 import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderComboBox;
+import cyder.ui.selection.CyderComboBoxState;
 import cyder.ui.selection.CyderSwitch;
 import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
@@ -177,7 +178,7 @@ public final class GameOfLifeWidget {
     /**
      * The switcher states to cycle between the states loaded from static/json/conway.
      */
-    private static ArrayList<CyderComboBox.ComboItem> comboItems;
+    private static ArrayList<CyderComboBoxState> comboItems;
 
     /**
      * The minimum dimensional node length for the inner cyder grid.
@@ -460,7 +461,7 @@ public final class GameOfLifeWidget {
         if (lastPresetComboBoxAction + presetComboBoxDelay > now) return;
         lastPresetComboBoxAction = now;
 
-        CyderComboBox.ComboItem nextState = presetComboBox.getNextState();
+        CyderComboBoxState nextState = presetComboBox.getNextState();
 
         for (int i = 0 ; i < comboItems.size() ; i++) {
             if (comboItems.get(i).equals(nextState)) {
@@ -829,7 +830,7 @@ public final class GameOfLifeWidget {
                             reader.close();
 
                             correspondingConwayStates.add(loadState);
-                            comboItems.add(new CyderComboBox.ComboItem(loadState.getName()));
+                            comboItems.add(new CyderComboBoxState(loadState.getName()));
                         } catch (Exception e) {
                             Logger.log(LogTag.SYSTEM_IO, "Failed to load conway state: " + jsonStateFile);
                             ExceptionHandler.handle(e);
