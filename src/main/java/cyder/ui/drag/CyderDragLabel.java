@@ -125,7 +125,10 @@ public class CyderDragLabel extends JLabel {
         addMouseMotionListener(createDraggingMouseMotionListener(
                 effectFrame, draggingEnabled, xOffset, yOffset, leftMouseButtonPressed));
         addMouseListener(createOpacityAnimationMouseListener(effectFrame, leftMouseButtonPressed));
-        addMouseListener((createTooltipMenuMouseListener(effectFrame, this)));
+
+        if (type != DragLabelType.FULL) {
+            addMouseListener((createTooltipMenuMouseListener(effectFrame, this)));
+        }
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
 

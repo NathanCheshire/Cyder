@@ -18,6 +18,7 @@ import cyder.utils.UiUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A custom notification component used for CyderFrames.
@@ -480,13 +481,27 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * Animates in the notification on the parent container.
-     * The components position is expected to have already
+     * Whether this notification's {@link #appear(NotificationDirection, Component, int)} method has been invoked.
+     */
+    private final AtomicBoolean appeared = new AtomicBoolean();
+
+    /**
+     * Animates in the notification on the parent container. The component's position is expected to have already
      * been set out of bounds on the parent.
      *
-     * @param notificationDirection the direction for the notification to enter and exit from
+     * @param notificationDirection the direction the notification should enter and exit from
+     * @param parent                the component to add the notification to
+     * @param viewDuration          the duration the notification should be visible for
      */
-    public void appear(NotificationDirection notificationDirection, Component parent, int delay) {
+    protected void appear(NotificationDirection notificationDirection, Component parent, int viewDuration) {
+        Preconditions.checkState(!appeared.get());
+        Preconditions.checkNotNull(notificationDirection);
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkArgument(viewDuration >= 0
+                || viewDuration == NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION);
+
+        appeared.set(true);
+
         CyderThreadRunner.submit(() -> {
             try {
                 if (builder.getNotificationType() == NotificationType.TOAST) {
@@ -518,7 +533,7 @@ public class CyderNotification extends JLabel {
                                     CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -532,7 +547,7 @@ public class CyderNotification extends JLabel {
                                     CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -545,7 +560,7 @@ public class CyderNotification extends JLabel {
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -560,7 +575,7 @@ public class CyderNotification extends JLabel {
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -576,7 +591,7 @@ public class CyderNotification extends JLabel {
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -591,7 +606,7 @@ public class CyderNotification extends JLabel {
                                     + getHeight(), getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -606,7 +621,7 @@ public class CyderNotification extends JLabel {
                                     - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -620,7 +635,7 @@ public class CyderNotification extends JLabel {
                                     - getHeight() - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -635,14 +650,24 @@ public class CyderNotification extends JLabel {
                     }
                 }
 
-                // call vanish now visible and not set to stay until dismissed
-                if (UserUtil.getCyderUser().getPersistentNotifications().equals("0") && delay != -1) {
-                    vanish(notificationDirection, parent, delay);
+                if (shouldVanishNotification(viewDuration)) {
+                    vanish(notificationDirection, parent, viewDuration);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, "Notification Appear Animator");
+    }
+
+    /**
+     * Returns whether the notification should be vanished.
+     *
+     * @param viewDuration the view duration
+     * @return whether the notification should be vanished
+     */
+    private boolean shouldVanishNotification(int viewDuration) {
+        return UserUtil.getCyderUser().getPersistentNotifications().equals("0")
+                && viewDuration != NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION;
     }
 
     /**
@@ -680,17 +705,20 @@ public class CyderNotification extends JLabel {
      *
      * @param notificationDirection the direction to exit to
      * @param parent                the component the notification is on. Used for bounds calculations
-     * @param delay                 the delay before vanish
+     * @param visibleTime           the delay before vanish
      */
-    protected void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
+    protected void vanish(NotificationDirection notificationDirection, Component parent, int visibleTime) {
+        Preconditions.checkNotNull(notificationDirection);
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkArgument(visibleTime >= 0);
+
         CyderThreadRunner.submit(() -> {
             try {
-                // delay before vanishing
-                ThreadUtil.sleep(delay);
+                ThreadUtil.sleep(visibleTime);
 
                 if (builder.getNotificationType() == NotificationType.TOAST) {
                     for (int i = 255 ; i >= 0 ; i -= 2) {
-                        if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                        if (shouldStopAnimation()) {
                             break;
                         }
 
@@ -710,7 +738,7 @@ public class CyderNotification extends JLabel {
                     switch (notificationDirection) {
                         case TOP:
                             for (int i = getY() ; i > -getHeight() ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -720,7 +748,7 @@ public class CyderNotification extends JLabel {
                             break;
                         case BOTTOM:
                             for (int i = getY() ; i < parent.getHeight() - 5 ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (killed || shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -732,7 +760,7 @@ public class CyderNotification extends JLabel {
                         case LEFT:
                         case BOTTOM_LEFT:
                             for (int i = getX() ; i > -getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (killed || shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -744,7 +772,7 @@ public class CyderNotification extends JLabel {
                         case BOTTOM_RIGHT:
                         case TOP_RIGHT:
                             for (int i = getX() ; i < parent.getWidth() - 5 ; i += ANIMATION_INCREMENT) {
-                                if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -764,9 +792,15 @@ public class CyderNotification extends JLabel {
         }, "Notification Vanish Animator");
     }
 
-    // -------------------------------------------------------
-    // Primary methods to override according to Effective Java
-    // -------------------------------------------------------
+    /**
+     * Returns whether a current animation should be stopped depending
+     * on the state of killed and the user's animation preference.
+     *
+     * @return whether a current animation should be stopped
+     */
+    private boolean shouldStopAnimation() {
+        return killed || UserUtil.getCyderUser().getDoAnimations().equals("0");
+    }
 
     /**
      * {@inheritDoc}

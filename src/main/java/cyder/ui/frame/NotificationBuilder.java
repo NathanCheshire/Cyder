@@ -17,6 +17,16 @@ import static cyder.strings.CyderStrings.quote;
  */
 public final class NotificationBuilder {
     /**
+     * The magic number used to denote a notification should be shown until dismissed.
+     */
+    public static final int SHOW_UNTIL_DISMISSED_VIEW_DURATION = -1;
+
+    /**
+     * The default view duration.
+     */
+    private static final int DEFAULT_VIEW_DURATION = 5000;
+
+    /**
      * The html styled text to display.
      */
     private final String htmlText;
@@ -24,7 +34,7 @@ public final class NotificationBuilder {
     /**
      * The duration the notification should be visible for in ms not counting the animation period.
      */
-    private int viewDuration = 5000;
+    private int viewDuration = DEFAULT_VIEW_DURATION;
 
     /**
      * The direction to draw the notification arrow.
@@ -105,6 +115,18 @@ public final class NotificationBuilder {
     @CanIgnoreReturnValue
     public NotificationBuilder setViewDuration(int viewDuration) {
         this.viewDuration = viewDuration;
+        return this;
+    }
+
+    /**
+     * Sets the view duration to {@link #SHOW_UNTIL_DISMISSED_VIEW_DURATION} to indicate the notification
+     * should be shown until dismissed by a user.
+     *
+     * @return this NotificationBuilder
+     */
+    @CanIgnoreReturnValue
+    public NotificationBuilder setShowNotificationUntilDismissed() {
+        this.viewDuration = SHOW_UNTIL_DISMISSED_VIEW_DURATION;
         return this;
     }
 

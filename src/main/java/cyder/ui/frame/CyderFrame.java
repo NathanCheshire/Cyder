@@ -1127,9 +1127,9 @@ public class CyderFrame extends JFrame {
                 }
 
                 NotificationBuilder currentBuilder = notificationList.remove(0);
-                CyderNotification toBeCurrentNotification = new CyderNotification(currentBuilder);
+                CyderNotification appearNotification = new CyderNotification(currentBuilder);
 
-                toBeCurrentNotification.setVisible(false);
+                appearNotification.setVisible(false);
 
                 int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
                 BoundsString bs = BoundsUtil.widthHeightCalculation(
@@ -1164,9 +1164,9 @@ public class CyderFrame extends JFrame {
                     JLabel interactionLabel = new JLabel();
                     interactionLabel.setSize(containerWidth, containerHeight);
                     interactionLabel.setToolTipText(
-                            "Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                            "Notified at: " + appearNotification.getBuilder().getNotifyTime());
                     interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                            currentBuilder, null, toBeCurrentNotification, false));
+                            currentBuilder, null, appearNotification, false));
                     currentBuilder.getContainer().add(interactionLabel);
                 } else {
                     // Empty container means use htmlText of builder
@@ -1178,15 +1178,15 @@ public class CyderFrame extends JFrame {
                     JLabel interactionLabel = new JLabel();
                     interactionLabel.setSize(notificationWidth, notificationHeight);
                     interactionLabel.setToolTipText(
-                            "Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                            "Notified at: " + appearNotification.getBuilder().getNotifyTime());
                     interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                            currentBuilder, textContainerLabel, toBeCurrentNotification, true));
+                            currentBuilder, textContainerLabel, appearNotification, true));
 
                     textContainerLabel.add(interactionLabel);
-                    toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
+                    appearNotification.getBuilder().setContainer(textContainerLabel);
                 }
 
-                iconPane.add(toBeCurrentNotification, JLayeredPane.POPUP_LAYER);
+                iconPane.add(appearNotification, JLayeredPane.POPUP_LAYER);
                 getContentPane().repaint();
 
                 int duration = currentBuilder.getViewDuration();
@@ -1197,8 +1197,8 @@ public class CyderFrame extends JFrame {
 
                 Logger.log(LogTag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
 
-                toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
-                currentNotification = toBeCurrentNotification;
+                appearNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
+                currentNotification = appearNotification;
 
                 while (!currentNotification.isKilled()) {
                     Thread.onSpinWait();

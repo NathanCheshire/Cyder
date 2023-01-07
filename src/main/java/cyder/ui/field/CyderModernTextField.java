@@ -216,7 +216,7 @@ public class CyderModernTextField extends JTextField {
      * @param text the initial text
      */
     public CyderModernTextField(String text) {
-        super(text);
+        super(Preconditions.checkNotNull(text));
 
         addRippleFocusListener();
         addAutoCapitalizationKeyListener();
@@ -303,6 +303,8 @@ public class CyderModernTextField extends JTextField {
      * @param rippleLabelThickness the ripple label thickness
      */
     public void setRippleLabelThickness(int rippleLabelThickness) {
+        Preconditions.checkArgument(rippleLabelThickness >= 0);
+
         this.rippleLabelThickness = rippleLabelThickness;
 
         refreshBorder();
@@ -675,7 +677,7 @@ public class CyderModernTextField extends JTextField {
      * @param characterLimit the character limit for this text field
      */
     public void setCharacterLimit(int characterLimit) {
-        Preconditions.checkArgument(characterLimit > -1);
+        Preconditions.checkArgument(characterLimit >= 0);
 
         this.characterLimit = characterLimit;
         characterLimitLogic();

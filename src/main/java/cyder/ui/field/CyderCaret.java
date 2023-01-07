@@ -35,7 +35,7 @@ public class CyderCaret extends DefaultCaret {
      * Suppress default constructor.
      */
     private CyderCaret() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
