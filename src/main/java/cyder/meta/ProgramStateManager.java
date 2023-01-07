@@ -1,4 +1,4 @@
-package cyder.time;
+package cyder.meta;
 
 /**
  * The manager for Cyder's program state.

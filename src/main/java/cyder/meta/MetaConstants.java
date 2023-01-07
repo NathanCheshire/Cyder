@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
@@ -14,9 +14,9 @@ import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 
 /**
- * Constants for Cyder startup package.
+ * Constants used in the Meta package.
  */
-public final class GenesisConstants {
+final class MetaConstants {
     /**
      * The thickness of default swing tooltip borders.
      */
@@ -90,7 +90,7 @@ public final class GenesisConstants {
     /**
      * Suppress default constructor.
      */
-    private GenesisConstants() {
+    private MetaConstants() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 }

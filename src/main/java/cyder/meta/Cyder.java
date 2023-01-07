@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
@@ -14,7 +14,7 @@ import cyder.utils.JvmUtil;
 
 import javax.swing.*;
 
-import static cyder.genesis.GenesisConstants.*;
+import static cyder.meta.MetaConstants.*;
 
 /**
  * The main Cyder entry point that performs checks on data and

@@ -17,7 +17,6 @@ import cyder.enums.ExitCondition;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.files.FileUtil;
-import cyder.genesis.CyderSplash;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.TestHandler;
 import cyder.handlers.internal.ExceptionHandler;
@@ -28,14 +27,15 @@ import cyder.managers.CyderVersionManager;
 import cyder.managers.ProgramModeManager;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
+import cyder.meta.CyderSplash;
+import cyder.meta.ProgramState;
+import cyder.meta.ProgramStateManager;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
-import cyder.time.ProgramState;
-import cyder.time.ProgramStateManager;
 import cyder.time.TimeUtil;
 import cyder.ui.UiConstants;
 import cyder.ui.drag.CyderDragLabel;
@@ -2098,7 +2098,7 @@ public enum Console {
     private void reinstallCurrentTaskbarIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
-        menuPaneOutputPane.printMenuSeparator();
+        menuPaneOutputPane.printlnMenuSeparator();
 
         menuPane.setText("");
 
@@ -2111,7 +2111,7 @@ public enum Console {
         });
 
         if (currentFrameMenuItems.size() > 0 && !compactMode) {
-            menuPaneOutputPane.printMenuSeparator();
+            menuPaneOutputPane.printlnMenuSeparator();
         }
 
         currentMappedExeItems.forEach(mappedExe -> {
@@ -2121,7 +2121,7 @@ public enum Console {
         });
 
         if (currentMappedExeItems.size() > 0 && currentFrameMenuItems.size() > 0 && !compactMode) {
-            menuPaneOutputPane.printMenuSeparator();
+            menuPaneOutputPane.printlnMenuSeparator();
         }
 
         currentDefaultMenuItems.forEach(taskbarIcon -> {

@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.meta;
 
 import com.google.common.base.Preconditions;
 import cyder.animation.HarmonicRectangle;

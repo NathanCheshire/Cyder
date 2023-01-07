@@ -131,29 +131,29 @@ public class CyderOutputPane {
     }
 
     /**
-     * Prints a menu separator to the {@link JTextPane}.
+     * Prints a menu separator to the {@link JTextPane} followed by a newline.
      */
-    public void printMenuSeparator() {
-        stringUtil.printlnComponent(getMenuSeparator());
+    public void printlnMenuSeparator() {
+        stringUtil.printlnComponent(generateMenuSeparator());
         stringUtil.newline();
     }
 
     /**
-     * Returns a menu separator label.
+     * Returns a new menu separator label.
      *
-     * @return a menu separator label
+     * @return a new menu separator label
      */
-    private JLabel getMenuSeparator() {
-        return getMenuSeparator(DEFAULT_MENU_SEP_COLOR);
+    private JLabel generateMenuSeparator() {
+        return generateMenuSeparator(DEFAULT_MENU_SEP_COLOR);
     }
 
     /**
-     * Returns a menu separator label.
+     * Returns a new menu separator label.
      *
-     * @return a menu separator label
+     * @return a new menu separator label
      */
     @SuppressWarnings("SameParameterValue")
-    private JLabel getMenuSeparator(Color color) {
+    private JLabel generateMenuSeparator(Color color) {
         Preconditions.checkNotNull(color);
 
         JLabel sepLabel = new JLabel(magicMenuSepText) {
