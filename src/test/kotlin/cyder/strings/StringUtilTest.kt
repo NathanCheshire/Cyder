@@ -318,7 +318,7 @@ class StringUtilTest {
 
     @Test
     fun testGetWordFormBasedOnNumber() {
-        assertThrows(IllegalArgumentException::class.java) { StringUtil.getWordFormBasedOnNumber(0, null) }
+        assertThrows(IllegalArgumentException::class.java) { StringUtil.getWordFormBasedOnNumber(-1, null) }
         assertThrows(NullPointerException::class.java) { StringUtil.getWordFormBasedOnNumber(1, null) }
         assertThrows(IllegalArgumentException::class.java) { StringUtil.getWordFormBasedOnNumber(1, "") }
 
@@ -543,7 +543,7 @@ class StringUtilTest {
                 + " up Mainstream Sellout (2022).\\nMachine Gun Kelly had his first starring role in the romantic"
                 + " drama Beyond the Lights (2014), and since appeared in the techno-thriller Nerve (2016), the horror"
                 + " Bird Box (2018), the comedy Big Time Adolescence and portrayed Tommy Lee in the biopic"
-                + " The Dirt (both 2019).\\n\\n", optionalSummary.get())
+                + " The Dirt (both 2019).", optionalSummary.get())
 
         optionalSummary = StringUtil.getWikipediaSummary("Rust")
         assertTrue(optionalSummary.isPresent)
