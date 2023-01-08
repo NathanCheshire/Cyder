@@ -397,7 +397,7 @@ public final class StringUtil {
     public static boolean isPalindrome(String word) {
         Preconditions.checkNotNull(word);
 
-        ImmutableList<Character> chars = ArrayUtil.charArrayToList(word.toLowerCase().toCharArray());
+        ImmutableList<Character> chars = ArrayUtil.toList(word.toLowerCase().toCharArray());
         ImmutableList<Character> reversed = chars.reverse();
 
         return chars.equals(reversed);

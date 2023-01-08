@@ -23,6 +23,7 @@ import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
+import cyder.user.creation.InputValidation;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.*;
@@ -44,11 +45,64 @@ import java.util.concurrent.Semaphore;
  */
 public final class UserUtil {
     /**
-     * Suppress default constructor.
+     * The minimum allowable password length.
      */
-    private UserUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
+    public static final int MIN_PASSWORD_LENGTH = 5;
+
+    /**
+     * The backup failure string.
+     */
+    private static final String backupFailure = "[BACKUP FAILURE]";
+
+    /**
+     * The resulting popup string.
+     */
+    private static final String resultingPopup = "[Resulting Popup]";
+
+    /**
+     * The maximum latency to allow when attempting to download the default user background.
+     */
+    private static final int maxLatencyToDownloadDefaultBackground = 2000;
+
+    /**
+     * The name of the default background, if generation is required.
+     */
+    private static final String defaultBackgroundName = "Default";
+
+    /**
+     * The number to indicate a backup time was not found.
+     */
+    private static final int noBackupTime = -1;
+
+    /**
+     * The separator between the user uuid and the unix time a backup occurred at.
+     */
+    private static final String uuidTimeSeparator = "_";
+
+    /**
+     * The maximum number of times to attempt to invoke the getter/setter validator on a file.
+     */
+    public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
+
+    /**
+     * The method prefix to locate mutator methods reflectively.
+     */
+    private static final String SET = "set";
+
+    /**
+     * The method prefix to locate accessor methods reflectively.
+     */
+    private static final String GET = "get";
+
+    /**
+     * The backup directory.
+     */
+    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
+
+    /**
+     * The json write tag.
+     */
+    private static final String JSON_WRITE = "[JSON WRITE]";
 
     /**
      * The semaphore to use when reading or writing user data.
@@ -67,11 +121,28 @@ public final class UserUtil {
     private static File cyderUserFile;
 
     /**
+     * The last serialized string that was written to the current user file.
+     */
+    private static String previousSerializedUser = "";
+
+    /**
+     * The current levenshtein distance between the last and current write to the user json file.
+     */
+    private static int currentLevenshteinDistance;
+
+    /**
+     * Suppress default constructor.
+     */
+    private UserUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
      * Returns the semaphore used for IO to/from the user's JSON file.
      *
      * @return the semaphore used for IO to/from the user's JSON file
      */
-    public static Semaphore getUserIoSemaphore() {
+    public static Semaphore getUserIoLock() {
         return userIoSemaphore;
     }
 
@@ -86,21 +157,6 @@ public final class UserUtil {
             ExceptionHandler.handle(e);
         }
     }
-
-    /**
-     * The last serialized string that was written to the current user file.
-     */
-    private static String previousSerializedUser = "";
-
-    /**
-     * The current levenshtein distance between the last and current write to the user json file.
-     */
-    private static int currentLevenshteinDistance;
-
-    /**
-     * The json write tag.
-     */
-    private static final String JSON_WRITE = "[JSON WRITE]";
 
     /**
      * Writes the current User, {@link UserUtil#cyderUser},
@@ -119,7 +175,8 @@ public final class UserUtil {
                 String representation = JSON_WRITE + CyderStrings.space + CyderStrings.openingBracket
                         + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
                         + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
-                        + cyderUser.getName() + CyderStrings.quote + " was written to file: "
+                        + cyderUser.getName() + CyderStrings.quote + CyderStrings.space
+                        + "was written to file" + CyderStrings.colon + CyderStrings.space
                         + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName());
                 Logger.log(LogTag.SYSTEM_IO, representation);
 
@@ -209,11 +266,6 @@ public final class UserUtil {
             userIoSemaphore.release();
         }
     }
-
-    /**
-     * The backup directory.
-     */
-    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -307,16 +359,6 @@ public final class UserUtil {
     }
 
     /**
-     * The number to indicate a backup time was not found.
-     */
-    private static final int noBackupTime = -1;
-
-    /**
-     * The separator between the user uuid and the unix time a backup occurred at.
-     */
-    private static final String uuidTimeSeparator = "_";
-
-    /**
      * Returns the most recent userdata.json backup for the provided user uuid.
      * If none is found, and empty optional is returned.
      *
@@ -360,11 +402,6 @@ public final class UserUtil {
     }
 
     /**
-     * The maximum number of times to attempt to create a file/directory.
-     */
-    public static final int MAX_CREATION_ATTEMPTS = 1000;
-
-    /**
      * Creates all the user files in {@link UserFile} for the user with the provided uuid.
      *
      * @param uuid the user uuid
@@ -372,43 +409,18 @@ public final class UserUtil {
     public static void ensureUserFilesExist(String uuid) {
         Preconditions.checkNotNull(uuid);
 
-        for (UserFile val : UserFile.values()) {
-            if (val.getName().equals(UserFile.USERDATA.getName())) continue;
+        for (UserFile userFile : UserFile.values()) {
+            if (userFile.getName().equals(UserFile.USERDATA.getName())) continue;
 
-            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, val.getName());
+            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, userFile.getName());
 
             if (!currentUserFile.exists()) {
-                int attempts = 0;
-
-                while (attempts < MAX_CREATION_ATTEMPTS) {
-                    try {
-                        boolean success;
-
-                        if (currentUserFile.isFile()) {
-                            success = currentUserFile.createNewFile();
-                        } else {
-                            success = currentUserFile.mkdir();
-                        }
-
-                        if (success) break;
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                        attempts++;
-                    }
-                }
-
-                if (attempts == MAX_CREATION_ATTEMPTS) {
-                    Logger.log(LogTag.SYSTEM_IO, "Unable to create all user files for user ["
-                            + uuid + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+                if (!OsUtil.createFile(currentUserFile, userFile.isFile())) {
+                    Logger.log(LogTag.SYSTEM_IO, "Unable to create all user files for user [" + uuid + "]");
                 }
             }
         }
     }
-
-    /**
-     * The maximum number of times to attempt to invoke the getter/setter validator on a file.
-     */
-    public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
 
     /**
      * Attempts to fix any user data via GSON serialization
@@ -580,7 +592,7 @@ public final class UserUtil {
     public static void deleteInvalidBackgrounds(String uuid) {
         try {
             //acquire sem so that any user requested exit will not corrupt the background
-            getUserIoSemaphore().acquire();
+            getUserIoLock().acquire();
 
             File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.BACKGROUNDS.getName());
@@ -608,7 +620,7 @@ public final class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            getUserIoSemaphore().release();
+            getUserIoLock().release();
         }
     }
 
@@ -635,16 +647,6 @@ public final class UserUtil {
 
         return ret;
     }
-
-    /**
-     * The method prefix to locate mutator methods reflectively.
-     */
-    private static final String SET = "set";
-
-    /**
-     * The method prefix to locate accessor methods reflectively.
-     */
-    private static final String GET = "get";
 
     /**
      * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
@@ -951,7 +953,7 @@ public final class UserUtil {
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
-    private static final LinkedList<String> invalidUUIDs = new LinkedList<>() {
+    private static final LinkedList<String> invalidUuids = new LinkedList<>() {
         @Override
         public boolean remove(Object o) {
             throw new IllegalMethodException("Removing of invalid uuids not allowed");
@@ -964,20 +966,10 @@ public final class UserUtil {
      * @param uuid the uuid to ignore
      */
     public static void addInvalidUuid(String uuid) {
-        if (!StringUtil.in(uuid, false, invalidUUIDs)) {
-            invalidUUIDs.add(uuid);
+        if (!StringUtil.in(uuid, false, invalidUuids)) {
+            invalidUuids.add(uuid);
         }
     }
-
-    /**
-     * The backup failure string.
-     */
-    private static final String backupFailure = "[BACKUP FAILURE]";
-
-    /**
-     * The resulting popup string.
-     */
-    private static final String resultingPopup = "[Resulting Popup]";
 
     /**
      * After a user's json file was found to be invalid due to it being
@@ -1041,7 +1033,6 @@ public final class UserUtil {
             }
 
             File[] files = userDirectory.listFiles();
-            // If nothing left in user folder, delete
             if (files == null || files.length == 0) {
                 OsUtil.deleteFile(userDirectory);
                 return;
@@ -1094,7 +1085,7 @@ public final class UserUtil {
      */
     public static File getUserFile(UserFile userFile) {
         Preconditions.checkNotNull(userFile);
-        Preconditions.checkArgument(Console.INSTANCE.getUuid() != null);
+        Preconditions.checkState(Console.INSTANCE.getUuid() != null);
 
         File ret = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
@@ -1134,7 +1125,7 @@ public final class UserUtil {
             Arrays.stream(users).forEach(user -> {
                 File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
 
-                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
+                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUuids)) {
                     uuids.add(user.getName());
                 }
             });
@@ -1148,7 +1139,7 @@ public final class UserUtil {
      *
      * @return a list of valid user jsons associated with Cyder users
      */
-    public static ArrayList<File> getUserJsons() {
+    public static ImmutableList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
         File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
@@ -1158,13 +1149,13 @@ public final class UserUtil {
             Arrays.stream(users).forEach(user -> {
                 File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
 
-                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
+                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUuids)) {
                     userFiles.add(json);
                 }
             });
         }
 
-        return userFiles;
+        return ImmutableList.copyOf(userFiles);
     }
 
     /**
@@ -1192,16 +1183,6 @@ public final class UserUtil {
 
         return Optional.empty();
     }
-
-    /**
-     * The maximum latency to allow when attempting to download the default user background.
-     */
-    private static final int maxLatencyToDownloadDefaultBackground = 2000;
-
-    /**
-     * The name of the default background, if generation is required.
-     */
-    private static final String defaultBackgroundName = "Default";
 
     /**
      * Creates the default background inside the user's Backgrounds/ directory.
@@ -1293,26 +1274,26 @@ public final class UserUtil {
     public static void resetUser(User user) {
         Preconditions.checkNotNull(user);
 
-        Preference.getPreferences().forEach(preference -> {
-            if (!preference.getIgnoreForUserCreation()) {
-                for (Method method : user.getClass().getMethods()) {
-                    boolean isSetter = method.getName().startsWith(SET);
-                    boolean oneParameter = method.getParameterTypes().length == 1;
-                    boolean methodNameMatchesPreferenceId = method.getName().replace(SET, "")
-                            .equalsIgnoreCase(preference.getID());
+        Preference.getPreferences().stream().filter(preference -> !preference.getIgnoreForUserCreation())
+                .forEach(preference -> {
+                    for (Method method : user.getClass().getMethods()) {
+                        boolean isSetter = method.getName().startsWith(SET);
+                        boolean oneParameter = method.getParameterTypes().length == 1;
+                        boolean methodNameMatchesPreferenceId = method.getName().replace(SET, "")
+                                .equalsIgnoreCase(preference.getID());
 
-                    if (isSetter && oneParameter && methodNameMatchesPreferenceId) {
-                        try {
-                            method.invoke(user, preference.getDefaultValue());
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
+                        if (isSetter && oneParameter && methodNameMatchesPreferenceId) {
+                            try {
+                                method.invoke(user, preference.getDefaultValue());
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
+
+                            break;
                         }
-
-                        break;
                     }
-                }
-            }
-        });
+
+                });
     }
 
     /**
@@ -1335,8 +1316,6 @@ public final class UserUtil {
         }
     }
 
-    public static final int MIN_PASSWORD_LENGTH = 4;
-
     /**
      * Returns whether the provided passwords match and are valid.
      *
@@ -1354,7 +1333,7 @@ public final class UserUtil {
             return InputValidation.NO_CONFIRMATION_PASSWORD;
         } else if (!Arrays.equals(password, passwordConfirmation)) {
             return InputValidation.PASSWORDS_DO_NOT_MATCH;
-        } else if (password.length < MIN_PASSWORD_LENGTH) {
+        } else if (password.length <= MIN_PASSWORD_LENGTH) {
             return InputValidation.INVALID_PASSWORD_LENGTH;
         } else if (!StringUtil.containsLetter(password)) {
             return InputValidation.NO_LETTER_IN_PASSWORD;
@@ -1404,13 +1383,63 @@ public final class UserUtil {
         return false;
     }
 
-    // todo constructor method for a search
 
     // safeSearch: boolean=moderate,none,strict
 
+    private enum YouTubeSafeSearch {
+        MODERATE("moderate"),
+        NONE("none"),
+        STRICT("strict");
+
+        /**
+         * The url parameter for this youtube safe search.
+         */
+        private final String urlParameter;
+
+        YouTubeSafeSearch(String urlParameter) {
+            this.urlParameter = urlParameter;
+        }
+
+        /**
+         * Returns the url parameter for this youtube safe search.
+         *
+         * @return the url parameter for this youtube safe search
+         */
+        public String getUrlParameter() {
+            return urlParameter;
+        }
+    }
+
+    /**
+     * A youtube search type.
+     */
+    private enum YouTubeSearchType {
+        VIDEO("video"),
+        CHANNEL("channel"),
+        PLAYLIST("playlist");
+
+        /**
+         * The url parameter for this youtube search type.
+         */
+        private final String urlParameter;
+
+        YouTubeSearchType(String urlParameter) {
+            this.urlParameter = urlParameter;
+        }
+
+        /**
+         * Returns the url parameter for this youtube search type.
+         *
+         * @return the url parameter for this youtube search type
+         */
+        public String getUrlParameter() {
+            return urlParameter;
+        }
+    }
+
     private static final String query = "gift+and+a+curse+skizzy+mars";
     private static final String part = "snippet";
-    private static final String type = "video"; // one of video, channel, playlist
+
 
     /**
      * The header for the url to validate a provided YouTube API 3 key.
@@ -1419,7 +1448,7 @@ public final class UserUtil {
             CyderUrls.YOUTUBE_API_V3_SEARCH
                     + "?part=" + part
                     + "&q=" + query
-                    + "&type=" + type
+                    + "&type=" + YouTubeSearchType.VIDEO.getUrlParameter()
                     + "&key=";
 
     /**

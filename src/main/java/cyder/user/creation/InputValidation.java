@@ -1,4 +1,6 @@
-package cyder.user;
+package cyder.user.creation;
+
+import cyder.user.UserUtil;
 
 /**
  * An enum representing the status of some field input.
@@ -47,7 +49,7 @@ public enum InputValidation {
     /**
      * The password is of an invalid length.
      */
-    INVALID_PASSWORD_LENGTH("Password is not > " + UserUtil.MIN_PASSWORD_LENGTH),
+    INVALID_PASSWORD_LENGTH("Password is not >= " + UserUtil.MIN_PASSWORD_LENGTH + " in length"),
 
     /**
      * The password contains no number.

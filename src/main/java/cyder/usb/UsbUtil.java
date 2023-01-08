@@ -18,13 +18,6 @@ import java.util.concurrent.Future;
  */
 public final class UsbUtil {
     /**
-     * Suppress default constructor.
-     */
-    private UsbUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The power shell executable name.
      */
     private static final String POWER_SHELL = "powershell.exe";
@@ -49,6 +42,13 @@ public final class UsbUtil {
      * The name for the executor service returned by {@link #getUsbDevices()}.
      */
     private static final String USB_DEVICE_THREAD_NAME = "USB Device Getter";
+
+    /**
+     * Suppress default constructor.
+     */
+    private UsbUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Returns a list of usb devices connected to this computer.

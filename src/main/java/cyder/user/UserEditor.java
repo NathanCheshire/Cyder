@@ -46,6 +46,7 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollList;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.selection.CyderCheckbox;
+import cyder.user.creation.InputValidation;
 import cyder.user.data.MappedExecutable;
 import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;

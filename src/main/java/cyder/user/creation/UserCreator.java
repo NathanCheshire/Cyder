@@ -1,4 +1,4 @@
-package cyder.user;
+package cyder.user.creation;
 
 import cyder.annotations.*;
 import cyder.constants.CyderColors;
@@ -21,6 +21,9 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
+import cyder.user.User;
+import cyder.user.UserFile;
+import cyder.user.UserUtil;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;

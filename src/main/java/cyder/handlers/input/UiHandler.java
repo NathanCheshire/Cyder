@@ -9,8 +9,8 @@ import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
-import cyder.user.UserCreator;
 import cyder.user.UserUtil;
+import cyder.user.creation.UserCreator;
 import cyder.utils.OsUtil;
 import cyder.utils.UiUtil;
 

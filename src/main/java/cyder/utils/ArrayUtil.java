@@ -83,11 +83,123 @@ public final class ArrayUtil {
      * @param chars the char array to convert
      * @return the list of characters
      */
-    public static ImmutableList<Character> charArrayToList(char[] chars) {
+    public static ImmutableList<Character> toList(char[] chars) {
         ArrayList<Character> ret = new ArrayList<>();
 
         for (char c : chars) {
             ret.add(c);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided boolean array to a list of booleans.
+     *
+     * @param bools the boolean array to convert
+     * @return the list of booleans
+     */
+    public static ImmutableList<Boolean> toList(boolean[] bools) {
+        ArrayList<Boolean> ret = new ArrayList<>();
+
+        for (boolean b : bools) {
+            ret.add(b);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided byte array to a list of bytes.
+     *
+     * @param bytes the byte array to convert
+     * @return the list of bytes
+     */
+    public static ImmutableList<Byte> toList(byte[] bytes) {
+        ArrayList<Byte> ret = new ArrayList<>();
+
+        for (byte b : bytes) {
+            ret.add(b);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided short array to a list of shorts.
+     *
+     * @param shorts the short array to convert
+     * @return the list of shorts
+     */
+    public static ImmutableList<Short> toList(short[] shorts) {
+        ArrayList<Short> ret = new ArrayList<>();
+
+        for (short s : shorts) {
+            ret.add(s);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided int array to a list of ints.
+     *
+     * @param ints the int array to convert
+     * @return the list of ints
+     */
+    public static ImmutableList<Integer> toList(int[] ints) {
+        ArrayList<Integer> ret = new ArrayList<>();
+
+        for (int i : ints) {
+            ret.add(i);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided long array to a list of longs.
+     *
+     * @param longs the long array to convert
+     * @return the list of longs
+     */
+    public static ImmutableList<Long> toList(long[] longs) {
+        ArrayList<Long> ret = new ArrayList<>();
+
+        for (long l : longs) {
+            ret.add(l);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided float array to a list of floats.
+     *
+     * @param floats the float array to convert
+     * @return the list of floats
+     */
+    public static ImmutableList<Float> toList(float[] floats) {
+        ArrayList<Float> ret = new ArrayList<>();
+
+        for (float f : floats) {
+            ret.add(f);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Converts the provided double array to a list of doubles.
+     *
+     * @param doubles the double array to convert
+     * @return the list of doubles
+     */
+    public static ImmutableList<Double> toList(double[] doubles) {
+        ArrayList<Double> ret = new ArrayList<>();
+
+        for (double d : doubles) {
+            ret.add(d);
         }
 
         return ImmutableList.copyOf(ret);

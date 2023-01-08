@@ -108,7 +108,8 @@ public class UsbDevice {
                 + "status=" + CyderStrings.quote + status + CyderStrings.quote
                 + ", type=" + CyderStrings.quote + type + CyderStrings.quote
                 + ", friendlyName=" + CyderStrings.quote + friendlyName + CyderStrings.quote
-                + ", instanceId=" + CyderStrings.quote + instanceId + CyderStrings.quote + "}";
+                + ", instanceId=" + CyderStrings.quote + instanceId + CyderStrings.quote
+                + "}";
     }
 
     /**
