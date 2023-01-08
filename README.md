@@ -33,15 +33,20 @@ Some examples of what you can do with Cyder include:
 
 ## Screenshots
 
-<details>
+<details open>
 <summary><b>Cyder Console</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/201505433-b2e866ab-e7bb-4eb2-93b9-57f8047f5ec2.png" alt="Liminal Cyder" width="800">
+  <b> Background 1: Roses Tribute album art </b>
+<img src="https://user-images.githubusercontent.com/60986919/211179508-8dbecc68-573d-499f-8146-acaf9399a993.png" alt="Liminal Cyder Roses" width="800">
+  <br/>
+  <b> Background 2: Tic Tac album art </b>
+  <br/>
+<img src="https://user-images.githubusercontent.com/60986919/211179510-fa334ede-259f-46d5-9f31-80e74188d50a.png" alt="Liminal Cyder Tic Tac" width="800">
 </details>
 
 <details>
 <summary><b>Weather Widget</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/190870600-a7ce2b39-2099-4365-ba8b-e2f38adff432.png" alt="Weather" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/211179391-ea49b257-7923-4967-b8b0-ab77f39eb893.png" alt="Weather" width="400">
 </details>
 
 <details>
