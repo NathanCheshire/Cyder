@@ -544,34 +544,34 @@ public final class Logger {
      * Fixes any logs lacking/not ending in an "End Of Log" tag.
      */
     private static void concludeLogs() {
-        try {
-            File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getFileName());
-            if (!logDir.exists()) return;
+        File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getFileName());
+        if (!logDir.exists()) return;
 
-            File[] subLogDirs = logDir.listFiles();
-            if (subLogDirs == null || subLogDirs.length == 0) return;
+        File[] subLogDirs = logDir.listFiles();
+        if (subLogDirs == null || subLogDirs.length == 0) return;
 
-            for (File subLogDir : subLogDirs) {
-                if (!subLogDir.isDirectory()) continue;
+        for (File subLogDir : subLogDirs) {
+            if (!subLogDir.isDirectory()) continue;
 
-                File[] logFiles = subLogDir.listFiles();
-                if (logFiles == null || logFiles.length == 0) return;
+            File[] logFiles = subLogDir.listFiles();
+            if (logFiles == null || logFiles.length == 0) continue;
 
-                for (File logFile : logFiles) {
-                    if (logFile.equals(getCurrentLogFile())) continue;
+            for (File logFile : logFiles) {
+                if (logFile.equals(getCurrentLogFile())) continue;
 
-                    if (countTags(logFile, EOL) < 1) {
+                if (countTags(logFile, EOL) < 1) {
+                    try {
                         concludeLog(logFile,
                                 ExitCondition.TrueExternalStop,
                                 getRuntimeFromLog(logFile),
                                 countExceptions(logFile),
                                 countObjectsCreatedFromLog(logFile),
                                 countThreadsRan(logFile));
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
                     }
                 }
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
     }
 

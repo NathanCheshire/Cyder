@@ -56,6 +56,18 @@ public enum IpDataManager {
     }
 
     /**
+     * Pulls and serializes the ip data into an ip data object and
+     * returns that object if successful. Empty optional else.
+     *
+     * @return the ip data object
+     */
+    private Optional<IpData> pullIpData() {
+        Preconditions.checkState(Props.ipKey.valuePresent());
+
+        return pullIpData(Props.ipKey.getValue());
+    }
+
+    /**
      * Pulls and serializes the ip data into an ip data object
      * and returns that object if successful. Empty optional else.
      *
@@ -74,17 +86,5 @@ public enum IpDataManager {
         }
 
         return Optional.empty();
-    }
-
-    /**
-     * Pulls and serializes the ip data into an ip data object and
-     * returns that object if successful. Empty optional else.
-     *
-     * @return the ip data object
-     */
-    private Optional<IpData> pullIpData() {
-        Preconditions.checkState(Props.ipKey.valuePresent());
-
-        return pullIpData(Props.ipKey.getValue());
     }
 }

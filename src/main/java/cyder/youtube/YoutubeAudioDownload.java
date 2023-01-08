@@ -851,6 +851,12 @@ public class YoutubeAudioDownload {
         if (!isCanceled() && isDownloading()) {
             cancel();
             cancelButton.setText(CANCELED);
+        } else if (downloaded) {
+            if (AudioPlayer.isAudioPlaying()) {
+                AudioPlayer.addAudioNext(getAudioDownloadFile());
+            } else { // todo test this
+                AudioPlayer.showGui(getAudioDownloadFile());
+            }
         }
     }
 
@@ -876,7 +882,7 @@ public class YoutubeAudioDownload {
     private void refreshCancelButtonText() {
         String buttonText;
         if (downloaded) {
-            buttonText = DOWNLOADED;
+            buttonText = PLAY;
         } else if (canceled) {
             buttonText = CANCELED;
         } else {

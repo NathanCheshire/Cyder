@@ -127,9 +127,9 @@ public final class YoutubeConstants {
     static final int downloadProgressMax = 10000;
 
     /**
-     * The downloaded text for the button.
+     * The text for the download button after a download has finished successfully.
      */
-    static final String DOWNLOADED = "Downloaded";
+    static final String PLAY = "Play";
 
     /**
      * The failed text for the button.

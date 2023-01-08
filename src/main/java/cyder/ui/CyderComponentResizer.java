@@ -47,7 +47,6 @@ public class CyderComponentResizer extends MouseAdapter {
      */
     private static final Dimension DEFAULT_MAX_SIZE = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-
     /**
      * The default inset value.
      */

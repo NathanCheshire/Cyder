@@ -360,7 +360,7 @@ public final class StringUtil {
      * @return the plural form of the word
      */
     public static String getWordFormBasedOnNumber(int num, String word) {
-        Preconditions.checkArgument(num > 0);
+        Preconditions.checkArgument(num >= 0);
         Preconditions.checkNotNull(word);
         Preconditions.checkArgument(!word.isEmpty());
 
