@@ -7,8 +7,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

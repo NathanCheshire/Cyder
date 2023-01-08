@@ -6,13 +6,13 @@ import cyder.constants.CyderColors;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
 import cyder.user.UserUtil;
 import cyder.user.creation.UserCreator;
 import cyder.utils.OsUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

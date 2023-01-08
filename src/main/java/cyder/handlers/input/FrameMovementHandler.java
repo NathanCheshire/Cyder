@@ -4,9 +4,9 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.ScreenPosition;
-import cyder.utils.UiUtil;
 
 import java.awt.*;
 

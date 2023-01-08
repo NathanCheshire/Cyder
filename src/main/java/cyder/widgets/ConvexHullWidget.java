@@ -9,11 +9,11 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.strings.CyderStrings;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.grid.GridNode;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

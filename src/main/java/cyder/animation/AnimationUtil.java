@@ -7,8 +7,8 @@ import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiConstants;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

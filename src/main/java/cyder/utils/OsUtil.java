@@ -43,15 +43,9 @@ public final class OsUtil {
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> invalidWindowsComNames = ImmutableList.of(
-            "COM1",
-            "COM2",
-            "COM3",
-            "COM4",
-            "COM5",
-            "COM6",
-            "COM7",
-            "COM8",
-            "COM9"
+            "COM1", "COM2", "COM3",
+            "COM4", "COM5", "COM6",
+            "COM7", "COM8", "COM9"
     );
 
     /**
@@ -59,15 +53,9 @@ public final class OsUtil {
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> invalidWindowsLptNames = ImmutableList.of(
-            "LPT1",
-            "LPT2",
-            "LPT3",
-            "LPT4",
-            "LPT5",
-            "LPT6",
-            "LPT7",
-            "LPT8",
-            "LPT9"
+            "LPT1", "LPT2", "LPT3",
+            "LPT4", "LPT5", "LPT6",
+            "LPT7", "LPT8", "LPT9"
     );
 
     /**
@@ -76,10 +64,7 @@ public final class OsUtil {
      * These exist in Windows for backwards compatibility.
      */
     public static final ImmutableList<String> otherInvalidWindowsNames = ImmutableList.of(
-            "CON",
-            "PRN",
-            "AUX",
-            "NUL"
+            "CON", "PRN", "AUX", "NUL"
     );
 
     /**
@@ -120,12 +105,7 @@ public final class OsUtil {
      * The list of invalid characters for a file name on unix based systems.
      */
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
-            CyderStrings.forwardSlash,
-            "<",
-            ">",
-            "|",
-            "&",
-            CyderStrings.colon
+            CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
     );
 
     /**
@@ -539,14 +519,14 @@ public final class OsUtil {
     /**
      * Deletes the provided file/folder recursively.
      *
-     * @param folder the folder/file to delete
+     * @param file the folder/file to delete
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
-    public static boolean deleteFile(File folder) {
-        checkNotNull(folder);
+    public static boolean deleteFile(File file) {
+        checkNotNull(file);
 
-        return deleteFile(folder, true);
+        return deleteFile(file, true);
     }
 
     /**

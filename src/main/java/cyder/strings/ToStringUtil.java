@@ -184,7 +184,9 @@ public final class ToStringUtil {
                         .append(specialMethod.getStartsWith())
                         .append(colon)
                         .append(space)
-                        .append(result);
+                        .append(quote)
+                        .append(result)
+                        .append(quote);
             }
         });
 

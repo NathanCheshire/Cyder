@@ -9,7 +9,7 @@ import cyder.logging.Logger;
 import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.utils.UiUtil;
+import cyder.ui.UiUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

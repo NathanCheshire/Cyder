@@ -10,9 +10,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

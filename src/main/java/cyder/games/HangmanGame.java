@@ -12,12 +12,12 @@ import cyder.layouts.CyderPartitionedLayout;
 import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.StaticUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

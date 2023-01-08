@@ -27,10 +27,14 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.HtmlUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.MapUtil;
+import cyder.utils.OsUtil;
 import cyder.weather.parsers.WeatherData;
 
 import javax.swing.*;

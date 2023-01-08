@@ -21,6 +21,7 @@ import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.progress.AnimationDirection;
 import cyder.ui.progress.CyderProgressBar;
@@ -28,7 +29,6 @@ import cyder.ui.progress.CyderProgressUI;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.UiUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -852,11 +852,7 @@ public class YoutubeAudioDownload {
             cancel();
             cancelButton.setText(CANCELED);
         } else if (downloaded) {
-            if (AudioPlayer.isAudioPlaying()) {
-                AudioPlayer.addAudioNext(getAudioDownloadFile());
-            } else { // todo test this
-                AudioPlayer.showGui(getAudioDownloadFile());
-            }
+            AudioPlayer.showGui(getAudioDownloadFile());
         }
     }
 

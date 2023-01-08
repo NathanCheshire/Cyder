@@ -13,12 +13,12 @@ import cyder.constants.CyderIcons;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.StaticUtil;
-import cyder.utils.UiUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -21,6 +21,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.CyderGrid;
@@ -36,7 +37,6 @@ import cyder.user.UserUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.utils.StaticUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

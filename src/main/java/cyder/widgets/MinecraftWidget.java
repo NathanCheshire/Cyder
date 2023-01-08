@@ -11,11 +11,11 @@ import cyder.files.FileUtil;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.user.UserUtil;
 import cyder.user.data.MappedExecutable;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -11,9 +11,9 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

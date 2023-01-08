@@ -7,8 +7,8 @@ import cyder.logging.Logger;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.ToStringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.drag.DragLabelButtonSize;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

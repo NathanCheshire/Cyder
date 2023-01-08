@@ -10,13 +10,13 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.button.ThemeBuilder;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.text.DecimalFormat;

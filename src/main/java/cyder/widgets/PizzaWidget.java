@@ -12,6 +12,7 @@ import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
@@ -19,7 +20,6 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

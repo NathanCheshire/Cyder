@@ -8,8 +8,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

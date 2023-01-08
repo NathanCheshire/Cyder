@@ -7,12 +7,12 @@ import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.OsUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

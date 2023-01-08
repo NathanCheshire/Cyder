@@ -21,6 +21,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderTextField;
@@ -30,7 +31,6 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.OsUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

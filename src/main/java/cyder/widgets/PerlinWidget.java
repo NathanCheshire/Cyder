@@ -11,6 +11,7 @@ import cyder.layouts.CyderPartitionedLayout;
 import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
 import cyder.ui.CyderPanel;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
@@ -21,7 +22,6 @@ import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
 import cyder.utils.SimplexNoiseUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

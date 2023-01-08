@@ -15,6 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
@@ -22,7 +23,6 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.UiUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -2,10 +2,10 @@ package cyder.constants;
 
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StaticUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

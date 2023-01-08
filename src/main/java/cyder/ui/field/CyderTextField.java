@@ -11,9 +11,9 @@ import cyder.logging.Logger;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.ui.UiUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -17,6 +17,7 @@ import cyder.layouts.CyderPartitionedLayout;
 import cyder.login.LoginHandler;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
@@ -28,7 +29,6 @@ import cyder.user.data.ScreenStat;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
-import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

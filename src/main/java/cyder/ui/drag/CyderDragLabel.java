@@ -7,11 +7,11 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
 import cyder.strings.ToStringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.UiUtil;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

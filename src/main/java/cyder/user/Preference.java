@@ -7,9 +7,9 @@ import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiUtil;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
-import cyder.utils.UiUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 

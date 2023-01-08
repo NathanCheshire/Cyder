@@ -15,9 +15,9 @@ import cyder.strings.StringUtil;
 import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.HtmlUtil;
-import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
