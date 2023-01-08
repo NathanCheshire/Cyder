@@ -22,6 +22,97 @@ public final class ArrayUtil {
     }
 
     /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @param <T>   the type of element contained in the array
+     * @return whether the provided array is empty
+     */
+    public static <T> boolean isEmpty(T[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(char[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(boolean[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(byte[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(short[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(float[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(double[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(int[] array) {
+        return array.length == 0;
+    }
+
+    /**
+     * Returns whether the provided array is empty.
+     *
+     * @param array the array.
+     * @return whether the provided array is empty
+     */
+    public static boolean isEmpty(long[] array) {
+        return array.length == 0;
+    }
+
+    /**
      * Returns the last element of the provided array.
      *
      * @param array the array
@@ -33,17 +124,6 @@ public final class ArrayUtil {
         Preconditions.checkArgument(array.length > 0);
 
         return array[array.length - 1];
-    }
-
-    /**
-     * Returns whether the provided array is empty.
-     *
-     * @param array the array.
-     * @param <T>   the type of element contained in the array
-     * @return whether the provided array is empty
-     */
-    public static <T> boolean isEmpty(T[] array) {
-        return array.length == 0;
     }
 
     /**

@@ -1387,7 +1387,6 @@ public final class UserUtil {
         return false;
     }
 
-
     // safeSearch: boolean=moderate,none,strict
 
     private enum YouTubeSafeSearch {
@@ -1443,7 +1442,6 @@ public final class UserUtil {
 
     private static final String query = "gift+and+a+curse+skizzy+mars";
     private static final String part = "snippet";
-
 
     /**
      * The header for the url to validate a provided YouTube API 3 key.

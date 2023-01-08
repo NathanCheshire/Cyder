@@ -21,6 +21,44 @@ import java.util.UUID;
  */
 public final class SecurityUtil {
     /**
+     * The hashing algorithms supported by {@link SecurityUtil}.
+     */
+    public enum HashingAlgorithm {
+        /**
+         * The sha256 hashing algorithm.
+         */
+        SHA256("SHA-256"),
+
+        /**
+         * The sha1 hashing algorithm.
+         */
+        SHA1("SHA-1"),
+
+        /**
+         * The md5 hashing algorithm.
+         */
+        MD5("MD5");
+
+        /**
+         * The name of this hashing algorithm.
+         */
+        private final String name;
+
+        HashingAlgorithm(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Returns the name of this hashing algorithm.
+         *
+         * @return the name of this hashing algorithm
+         */
+        public String getName() {
+            return name;
+        }
+    }
+
+    /**
      * Suppress default constructor.
      */
     private SecurityUtil() {
@@ -51,21 +89,6 @@ public final class SecurityUtil {
     }
 
     /**
-     * The string used for a SHA256 digest.
-     */
-    private static final String SHA256 = "SHA-256";
-
-    /**
-     * The string used for a SHA1 digest.
-     */
-    private static final String SHA1 = "SHA-1";
-
-    /**
-     * The string used for an MD5 digest.
-     */
-    private static final String MD5 = "MD5";
-
-    /**
      * Returns a byte array of the provided char array after hashing via the SHA256 algorithm.
      *
      * @param input the input char array
@@ -76,7 +99,7 @@ public final class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance(SHA256);
+            MessageDigest md = MessageDigest.getInstance(HashingAlgorithm.SHA256.getName());
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -96,7 +119,7 @@ public final class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance(SHA1);
+            MessageDigest md = MessageDigest.getInstance(HashingAlgorithm.SHA1.getName());
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -116,7 +139,7 @@ public final class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance(MD5);
+            MessageDigest md = MessageDigest.getInstance(HashingAlgorithm.MD5.getName());
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -136,7 +159,7 @@ public final class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance(SHA256);
+            MessageDigest md = MessageDigest.getInstance(HashingAlgorithm.SHA256.getName());
             return md.digest(input);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -173,7 +196,7 @@ public final class SecurityUtil {
      */
     public static String generateUuid() {
         try {
-            MessageDigest salt = MessageDigest.getInstance(SHA256);
+            MessageDigest salt = MessageDigest.getInstance(HashingAlgorithm.SHA256.getName());
             salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
             return UUID.nameUUIDFromBytes(salt.digest()).toString();
         } catch (Exception e) {
