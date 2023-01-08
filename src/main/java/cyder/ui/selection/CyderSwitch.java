@@ -20,6 +20,36 @@ import java.awt.*;
  */
 public class CyderSwitch extends JLabel {
     /**
+     * The line border used for switches.
+     */
+    private static final LineBorder lineBorder = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
+     * The default width of a switch.
+     */
+    private static final int DEFAULT_WIDTH = 400;
+
+    /**
+     * The default height of a switch.
+     */
+    private static final int DEFAULT_HEIGHT = 120;
+
+    /**
+     * The y padding of the switch button and the bounding box.
+     */
+    private static final int buttonYPadding = 10;
+
+    /**
+     * The x padding of the switch button and the bounding box.
+     */
+    private static final int buttonXPadding = 10;
+
+    /**
+     * The range the button percent must fall within.
+     */
+    private static final Range<Float> buttonPercentRange = Range.open(0.0f, 100.0f);
+
+    /**
      * The width of this switch.
      */
     private int width;
@@ -65,39 +95,9 @@ public class CyderSwitch extends JLabel {
     private String offText = "0";
 
     /**
-     * The line border used for switches.
-     */
-    private static final LineBorder lineBorder = new LineBorder(CyderColors.navy, 5, false);
-
-    /**
-     * The default width of a switch.
-     */
-    private static final int DEFAULT_WIDTH = 400;
-
-    /**
-     * The default height of a switch.
-     */
-    private static final int DEFAULT_HEIGHT = 120;
-
-    /**
-     * The y padding of the switch button and the bounding box.
-     */
-    private static final int buttonYPadding = 10;
-
-    /**
-     * The x padding of the switch button and the bounding box.
-     */
-    private static final int buttonXPadding = 10;
-
-    /**
      * The increment for state animations.
      */
     private int animationIncrement = 8;
-
-    /**
-     * The range the button percent must fall within.
-     */
-    private static final Range<Float> buttonPercentRange = Range.open(0.0f, 100.0f);
 
     /**
      * Constructs a new switch with a width of 400, a height of 120, and a state of off.
@@ -228,34 +228,29 @@ public class CyderSwitch extends JLabel {
                             width - switchButton.getWidth() - buttonXPadding,
                             animationDelay, animationIncrement, switchButton);
                 }
-                switchButton.setLocation(width - switchButton.getWidth() - buttonXPadding, buttonYPadding);
             }
             case OFF -> {
                 if (shouldAnimate) {
                     AnimationUtil.componentLeft(switchButton.getX(), buttonXPadding,
                             animationDelay, animationIncrement, switchButton);
                 }
-                switchButton.setLocation(buttonXPadding, buttonYPadding);
             }
             case INDETERMINATE -> {
                 if (switchButton.getX() > buttonXPadding) {
                     if (shouldAnimate) {
-                        switchButton.setLocation(width - switchButton.getWidth() - buttonXPadding, buttonYPadding);
                         AnimationUtil.componentLeft(switchButton.getX(), width / 2 - switchButton.getWidth() / 2,
                                 animationDelay, animationIncrement, switchButton);
                     }
-                    switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, buttonYPadding);
                 } else {
                     if (shouldAnimate) {
-                        switchButton.setLocation(buttonXPadding, buttonYPadding);
                         AnimationUtil.componentRight(buttonXPadding, width / 2 - switchButton.getWidth() / 2,
                                 animationDelay, animationIncrement, switchButton);
                     }
-                    switchButton.setLocation(buttonXPadding, buttonYPadding);
                 }
             }
         }
 
+        refreshSwitchButtonLocation();
         repaint();
     }
 
@@ -372,6 +367,13 @@ public class CyderSwitch extends JLabel {
         Dimension size = calculateSwitchButtonSize();
         switchButton.setSize(size.width, size.height);
 
+        refreshSwitchButtonLocation();
+    }
+
+    /**
+     * Refreshes the location of the switch button.
+     */
+    private void refreshSwitchButtonLocation() {
         switch (state) {
             case ON -> switchButton.setLocation(width - switchButton.getWidth() - buttonXPadding, buttonYPadding);
             case OFF -> switchButton.setLocation(buttonXPadding, buttonYPadding);
@@ -404,7 +406,6 @@ public class CyderSwitch extends JLabel {
      */
     public void setOnText(String onText) {
         Preconditions.checkNotNull(onText);
-        Preconditions.checkArgument(!onText.isEmpty());
 
         this.onText = onText;
         setState(state);
@@ -427,7 +428,6 @@ public class CyderSwitch extends JLabel {
      */
     public void setIndeterminateText(String indeterminateText) {
         Preconditions.checkNotNull(indeterminateText);
-        Preconditions.checkArgument(!indeterminateText.isEmpty());
 
         this.indeterminateText = indeterminateText;
         setState(state);
@@ -449,7 +449,6 @@ public class CyderSwitch extends JLabel {
      */
     public void setOffText(String offText) {
         Preconditions.checkNotNull(offText);
-        Preconditions.checkArgument(!offText.isEmpty());
 
         this.offText = offText;
         setState(state);

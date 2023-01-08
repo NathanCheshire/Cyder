@@ -18,19 +18,50 @@ import java.util.ArrayList;
  */
 public class CyderComponentResizer extends MouseAdapter {
     /**
+     * The northern drag direction integer.
+     */
+    protected static final int NORTH = 1;
+
+    /**
+     * The western drag direction integer.
+     */
+    protected static final int WEST = 2;
+
+    /**
+     * The southern drag direction integer.
+     */
+    protected static final int SOUTH = 4;
+
+    /**
+     * The eastern drag direction integer.
+     */
+    protected static final int EAST = 8;
+
+    /**
      * The default minimum size to use for a resizable component.
      */
-    private final Dimension MINIMUM_SIZE = new Dimension(10, 10);
+    private static final Dimension DEFAULT_MIN_SIZE = new Dimension(10, 10);
 
     /**
      * The default maximum size to use for a resizable component.
      */
-    private final Dimension MAXIMUM_SIZE = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private static final Dimension DEFAULT_MAX_SIZE = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
 
     /**
-     * A collection of cursors to use for border cursors to indicate that the component is resizable.
+     * The default inset value.
      */
-    private final ImmutableMap<Integer, Integer> cursors = ImmutableMap.of(
+    private static final int DEFAULT_INSET = 5;
+
+    /**
+     * The default snap size.
+     */
+    private static final Dimension DEFAULT_SNAP_SIZE = new Dimension(1, 1);
+
+    /**
+     * The map of cursors to use for border cursors to indicate that the component is resizable.
+     */
+    private static final ImmutableMap<Integer, Integer> cursors = ImmutableMap.of(
             1, Cursor.N_RESIZE_CURSOR,
             2, Cursor.W_RESIZE_CURSOR,
             4, Cursor.S_RESIZE_CURSOR,
@@ -55,26 +86,6 @@ public class CyderComponentResizer extends MouseAdapter {
      * The direction of the current drag.
      */
     private int dragDirection;
-
-    /**
-     * The northern drag direction integer.
-     */
-    protected static final int NORTH = 1;
-
-    /**
-     * The western drag direction integer.
-     */
-    protected static final int WEST = 2;
-
-    /**
-     * The southern drag direction integer.
-     */
-    protected static final int SOUTH = 4;
-
-    /**
-     * The eastern drag direction integer.
-     */
-    protected static final int EAST = 8;
 
     /**
      * The source cursor from the dragging component.
@@ -105,22 +116,12 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * The current minimum size for the resizable component.
      */
-    private Dimension minimumSize = MINIMUM_SIZE;
+    private Dimension minimumSize = DEFAULT_MIN_SIZE;
 
     /**
      * The current maximum size for the resizable component.
      */
-    private Dimension maximumSize = MAXIMUM_SIZE;
-
-    /**
-     * The default inset value.
-     */
-    private static final int DEFAULT_INSET = 5;
-
-    /**
-     * The default snap size.
-     */
-    private static final Dimension DEFAULT_SNAP_SIZE = new Dimension(1, 1);
+    private Dimension maximumSize = DEFAULT_MAX_SIZE;
 
     /**
      * Constructs a new resizable component
@@ -197,23 +198,9 @@ public class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Registers the following component for resizing, adding
-     * the mouse listener and mouse motion listeners to it.
+     * Registers the following component for resizing.
      *
      * @param component the component to register
-     */
-    public void deregisterComponent(Component component) {
-        Preconditions.checkNotNull(component);
-
-        component.removeMouseListener(this);
-        component.removeMouseMotionListener(this);
-    }
-
-    /**
-     * Unregisters the following component of resizing, removing
-     * the mouse listener and mouse motion listeners from it.
-     *
-     * @param component the component to deregister
      */
     public void registerComponent(Component component) {
         Preconditions.checkNotNull(component);
@@ -301,7 +288,6 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("ConstantConditions") // condition might not always be true
     @Override
     public void mousePressed(MouseEvent e) {
         if (dragDirection == 0) {
@@ -334,9 +320,9 @@ public class CyderComponentResizer extends MouseAdapter {
             }
         }
 
-        if (source instanceof JComponent jc && !(source instanceof CyderFrame)) {
-            componentIsAutoscroll = jc.getAutoscrolls();
-            jc.setAutoscrolls(false);
+        if (source instanceof JComponent jComponent) {
+            componentIsAutoscroll = jComponent.getAutoscrolls();
+            jComponent.setAutoscrolls(false);
         }
     }
 
@@ -387,7 +373,6 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("ConstantConditions")  // condition might not be true in future
     @Override
     public void mouseReleased(MouseEvent e) {
         currentlyResizing = false;
@@ -395,26 +380,22 @@ public class CyderComponentResizer extends MouseAdapter {
         Component source = e.getComponent();
         source.setCursor(sourceCursor);
 
-        if (source instanceof JComponent jComponent && !(source instanceof CyderFrame)) {
+        if (source instanceof JComponent jComponent) {
             jComponent.setAutoscrolls(componentIsAutoscroll);
         }
 
-        // if CyderFrame then refresh background when dragging is done and not as it is being resized
-        if (source instanceof CyderFrame frame) {
-            if (backgroundRefreshOnResize) {
-                frame.refreshBackground();
-            }
+        if (source instanceof CyderFrame frame && backgroundRefreshOnResize) {
+            frame.refreshBackground();
         }
 
-        // for all focus wrapped components, restore their state
-        for (FocusWrappedComponent component : focusableComponents) {
-            component.restore();
+        focusableComponents.forEach(focusWrappedComponent -> {
+            focusWrappedComponent.restore();
+            Component component = focusWrappedComponent.component();
 
-            // restore original focus owner
-            if (component.component().equals(originalFocusOwner)) {
-                component.component().requestFocus();
+            if (component.equals(originalFocusOwner)) {
+                component.requestFocus();
             }
-        }
+        });
     }
 
     /**
@@ -428,13 +409,11 @@ public class CyderComponentResizer extends MouseAdapter {
         Point dragged = e.getPoint();
         SwingUtilities.convertPointToScreen(dragged, source);
 
-        changeBounds(source, dragDirection, currentBounds, pressed, dragged);
+        changeComponentBounds(source, dragDirection, currentBounds, pressed, dragged);
 
         // if a CyderFrame with a panel, refresh always
-        if (source instanceof CyderFrame frame) {
-            if (backgroundRefreshOnResize) {
-                frame.revalidateLayout();
-            }
+        if (source instanceof CyderFrame frame && backgroundRefreshOnResize) {
+            frame.revalidateLayout();
         }
     }
 
@@ -447,7 +426,11 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param pressed   the point at which the component was pressed
      * @param current   the current point at which the component is pressed
      */
-    protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
+    protected void changeComponentBounds(Component source,
+                                         int direction,
+                                         Rectangle bounds,
+                                         Point pressed,
+                                         Point current) {
         Preconditions.checkNotNull(source);
         Preconditions.checkNotNull(bounds);
         Preconditions.checkNotNull(pressed);
@@ -463,7 +446,7 @@ public class CyderComponentResizer extends MouseAdapter {
         if (WEST == (direction & WEST)) {
             int drag = getDragDistance(pressed.x, current.x, snapSize.width);
             int maximum = Math.min(width + x, maximumSize.width);
-            drag = getDragBounded(drag, snapSize.width, width, minimumSize.width, maximum);
+            drag = getBoundedDragLength(drag, snapSize.width, width, minimumSize.width, maximum);
 
             x -= drag;
             width += drag;
@@ -472,7 +455,7 @@ public class CyderComponentResizer extends MouseAdapter {
         if (NORTH == (direction & NORTH)) {
             int drag = getDragDistance(pressed.y, current.y, snapSize.height);
             int maximum = Math.min(height + y, maximumSize.height);
-            drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);
+            drag = getBoundedDragLength(drag, snapSize.height, height, minimumSize.height, maximum);
 
             y -= drag;
             height += drag;
@@ -482,7 +465,7 @@ public class CyderComponentResizer extends MouseAdapter {
             int drag = getDragDistance(current.x, pressed.x, snapSize.width);
             Dimension boundingSize = getBoundingSize(source);
             int maximum = Math.min(boundingSize.width - x, maximumSize.width);
-            drag = getDragBounded(drag, snapSize.width, width, minimumSize.width, maximum);
+            drag = getBoundedDragLength(drag, snapSize.width, width, minimumSize.width, maximum);
             width += drag;
         }
 
@@ -490,7 +473,7 @@ public class CyderComponentResizer extends MouseAdapter {
             int drag = getDragDistance(current.y, pressed.y, snapSize.height);
             Dimension boundingSize = getBoundingSize(source);
             int maximum = Math.min(boundingSize.height - y, maximumSize.height);
-            drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);
+            drag = getBoundedDragLength(drag, snapSize.height, height, minimumSize.height, maximum);
             height += drag;
         }
 
@@ -524,23 +507,27 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * Returns the dragged distance rounding to the nearest snap size.
      *
-     * @param larger   the larger of the two values
-     * @param smaller  the smaller of the two values
-     * @param snapSize the current snap size
+     * @param pressedValue the larger of the two values
+     * @param currentValue the smaller of the two values
+     * @param snapSize     the current snap size
      * @return the distance dragged between the two values
      * rounded to the nearest snap size increment.
      */
-    private int getDragDistance(int larger, int smaller, int snapSize) {
-        int halfway = snapSize / 2;
-        int drag = larger - smaller;
-        drag += (drag < 0) ? -halfway : halfway;
-        drag = (drag / snapSize) * snapSize;
+    private int getDragDistance(int pressedValue, int currentValue, int snapSize) {
+        int dragLength = pressedValue - currentValue;
 
-        return drag;
+        int dividend = snapSize / 2;
+        if (dragLength < 0) {
+            dividend = -dividend;
+        }
+
+        dragLength = (dividend / snapSize) * snapSize;
+
+        return dragLength;
     }
 
     /**
-     * Returns the drag after accounting for possible out of bounds dragging and the snap size.
+     * Returns the drag length after accounting for possible out of bounds dragging and the snap size.
      *
      * @param drag      the current drag distance
      * @param snapSize  the current snap size
@@ -549,7 +536,7 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param maximum   the maximum of the dimension
      * @return the bounded drag after accounting for the outlined conditions
      */
-    private int getDragBounded(int drag, int snapSize, int dimension, int minimum, int maximum) {
+    private int getBoundedDragLength(int drag, int snapSize, int dimension, int minimum, int maximum) {
         while (dimension + drag < minimum) {
             drag += snapSize;
         }

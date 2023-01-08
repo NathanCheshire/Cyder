@@ -17,6 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderSliderUi extends BasicSliderUI {
     /**
+     * The value used to indicate the animation has not yet started.
+     */
+    private static final int ANIMATION_NOT_STARTED = Integer.MIN_VALUE;
+
+    /**
      * The default stroke width for the slider and thumb strokes.
      */
     public static final float DEFAULT_STROKE_WIDTH = 3.0f;
@@ -65,6 +70,18 @@ public class CyderSliderUi extends BasicSliderUI {
      * The shape of the thumb.
      */
     private ThumbShape thumbShape = ThumbShape.RECTANGLE;
+
+    /**
+     * Creates a new CyderSliderUi object.
+     *
+     * @param slider the slider this ui is controlling and styling
+     */
+    public CyderSliderUi(JSlider slider) {
+        super(Preconditions.checkNotNull(slider));
+        this.slider = slider;
+
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
 
     /**
      * Sets the radius of the thumb.
@@ -162,18 +179,6 @@ public class CyderSliderUi extends BasicSliderUI {
     }
 
     /**
-     * Creates a new CyderSliderUi object.
-     *
-     * @param slider the slider this ui is controlling and styling
-     */
-    public CyderSliderUi(JSlider slider) {
-        super(Preconditions.checkNotNull(slider));
-        this.slider = slider;
-
-        Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -257,11 +262,6 @@ public class CyderSliderUi extends BasicSliderUI {
     private Shape createRectangularThumbShape(int width, int height) {
         return new Rectangle2D.Double(0, 0, width, height);
     }
-
-    /**
-     * The value used to indicate the animation has not yet started.
-     */
-    private static final int ANIMATION_NOT_STARTED = Integer.MIN_VALUE;
 
     /**
      * The atomic holder for the current x value start of the animated color line to be drawn if enabled.
