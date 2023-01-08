@@ -41,7 +41,7 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Weather Widget</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/190870600-a7ce2b39-2099-4365-ba8b-e2f38adff432.png" alt="Weather" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/211179391-ea49b257-7923-4967-b8b0-ab77f39eb893.png" alt="Weather" width="400">
 </details>
 
 <details>
