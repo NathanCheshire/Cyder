@@ -17,16 +17,19 @@ import java.lang.reflect.Type;
  */
 public final class SerializationUtil {
     /**
+     * The master Gson object used for all of Cyder.
+     */
+    private static final Gson gson = new GsonBuilder()
+            .setLenient()
+            .setPrettyPrinting()
+            .create();
+
+    /**
      * Suppress default constructor.
      */
     private SerializationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    /**
-     * The master Gson object used for all of Cyder.
-     */
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * Deserializes the contents contained in the provided string.

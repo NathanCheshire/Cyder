@@ -20,15 +20,10 @@ import static cyder.strings.CyderStrings.space;
  */
 public final class PythonFunctionsWrapper {
     /**
-     * The name of the python functions script.
-     */
-    private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
-
-    /**
      * The absolute path to the python functions script.
      */
     private static final String functionsScriptPath =
-            StaticUtil.getStaticResource(PYTHON_FUNCTIONS_SCRIPT_NAME).getAbsolutePath();
+            StaticUtil.getStaticResource("python_functions.py").getAbsolutePath();
 
     /**
      * Suppress default constructor.

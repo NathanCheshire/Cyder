@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.logging.LogTag;
@@ -14,15 +15,17 @@ import java.io.File;
  * Utilities for getting static resources.
  */
 public final class StaticUtil {
+    // todo saving from a left or right screen stat doesn't work, image is stretched
+    // todo cache this if possible
     /**
      * The list of static files found when Cyder was first launched.
      */
-    private static final ImmutableList<File> STATIC_FILES;
+    private static final ImmutableList<File> staticFiles;
 
     /**
-     * The list of static folders located.
+     * The map of static folders located.
      */
-    private static final ImmutableList<File> STATIC_FOLDERS;
+    private static final ImmutableMap<String, File> staticFolders;
 
     /**
      * The name of the static directory which holds all the static files and resources needed by Cyder.
@@ -30,11 +33,11 @@ public final class StaticUtil {
     private static final String STATIC = "static";
 
     static {
-        STATIC_FILES = FileUtil.getFiles(new File(STATIC));
-        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FILES.size() + " static files");
+        staticFiles = FileUtil.getFiles(new File(STATIC));
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFiles.size() + " static files");
 
-        STATIC_FOLDERS = FileUtil.getFolders(new File(STATIC));
-        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FOLDERS.size() + " static folders");
+        staticFolders = FileUtil.getFolders(new File(STATIC));
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFolders.size() + " static folders");
     }
 
     /**
@@ -74,7 +77,7 @@ public final class StaticUtil {
             filename = filename.substring(0, splitIndex);
         }
 
-        for (File staticFile : STATIC_FILES) {
+        for (File staticFile : staticFiles) {
             if (FileUtil.getFilename(staticFile).equalsIgnoreCase(filename)) {
                 if (extension.isEmpty() || FileUtil.getExtension(staticFile).equalsIgnoreCase("." + extension)) {
                     return staticFile;
@@ -96,13 +99,8 @@ public final class StaticUtil {
     public static File getStaticDirectory(String folderName) {
         Preconditions.checkNotNull(folderName);
         Preconditions.checkArgument(!folderName.isEmpty());
+        Preconditions.checkArgument(staticFolders.containsKey(folderName));
 
-        for (File staticFolder : STATIC_FOLDERS) {
-            if (FileUtil.getFilename(staticFolder).equalsIgnoreCase(folderName)) {
-                return staticFolder;
-            }
-        }
-
-        throw new IllegalArgumentException("Could not find static folder: " + folderName);
+        return staticFolders.get(folderName);
     }
 }

@@ -2,6 +2,7 @@ package cyder.files;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -508,13 +509,21 @@ public final class FileUtil {
     }
 
     /**
-     * Returns a list of folders found within the provided directory.
+     * Returns a map of folders found within the provided directory.
      *
      * @param topLevelDirectory the directory to find folders within
-     * @return a list of folders found within the provided directory
+     * @return a map of folders found within the provided directory
      */
-    public static ImmutableList<File> getFolders(File topLevelDirectory) {
-        return getFolders(topLevelDirectory, true);
+    public static ImmutableMap<String, File> getFolders(File topLevelDirectory) {
+        ImmutableList<File> folders = getFolders(topLevelDirectory, true);
+
+        LinkedHashMap<String, File> ret = new LinkedHashMap<>();
+
+        for (File folder : folders) {
+            ret.put(FileUtil.getFilename(folder), folder);
+        }
+
+        return ImmutableMap.copyOf(ret);
     }
 
     /**

@@ -20,13 +20,6 @@ import java.util.Arrays;
  */
 public final class SpotlightUtil {
     /**
-     * Suppress default constructor.
-     */
-    private SpotlightUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The prefix for the content deliver manager folder which contains the spotlight image files.
      */
     public static final String CONTENT_DELIVERY_MANAGER_PREFIX = "Microsoft.Windows.ContentDeliveryManager_";
@@ -71,6 +64,13 @@ public final class SpotlightUtil {
      * to be saved by the {@link #saveSpotlights(File)} method.
      */
     public static final int minimumSpotlightImageLength = 600;
+
+    /**
+     * Suppress default constructor.
+     */
+    private SpotlightUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Wipes the windows spotlight directory. Windows will download new ones eventually.
