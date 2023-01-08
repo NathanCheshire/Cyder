@@ -16,8 +16,6 @@ import java.util.LinkedHashMap;
  * Utilities for getting static resources.
  */
 public final class StaticUtil {
-    // todo saving from a left or right screen stat doesn't work, image is stretched
-
     /**
      * The name of the static directory which holds all the static files and resources needed by Cyder.
      */

@@ -291,7 +291,7 @@ public enum Console {
          */
         CyderSplash.INSTANCE.fastDispose();
 
-        if (!isFullscreen()) restorePreviousFrameBounds(consoleIcon);
+        if (!isFullscreen()) restoreFromPreviousScreenStat(consoleIcon);
         finalizeFrameAndInputOutputBounds();
 
         performSpecialDayChecks();
@@ -879,25 +879,35 @@ public enum Console {
     }
 
     /**
-     * Sets up the console position based on the saved stats from the previous session.
+     * Sets up the console location, size, background direction, and pin button state
+     * based on the saved stats from the previous session.
      *
-     * @param consoleIcon the console icon record to get the size from
+     * @param consoleIcon the console icon to use as the background
      */
-    @ForReadability
-    private void restorePreviousFrameBounds(ConsoleIcon consoleIcon) {
+    @SuppressWarnings("SuspiciousNameCombination") /* Switching with and height vars */
+    private void restoreFromPreviousScreenStat(ConsoleIcon consoleIcon) {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
+        Direction consoleDirection = requestedConsoleStats.getConsoleDirection();
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
         PinButton.PinState state = onTop ? PinButton.PinState.CONSOLE_PINNED : PinButton.PinState.DEFAULT;
         consoleCyderFrame.getTopDragLabel().getPinButton().setState(state);
 
+        double consoleIconWidth = consoleIcon.dimension().getWidth();
+        double consoleIconHeight = consoleIcon.dimension().getHeight();
+        if (consoleDirection == Direction.LEFT || consoleDirection == Direction.RIGHT) {
+            double tmp = consoleIconHeight;
+            consoleIconHeight = consoleIconWidth;
+            consoleIconWidth = tmp;
+        }
+
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
 
-        if (requestedConsoleWidth < consoleIcon.dimension().getWidth()
-                && requestedConsoleHeight < consoleIcon.dimension().getHeight()
-                && requestedConsoleWidth > MINIMUM_SIZE.width
-                && requestedConsoleHeight > MINIMUM_SIZE.height) {
+        if (requestedConsoleWidth <= consoleIconWidth
+                && requestedConsoleHeight <= consoleIconHeight
+                && requestedConsoleWidth >= MINIMUM_SIZE.width
+                && requestedConsoleHeight >= MINIMUM_SIZE.height) {
             consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
         }
 
