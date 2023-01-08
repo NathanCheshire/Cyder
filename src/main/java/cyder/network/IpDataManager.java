@@ -47,7 +47,7 @@ public enum IpDataManager {
 
         Optional<IpData> pulledData = pullIpData();
         if (pulledData.isPresent()) {
-            ret = ipData.get();
+            ret = pulledData.get();
             ipData.set(ret);
             return ret;
         }

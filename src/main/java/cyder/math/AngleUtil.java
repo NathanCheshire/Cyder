@@ -30,6 +30,11 @@ public final class AngleUtil {
     public static final double NINETY_DEGREES = 90.0;
 
     /**
+     * Zero degrees.
+     */
+    public static final double ZERO_DEGREES = 0.0;
+
+    /**
      * The standard range of angle measurements in degree form.
      */
     public static final Range<Double> DEGREE_RANGE = Range.closedOpen(0d, THREE_SIXTY_DEGREES);

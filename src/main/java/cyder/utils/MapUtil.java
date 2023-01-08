@@ -69,6 +69,11 @@ public final class MapUtil {
         LOCATIONS,
 
         /**
+         * The map center.
+         */
+        CENTER,
+
+        /**
          * The zoom level of the returned map image.
          */
         ZOOM;
@@ -144,7 +149,7 @@ public final class MapUtil {
         requestUrlBuilder.append(key);
 
         if (builder.getLat() != Integer.MIN_VALUE && builder.getLon() != Integer.MIN_VALUE) {
-            requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
+            requestUrlBuilder.append(MapBoxUrlParameter.CENTER.construct());
             requestUrlBuilder.append(builder.getLat());
             requestUrlBuilder.append(CyderStrings.comma);
             requestUrlBuilder.append(builder.getLon());
@@ -154,7 +159,7 @@ public final class MapUtil {
                 throw new IllegalStateException("Must provide latitude/longitude or location");
             }
 
-            requestUrlBuilder.append(MapBoxUrlParameter.LOCATIONS.construct());
+            requestUrlBuilder.append(MapBoxUrlParameter.CENTER.construct());
             requestUrlBuilder.append(builder.getLocationString());
         }
 

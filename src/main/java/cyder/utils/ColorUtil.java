@@ -41,6 +41,31 @@ public final class ColorUtil {
     public static final ImmutableList<Integer> VALID_HEX_LENGTHS = ImmutableList.of(SHORTHAND_HEX_LENGTH, HEX_LENGTH);
 
     /**
+     * The string formatter used to convert a {@link Color} to a hex string.
+     */
+    private static final String RGB_TO_HEX_FORMAT = "%02X%02X%02X";
+
+    /**
+     * The maximum length the hashmap for the get dominant color method can grow.
+     */
+    private static final int maxDominantColorCounterHashMapLength = 100;
+
+    /**
+     * The minimum opacity.
+     */
+    public static final int minOpacity = 0;
+
+    /**
+     * The maximum opacity.
+     */
+    public static final int maxOpacity = 255;
+
+    /**
+     * The range for opacity values for Java's {@link Color} objects.
+     */
+    private static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
+
+    /**
      * Suppress default constructor.
      */
     private ColorUtil() {
@@ -124,11 +149,6 @@ public final class ColorUtil {
     }
 
     /**
-     * The string formatter used to convert a {@link Color} to a hex string.
-     */
-    private static final String RGB_TO_HEX_FORMAT = "%02X%02X%02X";
-
-    /**
      * Converts the provided color object into hex string representation.
      *
      * @param color the color to convert to a hex string
@@ -139,11 +159,6 @@ public final class ColorUtil {
 
         return String.format(RGB_TO_HEX_FORMAT, color.getRed(), color.getGreen(), color.getBlue());
     }
-
-    /**
-     * The maximum length the hashmap for the get dominant color method can grow.
-     */
-    private static final int maxDominantColorCounterHashMapLength = 100;
 
     /**
      * Returns the dominant color of the provided BufferedImage.
@@ -292,21 +307,6 @@ public final class ColorUtil {
         return ImmutableList.of(flashColor, beforeLessFlash, lessFlash, afterLessFlash,
                 middle, beforeLessDefault, lessDefault, afterLessDefault, defaultColor);
     }
-
-    /**
-     * The minimum opacity.
-     */
-    public static final int minOpacity = 0;
-
-    /**
-     * The maximum opacity.
-     */
-    public static final int maxOpacity = 255;
-
-    /**
-     * The range for opacity values for Java's {@link Color} objects.
-     */
-    private static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
 
     /**
      * Sets the opacity of the provided color to the provided opacity and returns a new color object.

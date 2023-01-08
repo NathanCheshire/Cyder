@@ -145,8 +145,7 @@ public final class JvmUtil {
         }
 
         if (!jarFile.isFile()) {
-            throw new FatalException("Jar file could not be found, path returned: "
-                    + jarFile.getAbsolutePath());
+            throw new FatalException("Jar file could not be found, path returned: " + jarFile.getAbsolutePath());
         }
 
         return jarFile;

@@ -48,6 +48,21 @@ public final class ImageUtil {
     private static final String GAUSSIAN_IMAGE_BLURER_THREAD_NAME = "Gaussian Image Blurer Thread";
 
     /**
+     * The title of the draw buffered image frame.
+     */
+    private static final String defaultDrawBufferedImageTitle = "BufferedImage";
+
+    /**
+     * The title of the draw image icon frame.
+     */
+    private static final String defaultDrawImageIconTitle = "ImageIcon";
+
+    /**
+     * The maximum alpha value.
+     */
+    private static final int MAX_ALPHA = 255;
+
+    /**
      * Suppress default constructor.
      */
     private ImageUtil() {
@@ -298,21 +313,6 @@ public final class ImageUtil {
     }
 
     /**
-     * The degrees representing a default image.
-     */
-    private static final int ZERO_DEGREES = 0;
-
-    /**
-     * The degrees representing a singular right rotation.
-     */
-    private static final int NINETY_DEGREES = 90;
-
-    /**
-     * The degrees representing a double right or left rotation.
-     */
-    private static final int ONE_EIGHTY_DEGREES = 180;
-
-    /**
      * Returns the rotated background file.
      *
      * @param filepath  the path to the file
@@ -338,10 +338,10 @@ public final class ImageUtil {
         }
 
         return switch (direction) {
-            case TOP -> rotateImage(bufferedImage, ZERO_DEGREES);
-            case RIGHT -> rotateImage(bufferedImage, NINETY_DEGREES);
-            case BOTTOM -> rotateImage(bufferedImage, ONE_EIGHTY_DEGREES);
-            case LEFT -> rotateImage(bufferedImage, -NINETY_DEGREES);
+            case TOP -> rotateImage(bufferedImage, AngleUtil.ZERO_DEGREES);
+            case RIGHT -> rotateImage(bufferedImage, AngleUtil.NINETY_DEGREES);
+            case BOTTOM -> rotateImage(bufferedImage, AngleUtil.ONE_EIGHTY_DEGREES);
+            case LEFT -> rotateImage(bufferedImage, AngleUtil.TWO_SEVENTY_DEGREES);
         };
     }
 
@@ -418,11 +418,6 @@ public final class ImageUtil {
     }
 
     /**
-     * The title of the draw buffered image frame.
-     */
-    private static final String defaultDrawBufferedImageTitle = "BufferedImage";
-
-    /**
      * Draws the provided buffered image to a CyderFrame and displays it.
      *
      * @param bi the buffered image to display
@@ -450,11 +445,6 @@ public final class ImageUtil {
 
         return drawImage(new ImageIcon(bi), frameTitle);
     }
-
-    /**
-     * The title of the draw image icon frame.
-     */
-    private static final String defaultDrawImageIconTitle = "ImageIcon";
 
     /**
      * Draws the provided image icon to a CyderFrame and displays it.
@@ -1006,11 +996,6 @@ public final class ImageUtil {
             return Optional.empty();
         });
     }
-
-    /**
-     * The maximum alpha value.
-     */
-    private static final int MAX_ALPHA = 255;
 
     /**
      * Sets the alpha value of all pixels within the buffered image to the provided value.
