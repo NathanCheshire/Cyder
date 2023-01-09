@@ -50,11 +50,6 @@ public final class CyderUrls {
     public static final String IPDATA_BASE = "https://api.ipdata.co/?api-key=";
 
     /**
-     * The search base for youtube api v3.
-     */
-    public static final String YOUTUBE_API_V3_SEARCH = "https://www.googleapis.com/youtube/v3/search";
-
-    /**
      * The link to learn about simple date patterns in Java.
      */
     public static final String SIMPLE_DATE_PATTERN_GUIDE =

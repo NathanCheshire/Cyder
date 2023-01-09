@@ -18,7 +18,6 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.meta.CyderSplash;
 import cyder.network.LatencyManager;
-import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
@@ -37,7 +36,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -1365,108 +1363,6 @@ public final class UserUtil {
         for (File userFile : getUserJsons()) {
             if (extractUser(userFile).getName().equalsIgnoreCase(username)) {
                 return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Validates the ip key from the propkeys.ini file.
-     *
-     * @return whether the ip key was valid
-     */
-    private static boolean validateIpKey() {
-        try {
-            URL url = new URL(CyderUrls.IPDATA_BASE + Props.ipKey.getValue());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.close();
-            return true;
-        } catch (Exception ignored) {}
-
-        return false;
-    }
-
-    // safeSearch: boolean=moderate,none,strict
-
-    private enum YouTubeSafeSearch {
-        MODERATE("moderate"),
-        NONE("none"),
-        STRICT("strict");
-
-        /**
-         * The url parameter for this youtube safe search.
-         */
-        private final String urlParameter;
-
-        YouTubeSafeSearch(String urlParameter) {
-            this.urlParameter = urlParameter;
-        }
-
-        /**
-         * Returns the url parameter for this youtube safe search.
-         *
-         * @return the url parameter for this youtube safe search
-         */
-        public String getUrlParameter() {
-            return urlParameter;
-        }
-    }
-
-    /**
-     * A youtube search type.
-     */
-    private enum YouTubeSearchType {
-        VIDEO("video"),
-        CHANNEL("channel"),
-        PLAYLIST("playlist");
-
-        /**
-         * The url parameter for this youtube search type.
-         */
-        private final String urlParameter;
-
-        YouTubeSearchType(String urlParameter) {
-            this.urlParameter = urlParameter;
-        }
-
-        /**
-         * Returns the url parameter for this youtube search type.
-         *
-         * @return the url parameter for this youtube search type
-         */
-        public String getUrlParameter() {
-            return urlParameter;
-        }
-    }
-
-    private static final String query = "gift+and+a+curse+skizzy+mars";
-    private static final String part = "snippet";
-
-    /**
-     * The header for the url to validate a provided YouTube API 3 key.
-     */
-    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER =
-            CyderUrls.YOUTUBE_API_V3_SEARCH
-                    + "?part=" + part
-                    + "&q=" + query
-                    + "&type=" + YouTubeSearchType.VIDEO.getUrlParameter()
-                    + "&key=";
-
-    /**
-     * Validates the youtube key from the propkeys.ini file.
-     *
-     * @return whether the youtube key was valid
-     */
-    private static boolean validateYoutubeApiKey() {
-        String key = Props.youtubeApi3key.getValue();
-
-        if (!key.isEmpty()) {
-            try {
-                NetworkUtil.readUrl(YOUTUBE_API_3_KEY_VALIDATOR_HEADER + key);
-                return true;
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
             }
         }
 

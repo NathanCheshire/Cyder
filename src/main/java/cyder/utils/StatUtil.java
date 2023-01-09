@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderUrls;
 import cyder.enums.Extension;
@@ -39,6 +38,36 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class StatUtil {
     /**
+     * If I hit it one time ima pipe her.
+     */
+    private static final String NO_LIMIT = "no limit";
+
+    /**
+     * The name of the executor service which gets the debug props.
+     */
+    private static final String DEBUG_PROPS_EXECUTOR_THREAD_NAME = "Debug Props Getter";
+
+    /**
+     * The starting prefix for a block comment.
+     */
+    private static final String blockCommentStart = "/*";
+
+    /**
+     * The ending suffix for a block comment.
+     */
+    private static final String blockCommentEnd = "*/";
+
+    /**
+     * A record type to hold the stats returned by {@link StatUtil#getDebugProps()}.
+     */
+    public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {}
+
+    /**
+     * A record to associate a file name with its size.
+     */
+    public record FileSize(String name, long size) {}
+
+    /**
      * Suppress default constructor.
      */
     private StatUtil() {
@@ -59,11 +88,6 @@ public final class StatUtil {
 
         return ImmutableList.copyOf(ret);
     }
-
-    /**
-     * If I hit it one time ima pipe her.
-     */
-    private static final String NO_LIMIT = "no limit";
 
     /**
      * Returns an immutable list detailing the found computer memory spaces.
@@ -94,16 +118,6 @@ public final class StatUtil {
 
         return ImmutableList.copyOf(ret);
     }
-
-    /**
-     * A record type to hold the stats returned by {@link StatUtil#getDebugProps()}.
-     */
-    public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {}
-
-    /**
-     * The name of the executor service which gets the debug props.
-     */
-    private static final String DEBUG_PROPS_EXECUTOR_THREAD_NAME = "Debug Props Getter";
 
     /**
      * Returns a debug object containing the found user flag and some common debug details.
@@ -230,7 +244,6 @@ public final class StatUtil {
      * @param line the line
      * @return whether the provided line is a code line
      */
-    @ForReadability
     private static boolean isCodeLine(String line) {
         Preconditions.checkNotNull(line);
 
@@ -305,27 +318,22 @@ public final class StatUtil {
                 boolean blockComment = false;
 
                 while ((line = lineReader.readLine()) != null) {
-                    //rare case of this happening but needed to not trigger a long block comment
-                    if (line.trim().startsWith("/*") && line.trim().endsWith("*/")) {
+                    if (line.trim().startsWith(blockCommentStart) && line.trim().endsWith(blockCommentEnd)) {
                         localRet++;
                         continue;
                     }
 
-                    //start of a block comment
-                    if (line.trim().startsWith("/*")) {
+                    if (line.trim().startsWith(blockCommentStart)) {
                         blockComment = true;
-                    }
-                    //end of a block comment
-                    else if (line.trim().endsWith("*/")) {
+                    } else if (line.trim().endsWith(blockCommentEnd)) {
                         blockComment = false;
                     }
 
-                    //if we've activated block comment or still on, increment line count
-                    if (blockComment)
+                    if (blockComment) {
                         localRet++;
-                        //otherwise if the line has text and is a comment inc
-                    else if (!line.trim().isEmpty() && (isComment(line)))
+                    } else if (!line.trim().isEmpty() && (isComment(line))) {
                         localRet++;
+                    }
                 }
 
                 return localRet;
@@ -400,7 +408,7 @@ public final class StatUtil {
             throw new IllegalMethodException("Method not allowed when in Jar mode");
         }
 
-        LinkedList<FileSize> prints = innerFileSizes(OsUtil.buildFile("..", "Cyder"));
+        LinkedList<FileSize> prints = innerFileSizes(new File("src"));
         prints.sort(new FileComparator());
         return ImmutableList.copyOf(prints);
     }
@@ -438,9 +446,4 @@ public final class StatUtil {
             return 0;
         }
     }
-
-    /**
-     * A record to associate a file name with its size.
-     */
-    public record FileSize(String name, long size) {}
 }

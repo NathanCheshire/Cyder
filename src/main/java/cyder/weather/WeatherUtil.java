@@ -65,27 +65,6 @@ public final class WeatherUtil {
         }
     }
 
-    // todo util for key validation
-    /**
-     * Validates the weather key from the propkeys.ini file.
-     *
-     * @return whether the weather key was valid
-     */
-    private static boolean validateWeatherKey() {
-        String openString = CyderUrls.OPEN_WEATHER_BASE
-                + Props.defaultLocation.getValue()
-                + APP_ID + Props.weatherKey.getValue()
-                + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();
-
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new URL(openString).openStream()))) {
-            reader.readLine();
-            return true;
-        } catch (Exception ignored) {}
-
-        return false;
-    }
-
     /**
      * Returns the weather data object for the provided location string if available. Empty optional else.
      *
