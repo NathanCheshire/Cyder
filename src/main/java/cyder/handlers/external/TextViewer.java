@@ -1,6 +1,7 @@
 package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.enums.Extension;
@@ -112,8 +113,11 @@ public class TextViewer {
 
     /**
      * Opens the text viewer gui.
+     *
+     * @return whether the gui opened successfully
      */
-    public void showGui() {
+    @CanIgnoreReturnValue
+    public boolean showGui() {
         textFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
 
         nameField = new CyderTextField();
@@ -165,6 +169,8 @@ public class TextViewer {
         revalidateTitle();
         textFrame.setCyderLayout(textLayout);
         textFrame.finalizeAndShow();
+
+        return true;
     }
 
     /**

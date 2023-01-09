@@ -419,9 +419,10 @@ public final class AudioPlayer {
      * The file must be mp3 or wav.
      *
      * @param startPlaying the audio file to start playing
+     * @return whether the gui was successfully shown
      * @throws IllegalArgumentException if startPlaying is null or doesn't exist
      */
-    public static void showGui(File startPlaying) {
+    public static boolean showGui(File startPlaying) {
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
 
@@ -455,7 +456,7 @@ public final class AudioPlayer {
                 playAudio();
             }
 
-            return;
+            return true;
         }
 
         currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
@@ -741,6 +742,8 @@ public final class AudioPlayer {
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
             downloadBinaries();
         }
+
+        return true;
     }
 
     /**

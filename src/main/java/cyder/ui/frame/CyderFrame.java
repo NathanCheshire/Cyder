@@ -1304,6 +1304,13 @@ public class CyderFrame extends JFrame {
      * @param expectedText the text of the notification to revoke
      */
     public void revokeNotification(String expectedText) {
+        Preconditions.checkNotNull(expectedText);
+        Preconditions.checkArgument(!expectedText.isEmpty());
+
+        if (currentNotification == null || currentNotification.getBuilder() == null) {
+            return;
+        }
+
         if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {

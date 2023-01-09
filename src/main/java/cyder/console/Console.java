@@ -954,7 +954,6 @@ public enum Console {
     /**
      * Installs the right drag label buttons for the console frame.
      */
-    @ForReadability
     private void installRightDragLabelButtons() {
         // Remove default close button
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
@@ -979,7 +978,6 @@ public enum Console {
                 }
             }
         });
-        //closeButton.addFocusLostAction(() -> outputArea.requestFocus());
         consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
 
         // Remove default minimize button
@@ -2140,8 +2138,6 @@ public enum Console {
     }
 
     // todo adding files bug to user editor
-    // todo music thumbnails downloaded aren't square? looks ugly
-    // todo only notify of opening something if it's taking more than 500ms
     // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
     /**

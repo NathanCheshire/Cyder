@@ -11,6 +11,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
 import cyder.utils.ArrayUtil;
 import net.lingala.zip4j.core.ZipFile;
 
@@ -22,6 +23,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -617,26 +620,30 @@ public final class FileUtil {
     /**
      * Opens the provided resource.
      *
-     * @param resource                  the resource to open
-     * @param useCyderHandlerIfPossible whether to attempt to open the resource using a Cyder handler if possible
+     * @param resource           the resource to open
+     * @param allowCyderHandlers whether to attempt to open the resource using a Cyder handler if possible
+     * @return whether the file opening process was successful
      */
-    public static void openResource(String resource, boolean useCyderHandlerIfPossible) {
+    @CanIgnoreReturnValue
+    public static Future<Boolean> openResource(String resource, boolean allowCyderHandlers) {
         Preconditions.checkNotNull(resource);
         Preconditions.checkArgument(!resource.isEmpty());
 
-        File referenceFile = new File(resource);
-        boolean referenceFileExists = referenceFile.exists();
+        String threadName = "Resource opener: " + resource;
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
+            File referenceFile = new File(resource);
+            boolean referenceFileExists = referenceFile.exists();
 
-        if (referenceFileExists && useCyderHandlerIfPossible) {
-            for (CyderFileHandler handler : CyderFileHandler.values()) {
-                if (handler.shouldUseForFile(referenceFile)) {
-                    handler.open(referenceFile);
-                    return;
+            if (referenceFileExists && allowCyderHandlers) {
+                for (CyderFileHandler handler : CyderFileHandler.values()) {
+                    if (handler.shouldUseForFile(referenceFile)) {
+                        return handler.open(referenceFile);
+                    }
                 }
             }
-        }
 
-        openResourceUsingNativeProgram(resource);
+            return openResourceUsingNativeProgram(resource);
+        });
     }
 
     /**
@@ -644,13 +651,16 @@ public final class FileUtil {
      * This could be a file, directory, url, link, etc.
      *
      * @param resource the resource to open
+     * @return whether the file opening process was successful
      */
-    public static void openResourceUsingNativeProgram(String resource) {
+    @CanIgnoreReturnValue
+    public static boolean openResourceUsingNativeProgram(String resource) {
         Preconditions.checkNotNull(resource);
         Preconditions.checkArgument(!resource.isEmpty());
 
         try {
             File filePointer = new File(resource);
+
             if (filePointer.exists()) {
                 Desktop.getDesktop().open(filePointer);
                 Logger.log(LogTag.SYSTEM_IO, "Opening file: " + filePointer.getAbsolutePath());
@@ -658,8 +668,11 @@ public final class FileUtil {
                 Desktop.getDesktop().browse(new URI(resource));
                 Logger.log(LogTag.LINK, resource);
             }
+
+            return true;
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
+            return false;
         }
     }
 

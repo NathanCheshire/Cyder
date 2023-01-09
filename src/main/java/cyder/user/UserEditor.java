@@ -66,6 +66,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -940,10 +941,23 @@ public final class UserEditor {
         refreshFileLists();
 
         filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
-                element, () -> {
-                    editUserFrame.notify("Opening: " + FileUtil.getFilename(element));
-                    FileUtil.openResource(getFile(element).getAbsolutePath(), true);
-                }));
+                element, () -> CyderThreadRunner.submit(() -> {
+                    String notifyText = "Opening: " + FileUtil.getFilename(element);
+                    long openTime = System.currentTimeMillis();
+                    boolean notified = false;
+                    Future<Boolean> futureOpened = FileUtil.openResource(getFile(element).getAbsolutePath(), true);
+                    while (!futureOpened.isDone()) {
+                        long currentTime = System.currentTimeMillis();
+
+                        if (!notified && currentTime - openTime > 500) {
+                            editUserFrame.notify(notifyText);
+                            notified = true;
+                        }
+
+                        Thread.onSpinWait();
+                    }
+                    editUserFrame.revokeNotification(notifyText);
+                }, "CyderScrollList element opener, file: " + element)));
 
         JLabel filesLabel = filesScrollList.generateScrollList();
         filesLabelReference.set(filesLabel);

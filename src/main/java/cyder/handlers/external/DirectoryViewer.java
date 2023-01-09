@@ -152,8 +152,9 @@ public final class DirectoryViewer {
      * Starts the directory viewer in the provided initial directory.
      *
      * @param initialDirectory the initial directory to start in
+     * @return whether the gui was shown successfully
      */
-    public static void showGui(File initialDirectory) {
+    public static boolean showGui(File initialDirectory) {
         Preconditions.checkNotNull(initialDirectory);
         Preconditions.checkArgument(initialDirectory.exists());
 
@@ -228,6 +229,8 @@ public final class DirectoryViewer {
         directoryField.requestFocus();
 
         refreshFiles();
+
+        return true;
     }
 
     /**

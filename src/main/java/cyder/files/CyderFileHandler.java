@@ -1,6 +1,7 @@
 package cyder.files;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.AudioPlayer;
 import cyder.enums.Extension;
 import cyder.handlers.external.DirectoryViewer;
@@ -8,7 +9,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 
 import java.io.File;
-import java.util.function.Consumer;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 /**
@@ -18,10 +19,18 @@ public enum CyderFileHandler {
     TEXT(file -> {
         return FileUtil.getExtension(file).equals(Extension.TXT.getExtension());
     }, file -> {
-        TextViewer.getInstance(file).showGui();
+        return TextViewer.getInstance(file).showGui();
     }),
     AUDIO(FileUtil::isSupportedAudioExtension, AudioPlayer::showGui),
-    IMAGE(FileUtil::isSupportedImageExtension, file -> PhotoViewer.getInstance(file).showGui()),
+    IMAGE(FileUtil::isSupportedImageExtension, file -> {
+        Future<Boolean> futureBoolean = PhotoViewer.getInstance(file).showGui();
+        while (!futureBoolean.isDone()) Thread.onSpinWait();
+        try {
+            return futureBoolean.get();
+        } catch (Exception ignored) {
+            return false;
+        }
+    }),
     DIRECTORY(File::isDirectory, DirectoryViewer::showGui);
 
     /**
@@ -30,11 +39,12 @@ public enum CyderFileHandler {
     private final Function<File, Boolean> cyderHandlerExists;
 
     /**
-     * The consumer to open the provided file using this Cyder file handler if the file is valid and exists.
+     * The function to open the provided file using this Cyder file handler
+     * if the file is valid and exists and return whether the opening action succeeded.
      */
-    private final Consumer<File> openFileUsingCyderHandler;
+    private final Function<File, Boolean> openFileUsingCyderHandler;
 
-    CyderFileHandler(Function<File, Boolean> cyderHandlerExists, Consumer<File> openFileUsingCyderHandler) {
+    CyderFileHandler(Function<File, Boolean> cyderHandlerExists, Function<File, Boolean> openFileUsingCyderHandler) {
         this.cyderHandlerExists = cyderHandlerExists;
         this.openFileUsingCyderHandler = openFileUsingCyderHandler;
     }
@@ -55,12 +65,14 @@ public enum CyderFileHandler {
      * Opens the provided file using this Cyder handler.
      *
      * @param file the file to open
+     * @return whether the file opening was successful
      */
-    public void open(File file) {
+    @CanIgnoreReturnValue
+    public boolean open(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkState(cyderHandlerExists.apply(file));
 
-        openFileUsingCyderHandler.accept(file);
+        return openFileUsingCyderHandler.apply(file);
     }
 }

@@ -12,6 +12,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
@@ -28,6 +29,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A widget which displays the images supported by Cyder in a provided directory.
@@ -101,10 +104,13 @@ public class PhotoViewer {
 
     /**
      * Opens the instance of photo viewer.
+     *
+     * @return whether the gui opened the image successfully
      */
-    public void showGui() {
+    public Future<Boolean> showGui() {
         String threadName = "PhotoViewer showGui thread, initial directory: " + photoDirectory;
-        CyderThreadRunner.submit(() -> {
+
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             Logger.log(LogTag.OBJECT_CREATION, this);
 
             refreshValidFiles();
@@ -147,7 +153,9 @@ public class PhotoViewer {
 
             revalidateNavigationButtonVisibility();
             startDirectoryWatcher();
-        }, threadName);
+
+            return true;
+        });
     }
 
     /**
