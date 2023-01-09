@@ -11,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
 import cyder.network.ScrapingUtil;
+import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
@@ -188,7 +189,7 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("Your isp is: " + result.isp());
                 getInputHandler().println("Your hostname is: " + result.hostname());
 
-                MapUtil.Builder builder = new MapUtil.Builder(400, 400);
+                MapUtil.Builder builder = new MapUtil.Builder(400, 400, Props.mapQuestApiKey.getKey());
                 builder.setScaleBar(false);
                 builder.setLocationString(result.city().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
                         + "," + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")

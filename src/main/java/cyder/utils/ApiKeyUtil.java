@@ -7,6 +7,7 @@ import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.weather.WeatherUtil;
+import cyder.youtube.search.SearchQuery;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,8 +67,8 @@ public final class ApiKeyUtil {
         Preconditions.checkNotNull(youtubeApiKey);
         Preconditions.checkArgument(!youtubeApiKey.isEmpty());
 
-        try { // todo
-            NetworkUtil.readUrl("todo" + youtubeApiKey);
+        try {
+            NetworkUtil.readUrl(SearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getUrl());
             return true;
         } catch (Exception ignored) {
             return false;
@@ -105,8 +106,7 @@ public final class ApiKeyUtil {
         Preconditions.checkArgument(!mapApikey.isEmpty());
 
         try {
-            // todo
-
+            MapUtil.getMapView(new MapUtil.Builder(400, 400, mapApikey).setFilterWaterMark(true));
             return true;
         } catch (Exception ignored) {
             return false;

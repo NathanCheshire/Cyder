@@ -142,11 +142,9 @@ public final class MapUtil {
         Preconditions.checkState(Props.mapQuestApiKey.valuePresent());
         Preconditions.checkNotNull(builder);
 
-        String key = Props.mapQuestApiKey.getValue();
-
         StringBuilder requestUrlBuilder = new StringBuilder(mapQuestHeader);
         requestUrlBuilder.append(MapBoxUrlParameter.KEY.constructAsFirstParameter());
-        requestUrlBuilder.append(key);
+        requestUrlBuilder.append(builder.getKey());
 
         if (builder.getLat() != Integer.MIN_VALUE && builder.getLon() != Integer.MIN_VALUE) {
             requestUrlBuilder.append(MapBoxUrlParameter.CENTER.construct());
@@ -262,6 +260,11 @@ public final class MapUtil {
         private final int height;
 
         /**
+         * The api key.
+         */
+        private final String key;
+
+        /**
          * Whether the watermark should be filtered out of the image.
          */
         private boolean filterWaterMark = true;
@@ -292,12 +295,15 @@ public final class MapUtil {
          * @param width  the width of the final image
          * @param height the height of the final image
          */
-        public Builder(int width, int height) {
+        public Builder(int width, int height, String key) {
             Preconditions.checkArgument(widthRange.contains(width));
             Preconditions.checkArgument(heightRange.contains(height));
+            Preconditions.checkNotNull(key);
+            Preconditions.checkArgument(!key.isEmpty());
 
             this.width = width;
             this.height = height;
+            this.key = key;
         }
 
         /**
@@ -490,6 +496,15 @@ public final class MapUtil {
          */
         public String getLocationString() {
             return locationString;
+        }
+
+        /**
+         * Returns the key for this builder.
+         *
+         * @return the key for this builder
+         */
+        public String getKey() {
+            return key;
         }
     }
 }

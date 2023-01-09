@@ -2,13 +2,11 @@ package cyder.youtube.search;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.props.Props;
 
 /**
  * A class to build a search query url using a YouTube API v3 key to search youtube for a list of videos.
  */
 public class SearchQuery {
-
     /**
      * The search base for youtube api v3.
      */
@@ -63,8 +61,8 @@ public class SearchQuery {
      *
      * @return a new, default builder
      */
-    public Builder buildDefaultBuilder() {
-        return new Builder("Solitaires by Future", Props.youtubeApi3key.getValue())
+    public static Builder buildDefaultBuilder() {
+        return new Builder("Solitaires by Future")
                 .setSafeSearch(YouTubeSafeSearch.NONE)
                 .setType(YouTubeSearchType.VIDEO);
     }
@@ -81,7 +79,7 @@ public class SearchQuery {
         /**
          * The API key.
          */
-        private final String key;
+        private String key;
 
         /**
          * The search type.
@@ -97,16 +95,12 @@ public class SearchQuery {
          * Constructs a new builder for a YouTube search query.
          *
          * @param query the query string such as "Solitaires by Future"
-         * @param key   the YouTube API v3 key
          */
-        public Builder(String query, String key) {
+        public Builder(String query) {
             Preconditions.checkNotNull(query);
             Preconditions.checkArgument(!query.trim().isEmpty());
-            Preconditions.checkNotNull(key);
-            Preconditions.checkArgument(!key.isEmpty());
 
             this.query = query.trim().replaceAll("\\s+", "+");
-            this.key = key;
         }
 
         /**
@@ -125,6 +119,21 @@ public class SearchQuery {
          */
         public String getKey() {
             return key;
+        }
+
+        /**
+         * Sets the api key.
+         *
+         * @param key the api key
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setKey(String key) {
+            Preconditions.checkNotNull(key);
+            Preconditions.checkArgument(!key.isEmpty());
+
+            this.key = key;
+            return this;
         }
 
         /**
