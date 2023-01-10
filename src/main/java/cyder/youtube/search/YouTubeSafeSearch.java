@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * Youtube safe search options.
+ * Youtube safe search options for a {@link SearchQuery}.
  */
 public enum YouTubeSafeSearch {
     MODERATE("moderate"),

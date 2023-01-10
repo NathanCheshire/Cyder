@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * A youtube search type.
+ * A search type for a {@link SearchQuery}.
  */
 public enum YouTubeSearchType {
     VIDEO("video"),

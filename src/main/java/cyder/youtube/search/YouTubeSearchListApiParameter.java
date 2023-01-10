@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * Supported YouTube API search-list parameters.
+ * Supported YouTube API search-list parameters for a {@link SearchQuery}.
  */
 enum YouTubeSearchListApiParameter {
     PART("part"),

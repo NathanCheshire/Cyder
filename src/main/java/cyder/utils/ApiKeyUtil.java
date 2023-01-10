@@ -3,15 +3,16 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.weather.WeatherUtil;
+import cyder.youtube.parsers.YoutubeSearchResultPage;
 import cyder.youtube.search.SearchQuery;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Optional;
 
 /**
  * Utilities related to validation of API keys.
@@ -68,8 +69,9 @@ public final class ApiKeyUtil {
         Preconditions.checkArgument(!youtubeApiKey.isEmpty());
 
         try {
-            NetworkUtil.readUrl(SearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getUrl());
-            return true;
+            Optional<YoutubeSearchResultPage> optionalResults =
+                    SearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getResults();
+            return optionalResults.isPresent();
         } catch (Exception ignored) {
             return false;
         }

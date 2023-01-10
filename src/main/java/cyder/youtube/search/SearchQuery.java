@@ -1,6 +1,7 @@
 package cyder.youtube.search;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.SerializationUtil;
@@ -99,6 +100,16 @@ public class SearchQuery {
      */
     public static final class Builder {
         /**
+         * The range a max results value must fall within.
+         */
+        private static final Range<Integer> maxResultsRange = Range.closed(0, 50);
+
+        /**
+         * The default maximum results returned by a YouTube list search query.
+         */
+        private static final int DEFAULT_MAX_RESULTS = 5;
+
+        /**
          * The query string.
          */
         private final String query;
@@ -117,6 +128,19 @@ public class SearchQuery {
          * The safe search type.
          */
         private YouTubeSafeSearch safeSearch = YouTubeSafeSearch.NONE;
+
+        /**
+         * The search order.
+         */
+        private YouTubeSearchOrder searchOrder = YouTubeSearchOrder.TITLE;
+
+        // todo videoDefinition = any,high,standard
+        // todo videoDuration = any,long,medium,short
+
+        /**
+         * The maximum results that may be returned by this query.
+         */
+        private int maxResults = DEFAULT_MAX_RESULTS;
 
         /**
          * Constructs a new builder for a YouTube search query.
@@ -206,6 +230,52 @@ public class SearchQuery {
             Preconditions.checkNotNull(safeSearch);
 
             this.safeSearch = safeSearch;
+            return this;
+        }
+
+        /**
+         * Returns the maximum number of results.
+         *
+         * @return the maximum number of results
+         */
+        public int getMaxResults() {
+            return maxResults;
+        }
+
+        /**
+         * Sets the maximum number of results.
+         *
+         * @param maxResults the maximum number of results
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setMaxResults(int maxResults) {
+            Preconditions.checkArgument(maxResultsRange.contains(maxResults));
+
+            this.maxResults = maxResults;
+            return this;
+        }
+
+        /**
+         * Returns the search order.
+         *
+         * @return the search order
+         */
+        public YouTubeSearchOrder getSearchOrder() {
+            return searchOrder;
+        }
+
+        /**
+         * Sets the search order.
+         *
+         * @param searchOrder the search order
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setSearchOrder(YouTubeSearchOrder searchOrder) {
+            Preconditions.checkNotNull(searchOrder);
+
+            this.searchOrder = searchOrder;
             return this;
         }
 
