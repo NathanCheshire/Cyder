@@ -72,7 +72,34 @@ class HarmonicRectangleTest {
         }
     }
 
-    // todo vertical case of above method
+    /**
+     * Tests for the animation step method on a vertical Harmonic Rectangle.
+     */
+    @Test
+    fun testVerticalOscillation() {
+        val staticMin = 20
+        val staticMax = 30
+
+        val animationDelay = 20
+        val animationInc = 2
+
+        val rectangle = HarmonicRectangle(staticMin, staticMin, staticMax, staticMax)
+        rectangle.animationDelay = animationDelay
+        rectangle.animationInc = animationInc
+        rectangle.harmonicDirection = HarmonicRectangle.HarmonicDirection.VERTICAL
+
+        var start = staticMin + animationInc
+        for (i in start..staticMax step animationInc) {
+            rectangle.animationStep()
+            Assertions.assertEquals(i, rectangle.height)
+        }
+
+        start = staticMax - animationInc
+        for (i in start downTo staticMin step animationInc) {
+            rectangle.animationStep()
+            Assertions.assertEquals(i, rectangle.height)
+        }
+    }
 
     // todo I think a purple color like kotlin or the purple syntax color here could replace the blue logo color
     // todo maybe a new color for the author and tagline badges too

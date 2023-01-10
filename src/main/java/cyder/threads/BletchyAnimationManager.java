@@ -9,7 +9,6 @@ import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.pane.CyderOutputPane;
-import cyder.utils.ArrayUtil;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -144,6 +143,15 @@ public enum BletchyAnimationManager {
     }
 
     /**
+     * Deconstructs this manager, removing set variables, objects, and trackers.
+     */
+    public synchronized void deconstruct() {
+        this.outputPane = null;
+        this.printer = null;
+        initialized.set(false);
+    }
+
+    /**
      * Invoke the bletchy decode animation with the following parameters on the linked JTextPane.
      *
      * @param decodeString the final string to decode and display after
@@ -166,7 +174,7 @@ public enum BletchyAnimationManager {
         } else {
             kill();
 
-            animator = new Animator(getBletchyArray(decodeString, useNumbers, useUnicode), millisDelay);
+            animator = new Animator(decodeString, useNumbers, useUnicode, millisDelay);
             animator.start();
         }
     }
@@ -176,9 +184,19 @@ public enum BletchyAnimationManager {
      */
     private class Animator {
         /**
-         * The sequential strings to print between delays.
+         * The string to decode.
          */
-        private final String[] prints;
+        private final String decodeString;
+
+        /**
+         * Whether to use numbers during the Bletchy animation.
+         */
+        private final boolean useNumbers;
+
+        /**
+         * Whether to use unicode during the Bletchy animation.
+         */
+        private final boolean useUnicode;
 
         /**
          * The delay in ms between prints.
@@ -186,27 +204,37 @@ public enum BletchyAnimationManager {
         private final int millisDelay;
 
         /**
+         * The Bletchy animation steps.
+         */
+        private final String[] animationSteps;
+
+        /**
          * Constructs and a new BletchyAnimator thread.
          *
-         * @param prints      the string array to print and remove the last
-         *                    line of until the final index is printed
-         * @param millisDelay the delay in ms between prints
+         * @param decodeString the string to decode during the Bletchy animation
+         * @param useNumbers   whether to use the numbers in the decode strings
+         * @param useUnicode   whether to use unicode in the decode strings
+         * @param millisDelay  the delay in ms between prints
          */
-        Animator(String[] prints, int millisDelay) {
-            Preconditions.checkNotNull(prints);
-            Preconditions.checkArgument(!ArrayUtil.isEmpty(prints));
+        Animator(String decodeString, boolean useNumbers, boolean useUnicode, int millisDelay) {
+            Preconditions.checkNotNull(decodeString);
+            Preconditions.checkArgument(!decodeString.isEmpty());
+            Preconditions.checkArgument(millisDelay > 0);
 
-            this.prints = prints;
+            this.decodeString = decodeString;
+            this.useNumbers = useNumbers;
+            this.useUnicode = useUnicode;
             this.millisDelay = millisDelay;
+
+            this.animationSteps = getBletchyArray(decodeString, useNumbers, useUnicode);
         }
 
         /**
          * Starts the bletchy animation this animator is setup to perform.
          */
         public void start() {
-            String threadName = "Bletchy printing thread, finalString: "
-                    + CyderStrings.quote + prints[prints.length - 1]
-                    + CyderStrings.quote;
+            String threadName = "Bletchy printing thread, finalString: " + CyderStrings.quote
+                    + animationSteps[animationSteps.length - 1] + CyderStrings.quote;
             CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
@@ -215,7 +243,7 @@ public enum BletchyAnimationManager {
                         throw new FatalException("Failed to acquire output pane lock");
                     }
 
-                    Arrays.stream(prints).forEach(print -> {
+                    Arrays.stream(animationSteps).forEach(print -> {
                         if (!isActive) return;
 
                         printer.println(print);
@@ -230,7 +258,7 @@ public enum BletchyAnimationManager {
                         }
                     });
 
-                    printer.println(prints[prints.length - 1]);
+                    printer.println(animationSteps[animationSteps.length - 1]);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
@@ -254,6 +282,42 @@ public enum BletchyAnimationManager {
          */
         public boolean isActive() {
             return isActive;
+        }
+
+        /**
+         * Returns the string to decode during the Bletchy animation.
+         *
+         * @return the string to decode during the Bletchy animation
+         */
+        public String getDecodeString() {
+            return decodeString;
+        }
+
+        /**
+         * Returns whether numbers will be used for this Bletchy animation.
+         *
+         * @return whether numbers will be used for this Bletchy animation
+         */
+        public boolean isUseNumbers() {
+            return useNumbers;
+        }
+
+        /**
+         * Returns whether unicode will be used for this Bletchy animation.
+         *
+         * @return whether unicode will be used for this Bletchy animation
+         */
+        public boolean isUseUnicode() {
+            return useUnicode;
+        }
+
+        /**
+         * Returns the millisecond delay between animation frames.
+         *
+         * @return the millisecond delay between animation frames
+         */
+        public int getMillisDelay() {
+            return millisDelay;
         }
     }
 
