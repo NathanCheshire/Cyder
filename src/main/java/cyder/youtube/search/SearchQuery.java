@@ -3,6 +3,7 @@ package cyder.youtube.search;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.constants.CyderRegexPatterns;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.SerializationUtil;
 import cyder.youtube.parsers.YoutubeSearchResultPage;
@@ -132,9 +133,13 @@ public class SearchQuery {
         /**
          * The search order.
          */
-        private YouTubeSearchOrder searchOrder = YouTubeSearchOrder.TITLE;
+        private YouTubeSearchOrder searchOrder = YouTubeSearchOrder.TITLE; // todo use in construction
 
-        // todo videoDefinition = any,high,standard
+        /**
+         * The video definition.
+         */
+        private YouTubeVideoDefinition videoDefinition = YouTubeVideoDefinition.ANY; // todo use in construction
+
         // todo videoDuration = any,long,medium,short
 
         /**
@@ -151,7 +156,7 @@ public class SearchQuery {
             Preconditions.checkNotNull(query);
             Preconditions.checkArgument(!query.trim().isEmpty());
 
-            this.query = query.trim().replaceAll("\\s+", "+");
+            this.query = query.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "+");
         }
 
         /**
@@ -276,6 +281,27 @@ public class SearchQuery {
             Preconditions.checkNotNull(searchOrder);
 
             this.searchOrder = searchOrder;
+            return this;
+        }
+
+        /**
+         * Returns the video definition.
+         *
+         * @return the video definition
+         */
+        public YouTubeVideoDefinition getVideoDefinition() {
+            return videoDefinition;
+        }
+
+        /**
+         * Sets the video definition.
+         *
+         * @param videoDefinition the video definition
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setVideoDefinition(YouTubeVideoDefinition videoDefinition) {
+            this.videoDefinition = videoDefinition;
             return this;
         }
 
