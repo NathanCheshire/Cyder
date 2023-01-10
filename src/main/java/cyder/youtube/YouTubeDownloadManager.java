@@ -21,27 +21,27 @@ public enum YouTubeDownloadManager {
     /**
      * Removes the provided YouTube download from the active downloads list.
      *
-     * @param youtubeDownload the YouTube download to remove from the active downloads list
+     * @param youTubeDownload the YouTube download to remove from the active downloads list
      */
-    void removeActiveDownload(YouTubeAudioDownload youtubeDownload) {
-        Preconditions.checkNotNull(youtubeDownload);
+    void removeActiveDownload(YouTubeAudioDownload youTubeDownload) {
+        Preconditions.checkNotNull(youTubeDownload);
 
-        activeDownloads.remove(youtubeDownload);
+        activeDownloads.remove(youTubeDownload);
     }
 
     /**
      * Adds the provided YouTube download to the downloads list.
      *
-     * @param youtubeDownload the youtube download to add to the list
+     * @param youTubeDownload the YouTube download to add to the list
      */
-    void addActiveDownload(YouTubeAudioDownload youtubeDownload) {
-        Preconditions.checkNotNull(youtubeDownload);
+    void addActiveDownload(YouTubeAudioDownload youTubeDownload) {
+        Preconditions.checkNotNull(youTubeDownload);
 
-        activeDownloads.add(youtubeDownload);
+        activeDownloads.add(youTubeDownload);
     }
 
     /**
-     * Cancels all active youtube downloads.
+     * Cancels all active YouTube downloads.
      */
     public void cancelAllActiveDownloads() {
         activeDownloads.forEach(YouTubeAudioDownload::cancel);

@@ -23,7 +23,7 @@ public class UrlHandler extends InputHandler {
     }
 
     /**
-     * The youtube base url for searching for specific words within a youtube url.
+     * The YouTube base url for searching for specific words within a YouTube url.
      */
     public static final String YOUTUBE_WORD_SEARCH_BASE =
             "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
@@ -69,7 +69,7 @@ public class UrlHandler extends InputHandler {
         }
 
         if (getInputHandler().commandIs("YoutubeWordSearch")) {
-            youtubeWordSearch();
+            youTubeWordSearch();
         } else {
             String possibleUrl = getInputHandler().commandAndArgsToString();
             if (urlValid(possibleUrl)) {
@@ -83,9 +83,9 @@ public class UrlHandler extends InputHandler {
     }
 
     /**
-     * Performs the youtube word search routine on the user-entered input.
+     * Performs the YouTube word search routine on the user-entered input.
      */
-    private static void youtubeWordSearch() {
+    private static void youTubeWordSearch() {
         if (getInputHandler().checkArgsLength(1)) {
             String input = getInputHandler().getArg(0);
             String browse = YOUTUBE_WORD_SEARCH_BASE

@@ -31,7 +31,7 @@ public enum YoutubeUuidCheckerManager {
     private boolean isActive;
 
     /**
-     * The number of urls checked during the current instance of the youtube thread(s).
+     * The number of urls checked during the current instance of the YouTube thread(s).
      */
     private final AtomicInteger urlsChecked = new AtomicInteger();
 
@@ -41,7 +41,7 @@ public enum YoutubeUuidCheckerManager {
     private long lastNotifyTime;
 
     /**
-     * The frequency in seconds to notify the user of the time remaining until all youtube uuids have been checked.
+     * The frequency in seconds to notify the user of the time remaining until all YouTube uuids have been checked.
      */
     @SuppressWarnings("FieldCanBeLocal")
     private final int notifyUserOfRateFrequency = 60;
@@ -49,10 +49,10 @@ public enum YoutubeUuidCheckerManager {
     /**
      * The list of active YouTube uuid checkers.
      */
-    private final ArrayList<YoutubeUuidChecker> youtubeUuidCheckers = new ArrayList<>();
+    private final ArrayList<YoutubeUuidChecker> youTubeUuidCheckers = new ArrayList<>();
 
     /**
-     * The time this youtube thread session started.
+     * The time this YouTube thread session started.
      */
     private final AtomicLong startTime = new AtomicLong();
 
@@ -79,7 +79,7 @@ public enum YoutubeUuidCheckerManager {
      * @return the number of active uuid checkers
      */
     public int getActiveUuidCheckersLength() {
-        return youtubeUuidCheckers.size();
+        return youTubeUuidCheckers.size();
     }
 
     /**
@@ -105,8 +105,8 @@ public enum YoutubeUuidCheckerManager {
      * Kills any instances of helper YouTube threads that are currently running.
      */
     public void killAll() {
-        youtubeUuidCheckers.forEach(YoutubeUuidChecker::kill);
-        youtubeUuidCheckers.clear();
+        youTubeUuidCheckers.forEach(YoutubeUuidChecker::kill);
+        youTubeUuidCheckers.clear();
 
         isActive = false;
     }
@@ -122,13 +122,13 @@ public enum YoutubeUuidCheckerManager {
 
         if (BletchyAnimationManager.INSTANCE.isActive() || hasActiveCheckers()) {
             Console.INSTANCE.getConsoleCyderFrame().notify(
-                    "Cannot start bletchy/youtube thread at the same time as another instance");
+                    "Cannot start bletchy/YouTube thread at the same time as another instance");
             return;
         }
 
         checkIfStartingFirstThreads();
 
-        IntStream.range(0, number).forEach(i -> youtubeUuidCheckers.add(new YoutubeUuidChecker(outputPane)));
+        IntStream.range(0, number).forEach(i -> youTubeUuidCheckers.add(new YoutubeUuidChecker(outputPane)));
 
         Console.INSTANCE.getConsoleCyderFrame().notify("Type \"stop script\" or press ctrl + c to halt");
 
@@ -136,11 +136,11 @@ public enum YoutubeUuidCheckerManager {
     }
 
     /**
-     * Checks the size of the youtube uuid checkers list of active checkers. If empty,
+     * Checks the size of the YouTube uuid checkers list of active checkers. If empty,
      * resets the variables used to notify the user of the estimated time to completion.
      */
     private void checkIfStartingFirstThreads() {
-        if (youtubeUuidCheckers.isEmpty()) {
+        if (youTubeUuidCheckers.isEmpty()) {
             urlsChecked.set(0);
             startTime.set(System.currentTimeMillis());
             lastNotifyTime = System.currentTimeMillis();

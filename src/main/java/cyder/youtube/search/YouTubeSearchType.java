@@ -9,7 +9,7 @@ public enum YouTubeSearchType {
     PLAYLIST("playlist");
 
     /**
-     * The url parameter for this youtube search type.
+     * The url parameter for this YouTube search type.
      */
     private final String urlParameter;
 
@@ -18,9 +18,9 @@ public enum YouTubeSearchType {
     }
 
     /**
-     * Returns the url parameter for this youtube search type.
+     * Returns the url parameter for this YouTube search type.
      *
-     * @return the url parameter for this youtube search type
+     * @return the url parameter for this YouTube search type
      */
     public String getUrlParameter() {
         return urlParameter;

@@ -65,7 +65,7 @@ public class YoutubeUuidChecker {
     /**
      * The uuid this checker is currently on.
      */
-    private String youtubeUuid;
+    private String youTubeUuid;
 
     /**
      * The output pane used for printing.
@@ -101,10 +101,10 @@ public class YoutubeUuidChecker {
 
         String threadName = "YoutubeUuidChecker#" + YoutubeUuidCheckerManager.INSTANCE.getActiveUuidCheckersLength();
         CyderThreadRunner.submit(() -> {
-            youtubeUuid = UserUtil.getCyderUser().getYoutubeUuid();
+            youTubeUuid = UserUtil.getCyderUser().getYouTubeUuid();
 
-            Preconditions.checkNotNull(youtubeUuid);
-            Preconditions.checkArgument(youtubeUuid.length() == YouTubeConstants.UUID_LENGTH);
+            Preconditions.checkNotNull(youTubeUuid);
+            Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
 
             int numRuns = 0;
             long startTime = System.currentTimeMillis();
@@ -116,7 +116,7 @@ public class YoutubeUuidChecker {
                     if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
                         throw new FatalException("Failed to acquire lock");
                     }
-                    stringUtil.println("Checked uuid: " + youtubeUuid);
+                    stringUtil.println("Checked uuid: " + youTubeUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
                     YoutubeUuidCheckerManager.INSTANCE.killAll();
@@ -124,11 +124,11 @@ public class YoutubeUuidChecker {
                     if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
                         throw new FatalException("Failed to acquire lock");
                     }
-                    stringUtil.println("YouTube script found valid video with uuid: " + youtubeUuid);
+                    stringUtil.println("YouTube script found valid video with uuid: " + youTubeUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
                     BufferedImage thumbnail = ImageUtil.read(CyderUrls.THUMBNAIL_BASE_URL
-                            .replace("REPLACE", youtubeUuid));
+                            .replace("REPLACE", youTubeUuid));
                     showThumbnailFrame(thumbnail);
                 } catch (Exception ignored) {
                     incrementUuid();
@@ -139,7 +139,7 @@ public class YoutubeUuidChecker {
                 } else if (numRuns == runsToAverage) {
                     BigInteger completedUuids = new BigInteger("0");
 
-                    char[] uuidArray = youtubeUuid.toCharArray();
+                    char[] uuidArray = youTubeUuid.toCharArray();
                     for (int i = runsToAverage ; i >= 0 ; i--) {
                         int weight = Math.abs(i - runsToAverage);
                         char currentDigit = uuidArray[i];
@@ -175,9 +175,9 @@ public class YoutubeUuidChecker {
                 thumbnail.getHeight(),
                 new ImageIcon(thumbnail));
         thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
-        thumbnailFrame.setTitle(youtubeUuid);
+        thumbnailFrame.setTitle(youTubeUuid);
 
-        String videoUrl = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
+        String videoUrl = CyderUrls.YOUTUBE_VIDEO_HEADER + youTubeUuid;
         String title = videoUrl;
         Optional<String> optionalTitle = NetworkUtil.getUrlTitle(videoUrl);
         if (optionalTitle.isPresent()) {
@@ -203,7 +203,7 @@ public class YoutubeUuidChecker {
      */
     private void incrementUuid() {
         try {
-            youtubeUuid = String.valueOf(incrementUuid(youtubeUuid.toCharArray(), 10));
+            youTubeUuid = String.valueOf(incrementUuid(youTubeUuid.toCharArray(), 10));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -269,6 +269,6 @@ public class YoutubeUuidChecker {
      */
     public void kill() {
         killed = true;
-        UserUtil.getCyderUser().setYoutubeUuid(youtubeUuid);
+        UserUtil.getCyderUser().setYouTubeUuid(youTubeUuid);
     }
 }

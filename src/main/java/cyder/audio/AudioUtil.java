@@ -57,7 +57,7 @@ public final class AudioUtil {
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
 
     /**
-     * The resource link to download the youtube-dl binary.
+     * The resource link to download the YouTube-dl binary.
      */
     public static final String DOWNLOAD_RESOURCE_YOUTUBE_DL
             = "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
@@ -119,7 +119,7 @@ public final class AudioUtil {
     private record PairedFile(File file, String url) {}
 
     /**
-     * The name of the thread that downloads youtube-dl if missing and needed.
+     * The name of the thread that downloads YouTube-dl if missing and needed.
      */
     private static final String YOUTUBE_DL_DOWNLOADER_THREAD_NAME = "YouTubeDl Downloader";
 
@@ -336,13 +336,13 @@ public final class AudioUtil {
     }
 
     /**
-     * Returns whether youtube-dl is installed by attempting
+     * Returns whether YouTube-dl is installed by attempting
      * validation on the set path to the exe and attempting
-     * to invoke youtube-dl in the console.
+     * to invoke YouTube-dl in the console.
      *
-     * @return whether youtube-dl is installed
+     * @return whether YouTube-dl is installed
      */
-    public static boolean youtubeDlInstalled() {
+    public static boolean youTubeDlInstalled() {
         if (Program.YOUTUBE_DL.isInstalled()) return true;
 
         return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName()
@@ -374,13 +374,13 @@ public final class AudioUtil {
     }
 
     /**
-     * Returns the command to invoke youtube-dl provided the
+     * Returns the command to invoke YouTube-dl provided the
      * binary exists and can be found.
      *
-     * @return the youtube-dl command
+     * @return the YouTube-dl command
      */
     public static String getYoutubeDlCommand() {
-        Preconditions.checkArgument(youtubeDlInstalled());
+        Preconditions.checkArgument(youTubeDlInstalled());
 
         return Program.YOUTUBE_DL.isInstalled()
                 ? Program.YOUTUBE_DL.getProgramName()
@@ -448,10 +448,10 @@ public final class AudioUtil {
     }
 
     /**
-     * Downloads the youtube-dl binary from the remote resources.
+     * Downloads the YouTube-dl binary from the remote resources.
      * Returns whether the download was successful.
      *
-     * @return whether youtube-dl could be downloaded from the remote resources
+     * @return whether YouTube-dl could be downloaded from the remote resources
      */
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(

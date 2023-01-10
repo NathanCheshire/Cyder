@@ -3,7 +3,7 @@ package cyder.youtube.parsers;
 import java.util.LinkedList;
 
 /**
- * The master serialization class for a youtube api 3 search query returned result.
+ * The master serialization class for a YouTube api 3 search query returned result.
  */
 public class YouTubeSearchResultPage {
     private String kind;

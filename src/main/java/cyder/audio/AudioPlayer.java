@@ -372,7 +372,7 @@ public final class AudioPlayer {
     private static final int POSSIBLE_PERCENT_REQUEST_WINDOW = 100;
 
     /**
-     * The total percent of a completed youtube audio download.
+     * The total percent of a completed YouTube audio download.
      */
     private static final float completedProgress = 100.0f;
 
@@ -739,7 +739,7 @@ public final class AudioPlayer {
         Console.INSTANCE.revalidateAudioMenuVisibility();
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
-        if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
+        if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youTubeDlInstalled()) {
             downloadBinaries();
         }
 
@@ -747,14 +747,14 @@ public final class AudioPlayer {
     }
 
     /**
-     * Attempts to download ffmpeg and youtube-dl to reference locally for downloading and processing audio files.
+     * Attempts to download ffmpeg and YouTube-dl to reference locally for downloading and processing audio files.
      */
     private static void downloadBinaries() {
         CyderThreadRunner.submit(() -> {
             try {
                 lockUi();
 
-                audioPlayerFrame.notify("Attempting to download ffmpeg or youtube-dl");
+                audioPlayerFrame.notify("Attempting to download ffmpeg or YouTube-dl");
 
                 Future<Boolean> passedPreliminaries = handlePreliminaries();
 
@@ -767,7 +767,7 @@ public final class AudioPlayer {
                     audioPlayerFrame.revokeAllNotifications();
 
                     InformHandler.inform(new InformHandler.Builder("Could not download necessary "
-                            + "binaries. Try to install both ffmpeg and youtube-dl and try again")
+                            + "binaries. Try to install both ffmpeg and YouTube-dl and try again")
                             .setTitle("Network Error")
                             .setRelativeTo(audioPlayerFrame)
                             .setPostCloseAction(AudioPlayer::killAndCloseWidget));
@@ -837,7 +837,7 @@ public final class AudioPlayer {
                 new CyderThreadFactory("AudioPlayer Preliminary Handler")).submit(() -> {
             boolean binariesInstalled = true;
 
-            if (!AudioUtil.youtubeDlInstalled()) {
+            if (!AudioUtil.youTubeDlInstalled()) {
                 Future<Boolean> downloadedYoutubeDl = AudioUtil.downloadYoutubeDl();
 
                 while (!downloadedYoutubeDl.isDone()) {
@@ -1062,7 +1062,7 @@ public final class AudioPlayer {
     };
 
     /**
-     * The menu item for searching youtube for songs.
+     * The menu item for searching YouTube for songs.
      */
     private static final Runnable searchMenuItem = () -> {
         if (onSearchView.get()) {
@@ -2135,7 +2135,7 @@ public final class AudioPlayer {
     private static final int thumbnailLength = 250;
 
     /**
-     * The text pane used to display youtube search results.
+     * The text pane used to display YouTube search results.
      */
     private static JTextPane searchResultsPane;
 
@@ -2206,7 +2206,7 @@ public final class AudioPlayer {
     private static final Color SCROLL_BACKGROUND_COLOR = new Color(30, 30, 30);
 
     /**
-     * Constructs the search view where a user can search for and download audio from youtube.
+     * Constructs the search view where a user can search for and download audio from YouTube.
      */
     private static void constructPhaseTwoView() {
         if (uiLocked || phaseTwoViewLocked.get()) {
@@ -2363,7 +2363,7 @@ public final class AudioPlayer {
     }
 
     /**
-     * The number of search results to grab when searching youtube.
+     * The number of search results to grab when searching YouTube.
      */
     private static final int numSearchResults = 10;
 
@@ -2379,7 +2379,7 @@ public final class AudioPlayer {
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     /**
-     * The string used for the information label when a youtube query is triggered.
+     * The string used for the information label when a YouTube query is triggered.
      */
     private static final String SEARCHING = "Searching...";
 
@@ -2436,17 +2436,17 @@ public final class AudioPlayer {
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
 
-            Optional<YouTubeSearchResultPage> youtubeSearchResultPage =
+            Optional<YouTubeSearchResultPage> youTubeSearchResultPage =
                     getSearchResults(YouTubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
 
-            if (youtubeSearchResultPage.isEmpty()) {
+            if (youTubeSearchResultPage.isEmpty()) {
                 showInformationLabel(NO_RESULTS);
                 return;
             }
 
             searchResults.clear();
 
-            for (YouTubeVideo video : youtubeSearchResultPage.get().getItems()) {
+            for (YouTubeVideo video : youTubeSearchResultPage.get().getItems()) {
                 searchResults.add(new YoutubeSearchResult(
                         video.getId().getVideoId(),
                         video.getSnippet().getTitle(),
@@ -2475,9 +2475,9 @@ public final class AudioPlayer {
                 printSearchResultLabels(result);
 
                 String url = YouTubeUtil.buildVideoUrl(result.uuid);
-                YouTubeAudioDownload youtubeAudioDownload = new YouTubeAudioDownload();
-                youtubeAudioDownload.setVideoLink(url);
-                AtomicReference<YouTubeAudioDownload> downloadable = new AtomicReference<>(youtubeAudioDownload);
+                YouTubeAudioDownload youTubeAudioDownload = new YouTubeAudioDownload();
+                youTubeAudioDownload.setVideoLink(url);
+                AtomicReference<YouTubeAudioDownload> downloadable = new AtomicReference<>(youTubeAudioDownload);
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                 CyderButton downloadButton = new CyderButton();
@@ -2557,9 +2557,9 @@ public final class AudioPlayer {
     }
 
     /**
-     * Constructs and prints the title and channel labels for the provided youtube search result.
+     * Constructs and prints the title and channel labels for the provided YouTube search result.
      *
-     * @param result the youtube search result record
+     * @param result the YouTube search result record
      */
     private static void printSearchResultLabels(YoutubeSearchResult result) {
         JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
@@ -2630,7 +2630,7 @@ public final class AudioPlayer {
     /**
      * Starts the download updater to update the download button based on the current progress.
      *
-     * @param downloadable   the youtube download
+     * @param downloadable   the YouTube download
      * @param downloadButton the download button
      * @param mouseEntered   whether the mouse is currently in the button
      */
@@ -2659,7 +2659,7 @@ public final class AudioPlayer {
     /**
      * Returns the search results for a particular url query.
      *
-     * @param url the constructed url to get youtube video results
+     * @param url the constructed url to get YouTube video results
      * @return the YoutubeSearchResultPage object if present, empty optional else
      */
     private static Optional<YouTubeSearchResultPage> getSearchResults(String url) {

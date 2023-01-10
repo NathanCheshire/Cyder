@@ -167,7 +167,7 @@ public class User {
     /**
      * The current uuid the procedural script is at.
      */
-    private String youtubeUuid;
+    private String youTubeUuid;
 
     /**
      * Whether to output ascii chars as capitalized letters.
@@ -519,13 +519,13 @@ public class User {
     }
 
     /**
-     * Returns the youtube uuid the procedural checker script is at.
+     * Returns the YouTube uuid the procedural checker script is at.
      *
-     * @return the youtube uuid the procedural checker script is at
+     * @return the YouTube uuid the procedural checker script is at
      */
-    public String getYoutubeUuid() {
-        getterHook(Preference.YOUTUBE_UUID, youtubeUuid);
-        return youtubeUuid;
+    public String getYouTubeUuid() {
+        getterHook(Preference.YOUTUBE_UUID, youTubeUuid);
+        return youTubeUuid;
     }
 
     /**
@@ -907,12 +907,12 @@ public class User {
     }
 
     /**
-     * Sets the youtube uuid the procedural finder is at.
+     * Sets the YouTube uuid the procedural finder is at.
      *
-     * @param youtubeUuid the youtube uuid the procedural finder is at
+     * @param youTubeUuid the YouTube uuid the procedural finder is at
      */
-    public void setYoutubeUuid(String youtubeUuid) {
-        this.youtubeUuid = youtubeUuid;
+    public void setYouTubeUuid(String youTubeUuid) {
+        this.youTubeUuid = youTubeUuid;
     }
 
     /**

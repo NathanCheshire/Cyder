@@ -3,7 +3,7 @@ package cyder.youtube.parsers;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Holds the thumbnails linking to a youtube video.
+ * Holds the thumbnails linking to a YouTube video.
  */
 public class Thumbnails {
     @SerializedName("default")

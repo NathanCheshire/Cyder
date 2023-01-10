@@ -59,18 +59,18 @@ public final class ApiKeyUtil {
     }
 
     /**
-     * Validates the youtube api v3 key.
+     * Validates the YouTube api v3 key.
      *
-     * @param youtubeApiKey the youtube api v3 key
-     * @return whether the youtube key was valid
+     * @param youTubeApiKey the YouTube api v3 key
+     * @return whether the YouTube key was valid
      */
-    private static boolean validateYoutubeApiKey(String youtubeApiKey) {
-        Preconditions.checkNotNull(youtubeApiKey);
-        Preconditions.checkArgument(!youtubeApiKey.isEmpty());
+    private static boolean validateYoutubeApiKey(String youTubeApiKey) {
+        Preconditions.checkNotNull(youTubeApiKey);
+        Preconditions.checkArgument(!youTubeApiKey.isEmpty());
 
         try {
             Optional<YouTubeSearchResultPage> optionalResults =
-                    YouTubeSearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getResults();
+                    YouTubeSearchQuery.buildDefaultBuilder().setKey(youTubeApiKey).build().getResults();
             return optionalResults.isPresent();
         } catch (Exception ignored) {
             return false;

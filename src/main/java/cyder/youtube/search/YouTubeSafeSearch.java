@@ -9,7 +9,7 @@ public enum YouTubeSafeSearch {
     STRICT("strict");
 
     /**
-     * The url parameter for this youtube safe search.
+     * The url parameter for this YouTube safe search.
      */
     private final String urlParameter;
 
@@ -18,9 +18,9 @@ public enum YouTubeSafeSearch {
     }
 
     /**
-     * Returns the url parameter for this youtube safe search.
+     * Returns the url parameter for this YouTube safe search.
      *
-     * @return the url parameter for this youtube safe search
+     * @return the url parameter for this YouTube safe search
      */
     public String getUrlParameter() {
         return urlParameter;

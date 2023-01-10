@@ -161,7 +161,7 @@ public enum BletchyAnimationManager {
         Preconditions.checkArgument(millisDelay > 0);
 
         if (isActive() || YoutubeUuidCheckerManager.INSTANCE.hasActiveCheckers()) {
-            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread"
+            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/YouTube thread"
                     + " at the same time as another instance.");
         } else {
             kill();

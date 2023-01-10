@@ -14,11 +14,23 @@ import java.net.URL;
 import java.util.Optional;
 
 /**
- * A class to build a search query url using a YouTube API v3 key to search youtube for a list of videos.
+ * A builder for a YouTube search query with the possibility of setting the following parameters
+ * and get the serialized results:
+ *
+ * <ul>
+ *     <li>Search query</li>
+ *     <li>{@link Builder#setSafeSearch(YouTubeSafeSearch)}</li>
+ *     <li>{@link Builder#setKey(String)}</li>
+ *     <li>{@link Builder#setSearchOrder(YouTubeSearchOrder)}</li>
+ *     <li>{@link Builder#setType(YouTubeSearchType)}</li>
+ *     <li>{@link Builder#setMaxResults(int)}</li>
+ *     <li>{@link Builder#setVideoDefinition(YouTubeVideoDefinition)}</li>
+ *     <li>{@link Builder#setVideoDuration(YouTubeVideoDuration)}</li>
+ * </ul>
  */
 public final class YouTubeSearchQuery {
     /**
-     * The search base for youtube api v3.
+     * The search base for YouTube api v3.
      */
     private static final String searchHeader = "https://www.googleapis.com/youtube/v3/search";
 

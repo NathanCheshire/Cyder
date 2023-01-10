@@ -255,7 +255,7 @@ public final class Props {
     /**
      * The key used to access the YouTube V3 API.
      */
-    public static final Prop<String> youtubeApi3key = new Prop<>("youtube_api_3_key", EMPTY, String.class);
+    public static final Prop<String> youTubeApi3key = new Prop<>("youtube_api_3_key", EMPTY, String.class);
 
     /**
      * The key used to access the IP data API.

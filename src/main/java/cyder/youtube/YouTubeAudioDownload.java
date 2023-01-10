@@ -393,7 +393,7 @@ public class YouTubeAudioDownload {
 
         String downloadSaveName = YouTubeUtil.getDownloadSaveName(providedDownloadString);
 
-        String youtubeDlOutputName = userMusicDir.getAbsolutePath()
+        String youTubeDlOutputName = userMusicDir.getAbsolutePath()
                 + OsUtil.FILE_SEP
                 + downloadSaveName
                 + ".%(ext)s";
@@ -402,7 +402,7 @@ public class YouTubeAudioDownload {
                 AudioUtil.getYoutubeDlCommand(), providedDownloadString,
                 YouTubeDlFlag.EXTRACT_AUDIO.getFlag(),
                 YouTubeDlFlag.AUDIO_FORMAT.getFlag(), ffmpegAudioOutputFormat,
-                YouTubeDlFlag.OUTPUT.getFlag(), youtubeDlOutputName
+                YouTubeDlFlag.OUTPUT.getFlag(), youTubeDlOutputName
         };
 
         YouTubeDownloadManager.INSTANCE.addActiveDownload(this);
@@ -888,7 +888,7 @@ public class YouTubeAudioDownload {
     }
 
     /**
-     * Cleans up .part or any other files left over by youtube-dl after the user canceled the download.
+     * Cleans up .part or any other files left over by YouTube-dl after the user canceled the download.
      *
      * @param parentDirectory      the directory the file would have been downloaded to
      * @param nameWithoutExtension the file name without the extension, anything that starts with this will be deleted
@@ -906,7 +906,7 @@ public class YouTubeAudioDownload {
             if (!FileUtil.getFilename(child).startsWith(nameWithoutExtension)) continue;
 
             if (!OsUtil.deleteFile(child)) {
-                Logger.log(LogTag.SYSTEM_IO, "Could not delete file resulting from youtube "
+                Logger.log(LogTag.SYSTEM_IO, "Could not delete file resulting from YouTube "
                         + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
                         + ", name=" + nameWithoutExtension);
             }

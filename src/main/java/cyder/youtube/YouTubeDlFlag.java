@@ -5,17 +5,17 @@ package cyder.youtube;
  */
 public enum YouTubeDlFlag {
     /**
-     * The extract audio youtube-dl flag.
+     * The extract audio YouTube-dl flag.
      */
     EXTRACT_AUDIO("--extract-audio"),
 
     /**
-     * The audio format youtube-dl flag.
+     * The audio format YouTube-dl flag.
      */
     AUDIO_FORMAT("--audio-format"),
 
     /**
-     * The output youtube-dl flag.
+     * The output YouTube-dl flag.
      */
     OUTPUT("--output"),
 
@@ -30,7 +30,7 @@ public enum YouTubeDlFlag {
     NO_PART("--no-part");
 
     /**
-     * The flag for this youtube-dl flag
+     * The flag for this YouTube-dl flag
      */
     private final String flag;
 
@@ -39,9 +39,9 @@ public enum YouTubeDlFlag {
     }
 
     /**
-     * Returns the flag for this youtube-dl flag.
+     * Returns the flag for this YouTube-dl flag.
      *
-     * @return the flag for this youtube-dl flag
+     * @return the flag for this YouTube-dl flag
      */
     public String getFlag() {
         return flag;

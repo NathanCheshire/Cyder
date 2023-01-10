@@ -57,11 +57,11 @@ public final class YouTubeUtil {
         Preconditions.checkArgument(!url.isEmpty());
         Preconditions.checkNotNull(baseInputHandler);
 
-        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YouTubeAudioDownload youtubeDownload = new YouTubeAudioDownload();
-            youtubeDownload.setVideoLink(url);
-            youtubeDownload.setPrintOutputHandler(baseInputHandler);
-            youtubeDownload.downloadAudioAndThumbnail();
+        if (AudioUtil.ffmpegInstalled() && AudioUtil.youTubeDlInstalled()) {
+            YouTubeAudioDownload youTubeDownload = new YouTubeAudioDownload();
+            youTubeDownload.setVideoLink(url);
+            youTubeDownload.setPrintOutputHandler(baseInputHandler);
+            youTubeDownload.downloadAudioAndThumbnail();
         } else {
             onNoFfmpegOrYoutubeDlInstalled();
         }
@@ -70,14 +70,14 @@ public final class YouTubeUtil {
     /**
      * Returns the name to save the YouTube video's audio/thumbnail as.
      *
-     * @param youtubeVideoUrl the url
+     * @param youTubeVideoUrl the url
      * @return the name to save the file as
      */
-    public static String getDownloadSaveName(String youtubeVideoUrl) {
-        Preconditions.checkNotNull(youtubeVideoUrl);
-        Preconditions.checkArgument(!youtubeVideoUrl.isEmpty());
+    public static String getDownloadSaveName(String youTubeVideoUrl) {
+        Preconditions.checkNotNull(youTubeVideoUrl);
+        Preconditions.checkArgument(!youTubeVideoUrl.isEmpty());
 
-        String urlTitle = NetworkUtil.getUrlTitle(youtubeVideoUrl).orElse(UNKNOWN_TITLE);
+        String urlTitle = NetworkUtil.getUrlTitle(youTubeVideoUrl).orElse(UNKNOWN_TITLE);
 
         String safeName = StringUtil.removeNonAscii(urlTitle)
                 .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
@@ -97,14 +97,14 @@ public final class YouTubeUtil {
     /**
      * Retrieves the first valid video UUID for the provided YouTube query using web scraping.
      *
-     * @param youtubeQuery the raw query as if the input was entered directly into the YouTube search bar
+     * @param youTubeQuery the raw query as if the input was entered directly into the YouTube search bar
      * @return the first UUID obtained from the raw HTML page YouTube returns corresponding to the desired query
      */
-    public static String getFirstUuid(String youtubeQuery) {
-        Preconditions.checkNotNull(youtubeQuery);
-        Preconditions.checkArgument(!youtubeQuery.isEmpty());
+    public static String getFirstUuid(String youTubeQuery) {
+        Preconditions.checkNotNull(youTubeQuery);
+        Preconditions.checkArgument(!youTubeQuery.isEmpty());
 
-        String query = YOUTUBE_QUERY_BASE + youtubeQuery
+        String query = YOUTUBE_QUERY_BASE + youTubeQuery
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "+");
         String jsonString = NetworkUtil.readUrl(query);
 
@@ -121,16 +121,16 @@ public final class YouTubeUtil {
             }
         }
 
-        throw new FatalException("Could not find YouTube uuid for query: " + youtubeQuery);
+        throw new FatalException("Could not find YouTube uuid for query: " + youTubeQuery);
     }
 
     /**
-     * Outputs instructions to the console due to youtube-dl or ffmpeg not being installed.
+     * Outputs instructions to the console due to YouTube-dl or ffmpeg not being installed.
      */
     private static void onNoFfmpegOrYoutubeDlInstalled() {
-        Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl "
+        Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or YouTube-dl "
                 + "couldn't be located. Please make sure they are both installed and added to your PATH Windows "
-                + "variable. Remember to also set the path to your youtube-dl executable in the user editor");
+                + "variable. Remember to also set the path to your YouTube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Add Environment Variables");
         environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(environmentVariables));
@@ -140,7 +140,7 @@ public final class YouTubeUtil {
         downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(FFMPEG_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
-        CyderButton downloadYoutubeDL = new CyderButton("Download youtube-dl");
+        CyderButton downloadYoutubeDL = new CyderButton("Download YouTube-dl");
         downloadYoutubeDL.addActionListener(e -> NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
@@ -148,7 +148,7 @@ public final class YouTubeUtil {
     /**
      * Attempts to set the console background to the provided YouTube video's thumbnail
      *
-     * @param url the url of the youtube video
+     * @param url the url of the YouTube video
      */
     public static void setAsConsoleBackground(String url) {
         Preconditions.checkNotNull(url);
@@ -297,9 +297,9 @@ public final class YouTubeUtil {
         Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
-        Preconditions.checkArgument(Props.youtubeApi3key.valuePresent());
+        Preconditions.checkArgument(Props.youTubeApi3key.valuePresent());
 
-        String youtubeKey = Props.youtubeApi3key.getValue();
+        String key = Props.youTubeApi3key.getValue();
         ImmutableList<String> queryWords = ArrayUtil.toList(query.split(CyderRegexPatterns.whiteSpaceRegex));
 
         ArrayList<String> legalCharsQueryWords = new ArrayList<>();
@@ -312,7 +312,7 @@ public final class YouTubeUtil {
                 + YouTubeConstants.MAX_RESULTS_PARAMETER + numResults
                 + queryParameter + builtQuery
                 + videoTypeParameter + video
-                + keyParameter + youtubeKey;
+                + keyParameter + key;
     }
 
     /**
@@ -342,7 +342,7 @@ public final class YouTubeUtil {
     /**
      * Returns a list of video UUIDs contained in the YouTube playlist provided.
      *
-     * @param playlistUrl the url of the youtube playlist
+     * @param playlistUrl the url of the YouTube playlist
      * @return the list of video UUIDs the playlist contains
      */
     public static ImmutableList<String> getPlaylistVideoUuids(String playlistUrl) {

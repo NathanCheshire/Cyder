@@ -51,14 +51,14 @@ public final class CyderRegexPatterns {
             "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))");
 
     /**
-     * The pattern used to grab the youtube-dl progress from the process.
+     * The pattern used to grab the YouTube-dl progress from the process.
      */
     public static final Pattern updatePattern = Pattern.compile(
             "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
                     "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
 
     /**
-     * The pattern used to extract the uuid from a youtube video.
+     * The pattern used to extract the uuid from a YouTube video.
      */
     public static final Pattern extractYoutubeUuidPattern
             = Pattern.compile("(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*");

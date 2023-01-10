@@ -56,7 +56,7 @@ public final class CyderUrls {
             "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html";
 
     /**
-     * The default thumbnail base url for youtube videos.
+     * The default thumbnail base url for YouTube videos.
      */
     public static final String THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
@@ -126,7 +126,7 @@ public final class CyderUrls {
     public static final String OCCAM_RAZOR = "http://en.wikipedia.org/wiki/Occam%27s_razor";
 
     /**
-     * A pickle rick youtube clip.
+     * A pickle rick YouTube clip.
      */
     public static final String PICKLE_RICK = "https://www.youtube.com/watch?v=s_1lP4CBKOg";
 
@@ -147,7 +147,7 @@ public final class CyderUrls {
     public static final String DEFAULT_BACKGROUND_URL = "https://i.imgur.com/kniH8y9.png";
 
     /**
-     * The header for individual youtube videos without their uuid.
+     * The header for individual YouTube videos without their uuid.
      */
     public static final String YOUTUBE_VIDEO_HEADER = "https://www.youtube.com/watch?v=";
 }

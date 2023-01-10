@@ -16,12 +16,12 @@ public final class YouTubeConstants {
     public static final int UUID_LENGTH = 11;
 
     /**
-     * The youtube query base url.
+     * The YouTube query base url.
      */
     static final String YOUTUBE_QUERY_BASE = "https://www.youtube.com/results?search_query=";
 
     /**
-     * The youtube video base url.
+     * The YouTube video base url.
      */
     static final String YOUTUBE_VIDEO_BASE = "https://www.youtube.com/watch?v=";
 
@@ -32,17 +32,17 @@ public final class YouTubeConstants {
             = "https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/";
 
     /**
-     * The header that all youtube playlists start with.
+     * The header that all YouTube playlists start with.
      */
     static final String YOUTUBE_PLAYLIST_HEADER = "https://www.youtube.com/playlist?list=";
 
     /**
-     * The header used for obtaining a youtube video's highest resolution thumbnail.
+     * The header used for obtaining a YouTube video's highest resolution thumbnail.
      */
     static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
 
     /**
-     * The base for youtube api v3 search queries.
+     * The base for YouTube api v3 search queries.
      */
     static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
@@ -52,17 +52,17 @@ public final class YouTubeConstants {
     static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
 
     /**
-     * A link for how to install youtube-dl.
+     * A link for how to install YouTube-dl.
      */
     static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
 
     /**
-     * The maximum number of chars that can be used for a filename from a youtube video's title.
+     * The maximum number of chars that can be used for a filename from a YouTube video's title.
      */
     static final int MAX_THUMBNAIL_CHARS = 20;
 
     /**
-     * The range of valid values for the number of results a youtube api 3 search query.
+     * The range of valid values for the number of results a YouTube api 3 search query.
      */
     static final Range<Integer> SEARCH_QUERY_RESULTS_RANGE = Range.closed(1, MAX_THUMBNAIL_CHARS);
 
@@ -87,7 +87,7 @@ public final class YouTubeConstants {
     public static final int DOWNLOAD_UPDATE_DELAY = 1000;
 
     /**
-     * The max results parameter for searching youtube.
+     * The max results parameter for searching YouTube.
      */
     static final String MAX_RESULTS_PARAMETER = "&maxResults=";
 
@@ -137,22 +137,22 @@ public final class YouTubeConstants {
     static final String FAILED = "Failed";
 
     /**
-     * The index of the matcher group the progress of the youtube download lies at.
+     * The index of the matcher group the progress of the YouTube download lies at.
      */
     static final int progressIndex = 1;
 
     /**
-     * The index of the matcher group the size of the youtube download lies at.
+     * The index of the matcher group the size of the YouTube download lies at.
      */
     static final int sizeIndex = 2;
 
     /**
-     * The index of the matcher group the rate of the youtube download lies at.
+     * The index of the matcher group the rate of the YouTube download lies at.
      */
     static final int rateIndex = 3;
 
     /**
-     * The index of the matcher group the eta of the youtube download lies at.
+     * The index of the matcher group the eta of the YouTube download lies at.
      */
     static final int etaIndex = 4;
 
@@ -162,17 +162,17 @@ public final class YouTubeConstants {
     static final String queryParameter = "&q=";
 
     /**
-     * The youtube video type url parameter.
+     * The YouTube video type url parameter.
      */
     static final String videoTypeParameter = "&type=";
 
     /**
-     * The video type parameter for constructed youtube search query urls.
+     * The video type parameter for constructed YouTube search query urls.
      */
     static final String video = "video";
 
     /**
-     * The key parameter for constructed youtube search query urls.
+     * The key parameter for constructed YouTube search query urls.
      */
     static final String keyParameter = "&key=";
 
