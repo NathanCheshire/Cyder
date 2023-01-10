@@ -95,7 +95,7 @@ class FileUtilTest {
 
         Assertions.assertFalse(FileUtil.fileMatchesSignature(StaticUtil.getStaticResource("x.png"),
                 ImmutableList.of(0xFA)))
-        Assertions.assertFalse(FileUtil.fileMatchesSignature(StaticUtil.getStaticResource("x.png"),
+        Assertions.assertTrue(FileUtil.fileMatchesSignature(StaticUtil.getStaticResource("x.png"),
                 FileUtil.PNG_SIGNATURE))
     }
 

@@ -72,6 +72,8 @@ public final class StaticUtil {
         Preconditions.checkNotNull(filename);
         Preconditions.checkArgument(!filename.isEmpty());
 
+        filename = filename.toLowerCase();
+
         if (staticFiles.containsKey(filename)) {
             return staticFiles.get(filename);
         }
@@ -98,6 +100,8 @@ public final class StaticUtil {
         Preconditions.checkNotNull(folderName);
         Preconditions.checkArgument(!folderName.isEmpty());
 
+        folderName = folderName.toLowerCase();
+
         if (staticFolders.containsKey(folderName)) {
             return staticFolders.get(folderName);
         } else {
@@ -120,8 +124,8 @@ public final class StaticUtil {
     private static ImmutableMap<String, File> getStaticFiles() {
         LinkedHashMap<String, File> ret = new LinkedHashMap<>();
 
-        FileUtil.getFiles(new File(STATIC), true)
-                .forEach(folder -> ret.put(folder.getPath().replaceAll("\\\\+", "/"), folder));
+        FileUtil.getFiles(new File(STATIC), true).forEach(folder ->
+                ret.put(folder.getPath().replaceAll("\\\\+", "/").toLowerCase(), folder));
 
         return ImmutableMap.copyOf(ret);
     }
@@ -135,8 +139,8 @@ public final class StaticUtil {
     private static ImmutableMap<String, File> getStaticFolders() {
         LinkedHashMap<String, File> ret = new LinkedHashMap<>();
 
-        FileUtil.getFolders(new File(STATIC), true)
-                .forEach(folder -> ret.put(folder.getPath().replaceAll("\\\\+", "/"), folder));
+        FileUtil.getFolders(new File(STATIC), true).forEach(folder ->
+                ret.put(folder.getPath().replaceAll("\\\\+", "/").toLowerCase(), folder));
 
         return ImmutableMap.copyOf(ret);
     }

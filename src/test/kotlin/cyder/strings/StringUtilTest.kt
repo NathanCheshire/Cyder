@@ -543,7 +543,7 @@ class StringUtilTest {
                 + " up Mainstream Sellout (2022).\\nMachine Gun Kelly had his first starring role in the romantic"
                 + " drama Beyond the Lights (2014), and since appeared in the techno-thriller Nerve (2016), the horror"
                 + " Bird Box (2018), the comedy Big Time Adolescence and portrayed Tommy Lee in the biopic"
-                + " The Dirt (both 2019).", optionalSummary.get())
+                + " The Dirt (both 2019).\\n\\n", optionalSummary.get())
 
         optionalSummary = StringUtil.getWikipediaSummary("Rust")
         assertTrue(optionalSummary.isPresent)
@@ -563,7 +563,7 @@ class StringUtilTest {
                 + " rusting is generally a negative aspect of iron, a particular form of rusting, known as stable"
                 + " rust, causes the object to have a thin coating of rust over the top. If kept in low relative"
                 + " humidity, it makes the \\\"stable\\\" layer protective to the iron below, but not to the extent"
-                + " of other oxides such as aluminium oxide on aluminium.\\n\\n", optionalSummary.get())
+                + " of other oxides such as aluminium oxide on aluminium.", optionalSummary.get())
 
         optionalSummary = StringUtil.getWikipediaSummary("asdfasdf")
         assertTrue(optionalSummary.isEmpty)

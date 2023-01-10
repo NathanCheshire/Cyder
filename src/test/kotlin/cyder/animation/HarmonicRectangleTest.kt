@@ -76,5 +76,4 @@ class HarmonicRectangleTest {
 
     // todo I think a purple color like kotlin or the purple syntax color here could replace the blue logo color
     // todo maybe a new color for the author and tagline badges too
-    // todo need to add kotlin calculation into the statistic generated badge
 }
