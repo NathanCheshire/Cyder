@@ -6,7 +6,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.SerializationUtil;
-import cyder.youtube.parsers.YoutubeSearchResultPage;
+import cyder.youtube.parsers.YouTubeSearchResultPage;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -83,10 +83,10 @@ public final class YouTubeSearchQuery {
      * @return the serialized results of querying the url represented by this search query if possible.
      * * Empty optional else
      */
-    public Optional<YoutubeSearchResultPage> getResults() {
+    public Optional<YouTubeSearchResultPage> getResults() {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(url).openStream()))) {
-            return Optional.of(SerializationUtil.fromJson(reader, YoutubeSearchResultPage.class));
+            return Optional.of(SerializationUtil.fromJson(reader, YouTubeSearchResultPage.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

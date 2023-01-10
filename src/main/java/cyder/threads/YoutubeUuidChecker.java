@@ -16,7 +16,7 @@ import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.youtube.YoutubeConstants;
+import cyder.youtube.YouTubeConstants;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -104,7 +104,7 @@ public class YoutubeUuidChecker {
             youtubeUuid = UserUtil.getCyderUser().getYoutubeUuid();
 
             Preconditions.checkNotNull(youtubeUuid);
-            Preconditions.checkArgument(youtubeUuid.length() == YoutubeConstants.UUID_LENGTH);
+            Preconditions.checkArgument(youtubeUuid.length() == YouTubeConstants.UUID_LENGTH);
 
             int numRuns = 0;
             long startTime = System.currentTimeMillis();

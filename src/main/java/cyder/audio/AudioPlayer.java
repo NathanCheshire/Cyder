@@ -50,11 +50,11 @@ import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.utils.StaticUtil;
-import cyder.youtube.YoutubeAudioDownload;
-import cyder.youtube.YoutubeConstants;
-import cyder.youtube.YoutubeUtil;
-import cyder.youtube.parsers.YoutubeSearchResultPage;
-import cyder.youtube.parsers.YoutubeVideo;
+import cyder.youtube.YouTubeAudioDownload;
+import cyder.youtube.YouTubeConstants;
+import cyder.youtube.YouTubeUtil;
+import cyder.youtube.parsers.YouTubeSearchResultPage;
+import cyder.youtube.parsers.YouTubeVideo;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -2436,8 +2436,8 @@ public final class AudioPlayer {
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
 
-            Optional<YoutubeSearchResultPage> youtubeSearchResultPage =
-                    getSearchResults(YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
+            Optional<YouTubeSearchResultPage> youtubeSearchResultPage =
+                    getSearchResults(YouTubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
 
             if (youtubeSearchResultPage.isEmpty()) {
                 showInformationLabel(NO_RESULTS);
@@ -2446,13 +2446,13 @@ public final class AudioPlayer {
 
             searchResults.clear();
 
-            for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
+            for (YouTubeVideo video : youtubeSearchResultPage.get().getItems()) {
                 searchResults.add(new YoutubeSearchResult(
                         video.getId().getVideoId(),
                         video.getSnippet().getTitle(),
                         video.getSnippet().getDescription(),
                         video.getSnippet().getChannelTitle(),
-                        YoutubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
+                        YouTubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
                                 .orElse(defaultAlbumArtImage)));
             }
 
@@ -2474,10 +2474,10 @@ public final class AudioPlayer {
 
                 printSearchResultLabels(result);
 
-                String url = YoutubeUtil.buildVideoUrl(result.uuid);
-                YoutubeAudioDownload youtubeAudioDownload = new YoutubeAudioDownload();
+                String url = YouTubeUtil.buildVideoUrl(result.uuid);
+                YouTubeAudioDownload youtubeAudioDownload = new YouTubeAudioDownload();
                 youtubeAudioDownload.setVideoLink(url);
-                AtomicReference<YoutubeAudioDownload> downloadable = new AtomicReference<>(youtubeAudioDownload);
+                AtomicReference<YouTubeAudioDownload> downloadable = new AtomicReference<>(youtubeAudioDownload);
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                 CyderButton downloadButton = new CyderButton();
@@ -2502,7 +2502,7 @@ public final class AudioPlayer {
                     }
 
                     if (downloadable.get().isCanceled()) {
-                        downloadable.set(new YoutubeAudioDownload());
+                        downloadable.set(new YouTubeAudioDownload());
                         downloadable.get().setVideoLink(url);
                         downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                         downloadable.get().setOnDownloadedCallback(() -> {
@@ -2593,7 +2593,7 @@ public final class AudioPlayer {
      * @return a download button mouse listener
      */
     private static MouseAdapter generateDownloadButtonMouseListener(
-            AtomicReference<YoutubeAudioDownload> downloadable, AtomicBoolean mouseEntered,
+            AtomicReference<YouTubeAudioDownload> downloadable, AtomicBoolean mouseEntered,
             CyderButton downloadButton, boolean alreadyExists) {
         return new MouseAdapter() {
             @Override
@@ -2634,7 +2634,7 @@ public final class AudioPlayer {
      * @param downloadButton the download button
      * @param mouseEntered   whether the mouse is currently in the button
      */
-    private static void startDownloadUpdater(AtomicReference<YoutubeAudioDownload> downloadable,
+    private static void startDownloadUpdater(AtomicReference<YouTubeAudioDownload> downloadable,
                                              CyderButton downloadButton, AtomicBoolean mouseEntered) {
 
         String threadName = "YouTube audio downloader, name: " + CyderStrings.quote
@@ -2651,7 +2651,7 @@ public final class AudioPlayer {
                     }
                 }
 
-                ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
+                ThreadUtil.sleep(YouTubeConstants.DOWNLOAD_UPDATE_DELAY);
             }
         }, threadName);
     }
@@ -2662,10 +2662,10 @@ public final class AudioPlayer {
      * @param url the constructed url to get youtube video results
      * @return the YoutubeSearchResultPage object if present, empty optional else
      */
-    private static Optional<YoutubeSearchResultPage> getSearchResults(String url) {
+    private static Optional<YouTubeSearchResultPage> getSearchResults(String url) {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(url).openStream()))) {
-            return Optional.of(SerializationUtil.fromJson(reader, YoutubeSearchResultPage.class));
+            return Optional.of(SerializationUtil.fromJson(reader, YouTubeSearchResultPage.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

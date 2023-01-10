@@ -5,13 +5,13 @@ import java.util.LinkedList;
 /**
  * The master serialization class for a youtube api 3 search query returned result.
  */
-public class YoutubeSearchResultPage {
+public class YouTubeSearchResultPage {
     private String kind;
     private String etag;
     private String nextPageToken;
     private String regionCode;
     private PageInfo pageInfo;
-    private LinkedList<YoutubeVideo> items;
+    private LinkedList<YouTubeVideo> items;
 
     public String getKind() {
         return kind;
@@ -53,11 +53,11 @@ public class YoutubeSearchResultPage {
         this.pageInfo = pageInfo;
     }
 
-    public LinkedList<YoutubeVideo> getItems() {
+    public LinkedList<YouTubeVideo> getItems() {
         return items;
     }
 
-    public void setItems(LinkedList<YoutubeVideo> items) {
+    public void setItems(LinkedList<YouTubeVideo> items) {
         this.items = items;
     }
 }

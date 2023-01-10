@@ -33,16 +33,16 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 import static cyder.strings.CyderStrings.forwardSlash;
-import static cyder.youtube.YoutubeConstants.*;
+import static cyder.youtube.YouTubeConstants.*;
 
 /**
  * Utility methods related to YouTube videos.
  */
-public final class YoutubeUtil {
+public final class YouTubeUtil {
     /**
      * Suppress default constructor.
      */
-    private YoutubeUtil() {
+    private YouTubeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -58,7 +58,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(baseInputHandler);
 
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YoutubeAudioDownload youtubeDownload = new YoutubeAudioDownload();
+            YouTubeAudioDownload youtubeDownload = new YouTubeAudioDownload();
             youtubeDownload.setVideoLink(url);
             youtubeDownload.setPrintOutputHandler(baseInputHandler);
             youtubeDownload.downloadAudioAndThumbnail();
@@ -236,7 +236,7 @@ public final class YoutubeUtil {
      */
     public static String buildVideoUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
+        Preconditions.checkArgument(YouTubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
@@ -249,7 +249,7 @@ public final class YoutubeUtil {
      */
     public static String buildMaxResolutionThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
+        Preconditions.checkArgument(YouTubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return YOUTUBE_THUMBNAIL_BASE + uuid + forwardSlash + MAX_RES_DEFAULT;
     }
@@ -262,7 +262,7 @@ public final class YoutubeUtil {
      */
     public static String buildStandardDefinitionThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
+        Preconditions.checkArgument(YouTubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return YOUTUBE_THUMBNAIL_BASE + uuid + CyderStrings.forwardSlash + SD_DEFAULT;
     }
@@ -309,7 +309,7 @@ public final class YoutubeUtil {
         String builtQuery = StringUtil.joinParts(legalCharsQueryWords, NetworkUtil.URL_SPACE);
 
         return YOUTUBE_API_V3_SEARCH_BASE
-                + YoutubeConstants.MAX_RESULTS_PARAMETER + numResults
+                + YouTubeConstants.MAX_RESULTS_PARAMETER + numResults
                 + queryParameter + builtQuery
                 + videoTypeParameter + video
                 + keyParameter + youtubeKey;
@@ -323,7 +323,7 @@ public final class YoutubeUtil {
      */
     public static Optional<BufferedImage> getMaxResolutionThumbnail(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
+        Preconditions.checkArgument(YouTubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         String thumbnailUrl = buildMaxResolutionThumbnailUrl(uuid);
 
@@ -378,7 +378,7 @@ public final class YoutubeUtil {
      * @return the maximum resolution square thumbnail
      */
     public static Optional<BufferedImage> getMaxResolutionSquareThumbnail(String uuid) {
-        Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(uuid);
+        Optional<BufferedImage> optionalBi = YouTubeUtil.getMaxResolutionThumbnail(uuid);
 
         BufferedImage bi = optionalBi.orElse(null);
 

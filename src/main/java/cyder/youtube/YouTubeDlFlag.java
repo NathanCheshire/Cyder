@@ -3,7 +3,7 @@ package cyder.youtube;
 /**
  * Supported YouTube-DL flags.
  */
-public enum YoutubeDlFlag {
+public enum YouTubeDlFlag {
     /**
      * The extract audio youtube-dl flag.
      */
@@ -34,7 +34,7 @@ public enum YoutubeDlFlag {
      */
     private final String flag;
 
-    YoutubeDlFlag(String flag) {
+    YouTubeDlFlag(String flag) {
         this.flag = flag;
     }
 

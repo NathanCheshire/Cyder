@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * A manager for active and past YouTube downloads.
  */
-public enum YoutubeDownloadManager {
+public enum YouTubeDownloadManager {
     /**
      * The YoutubeDownloadManager instance.
      */
@@ -16,14 +16,14 @@ public enum YoutubeDownloadManager {
     /**
      * A list of YouTube videos currently being downloaded.
      */
-    private final ArrayList<YoutubeAudioDownload> activeDownloads = new ArrayList<>();
+    private final ArrayList<YouTubeAudioDownload> activeDownloads = new ArrayList<>();
 
     /**
      * Removes the provided YouTube download from the active downloads list.
      *
      * @param youtubeDownload the YouTube download to remove from the active downloads list
      */
-    void removeActiveDownload(YoutubeAudioDownload youtubeDownload) {
+    void removeActiveDownload(YouTubeAudioDownload youtubeDownload) {
         Preconditions.checkNotNull(youtubeDownload);
 
         activeDownloads.remove(youtubeDownload);
@@ -34,7 +34,7 @@ public enum YoutubeDownloadManager {
      *
      * @param youtubeDownload the youtube download to add to the list
      */
-    void addActiveDownload(YoutubeAudioDownload youtubeDownload) {
+    void addActiveDownload(YouTubeAudioDownload youtubeDownload) {
         Preconditions.checkNotNull(youtubeDownload);
 
         activeDownloads.add(youtubeDownload);
@@ -44,6 +44,6 @@ public enum YoutubeDownloadManager {
      * Cancels all active youtube downloads.
      */
     public void cancelAllActiveDownloads() {
-        activeDownloads.forEach(YoutubeAudioDownload::cancel);
+        activeDownloads.forEach(YouTubeAudioDownload::cancel);
     }
 }

@@ -13,7 +13,7 @@ import cyder.threads.BletchyAnimationManager;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.StaticUtil;
-import cyder.youtube.YoutubeUtil;
+import cyder.youtube.YouTubeUtil;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -118,15 +118,15 @@ public class PlayAudioHandler extends InputHandler {
         CyderThreadRunner.submit(() -> {
             String url = getInputHandler().argsToString();
 
-            if (YoutubeUtil.isPlaylistUrl(url)) {
+            if (YouTubeUtil.isPlaylistUrl(url)) {
                 // todo
-            } else if (YoutubeUtil.isVideoUrl(url)) {
-                YoutubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
+            } else if (YouTubeUtil.isVideoUrl(url)) {
+                YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             } else {
                 getInputHandler().println("Searching youtube for: " + url);
-                String uuid = YoutubeUtil.getFirstUuid(url);
+                String uuid = YouTubeUtil.getFirstUuid(url);
                 url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
-                YoutubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
+                YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             }
         }, "YouTube Download Initializer");
     }

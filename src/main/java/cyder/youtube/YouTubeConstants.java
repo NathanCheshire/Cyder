@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Constants used throughout YouTube utility classes.
  */
-public final class YoutubeConstants {
+public final class YouTubeConstants {
     /**
      * The length of YouTube UUIDs.
      */
@@ -189,7 +189,7 @@ public final class YoutubeConstants {
     /**
      * Suppress default constructor.
      */
-    private YoutubeConstants() {
+    private YouTubeConstants() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 }

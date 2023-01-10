@@ -6,7 +6,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.weather.WeatherUtil;
-import cyder.youtube.parsers.YoutubeSearchResultPage;
+import cyder.youtube.parsers.YouTubeSearchResultPage;
 import cyder.youtube.search.YouTubeSearchQuery;
 
 import java.io.BufferedReader;
@@ -69,7 +69,7 @@ public final class ApiKeyUtil {
         Preconditions.checkArgument(!youtubeApiKey.isEmpty());
 
         try {
-            Optional<YoutubeSearchResultPage> optionalResults =
+            Optional<YouTubeSearchResultPage> optionalResults =
                     YouTubeSearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getResults();
             return optionalResults.isPresent();
         } catch (Exception ignored) {

@@ -42,13 +42,13 @@ import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import static cyder.youtube.YoutubeConstants.*;
+import static cyder.youtube.YouTubeConstants.*;
 
 /**
  * An object to download an audio and thumbnail file from a singular YouTube video.
  * An instance of this class can represent a singular YouTube video.
  */
-public class YoutubeAudioDownload {
+public class YouTubeAudioDownload {
     /**
      * The magic number to denote the thumbnail dimensions were not
      * specified by the caller and thus may remain whatever the default is.
@@ -179,7 +179,7 @@ public class YoutubeAudioDownload {
     /**
      * Constructs a new YoutubeDownload object.
      */
-    public YoutubeAudioDownload() {
+    public YouTubeAudioDownload() {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
@@ -204,9 +204,9 @@ public class YoutubeAudioDownload {
     public void setVideoId(String videoId) {
         Preconditions.checkNotNull(videoId);
         Preconditions.checkArgument(!videoId.isEmpty());
-        Preconditions.checkArgument(videoId.length() == YoutubeConstants.UUID_LENGTH);
+        Preconditions.checkArgument(videoId.length() == YouTubeConstants.UUID_LENGTH);
 
-        String videoLink = YoutubeUtil.buildVideoUrl(videoId);
+        String videoLink = YouTubeUtil.buildVideoUrl(videoId);
         Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
         this.providedDownloadString = videoLink;
@@ -221,7 +221,7 @@ public class YoutubeAudioDownload {
         Preconditions.checkNotNull(playlistId);
         Preconditions.checkArgument(!playlistId.isEmpty());
 
-        String videoLink = YoutubeConstants.YOUTUBE_PLAYLIST_HEADER + playlistId;
+        String videoLink = YouTubeConstants.YOUTUBE_PLAYLIST_HEADER + playlistId;
         Preconditions.checkArgument(!NetworkUtil.readUrl(videoLink).isEmpty());
 
         this.providedDownloadString = videoLink;
@@ -236,8 +236,8 @@ public class YoutubeAudioDownload {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
 
-        String firstUuid = YoutubeUtil.getFirstUuid(query);
-        this.providedDownloadString = YoutubeUtil.buildVideoUrl(firstUuid);
+        String firstUuid = YouTubeUtil.getFirstUuid(query);
+        this.providedDownloadString = YouTubeUtil.buildVideoUrl(firstUuid);
     }
 
     /**
@@ -391,7 +391,7 @@ public class YoutubeAudioDownload {
         String ffmpegAudioOutputFormat = Props.ffmpegAudioOutputFormat.getValue();
         String outputExtension = "." + ffmpegAudioOutputFormat;
 
-        String downloadSaveName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
+        String downloadSaveName = YouTubeUtil.getDownloadSaveName(providedDownloadString);
 
         String youtubeDlOutputName = userMusicDir.getAbsolutePath()
                 + OsUtil.FILE_SEP
@@ -400,12 +400,12 @@ public class YoutubeAudioDownload {
 
         String[] command = {
                 AudioUtil.getYoutubeDlCommand(), providedDownloadString,
-                YoutubeDlFlag.EXTRACT_AUDIO.getFlag(),
-                YoutubeDlFlag.AUDIO_FORMAT.getFlag(), ffmpegAudioOutputFormat,
-                YoutubeDlFlag.OUTPUT.getFlag(), youtubeDlOutputName
+                YouTubeDlFlag.EXTRACT_AUDIO.getFlag(),
+                YouTubeDlFlag.AUDIO_FORMAT.getFlag(), ffmpegAudioOutputFormat,
+                YouTubeDlFlag.OUTPUT.getFlag(), youtubeDlOutputName
         };
 
-        YoutubeDownloadManager.INSTANCE.addActiveDownload(this);
+        YouTubeDownloadManager.INSTANCE.addActiveDownload(this);
 
         downloadableName = downloadSaveName;
 
@@ -413,7 +413,7 @@ public class YoutubeAudioDownload {
                 + CyderStrings.space + "Downloader, saveName"
                 + CyderStrings.colon + CyderStrings.space + downloadSaveName
                 + CyderStrings.comma + CyderStrings.space + "uuid"
-                + CyderStrings.colon + CyderStrings.space + YoutubeUtil.extractUuid(providedDownloadString);
+                + CyderStrings.colon + CyderStrings.space + YouTubeUtil.extractUuid(providedDownloadString);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -450,7 +450,7 @@ public class YoutubeAudioDownload {
             } catch (Exception e) {
                 onDownloadProcessException(e);
             } finally {
-                YoutubeDownloadManager.INSTANCE.removeActiveDownload(this);
+                YouTubeDownloadManager.INSTANCE.removeActiveDownload(this);
 
                 done = true;
                 downloading = false;
@@ -597,9 +597,9 @@ public class YoutubeAudioDownload {
             initializeThumbnailDownloadName();
         }
 
-        String uuid = YoutubeUtil.extractUuid(providedDownloadString);
+        String uuid = YouTubeUtil.extractUuid(providedDownloadString);
 
-        Optional<BufferedImage> optionalThumbnail = YoutubeUtil.getMaxResolutionThumbnail(uuid);
+        Optional<BufferedImage> optionalThumbnail = YouTubeUtil.getMaxResolutionThumbnail(uuid);
         BufferedImage thumbnailImage = optionalThumbnail.orElseThrow(
                 () -> new FatalException("Could not get max resolution or standard resolution"
                         + " thumbnail for provided download string: " + providedDownloadString));
@@ -642,7 +642,7 @@ public class YoutubeAudioDownload {
      * Initializes the name(s) of the audio and thumbnail download(s).
      */
     private void initializeAudioAndThumbnailDownloadNames() {
-        String safeDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
+        String safeDownloadName = YouTubeUtil.getDownloadSaveName(providedDownloadString);
 
         audioDownloadName = safeDownloadName;
         thumbnailDownloadName = safeDownloadName;
@@ -652,14 +652,14 @@ public class YoutubeAudioDownload {
      * Initializes the name(s) of the audio download(s).
      */
     private void initializeAudioDownloadNames() {
-        audioDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
+        audioDownloadName = YouTubeUtil.getDownloadSaveName(providedDownloadString);
     }
 
     /**
      * Initializes the name(s) of the thumbnail download(s).
      */
     private void initializeThumbnailDownloadName() {
-        thumbnailDownloadName = YoutubeUtil.getDownloadSaveName(providedDownloadString);
+        thumbnailDownloadName = YouTubeUtil.getDownloadSaveName(providedDownloadString);
     }
 
     /**
