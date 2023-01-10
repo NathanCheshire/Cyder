@@ -1,4 +1,4 @@
-package cyder.parsers.youtube;
+package cyder.youtube.parsers;
 
 import com.google.gson.annotations.SerializedName;
 

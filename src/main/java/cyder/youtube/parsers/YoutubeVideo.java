@@ -1,4 +1,4 @@
-package cyder.parsers.youtube;
+package cyder.youtube.parsers;
 
 /**
  * A class used to serialize a YouTube API 3 search result.

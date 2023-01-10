@@ -2,6 +2,14 @@ package cyder.youtube.search;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.utils.SerializationUtil;
+import cyder.youtube.parsers.YoutubeSearchResultPage;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Optional;
 
 /**
  * A class to build a search query url using a YouTube API v3 key to search youtube for a list of videos.
@@ -17,6 +25,11 @@ public class SearchQuery {
      * This MUST be used according to the Google developer documentation.
      */
     private static final String SNIPPET = "snippet";
+
+    /**
+     * The default query string.
+     */
+    private static final String DEFAULT_QUERY = "Solitaires by Future";
 
     /**
      * The url constructed from the provided builder's parameters.
@@ -53,7 +66,23 @@ public class SearchQuery {
         return url;
     }
 
-    // todo method to return results of querying url
+    /**
+     * Returns the serialized results of querying the url represented by this search query if possible.
+     * Empty optional else.
+     *
+     * @return the serialized results of querying the url represented by this search query if possible.
+     * * Empty optional else
+     */
+    public Optional<YoutubeSearchResultPage> getResults() {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new URL(url).openStream()))) {
+            return Optional.of(SerializationUtil.fromJson(reader, YoutubeSearchResultPage.class));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return Optional.empty();
+    }
 
     /**
      * Builds and returns a new {@link Builder} with the default query.
@@ -62,9 +91,7 @@ public class SearchQuery {
      * @return a new, default builder
      */
     public static Builder buildDefaultBuilder() {
-        return new Builder("Solitaires by Future")
-                .setSafeSearch(YouTubeSafeSearch.NONE)
-                .setType(YouTubeSearchType.VIDEO);
+        return new Builder(DEFAULT_QUERY);
     }
 
     /**
