@@ -7,7 +7,7 @@ import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.weather.WeatherUtil;
 import cyder.youtube.parsers.YoutubeSearchResultPage;
-import cyder.youtube.search.SearchQuery;
+import cyder.youtube.search.YouTubeSearchQuery;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -70,7 +70,7 @@ public final class ApiKeyUtil {
 
         try {
             Optional<YoutubeSearchResultPage> optionalResults =
-                    SearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getResults();
+                    YouTubeSearchQuery.buildDefaultBuilder().setKey(youtubeApiKey).build().getResults();
             return optionalResults.isPresent();
         } catch (Exception ignored) {
             return false;

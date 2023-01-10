@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * The order for the result of a {@link SearchQuery}.
+ * The order for the result of a {@link YouTubeSearchQuery}.
  */
 public enum YouTubeSearchOrder {
     DATE("date"),

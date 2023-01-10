@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * The video definition for a {@link SearchQuery}.
+ * The video definition for a {@link YouTubeSearchQuery}.
  */
 public enum YouTubeVideoDefinition {
     ANY("any"),

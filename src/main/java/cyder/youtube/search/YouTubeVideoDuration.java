@@ -1,7 +1,7 @@
 package cyder.youtube.search;
 
 /**
- * The video duration for a {@link SearchQuery}.
+ * The video duration for a {@link YouTubeSearchQuery}.
  */
 public enum YouTubeVideoDuration {
     //any,long,medium,short

@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * A class to build a search query url using a YouTube API v3 key to search youtube for a list of videos.
  */
-public class SearchQuery {
+public final class YouTubeSearchQuery {
     /**
      * The search base for youtube api v3.
      */
@@ -43,7 +43,7 @@ public class SearchQuery {
      *
      * @param builder the builder with set parameters for the search query
      */
-    public SearchQuery(Builder builder) {
+    public YouTubeSearchQuery(Builder builder) {
         Preconditions.checkNotNull(builder);
 
         url = searchHeader
@@ -105,7 +105,7 @@ public class SearchQuery {
     }
 
     /**
-     * A builder for a {@link SearchQuery}.
+     * A builder for a {@link YouTubeSearchQuery}.
      */
     public static final class Builder {
         /**
@@ -346,8 +346,8 @@ public class SearchQuery {
          *
          * @return a new search query based on the set parameters
          */
-        public SearchQuery build() {
-            return new SearchQuery(this);
+        public YouTubeSearchQuery build() {
+            return new YouTubeSearchQuery(this);
         }
     }
 }
