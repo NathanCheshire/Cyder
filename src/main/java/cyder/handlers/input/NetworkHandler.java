@@ -47,6 +47,11 @@ public class NetworkHandler extends InputHandler {
     private static final String WHEREAMI_THREAD_NAME = "Whereami Information Finder";
 
     /**
+     * The length of the map shown for the where am i command.
+     */
+    private static final int WHERE_AM_I_MAP_LENGTH = 200;
+
+    /**
      * Suppress default constructor.
      */
     private NetworkHandler() {
@@ -189,11 +194,13 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("Your isp is: " + result.isp());
                 getInputHandler().println("Your hostname is: " + result.hostname());
 
-                MapUtil.Builder builder = new MapUtil.Builder(400, 400, Props.mapQuestApiKey.getKey());
+                MapUtil.Builder builder = new MapUtil.Builder(WHERE_AM_I_MAP_LENGTH, WHERE_AM_I_MAP_LENGTH,
+                        Props.mapQuestApiKey.getValue());
                 builder.setScaleBar(false);
-                builder.setLocationString(result.city().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                        + "," + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                        + "," + result.country().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
+                builder.setLocationString(result.city()
+                        .replaceAll(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE) + ","
+                        + result.state().replaceAll(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE) + ","
+                        + result.country().replaceAll(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE));
                 builder.setZoomLevel(8);
                 builder.setFilterWaterMark(true);
 

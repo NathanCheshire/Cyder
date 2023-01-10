@@ -28,6 +28,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.UiUtil;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserUtil;
@@ -181,16 +182,6 @@ public class WeatherWidget {
      * The current wind direction.
      */
     private float windBearing = 0f;
-
-    /**
-     * The current latitude.
-     */
-    private double lat = 0d;
-
-    /**
-     * The current longitude.
-     */
-    private double lon = 0d;
 
     /**
      * The current location.
@@ -492,37 +483,46 @@ public class WeatherWidget {
                 sunsetLabelIcon.getHeight() / 2);
         sunsetLabelIcon.add(sunsetLabel);
 
-        weatherFrame.setMenuEnabled(true);
-        weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
-            getterUtilInstance.closeAllGetFrames();
-            Optional<String> optionalNewLocation = getterUtilInstance.getInput(changeLocationBuilder);
+        GetInputBuilder changeLocationBuilder = new GetInputBuilder(CHANGE_LOCATION, changeLocationHtmlText)
+                .setRelativeTo(weatherFrame)
+                .setSubmitButtonText(CHANGE_LOCATION)
+                .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
+                .setInitialFieldText(currentLocationString)
+                .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 
-            try {
-                if (optionalNewLocation.isEmpty()) return;
-                String newLocation = optionalNewLocation.get();
-                previousLocationString = currentLocationString;
-                String[] newLocationParts = newLocation.split(CyderStrings.comma);
+        DragLabelTextButton locationButton = new DragLabelTextButton.Builder("Location")
+                .setTooltip("Change Location")
+                .setClickAction(() -> CyderThreadRunner.submit(() -> {
+                    getterUtilInstance.closeAllGetFrames();
+                    Optional<String> optionalNewLocation = getterUtilInstance.getInput(changeLocationBuilder);
 
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0 ; i < newLocationParts.length ; i++) {
-                    sb.append(StringUtil.capsFirstWords(newLocationParts[i].trim()));
+                    try {
+                        if (optionalNewLocation.isEmpty()) return;
+                        String newLocation = optionalNewLocation.get();
+                        previousLocationString = currentLocationString;
+                        String[] newLocationParts = newLocation.split(CyderStrings.comma);
 
-                    if (i != newLocationParts.length - 1) sb.append(CyderStrings.comma);
-                }
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0 ; i < newLocationParts.length ; i++) {
+                            sb.append(StringUtil.capsFirstWords(newLocationParts[i].trim()));
 
-                currentLocationString = sb.toString();
-                useCustomLoc = true;
+                            if (i != newLocationParts.length - 1) sb.append(CyderStrings.comma);
+                        }
 
-                weatherFrame.notify("Attempting to refresh weather stats for location \""
-                        + currentLocationString + CyderStrings.quote);
+                        currentLocationString = sb.toString();
+                        useCustomLoc = true;
 
-                repullWeatherStats();
+                        weatherFrame.notify("Attempting to refresh weather stats for location \""
+                                + currentLocationString + CyderStrings.quote);
 
-                weatherFrame.hideMenu();
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }, WEATHER_LOCATION_CHANGER_THREAD_NAME));
+                        repullWeatherStats();
+
+                    } catch (Exception ex) {
+                        ExceptionHandler.handle(ex);
+                    }
+                }, WEATHER_LOCATION_CHANGER_THREAD_NAME)).build();
+
+        weatherFrame.getTopDragLabel().addLeftButton(locationButton, 0);
 
         minTempLabel = new JLabel();
         minTempLabel.setForeground(CyderColors.vanilla);
@@ -699,16 +699,6 @@ public class WeatherWidget {
     private static final String changeLocationHtmlText = HtmlTags.openingHtml
             + "Enter your city, state, and country code separated by a comma. Example: "
             + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
-
-    /**
-     * The builder for changing the current weather location.
-     */
-    private final GetInputBuilder changeLocationBuilder = new GetInputBuilder(CHANGE_LOCATION, changeLocationHtmlText)
-            .setRelativeTo(weatherFrame)
-            .setSubmitButtonText(CHANGE_LOCATION)
-            .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
-            .setInitialFieldText(currentLocationString)
-            .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 
     /**
      * The thread name for the weather stats updater.
@@ -1050,8 +1040,6 @@ public class WeatherWidget {
             weatherDataGmtOffset = String.valueOf(weatherData.getTimezone());
             minTemp = weatherData.getMain().getTemp_min();
             maxTemp = weatherData.getMain().getTemp_max();
-            lat = weatherData.getCoord().getLat();
-            lon = weatherData.getCoord().getLon();
 
             refreshMapBackground();
 
@@ -1088,9 +1076,9 @@ public class WeatherWidget {
             boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
 
             if (displayMap) {
-                MapUtil.Builder builder = new MapUtil.Builder(FRAME_WIDTH, FRAME_HEIGHT, Props.mapQuestApiKey.getKey());
-                builder.setLat(lat);
-                builder.setLon(lon);
+                MapUtil.Builder builder = new MapUtil.Builder(FRAME_WIDTH, FRAME_HEIGHT,
+                        Props.mapQuestApiKey.getValue());
+                builder.setLocationString(currentLocationString);
                 builder.setFilterWaterMark(true);
                 builder.setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
 

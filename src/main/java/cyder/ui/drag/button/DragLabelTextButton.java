@@ -47,6 +47,7 @@ public class DragLabelTextButton extends JLabel {
         this.builder = Preconditions.checkNotNull(builder);
     }
 
+    // todo restrict me
     /**
      * Constructs and returns a new drag label text button from the contents of the provided builder.
      *
@@ -392,6 +393,17 @@ public class DragLabelTextButton extends JLabel {
          */
         public AtomicBoolean getStateSelected() {
             return stateSelected;
+        }
+
+        // todo use me
+
+        /**
+         * Builds and returns a drag label text button using this builder.
+         *
+         * @return a drag label text button using this builder
+         */
+        public DragLabelTextButton build() {
+            return DragLabelTextButton.generateTextButton(this);
         }
     }
 }

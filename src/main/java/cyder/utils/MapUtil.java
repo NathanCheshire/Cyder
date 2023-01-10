@@ -3,8 +3,10 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.constants.CyderRegexPatterns;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -158,7 +160,8 @@ public final class MapUtil {
             }
 
             requestUrlBuilder.append(MapBoxUrlParameter.CENTER.construct());
-            requestUrlBuilder.append(builder.getLocationString());
+            requestUrlBuilder.append(locationString
+                    .replaceAll(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE));
         }
 
         requestUrlBuilder.append(MapBoxUrlParameter.TYPE.construct());
@@ -314,6 +317,9 @@ public final class MapUtil {
          */
         @CanIgnoreReturnValue
         public Builder setLocationString(String locationString) {
+            Preconditions.checkNotNull(locationString);
+            Preconditions.checkArgument(!locationString.isEmpty());
+
             this.locationString = locationString;
             return this;
         }
@@ -505,6 +511,74 @@ public final class MapUtil {
          */
         public String getKey() {
             return key;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            } else if (!(o instanceof Builder)) {
+                return false;
+            }
+
+            Builder other = (Builder) o;
+            return other.locationString.equals(locationString)
+                    && other.lat == lat
+                    && other.lon == lon
+                    && other.width == width
+                    && other.height == height
+                    && other.key.equals(key)
+                    && other.filterWaterMark == filterWaterMark
+                    && other.scaleBar == scaleBar
+                    && other.scaleBarLocation.equals(scaleBarLocation)
+                    && other.mapType.equals(mapType)
+                    && other.zoomLevel == zoomLevel;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            int ret = locationString.hashCode();
+            ret = 31 * ret + Double.hashCode(lat);
+            ret = 31 * ret + Double.hashCode(lon);
+            ret = 31 * ret + Integer.hashCode(width);
+            ret = 31 * ret + Integer.hashCode(height);
+            ret = 31 * ret + key.hashCode();
+            ret = 31 * ret + Boolean.hashCode(filterWaterMark);
+            ret = 31 * ret + Boolean.hashCode(scaleBar);
+            ret = 31 * ret + scaleBarLocation.hashCode();
+            ret = 31 * ret + mapType.hashCode();
+            ret = 31 * ret + Integer.hashCode(zoomLevel);
+            return ret;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            String keyRep = "HIDDEN";
+            if (key != null && key.length() > 5) {
+                keyRep = key.substring(0, 6) + "...";
+            }
+
+            return "Builder{"
+                    + "locationString=\"" + locationString + "\""
+                    + ", lat=" + lat
+                    + ", lon=" + lon
+                    + ", width=" + width
+                    + ", height=" + height
+                    + ", key=\"" + keyRep + "\""
+                    + ", filterWaterMark=" + filterWaterMark
+                    + ", scaleBar=" + scaleBar
+                    + ", scaleBarLocation=" + scaleBarLocation
+                    + ", mapType=" + mapType
+                    + ", zoomLevel=" + zoomLevel
+                    + '}';
         }
     }
 }
