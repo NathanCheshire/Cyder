@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
@@ -257,6 +258,107 @@ public final class ClockWidget {
      */
     private static final int secondHandRadius = (int) (maxHandRadius * secondHandRatio);
 
+    /**
+     * The location string.
+     */
+    private static final String LOCATION = "Location";
+
+    /**
+     * The current location string.
+     */
+    private static final String CURRENT_LOCATION = "Current Location";
+
+    /**
+     * The set location string.
+     */
+    private static final String SET_LOCATION = "Set location";
+
+    /**
+     * The label text for the getter util for setting the current location.
+     */
+    private static final String locationLabelText = "Time Location "
+            + HtmlTags.breakTag + "Enter locations separated by commas";
+
+    /**
+     * The color string.
+     */
+    private static final String COLOR = "Color";
+
+    /**
+     * The theme color string.
+     */
+    private static final String THEME_COLOR = "Theme color";
+
+    /**
+     * The regex for the get string color getter.
+     */
+    private static final String colorThemeFieldRegex = "[A-Fa-f0-9]{0,6}";
+
+    /**
+     * The name for the color theme color getter waiting thread.
+     */
+    private static final String CLOCK_COLOR_THEME_GETTER_WAITER = "Clock Color Theme Getter";
+
+    /**
+     * The thread name for the clock widget initializer thread.
+     */
+    private static final String CLOCK_WIDGET_INITIALIZER_THREAD_NAME = "Clock Widget Initializer";
+
+    /**
+     * The width of mini frames to spawn.
+     */
+    private static final int miniFrameWidth = 600;
+
+    /**
+     * The height of mini frames to spawn.
+     */
+    private static final int miniFrameHeight = 150;
+
+    /**
+     * The timezone colon text.
+     */
+    private static final String TIMEZONE = "Timezone:";
+
+    /**
+     * The timeout for mini clock updates.
+     */
+    private static final int miniClockUpdateTimeout = 500;
+
+    /**
+     * The mini clock thread prefix.
+     */
+    private static final String minClockUpdaterThreadNamePrefix = "Mini CLock Updater";
+
+    /**
+     * The time formatter for getting the current time accounting for the gmt offset.
+     */
+    private static final SimpleDateFormat timeFormatter = TimeUtil.weatherFormat;
+
+    /**
+     * The GMT timezone string ID.
+     */
+    private static final String GMT = "GMT";
+
+    /**
+     * The thread name for the clock time updater.
+     */
+    private static final String CLOCK_UPDATER_THREAD_NAME = "Clock Time Updater";
+
+    /**
+     * The delay between clock updates.
+     */
+    private static final int CLOCK_UPDATER_TIMEOUT = 250;
+
+    /**
+     * The builder for getting the theme color.
+     */
+    private static GetInputBuilder themeColorBuilder = null;
+
+    /**
+     * The GMT timezone object.
+     */
+    private static final TimeZone gmtTimezone = TimeZone.getTimeZone(GMT);
+
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
@@ -319,7 +421,7 @@ public final class ClockWidget {
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
-            startUpdating();
+            startClockUpdater();
             installDragLabelButtons();
 
             clockFrame.finalizeAndShow();
@@ -443,17 +545,9 @@ public final class ClockWidget {
     }
 
     /**
-     * The thread name for the clock time updater.
+     * Starts the updating thread for the clock.
      */
-    private static final String CLOCK_UPDATER_THREAD_NAME = "Clock Time Updater";
-
-    /**
-     * The delay between clock updates.
-     */
-    private static final int CLOCK_UPDATER_TIMEOUT = 250;
-
-    @ForReadability
-    private static void startUpdating() {
+    private static void startClockUpdater() {
         CyderThreadRunner.submit(() -> {
             while (shouldUpdateWidget.get()) {
                 ThreadUtil.sleep(CLOCK_UPDATER_TIMEOUT);
@@ -463,7 +557,9 @@ public final class ClockWidget {
         }, CLOCK_UPDATER_THREAD_NAME);
     }
 
-    @ForReadability
+    /**
+     * Installs the drag label buttons for this widget.
+     */
     private static void installDragLabelButtons() {
         DragLabelTextButton miniClockButton = new DragLabelTextButton.Builder(MINI)
                 .setTooltip(TOOLTIP)
@@ -485,27 +581,10 @@ public final class ClockWidget {
     }
 
     /**
-     * The location string.
+     * Returns the runnable for the location drag label button.
+     *
+     * @return the runnable for the location drag label button
      */
-    private static final String LOCATION = "Location";
-
-    /**
-     * The current location string.
-     */
-    private static final String CURRENT_LOCATION = "Current Location";
-
-    /**
-     * The set location string.
-     */
-    private static final String SET_LOCATION = "Set location";
-
-    /**
-     * The label text for the getter util for setting the current location.
-     */
-    private static final String locationLabelText = "Time Location "
-            + HtmlTags.breakTag + "Enter locations separated by commas";
-
-    @ForReadability
     private static Runnable getLocationButtonClickRunnable() {
         return () -> CyderThreadRunner.submit(() -> {
             Optional<String> optionalPossibleLocation = GetterUtil.getInstance().getInput(
@@ -552,31 +631,10 @@ public final class ClockWidget {
     }
 
     /**
-     * The color string.
+     * Returns the runnable for the drag label color button.
+     *
+     * @return the runnable for the drag label color button
      */
-    private static final String COLOR = "Color";
-
-    /**
-     * The theme color string.
-     */
-    private static final String THEME_COLOR = "Theme color";
-
-    /**
-     * The regex for the get string color getter.
-     */
-    private static final String colorThemeFieldRegex = "[A-Fa-f0-9]{0,6}";
-
-    /**
-     * The name for the color theme color getter waiting thread.
-     */
-    private static final String CLOCK_COLOR_THEME_GETTER_WAITER = "Clock Color Theme Getter";
-
-    /**
-     * The builder for getting the theme color.
-     */
-    private static GetInputBuilder themeColorBuilder = null;
-
-    @ForReadability
     private static Runnable getColorButtonClickRunnable() {
         if (themeColorBuilder == null) {
             themeColorBuilder = new GetInputBuilder(THEME_COLOR, "Theme color")
@@ -604,45 +662,17 @@ public final class ClockWidget {
     }
 
     /**
-     * The thread name for the clock widget initializer thread.
-     */
-    private static final String CLOCK_WIDGET_INITIALIZER_THREAD_NAME = "Clock Widget Initializer";
-
-    /**
      * Sets the color of the clock to the provided color.
      *
      * @param clockColor the new clock color
      */
     @ForReadability
     private static void setClockColor(Color clockColor) {
+        Preconditions.checkNotNull(clockColor);
+
         ClockWidget.clockColor = clockColor;
         clockLabel.repaint();
     }
-
-    /**
-     * The width of mini frames to spawn.
-     */
-    private static final int miniFrameWidth = 600;
-
-    /**
-     * The height of mini frames to spawn.
-     */
-    private static final int miniFrameHeight = 150;
-
-    /**
-     * The timezone colon text.
-     */
-    private static final String TIMEZONE = "Timezone:";
-
-    /**
-     * The timeout for mini clock updates.
-     */
-    private static final int miniClockUpdateTimeout = 500;
-
-    /**
-     * The mini clock thread prefix.
-     */
-    private static final String minClockUpdaterThreadNamePrefix = "Mini CLock Updater";
 
     /**
      * Spawns a mini clock with its own timer based off of the current location.
@@ -694,11 +724,6 @@ public final class ClockWidget {
     }
 
     /**
-     * The time formatter for getting the current time accounting for the gmt offset.
-     */
-    private static final SimpleDateFormat timeFormatter = TimeUtil.weatherFormat;
-
-    /**
      * Returns the current time accounting for the GMT offset by adding
      * the number of hours to the returned time.
      *
@@ -718,16 +743,6 @@ public final class ClockWidget {
 
         return timeFormatter.format(calendar.getTime());
     }
-
-    /**
-     * The GMT timezone string ID.
-     */
-    private static final String GMT = "GMT";
-
-    /**
-     * The GMT timezone object.
-     */
-    private static final TimeZone gmtTimezone = TimeZone.getTimeZone(GMT);
 
     /**
      * Possible gmt units used for hands of the clock.
@@ -799,12 +814,14 @@ public final class ClockWidget {
                     + "Please see the fields panel of the user editor to learn how to acquire a key"
                     + " and set it.", "Weather Key Not Set");
 
-            return resetAndGetDefaultGmtOffset();
+            resetGmtOffset();
+            return 0;
         }
 
         Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(currentLocation);
         if (optionalWeatherData.isEmpty()) {
-            return resetAndGetDefaultGmtOffset();
+            resetGmtOffset();
+            return 0;
         }
 
         WeatherData weatherData = optionalWeatherData.get();
@@ -812,11 +829,12 @@ public final class ClockWidget {
         return currentGmtOffset;
     }
 
-    @ForReadability
-    private static int resetAndGetDefaultGmtOffset() {
+    /**
+     * Resets the GMT offset to 0.
+     */
+    private static void resetGmtOffset() {
         currentGmtOffset = 0;
         currentLocation = DEFAULT_LOCATION;
-        return currentGmtOffset;
     }
 
     /**
