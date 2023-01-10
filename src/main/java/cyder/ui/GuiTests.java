@@ -852,10 +852,10 @@ public final class GuiTests {
             String text = leftField.getTrimmedText();
 
             if (!text.isEmpty()) {
-                DragLabelTextButton textButton = DragLabelTextButton.generateTextButton(
-                        new DragLabelTextButton.Builder(text)
-                                .setTooltip(text)
-                                .setClickAction(() -> testFrame.notify(text)));
+                DragLabelTextButton textButton = new DragLabelTextButton.Builder(text)
+                        .setTooltip(text)
+                        .setClickAction(() -> testFrame.notify(text))
+                        .build();
                 testFrame.getTopDragLabel().addLeftButton(textButton, 0);
             }
         });
@@ -871,10 +871,10 @@ public final class GuiTests {
             String text = rightField.getTrimmedText();
 
             if (!text.isEmpty()) {
-                DragLabelTextButton textButton = DragLabelTextButton.generateTextButton(
-                        new DragLabelTextButton.Builder(text)
-                                .setTooltip(text)
-                                .setClickAction(() -> testFrame.notify(text)));
+                DragLabelTextButton textButton = new DragLabelTextButton.Builder(text)
+                        .setTooltip(text)
+                        .setClickAction(() -> testFrame.notify(text))
+                        .build();
                 testFrame.getTopDragLabel().addRightButton(textButton, 0);
             }
         });

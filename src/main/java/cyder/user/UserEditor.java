@@ -280,11 +280,10 @@ public final class UserEditor {
      */
     private static void installDragLabelButtons() {
         Arrays.stream(Page.values()).forEach(page -> {
-            DragLabelTextButton menuButton = DragLabelTextButton.generateTextButton(
-                    new DragLabelTextButton.Builder(page.getTitle())
-                            .setTooltip(page.getTitle())
-                            .setClickAction(() -> switchToPage(page))
-                            .setStateSelectedAtomicBoolean(page.getOnPage()));
+            DragLabelTextButton menuButton = new DragLabelTextButton.Builder(page.getTitle())
+                    .setTooltip(page.getTitle())
+                    .setClickAction(() -> switchToPage(page))
+                    .setStateSelectedAtomicBoolean(page.getOnPage()).build();
 
             editUserFrame.getTopDragLabel().addRightButton(menuButton, 0);
         });

@@ -25,6 +25,11 @@ public class DragLabelTextButton extends JLabel {
     private final AtomicBoolean hovered;
 
     /**
+     * The builder for this drag label text button.
+     */
+    private Builder builder;
+
+    /**
      * Suppress default constructor.
      */
     private DragLabelTextButton() {
@@ -32,11 +37,6 @@ public class DragLabelTextButton extends JLabel {
 
         this.hovered = new AtomicBoolean();
     }
-
-    /**
-     * The builder for this drag label text button.
-     */
-    private Builder builder;
 
     /**
      * Sets the builder for this drag label text button.
@@ -47,14 +47,13 @@ public class DragLabelTextButton extends JLabel {
         this.builder = Preconditions.checkNotNull(builder);
     }
 
-    // todo restrict me
     /**
      * Constructs and returns a new drag label text button from the contents of the provided builder.
      *
      * @param builder the builder to use for construction of the text button.
      * @return the drag label text button
      */
-    public static DragLabelTextButton generateTextButton(Builder builder) {
+    private static DragLabelTextButton generateTextButton(Builder builder) {
         Preconditions.checkNotNull(builder);
 
         DragLabelTextButton ret = new DragLabelTextButton();
@@ -395,15 +394,13 @@ public class DragLabelTextButton extends JLabel {
             return stateSelected;
         }
 
-        // todo use me
-
         /**
          * Builds and returns a drag label text button using this builder.
          *
          * @return a drag label text button using this builder
          */
         public DragLabelTextButton build() {
-            return DragLabelTextButton.generateTextButton(this);
+            return generateTextButton(this);
         }
     }
 }

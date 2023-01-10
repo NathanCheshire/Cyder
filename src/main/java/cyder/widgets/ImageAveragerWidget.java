@@ -305,8 +305,9 @@ public final class ImageAveragerWidget {
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
         CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(), previewImage.getIconHeight(), previewImage);
-        DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
-                new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
+        DragLabelTextButton saveButton = new DragLabelTextButton.Builder(SAVE)
+                .setTooltip(SAVE_IMAGE)
+                .setClickAction(() -> {
                     boolean saved = saveImage(saveImage, outputFile);
                     if (!saved) {
                         averagerFrame.notify("Could not save average at this time");
@@ -317,7 +318,7 @@ public final class ImageAveragerWidget {
                             + StringUtil.getApostropheSuffix(UserUtil.getCyderUser().getName())
                             + "backgrounds/ directory");
                     drawFrame.dispose(true);
-                }));
+                }).build();
         drawFrame.getTopDragLabel().addRightButton(saveButton, 0);
 
         drawFrame.setVisible(true);

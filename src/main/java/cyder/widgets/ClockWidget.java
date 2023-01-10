@@ -465,22 +465,22 @@ public final class ClockWidget {
 
     @ForReadability
     private static void installDragLabelButtons() {
-        DragLabelTextButton miniClockButton = DragLabelTextButton.generateTextButton(
-                new DragLabelTextButton.Builder(MINI)
-                        .setTooltip(TOOLTIP)
-                        .setClickAction(ClockWidget::spawnMiniClock));
+        DragLabelTextButton miniClockButton = new DragLabelTextButton.Builder(MINI)
+                .setTooltip(TOOLTIP)
+                .setClickAction(ClockWidget::spawnMiniClock)
+                .build();
         clockFrame.getTopDragLabel().addRightButton(miniClockButton, 0);
 
-        DragLabelTextButton colorButton =
-                DragLabelTextButton.generateTextButton(new DragLabelTextButton.Builder(COLOR)
-                        .setTooltip(THEME_COLOR)
-                        .setClickAction(getColorButtonClickRunnable()));
+        DragLabelTextButton colorButton = new DragLabelTextButton.Builder(COLOR)
+                .setTooltip(THEME_COLOR)
+                .setClickAction(getColorButtonClickRunnable())
+                .build();
         clockFrame.getTopDragLabel().addRightButton(colorButton, 0);
 
-        DragLabelTextButton locationButton =
-                DragLabelTextButton.generateTextButton(new DragLabelTextButton.Builder(LOCATION)
-                        .setTooltip(CURRENT_LOCATION)
-                        .setClickAction(getLocationButtonClickRunnable()));
+        DragLabelTextButton locationButton = new DragLabelTextButton.Builder(LOCATION)
+                .setTooltip(CURRENT_LOCATION)
+                .setClickAction(getLocationButtonClickRunnable())
+                .build();
         clockFrame.getTopDragLabel().addRightButton(locationButton, 0);
     }
 
@@ -574,13 +574,17 @@ public final class ClockWidget {
     /**
      * The builder for getting the theme color.
      */
-    private static final GetInputBuilder themeColorBuilder = new GetInputBuilder(THEME_COLOR, "Theme color")
-            .setRelativeTo(clockFrame)
-            .setFieldRegex(colorThemeFieldRegex)
-            .setInitialFieldText(ColorUtil.rgbToHexString(clockColor));
+    private static GetInputBuilder themeColorBuilder = null;
 
     @ForReadability
     private static Runnable getColorButtonClickRunnable() {
+        if (themeColorBuilder == null) {
+            themeColorBuilder = new GetInputBuilder(THEME_COLOR, "Theme color")
+                    .setRelativeTo(clockFrame)
+                    .setFieldRegex(colorThemeFieldRegex)
+                    .setInitialFieldText(ColorUtil.rgbToHexString(clockColor));
+        }
+
         return () -> CyderThreadRunner.submit(() -> {
             Optional<String> optionalColor = GetterUtil.getInstance().getInput(themeColorBuilder);
             if (optionalColor.isEmpty()) return;
