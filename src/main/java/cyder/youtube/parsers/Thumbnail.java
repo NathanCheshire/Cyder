@@ -1,7 +1,7 @@
 package cyder.youtube.parsers;
 
 /**
- * A YouTube video's thumbnail.
+ * The thumbnail object for a {@link Thumbnails} object.
  */
 public class Thumbnail {
     private String url;
