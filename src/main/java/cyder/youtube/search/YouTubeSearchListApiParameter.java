@@ -8,7 +8,11 @@ enum YouTubeSearchListApiParameter {
     QUERY("q"),
     TYPE("type"),
     KEY("key"),
-    SAFE_SEARCH("safeSearch");
+    SAFE_SEARCH("safeSearch"),
+    ORDER("order"),
+    VIDEO_DEFINITION("videoDefinition"),
+    VIDEO_DURATION("videoDuration"),
+    MAX_RESULTS("maxResults");
 
     /**
      * The url parameter name for this parameter.

@@ -56,7 +56,15 @@ public class SearchQuery {
                 + YouTubeSearchListApiParameter.SAFE_SEARCH.getUrlParameter()
                 + builder.getSafeSearch().getUrlParameter()
                 + YouTubeSearchListApiParameter.KEY.getUrlParameter()
-                + builder.getKey();
+                + builder.getKey()
+                + YouTubeSearchListApiParameter.ORDER.getUrlParameter()
+                + builder.getSearchOrder()
+                + YouTubeSearchListApiParameter.VIDEO_DEFINITION.getUrlParameter()
+                + builder.getVideoDefinition()
+                + YouTubeSearchListApiParameter.VIDEO_DURATION.getUrlParameter()
+                + builder.getVideoDuration()
+                + YouTubeSearchListApiParameter.MAX_RESULTS.getUrlParameter()
+                + builder.getMaxResults();
     }
 
     /**
@@ -133,14 +141,17 @@ public class SearchQuery {
         /**
          * The search order.
          */
-        private YouTubeSearchOrder searchOrder = YouTubeSearchOrder.TITLE; // todo use in construction
+        private YouTubeSearchOrder searchOrder = YouTubeSearchOrder.TITLE;
 
         /**
          * The video definition.
          */
-        private YouTubeVideoDefinition videoDefinition = YouTubeVideoDefinition.ANY; // todo use in construction
+        private YouTubeVideoDefinition videoDefinition = YouTubeVideoDefinition.ANY;
 
-        // todo videoDuration = any,long,medium,short
+        /**
+         * The video duration.
+         */
+        private YouTubeVideoDuration videoDuration = YouTubeVideoDuration.ANY;
 
         /**
          * The maximum results that may be returned by this query.
@@ -301,7 +312,32 @@ public class SearchQuery {
          */
         @CanIgnoreReturnValue
         public Builder setVideoDefinition(YouTubeVideoDefinition videoDefinition) {
+            Preconditions.checkNotNull(videoDefinition);
+
             this.videoDefinition = videoDefinition;
+            return this;
+        }
+
+        /**
+         * Returns the video duration.
+         *
+         * @return the video duration
+         */
+        public YouTubeVideoDuration getVideoDuration() {
+            return videoDuration;
+        }
+
+        /**
+         * Sets the video duration.
+         *
+         * @param videoDuration the video duration
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setVideoDuration(YouTubeVideoDuration videoDuration) {
+            Preconditions.checkNotNull(videoDuration);
+
+            this.videoDuration = videoDuration;
             return this;
         }
 
