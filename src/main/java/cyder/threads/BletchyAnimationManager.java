@@ -10,9 +10,10 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.pane.CyderOutputPane;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 
 /**
  * A class used to perform bletchy animations on a specific JTextPane.
@@ -37,19 +38,16 @@ public enum BletchyAnimationManager {
     /**
      * Character list of all lowercase latin characters.
      */
-    private final ImmutableList<Character> LOWERCASE_ALPHABET = ImmutableList.of(
+    private final ImmutableList<Character> lowercaseAlphabetChars = ImmutableList.of(
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     );
 
     /**
-     * Character list of all lowercase latin characters and the base 10 numbers.
+     * Character list of all arabic digits.
      */
-    private final ImmutableList<Character> LOWERCASE_ALPHABET_AND_NUMBERS = ImmutableList.of(
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-            'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-            's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    private final ImmutableList<Character> digitChars = ImmutableList.of(
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     );
 
     /**
@@ -112,11 +110,6 @@ public enum BletchyAnimationManager {
     private Animator animator;
 
     /**
-     * Whether this animator is active.
-     */
-    private boolean isActive;
-
-    /**
      * The output pane the bletchy animations will be printed to.
      */
     private CyderOutputPane outputPane;
@@ -148,6 +141,7 @@ public enum BletchyAnimationManager {
     public synchronized void deconstruct() {
         this.outputPane = null;
         this.printer = null;
+
         initialized.set(false);
     }
 
@@ -172,8 +166,6 @@ public enum BletchyAnimationManager {
             Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/YouTube thread"
                     + " at the same time as another instance.");
         } else {
-            kill();
-
             animator = new Animator(decodeString, useNumbers, useUnicode, millisDelay);
             animator.start();
         }
@@ -183,6 +175,11 @@ public enum BletchyAnimationManager {
      * Inner class used to invoke the bletchy animation.
      */
     private class Animator {
+        /**
+         * Whether the animation is active.
+         */
+        private final AtomicBoolean animationActive = new AtomicBoolean();
+
         /**
          * The string to decode.
          */
@@ -206,7 +203,7 @@ public enum BletchyAnimationManager {
         /**
          * The Bletchy animation steps.
          */
-        private final String[] animationSteps;
+        private final ArrayList<String> animationSteps;
 
         /**
          * Constructs and a new BletchyAnimator thread.
@@ -232,19 +229,20 @@ public enum BletchyAnimationManager {
         /**
          * Starts the bletchy animation this animator is setup to perform.
          */
-        public void start() {
+        private void start() {
+            Preconditions.checkArgument(!animationActive.get());
+            animationActive.set(true);
+
             String threadName = "Bletchy printing thread, finalString: " + CyderStrings.quote
-                    + animationSteps[animationSteps.length - 1] + CyderStrings.quote;
+                    + animationSteps.get(animationSteps.size() - 1) + CyderStrings.quote;
             CyderThreadRunner.submit(() -> {
                 try {
-                    isActive = true;
-
                     if (!outputPane.acquireLock()) {
                         throw new FatalException("Failed to acquire output pane lock");
                     }
 
-                    Arrays.stream(animationSteps).forEach(print -> {
-                        if (!isActive) return;
+                    animationSteps.forEach(print -> {
+                        if (!animationActive.get()) return;
 
                         printer.println(print);
 
@@ -258,7 +256,7 @@ public enum BletchyAnimationManager {
                         }
                     });
 
-                    printer.println(animationSteps[animationSteps.length - 1]);
+                    printer.println(animationSteps.get(animationSteps.size() - 1));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
@@ -272,7 +270,7 @@ public enum BletchyAnimationManager {
          * Kills this bletchy thread.
          */
         public void kill() {
-            isActive = false;
+            animationActive.set(true);
         }
 
         /**
@@ -281,7 +279,7 @@ public enum BletchyAnimationManager {
          * @return whether this animator is active
          */
         public boolean isActive() {
-            return isActive;
+            return animationActive.get();
         }
 
         /**
@@ -327,7 +325,7 @@ public enum BletchyAnimationManager {
      * @return whether this BletchyThread has an animation thread underway
      */
     public boolean isActive() {
-        return isActive;
+        return animator != null && animator.isActive();
     }
 
     /**
@@ -336,32 +334,25 @@ public enum BletchyAnimationManager {
     public void kill() {
         if (animator != null) {
             animator.kill();
+            animator = null;
         }
     }
 
     /**
-     * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
+     * Returns an array list of Strings abiding by the parameters for a bletchy thread to print.
      *
      * @param decodeString the string to decode
      * @param useNumbers   a boolean turning on number usage
      * @param useUnicode   a boolean turning on random unicode chars
-     * @return the array of strings to be used by a bletchy thread
+     * @return the array list of strings to be used by a bletchy thread
      */
-    private String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
+    private ArrayList<String> getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
         Preconditions.checkNotNull(decodeString);
         Preconditions.checkArgument(!decodeString.isEmpty());
 
-        LinkedList<String> retList = new LinkedList<>();
-
-        String decodeUsage = decodeString.toLowerCase().trim();
-        int len = decodeUsage.length();
-
-        LinkedList<Character> charsToUse = new LinkedList<>();
-
+        ArrayList<Character> charsToUse = new ArrayList<>(lowercaseAlphabetChars);
         if (useNumbers) {
-            charsToUse.addAll(LOWERCASE_ALPHABET_AND_NUMBERS);
-        } else {
-            charsToUse.addAll(LOWERCASE_ALPHABET);
+            charsToUse.addAll(digitChars);
         }
 
         if (useUnicode) {
@@ -369,21 +360,22 @@ public enum BletchyAnimationManager {
             charsToUse.addAll(UNICODE_CHARS);
         }
 
-        for (int i = 1 ; i < len ; i++) {
-            for (int j = 0 ; j < iterationsPerChar ; j++) {
+        ArrayList<String> retList = new ArrayList<>();
 
-                StringBuilder current = new StringBuilder();
+        String decodeUsage = decodeString.toLowerCase().trim();
+        int len = decodeUsage.length();
 
-                for (int k = 0 ; k <= len ; k++) {
-                    current.append(charsToUse.get(NumberUtil.generateRandomInt(charsToUse.size() - 1)));
-                }
+        IntStream.range(0, decodeUsage.length()).forEach(i ->
+                IntStream.range(0, iterationsPerChar).forEach(j -> {
+                    StringBuilder current = new StringBuilder();
 
-                retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());
-            }
-        }
+                    IntStream.range(0, len + 1).forEach(k -> current.append(charsToUse.get(
+                            NumberUtil.generateRandomInt(charsToUse.size() - 1))));
+
+                    retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());
+                }));
 
         retList.add(decodeUsage);
-
-        return retList.toArray(new String[0]);
+        return retList;
     }
 }

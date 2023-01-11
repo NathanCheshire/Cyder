@@ -1,7 +1,8 @@
 package cyder.threads
 
+import cyder.strings.CyderStrings
 import cyder.ui.pane.CyderOutputPane
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import javax.swing.JTextPane
@@ -15,7 +16,7 @@ class BletchyAnimationManagerTest {
      */
     @Test
     fun testInitialize() {
-        BletchyAnimationManager.INSTANCE.deconstruct();
+        BletchyAnimationManager.INSTANCE.deconstruct()
 
         assertThrows(IllegalStateException::class.java) {
             BletchyAnimationManager.INSTANCE.bletchy(null, false, 0, false)
@@ -35,14 +36,14 @@ class BletchyAnimationManagerTest {
      */
     @Test
     fun testBletchy() {
-        BletchyAnimationManager.INSTANCE.deconstruct();
+        BletchyAnimationManager.INSTANCE.deconstruct()
 
         assertThrows(IllegalStateException::class.java) {
             BletchyAnimationManager.INSTANCE.bletchy(null, false, 0, false)
         }
 
         val outputPane = CyderOutputPane(JTextPane())
-        assertDoesNotThrow { BletchyAnimationManager.INSTANCE.initialize(outputPane) }
+        BletchyAnimationManager.INSTANCE.initialize(outputPane)
 
         assertThrows(NullPointerException::class.java) {
             BletchyAnimationManager.INSTANCE.bletchy(null, false, 0, false)
@@ -65,5 +66,21 @@ class BletchyAnimationManagerTest {
         }
     }
 
-    // todo test is active and kill
+    /**
+     * Tests for the is active and kill methods.
+     */
+    @Test
+    fun testIsActive() {
+        BletchyAnimationManager.INSTANCE.deconstruct()
+
+        val outputPane = CyderOutputPane(JTextPane())
+        BletchyAnimationManager.INSTANCE.initialize(outputPane)
+
+        assertFalse(BletchyAnimationManager.INSTANCE.isActive)
+        BletchyAnimationManager.INSTANCE.bletchy(CyderStrings.EUROPEAN_TOY_MAKER, false, 1, false)
+        ThreadUtil.sleepSeconds(2)
+        assertTrue(BletchyAnimationManager.INSTANCE.isActive)
+        BletchyAnimationManager.INSTANCE.kill()
+        assertFalse(BletchyAnimationManager.INSTANCE.isActive)
+    }
 }
