@@ -2,7 +2,6 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.console.Console;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -10,7 +9,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
@@ -31,12 +29,6 @@ import java.util.Optional;
  * Using a single thread, this has about a 1 in {@link #CHANCE_OF_SUCCESS} chance of succeeding every iteration.
  */
 public class YoutubeUuidChecker {
-    /**
-     * The number of runs averaged together to notify the user of the expected time remaining before
-     * all UUIDs have been checked.
-     */
-    private static final int runsToAverage = 10;
-
     /**
      * The chances of success for a singular thread running.
      */
@@ -85,7 +77,7 @@ public class YoutubeUuidChecker {
      *
      * @param outputPane output pane to use for printing output to
      */
-    public YoutubeUuidChecker(CyderOutputPane outputPane) {
+    protected YoutubeUuidChecker(CyderOutputPane outputPane) {
         Preconditions.checkNotNull(outputPane);
 
         this.outputPane = outputPane;
@@ -106,9 +98,6 @@ public class YoutubeUuidChecker {
             Preconditions.checkNotNull(youTubeUuid);
             Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
 
-            int numRuns = 0;
-            long startTime = System.currentTimeMillis();
-
             while (!killed) {
                 YoutubeUuidCheckerManager.INSTANCE.incrementUrlsChecked();
 
@@ -119,6 +108,9 @@ public class YoutubeUuidChecker {
                     stringUtil.println("Checked uuid: " + youTubeUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
+                    BufferedImage thumbnail = ImageUtil.read(
+                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youTubeUuid));
+
                     YoutubeUuidCheckerManager.INSTANCE.killAll();
 
                     if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
@@ -127,38 +119,9 @@ public class YoutubeUuidChecker {
                     stringUtil.println("YouTube script found valid video with uuid: " + youTubeUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
-                    BufferedImage thumbnail = ImageUtil.read(CyderUrls.THUMBNAIL_BASE_URL
-                            .replace("REPLACE", youTubeUuid));
                     showThumbnailFrame(thumbnail);
                 } catch (Exception ignored) {
                     incrementUuid();
-                }
-
-                if (numRuns < runsToAverage) {
-                    numRuns++;
-                } else if (numRuns == runsToAverage) {
-                    BigInteger completedUuids = new BigInteger("0");
-
-                    char[] uuidArray = youTubeUuid.toCharArray();
-                    for (int i = runsToAverage ; i >= 0 ; i--) {
-                        int weight = Math.abs(i - runsToAverage);
-                        char currentDigit = uuidArray[i];
-
-                        for (int j = 0 ; j < uuidChars.size() ; j++) {
-                            if (uuidChars.get(j) == currentDigit) {
-                                BigInteger valueToAdd = new BigInteger(String.valueOf(j * Math.pow(64, weight)));
-                                completedUuids = completedUuids.add(valueToAdd);
-                                break;
-                            }
-                        }
-                    }
-
-                    long time = System.currentTimeMillis() - startTime;
-                    BigInteger avgMsPerCheck = new BigInteger(String.valueOf(time / 10.0));
-                    BigInteger msTimeLeft = CHANCE_OF_SUCCESS.subtract(completedUuids).divide(avgMsPerCheck);
-
-                    Console.INSTANCE.getConsoleCyderFrame().notify("Time left: "
-                            + TimeUtil.formatMillis(msTimeLeft.longValue()));
                 }
             }
         }, threadName);

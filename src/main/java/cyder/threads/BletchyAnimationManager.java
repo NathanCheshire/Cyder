@@ -142,6 +142,8 @@ public enum BletchyAnimationManager {
         this.outputPane = null;
         this.printer = null;
 
+        kill();
+
         initialized.set(false);
     }
 

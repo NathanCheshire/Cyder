@@ -78,7 +78,7 @@ class BletchyAnimationManagerTest {
 
         assertFalse(BletchyAnimationManager.INSTANCE.isActive)
         BletchyAnimationManager.INSTANCE.bletchy(CyderStrings.EUROPEAN_TOY_MAKER, false, 1, false)
-        ThreadUtil.sleepSeconds(2)
+        ThreadUtil.sleepSeconds(1)
         assertTrue(BletchyAnimationManager.INSTANCE.isActive)
         BletchyAnimationManager.INSTANCE.kill()
         assertFalse(BletchyAnimationManager.INSTANCE.isActive)

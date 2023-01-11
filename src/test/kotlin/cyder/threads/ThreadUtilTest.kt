@@ -64,7 +64,6 @@ class ThreadUtilTest {
     @Test
     fun testSleep() {
         assertThrows(IllegalArgumentException::class.java) { ThreadUtil.sleep(-1) }
-        assertThrows(IllegalArgumentException::class.java) { ThreadUtil.sleep(0) }
 
         assertDoesNotThrow { ThreadUtil.sleep(1) }
         assertDoesNotThrow { ThreadUtil.sleep(10) }

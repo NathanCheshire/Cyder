@@ -118,7 +118,7 @@ public enum YoutubeUuidCheckerManager {
      */
     public void start(int number) {
         Preconditions.checkArgument(number > 0);
-        Preconditions.checkState(!initialized.get());
+        Preconditions.checkState(initialized.get());
 
         if (BletchyAnimationManager.INSTANCE.isActive() || hasActiveCheckers()) {
             Console.INSTANCE.getConsoleCyderFrame().notify(

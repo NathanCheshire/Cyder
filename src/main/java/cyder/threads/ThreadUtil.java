@@ -111,7 +111,7 @@ public final class ThreadUtil {
      * @param sleepTimeMs the time to sleep for in ms
      */
     public static void sleep(long sleepTimeMs) {
-        Preconditions.checkArgument(sleepTimeMs > 0);
+        Preconditions.checkArgument(sleepTimeMs >= 0);
 
         try {
             Thread.sleep(sleepTimeMs);
@@ -128,8 +128,8 @@ public final class ThreadUtil {
      * @param sleepTimeNano the time to sleep for in nano seconds
      */
     public static void sleep(long sleepTimeMs, int sleepTimeNano) {
-        Preconditions.checkArgument(sleepTimeMs > 0);
-        Preconditions.checkArgument(sleepTimeNano > 0);
+        Preconditions.checkArgument(sleepTimeMs >= 0);
+        Preconditions.checkArgument(sleepTimeNano >= 0);
 
         try {
             Thread.sleep(sleepTimeMs, sleepTimeNano);
