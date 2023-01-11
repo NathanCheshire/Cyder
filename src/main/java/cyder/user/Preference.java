@@ -15,6 +15,7 @@ import cyder.widgets.ClockWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 
 import static cyder.strings.CyderStrings.EMPTY;
 
@@ -156,15 +157,24 @@ public class Preference {
                     "0", () -> {
                 Logger.log(LogTag.PREFERENCE, OUTPUT_FILL);
 
+                JTextPane outputArea = Console.INSTANCE.getOutputArea();
+
                 if (UserUtil.getCyderUser().getOutputFill().equals("0")) {
-                    Console.INSTANCE.getOutputArea().setBackground(null);
-                    Console.INSTANCE.getOutputArea().setOpaque(false);
+                    outputArea.setBackground(null);
+                    outputArea.setOpaque(false);
                 } else {
-                    Console.INSTANCE.getOutputArea().setOpaque(true);
-                    Console.INSTANCE.getOutputArea().setBackground(
-                            ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                    Console.INSTANCE.getOutputArea().repaint();
-                    Console.INSTANCE.getOutputArea().revalidate();
+                    Color outputFillColor = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+
+                    outputArea.setOpaque(true);
+                    outputArea.setBackground(outputFillColor);
+                    outputArea.repaint();
+                    outputArea.revalidate();
+
+                    // todo this works so need a working system
+                    //                    outputArea.setBackground(new Color(outputFillColor.getRed(), outputFillColor.getGreen(),
+                    //                            outputFillColor.getBlue(), 120));
+                    //                    outputArea.revalidate();
+                    //                    outputArea.repaint();
                 }
             }),
 

@@ -2061,7 +2061,7 @@ public enum Console {
         }
 
         menuLabel = new JLabel();
-        menuLabel.setSize(TASKBAR_MENU_WIDTH, calculateMenuHeight());
+        revalidateConsoleMenuSize();
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setFocusable(false);
@@ -2094,6 +2094,13 @@ public enum Console {
         menuLabel.add(menuScroll);
 
         installMenuTaskbarIcons();
+    }
+
+    /**
+     * Revalidates the console menu size.
+     */
+    private void revalidateConsoleMenuSize() {
+        if (menuLabel != null) menuLabel.setSize(TASKBAR_MENU_WIDTH, calculateMenuHeight());
     }
 
     /**
@@ -2884,6 +2891,7 @@ public enum Console {
 
         UserUtil.getCyderUser().setFullscreen("0");
         revalidate(true, false, maintainConsoleSize);
+        revalidateConsoleMenuSize();
     }
 
     /**
