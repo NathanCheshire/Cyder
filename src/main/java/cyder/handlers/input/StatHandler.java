@@ -200,9 +200,9 @@ public class StatHandler extends InputHandler {
             Arrays.stream(SystemPropertyKey.values()).forEach(propertyKey
                     -> getInputHandler().println(propertyKey.getProperty()));
         } else if (getInputHandler().commandIs("threads")) {
-            getInputHandler().printlns(ThreadUtil.getThreads());
+            getInputHandler().printlns(ThreadUtil.getThreadNames());
         } else if (getInputHandler().inputIgnoringSpacesMatches("daemonthreads")) {
-            getInputHandler().printlns(ThreadUtil.getDaemonThreads());
+            getInputHandler().printlns(ThreadUtil.getDaemonThreadNames());
         } else {
             ret = false;
         }

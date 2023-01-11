@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.ToStringUtil;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -56,6 +55,6 @@ public class CyderThreadFactory implements ThreadFactory {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonCyderToString(this);
+        return "CyderThreadFactory{name=\"" + name + "\"}";
     }
 }

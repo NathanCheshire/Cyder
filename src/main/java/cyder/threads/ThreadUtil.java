@@ -46,7 +46,7 @@ public final class ThreadUtil {
      *
      * @return an immutable list of the active daemon threads
      */
-    public static ImmutableList<String> getDaemonThreads() {
+    public static ImmutableList<String> getDaemonThreadNames() {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
         int num = threadGroup.activeCount();
         Thread[] printThreads = new Thread[num];
@@ -66,7 +66,7 @@ public final class ThreadUtil {
      *
      * @return an immutable list of the active threads
      */
-    public static ImmutableList<String> getThreads() {
+    public static ImmutableList<String> getThreadNames() {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
         int num = threadGroup.activeCount();
         Thread[] printThreads = new Thread[num];
@@ -84,6 +84,25 @@ public final class ThreadUtil {
     }
 
     /**
+     * Returns a list of non-null threads in the current thread group.
+     * Note this method takes precautions to not return null values or null list.
+     *
+     * @return a list of non-null threads in the current thread group
+     */
+    public static ImmutableList<Thread> getCurrentThreads() {
+        ThreadGroup group = Thread.currentThread().getThreadGroup();
+        Thread[] currentThreads = new Thread[group.activeCount()];
+        group.enumerate(currentThreads);
+
+        ArrayList<Thread> ret = new ArrayList<>();
+        for (Thread thread : currentThreads) {
+            if (thread != null) ret.add(thread);
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    /**
      * Sleeps on the currently executing thread for the provided amount of time in ms.
      * This method is intended to be used as a static helper so that a method can
      * invoke this method without having to surround with a try/catch block or type
@@ -92,6 +111,8 @@ public final class ThreadUtil {
      * @param sleepTimeMs the time to sleep for in ms
      */
     public static void sleep(long sleepTimeMs) {
+        Preconditions.checkArgument(sleepTimeMs > 0);
+
         try {
             Thread.sleep(sleepTimeMs);
         } catch (Exception ignored) {}
@@ -107,6 +128,9 @@ public final class ThreadUtil {
      * @param sleepTimeNano the time to sleep for in nano seconds
      */
     public static void sleep(long sleepTimeMs, int sleepTimeNano) {
+        Preconditions.checkArgument(sleepTimeMs > 0);
+        Preconditions.checkArgument(sleepTimeNano > 0);
+
         try {
             Thread.sleep(sleepTimeMs, sleepTimeNano);
         } catch (Exception ignored) {}
@@ -121,6 +145,8 @@ public final class ThreadUtil {
      * @param seconds the time to sleep for in seconds
      */
     public static void sleepSeconds(long seconds) {
+        Preconditions.checkArgument(seconds > 0);
+
         try {
             Thread.sleep(seconds * 1000);
         } catch (Exception ignored) {}
@@ -136,10 +162,10 @@ public final class ThreadUtil {
      */
     public static void sleepWithChecks(long sleepTime, long checkConditionFrequency,
                                        Supplier<Boolean> shouldExit) {
-        Preconditions.checkNotNull(shouldExit);
         Preconditions.checkArgument(sleepTime > 0);
         Preconditions.checkArgument(checkConditionFrequency > 0);
         Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+        Preconditions.checkNotNull(shouldExit);
 
         long acc = 0;
         while (acc < sleepTime) {
@@ -163,10 +189,10 @@ public final class ThreadUtil {
     public static void sleepWithChecks(long sleepTime,
                                        long checkConditionFrequency,
                                        AtomicBoolean escapeCondition) {
-        Preconditions.checkNotNull(escapeCondition);
         Preconditions.checkArgument(sleepTime > 0);
         Preconditions.checkArgument(checkConditionFrequency > 0);
         Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+        Preconditions.checkNotNull(escapeCondition);
 
         long acc = 0;
         while (acc < sleepTime) {
@@ -177,24 +203,5 @@ public final class ThreadUtil {
                 break;
             }
         }
-    }
-
-    /**
-     * Returns a list of non-null threads in the current thread group.
-     * Note this method takes precautions to not return null values or null list.
-     *
-     * @return a list of non-null threads in the current thread group
-     */
-    public static ImmutableList<Thread> getCurrentThreads() {
-        ThreadGroup group = Thread.currentThread().getThreadGroup();
-        Thread[] currentThreads = new Thread[group.activeCount()];
-        group.enumerate(currentThreads);
-
-        ArrayList<Thread> ret = new ArrayList<>();
-        for (Thread thread : currentThreads) {
-            if (thread != null) ret.add(thread);
-        }
-
-        return ImmutableList.copyOf(ret);
     }
 }
