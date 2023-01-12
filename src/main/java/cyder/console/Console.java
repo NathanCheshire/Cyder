@@ -1614,7 +1614,7 @@ public enum Console {
             return;
         }
 
-        startMenuLabelAndFieldAnimatingThreads();
+        animateInMenuLabel();
     }
 
     /**
@@ -1635,15 +1635,18 @@ public enum Console {
     /**
      * The delay in ms for the menu and fields animations.
      */
-    private static final int menuAnimationDelayMs = 10;
+    private static final int menuAnimationDelayMs = 5;
 
     /**
      * The x value the fields should be animated to when the menu label is animating in.
      */
     private static final int fieldsEnterAnimateToX = TASKBAR_MENU_WIDTH + 2 + 15;
 
-    @ForReadability
-    private void startMenuLabelAndFieldAnimatingThreads() {
+    /**
+     * Animates the menu label into the frame and animates the output area and input fields
+     * to smaller sizes to account for the space taken by the menu.
+     */
+    private void animateInMenuLabel() {
         CyderThreadRunner.submit(() -> {
             menuLabel.setLocation(consoleMenuHiddenPoint);
             menuLabel.setVisible(true);
@@ -1688,23 +1691,13 @@ public enum Console {
         public void keyReleased(KeyEvent e) {
             int code = e.getKeyCode();
 
-            if (downOrRight(code)) {
+            if (KeyCodeUtil.downOrRight(code)) {
                 focusNextTaskbarMenuItem();
-            } else if (upOrLeft(code)) {
+            } else if (KeyCodeUtil.upOrLeft(code)) {
                 focusPreviousTaskbarMenuItem();
             }
         }
     };
-
-    @ForReadability
-    private boolean downOrRight(int code) {
-        return code == KeyEvent.VK_DOWN || code == KeyEvent.VK_RIGHT;
-    }
-
-    @ForReadability
-    private boolean upOrLeft(int code) {
-        return code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT;
-    }
 
     /**
      * The current active frames to generate TaskbarIcons for the console's menu.
@@ -2188,9 +2181,8 @@ public enum Console {
     private static final int minFieldAnimateToX = 15;
 
     /**
-     * Slowly animates the taskbar away.
+     * Animates the taskbar menu away.
      */
-    @ForReadability
     private void minimizeMenu() {
         Preconditions.checkState(menuLabel.isVisible());
 
@@ -2235,57 +2227,23 @@ public enum Console {
     private final KeyAdapter inputFieldKeyAdapter = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (isControlC(e)) baseInputHandler.escapeThreads();
+            if (KeyCodeUtil.isControlC(e)) baseInputHandler.escapeThreads();
 
             int caretPosition = outputArea.getCaretPosition();
 
-            if (isConsoleAltDown(e)) {
+            if (KeyCodeUtil.isControlAltDown(e)) {
                 setConsoleDirection(Direction.BOTTOM);
                 outputArea.setCaretPosition(caretPosition);
-            } else if (isConsoleAltRight(e)) {
+            } else if (KeyCodeUtil.isControlAltRight(e)) {
                 setConsoleDirection(Direction.RIGHT);
                 outputArea.setCaretPosition(caretPosition);
-            } else if (isConsoleAltUp(e)) {
+            } else if (KeyCodeUtil.isControlAltUp(e)) {
                 setConsoleDirection(Direction.TOP);
                 outputArea.setCaretPosition(caretPosition);
-            } else if (isConsoleAltLeft(e)) {
+            } else if (KeyCodeUtil.isControlAltLeft(e)) {
                 setConsoleDirection(Direction.LEFT);
                 outputArea.setCaretPosition(caretPosition);
             }
-        }
-
-        @ForReadability
-        private boolean isControlC(KeyEvent e) {
-            return (e.getKeyCode() == KeyEvent.VK_C)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0);
-        }
-
-        @ForReadability
-        private boolean isConsoleAltDown(KeyEvent e) {
-            return (e.getKeyCode() == KeyEvent.VK_DOWN)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
-        }
-
-        @ForReadability
-        private boolean isConsoleAltRight(KeyEvent e) {
-            return (e.getKeyCode() == KeyEvent.VK_RIGHT)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
-        }
-
-        @ForReadability
-        private boolean isConsoleAltUp(KeyEvent e) {
-            return (e.getKeyCode() == KeyEvent.VK_UP)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
-        }
-
-        @ForReadability
-        private boolean isConsoleAltLeft(KeyEvent e) {
-            return (e.getKeyCode() == KeyEvent.VK_LEFT)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
         }
 
         @Override
@@ -2353,9 +2311,9 @@ public enum Console {
         public void keyPressed(KeyEvent e) {
             if (!controlAltNotPressed(e)) return;
 
-            if (isUp(e)) {
+            if (KeyCodeUtil.upOrLeft(e.getKeyCode())) {
                 attemptScrollUp();
-            } else if (isDown(e)) {
+            } else if (KeyCodeUtil.downOrRight(e.getKeyCode())) {
                 attemptScrollDown();
             }
 
@@ -2400,16 +2358,6 @@ public enum Console {
         }
 
         @ForReadability
-        private boolean isUp(KeyEvent e) {
-            return e.getKeyCode() == KeyEvent.VK_UP;
-        }
-
-        @ForReadability
-        private boolean isDown(KeyEvent e) {
-            return e.getKeyCode() == KeyEvent.VK_DOWN;
-        }
-
-        @ForReadability
         private boolean controlAltNotPressed(KeyEvent e) {
             return (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0);
@@ -2444,19 +2392,17 @@ public enum Console {
         int minFontSize = Props.minFontSize.getValue();
         if (fontSize > maxFontSize || fontSize < minFontSize) return;
 
-        try {
-            String fontName = UserUtil.getCyderUser().getFont();
-            int fontMetric = FontUtil.getFontMetricFromProps();
+        String fontName = UserUtil.getCyderUser().getFont();
+        int fontMetric = FontUtil.getFontMetricFromProps();
 
-            Font newFont = new Font(fontName, fontMetric, fontSize);
-            if (FontUtil.isValidFontMetric(fontMetric)) {
-                inputField.setFont(newFont);
-                outputArea.setFont(newFont);
+        Font newFont = new Font(fontName, fontMetric, fontSize);
+        if (FontUtil.isValidFontMetric(fontMetric)) {
+            inputField.setFont(newFont);
+            outputArea.setFont(newFont);
 
-                UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
-                baseInputHandler.refreshPrintedLabels();
-            }
-        } catch (Exception ignored) {}
+            UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
+            baseInputHandler.refreshPrintedLabels();
+        }
     };
 
     /**

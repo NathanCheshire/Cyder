@@ -3865,6 +3865,7 @@ public class CyderFrame extends JFrame {
     // ------------------
     // Tooltip menu logic
     // ------------------
+    // todo we need this to be an actual encapsulated class that CyderFrame's can create
 
     /**
      * The current menu tooltip opacity.
