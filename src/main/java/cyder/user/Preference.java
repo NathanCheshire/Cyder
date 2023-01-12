@@ -171,10 +171,10 @@ public class Preference {
                     outputArea.revalidate();
 
                     // todo this works so need a working system
-                    //                    outputArea.setBackground(new Color(outputFillColor.getRed(), outputFillColor.getGreen(),
-                    //                            outputFillColor.getBlue(), 120));
-                    //                    outputArea.revalidate();
-                    //                    outputArea.repaint();
+                    outputArea.setBackground(new Color(outputFillColor.getRed(), outputFillColor.getGreen(),
+                            outputFillColor.getBlue(), 120));
+                    outputArea.revalidate();
+                    outputArea.repaint();
                 }
             }),
 

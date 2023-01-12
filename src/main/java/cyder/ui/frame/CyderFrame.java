@@ -3976,6 +3976,17 @@ public class CyderFrame extends JFrame {
     private static final String setFrameSizeTooltipMenuWaiterThreadName = "CyderFrame size setter waiter";
 
     /**
+     * The thread name for the tooltip menu label mouse exit listener.
+     */
+    private static final String TOOLTIP_MENU_LABEL_MOUSE_EXIT_LISTENER = "Tooltip Menu Label Mouse Exit Listener";
+
+    /**
+     * The delay in ms between polls of the current tooltip menu label's mouse position to check for it being
+     * null which indicates the mouse is not on the component and the label may be faded away.
+     */
+    private static final int tooltipMouseExitListenerPollDelay = 1000;
+
+    /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
      *
      * @param generatingEvent the {@link MouseEvent} which caused this method to be invoked
@@ -4021,6 +4032,28 @@ public class CyderFrame extends JFrame {
         }, tooltipMenuFadeoutWaiterThreadName);
 
         previousTooltipMenuLabels.add(tooltipMenuLabel);
+
+        startTooltipMenuLabelMouseExitListener(tooltipMenuLabel);
+    }
+
+    /**
+     * Starts a new listener for waiting for the mouse position on the provided label to be null
+     * indicating that it is not in the label anymore, at that point, the label is faded out.
+     *
+     * @param tooltipMenuLabel the tooltip menu label to fade out if the proper conditions are met
+     */
+    private void startTooltipMenuLabelMouseExitListener(JLabel tooltipMenuLabel) {
+        CyderThreadRunner.submit(() -> {
+            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+
+            while (previousTooltipMenuLabels.contains(tooltipMenuLabel)) {
+                if (tooltipMenuLabel.getMousePosition() == null) {
+                    fadeOutTooltipMenu(tooltipMenuLabel);
+                }
+
+                ThreadUtil.sleep(tooltipMouseExitListenerPollDelay);
+            }
+        }, TOOLTIP_MENU_LABEL_MOUSE_EXIT_LISTENER);
     }
 
     /**
@@ -4046,8 +4079,9 @@ public class CyderFrame extends JFrame {
                 enterExitCounter.incrementAndGet();
                 if (enterExitCounter.get() != 2) return;
                 CyderThreadRunner.submit(() -> {
-                    ThreadUtil.sleep(Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
-                            - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get())));
+                    long sleepTime = Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
+                            - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get()));
+                    if (sleepTime > 0) ThreadUtil.sleep(sleepTime);
                     ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
                     fadeOutTooltipMenu(tooltipMenuLabel);
                 }, tooltipMenuMouseExitedWaiterThreadName);
@@ -4228,8 +4262,8 @@ public class CyderFrame extends JFrame {
 
             tooltipMenuOpacity.set(ColorUtil.maxOpacity);
 
-            for (int i = tooltipMenuOpacity.get() ; i >= tooltipMenuLabelOpacityDecrement
-                    ; i -= tooltipMenuLabelOpacityDecrement) {
+            while (tooltipMenuOpacity.get() >= tooltipMenuLabelOpacityDecrement) {
+                if (!previousTooltipMenuLabels.contains(tooltipMenuLabel)) return;
                 tooltipMenuOpacity.set(tooltipMenuOpacity.get() - tooltipMenuLabelOpacityDecrement);
                 tooltipMenuLabel.repaint();
                 ThreadUtil.sleep(tooltipMenuLabelAnimationTimeout);

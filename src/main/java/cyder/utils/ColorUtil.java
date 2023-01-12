@@ -317,7 +317,7 @@ public final class ColorUtil {
      */
     public static Color setColorOpacity(Color color, int opacity) {
         Preconditions.checkNotNull(color);
-        Preconditions.checkArgument(opacityRange.contains(opacity));
+        Preconditions.checkArgument(opacityRange.contains(opacity), opacity);
 
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
     }
