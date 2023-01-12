@@ -2208,7 +2208,7 @@ public final class UserEditor {
         editUserFrame.notify("Successfully added map "
                 + CyderStrings.quote + name + CyderStrings.quote + " linking to: "
                 + CyderStrings.quote + link + CyderStrings.quote);
-        Console.INSTANCE.revalidateMenu();
+        Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }
 
     /**
@@ -2238,7 +2238,7 @@ public final class UserEditor {
 
         UserUtil.getCyderUser().setExecutables(exes);
         editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
-        Console.INSTANCE.revalidateMenu();
+        Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }
 
     /**

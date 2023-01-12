@@ -1063,7 +1063,7 @@ public class WeatherWidget {
 
             refreshWeatherLabels();
 
-            Console.INSTANCE.revalidateMenu();
+            Console.INSTANCE.revalidateConsoleTaskbarMenu();
         }, WEATHER_STATS_UPDATER_THREAD_NAME);
     }
 

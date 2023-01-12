@@ -1534,7 +1534,7 @@ public final class AudioPlayer {
 
         albumArtLabel.repaint();
 
-        Console.INSTANCE.revalidateMenu();
+        Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }
 
     /**

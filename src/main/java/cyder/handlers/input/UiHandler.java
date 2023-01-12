@@ -80,7 +80,7 @@ public class UiHandler extends InputHandler {
                 Console.INSTANCE.closeFrame(true, false);
             }
         } else if (getInputHandler().commandIs("logout")) {
-            Console.INSTANCE.logout();
+            Console.INSTANCE.onLogout();
         } else if (getInputHandler().commandIs("mouse")) {
             if (getInputHandler().checkArgsLength(2)) {
                 OsUtil.setMouseLocation(Integer.parseInt(getInputHandler().getArg(0)),

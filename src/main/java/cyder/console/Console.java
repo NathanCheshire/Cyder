@@ -25,6 +25,7 @@ import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.managers.CyderVersionManager;
 import cyder.managers.ProgramModeManager;
+import cyder.math.AngleUtil;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.meta.CyderSplash;
@@ -232,11 +233,6 @@ public enum Console {
      * The index of the background we are currently at in the backgrounds list.
      */
     private int backgroundIndex;
-
-    /**
-     * Whether dancing is currently active.
-     */
-    private boolean currentlyDancing;
 
     /**
      * Performs Console setup routines before constructing
@@ -509,7 +505,7 @@ public enum Console {
                 super.setBounds(x, y, width, height);
 
                 revalidateInputAndOutputBounds();
-                revalidateCustomMenuBounds();
+                revalidateConsoleMenuBounds();
                 revalidateAudioMenuBounds();
                 revalidateMenu();
                 revalidateTitleNotify();
@@ -710,7 +706,7 @@ public enum Console {
     /**
      * Revalidates the bounds of the custom console menu and the audio controls menu.
      */
-    private void revalidateCustomMenuBounds() {
+    private void revalidateConsoleMenuBounds() {
         if (UiUtil.notNullAndVisible(menuLabel)) {
             menuLabel.setBounds((int) consoleMenuShowingPoint.getX(), (int) consoleMenuShowingPoint.getY(),
                     TASKBAR_MENU_WIDTH, calculateMenuHeight());
@@ -1860,7 +1856,7 @@ public enum Console {
             UserEditor.showGui();
         }
 
-        revalidateMenu();
+        revalidateConsoleTaskbarMenu();
     };
 
     /**
@@ -1886,7 +1882,7 @@ public enum Console {
             new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(this::logout)
+                    .setRunnable(this::onLogout)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build()
     );
@@ -1913,7 +1909,7 @@ public enum Console {
             TaskbarIcon logoutTaskbarIcon = new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(this::logout)
+                    .setRunnable(this::onLogout)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build();
 
@@ -2150,7 +2146,7 @@ public enum Console {
 
         if (currentActiveFrames.contains(frame)) {
             currentActiveFrames.remove(frame);
-            revalidateMenu();
+            revalidateConsoleTaskbarMenu();
         }
     }
 
@@ -2166,7 +2162,7 @@ public enum Console {
 
         if (!currentActiveFrames.contains(associatedFrame)) {
             currentActiveFrames.add(associatedFrame);
-            revalidateMenu();
+            revalidateConsoleTaskbarMenu();
         }
     }
 
@@ -2577,16 +2573,6 @@ public enum Console {
     }
 
     /**
-     * The degree amount used for console directions requiring one rotation.
-     */
-    private static final int NINETY_DEGREES = 90;
-
-    /**
-     * The degree amount used for console directions requiring two rotations.
-     */
-    private static final int ONE_EIGHTY_DEGREES = 180;
-
-    /**
      * Sets the background index to the provided index
      * if valid and switches to that background.
      *
@@ -2616,12 +2602,12 @@ public enum Console {
 
         ImageIcon imageIcon = switch (consoleDir) {
             case LEFT -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), -NINETY_DEGREES));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), -AngleUtil.NINETY_DEGREES));
             case RIGHT -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), NINETY_DEGREES));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), AngleUtil.NINETY_DEGREES));
             case TOP -> getCurrentBackground().generateImageIcon();
             case BOTTOM -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), ONE_EIGHTY_DEGREES));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), AngleUtil.ONE_EIGHTY_DEGREES));
         };
 
         consoleCyderFrame.setBackground(imageIcon);
@@ -2641,7 +2627,7 @@ public enum Console {
 
         revalidateInputAndOutputBounds();
         inputField.requestFocus();
-        revalidateMenu();
+        revalidateConsoleTaskbarMenu();
     }
 
     /**
@@ -2689,15 +2675,15 @@ public enum Console {
         } else if (consoleDir == Direction.LEFT) {
             width = nextBackground.getIconHeight();
             height = nextBackground.getIconWidth();
-            nextBackground = ImageUtil.rotateImage(nextBackground, -NINETY_DEGREES);
+            nextBackground = ImageUtil.rotateImage(nextBackground, -AngleUtil.NINETY_DEGREES);
         } else if (consoleDir == Direction.RIGHT) {
             width = nextBackground.getIconHeight();
             height = nextBackground.getIconWidth();
-            nextBackground = ImageUtil.rotateImage(nextBackground, NINETY_DEGREES);
+            nextBackground = ImageUtil.rotateImage(nextBackground, AngleUtil.NINETY_DEGREES);
         } else if (consoleDir == Direction.BOTTOM) {
             width = nextBackground.getIconWidth();
             height = nextBackground.getIconHeight();
-            nextBackground = ImageUtil.rotateImage(nextBackground, ONE_EIGHTY_DEGREES);
+            nextBackground = ImageUtil.rotateImage(nextBackground, AngleUtil.ONE_EIGHTY_DEGREES);
         }
 
         JLabel contentPane = getConsoleCyderFrameContentPane();
@@ -2755,6 +2741,7 @@ public enum Console {
         boolean outputAreaWasFocusable = outputArea.isFocusable();
         outputArea.setFocusable(false);
 
+        // todo could use a future here with a call back after the animation is done
         CyderThreadRunner.submit(() -> {
             int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
             int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
@@ -2800,9 +2787,7 @@ public enum Console {
 
             consoleCyderFrame.setDraggingEnabled(wasDraggable);
 
-            // Revalidate bounds to be safe
-            boolean fullscreen = isFullscreen();
-            revalidate(!fullscreen, fullscreen);
+            revalidateMaintainFullscreenOrDirection();
 
             defaultFocusOwner.requestFocus();
 
@@ -2938,6 +2923,15 @@ public enum Console {
     }
 
     /**
+     * Invokes the {@link #revalidate(boolean, boolean)} method, maintaining either full screen or direction,
+     * not both. Maintaining fullscreen takes precedent over maintaining the console direction.
+     */
+    public void revalidateMaintainFullscreenOrDirection() {
+        boolean fullscreen = isFullscreen();
+        revalidate(!fullscreen, fullscreen);
+    }
+
+    /**
      * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
      * based on the current background. Note that maintainDirection trumps maintainFullscreen.
      *
@@ -2966,10 +2960,20 @@ public enum Console {
     }
 
     /**
-     * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
-     * based on the current background. Note that maintainDirection trumps maintainFullscreen.
+     * Revalidates the following console properties:
+     * <ul>
+     *     <li>Whether the frame should animate opacity on click events</li>
+     *     <li>Background</li>
+     *     <li>Background size</li>
+     *     <li>Ensuring the frame position is completely in bounds of the monitor</li>
+     *     <li>Input and output bounds</li>
+     *     <li>Console max size</li>
+     *     <li>Console menu</li>
+     *     <li>Whether dragging is enabled</li>
+     *     <li>Menu bounds, including the audio menu</li>
+     * </ul>
      * <p>
-     * Order of priority is as follows: maintainDirection > maintainFullscreen.
+     * Order of priority is as follows: maintainDirection, maintainFullscreen.
      * Neither of these affect maintainConsoleSize.
      *
      * @param maintainDirection   whether to maintain the console direction
@@ -3035,12 +3039,12 @@ public enum Console {
         refreshConsoleMaxSize();
 
         // This takes care of offset of input field and output area too
-        revalidateMenu();
+        revalidateConsoleTaskbarMenu();
 
         consoleCyderFrame.refreshBackground();
         consoleCyderFrame.setDraggingEnabled(!isFullscreen());
 
-        revalidateCustomMenuBounds();
+        revalidateConsoleTaskbarMenu();
         revalidateAudioMenuBounds();
     }
 
@@ -3069,7 +3073,7 @@ public enum Console {
      * it where it in the proper spot depending on if it is shown.
      * The taskbar icons are also regenerated and shown.
      */
-    public void revalidateMenu() {
+    public void revalidateConsoleTaskbarMenu() {
         if (consoleClosed.get() || menuLabel == null) return;
 
         installMenuTaskbarIcons();
@@ -3526,7 +3530,7 @@ public enum Console {
      * Closes the CyderFrame and shows the LoginFrame
      * relative to where Console was closed.
      */
-    public void logout() {
+    public void onLogout() {
         closeFrame(false, true);
         UiUtil.closeAllFrames(true);
 
@@ -3566,10 +3570,9 @@ public enum Console {
             frame.disableDragging();
         });
 
-        currentlyDancing = true;
         ProgramStateManager.INSTANCE.setCurrentProgramState(ProgramState.DANCING);
 
-        while (currentlyDancing) {
+        while (ProgramStateManager.INSTANCE.getCurrentProgramState() == ProgramState.DANCING) {
             if (allFramesFinishedDancing()) break;
 
             UiUtil.getCyderFrames().forEach(CyderFrame::danceStep);
@@ -3583,7 +3586,6 @@ public enum Console {
      * Ends the dancing sequence if ongoing.
      */
     public void stopDancing() {
-        currentlyDancing = false;
         ProgramStateManager.INSTANCE.setCurrentProgramState(ProgramState.NORMAL);
         UiUtil.getCyderFrames().forEach(CyderFrame::resetDancing);
     }
@@ -3739,6 +3741,7 @@ public enum Console {
         frameTaskbarExceptions.add(frame);
     }
 
+    // todo is there a way to ensure frame is the caller? would be cool if we had friend modifier as well
     /**
      * Removes the provided frame from {@link #frameTaskbarExceptions} if it is contained.
      *

@@ -982,7 +982,7 @@ public class CyderFrame extends JFrame {
         correctTitleLength();
 
         if (!isConsole() && !Console.INSTANCE.isClosed()) {
-            Console.INSTANCE.revalidateMenu();
+            Console.INSTANCE.revalidateConsoleTaskbarMenu();
         }
     }
 
@@ -3720,16 +3720,16 @@ public class CyderFrame extends JFrame {
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
-     * @param screenPos the screen position to move the Console to
+     * @param screenPosition the screen position to move the frame to
      */
-    public void setLocationOnScreen(ScreenPosition screenPos) {
+    public void setLocationOnScreen(ScreenPosition screenPosition) {
         Rectangle ourMonitorBounds = getMonitorBounds();
 
         Insets monitorInsets = UiUtil.getDefaultScreenInsets();
         int horizontalInsetsAvg = (monitorInsets.left + monitorInsets.right) / 2;
         int verticalInsetsAvg = (monitorInsets.top + monitorInsets.bottom) / 2;
 
-        switch (screenPos) {
+        switch (screenPosition) {
             case TRUE_CENTER, null -> setLocation(
                     ourMonitorBounds.x + ourMonitorBounds.width / 2 - getWidth() / 2,
                     ourMonitorBounds.y + ourMonitorBounds.height / 2 - getHeight() / 2);

@@ -278,7 +278,7 @@ public class Preference {
                     "Compact the text/components in supported text panes", "0", () -> {
                 Logger.log(LogTag.PREFERENCE, COMPACT_TEXT_MODE);
 
-                Console.INSTANCE.revalidateMenu();
+                Console.INSTANCE.revalidateConsoleTaskbarMenu();
                 CyderScrollList.refreshAllLists();
             }),
 
