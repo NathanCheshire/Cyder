@@ -35,11 +35,6 @@ for (it in tasks.withType(JavaCompile)) {
     it.options.compilerArgs.add('--enable-preview')
 }
 
-tasks.test {
-    useJUnitPlatform()
-    jvmArgs("--enable-preview")
-}
-
 ext {
     annotationsVersion = '23.0.0'
     guavaVersion = '31.1-jre'
@@ -83,6 +78,4 @@ compileTestKotlin {
     }
 }
 
-// todo jar job
-// todo build job
-// todo run tests job
+build.dependsOn(compileJava, compileTestJava)

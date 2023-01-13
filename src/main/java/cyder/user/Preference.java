@@ -69,6 +69,7 @@ public class Preference {
     private static final String WEATHER_MAP = "weathermap";
     private static final String PAINT_CLOCK_LABELS = "paintclocklabels";
     private static final String SHOW_SECOND_HAND = "showsecondhand";
+    private static final String FILL_OPCACIY = "fillopacity";
 
     /*
     Special values.
@@ -169,12 +170,6 @@ public class Preference {
                     outputArea.setBackground(outputFillColor);
                     outputArea.repaint();
                     outputArea.revalidate();
-
-                    // todo this works so need a working system
-                    outputArea.setBackground(new Color(outputFillColor.getRed(), outputFillColor.getGreen(),
-                            outputFillColor.getBlue(), 120));
-                    outputArea.revalidate();
-                    outputArea.repaint();
                 }
             }),
 
@@ -315,6 +310,13 @@ public class Preference {
                     () -> {
                         Logger.log(LogTag.PREFERENCE, SHOW_SECOND_HAND);
                         ClockWidget.setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
+                    }),
+
+            new Preference(FILL_OPCACIY, "Fill Color Opacity",
+                    "The opacity value to use for the output and input fill colors", "255",
+                    () -> {
+                        Logger.log(LogTag.PREFERENCE, FILL_OPCACIY);
+                        // todo change things that use opacity
                     })
 
             /*

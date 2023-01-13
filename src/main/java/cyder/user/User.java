@@ -225,6 +225,11 @@ public class User {
      */
     private String showSecondHand;
 
+    /**
+     * The opacity value for the input and output fill colors.
+     */
+    private String fillOpacity;
+
     // -------------------
     // Non-primitive types
     // -------------------
@@ -659,6 +664,15 @@ public class User {
         return showSecondHand;
     }
 
+    /**
+     * Returns the fill opacity.
+     *
+     * @return the fill opacity
+     */
+    public String getFillOpacity() {
+        return fillOpacity;
+    }
+
     // -------
     // Setters
     // -------
@@ -1030,6 +1044,15 @@ public class User {
      */
     public void setShowSecondHand(String showSecondHand) {
         this.showSecondHand = showSecondHand;
+    }
+
+    /**
+     * Sets the fill opacity.
+     *
+     * @param fillOpacity the fill opacity
+     */
+    public void setFillOpacity(String fillOpacity) {
+        this.fillOpacity = fillOpacity;
     }
 
     // -----------
