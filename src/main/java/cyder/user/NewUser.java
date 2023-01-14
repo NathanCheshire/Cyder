@@ -2,20 +2,29 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.enums.Extension;
+import cyder.files.FileUtil;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.SerializationUtil;
 
+import java.io.File;
+
 /**
  * A user object.
  */
 public final class NewUser {
-    private UserData<String> username = new UserData<>("username",
-            "Username", "The username", "", String.class, () -> {
+    private String username;
 
-    });
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     private String password;
     private String fontName;
@@ -87,5 +96,19 @@ public final class NewUser {
         Preconditions.checkArgument(!jsonMessage.isEmpty());
 
         return SerializationUtil.fromJson(jsonMessage, NewUser.class);
+    }
+
+    /**
+     * Serializes and returns a new user object from the json contained in the provided file.
+     *
+     * @param file the file
+     * @return a new user object from the provided file
+     */
+    public static NewUser fromJson(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
+
+        return SerializationUtil.fromJson(file, NewUser.class);
     }
 }
