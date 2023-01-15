@@ -10,6 +10,7 @@ import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.SerializationUtil;
 
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -65,7 +66,7 @@ public final class NewUser {
     /**
      * The name of the font used for the input and output fields.
      */
-    private String fontName;
+    private String fontName = "Agency FB";
 
     /**
      * Returns the name of the font used for the input and output fields.
@@ -88,7 +89,7 @@ public final class NewUser {
     /**
      * The size of the font used for the input and output fields.
      */
-    private int fontSize;
+    private int fontSize = 28;
 
     /**
      * Returns the size of the font used for the input and output fields.
@@ -111,7 +112,7 @@ public final class NewUser {
     /**
      * The font metric of the font used for the input and output fields.
      */
-    private int fontMetric;
+    private int fontMetric = Font.BOLD;
 
     /**
      * Returns the font metric of the font used for the input and output fields.
@@ -134,7 +135,7 @@ public final class NewUser {
     /**
      * The hex color code of the foreground of the input and output fields.
      */
-    private String foregroundColorHexCode;
+    private String foregroundColorHexCode = "F0F0F0";
 
     /**
      * Returns the hex color code of the foreground of the input and output fields.
@@ -157,7 +158,7 @@ public final class NewUser {
     /**
      * The hex color of the background of the input and output fields.
      */
-    private String backgroundColorHexCode;
+    private String backgroundColorHexCode = "0F0F0F";
 
     /**
      * Returns the hex color of the background of the input and output fields.
@@ -249,7 +250,7 @@ public final class NewUser {
     /**
      * Whether to draw a border on the output area.
      */
-    private boolean drawOutputBorder;
+    private boolean drawOutputBorder = true;
 
     /**
      * Returns whether to draw a border on the output area.
@@ -272,7 +273,7 @@ public final class NewUser {
     /**
      * Whether to draw a border on the input field.
      */
-    private boolean drawInputBorder;
+    private boolean drawInputBorder = true;
 
     /**
      * Returns whether to draw a border on the input field.
@@ -295,7 +296,7 @@ public final class NewUser {
     /**
      * Whether to play chimes on the passing of each hour.
      */
-    private boolean playHourlyChimes;
+    private boolean playHourlyChimes = true;
 
     /**
      * Returns whether to play chimes on the passing of each hour.
@@ -410,7 +411,7 @@ public final class NewUser {
     /**
      * Whether to draw a clock on the top of the console.
      */
-    private boolean drawConsoleClock;
+    private boolean drawConsoleClock = true;
 
     /**
      * Returns whether to draw a clock on the top of the console.
@@ -433,7 +434,7 @@ public final class NewUser {
     /**
      * Whether seconds should be shown on the console clock.
      */
-    private boolean showConsoleClockSeconds;
+    private boolean showConsoleClockSeconds = true;
 
     /**
      * Returns whether seconds should be shown on the console clock.
@@ -456,7 +457,7 @@ public final class NewUser {
     /**
      * Whether to filter the user input of any blocked words.
      */
-    private boolean filterChat;
+    private boolean filterChat = true;
 
     /**
      * Returns whether to filter the user input of any blocked words.
@@ -525,7 +526,7 @@ public final class NewUser {
     /**
      * Whether to show the typing animation.
      */
-    private boolean typingAnimation;
+    private boolean typingAnimation = true;
 
     /**
      * Returns whether to show the typing animation.
@@ -548,7 +549,7 @@ public final class NewUser {
     /**
      * Whether to show the busy animation.
      */
-    private boolean showBusyAnimation;
+    private boolean showBusyAnimation = true;
 
     /**
      * Returns whether to show the busy animation.
@@ -594,7 +595,7 @@ public final class NewUser {
     /**
      * The hex color code of the frames.
      */
-    private String frameColorHexCode;
+    private String frameColorHexCode = "0F0F0F";
 
     /**
      * Returns the color code of the frames.
@@ -663,7 +664,7 @@ public final class NewUser {
     /**
      * The YouTube UUID this user is at for sequential generation.
      */
-    private String youtubeUuid;
+    private String youtubeUuid = "aaaaaaaaaaa";
 
     /**
      * Returns the YouTube UUID this user is at for sequential generation.
@@ -779,7 +780,7 @@ public final class NewUser {
     /**
      * Returns whether to perform certain animations.
      */
-    private boolean doAnimations;
+    private boolean doAnimations = true;
 
     /**
      * Returns whether whether to perform certain animations.
@@ -848,7 +849,7 @@ public final class NewUser {
     /**
      * Whether to draw a background map for the weather widget.
      */
-    private boolean drawWeatherMap;
+    private boolean drawWeatherMap = true;
 
     /**
      * Returns whether to draw a background map for the weather widget.
@@ -871,7 +872,7 @@ public final class NewUser {
     /**
      * Whether to paint hour labels on the clock widget.
      */
-    private boolean paintClockWidgetHourLabels;
+    private boolean paintClockWidgetHourLabels = true;
 
     /**
      * Returns whether to paint hour labels on the clock widget.
@@ -894,7 +895,7 @@ public final class NewUser {
     /**
      * Whether to show the second hand for the clock widget.
      */
-    private boolean showClockWidgetSecondHand;
+    private boolean showClockWidgetSecondHand = true;
 
     /**
      * Returns whether to show the second hand for the clock widget.
@@ -917,7 +918,7 @@ public final class NewUser {
     /**
      * The screen stat object containing this user's console stats.
      */
-    private ScreenStat screenStat;
+    private ScreenStat screenStat = new ScreenStat();
 
     /**
      * Returns the screen stat object containing this user's console stats.
@@ -940,7 +941,7 @@ public final class NewUser {
     /**
      * The list of mapped executables.
      */
-    private ImmutableList<MappedExecutable> mappedExecutables;
+    private ImmutableList<MappedExecutable> mappedExecutables = ImmutableList.of();
 
     /**
      * Returns the list of mapped executables.

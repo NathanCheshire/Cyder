@@ -640,7 +640,7 @@ public final class ClockWidget {
             themeColorBuilder = new GetInputBuilder(THEME_COLOR, "Theme color")
                     .setRelativeTo(clockFrame)
                     .setFieldRegex(colorThemeFieldRegex)
-                    .setInitialFieldText(ColorUtil.rgbToHexString(clockColor));
+                    .setInitialFieldText(ColorUtil.toRgbHexString(clockColor));
         }
 
         return () -> CyderThreadRunner.submit(() -> {

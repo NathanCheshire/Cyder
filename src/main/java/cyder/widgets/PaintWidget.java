@@ -498,7 +498,7 @@ public final class PaintWidget {
                 }
             }
         });
-        colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
+        colorHexField.setText(ColorUtil.toRgbHexString(currentPaintColor));
 
         CyderGridLayout innerLayout = new CyderGridLayout(1, 2);
 
@@ -755,7 +755,7 @@ public final class PaintWidget {
 
         // update the hex field with our current color
         if (colorHexField != null)
-            colorHexField.setText(ColorUtil.rgbToHexString(newColor));
+            colorHexField.setText(ColorUtil.toRgbHexString(newColor));
 
         // ensure if list contains color, it's pulled to the front
         // of recent colors and is not duplicated in the list

@@ -10,6 +10,31 @@ import cyder.logging.Logger;
  */
 public class ScreenStat {
     /**
+     * The default x and y value of a screen stat.
+     */
+    private static final int DEFAULT_X_Y_VALUE = Integer.MIN_VALUE;
+
+    /**
+     * The default width and height of a screen stat.
+     */
+    private static final int DEFAULT_WIDTH_HEIGHT = Integer.MAX_VALUE;
+
+    /**
+     * The default monitor of a screen stat.
+     */
+    private static final int DEFAULT_MONITOR = Integer.MAX_VALUE;
+
+    /**
+     * The default stat of the on top member of a screen stat.
+     */
+    private static final boolean DEFAULT_ON_TOP_VALUE = false;
+
+    /**
+     * The default direction of a scree stat.
+     */
+    private static final Direction DEFAULT_DIRECTION = Direction.TOP;
+
+    /**
      * The x coordinate the console is at. This value may seem out of bounds due to
      * multiple monitors placed relative to the primary monitor.
      */
@@ -47,6 +72,15 @@ public class ScreenStat {
     private Direction consoleDirection;
 
     /**
+     * Constructs a default invalid screen stat object.
+     */
+    public ScreenStat() {
+        this(DEFAULT_X_Y_VALUE, DEFAULT_X_Y_VALUE,
+                DEFAULT_WIDTH_HEIGHT, DEFAULT_WIDTH_HEIGHT,
+                DEFAULT_MONITOR, DEFAULT_ON_TOP_VALUE, DEFAULT_DIRECTION);
+    }
+
+    /**
      * Constructs a new ScreenStat object.
      *
      * @param consoleX         the x location of the console
@@ -71,40 +105,6 @@ public class ScreenStat {
         this.consoleDirection = consoleDirection;
 
         Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * The default x and y value of a screen stat.
-     */
-    private static final int DEFAULT_X_Y_VALUE = Integer.MIN_VALUE;
-
-    /**
-     * The default width and height of a screen stat.
-     */
-    private static final int DEFAULT_WIDTH_HEIGHT = Integer.MAX_VALUE;
-
-    /**
-     * The default monitor of a screen stat.
-     */
-    private static final int DEFAULT_MONITOR = Integer.MAX_VALUE;
-
-    /**
-     * The default stat of the on top member of a screen stat.
-     */
-    private static final boolean DEFAULT_ON_TOP_VALUE = false;
-
-    /**
-     * The default direction of a scree stat.
-     */
-    private static final Direction DEFAULT_DIRECTION = Direction.TOP;
-
-    /**
-     * Constructs a default invalid screen stat object.
-     */
-    public ScreenStat() {
-        this(DEFAULT_X_Y_VALUE, DEFAULT_X_Y_VALUE,
-                DEFAULT_WIDTH_HEIGHT, DEFAULT_WIDTH_HEIGHT,
-                DEFAULT_MONITOR, DEFAULT_ON_TOP_VALUE, DEFAULT_DIRECTION);
     }
 
     /**

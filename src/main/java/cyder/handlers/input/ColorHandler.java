@@ -82,7 +82,7 @@ public class ColorHandler extends InputHandler {
                     Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
                     UserUtil.getCyderUser()
-                            .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
+                            .setForeground(ColorUtil.toRgbHexString(CyderColors.defaultLightModeTextColor));
                 } else {
                     Console.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
                     Console.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
@@ -90,7 +90,7 @@ public class ColorHandler extends InputHandler {
                     Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
                     UserUtil.getCyderUser()
-                            .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
+                            .setForeground(ColorUtil.toRgbHexString(CyderColors.defaultDarkModeTextColor));
                 }
 
                 Preference.invokeRefresh(Preference.FOREGROUND);

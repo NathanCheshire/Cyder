@@ -132,7 +132,6 @@ public final class ColorUtil {
 
     /**
      * Converts the provided hex string representing a color to rgb form.
-     * Note the hex string must be in six-digit standard hex form.
      *
      * @param hex the hex string to convert to rgb form
      * @return the rgb form of the provided hex color string
@@ -149,12 +148,12 @@ public final class ColorUtil {
     }
 
     /**
-     * Converts the provided color object into hex string representation.
+     * Converts the provided color into an RGB hex representation.
      *
-     * @param color the color to convert to a hex string
-     * @return the hex string of the provided color
+     * @param color the color to convert to hex representation
+     * @return the hex representation of the provided color
      */
-    public static String rgbToHexString(Color color) {
+    public static String toRgbHexString(Color color) {
         checkNotNull(color);
 
         return String.format(RGB_TO_HEX_FORMAT, color.getRed(), color.getGreen(), color.getBlue());

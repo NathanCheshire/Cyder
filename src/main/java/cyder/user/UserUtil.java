@@ -102,15 +102,6 @@ public final class UserUtil {
     }
 
     /**
-     * Returns the semaphore used for IO to/from the user's JSON file.
-     *
-     * @return the semaphore used for IO to/from the user's JSON file
-     */
-    public static Semaphore getUserIoLock() {
-        return userIoSemaphore;
-    }
-
-    /**
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
      * This method blocks until the IO semaphore can be acquired.
      */
@@ -232,7 +223,7 @@ public final class UserUtil {
      */
     public static void deleteInvalidBackgrounds(String uuid) {
         try {
-            getUserIoLock().acquire();
+            userIoSemaphore.acquire();
 
             File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.BACKGROUNDS.getName());
@@ -259,7 +250,7 @@ public final class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            getUserIoLock().release();
+            userIoSemaphore.release();
         }
     }
 

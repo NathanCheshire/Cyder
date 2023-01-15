@@ -239,7 +239,7 @@ public class ColorConverterWidget {
                     int b = Integer.parseInt(parts[2]);
 
                     Color color = new Color(r, g, b);
-                    hexField.setText(ColorUtil.rgbToHexString(color));
+                    hexField.setText(ColorUtil.toRgbHexString(color));
                     colorBlock.setBackground(color);
                 } catch (Exception ignored) {}
             }
