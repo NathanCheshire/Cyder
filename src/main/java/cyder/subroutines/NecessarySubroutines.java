@@ -148,11 +148,6 @@ public final class NecessarySubroutines {
                     "Creating dynamics", "Creation of dynamics failed"),
 
             new Subroutine(() -> {
-                UserUtil.validateUsers();
-                return true;
-            }, "Validating users", "Validation of users failed"),
-
-            new Subroutine(() -> {
                 UserUtil.cleanUsers();
                 return true;
             }, "Cleaning users", "Cleaning users failed")

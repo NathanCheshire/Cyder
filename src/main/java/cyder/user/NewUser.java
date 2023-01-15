@@ -16,12 +16,25 @@ import java.io.File;
  * A user object.
  */
 public final class NewUser {
+    /**
+     * The username.
+     */
     private String username;
 
+    /**
+     * Returns the username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Sets the username.
+     *
+     * @param username the username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
@@ -110,5 +123,39 @@ public final class NewUser {
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         return SerializationUtil.fromJson(file, NewUser.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof NewUser)) {
+            return false;
+        }
+
+        NewUser other = (NewUser) o;
+        return username.equals(other.username);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = username.hashCode();
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "User{"
+                + "username=" + username
+                + "}";
     }
 }

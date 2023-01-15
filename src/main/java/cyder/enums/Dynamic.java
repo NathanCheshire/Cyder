@@ -20,11 +20,6 @@ public enum Dynamic {
     TEMP("tmp"),
 
     /**
-     * The backup directory for user json backups.
-     */
-    BACKUP("backup"),
-
-    /**
      * The users directory.
      */
     USERS("users"),

@@ -5,15 +5,12 @@ import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderUrls;
-import cyder.constants.HtmlTags;
-import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.meta.CyderSplash;
@@ -24,9 +21,7 @@ import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.user.creation.InputValidation;
-import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
-import cyder.utils.HtmlUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -34,7 +29,9 @@ import cyder.utils.SerializationUtil;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,16 +49,6 @@ public final class UserUtil {
     public static final int MIN_PASSWORD_LENGTH = 5;
 
     /**
-     * The backup failure string.
-     */
-    private static final String backupFailure = "[BACKUP FAILURE]";
-
-    /**
-     * The resulting popup string.
-     */
-    private static final String resultingPopup = "[Resulting Popup]";
-
-    /**
      * The maximum latency to allow when attempting to download the default user background.
      */
     private static final int maxLatencyToDownloadDefaultBackground = 2000;
@@ -72,34 +59,9 @@ public final class UserUtil {
     private static final String defaultBackgroundName = "Default";
 
     /**
-     * The number to indicate a backup time was not found.
-     */
-    private static final int noBackupTime = -1;
-
-    /**
-     * The separator between the user uuid and the unix time a backup occurred at.
-     */
-    private static final String uuidTimeSeparator = "_";
-
-    /**
-     * The maximum number of times to attempt to invoke the getter/setter validator on a file.
-     */
-    public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
-
-    /**
      * The method prefix to locate mutator methods reflectively.
      */
     private static final String SET = "set";
-
-    /**
-     * The method prefix to locate accessor methods reflectively.
-     */
-    private static final String GET = "get";
-
-    /**
-     * The backup directory.
-     */
-    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
 
     /**
      * The json write tag.
@@ -181,9 +143,6 @@ public final class UserUtil {
                         + "was written to file" + CyderStrings.colon + CyderStrings.space
                         + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName());
                 Logger.log(LogTag.SYSTEM_IO, representation);
-
-                getterSetterValidator(cyderUserFile);
-                backupUserJsonFile(cyderUserFile);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -226,10 +185,6 @@ public final class UserUtil {
      * @return the currently set Cyder user
      */
     public static User getCyderUser() {
-        if (cyderUser == null) {
-            return buildDefaultUser();
-        }
-
         return cyderUser;
     }
 
@@ -270,322 +225,6 @@ public final class UserUtil {
     }
 
     /**
-     * Saves the provided jsonFile to the backup directory in case
-     * restoration is required for the next Cyder instance.
-     * Upon successfully saving the json, any past jsons for the user linked
-     * to the uuid are deleted.
-     *
-     * @param jsonFile the current user json file to backup
-     * @throws FatalException if the backup directory cannot be created
-     */
-    public static void backupUserJsonFile(File jsonFile) {
-        Preconditions.checkNotNull(jsonFile);
-
-        try {
-            if (!backupDirectory.exists()) {
-                if (!backupDirectory.mkdir()) {
-                    throw new FatalException("Failed to create backup directory");
-                }
-            }
-
-            long currentTimestamp = System.currentTimeMillis();
-            String uuid = FileUtil.getFilename(jsonFile.getParentFile());
-            String backupFilename = uuid + uuidTimeSeparator + currentTimestamp + Extension.JSON.getExtension();
-
-            File[] backups = backupDirectory.listFiles();
-            Preconditions.checkNotNull(backups);
-            long currentMaxTimestamp = noBackupTime;
-
-            // Find most recent backup time for user
-            for (File backup : backups) {
-                String filename = FileUtil.getFilename(backup);
-
-                if (filename.contains(uuidTimeSeparator)) {
-                    String[] parts = filename.split(uuidTimeSeparator);
-
-                    if (parts.length == 2) {
-                        String foundUuid = parts[0];
-                        long foundTimestamp = Long.parseLong(parts[1]);
-
-                        // if uuids match and timestamp is better
-                        if (uuid.equals(foundUuid) && foundTimestamp > currentMaxTimestamp) {
-                            currentMaxTimestamp = foundTimestamp;
-                        }
-                    }
-                }
-            }
-
-            File mostRecentBackup = null;
-            if (currentMaxTimestamp != noBackupTime) {
-                mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(),
-                        uuid + uuidTimeSeparator + currentMaxTimestamp);
-            }
-
-            if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
-                File newBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(), backupFilename);
-                if (!newBackup.createNewFile()) {
-                    Logger.log(LogTag.SYSTEM_IO, "Failed to create backup file: "
-                            + newBackup.getAbsolutePath() + ", for user: " + uuid);
-                    return;
-                }
-
-                String backupSerializeUser = SerializationUtil.toJson(SerializationUtil.fromJson(jsonFile, User.class));
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(newBackup))) {
-                    writer.write(backupSerializeUser);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-
-                backups = backupDirectory.listFiles();
-                Preconditions.checkNotNull(backups);
-
-                Arrays.stream(backups).forEach(backup -> {
-                    String filename = FileUtil.getFilename(backup);
-
-                    if (filename.contains(uuidTimeSeparator)) {
-                        String[] parts = filename.split(uuidTimeSeparator);
-
-                        if (parts.length == 2) {
-                            String fileUuid = parts[0];
-
-                            if (fileUuid.equals(uuid) && !filename.equals(FileUtil.getFilename(newBackup))) {
-                                OsUtil.deleteFile(backup);
-                            }
-                        }
-                    }
-                });
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Returns the most recent userdata.json backup for the provided user uuid.
-     * If none is found, and empty optional is returned.
-     *
-     * @param uuid the uuid for the backup json to return
-     * @return the most recent backup file for the user if found
-     */
-    public static Optional<File> getUserJsonBackup(String uuid) {
-        Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(!uuid.isEmpty());
-
-        File[] backups = backupDirectory.listFiles();
-        if (backups == null || backups.length == 0) return Optional.empty();
-
-        long mostRecentTimestamp = noBackupTime;
-        for (File backup : backups) {
-            if (!FileUtil.getExtension(backup).equals(Extension.JSON.getExtension())) continue;
-
-            String name = FileUtil.getFilename(backup);
-            if (!name.contains(uuidTimeSeparator)) continue;
-
-            String[] parts = name.split(uuidTimeSeparator);
-            if (parts.length != 2) continue;
-
-            String partName = parts[0];
-            if (!partName.equals(uuid)) continue;
-
-            long partTimestamp = Long.parseLong(parts[1]);
-            if (partTimestamp > mostRecentTimestamp) mostRecentTimestamp = partTimestamp;
-        }
-
-        if (mostRecentTimestamp != noBackupTime) {
-            File mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName(),
-                    uuid + uuidTimeSeparator + mostRecentTimestamp + Extension.JSON.getExtension());
-
-            if (mostRecentBackup.exists()) {
-                return Optional.of(mostRecentBackup);
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    /**
-     * Creates all the user files in {@link UserFile} for the user with the provided uuid.
-     *
-     * @param uuid the user uuid
-     */
-    public static void ensureUserFilesExist(String uuid) {
-        Preconditions.checkNotNull(uuid);
-
-        for (UserFile userFile : UserFile.values()) {
-            if (userFile.getName().equals(UserFile.USERDATA.getName())) continue;
-
-            File currentUserFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, userFile.getName());
-
-            if (!currentUserFile.exists()) {
-                if (!OsUtil.createFile(currentUserFile, userFile.isFile())) {
-                    Logger.log(LogTag.SYSTEM_IO, "Unable to create all user files for user [" + uuid + "]");
-                }
-            }
-        }
-    }
-
-    /**
-     * Attempts to fix any user data via GSON serialization
-     * and invoking all setters with default data for corresponding
-     * getters which returned null.
-     *
-     * @param userJson the json file to validate and fix if needed
-     * @return whether the file could be handled correctly as a user
-     * and was fixed if it was incorrect at first
-     */
-    public static boolean getterSetterValidator(File userJson) {
-        Preconditions.checkArgument(userJson != null);
-
-        // user doesn't have json so ignore it during Cyder instance
-        if (!userJson.exists()) {
-            return false;
-        }
-
-        // ensure all the user files are created
-        ensureUserFilesExist(userJson.getParentFile().getName());
-
-        // serialize the user, if this fails we're screwed from the start
-        User user;
-        try {
-            user = extractUser(userJson);
-        } catch (Exception ignored) {
-            return false;
-        }
-
-        // if somehow GSON messed up then we're screwed
-        if (user == null) {
-            return false;
-        }
-
-        // master return val
-        boolean ret = false;
-
-        // attempt to validate MAX_GETTER_SETTER_VALIDATION_ATTEMPTS times
-        int iterations = 0;
-        while (iterations < MAX_GETTER_SETTER_VALIDATION_ATTEMPTS) {
-            try {
-                // begin getter setter restoration routine
-
-                // for all getters (primitive values)
-                for (Method getterMethod : user.getClass().getMethods()) {
-                    if (getterMethod.getName().startsWith(GET)) {
-                        Object getter = getterMethod.invoke(user);
-
-                        if (!(getter instanceof String)) {
-                            // invalid getter result so find default value and set
-
-                            // find the preference associated with this getter
-                            Preference preference = null;
-                            for (Preference pref : Preference.getPreferences()) {
-                                if (pref.getID().equalsIgnoreCase(getterMethod.getName()
-                                        .replace(GET, ""))) {
-                                    preference = pref;
-                                    break;
-                                }
-                            }
-
-                            // this skips for non primitive values
-                            if (preference == null) {
-                                continue;
-                            }
-
-                            // cannot attempt to restore objects who's tooltip is IGNORE
-                            if (preference.getTooltip().equalsIgnoreCase("IGNORE")) {
-                                return false;
-                            }
-
-                            // attempt to restore by using default value
-
-                            // find setter
-                            for (Method setterMethod : user.getClass().getMethods()) {
-                                // if the setter matches our getter
-                                if (setterMethod.getName().startsWith("set")
-                                        && setterMethod.getParameterTypes().length == 1
-                                        && setterMethod.getName().replace("set", "")
-                                        .equalsIgnoreCase(getterMethod.getName().replace(GET, ""))) {
-
-                                    // invoke setter method with default value
-                                    setterMethod.invoke(user, preference.getDefaultValue());
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // validate and remove possibly duplicate exes
-                LinkedList<MappedExecutable> exes = user.getExecutables();
-                LinkedList<MappedExecutable> nonDuplicates = new LinkedList<>();
-
-                if (exes == null) {
-                    user.setExecutables(new LinkedList<>());
-                } else if (!exes.isEmpty()) {
-                    for (MappedExecutable me : exes) {
-                        if (!nonDuplicates.contains(me)) {
-                            nonDuplicates.add(me);
-                        }
-                    }
-
-                    user.setExecutables(nonDuplicates);
-                }
-
-                if (user.getScreenStat() == null) {
-                    // screen stat restoration
-                    user.setScreenStat(new ScreenStat(0, 0,
-                            0, 0, 0, false, Direction.TOP));
-                }
-
-                // success in parsing so break out of loop
-                ret = true;
-                setUserData(userJson, user);
-                break;
-            } catch (Exception ignored) {
-                iterations++;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Attempts getter/setter validation for all users.
-     * If this fails for a user, they become corrupted
-     * for the current session meaning it is not usable.
-     * Also ensures no users with a duplicate name exist.
-     */
-    public static void validateUsers() {
-        File users = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
-
-        File[] files = users.listFiles();
-
-        if (files != null && files.length > 0) {
-            for (File userFile : files) {
-                File json = OsUtil.buildFile(userFile.getAbsolutePath(), UserFile.USERDATA.getName());
-
-                if (json.exists()) {
-                    if (!getterSetterValidator(json)) {
-                        userJsonCorruption(userFile.getName());
-                    }
-                }
-            }
-        }
-
-        LinkedList<String> usernames = new LinkedList<>();
-
-        for (File userFile : getUserJsons()) {
-            User user = extractUser(userFile);
-            String username = user.getName();
-
-            if (StringUtil.in(username, true, usernames)) {
-                throw new FatalException("Duplicate username found: " + username
-                        + ", second uuid: " + userFile.getParentFile().getName());
-            }
-
-            usernames.add(username);
-        }
-    }
-
-    /**
      * Attempts to read backgrounds that Cyder would use for a user.
      * If failure, the image is corrupted, so we delete it in the calling function.
      *
@@ -593,14 +232,12 @@ public final class UserUtil {
      */
     public static void deleteInvalidBackgrounds(String uuid) {
         try {
-            //acquire sem so that any user requested exit will not corrupt the background
             getUserIoLock().acquire();
 
             File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     uuid, UserFile.BACKGROUNDS.getName());
 
-            if (!currentUserBackgrounds.exists())
-                return;
+            if (!currentUserBackgrounds.exists()) return;
 
             File[] files = currentUserBackgrounds.listFiles();
 
@@ -637,17 +274,7 @@ public final class UserUtil {
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
-        User ret = null;
-
-        try {
-            Reader reader = new FileReader(file);
-            ret = SerializationUtil.fromJson(reader, User.class);
-            reader.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
+        return SerializationUtil.fromJson(file, User.class);
     }
 
     /**
@@ -731,52 +358,24 @@ public final class UserUtil {
     }
 
     /**
-     * Returns a user with all the default values set.
-     * Note some default values are empty strings and others
-     * are objects that should not be cast to strings.
-     * <p>
-     * Due to the mutability of a User, this method exist to create
-     * a brand new object with default values each time as a static final
-     * user cannot be created and returned safely.
+     * Returns the setter method for a user object data piece with the provided name.
      *
-     * @return a user object with all the default {@link Preference}s
+     * @param dataName the name of the data piece such as "username"
+     * @param user     the user object
+     * @return the setter method for a user object data piece with the provided name
      */
-    public static User buildDefaultUser() {
-        User ret = new User();
+    public static Optional<Method> getSetterMethodForDataWithName(String dataName, User user) {
+        Preconditions.checkNotNull(dataName);
+        Preconditions.checkArgument(!dataName.isEmpty());
 
-        //for all the preferences
-        for (Preference pref : Preference.getPreferences()) {
-            //get all methods of user
-            for (Method m : ret.getClass().getMethods()) {
-                //make sure it's a setter with one parameter
-                if (m.getName().startsWith("set") && m.getParameterTypes().length == 1) {
-                    //parse away set from method name and find default preference from list above
-                    String methodName = m.getName().replace("set", "");
-
-                    //find default value to match
-                    if (methodName.equalsIgnoreCase(pref.getID())) {
-                        try {
-                            Class<?> castTo = m.getParameterTypes()[0];
-                            if (castTo.isPrimitive()) {
-                                m.invoke(ret, pref.getDefaultValue());
-                            } else {
-                                m.invoke(ret, castTo.cast(pref.getDefaultValue()));
-                            }
-
-                            //we've invoked this setter with the preference so next preference
-                            break;
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }
-                }
+        for (Method m : user.getClass().getMethods()) {
+            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
+                    && m.getName().equalsIgnoreCase(dataName.toLowerCase())) {
+                return Optional.of(m);
             }
         }
 
-        //external things stored in a user aside from preferences
-        ret.setExecutables(null);
-
-        return ret;
+        return Optional.empty();
     }
 
     /**
@@ -831,8 +430,6 @@ public final class UserUtil {
                 }
             }
         }
-
-        cleanBackupJsons();
     }
 
     /**
@@ -885,16 +482,16 @@ public final class UserUtil {
      * Cleans the provided user music directory by removing non
      * audio files and album art not linked to current audio files.
      *
-     * @param musicDirectory the user music directory
-     * @param userDirectory  the user directory
+     * @param musicDirectory     the user music directory
+     * @param userMusicDirectory the user music directory
      */
-    private static void cleanUserMusicDirectory(File musicDirectory, File userDirectory) {
+    private static void cleanUserMusicDirectory(File musicDirectory, File userMusicDirectory) {
         Preconditions.checkNotNull(musicDirectory);
         Preconditions.checkNotNull(musicDirectory);
         Preconditions.checkArgument(musicDirectory.exists());
-        Preconditions.checkArgument(userDirectory.exists());
+        Preconditions.checkArgument(userMusicDirectory.exists());
         Preconditions.checkArgument(musicDirectory.isDirectory());
-        Preconditions.checkArgument(userDirectory.isDirectory());
+        Preconditions.checkArgument(userMusicDirectory.isDirectory());
         Preconditions.checkArgument(musicDirectory.getName().equals(UserFile.MUSIC.getName()));
 
         File[] files = musicDirectory.listFiles();
@@ -911,7 +508,7 @@ public final class UserUtil {
             });
         }
 
-        File albumArtDirectory = OsUtil.buildFile(userDirectory.getAbsolutePath(),
+        File albumArtDirectory = OsUtil.buildFile(userMusicDirectory.getAbsolutePath(),
                 UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
         if (!albumArtDirectory.exists()) return;
         File[] albumArtFiles = albumArtDirectory.listFiles();
@@ -925,33 +522,7 @@ public final class UserUtil {
         }
     }
 
-    /**
-     * Removes any backup jsons from dynamic/backup not liked to current Cyder users.
-     */
-    private static void cleanBackupJsons() {
-        File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getFileName());
-
-        if (!backupDirectory.exists()) {
-            return;
-        }
-
-        File[] backupFiles = backupDirectory.listFiles();
-
-        if (backupFiles == null || backupFiles.length == 0) {
-            return;
-        }
-
-        for (File backupFile : backupFiles) {
-            String name = backupFile.getName();
-            String uuid = name.split("_")[0];
-
-            if (!StringUtil.in(uuid, false, getCyderUserUuids())) {
-                Logger.log(LogTag.SYSTEM_IO, "Deleting backup file not linked to user: " + name);
-                OsUtil.deleteFile(backupFile);
-            }
-        }
-    }
-
+    // todo manager for this
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
@@ -970,112 +541,6 @@ public final class UserUtil {
     public static void addInvalidUuid(String uuid) {
         if (!StringUtil.in(uuid, false, invalidUuids)) {
             invalidUuids.add(uuid);
-        }
-    }
-
-    /**
-     * After a user's json file was found to be invalid due to it being
-     * un-parsable, null, empty, not there, or any other reason, this
-     * method attempts to locate a backup to save the user.
-     * If this fails, an information pane is shown saying which user failed to be parsed
-     * <p>
-     * This method should be utilized anywhere a userdata file is deemed invalid. Never
-     * should a userdata file be deleted.
-     *
-     * @param uuid the uuid of the corrupted user
-     */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void userJsonCorruption(String uuid) {
-        Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(!uuid.isEmpty());
-
-        try {
-            File userJson = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, UserFile.USERDATA.getName());
-
-            try {
-                Optional<File> userJsonBackup = getUserJsonBackup(uuid);
-
-                if (userJsonBackup.isPresent()) {
-                    File restore = userJsonBackup.get();
-                    if (!userJson.exists()) userJson.createNewFile();
-
-                    // Read user from backup
-                    Reader reader = new FileReader(restore);
-                    User backupUser = SerializationUtil.fromJson(reader, User.class);
-                    reader.close();
-
-                    // Write backup user to user json
-                    Writer writer = new FileWriter(userJson);
-                    SerializationUtil.toJson(backupUser, writer);
-                    writer.close();
-
-                    Logger.log(LogTag.USER_CORRUPTION, "[BACKUP SUCCESS] Successfully restored "
-                            + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
-                    return;
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-                Logger.log(LogTag.USER_CORRUPTION, backupFailure
-                        + " attempted restoration of " + uuid + " failed");
-            }
-
-            // Could not recover user from backed up files
-            addInvalidUuid(uuid);
-
-            File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid);
-            File userdataJson = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                    uuid, UserFile.USERDATA.getName());
-
-            // Check for empty content
-            if (userdataJson.exists()) {
-                String contents = FileUtil.readFileContents(userdataJson);
-                if (StringUtil.isNullOrEmpty(contents)) {
-                    OsUtil.deleteFile(userdataJson);
-                }
-            }
-
-            File[] files = userDirectory.listFiles();
-            if (files == null || files.length == 0) {
-                OsUtil.deleteFile(userDirectory);
-                return;
-            }
-
-            String boldPath = HtmlUtil.applyBold(Dynamic.buildDynamic(
-                    Dynamic.USERS.getFileName(), uuid).toString());
-            String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
-                    + "The following files still exists and are associated with the user at the following "
-                    + "path:" + HtmlTags.breakTag + boldPath + HtmlTags.breakTag + "Files:";
-
-            LinkedList<String> filenames = new LinkedList<>();
-
-            File[] userFiles = userDirectory.listFiles();
-
-            if (userFiles != null && userFiles.length > 0) {
-                Arrays.stream(userFiles).forEach(userFile -> {
-                    if (userFile.isFile()) {
-                        filenames.add(FileUtil.getFilename(userFile));
-                    } else if (userFile.isDirectory()) {
-                        File[] subFiles = userFile.listFiles();
-
-                        if (subFiles != null && subFiles.length > 0) {
-                            Arrays.stream(subFiles).forEach(file -> filenames.add(FileUtil.getFilename(file)));
-                        }
-                    }
-                });
-            }
-
-            if (filenames.isEmpty()) {
-                informString += "No files found associated with the corrupted user";
-            } else {
-                StringBuilder builder = new StringBuilder();
-                filenames.forEach(filename -> builder.append(HtmlTags.breakTag).append(filename));
-                informString += builder;
-            }
-
-            InformHandler.inform(new InformHandler.Builder(informString).setTitle("Userdata Corruption"));
-            Logger.log(LogTag.USER_CORRUPTION, resultingPopup + "\n" + informString);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
     }
 
@@ -1109,7 +574,7 @@ public final class UserUtil {
      * @return whether there are no users created for Cyder
      */
     public static boolean noCyderUsers() {
-        return getCyderUserUuids().isEmpty();
+        return getUserUuids().isEmpty();
     }
 
     /**
@@ -1117,11 +582,11 @@ public final class UserUtil {
      *
      * @return a list of valid uuids associated with Cyder users
      */
-    public static ArrayList<String> getCyderUserUuids() {
-        ArrayList<String> uuids = new ArrayList<>();
-
+    public static ImmutableList<String> getUserUuids() {
         File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName());
         File[] users = usersDir.listFiles();
+
+        ArrayList<String> uuids = new ArrayList<>();
 
         if (users != null && users.length > 0) {
             Arrays.stream(users).forEach(user -> {
@@ -1133,7 +598,7 @@ public final class UserUtil {
             });
         }
 
-        return uuids;
+        return ImmutableList.copyOf(uuids);
     }
 
     /**
