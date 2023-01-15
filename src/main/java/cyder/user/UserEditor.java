@@ -2123,7 +2123,7 @@ public final class UserEditor {
      * @return whether the provided date pattern is valid
      */
     @SuppressWarnings("unused") /* Validation object, no difference because of String pool */
-    private static boolean validateDatePattern(String datePattern) {
+    public static boolean validateDatePattern(String datePattern) {
         Preconditions.checkNotNull(datePattern);
         Preconditions.checkArgument(!datePattern.isEmpty());
 

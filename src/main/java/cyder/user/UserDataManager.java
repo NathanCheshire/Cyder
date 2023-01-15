@@ -1,20 +1,26 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
 import cyder.strings.StringUtil;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
 import cyder.utils.SerializationUtil;
+import cyder.youtube.YouTubeConstants;
 
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * A managed for the current {@link NewUser}.
@@ -502,5 +508,589 @@ public enum UserDataManager {
      */
     public synchronized void setShouldDrawInputFill(boolean shouldDrawInputFill) {
         user.setDrawInputFill(shouldDrawInputFill);
+    }
+
+    /**
+     * Returns whether the console clock should be drawn.
+     *
+     * @return whether the console clock should be drawn
+     */
+    public synchronized boolean shouldDrawConsoleClock() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("console_clock");
+        return user.shouldDrawConsoleClock();
+    }
+
+    /**
+     * Sets whether the console clock should be drawn.
+     *
+     * @param shouldDrawConsoleClock whether the console clock should be drawn
+     */
+    public synchronized void setShouldDrawConsoleClock(boolean shouldDrawConsoleClock) {
+        user.setDrawConsoleClock(shouldDrawConsoleClock);
+    }
+
+    /**
+     * Returns whether seconds should be shown on the console clock.
+     *
+     * @return whether seconds should be shown on the console clock
+     */
+    public synchronized boolean shouldShowConsoleClockSeconds() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("console_clock_seconds");
+        return user.shouldShowConsoleClockSeconds();
+    }
+
+    /**
+     * Sets whether seconds should be shown on the console clock.
+     *
+     * @param shouldShowConsoleClockSeconds whether seconds should be shown on the console clock
+     */
+    public synchronized void setShouldShowConsoleClockSeconds(boolean shouldShowConsoleClockSeconds) {
+        user.setShowConsoleClockSeconds(shouldShowConsoleClockSeconds);
+    }
+
+    /**
+     * Returns whether user input should be filtered.
+     *
+     * @return whether user input should be filtered
+     */
+    public synchronized boolean shouldFilterchat() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("filter_chat");
+        return user.shouldFilterChat();
+    }
+
+    /**
+     * Sets whether user input should be filtered.
+     *
+     * @param shouldFilterChat whether user input should be filtered
+     */
+    public synchronized void setShouldFilterChat(boolean shouldFilterChat) {
+        user.setFilterChat(shouldFilterChat);
+    }
+
+    /**
+     * Returns the time at which this user's last session started.
+     *
+     * @return the time at which this user's last session started
+     */
+    public synchronized long getLastSessionStart() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("last_session_start");
+        return user.getLastSessionStart();
+    }
+
+    /**
+     * Sets the time at which this user's last session started.
+     *
+     * @param lastSessionStart the time at which this user's last session started
+     */
+    public synchronized void setLastSessionStart(long lastSessionStart) {
+        user.setLastSessionStart(lastSessionStart);
+    }
+
+    /**
+     * Returns whether the program should be minimized on console close.
+     *
+     * @return whether the program should be minimized on console close
+     */
+    public synchronized boolean shouldMinimizeOnClose() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("minimize_on_close");
+        return user.shouldMinimizeOnClose();
+    }
+
+    /**
+     * Sets whether the program should be minimized on console close.
+     *
+     * @param shouldMinimizeOnClose whether the program should be minimized on console close
+     */
+    public synchronized void setShouldMinimizeOnClose(boolean shouldMinimizeOnClose) {
+        user.setMinimizeOnClose(shouldMinimizeOnClose);
+    }
+
+    /**
+     * Returns whether the typing animation should be shown.
+     *
+     * @return whether the typing animation should be shown
+     */
+    public synchronized boolean shouldShowTypingAnimation() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("typing_animation");
+        return user.shouldShowTypingAnimation();
+    }
+
+    /**
+     * Sets whether the typing animation should be shown.
+     *
+     * @param shouldShowTypingAnimation whether the typing animation should be shown
+     */
+    public synchronized void setShouldShowTypingAnimation(boolean shouldShowTypingAnimation) {
+        user.setTypingAnimation(shouldShowTypingAnimation);
+    }
+
+    /**
+     * Returns whether the busy animation should be shown.
+     *
+     * @return whether the busy animation should be shown
+     */
+    public synchronized boolean shouldShowBusyAnimation() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("busy_animation");
+        return user.showShowBusyAnimation();
+    }
+
+    /**
+     * Sets whether the busy animation should be shown.
+     *
+     * @param shouldShowBusyAnimation whether the busy animation should be shown
+     */
+    public synchronized void setShouldShowBusyAnimation(boolean shouldShowBusyAnimation) {
+        user.setShowBusyAnimation(shouldShowBusyAnimation);
+    }
+
+    /**
+     * Returns whether frames should be drawn with rounded borders.
+     *
+     * @return whether frames should be drawn with rounded borders
+     */
+    public synchronized boolean shouldDrawRoundedFrameBorders() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("rounded_frame_borders");
+        return user.shouldDrawRoundedFrameBorders();
+    }
+
+    /**
+     * Sets whether frames should be drawn with rounded borders.
+     *
+     * @param shouldDrawRoundedFrameBorders whether frames should be drawn with rounded borders
+     */
+    public synchronized void setShouldDrawRoundedFrameBorders(boolean shouldDrawRoundedFrameBorders) {
+        user.setRoundedFrameBorders(shouldDrawRoundedFrameBorders);
+    }
+
+    /**
+     * Returns the frame color.
+     *
+     * @return the frame color
+     */
+    public synchronized Color getFrameColor() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("frame_color");
+        return ColorUtil.hexStringToColor(user.getFrameColorHexCode());
+    }
+
+    /**
+     * Sets the frame color.
+     *
+     * @param color the frame color
+     */
+    public synchronized void setFrameColor(Color color) {
+        Preconditions.checkNotNull(color);
+
+        user.setFrameColorHexCode(ColorUtil.toRgbHexString(color));
+    }
+
+    /**
+     * Returns the console clock format.
+     *
+     * @return the console clock format
+     */
+    public synchronized String getConsoleClockFormat() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("clock_format");
+        return user.getConsoleClockFormat();
+    }
+
+    /**
+     * Sets the console clock format.
+     *
+     * @param clockFormat the console clock format
+     */
+    public synchronized void setConsoleClockFormat(String clockFormat) {
+        Preconditions.checkNotNull(clockFormat);
+        Preconditions.checkArgument(!clockFormat.isEmpty());
+        Preconditions.checkArgument(UserEditor.validateDatePattern(clockFormat));
+
+        user.setConsoleClockFormat(clockFormat);
+    }
+
+    /**
+     * Returns whether a typing sound should be played when the typing animation is on-going.
+     *
+     * @return whether a typing sound should be played when the typing animation is on-going
+     */
+    public synchronized boolean shouldPlayTypingSound() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("typing_sound");
+        return user.shouldPlayTypingSound();
+    }
+
+    /**
+     * Sets whether a typing sound should be played when the typing animation is on-going.
+     *
+     * @param shouldPlayTypingSound whether a typing sound should be played when the typing animation is on-going
+     */
+    public synchronized void setShouldPlayTypingSound(boolean shouldPlayTypingSound) {
+        user.setPlayTypingSound(shouldPlayTypingSound);
+    }
+
+    /**
+     * Returns the YouTube uuid this user is at in the random generation cycle.
+     *
+     * @return the YouTube uuid this user is at in the random generation cycle
+     */
+    public synchronized String getYouTubeUuid() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("youtube_uuid");
+        return user.getYoutubeUuid();
+    }
+
+    /**
+     * Sets the YouTube uuid this user is at in the random generation cycle.
+     *
+     * @param youTubeUuid the YouTube uuid this user is at in the random generation cycle
+     */
+    public synchronized void setYouTubeUuid(String youTubeUuid) {
+        Preconditions.checkNotNull(youTubeUuid);
+        Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
+        Preconditions.checkArgument(CyderRegexPatterns.youTubeUuidPattern.matcher(youTubeUuid).matches());
+
+        user.setYoutubeUuid(youTubeUuid);
+    }
+
+    /**
+     * Returns whether caps mode should be enabled.
+     *
+     * @return whether caps mode should be enabled
+     */
+    public synchronized boolean isCapsMode() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("caps_mode");
+        return user.isCapsMode();
+    }
+
+    /**
+     * Sets whether caps mode should be enabled.
+     *
+     * @param capsMode whether caps mode should be enabled
+     */
+    public synchronized void setCapsMode(boolean capsMode) {
+        user.setCapsMode(capsMode);
+    }
+
+    /**
+     * Returns whether this user is logged in.
+     *
+     * @return whether this user is logged in
+     */
+    public synchronized boolean isLoggedIn() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("logged_in");
+        return user.isLoggedIn();
+    }
+
+    /**
+     * Sets whether this user is logged in.
+     *
+     * @param loggedIn whether this user is logged in
+     */
+    public synchronized void setLoggedIn(boolean loggedIn) {
+        user.setLoggedIn(loggedIn);
+    }
+
+    /**
+     * Returns whether the audio total length should be shown instead of the remaining time for the audio player.
+     *
+     * @return whether the audio total length should be shown instead of the remaining time for the audio player
+     */
+    public synchronized boolean shouldShowAudioTotalLength() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("audio_total_length");
+        return user.shouldShowAudioTotalLength();
+    }
+
+    /**
+     * Sets whether the audio total length should be shown instead of the remaining time for the audio player.
+     *
+     * @param shouldShowAudioTotalLength whether the audio total length should
+     *                                   be shown instead of the remaining time for the audio player
+     */
+    public synchronized void setShouldShowAudioTotalLength(boolean shouldShowAudioTotalLength) {
+        user.setShowAudioTotalLength(shouldShowAudioTotalLength);
+    }
+
+    /**
+     * Returns whether notifications should be persisted until user dismissal.
+     *
+     * @return whether notifications should be persisted until user dismissal
+     */
+    public synchronized boolean shouldPersistNotifications() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("should_persist_notifications");
+        return user.shouldPersistNotifications();
+    }
+
+    /**
+     * Sets whether notifications should be persisted until user dismissal.
+     *
+     * @param shouldPersistNotifications whether notifications should be persisted until user dismissal
+     */
+    public synchronized void setShouldPersistNotifications(boolean shouldPersistNotifications) {
+        user.setPersistNotifications(shouldPersistNotifications);
+    }
+
+    /**
+     * Returns whether certain animations should be performed.
+     *
+     * @return whether certain animations should be performed
+     */
+    public synchronized boolean shouldDoAnimations() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("should_do_animations");
+        return user.shouldDoAnimations();
+    }
+
+    /**
+     * Sets whether certain animations should be performed.
+     *
+     * @param shouldDoAnimations whether certain animations should be performed
+     */
+    public synchronized void setShouldDoAnimations(boolean shouldDoAnimations) {
+        user.setDoAnimations(shouldDoAnimations);
+    }
+
+    /**
+     * Returns whether compact text mode is enabled.
+     *
+     * @return whether compact text mode is enabled
+     */
+    public synchronized boolean compactTextMode() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("compact_text_mode");
+        return user.isCompactTextMode();
+    }
+
+    /**
+     * Sets whether compact text mode is enabled.
+     *
+     * @param compactTextMode whether compact text mode is enabled
+     */
+    public synchronized void compactTextModeEnabled(boolean compactTextMode) {
+        user.setCompactTextMode(compactTextMode);
+    }
+
+    /**
+     * Returns whether unknown user commands should be passed to the native shell.
+     *
+     * @return whether unknown user commands should be passed to the native shell
+     */
+    public synchronized boolean shouldWrapShell() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("wrap_shell");
+        return user.shouldWrapNativeShell();
+    }
+
+    /**
+     * Sets whether unknown user commands should be passed to the native shell.
+     *
+     * @param wrapShell whether unknown user commands should be passed to the native shell
+     */
+    public synchronized void setWrapShell(boolean wrapShell) {
+        user.setWrapNativeShell(wrapShell);
+    }
+
+    /**
+     * Returns whether a map should be displayed as the background of the weather widget.
+     *
+     * @return whether a map should be displayed as the background of the weather widget
+     */
+    public synchronized boolean shouldDrawWeatherMap() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("draw_weather_map");
+        return user.shouldDrawWeatherMap();
+    }
+
+    /**
+     * Sets whether a map should be displayed as the background of the weather widget.
+     *
+     * @param shouldDrawWeatherMap whether a map should be displayed as the background of the weather widget
+     */
+    public synchronized void setShouldDrawWeatherMap(boolean shouldDrawWeatherMap) {
+        user.setDrawWeatherMap(shouldDrawWeatherMap);
+    }
+
+    /**
+     * Returns whether the hour labels should be painted for the clock widget.
+     *
+     * @return whether the hour labels should be painted for the clock widget
+     */
+    public synchronized boolean shouldPaintClockHourLabels() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("paint_clock_labels");
+        return user.shouldPaintClockWidgetHourLabels();
+    }
+
+    /**
+     * Sets whether the hour labels should be painted for the clock widget.
+     *
+     * @param shouldPaintClockHourLabels whether the hour labels should be painted for the clock widget
+     */
+    public synchronized void setShouldPaintClockHourLabels(boolean shouldPaintClockHourLabels) {
+        user.setPaintClockWidgetHourLabels(shouldPaintClockHourLabels);
+    }
+
+    /**
+     * Returns whether the second hand should be shown on the clock widget.
+     *
+     * @return whether the second hand should be shown on the clock widget
+     */
+    public synchronized boolean shouldShowClockWidgetSecondHand() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("clock_widget_second_hand");
+        return user.shouldShowClockWidgetSecondHand();
+    }
+
+    /**
+     * Sets whether the second hand should be shown on the clock widget.
+     *
+     * @param shouldShowClockWidgetSecondHand whether the second hand should be shown on the clock widget
+     */
+    public synchronized void setShouldShowClockWidgetSecondHand(boolean shouldShowClockWidgetSecondHand) {
+        user.setShowClockWidgetSecondHand(shouldShowClockWidgetSecondHand);
+    }
+
+    /**
+     * Returns the current screen stat for this user.
+     *
+     * @return the current screen stat for this user
+     */
+    public synchronized ScreenStat getScreenStat() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("screen_stat");
+        return user.getScreenStat();
+    }
+
+    /**
+     * Sets the current screen stat for this user.
+     *
+     * @param screenStat the current screen stat for this user
+     */
+    public synchronized void setScreenStat(ScreenStat screenStat) {
+        Preconditions.checkNotNull(screenStat);
+
+        user.setScreenStat(screenStat);
+    }
+
+    /**
+     * Returns the mapped executables for this user.
+     *
+     * @return the mapped executables for this user
+     */
+    public synchronized ImmutableList<MappedExecutable> getMappedExecutables() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("mapped_executables");
+        return user.getMappedExecutables();
+    }
+
+    /**
+     * Sets the mapped executables for this user.
+     *
+     * @param mappedExecutables the mapped executables for this user
+     */
+    public synchronized void setMappedExecutables(Collection<MappedExecutable> mappedExecutables) {
+        Preconditions.checkNotNull(mappedExecutables);
+
+        user.setMappedExecutables(ImmutableList.copyOf(mappedExecutables));
+    }
+
+    /**
+     * Returns the fill opacity.
+     *
+     * @return the fill opacity
+     */
+    public synchronized int getFillOpacity() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("fill_opacity");
+        return user.getFillOpacity();
+    }
+
+    /**
+     * Sets the the fill opacity.
+     *
+     * @param fillOpacity the fill opacity
+     */
+    public synchronized void setFillOpacity(int fillOpacity) {
+        Preconditions.checkArgument(fillOpacity >= 0 && fillOpacity <= 255);
+
+        user.setFillOpacity(fillOpacity);
+    }
+
+    /**
+     * Returns whether the welcome message has been shown.
+     *
+     * @return whether the welcome message has been shown
+     */
+    public synchronized boolean hasShownWelcomeMessage() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("shown_welcome_message");
+        return user.hasShownWelcomeMessage();
+    }
+
+    /**
+     * Sets whether the welcome message has been shown.
+     *
+     * @param shownWelcomeMessage whether the welcome message has been shown
+     */
+    public synchronized void setShownWelcomeMessage(boolean shownWelcomeMessage) {
+        user.setShownWelcomeMessage(shownWelcomeMessage);
+    }
+
+    /**
+     * Returns the time at which this account was created.
+     *
+     * @return the time at which this account was created
+     */
+    public synchronized long getAccountCreationTime() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked("account_creation_time");
+        return user.getAccountCreationTime();
+    }
+
+    /**
+     * Sets the time at which this account was created.
+     *
+     * @param accountCreationTime the time at which this account was created
+     */
+    public synchronized void setAccountCreationTime(long accountCreationTime) {
+        user.setAccountCreationTime(accountCreationTime);
     }
 }

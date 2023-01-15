@@ -169,6 +169,8 @@ public final class UserUtil {
         cyderUser = extractUser(jsonFile);
     }
 
+    private static final NewUser defaultUser = new NewUser();
+
     /**
      * Returns the currently set Cyder user.
      * If not set, a default user is generated and returned.
@@ -176,6 +178,7 @@ public final class UserUtil {
      * @return the currently set Cyder user
      */
     public static User getCyderUser() {
+        if (cyderUser == null) return new User();
         return cyderUser;
     }
 

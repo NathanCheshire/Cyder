@@ -108,6 +108,11 @@ public final class CyderRegexPatterns {
     public static final String englishLettersRegex = "[A-Za-z]+";
 
     /**
+     * The pattern YouTube ids comply to.
+     */
+    public static final Pattern youTubeUuidPattern = Pattern.compile("[a-zA-Z0-9_\\-]{11}");
+
+    /**
      * Suppress default constructor.
      */
     private CyderRegexPatterns() {

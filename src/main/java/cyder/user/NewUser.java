@@ -787,7 +787,7 @@ public final class NewUser {
      *
      * @return whether to perform certain animations
      */
-    public boolean isDoAnimations() {
+    public boolean shouldDoAnimations() {
         return doAnimations;
     }
 

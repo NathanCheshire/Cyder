@@ -47,7 +47,7 @@ public final class Subroutine {
      * @param routine          the routine to execute
      * @param threadName       the name of the thread to execute the routine using
      *                         if the routine is not sequential but instead parallel
-     * @param onFailureMessage the failure message to use in teh case of the supplier returning false
+     * @param onFailureMessage the failure message to use in the case of the supplier returning false
      */
     public Subroutine(Supplier<Boolean> routine, String threadName, String onFailureMessage) {
         Preconditions.checkNotNull(routine);
