@@ -2,6 +2,9 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import cyder.enums.Dynamic;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.utils.SerializationUtil;
 
 import java.awt.*;
@@ -103,7 +106,9 @@ public enum UserDataManager {
         Preconditions.checkNotNull(dataId);
         Preconditions.checkArgument(!dataId.isEmpty());
 
-
+        if (!StringUtil.in(dataId, true, UserUtil.getIgnoreUserData())) {
+            Logger.log(LogTag.USER_GET, "key: " + dataId);
+        }
     }
 
     // -----------------------------
