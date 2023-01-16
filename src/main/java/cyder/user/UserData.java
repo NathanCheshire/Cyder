@@ -9,7 +9,13 @@ import cyder.constants.CyderFonts;
 import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.ui.UiUtil;
+import cyder.ui.pane.CyderScrollList;
+import cyder.weather.WeatherWidget;
+import cyder.widgets.ClockWidget;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Optional;
 
@@ -21,6 +27,7 @@ public final class UserData<T> {
     /*
     UserData keys.
      */
+    // todo all need to be used locally too
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String FONT_NAME = "font_name";
@@ -111,10 +118,244 @@ public final class UserData<T> {
             }).build();
 
     public static final UserData<Boolean> introMusic = new Builder<>(INTRO_MUSIC, Boolean.class)
-            .setDescription("Whether to play intro music on user login").build();
+            .setDescription("Whether to play intro music on user login")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, INTRO_MUSIC)).build();
 
     public static final UserData<Boolean> debugStats = new Builder<>(DEBUG_STATS, Boolean.class)
-            .setDescription("Whether to show debug windows on initial console load").build();
+            .setDescription("Whether to show debug windows on initial console load")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, DEBUG_STATS)).build();
+
+    public static final UserData<Boolean> randomBackground = new Builder<>(RANDOM_BACKGROUND, Boolean.class)
+            .setDescription("Whether to choose a random background for the console on console load")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND)).build();
+
+    public static final UserData<Boolean> outputBorder = new Builder<>(OUTPUT_BORDER, Boolean.class)
+            .setDescription("Whether to draw a border around the output field")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, OUTPUT_BORDER);
+
+                if (!UserDataManager.INSTANCE.shouldDrawOutputBorder()) {
+                    Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
+                } else {
+                    LineBorder lineBorder = new LineBorder(UserDataManager.INSTANCE.getBackgroundColor(),
+                            UserEditor.inputOutputBorderThickness, true);
+                    Console.INSTANCE.getOutputScroll().setBorder(lineBorder);
+                }
+            }).build();
+
+    public static final UserData<Boolean> inputBorder = new Builder<>(INPUT_BORDER, Boolean.class)
+            .setDescription("Whether to draw a border around the input field")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, INPUT_BORDER);
+
+                if (!UserDataManager.INSTANCE.shouldDrawInputBorder()) {
+                    Console.INSTANCE.getInputField().setBorder(null);
+                } else {
+                    Console.INSTANCE.getInputField().setBorder(new LineBorder(
+                            UserDataManager.INSTANCE.getBackgroundColor(), 3, true));
+                }
+            }).build();
+
+    public static final UserData<Boolean> hourlyChimes = new Builder<>(HOURLY_CHIMES, Boolean.class)
+            .setDescription("Whether to play chime sounds on the turning of the hour")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, HOURLY_CHIMES)).build();
+
+    public static final UserData<Boolean> silenceErrors = new Builder<>(SILENCE_ERRORS, Boolean.class)
+            .setDescription("Whether to silence error notifications")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, SILENCE_ERRORS);
+                // todo if error panes are present, remove
+            }).build();
+
+    public static final UserData<Boolean> fullscreen = new Builder<>(FULLSCREEN, Boolean.class)
+            .setDescription("Whether the program shoul be in fullscreen mode")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FULLSCREEN);
+                Console.INSTANCE.setFullscreen(UserDataManager.INSTANCE.isFullscreen());
+            }).build();
+
+    public static final UserData<Boolean> outputFill = new Builder<>(OUTPUT_FILL, Boolean.class)
+            .setDescription("Whether the output area should be filled")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, OUTPUT_FILL);
+
+                JTextPane outputArea = Console.INSTANCE.getOutputArea();
+
+                if (!UserDataManager.INSTANCE.shouldDrawOutputFill()) {
+                    outputArea.setBackground(null);
+                    outputArea.setOpaque(false);
+                } else {
+                    outputArea.setOpaque(true);
+                    outputArea.setBackground(UserDataManager.INSTANCE.getBackgroundColor());
+                    outputArea.repaint();
+                    outputArea.revalidate();
+                }
+            }).build();
+
+    public static final UserData<Boolean> inputFill = new Builder<>(INPUT_FILL, Boolean.class)
+            .setDescription("Whether the input field should be filled")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, INPUT_FILL);
+
+                JTextField inputField = Console.INSTANCE.getInputField();
+
+                if (!UserDataManager.INSTANCE.shouldDrawInputFill()) {
+                    inputField.setBackground(null);
+                    inputField.setOpaque(false);
+                } else {
+                    inputField.setOpaque(true);
+                    inputField.setBackground(UserDataManager.INSTANCE.getBackgroundColor());
+                    inputField.repaint();
+                    inputField.revalidate();
+                }
+            }).build();
+
+    public static final UserData<Boolean> consoleClock = new Builder<>(CONSOLE_CLOCK, Boolean.class)
+            .setDescription("Whether to show a clock on the console")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK);
+                Console.INSTANCE.refreshClockText();
+            }).build();
+
+    public static final UserData<Boolean> consoleClockSeconds = new Builder<>(CONSOLE_CLOCK_SECONDS, Boolean.class)
+            .setDescription("Whether to show seconds on the console clock")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK_SECONDS);
+                Console.INSTANCE.refreshClockText();
+            }).build();
+
+    public static final UserData<Boolean> filterChat = new Builder<>(FILTER_CHAT, Boolean.class)
+            .setDescription("Whether the user input should be filtered")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, FILTER_CHAT)).build();
+
+    public static final UserData<Boolean> lastSessionStart = new Builder<>(LAST_SESSION_START, Boolean.class)
+            .setDescription("The time at which the last session for this user was started")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LAST_SESSION_START)).build();
+
+    public static final UserData<Boolean> minimizeOnClose = new Builder<>(MINIMIZE_ON_CLOSE, Boolean.class)
+            .setDescription("Whether the cnosole should be minimized instead"
+                    + " of closed when the closed button is pressed")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, MINIMIZE_ON_CLOSE)).build();
+
+    public static final UserData<Boolean> typingAnimation = new Builder<>(TYPING_ANIMATION, Boolean.class)
+            .setDescription("Whether to show a typing animation for the console")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, TYPING_ANIMATION)).build();
+
+    public static final UserData<Boolean> typingSound = new Builder<>(TYPING_SOUND, Boolean.class)
+            .setDescription("Whether to play a typing sound effect when the typing animation is enabled")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, TYPING_SOUND)).build();
+
+    public static final UserData<Boolean> busyAnimation = new Builder<>(BUSY_ANIMATION, Boolean.class)
+            .setDescription("Whether to show a busy animation")
+            .setOnChangeFunction(() -> {
+                Console.INSTANCE.hideBusyAnimation();
+                Logger.log(LogTag.USER_DATA, BUSY_ANIMATION);
+            }).build();
+
+    public static final UserData<Boolean> roundedWindows = new Builder<>(ROUNDED_FRAME_BORDERS, Boolean.class)
+            .setDescription("Whether to paint frames with rounded corners")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, ROUNDED_FRAME_BORDERS);
+                UiUtil.repaintCyderFrames();
+            }).build();
+
+    public static final UserData<Color> windowColor = new Builder<>(FRAME_COLOR, Color.class)
+            .setDescription("The color for frame borders")
+            .setDefaultValue(CyderColors.navy)
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FRAME_COLOR);
+
+                UiUtil.repaintCyderFrames();
+                Console.INSTANCE.revalidateMenuBackgrounds();
+            }).build();
+
+    public static final UserData<String> clockFormat = new Builder<>(CLOCK_FORMAT, String.class)
+            .setDescription("The date pattern for the console clock")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, CLOCK_FORMAT);
+                Console.INSTANCE.refreshClockText();
+            }).build();
+
+    public static final UserData<String> youtubeUuid = new Builder<>(YOUTUBE_UUID, String.class)
+            .setDescription("The uuid this user is at for YouTube UUID generation")
+            .setDefaultValue("aaaaaaaaaaa")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, YOUTUBE_UUID)).build();
+
+    public static final UserData<Boolean> capsMode = new Builder<>(CAPS_MODE, Boolean.class)
+            .setDescription("Whether conosle output should be appended in capital letters")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, CAPS_MODE)).build();
+
+    public static final UserData<Boolean> loggedIn = new Builder<>(LOGGED_IN, Boolean.class)
+            .setDescription("Whether this user is currently logged in")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LOGGED_IN)).build();
+
+    public static final UserData<Boolean> audioTotalLength = new Builder<>(AUDIO_TOTAL_LENGTH, Boolean.class)
+            .setDescription("Whether the audio total length should be shown instead"
+                    + " of the time remaining for the audio player")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, AUDIO_TOTAL_LENGTH)).build();
+
+    public static final UserData<Boolean> shouldPersistNotifications =
+            new Builder<>(SHOULD_PERSIST_NOTIFICATIONS, Boolean.class)
+                    .setDescription("Whether notifications should be persited until manually dismissed")
+                    .setOnChangeFunction(() -> {
+                        Logger.log(LogTag.USER_DATA, SHOULD_PERSIST_NOTIFICATIONS);
+                        // todo hook to remove persisting notifications
+                    }).build();
+
+    public static final UserData<Boolean> shouldDoAnimations = new Builder<>(SHOULD_DO_ANIMATIONS, Boolean.class)
+            .setDescription("Whether certain animations shoudl be performed")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOULD_DO_ANIMATIONS)).build();
+
+    public static final UserData<Boolean> compactText = new Builder<>(COMPACT_TEXT_MODE, Boolean.class)
+            .setDescription("Whether compact text mode is enabled")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, COMPACT_TEXT_MODE);
+
+                Console.INSTANCE.revalidateConsoleTaskbarMenu();
+                CyderScrollList.refreshAllLists();
+            }).build();
+
+    public static final UserData<Integer> fontMetric = new Builder<>(FONT_METRIC, Integer.class)
+            .setDescription("The font metric for the input and output fields")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FONT_METRIC);
+
+                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
+                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
+            }).build();
+
+    private static final UserData<Boolean> wrapShell = new Builder<>(WRAP_SHELL, Boolean.class)
+            .setDescription("Whether unrecognized user commands should be pased to the native shell")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)).build()
+
+    private static final UserData<Boolean> drawWeatherMap = new Builder<>(DRAW_WEATHER_MAP, Boolean.class)
+            .setDescription("Whether a map should be drawn on the background of the weather widget")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, DRAW_WEATHER_MAP);
+                WeatherWidget.refreshAllMapBackgrounds();
+            }).build();
+
+    private static final UserData<Boolean> paintClocklabels = new Builder<>(PAINT_CLOCK_LABELS, Boolean.class)
+            .setDescription("Whether the hour labels should be painted for the clock widget")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, PAINT_CLOCK_LABELS);
+                ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
+            }).build();
+
+    private static final UserData<Boolean> clockWidgetSecondHand =
+            new Builder<>(CLOCK_WIDGET_SECOND_HAND, Boolean.class)
+                    .setDescription("Whether the second hand should be shown for the clock widget")
+                    .setOnChangeFunction(() -> {
+                        Logger.log(LogTag.USER_DATA, CLOCK_WIDGET_SECOND_HAND);
+                        ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
+                    }).build();
+
+    private static final UserData<Boolean> fillOpacity = new Builder<>(FILL_OPACITY, Boolean.class)
+            .setDescription("The opacity of the input and output fills")
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FILL_OPACITY);
+                // todo change things that use opacity
+            }).build();
 
     /**
      * The collection of {@link UserData} pieces.
@@ -126,214 +367,40 @@ public final class UserData<T> {
             foregroundColor,
             backgroundColor,
             introMusic,
-            debugStats
+            debugStats,
+            randomBackground,
+            outputBorder,
+            inputBorder,
+            hourlyChimes,
+            silenceErrors,
+            fullscreen,
+            outputFill,
+            inputFill,
+            consoleClock,
+            consoleClockSeconds,
+            filterChat,
+            lastSessionStart,
+            minimizeOnClose,
+            typingAnimation,
+            typingSound,
+            busyAnimation,
+            roundedWindows,
+            windowColor,
+            clockFormat,
+            youtubeUuid,
+            capsMode,
+            loggedIn,
+            audioTotalLength,
+            shouldPersistNotifications,
+            shouldDoAnimations,
+            compactText,
+            fontMetric,
+            wrapShell,
+            drawWeatherMap,
+            paintClocklabels,
+            clockWidgetSecondHand,
+            fillOpacity
     );
-
-    //            new UserData(RANDOM_BACKGROUND, "Random Background",
-    //                    "Choose a random background on startup", "0",
-    //                    () -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND)),
-    //
-    //            new UserData(OUTPUT_BORDER, "Output Border",
-    //                    "Draw a border around the output area", "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, OUTPUT_BORDER);
-    //
-    //                if (!UserDataManager.INSTANCE.shouldDrawOutputBorder()) {
-    //                    Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
-    //                } else {
-    //                    LineBorder lineBorder = new LineBorder(UserDataManager.INSTANCE.getBackgroundColor(),
-    //                            UserEditor.inputOutputBorderThickness, true);
-    //                    Console.INSTANCE.getOutputScroll().setBorder(lineBorder);
-    //                }
-    //            }),
-    //
-    //            new UserData(INPUT_BORDER, "Input Border", "Draw a border around the input area",
-    //                    "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, INPUT_BORDER);
-    //
-    //                if (!UserDataManager.INSTANCE.shouldDrawInputBorder()) {
-    //                    Console.INSTANCE.getInputField().setBorder(null);
-    //                } else {
-    //                    Console.INSTANCE.getInputField().setBorder(new LineBorder(
-    //                            UserDataManager.INSTANCE.getBackgroundColor(), 3, true));
-    //                }
-    //            }),
-    //
-    //            new UserData(HOURLY_CHIMES, "Hourly Chimes", "Chime every hour", "1",
-    //                    () -> Logger.log(LogTag.USER_DATA, HOURLY_CHIMES)),
-    //
-    //            new UserData(SILENCE_ERRORS, "Silence Errors", "Don't open errors externally",
-    //                    "1", () -> Logger.log(LogTag.USER_DATA, SILENCE_ERRORS)),
-    //
-    //            new UserData(FULLSCREEN, "Fullscreen",
-    //                    "Fullscreen Cyder (this will also cover the Windows taskbar)", "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, FULLSCREEN);
-    //                Console.INSTANCE.setFullscreen(UserDataManager.INSTANCE.isFullscreen());
-    //            }),
-    //
-    //            new UserData(OUTPUT_FILL, "Output Fill",
-    //                    "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
-    //                    "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, OUTPUT_FILL);
-    //
-    //                JTextPane outputArea = Console.INSTANCE.getOutputArea();
-    //
-    //                if (!UserDataManager.INSTANCE.shouldDrawOutputFill()) {
-    //                    outputArea.setBackground(null);
-    //                    outputArea.setOpaque(false);
-    //                } else {
-    //                    outputArea.setOpaque(true);
-    //                    outputArea.setBackground(UserDataManager.INSTANCE.getBackgroundColor());
-    //                    outputArea.repaint();
-    //                    outputArea.revalidate();
-    //                }
-    //            }),
-    //
-    //            new UserData(INPUT_FILL, "Input Fill",
-    //                    "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
-    //                    "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, INPUT_FILL);
-    //
-    //                JTextField inputField = Console.INSTANCE.getInputField();
-    //
-    //                if (!UserDataManager.INSTANCE.shouldDrawInputFill()) {
-    //                    inputField.setBackground(null);
-    //                    inputField.setOpaque(false);
-    //                } else {
-    //                    inputField.setOpaque(true);
-    //                    inputField.setBackground(UserDataManager.INSTANCE.getBackgroundColor());
-    //                    inputField.repaint();
-    //                    inputField.revalidate();
-    //                }
-    //            }),
-    //
-    //            new UserData(CLOCK_ON_CONSOLE, "Clock On Console",
-    //                    "Show a clock at the top of the console", "1", () -> {
-    //                Logger.log(LogTag.USER_DATA, CLOCK_ON_CONSOLE);
-    //                Console.INSTANCE.refreshClockText();
-    //            }),
-    //
-    //            new UserData(SHOW_SECONDS, "Show Seconds",
-    //                    "Show seconds on the console clock if enabled", "1", () -> {
-    //                Logger.log(LogTag.USER_DATA, SHOW_SECONDS);
-    //                Console.INSTANCE.refreshClockText();
-    //            }),
-    //
-    //            new UserData(FILTER_CHAT, "Filter Chat", "Filter foul language", "1",
-    //                    () -> Logger.log(LogTag.USER_DATA, FILTER_CHAT)),
-    //
-    //            new UserData(LAST_START, IGNORE, EMPTY, String.valueOf(System.currentTimeMillis()),
-    //                    () -> Logger.log(LogTag.USER_DATA, LAST_START))
-    //                    .setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(MINIMIZE_ON_CLOSE, "Minimize On Close",
-    //                    "Minimize the application instead of exiting whenever a close action is requested",
-    //                    "0", () -> Logger.log(LogTag.USER_DATA, MINIMIZE_ON_CLOSE)),
-    //
-    //            new UserData(TYPING_ANIMATION, "Typing Animation",
-    //                    "Typing animation on console for non-vital outputs", "1",
-    //                    () -> Logger.log(LogTag.USER_DATA, TYPING_ANIMATION)),
-    //
-    //            new UserData(TYPING_SOUND, "Typing Animation Sound",
-    //                    "Typing animation sound effect to play if typing animation is enabled",
-    //                    "1", () -> Logger.log(LogTag.USER_DATA, TYPING_SOUND)),
-    //
-    //            new UserData(SHOW_BUSY_ICON, "Show Cyder Busy Animation",
-    //                    "Show when Cyder is busy by changing the tray icon", "1",
-    //                    () -> {
-    //                        Console.INSTANCE.hideBusyAnimation();
-    //                        Logger.log(LogTag.USER_DATA, SHOW_BUSY_ICON);
-    //                    }),
-    //
-    //            new UserData(ROUNDED_WINDOWS, "Rounded Windows", "Make certain windows rounded",
-    //                    "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, ROUNDED_WINDOWS);
-    //                UiUtil.repaintCyderFrames();
-    //            }),
-    //
-    //            new UserData(WINDOW_COLOR, IGNORE, EMPTY, "1A2033", () -> {
-    //                Logger.log(LogTag.USER_DATA, WINDOW_COLOR);
-    //
-    //                UiUtil.repaintCyderFrames();
-    //                Console.INSTANCE.revalidateMenuBackgrounds();
-    //            }).setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(CONSOLE_CLOCK_FORMAT, IGNORE, EMPTY, "EEEEEEEEE h:mmaa", () -> {
-    //                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK_FORMAT);
-    //                Console.INSTANCE.refreshClockText();
-    //            }).setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(YOUTUBE_UUID, IGNORE, EMPTY, "aaaaaaaaaaa",
-    //                    () -> Logger.log(LogTag.USER_DATA, YOUTUBE_UUID))
-    //                    .setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(CAPS_MODE, "Capital Letters Mode", "Capitalize all console output",
-    //                    "0", () -> Logger.log(LogTag.USER_DATA, CAPS_MODE)),
-    //
-    //            new UserData(LOGGED_IN, IGNORE, EMPTY, "0",
-    //                    () -> Logger.log(LogTag.USER_DATA, LOGGED_IN))
-    //                    .setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(AUDIO_LENGTH, "Show Audio Total Length",
-    //                    "For the audio player, show the total audio time instead of the time remaining",
-    //                    "1", () -> Logger.log(LogTag.USER_DATA, AUDIO_LENGTH)),
-    //
-    //            new UserData(PERSISTENT_NOTIFICATIONS, "Persistent Notifications",
-    //                    "Notifications stay on screen until manually dismissed", "0",
-    //                    () -> Logger.log(LogTag.USER_DATA, PERSISTENT_NOTIFICATIONS)),
-    //
-    //            new UserData(DO_ANIMATIONS, "Do Animations",
-    //                    "Use animations for things such as frame movement and notifications", "1",
-    //                    () -> Logger.log(LogTag.USER_DATA, DO_ANIMATIONS)),
-    //
-    //            new UserData(COMPACT_TEXT_MODE, "Compact Text",
-    //                    "Compact the text/components in supported text panes", "0", () -> {
-    //                Logger.log(LogTag.USER_DATA, COMPACT_TEXT_MODE);
-    //
-    //                Console.INSTANCE.revalidateConsoleTaskbarMenu();
-    //                CyderScrollList.refreshAllLists();
-    //            }),
-    //
-    //            new UserData(FONT_SIZE, IGNORE, EMPTY, "30", () -> {
-    //                Logger.log(LogTag.USER_DATA, FONT_SIZE);
-    //
-    //                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
-    //                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-    //            }).setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(WRAP_SHELL, "Wrap Shell", "Wrap the native shell by"
-    //                    + " passing unrecognized commands to it and allowing it to process them", "0",
-    //                    () -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)),
-    //
-    //            new UserData(DARK_MODE, "Dark Mode", "Activate a pleasant dark mode for Cyder",
-    //                    "0", () -> Logger.log(LogTag.USER_DATA, DARK_MODE)),
-    //
-    //            new UserData(WEATHER_MAP, "Weather Map",
-    //                    "Show a map of the location's area in the weather widget background", "1",
-    //                    () -> {
-    //                        Logger.log(LogTag.USER_DATA, WEATHER_MAP);
-    //                        WeatherWidget.refreshAllMapBackgrounds();
-    //                    }),
-    //
-    //            new UserData(PAINT_CLOCK_LABELS, "Paint Clock Labels",
-    //                    "Whether to paint the hour labels on the clock widget", "1",
-    //                    () -> {
-    //                        Logger.log(LogTag.USER_DATA, PAINT_CLOCK_LABELS);
-    //                        ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
-    //                    }),
-    //
-    //            new UserData(SHOW_SECOND_HAND, "Show Second Hand",
-    //                    "Whether to show the second hand on the clock widget", "1",
-    //                    () -> {
-    //                        Logger.log(LogTag.USER_DATA, SHOW_SECOND_HAND);
-    //                        ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
-    //                    }),
-    //
-    //            new UserData(FILL_OPCACIY, "Fill Color Opacity",
-    //                    "The opacity value to use for the output and input fill colors", "255",
-    //                    () -> {
-    //                        Logger.log(LogTag.USER_DATA, FILL_OPCACIY);
-    //                        // todo change things that use opacity
-    //                    })
 
     /**
      * Returns the user data collection.
