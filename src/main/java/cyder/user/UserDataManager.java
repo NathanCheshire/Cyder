@@ -4,15 +4,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
+import cyder.exceptions.FatalException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
+import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.youtube.YouTubeConstants;
 
@@ -45,6 +49,16 @@ public enum UserDataManager {
     private File userFile;
 
     /**
+     * The current levenshtein distance between the last and current write to the user json file.
+     */
+    private static int currentLevenshteinDistance;
+
+    /**
+     * The last result of serializing {@link #user} before writing to {@link #userFile}
+     */
+    private static String lastSerializedUser = "";
+
+    /**
      * Sets the current Cyder user to the user with the provided uuid.
      *
      * @param uuid the uuid of the Cyder user to set for the current session
@@ -62,6 +76,49 @@ public enum UserDataManager {
 
         userFile = jsonFile;
         user = NewUser.fromJson(jsonFile);
+    }
+
+    // todo this needs to be called periodically
+
+    /**
+     * Writes the current user to the user's source JSON file.
+     */
+    public synchronized void writeUser() {
+        Preconditions.checkState(isInitialized());
+
+        try {
+            if (!userFile.exists()) {
+                if (!userFile.createNewFile()) {
+                    throw new FatalException("Failed to re-create user file: " + userFile.getAbsolutePath());
+                }
+            }
+
+            updateCurrentLevenshteinDistance();
+
+            SerializationUtil.toJson(user, userFile);
+
+            if (currentLevenshteinDistance > 0) {
+                String representation = "[JSON WRITE" + CyderStrings.space + CyderStrings.openingBracket
+                        + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
+                        + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
+                        + getUsername() + CyderStrings.quote + CyderStrings.space
+                        + "was written to file" + CyderStrings.colon + CyderStrings.space
+                        + userFile.getParentFile().getName() + OsUtil.FILE_SEP + userFile.getName();
+                Logger.log(LogTag.SYSTEM_IO, representation);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Updates the levenshtein distance between the last serialized user
+     * and the result of serializing the current user fields.
+     */
+    private synchronized void updateCurrentLevenshteinDistance() {
+        String serialized = SerializationUtil.toJson(user);
+        currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(serialized, lastSerializedUser);
+        lastSerializedUser = serialized;
     }
 
     /**

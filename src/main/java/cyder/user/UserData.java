@@ -11,6 +11,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.UiUtil;
 import cyder.ui.pane.CyderScrollList;
+import cyder.user.data.ScreenStat;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 
@@ -68,10 +69,12 @@ public final class UserData<T> {
     public static final String PAINT_CLOCK_LABELS = "paint_clock_labels";
     public static final String CLOCK_WIDGET_SECOND_HAND = "clock_widget_second_hand";
     public static final String SCREEN_STAT = "screen_stat";
-    public static final String MAPPED_EXECUTABLES = "mapped_executables";
     public static final String FILL_OPACITY = "fill_opacity";
     public static final String SHOWN_WELCOME_MESSAGE = "shown_welcome_message";
     public static final String ACCOUNT_CREATION_TIME = "account_creation_time";
+
+    // todo object does not exist for
+    public static final String MAPPED_EXECUTABLES = "mapped_executables";
 
     // todo only booleans will be pulled for toggle switches unless they have ignore for toggle switches enabled
 
@@ -94,6 +97,12 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FONT_NAME);
                 // todo refresh output and input fields.
+            }).build();
+
+    public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
+            .setDescription("The size of the user font")
+            .setOnChangeFunction(() -> {
+                // todo
             }).build();
 
     public static final UserData<Color> foregroundColor = new Builder<>(FOREGROUND_COLOR, Color.class)
@@ -228,7 +237,7 @@ public final class UserData<T> {
             .setDescription("Whether the user input should be filtered")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, FILTER_CHAT)).build();
 
-    public static final UserData<Boolean> lastSessionStart = new Builder<>(LAST_SESSION_START, Boolean.class)
+    public static final UserData<Long> lastSessionStart = new Builder<>(LAST_SESSION_START, Long.class)
             .setDescription("The time at which the last session for this user was started")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LAST_SESSION_START)).build();
 
@@ -315,6 +324,7 @@ public final class UserData<T> {
                 CyderScrollList.refreshAllLists();
             }).build();
 
+    // todo isn't this a prop?
     public static final UserData<Integer> fontMetric = new Builder<>(FONT_METRIC, Integer.class)
             .setDescription("The font metric for the input and output fields")
             .setOnChangeFunction(() -> {
@@ -324,25 +334,25 @@ public final class UserData<T> {
                 Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
             }).build();
 
-    private static final UserData<Boolean> wrapShell = new Builder<>(WRAP_SHELL, Boolean.class)
+    public static final UserData<Boolean> wrapShell = new Builder<>(WRAP_SHELL, Boolean.class)
             .setDescription("Whether unrecognized user commands should be pased to the native shell")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)).build()
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)).build();
 
-    private static final UserData<Boolean> drawWeatherMap = new Builder<>(DRAW_WEATHER_MAP, Boolean.class)
+    public static final UserData<Boolean> drawWeatherMap = new Builder<>(DRAW_WEATHER_MAP, Boolean.class)
             .setDescription("Whether a map should be drawn on the background of the weather widget")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, DRAW_WEATHER_MAP);
                 WeatherWidget.refreshAllMapBackgrounds();
             }).build();
 
-    private static final UserData<Boolean> paintClocklabels = new Builder<>(PAINT_CLOCK_LABELS, Boolean.class)
+    public static final UserData<Boolean> paintClocklabels = new Builder<>(PAINT_CLOCK_LABELS, Boolean.class)
             .setDescription("Whether the hour labels should be painted for the clock widget")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PAINT_CLOCK_LABELS);
                 ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
             }).build();
 
-    private static final UserData<Boolean> clockWidgetSecondHand =
+    public static final UserData<Boolean> clockWidgetSecondHand =
             new Builder<>(CLOCK_WIDGET_SECOND_HAND, Boolean.class)
                     .setDescription("Whether the second hand should be shown for the clock widget")
                     .setOnChangeFunction(() -> {
@@ -350,12 +360,24 @@ public final class UserData<T> {
                         ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
                     }).build();
 
-    private static final UserData<Boolean> fillOpacity = new Builder<>(FILL_OPACITY, Boolean.class)
+    public static final UserData<Boolean> fillOpacity = new Builder<>(FILL_OPACITY, Boolean.class)
             .setDescription("The opacity of the input and output fills")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FILL_OPACITY);
                 // todo change things that use opacity
             }).build();
+
+    public static final UserData<ScreenStat> screenStat = new Builder<>(SCREEN_STAT, ScreenStat.class)
+            .setDescription("The user's screen stats")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SCREEN_STAT)).build();
+
+    public static final UserData<Boolean> shownWelcomeMessage = new Builder<>(SHOWN_WELCOME_MESSAGE, Boolean.class)
+            .setDescription("Whether the welcome message has been shown for this user")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOWN_WELCOME_MESSAGE)).build();
+
+    public static final UserData<Long> accountCreationTime = new Builder<>(ACCOUNT_CREATION_TIME, Long.class)
+            .setDescription("The time at which this account was created")
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, ACCOUNT_CREATION_TIME)).build();
 
     /**
      * The collection of {@link UserData} pieces.
@@ -364,6 +386,7 @@ public final class UserData<T> {
             username,
             password,
             fontName,
+            fontSize,
             foregroundColor,
             backgroundColor,
             introMusic,
@@ -399,7 +422,10 @@ public final class UserData<T> {
             drawWeatherMap,
             paintClocklabels,
             clockWidgetSecondHand,
-            fillOpacity
+            fillOpacity,
+            screenStat,
+            shownWelcomeMessage,
+            accountCreationTime
     );
 
     /**

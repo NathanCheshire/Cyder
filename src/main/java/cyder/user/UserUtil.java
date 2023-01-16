@@ -17,7 +17,6 @@ import cyder.meta.CyderSplash;
 import cyder.network.LatencyManager;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
-import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.user.creation.InputValidation;
@@ -62,52 +61,10 @@ public final class UserUtil {
     private static final String GET = "get";
 
     /**
-     * The json write tag.
-     */
-    private static final String JSON_WRITE = "[JSON WRITE]";
-
-    /**
-     * The last serialized string that was written to the current user file.
-     */
-    private static String previousSerializedUser = "";
-
-    /**
-     * The current levenshtein distance between the last and current write to the user json file.
-     */
-    private static int currentLevenshteinDistance;
-
-    /**
      * Suppress default constructor.
      */
     private UserUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * Writes the current User, {@link UserUtil#cyderUser},
-     * to the user's json if the json exists AND the provided user
-     * object contains all the data required by a user object.
-     * Upon a successful serialization/de-serialization, the json
-     * is backed up and placed in dynamic/backup.
-     */
-    public static synchronized void writeUser() {
-        if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null) return;
-
-        try {
-            writeUserToFile(cyderUserFile, cyderUser);
-
-            if (currentLevenshteinDistance > 0) {
-                String representation = JSON_WRITE + CyderStrings.space + CyderStrings.openingBracket
-                        + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
-                        + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
-                        + cyderUser.getName() + CyderStrings.quote + CyderStrings.space
-                        + "was written to file" + CyderStrings.colon + CyderStrings.space
-                        + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName());
-                Logger.log(LogTag.SYSTEM_IO, representation);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 
     /**
@@ -124,11 +81,6 @@ public final class UserUtil {
 
         try {
             SerializationUtil.toJson(user, file);
-
-            String currentSerializedUser = SerializationUtil.toJson(user);
-            currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(
-                    currentSerializedUser, previousSerializedUser);
-            previousSerializedUser = currentSerializedUser;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -201,7 +153,7 @@ public final class UserUtil {
                         && m.getParameterTypes().length == 1
                         && m.getName().replace(SET, "").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
-                    writeUser();
+                    saveCurrentUserToFile();
                     break;
                 }
             }
@@ -502,7 +454,7 @@ public final class UserUtil {
         getUserJsons().forEach(jsonFile -> {
             NewUser user = extractUser(jsonFile);
             user.setLoggedIn(false);
-            writeUserToFile(jsonFile, user);
+            SerializationUtil.toJson(user, jsonFile);
         });
     }
 

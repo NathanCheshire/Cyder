@@ -320,8 +320,7 @@ public enum Console {
      * Checks for whether the debug stats should be shown.
      */
     private void checkForDebugStats() {
-        boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
-        if (debugStats) showDebugStats();
+        if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
     }
 
     /**
@@ -341,13 +340,13 @@ public enum Console {
      * has been a while. The console load time is also printed to the output area.
      */
     private void performTimingChecks() {
-        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
+        long lastStart = UserDataManager.INSTANCE.getLastSessionStart();
         long millisSinceLastStart = System.currentTimeMillis() - lastStart;
         if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
-            String username = UserUtil.getCyderUser().getName();
+            String username = UserDataManager.INSTANCE.getUsername();
             consoleCyderFrame.notify("Welcome back, " + username + "!");
         }
-        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
+        UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
 
         long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
@@ -475,7 +474,7 @@ public enum Console {
      */
     @ForReadability
     private void resetMembers() {
-        consoleBashString = UserUtil.getCyderUser().getName() + BASH_STRING_PREFIX;
+        consoleBashString = UserDataManager.INSTANCE.getUsername() + BASH_STRING_PREFIX;
 
         lastSlideDirection = DEFAULT_CONSOLE_DIRECTION;
         consoleDir = DEFAULT_CONSOLE_DIRECTION;
@@ -571,7 +570,7 @@ public enum Console {
 
         consoleCyderFrame.setBackground(Color.black);
         consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
-        consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
+        consoleCyderFrame.setDraggingEnabled(!UserDataManager.INSTANCE.isFullscreen());
         consoleCyderFrame.addWindowListener(consoleWindowAdapter);
 
         getConsoleCyderFrameContentPane().setToolTipText(
@@ -601,14 +600,14 @@ public enum Console {
         int height;
         ImageIcon icon;
 
-        boolean randombackground = UserUtil.getCyderUser().getRandomBackground().equals("1");
+        boolean randombackground = UserDataManager.INSTANCE.shouldChooseRandomBackground();
         if (randombackground && reloadAndGetBackgrounds().size() > 1) {
             backgroundIndex = NumberUtil.generateRandomInt(backgrounds.size() - 1);
         }
 
-        boolean fullscreen = UserUtil.getCyderUser().getFullscreen().equals("1");
+        boolean fullscreen = UserDataManager.INSTANCE.isFullscreen();
         if (fullscreen) {
-            int monitorId = UserUtil.getCyderUser().getScreenStat().getMonitor();
+            int monitorId = UserDataManager.INSTANCE.getScreenStat().getMonitor();
             Rectangle monitorBounds = UiUtil.getGraphicsDevice(monitorId).getDefaultConfiguration().getBounds();
 
             width = (int) monitorBounds.getWidth();
@@ -641,7 +640,7 @@ public enum Console {
                 + CyderVersionManager.INSTANCE.getProgramName()
                 + space
                 + openingBracket
-                + UserUtil.getCyderUser().getName()
+                + UserDataManager.INSTANCE.getUsername()
                 + closingBracket);
     }
 
@@ -779,15 +778,15 @@ public enum Console {
         };
 
         outputArea.setEditable(false);
-        outputArea.setCaretColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        outputArea.setCaret(new CyderCaret(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground())));
+        outputArea.setCaretColor(UserDataManager.INSTANCE.getForegroundColor());
+        outputArea.setCaret(new CyderCaret(UserDataManager.INSTANCE.getForegroundColor()));
         outputArea.setAutoscrolls(true);
 
         outputArea.setFocusable(true);
         outputArea.setSelectionColor(CyderColors.selectionColor);
         outputArea.setOpaque(false);
         outputArea.setBackground(CyderColors.empty);
-        outputArea.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+        outputArea.setForeground(UserDataManager.INSTANCE.getForegroundColor());
         outputArea.setFont(generateUserFont());
 
         installOutputAreaListeners();
@@ -810,13 +809,13 @@ public enum Console {
         outputScroll.getViewport().setOpaque(false);
         outputScroll.setOpaque(false);
         outputScroll.setFocusable(true);
-        boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
-        Color color = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+        boolean outputBorder = UserDataManager.INSTANCE.shouldDrawOutputBorder();
+        Color color = UserDataManager.INSTANCE.getBackgroundColor();
         outputScroll.setBorder(outputBorder
                 ? new LineBorder(color, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
 
-        boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
+        boolean outputFill = UserDataManager.INSTANCE.shouldDrawOutputFill();
         if (outputFill) {
             outputArea.setOpaque(true);
             outputArea.setBackground(color);
@@ -836,8 +835,8 @@ public enum Console {
 
         inputField.setEchoChar((char) 0);
         inputField.setText(consoleBashString);
-        boolean inputBorder = UserUtil.getCyderUser().getInputBorder().equals("1");
-        Color backgroundColor = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+        boolean inputBorder = UserDataManager.INSTANCE.shouldDrawInputBorder();
+        Color backgroundColor = UserDataManager.INSTANCE.getBackgroundColor();
         inputField.setBorder(inputBorder
                 ? new LineBorder(backgroundColor, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
@@ -845,17 +844,17 @@ public enum Console {
         inputField.setCaretPosition(inputField.getPassword().length);
 
         inputField.setOpaque(false);
-        inputField.setCaretColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        inputField.setCaret(new CyderCaret(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground())));
-        inputField.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+        inputField.setCaretColor(UserDataManager.INSTANCE.getForegroundColor());
+        inputField.setCaret(new CyderCaret(UserDataManager.INSTANCE.getForegroundColor()));
+        inputField.setForeground(UserDataManager.INSTANCE.getForegroundColor());
         inputField.setFont(generateUserFont());
 
         installInputFieldListeners();
 
-        boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
+        boolean inputFill = UserDataManager.INSTANCE.shouldDrawInputFill();
         if (inputFill) {
             inputField.setOpaque(true);
-            inputField.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+            inputField.setBackground(UserDataManager.INSTANCE.getBackgroundColor());
             inputField.repaint();
             inputField.revalidate();
         }
@@ -883,7 +882,7 @@ public enum Console {
      */
     @SuppressWarnings("SuspiciousNameCombination") /* Switching with and height vars */
     private void restoreFromPreviousScreenStat(ConsoleIcon consoleIcon) {
-        ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
+        ScreenStat requestedConsoleStats = UserDataManager.INSTANCE.getScreenStat();
         Direction consoleDirection = requestedConsoleStats.getConsoleDirection();
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
@@ -958,7 +957,7 @@ public enum Console {
         closeButton = new CloseButton();
         closeButton.setForConsole(true);
         closeButton.setClickAction(() -> {
-            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
+            boolean shouldMinimize = UserDataManager.INSTANCE.shouldMinimizeOnClose();
             if (shouldMinimize) {
                 UiUtil.minimizeAllFrames();
             } else {
@@ -1135,7 +1134,7 @@ public enum Console {
         @Override
         public void windowClosed(WindowEvent e) {
             if (!consoleClosed.get()) {
-                boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
+                boolean shouldMinimize = UserDataManager.INSTANCE.shouldMinimizeOnClose();
                 if (shouldMinimize) {
                     UiUtil.minimizeAllFrames();
                 } else {
@@ -1201,7 +1200,7 @@ public enum Console {
                         int sec = LocalDateTime.now().getSecond();
 
                         if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
-                            boolean chime = UserUtil.getCyderUser().getHourlyChimes().equals("1");
+                            boolean chime = UserDataManager.INSTANCE.shouldPlayHourlyChimes();
                             if (chime) {
                                 GeneralAndSystemAudioPlayer.playSystemAudio(chimeFile);
                                 lastChimeHour.set(LocalDateTime.now().getHour());
@@ -1230,7 +1229,7 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             try {
                 while (true) {
-                    boolean busyIcon = UserUtil.getCyderUser().getShowBusyIcon().equals("1");
+                    boolean busyIcon = UserDataManager.INSTANCE.shouldShowBusyAnimation();
                     if (!isClosed() && busyIcon) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                         int threadCount = threadGroup.activeCount();
@@ -1364,7 +1363,7 @@ public enum Console {
      * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
-        boolean introMusic = UserUtil.getCyderUser().getIntroMusic().equalsIgnoreCase("1");
+        boolean introMusic = UserDataManager.INSTANCE.shouldPlayIntroMusic();
 
         if (introMusic) {
             performIntroMusic();
@@ -1479,13 +1478,13 @@ public enum Console {
     private final FocusAdapter outputAreaFocusAdapter = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
-            Color color = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+            Color color = UserDataManager.INSTANCE.getBackgroundColor();
             outputScroll.setBorder(new LineBorder(color, 3));
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-            boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
+            boolean outputBorder = UserDataManager.INSTANCE.shouldDrawOutputBorder();
             if (!outputBorder) {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
@@ -1727,7 +1726,7 @@ public enum Console {
     private synchronized void installMenuTaskbarIcons() {
         lockMenuTaskbarInstallation();
 
-        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
+        boolean compactMode = UserDataManager.INSTANCE.compactTextMode();
 
         StyleConstants.setAlignment(alignment, compactMode
                 ? StyleConstants.ALIGN_LEFT : StyleConstants.ALIGN_CENTER);
@@ -1810,7 +1809,7 @@ public enum Console {
      * @return the current mapped exe taskbar icon items
      */
     private ImmutableList<TaskbarIcon> getMappedExeTaskbarIcons(boolean compactMode) {
-        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!exes.isEmpty()) {
@@ -2097,7 +2096,7 @@ public enum Console {
      * Clears the taskbar menu pane and re-prints the current taskbar icons from the three lists.
      */
     private void reinstallCurrentTaskbarIcons() {
-        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
+        boolean compactMode = UserDataManager.INSTANCE.compactTextMode();
 
         menuPaneOutputPane.printlnMenuSeparator();
 
@@ -2378,7 +2377,7 @@ public enum Console {
             return;
         }
 
-        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
+        int fontSize = UserDataManager.INSTANCE.getFontSize();
         if (e.getWheelRotation() == WHEEL_UP) {
             fontSize++;
         } else {
@@ -2389,7 +2388,7 @@ public enum Console {
         int minFontSize = Props.minFontSize.getValue();
         if (fontSize > maxFontSize || fontSize < minFontSize) return;
 
-        String fontName = UserUtil.getCyderUser().getFont();
+        String fontName = UserDataManager.INSTANCE.getFontName();
         int fontMetric = FontUtil.getFontMetricFromProps();
 
         Font newFont = new Font(fontName, fontMetric, fontSize);
@@ -2397,7 +2396,7 @@ public enum Console {
             inputField.setFont(newFont);
             outputArea.setFont(newFont);
 
-            UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
+            UserDataManager.INSTANCE.setFontSize(fontSize);
             baseInputHandler.refreshPrintedLabels();
         }
     };
@@ -2436,9 +2435,9 @@ public enum Console {
      */
     @SuppressWarnings("MagicConstant") /* Font metric is always checked before use */
     public Font generateUserFont() {
-        String fontName = UserUtil.getCyderUser().getFont();
+        String fontName = UserDataManager.INSTANCE.getFontName();
         int fontMetric = FontUtil.getFontMetricFromProps();
-        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
+        int fontSize = UserDataManager.INSTANCE.getFontSize();
 
         if (!FontUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
 
@@ -2821,7 +2820,7 @@ public enum Console {
             return;
         }
 
-        UserUtil.getCyderUser().setFullscreen("0");
+        UserDataManager.INSTANCE.setFullscreen(false);
         revalidate(true, false, maintainConsoleSize);
         revalidateConsoleMenuSize();
     }
@@ -2842,7 +2841,7 @@ public enum Console {
      */
     public void setFullscreen(boolean fullscreen) {
         try {
-            UserUtil.getCyderUser().setFullscreen(fullscreen ? "1" : "0");
+            UserDataManager.INSTANCE.setFullscreen(fullscreen);
 
             if (fullscreen) {
                 consoleDir = Direction.TOP;
@@ -2859,7 +2858,7 @@ public enum Console {
 
     @ForReadability
     private boolean isFullscreen() {
-        return UserUtil.getCyderUser().getFullscreen().equals("1");
+        return UserDataManager.INSTANCE.isFullscreen();
     }
 
     /**
@@ -2989,9 +2988,9 @@ public enum Console {
         if (maintainDirection) {
             background = getCurrentRotatedConsoleBackground();
 
-            UserUtil.getCyderUser().setFullscreen("0");
+            UserDataManager.INSTANCE.setFullscreen(false);
             consoleCyderFrame.setShouldAnimateOpacity(true);
-        } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
+        } else if (maintainFullscreen && UserDataManager.INSTANCE.isFullscreen()) {
             // Setup fullscreen on current monitor
             background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
                     (int) consoleCyderFrame.getMonitorBounds().getWidth(),
@@ -3443,7 +3442,7 @@ public enum Console {
      * Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled.
      */
     public void refreshClockText() {
-        boolean showClock = UserUtil.getCyderUser().getClockOnConsole().equals("1");
+        boolean showClock = UserDataManager.INSTANCE.shouldDrawConsoleClock();
         if (!showClock) {
             consoleCyderFrame.setCyderFrameTitle("");
             return;
@@ -3456,7 +3455,7 @@ public enum Console {
         // No custom pattern so take into account showSeconds
         if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
                 || userConfiguredTime.equalsIgnoreCase(regularNoSecondTime)) {
-            boolean showSeconds = UserUtil.getCyderUser().getShowSeconds().equalsIgnoreCase("1");
+            boolean showSeconds = UserDataManager.INSTANCE.shouldShowConsoleClockSeconds();
             userConfiguredTime = showSeconds ? regularSecondTime : regularNoSecondTime;
         }
 
@@ -3482,8 +3481,8 @@ public enum Console {
         }
 
         if (logoutUser) {
-            Logger.log(LogTag.LOGOUT, UserUtil.getCyderUser().getName());
-            UserUtil.getCyderUser().setLoggedIn("0");
+            Logger.log(LogTag.LOGOUT, UserDataManager.INSTANCE.getUsername());
+            UserDataManager.INSTANCE.setLoggedIn(false);
         }
 
         if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
@@ -3511,7 +3510,7 @@ public enum Console {
         if (consoleCyderFrame.getState() == UiConstants.FRAME_ICONIFIED) return;
         if (getUuid() == null) return;
 
-        ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
+        ScreenStat screenStat = UserDataManager.INSTANCE.getScreenStat();
         screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
         screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
         screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
@@ -3523,8 +3522,8 @@ public enum Console {
 
         screenStat.setConsoleDirection(consoleDir);
 
-        UserUtil.getCyderUser().setScreenStat(screenStat);
-        UserUtil.writeUser();
+        UserDataManager.INSTANCE.setScreenStat(screenStat);
+        UserDataManager.INSTANCE.writeUser();
     }
 
     /**
