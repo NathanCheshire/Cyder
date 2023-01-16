@@ -168,7 +168,7 @@ public class BaseInputHandler {
             WidgetHandler.class,
             MathHandler.class,
             UrlHandler.class,
-            PreferenceHandler.class,
+            UserDataHandler.class,
             GuiTestHandler.class,
             TestHandler.class,
             WrappedCommandHandler.class

@@ -4,20 +4,26 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
+import java.awt.*;
+import java.util.Optional;
+
 /**
  * UserData class used to hold user data default values and anyother meta types associated.
  */
-@SuppressWarnings({"SpellCheckingInspection", "CodeBlock2Expr"}) /* Key names, readability */
+@SuppressWarnings("SpellCheckingInspection") /* Key names */
 public final class UserData<T> {
+    /*
+    UserData keys.
+     */
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String FONT_NAME = "font_name";
-    public static final String FOREGROUND = "foreground";
-    public static final String BACKGROUND = "background";
     public static final String FONT_SIZE = "font_size";
     public static final String FONT_METRIC = "font_metric";
     public static final String FOREGROUND_COLOR = "foreground_color";
@@ -60,42 +66,50 @@ public final class UserData<T> {
     public static final String SHOWN_WELCOME_MESSAGE = "shown_welcome_message";
     public static final String ACCOUNT_CREATION_TIME = "account_creation_time";
 
-    UserData<String> username = new Builder<>(USERNAME, String.class)
+    // todo only booleans will be pulled for toggle switches unless they have ignore for toggle switches enabled
+
+    private static final UserData<String> username = new Builder<>(USERNAME, String.class)
             .setDescription("The user's public username")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, USERNAME);
                 Console.INSTANCE.refreshConsoleSuperTitle();
             }).build();
 
-    UserData<String> password = new Builder<>(PASSWORD, String.class)
+    private static final UserData<String> password = new Builder<>(PASSWORD, String.class)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PASSWORD);
                 // todo log out user
             }).build();
 
-    //    /**
-    //     * The immutable collection of user data objects.
-    //     */
-    //    private static final ImmutableList<UserData<T>> userDatas = ImmutableList.of(
-    //            new UserData<String>(USERNAME, IGNORE, IGNORE, IGNORE,
-    //                    () -> Logger.log(LogTag.USER_DATA, USERNAME, String.class))
-    //                    .setIgnoreForToggleSwitches()
-    //                    .setIgnoreForUserCreation(),
-    //
-    //            new UserData(PASSWORD, IGNORE, IGNORE, IGNORE,
-    //                    () -> Logger.log(LogTag.USER_DATA, PASSWORD))
-    //                    .setIgnoreForToggleSwitches()
-    //                    .setIgnoreForUserCreation(),
-    //
-    //            new UserData(FONT_NAME, IGNORE, EMPTY, "Agency FB",
-    //                    () -> Logger.log(LogTag.USER_DATA, FONT_NAME))
-    //                    .setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(FOREGROUND, IGNORE, EMPTY, "f0f0f0", () -> {
-    //                Logger.log(LogTag.USER_DATA, FOREGROUND);
-    //                Console.INSTANCE.getInputField().setForeground(UserDataManager.INSTANCE.getForegroundColor());
-    //            }).setIgnoreForToggleSwitches(),
-    //
+    private static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
+            .setDescription("The name of the font for the input and output fields")
+            .setDefaultValue(CyderFonts.AGENCY_FB)
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FONT_NAME);
+                // todo refresh output and input fields.
+            }).build();
+
+    private static final UserData<Color> foreground = new Builder<>(FOREGROUND_COLOR, Color.class)
+            .setDescription("The text color for the input and output fields")
+            .setDefaultValue(CyderColors.navy)
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, FOREGROUND_COLOR);
+                Color foregroundColor = UserDataManager.INSTANCE.getForegroundColor();
+
+                Console.INSTANCE.getInputField().setForeground(foregroundColor);
+                Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
+                Console.INSTANCE.getOutputScroll().setForeground(foregroundColor);
+            }).build();
+
+    /**
+     * The collection of {@link UserData} pieces.
+     */
+    private static final ImmutableList<UserData<?>> datas = ImmutableList.of(
+            username,
+            password,
+            fontName,
+            foreground
+    );
     //            new UserData(BACKGROUND, IGNORE, EMPTY, "101010",
     //                    () -> Logger.log(LogTag.USER_DATA, BACKGROUND))
     //                    .setIgnoreForToggleSwitches(),
@@ -329,9 +343,8 @@ public final class UserData<T> {
      *
      * @return the preferences collection
      */
-    public static ImmutableList<UserData<?>> getPreferences() {
-        // todo return userDatas;
-        return null;
+    public static ImmutableList<UserData<?>> getUserDatas() {
+        return datas;
     }
 
     /**
@@ -340,9 +353,11 @@ public final class UserData<T> {
      * @param preferenceID the onChangeFunction() of the preference with the provided ID
      */
     public static void invokeRefresh(String preferenceID) {
-        for (UserData<?> userData : userDatas) {
+        for (UserData<?> userData : datas) {
             if (userData.getID().equals(preferenceID)) {
-                userData.getOnChangeFunction().run();
+                Optional<Runnable> optionalRunnable = userData.getOnChangeRunnable();
+                optionalRunnable.ifPresent(Runnable::run);
+
                 onPreferenceRefresh();
                 return;
             }
@@ -369,7 +384,7 @@ public final class UserData<T> {
         Preconditions.checkNotNull(preferenceID);
         Preconditions.checkArgument(!preferenceID.isEmpty());
 
-        for (UserData<?> userData : userDatas) {
+        for (UserData<?> userData : datas) {
             if (userData.getID().equals(preferenceID)) {
                 return userData;
             }
@@ -391,27 +406,27 @@ public final class UserData<T> {
     /**
      * The name to display for the preference when allowing the user to make changes.
      */
-    private String displayName;
+    private final String displayName;
 
     /**
      * The description for this data if user editing is allowed.
      */
-    private String description;
+    private final String description;
 
     /**
      * The default value for the preference.
      */
-    private T defaultValue;
+    private final T defaultValue;
 
     /**
      * The method to run when a change of the preference occurs.
      */
-    private Runnable onChangeFunction;
+    private final Runnable onChangeFunction;
 
     /**
      * Whether this preference should be ignored when creating the user preference toggle switches.
      */
-    private boolean ignoreForToggleSwitches;
+    private final boolean ignoreForToggleSwitches;
 
     /**
      * Constructs a user data object.
@@ -421,9 +436,11 @@ public final class UserData<T> {
     private UserData(Builder<T> builder) {
         Preconditions.checkNotNull(builder);
 
+        // Required
         this.id = builder.id;
         this.type = builder.type;
 
+        // Optional
         this.displayName = builder.dislayName;
         this.description = builder.description;
         this.defaultValue = builder.defaultValue;
@@ -451,7 +468,50 @@ public final class UserData<T> {
         return type;
     }
 
-    // todo optional parameters
+    /**
+     * Returns the display name if present. Empty optional else.
+     *
+     * @return the display name if present. Empty optional else
+     */
+    public Optional<String> getDisplayName() {
+        return displayName != null ? Optional.of(displayName) : Optional.empty();
+    }
+
+    /**
+     * Returns the description if present. Empty optional else.
+     *
+     * @return the description if present. Empty optional else
+     */
+    public Optional<String> getDescription() {
+        return description != null ? Optional.of(description) : Optional.empty();
+    }
+
+    /**
+     * Returns the default value if present. Empty optional else.
+     *
+     * @return the default value if present. Empty optional else
+     */
+    public Optional<T> getDefaultValue() {
+        return defaultValue != null ? Optional.of(defaultValue) : Optional.empty();
+    }
+
+    /**
+     * Returns the on change runnable if present. Empty optional else.
+     *
+     * @return the on change runnable if present. Empty optional else
+     */
+    public Optional<Runnable> getOnChangeRunnable() {
+        return onChangeFunction != null ? Optional.of(onChangeFunction) : Optional.empty();
+    }
+
+    /**
+     * Returns whether this user data should be ignored for toggle switches.
+     *
+     * @return whether this user data should be ignored for toggle switches
+     */
+    public boolean shouldIgnoreForToggleSwitches() {
+        return ignoreForToggleSwitches || type != Boolean.class; // todo test
+    }
 
     /**
      * A builder for a {@link UserData} object

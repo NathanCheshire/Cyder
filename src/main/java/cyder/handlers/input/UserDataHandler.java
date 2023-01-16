@@ -12,53 +12,53 @@ import cyder.user.UserEditor;
 import cyder.user.UserUtil;
 
 /**
- * A handler for switching/toggling preferences.
+ * A handler for switching/toggling user data.
  */
-public class PreferenceHandler extends InputHandler {
+public class UserDataHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
-    private PreferenceHandler() {
+    private UserDataHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @SuppressCyderInspections(CyderInspection.HandleInspection)
-    @Handle({"prefs-files", "prefs-fonts", "prefs-colors", "prefs-prefs", "prefs-fields"})
+    @Handle({"userdata-files", "userdata-fonts", "userdata-colors", "userdata-prefs", "userdata-fields"})
     public static boolean handle() {
-        if (getInputHandler().inputIgnoringSpacesMatches("prefs-files")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("userdata-files")) {
             UserEditor.showGui(UserEditor.Page.FILES);
             return true;
-        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-fonts")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-fonts")) {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
-        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-colors")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-colors")) {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
-        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-prefs")) {
-            UserEditor.showGui(UserEditor.Page.PREFERENCES);
+        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-prefs")) {
+            UserEditor.showGui(UserEditor.Page.PREFERENCES); // todo rename
             return true;
-        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-fields")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-fields")) {
             UserEditor.showGui(UserEditor.Page.FIELDS);
             return true;
         }
 
-        return attemptPreferenceToggle();
+        return attemptUserDataToggle();
     }
 
     /**
-     * Attempts to find a preference with the user's input and toggle the state of it.
+     * Attempts to find a user data with the user's input and toggle the parity of it.
      *
-     * @return whether a preference could be found and toggled from the current user's json
+     * @return whether a user data could be found and toggled
      */
-    private static boolean attemptPreferenceToggle() {
-        String targetedPreference = getInputHandler().getCommand();
+    private static boolean attemptUserDataToggle() {
+        String targetedUserData = getInputHandler().getCommand();
         String parsedArgs = getInputHandler().argsToString()
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
-        for (UserData<?> pref : UserData.getPreferences()) {
-            if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
-                if (!pref.getDisplayName().equals("IGNORE")) { // todo trash
-                    boolean oldVal = UserUtil.getUserDataById(pref.getID()).equals("1");
+        for (UserData<?> userdata : UserData.getUserDatas()) {
+            if (targetedUserData.equalsIgnoreCase(userdata.getID().trim())) {
+                if (!userdata.getType().equals(Boolean.class)) { // todo test this
+                    boolean oldVal = UserUtil.getUserDataById(userdata.getID()).equals("1");
 
                     String newVal;
 
@@ -70,12 +70,12 @@ public class PreferenceHandler extends InputHandler {
                         newVal = oldVal ? "0" : "1";
                     }
 
-                    UserUtil.setUserDataById(pref.getID(), newVal);
+                    UserUtil.setUserDataById(userdata.getID(), newVal);
 
-                    getInputHandler().println(pref.getDisplayName()
+                    getInputHandler().println(userdata.getDisplayName()
                             + " set to " + (newVal.equals("1") ? "true" : "false"));
 
-                    UserData.invokeRefresh(pref.getID());
+                    UserData.invokeRefresh(userdata.getID());
 
                     return true;
                 }

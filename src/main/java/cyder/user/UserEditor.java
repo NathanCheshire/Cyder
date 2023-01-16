@@ -1625,7 +1625,7 @@ public final class UserEditor {
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
         checkboxComponents.clear();
-        UserData.getPreferences().stream()
+        UserData.getUserDatas().stream()
                 .filter(userData -> !userData.shouldIgnoreForToggleSwitches())
                 .forEach(userData -> {
                     JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
