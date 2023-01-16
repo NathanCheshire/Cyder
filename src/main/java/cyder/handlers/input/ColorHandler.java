@@ -9,7 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.ui.field.CyderCaret;
-import cyder.user.Preference;
+import cyder.user.UserData;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
@@ -93,7 +93,7 @@ public class ColorHandler extends InputHandler {
                             .setForeground(ColorUtil.toRgbHexString(CyderColors.defaultDarkModeTextColor));
                 }
 
-                Preference.invokeRefresh(Preference.FOREGROUND);
+                UserData.invokeRefresh(UserData.FOREGROUND);
                 getInputHandler().println("Foreground fixed");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

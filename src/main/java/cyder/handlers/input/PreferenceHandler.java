@@ -7,7 +7,7 @@ import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.user.Preference;
+import cyder.user.UserData;
 import cyder.user.UserEditor;
 import cyder.user.UserUtil;
 
@@ -55,9 +55,9 @@ public class PreferenceHandler extends InputHandler {
         String parsedArgs = getInputHandler().argsToString()
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
-        for (Preference pref : Preference.getPreferences()) {
+        for (UserData<?> pref : UserData.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
-                if (!pref.getDisplayName().equals("IGNORE")) {
+                if (!pref.getDisplayName().equals("IGNORE")) { // todo trash
                     boolean oldVal = UserUtil.getUserDataById(pref.getID()).equals("1");
 
                     String newVal;
@@ -75,7 +75,7 @@ public class PreferenceHandler extends InputHandler {
                     getInputHandler().println(pref.getDisplayName()
                             + " set to " + (newVal.equals("1") ? "true" : "false"));
 
-                    Preference.invokeRefresh(pref.getID());
+                    UserData.invokeRefresh(pref.getID());
 
                     return true;
                 }

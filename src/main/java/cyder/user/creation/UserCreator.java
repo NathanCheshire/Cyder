@@ -22,7 +22,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
-import cyder.user.User;
+import cyder.user.NewUser;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.user.data.ScreenStat;
@@ -39,7 +39,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Optional;
 
 import static cyder.strings.CyderStrings.space;
@@ -384,8 +383,8 @@ public final class UserCreator {
         String osUsername = OsUtil.getOsUsername();
 
         for (File userJson : UserUtil.getUserJsons()) {
-            User user = UserUtil.extractUser(userJson);
-            if (user.getName().equalsIgnoreCase(osUsername)) {
+            NewUser user = UserUtil.extractUser(userJson);
+            if (user.getUsername().equalsIgnoreCase(osUsername)) {
                 return true;
             }
         }
@@ -519,10 +518,9 @@ public final class UserCreator {
             return false;
         }
 
-        User user = new User();
-        UserUtil.resetUser(user);
-        user.setName(name);
-        user.setPass(SecurityUtil.doubleHashToHex(password));
+        NewUser user = new NewUser();
+        user.setUsername(name);
+        user.setPassword(SecurityUtil.doubleHashToHex(password));
 
         BufferedImage background;
         try {
@@ -532,9 +530,8 @@ public final class UserCreator {
         }
 
         user.setScreenStat(createDefaultScreenStat(background));
-        user.setExecutables(new LinkedList<>());
 
-        UserUtil.setUserData(Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
+        UserUtil.writeUserToFile(Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 uuid, UserFile.USERDATA.getName()), user);
 
         return true;

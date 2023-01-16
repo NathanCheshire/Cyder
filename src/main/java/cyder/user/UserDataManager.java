@@ -124,7 +124,8 @@ public enum UserDataManager {
         Preconditions.checkNotNull(dataId);
         Preconditions.checkArgument(!dataId.isEmpty());
 
-        if (!StringUtil.in(dataId, true, UserUtil.getIgnoreUserData())) {
+        // todo need more logic here
+        if (!StringUtil.in(dataId, true, Props.ignoreData.getValue().getList())) {
             Logger.log(LogTag.USER_GET, "key: " + dataId);
         }
     }
@@ -141,7 +142,7 @@ public enum UserDataManager {
     public synchronized String getUsername() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("username");
+        getterInvoked(UserData.USERNAME);
         return user.getUsername();
     }
 
@@ -167,7 +168,7 @@ public enum UserDataManager {
     public synchronized String getPassword() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("password");
+        getterInvoked(UserData.PASSWORD);
         return user.getPassword();
     }
 
@@ -191,7 +192,7 @@ public enum UserDataManager {
     public synchronized String getFontName() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("font_name");
+        getterInvoked(UserData.FONT_NAME);
         return user.getFontName();
     }
 
@@ -215,7 +216,7 @@ public enum UserDataManager {
     public synchronized int getFontSize() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("font_size");
+        getterInvoked(UserData.FONT_SIZE);
         return user.getFontSize();
     }
 
@@ -239,7 +240,7 @@ public enum UserDataManager {
     public synchronized int getFontMetric() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("font_metric");
+        getterInvoked(UserData.FONT_METRIC);
         return user.getFontMetric();
     }
 
@@ -259,10 +260,10 @@ public enum UserDataManager {
      *
      * @return the user's foreground color
      */
-    public synchronized Color getForegroundColorHexCode() {
+    public synchronized Color getForegroundColor() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("foreground_color");
+        getterInvoked(UserData.FOREGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getForegroundColorHexCode());
     }
 
@@ -285,7 +286,7 @@ public enum UserDataManager {
     public synchronized Color getBackgroundColor() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("background_color");
+        getterInvoked(UserData.BACKGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getBackgroundColorHexCode());
     }
 
@@ -308,7 +309,7 @@ public enum UserDataManager {
     public synchronized boolean shouldPlayIntroMusic() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("intro_music");
+        getterInvoked(UserData.INTRO_MUSIC);
         return user.shouldPlayIntroMusic();
     }
 
@@ -329,7 +330,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowDebugStats() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("debug_stats");
+        getterInvoked(UserData.DEBUG_STATS);
         return user.shouldShowDebugStatsOnStart();
     }
 
@@ -350,7 +351,7 @@ public enum UserDataManager {
     public synchronized boolean shouldChooseRandomBackground() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("random_background");
+        getterInvoked(UserData.RANDOM_BACKGROUND);
         return user.shouldChooseRandomBackgroundOnStart();
     }
 
@@ -371,7 +372,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawInputBorder() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("input_border");
+        getterInvoked(UserData.INPUT_BORDER);
         return user.shouldDrawInputBorder();
     }
 
@@ -392,7 +393,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawOutputBorder() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("output_border");
+        getterInvoked(UserData.OUTPUT_BORDER);
         return user.shouldDrawOutputBorder();
     }
 
@@ -413,7 +414,7 @@ public enum UserDataManager {
     public synchronized boolean shouldPlayHourlyChimes() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("hourly_chimes");
+        getterInvoked(UserData.HOURLY_CHIMES);
         return user.shouldPlayHourlyChimes();
     }
 
@@ -434,7 +435,7 @@ public enum UserDataManager {
     public synchronized boolean shouldSilenceErrors() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("silence_errors");
+        getterInvoked(UserData.SILENCE_ERRORS);
         return user.shouldSilenceErrors();
     }
 
@@ -455,7 +456,7 @@ public enum UserDataManager {
     public synchronized boolean isFullscreen() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("fullscreen");
+        getterInvoked(UserData.FULLSCREEN);
         return user.isFullscreen();
     }
 
@@ -476,7 +477,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawOutputFill() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("output_fill");
+        getterInvoked(UserData.OUTPUT_FILL);
         return user.shouldDrawOutputFill();
     }
 
@@ -497,7 +498,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawInputFill() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("input_fill");
+        getterInvoked(UserData.INPUT_FILL);
         return user.shouldDrawInputFill();
     }
 
@@ -518,7 +519,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawConsoleClock() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("console_clock");
+        getterInvoked(UserData.CONSOLE_CLOCK);
         return user.shouldDrawConsoleClock();
     }
 
@@ -539,7 +540,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowConsoleClockSeconds() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("console_clock_seconds");
+        getterInvoked(UserData.CONSOLE_CLOCK_SECONDS);
         return user.shouldShowConsoleClockSeconds();
     }
 
@@ -560,7 +561,7 @@ public enum UserDataManager {
     public synchronized boolean shouldFilterchat() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("filter_chat");
+        getterInvoked(UserData.FILTER_CHAT);
         return user.shouldFilterChat();
     }
 
@@ -581,7 +582,7 @@ public enum UserDataManager {
     public synchronized long getLastSessionStart() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("last_session_start");
+        getterInvoked(UserData.LAST_SESSION_START);
         return user.getLastSessionStart();
     }
 
@@ -602,7 +603,7 @@ public enum UserDataManager {
     public synchronized boolean shouldMinimizeOnClose() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("minimize_on_close");
+        getterInvoked(UserData.MINIMIZE_ON_CLOSE);
         return user.shouldMinimizeOnClose();
     }
 
@@ -623,7 +624,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowTypingAnimation() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("typing_animation");
+        getterInvoked(UserData.TYPING_ANIMATION);
         return user.shouldShowTypingAnimation();
     }
 
@@ -644,7 +645,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowBusyAnimation() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("busy_animation");
+        getterInvoked(UserData.BUSY_ANIMATION);
         return user.showShowBusyAnimation();
     }
 
@@ -665,7 +666,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawRoundedFrameBorders() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("rounded_frame_borders");
+        getterInvoked(UserData.ROUNDED_FRAME_BORDERS);
         return user.shouldDrawRoundedFrameBorders();
     }
 
@@ -686,7 +687,7 @@ public enum UserDataManager {
     public synchronized Color getFrameColor() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("frame_color");
+        getterInvoked(UserData.FRAME_COLOR);
         return ColorUtil.hexStringToColor(user.getFrameColorHexCode());
     }
 
@@ -709,7 +710,7 @@ public enum UserDataManager {
     public synchronized String getConsoleClockFormat() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("clock_format");
+        getterInvoked(UserData.CLOCK_FORMAT);
         return user.getConsoleClockFormat();
     }
 
@@ -734,7 +735,7 @@ public enum UserDataManager {
     public synchronized boolean shouldPlayTypingSound() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("typing_sound");
+        getterInvoked(UserData.TYPING_SOUND);
         return user.shouldPlayTypingSound();
     }
 
@@ -755,7 +756,7 @@ public enum UserDataManager {
     public synchronized String getYouTubeUuid() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("youtube_uuid");
+        getterInvoked(UserData.YOUTUBE_UUID);
         return user.getYoutubeUuid();
     }
 
@@ -780,7 +781,7 @@ public enum UserDataManager {
     public synchronized boolean isCapsMode() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("caps_mode");
+        getterInvoked(UserData.CAPS_MODE);
         return user.isCapsMode();
     }
 
@@ -801,7 +802,7 @@ public enum UserDataManager {
     public synchronized boolean isLoggedIn() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("logged_in");
+        getterInvoked(UserData.LOGGED_IN);
         return user.isLoggedIn();
     }
 
@@ -822,7 +823,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowAudioTotalLength() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("audio_total_length");
+        getterInvoked(UserData.AUDIO_TOTAL_LENGTH);
         return user.shouldShowAudioTotalLength();
     }
 
@@ -844,7 +845,7 @@ public enum UserDataManager {
     public synchronized boolean shouldPersistNotifications() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("should_persist_notifications");
+        getterInvoked(UserData.SHOULD_PERSIST_NOTIFICATIONS);
         return user.shouldPersistNotifications();
     }
 
@@ -865,7 +866,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDoAnimations() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("should_do_animations");
+        getterInvoked(UserData.SHOULD_DO_ANIMATIONS);
         return user.shouldDoAnimations();
     }
 
@@ -886,7 +887,7 @@ public enum UserDataManager {
     public synchronized boolean compactTextMode() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("compact_text_mode");
+        getterInvoked(UserData.COMPACT_TEXT_MODE);
         return user.isCompactTextMode();
     }
 
@@ -907,7 +908,7 @@ public enum UserDataManager {
     public synchronized boolean shouldWrapShell() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("wrap_shell");
+        getterInvoked(UserData.WRAP_SHELL);
         return user.shouldWrapNativeShell();
     }
 
@@ -928,7 +929,7 @@ public enum UserDataManager {
     public synchronized boolean shouldDrawWeatherMap() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("draw_weather_map");
+        getterInvoked(UserData.DRAW_WEATHER_MAP);
         return user.shouldDrawWeatherMap();
     }
 
@@ -949,7 +950,7 @@ public enum UserDataManager {
     public synchronized boolean shouldPaintClockHourLabels() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("paint_clock_labels");
+        getterInvoked(UserData.PAINT_CLOCK_LABELS);
         return user.shouldPaintClockWidgetHourLabels();
     }
 
@@ -970,7 +971,7 @@ public enum UserDataManager {
     public synchronized boolean shouldShowClockWidgetSecondHand() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("clock_widget_second_hand");
+        getterInvoked(UserData.CLOCK_WIDGET_SECOND_HAND);
         return user.shouldShowClockWidgetSecondHand();
     }
 
@@ -991,7 +992,7 @@ public enum UserDataManager {
     public synchronized ScreenStat getScreenStat() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("screen_stat");
+        getterInvoked(UserData.SCREEN_STAT);
         return user.getScreenStat();
     }
 
@@ -1014,7 +1015,7 @@ public enum UserDataManager {
     public synchronized ImmutableList<MappedExecutable> getMappedExecutables() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("mapped_executables");
+        getterInvoked(UserData.MAPPED_EXECUTABLES);
         return user.getMappedExecutables();
     }
 
@@ -1037,7 +1038,7 @@ public enum UserDataManager {
     public synchronized int getFillOpacity() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("fill_opacity");
+        getterInvoked(UserData.FILL_OPACITY);
         return user.getFillOpacity();
     }
 
@@ -1060,7 +1061,7 @@ public enum UserDataManager {
     public synchronized boolean hasShownWelcomeMessage() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("shown_welcome_message");
+        getterInvoked(UserData.SHOWN_WELCOME_MESSAGE);
         return user.hasShownWelcomeMessage();
     }
 
@@ -1081,7 +1082,7 @@ public enum UserDataManager {
     public synchronized long getAccountCreationTime() {
         Preconditions.checkState(isInitialized());
 
-        getterInvoked("account_creation_time");
+        getterInvoked(UserData.ACCOUNT_CREATION_TIME);
         return user.getAccountCreationTime();
     }
 

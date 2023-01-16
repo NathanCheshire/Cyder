@@ -50,6 +50,7 @@ import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
+import cyder.user.UserDataManager;
 import cyder.user.UserEditor;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
@@ -2413,9 +2414,9 @@ public enum Console {
 
         this.uuid = uuid;
 
-        UserUtil.setCyderUser(uuid);
+        UserDataManager.INSTANCE.initialize(uuid);
         UserUtil.logoutAllUsers();
-        UserUtil.getCyderUser().setLoggedIn("1");
+        UserDataManager.INSTANCE.setLoggedIn(true);
         UserUtil.deleteInvalidBackgrounds(uuid);
     }
 

@@ -20,7 +20,7 @@ import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.frame.ScreenPosition;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
@@ -127,7 +127,7 @@ public final class ExceptionHandler {
                     Logger.log(LogTag.EXCEPTION, write);
 
                     boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
-                    boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
+                    boolean silenceErrors = UserDataManager.INSTANCE.shouldSilenceErrors();
                     if (consoleOpen && !silenceErrors) {
                         String message = "Exception";
                         if (exception != null) {

@@ -16,7 +16,6 @@ import cyder.logging.Logger;
 import cyder.managers.ProgramModeManager;
 import cyder.meta.Cyder;
 import cyder.strings.CyderStrings;
-import cyder.user.UserUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -172,8 +171,6 @@ public final class OsUtil {
      */
     public static void exit(ExitCondition exitCondition) {
         Preconditions.checkNotNull(exitCondition);
-
-        UserUtil.blockFutureIo();
 
         try {
             Logger.log(LogTag.PROGRAM_EXIT, exitCondition);

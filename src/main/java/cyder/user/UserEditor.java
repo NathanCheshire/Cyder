@@ -1217,7 +1217,7 @@ public final class UserEditor {
                 Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
                 Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-                Preference.invokeRefresh(Preference.FOREGROUND);
+                UserData.invokeRefresh(UserData.FOREGROUND);
             } catch (Exception ignored) {}
         }));
         foregroundField.setSize(160, 40);
@@ -1242,7 +1242,7 @@ public final class UserEditor {
                 windowColorBlock.setBackground(requestedWindowColor);
                 UserUtil.getCyderUser().setWindowColor(windowField.getText());
                 CyderColors.setGuiThemeColor(requestedWindowColor);
-                Preference.invokeRefresh(Preference.WINDOW_COLOR);
+                UserData.invokeRefresh(UserData.WINDOW_COLOR);
             } catch (Exception ignored) {}
         }));
         windowField.setOpaque(false);
@@ -1466,18 +1466,18 @@ public final class UserEditor {
 
     @SuppressWarnings("MagicConstant") /* font metrics are always checked */
     private static final ActionListener resetFontAndColorButtonActionListener = e -> {
-        String defaultForeground = Preference.get(Preference.FOREGROUND).getDefaultValue().toString();
+        String defaultForeground = UserData.get(UserData.FOREGROUND).getDefaultValue().toString();
         Color defaultForegroundColor = ColorUtil.hexStringToColor(defaultForeground);
 
-        String defaultBackground = Preference.get(Preference.BACKGROUND).getDefaultValue().toString();
+        String defaultBackground = UserData.get(UserData.BACKGROUND).getDefaultValue().toString();
         Color defaultBackgroundColor = ColorUtil.hexStringToColor(defaultBackground);
 
-        String defaultWindow = Preference.get(Preference.WINDOW_COLOR).getDefaultValue().toString();
+        String defaultWindow = UserData.get(UserData.WINDOW_COLOR).getDefaultValue().toString();
         Color defaultWindowColor = ColorUtil.hexStringToColor(defaultWindow);
 
-        String defaultFontName = Preference.get(Preference.FONT).getDefaultValue().toString();
+        String defaultFontName = UserData.get(UserData.FONT_NAME).getDefaultValue().toString();
         int defaultFontMetric = FontUtil.getFontMetricFromProps();
-        int defaultFontSize = Integer.parseInt(Preference.get(Preference.FONT_SIZE).getDefaultValue().toString());
+        int defaultFontSize = Integer.parseInt(UserData.get(UserData.FONT_SIZE).getDefaultValue().toString());
 
         UserUtil.getCyderUser().setForeground(defaultForeground);
         foregroundColorBlock.setBackground(defaultForegroundColor);
@@ -1487,7 +1487,7 @@ public final class UserEditor {
         Console.INSTANCE.getInputField().setCaretColor(defaultForegroundColor);
         Console.INSTANCE.getInputField().setCaret(new CyderCaret(defaultForegroundColor));
         Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-        Preference.invokeRefresh(Preference.FOREGROUND);
+        UserData.invokeRefresh(UserData.FOREGROUND);
 
         Font applyFont = new Font(defaultFontName, defaultFontMetric, defaultFontSize);
         Console.INSTANCE.getOutputArea().setFont(applyFont);
@@ -1500,7 +1500,7 @@ public final class UserEditor {
             JScrollBar scrollBar = fontScrollReference.get().getScrollPane().getVerticalScrollBar();
             scrollBar.setValue(scrollBar.getMinimum());
         }
-        Preference.invokeRefresh(Preference.FONT);
+        UserData.invokeRefresh(UserData.FONT_NAME);
 
         UserUtil.getCyderUser().setBackground(defaultBackground);
         backgroundColorBlock.setBackground(defaultBackgroundColor);
@@ -1520,15 +1520,15 @@ public final class UserEditor {
             Console.INSTANCE.getInputField().repaint();
             Console.INSTANCE.getInputField().revalidate();
         }
-        Preference.invokeRefresh(Preference.BACKGROUND);
+        UserData.invokeRefresh(UserData.BACKGROUND);
 
         UserUtil.getCyderUser().setWindowColor(defaultWindow);
         windowColorBlock.setBackground(defaultWindowColor);
         windowField.setText(defaultWindow);
         windowColorBlock.setBackground((defaultWindowColor));
         CyderColors.setGuiThemeColor((defaultWindowColor));
-        Preference.invokeRefresh(Preference.WINDOW_COLOR);
-        Preference.invokeRefresh(Preference.WINDOW_COLOR);
+        UserData.invokeRefresh(UserData.WINDOW_COLOR);
+        UserData.invokeRefresh(UserData.WINDOW_COLOR);
 
         editUserFrame.notify("Default fonts and colors reset");
     };
@@ -1625,38 +1625,38 @@ public final class UserEditor {
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
         checkboxComponents.clear();
-        Preference.getPreferences().stream()
-                .filter(preference -> !preference.getIgnoreForToggleSwitches())
-                .forEach(preference -> {
+        UserData.getPreferences().stream()
+                .filter(userData -> !userData.shouldIgnoreForToggleSwitches())
+                .forEach(userData -> {
                     JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
                     preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
 
-                    CyderLabel preferenceNameLabel = new CyderLabel(preference.getDisplayName());
+                    CyderLabel preferenceNameLabel = new CyderLabel(userData.getDisplayName());
                     preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
                     preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
                             PRINTED_PREF_COMPONENT_WIDTH / 2,
                             PRINTED_PREF_COMPONENT_HEIGHT);
                     preferenceContentLabel.add(preferenceNameLabel);
 
-                    boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
+                    boolean selected = UserUtil.getUserDataById(userData.getID()).equalsIgnoreCase("1");
                     CyderCheckbox checkbox = new CyderCheckbox(selected);
                     checkbox.setRefreshStateFunction(() -> {
                         boolean checked = UserUtil.getUserDataById(
-                                preference.getID()).equalsIgnoreCase("1");
+                                userData.getID()).equalsIgnoreCase("1");
                         checkbox.setChecked(checked);
                         checkbox.repaint();
                     });
-                    checkbox.setToolTipText(preference.getTooltip());
+                    checkbox.setToolTipText(userData.getTooltip());
                     checkbox.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            UserUtil.setUserDataById(preference.getID(), checkbox.isChecked() ? "1" : "0");
-                            Preference.invokeRefresh(preference.getID());
+                            UserUtil.setUserDataById(userData.getID(), checkbox.isChecked() ? "1" : "0");
+                            UserData.invokeRefresh(userData.getID());
                         }
                     });
                     checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
                             PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
-                    checkboxComponents.put(preference.getID(), checkbox);
+                    checkboxComponents.put(userData.getID(), checkbox);
                     preferenceContentLabel.add(checkbox);
 
                     printingUtil.printlnComponent(preferenceContentLabel);

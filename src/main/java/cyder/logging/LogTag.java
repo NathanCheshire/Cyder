@@ -98,9 +98,9 @@ public enum LogTag {
     WIDGET_OPENED("Widget"),
 
     /**
-     * An action related to preferences.
+     * An action related to user data.
      */
-    PREFERENCE("Preference"),
+    USER_DATA("User Data"),
 
     /**
      * A thread was spun up and started by CyderThreadRunner.

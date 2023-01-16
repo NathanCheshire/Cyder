@@ -321,8 +321,8 @@ public final class Logger {
                 }
 
                 return;
-            case PREFERENCE:
-                tags.add(LogTag.PREFERENCE.getLogName());
+            case USER_DATA:
+                tags.add(LogTag.USER_DATA.getLogName());
                 tags.add("Key");
                 logBuilder.append(statement);
                 break;

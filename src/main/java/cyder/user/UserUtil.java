@@ -21,7 +21,6 @@ import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.user.creation.InputValidation;
-import cyder.user.data.ScreenStat;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -31,13 +30,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Optional;
-import java.util.concurrent.Semaphore;
 
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
@@ -63,26 +59,12 @@ public final class UserUtil {
      */
     private static final String SET = "set";
 
+    private static final String GET = "get";
+
     /**
      * The json write tag.
      */
     private static final String JSON_WRITE = "[JSON WRITE]";
-
-    /**
-     * The semaphore to use when reading or writing user data.
-     */
-    private static final Semaphore userIoSemaphore = new Semaphore(1);
-
-    /**
-     * The current Cyder user stored in memory and written to the
-     * current user file whenever time data changes.
-     */
-    private static User cyderUser;
-
-    /**
-     * The corresponding file for cyderUser.
-     */
-    private static File cyderUserFile;
 
     /**
      * The last serialized string that was written to the current user file.
@@ -102,18 +84,6 @@ public final class UserUtil {
     }
 
     /**
-     * Blocks any future user IO by acquiring the semaphore and never releasing it.
-     * This method blocks until the IO semaphore can be acquired.
-     */
-    public static synchronized void blockFutureIo() {
-        try {
-            userIoSemaphore.acquire();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Writes the current User, {@link UserUtil#cyderUser},
      * to the user's json if the json exists AND the provided user
      * object contains all the data required by a user object.
@@ -124,7 +94,7 @@ public final class UserUtil {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null) return;
 
         try {
-            setUserData(cyderUserFile, cyderUser);
+            writeUserToFile(cyderUserFile, cyderUser);
 
             if (currentLevenshteinDistance > 0) {
                 String representation = JSON_WRITE + CyderStrings.space + CyderStrings.openingBracket
@@ -141,80 +111,26 @@ public final class UserUtil {
     }
 
     /**
-     * Sets the given user to the current Cyder user. This method should only be called if the current contents
-     * of the user, meaning possible writes within the past 100ms, can be discarded.
-     * <p>
-     * This method should only be called when setting the user due to a Cyder
-     * login event, specifically via the console method {@link Console#setUuid(String)}.
-     * <p>
-     * If you are trying to set data for the current cyder user,
-     * call {@link UserUtil#getCyderUser()} and use mutator methods on that object.
-     * <p>
-     * Common usages of this, such as setting an object instead of a primitive attribute such
-     * as the user's {@link ScreenStat} would look like the following:
-     * <pre>{@code UserUtil.getCyderUser().setScreenStat(myScreenStat);}</pre>
-     *
-     * @param uuid the user's uuid
-     */
-    public static void setCyderUser(String uuid) {
-        Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(!uuid.isEmpty());
-
-        File jsonFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid, UserFile.USERDATA.getName());
-
-        Preconditions.checkArgument(jsonFile.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(jsonFile, Extension.JSON.getExtension()));
-
-        cyderUserFile = jsonFile;
-        cyderUser = extractUser(jsonFile);
-    }
-
-    private static final NewUser defaultUser = new NewUser();
-
-    /**
-     * Returns the currently set Cyder user.
-     * If not set, a default user is generated and returned.
-     *
-     * @return the currently set Cyder user
-     */
-    public static User getCyderUser() {
-        if (cyderUser == null) return new User();
-        return cyderUser;
-    }
-
-    /**
      * Writes the provided user to the provided file.
      *
      * @param file the file to write to
      * @param user the user object to serialize and write to the file
      */
-    public static void setUserData(File file, User user) {
+    public static void writeUserToFile(File file, NewUser user) {
         Preconditions.checkNotNull(file);
         Preconditions.checkNotNull(user);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         try {
-            FileWriter writer = new FileWriter(file);
-            userIoSemaphore.acquire();
-            SerializationUtil.toJson(user, writer);
+            SerializationUtil.toJson(user, file);
 
             String currentSerializedUser = SerializationUtil.toJson(user);
-
-            if (previousSerializedUser.isEmpty()) {
-                currentLevenshteinDistance = currentSerializedUser.length();
-            } else {
-                currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(
-                        currentSerializedUser, previousSerializedUser);
-            }
-
+            currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(
+                    currentSerializedUser, previousSerializedUser);
             previousSerializedUser = currentSerializedUser;
-
-            writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            userIoSemaphore.release();
         }
     }
 
@@ -226,34 +142,30 @@ public final class UserUtil {
      */
     public static void deleteInvalidBackgrounds(String uuid) {
         try {
-            userIoSemaphore.acquire();
-
-            File currentUserBackgrounds = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                    uuid, UserFile.BACKGROUNDS.getName());
+            File currentUserBackgrounds = Dynamic.buildDynamic(
+                    Dynamic.USERS.getFileName(), uuid, UserFile.BACKGROUNDS.getName());
 
             if (!currentUserBackgrounds.exists()) return;
 
             File[] files = currentUserBackgrounds.listFiles();
 
             if (files != null && files.length > 0) {
-                for (File f : files) {
+                for (File backgroundFile : files) {
                     boolean valid = true;
 
-                    try (FileInputStream fis = new FileInputStream(f)) {
+                    try (FileInputStream fis = new FileInputStream(backgroundFile)) {
                         ImageUtil.read(fis).getWidth();
                     } catch (Exception ignored) {
                         valid = false;
                     }
 
                     if (!valid) {
-                        OsUtil.deleteFile(f);
+                        OsUtil.deleteFile(backgroundFile);
                     }
                 }
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            userIoSemaphore.release();
         }
     }
 
@@ -263,18 +175,16 @@ public final class UserUtil {
      * @param file the json file to extract a user object from
      * @return the resulting user object
      */
-    public static User extractUser(File file) {
+    public static NewUser extractUser(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
-        return SerializationUtil.fromJson(file, User.class);
+        return SerializationUtil.fromJson(file, NewUser.class);
     }
 
     /**
-     * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
-     * This method exists purely for when indexing the preferences and user data
-     * is required. The direct setter should be used if possible.
+     * Sets
      *
      * @param name  the name of the data to set
      * @param value the new value
@@ -301,25 +211,7 @@ public final class UserUtil {
     }
 
     /**
-     * The list of userdata to ignore when logging.
-     */
-    private static final ImmutableList<String> IGNORE_USER_DATA = ImmutableList.copyOf(
-            Props.ignoreData.getValue().getList()
-    );
-
-    /**
-     * Returns the list of user data keys to ignore when logging.
-     *
-     * @return the list of user data keys to ignore when logging
-     */
-    public static ImmutableList<String> getIgnoreUserData() {
-        return IGNORE_USER_DATA;
-    }
-
-    /**
-     * Returns the requested data from the currently logged-in user.
-     * This method exists purely for when indexing the preferences and user data
-     * is required. The direct getter should be used if possible.
+     * Returns
      *
      * @param id the ID of the data we want to obtain
      * @return the resulting data
@@ -327,11 +219,10 @@ public final class UserUtil {
     public static String getUserDataById(String id) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(id));
 
-        String ret = null;
-        boolean shouldIgnore = StringUtil.in(id, true, IGNORE_USER_DATA);
+        boolean shouldIgnore = StringUtil.in(id, true, Props.ignoreData.getValue().getList());
 
         if (!shouldIgnore) {
-            Logger.log(LogTag.SYSTEM_IO, "Userdata requested: " + id);
+            Logger.log(LogTag.SYSTEM_IO, "Userdata requested via reflection: " + id);
         }
 
         try {
@@ -352,20 +243,38 @@ public final class UserUtil {
     }
 
     /**
-     * Returns the setter method for a user object data piece with the provided name.
+     * Returns the setter method for the provided user object's data piece with the provided name.
      *
      * @param dataName the name of the data piece such as "username"
      * @param user     the user object
      * @return the setter method for a user object data piece with the provided name
      */
-    public static Optional<Method> getSetterMethodForDataWithName(String dataName, User user) {
+    public static Optional<Method> getSetterMethodForDataWithName(String dataName, NewUser user) {
         Preconditions.checkNotNull(dataName);
         Preconditions.checkArgument(!dataName.isEmpty());
 
-        for (Method m : user.getClass().getMethods()) {
-            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
-                    && m.getName().equalsIgnoreCase(dataName.toLowerCase())) {
-                return Optional.of(m);
+        for (Method method : user.getClass().getMethods()) {
+            if (method.getName().startsWith(SET) && method.getParameterTypes().length == 0
+                    && method.getName().equalsIgnoreCase(dataName.toLowerCase())) {
+                return Optional.of(method);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    /**
+     * Returns the getter method for the provided user object's data piece with the provided name.
+     *
+     * @param dataName the name of the data piece such as "username"
+     * @param user     the user object
+     * @return the getter method for a user object data piece with the provided name
+     */
+    public static Optional<Method> getGetterMethodForDataWithName(String dataName, NewUser user) {
+        for (Method method : user.getClass().getMethods()) {
+            if (method.getName().startsWith(GET) && method.getParameterTypes().length == 0
+                    && method.getName().equalsIgnoreCase(dataName.toLowerCase())) {
+                return Optional.of(method);
             }
         }
 
@@ -516,28 +425,6 @@ public final class UserUtil {
         }
     }
 
-    // todo manager for this
-    /**
-     * The linked list of invalid users which this instance of Cyder will ignore.
-     */
-    private static final LinkedList<String> invalidUuids = new LinkedList<>() {
-        @Override
-        public boolean remove(Object o) {
-            throw new IllegalMethodException("Removing of invalid uuids not allowed");
-        }
-    };
-
-    /**
-     * Adds the provided uuid to the list of uuids to ignore throughout Cyder.
-     *
-     * @param uuid the uuid to ignore
-     */
-    public static void addInvalidUuid(String uuid) {
-        if (!StringUtil.in(uuid, false, invalidUuids)) {
-            invalidUuids.add(uuid);
-        }
-    }
-
     /**
      * Returns the provided user file after creating it if it did not exist.
      *
@@ -583,13 +470,7 @@ public final class UserUtil {
         ArrayList<String> uuids = new ArrayList<>();
 
         if (users != null && users.length > 0) {
-            Arrays.stream(users).forEach(user -> {
-                File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
-
-                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUuids)) {
-                    uuids.add(user.getName());
-                }
-            });
+            Arrays.stream(users).forEach(user -> uuids.add(user.getName()));
         }
 
         return ImmutableList.copyOf(uuids);
@@ -607,13 +488,8 @@ public final class UserUtil {
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
-            Arrays.stream(users).forEach(user -> {
-                File json = OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName());
-
-                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUuids)) {
-                    userFiles.add(json);
-                }
-            });
+            Arrays.stream(users).forEach(user -> userFiles.add(
+                    OsUtil.buildFile(user.getAbsolutePath(), UserFile.USERDATA.getName())));
         }
 
         return ImmutableList.copyOf(userFiles);
@@ -624,9 +500,9 @@ public final class UserUtil {
      */
     public static void logoutAllUsers() {
         getUserJsons().forEach(jsonFile -> {
-            User user = extractUser(jsonFile);
-            user.setLoggedIn("0");
-            setUserData(jsonFile, user);
+            NewUser user = extractUser(jsonFile);
+            user.setLoggedIn(false);
+            writeUserToFile(jsonFile, user);
         });
     }
 
@@ -637,7 +513,7 @@ public final class UserUtil {
      */
     public static Optional<String> getFirstLoggedInUser() {
         for (File userJson : getUserJsons()) {
-            if (extractUser(userJson).getLoggedIn().equals("1")) {
+            if (extractUser(userJson).isLoggedIn()) {
                 return Optional.of(FileUtil.getFilename(userJson.getParentFile().getName()));
             }
         }
@@ -727,37 +603,6 @@ public final class UserUtil {
     }
 
     /**
-     * Resets all data/preferences (preferences for which {@link Preference#getIgnoreForUserCreation()} returns true)
-     * to their default values.
-     *
-     * @param user the user to reset to a default state
-     */
-    public static void resetUser(User user) {
-        Preconditions.checkNotNull(user);
-
-        Preference.getPreferences().stream().filter(preference -> !preference.getIgnoreForUserCreation())
-                .forEach(preference -> {
-                    for (Method method : user.getClass().getMethods()) {
-                        boolean isSetter = method.getName().startsWith(SET);
-                        boolean oneParameter = method.getParameterTypes().length == 1;
-                        boolean methodNameMatchesPreferenceId = method.getName().replace(SET, "")
-                                .equalsIgnoreCase(preference.getID());
-
-                        if (isSetter && oneParameter && methodNameMatchesPreferenceId) {
-                            try {
-                                method.invoke(user, preference.getDefaultValue());
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-
-                            break;
-                        }
-                    }
-
-                });
-    }
-
-    /**
      * Returns whether the provided username is valid.
      *
      * @param username the username to validate
@@ -820,7 +665,7 @@ public final class UserUtil {
         }
 
         for (File userFile : getUserJsons()) {
-            if (extractUser(userFile).getName().equalsIgnoreCase(username)) {
+            if (extractUser(userFile).getUsername().equalsIgnoreCase(username)) {
                 return true;
             }
         }
