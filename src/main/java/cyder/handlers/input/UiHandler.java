@@ -10,7 +10,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.user.creation.UserCreator;
 import cyder.utils.OsUtil;
 
@@ -64,8 +64,7 @@ public class UiHandler extends InputHandler {
         } else if (getInputHandler().commandIs("createuser")) {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
-            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
-            if (shouldMinimize) {
+            if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
                 OsUtil.exit(ExitCondition.StandardControlledExit);
@@ -74,7 +73,7 @@ public class UiHandler extends InputHandler {
                 getInputHandler().commandIs("exit") ||
                 getInputHandler().commandIs("leave") ||
                 getInputHandler().commandIs("close")) {
-            if (UserUtil.getCyderUser().getMinimizeOnClose().equals("1")) {
+            if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
                 Console.INSTANCE.closeFrame(true, false);

@@ -16,7 +16,7 @@ import cyder.strings.StringUtil;
 import cyder.threads.BletchyAnimationManager;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.AstronomyUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
@@ -77,28 +77,28 @@ public class GeneralPrintHandler extends InputHandler {
                 || getInputHandler().commandIs("hi")) {
             switch (NumberUtil.generateRandomInt(1, 7)) {
                 case 1:
-                    getInputHandler().println("Hello, " + UserUtil.getCyderUser().getName() + ".");
+                    getInputHandler().println("Hello, " + UserDataManager.INSTANCE.getUsername() + ".");
                     break;
                 case 2:
                     if (TimeUtil.isEvening()) {
                         getInputHandler().println("Good evening, "
-                                + UserUtil.getCyderUser().getName() + ". How can I help?");
+                                + UserDataManager.INSTANCE.getUsername() + ". How can I help?");
                     } else if (TimeUtil.isMorning()) {
                         getInputHandler().println("Good morning, "
-                                + UserUtil.getCyderUser().getName() + ". How can I help?");
+                                + UserDataManager.INSTANCE.getUsername() + ". How can I help?");
                     } else {
                         getInputHandler().println("Good afternoon, "
-                                + UserUtil.getCyderUser().getName() + ". How can I help?");
+                                + UserDataManager.INSTANCE.getUsername() + ". How can I help?");
                     }
                     break;
                 case 3:
-                    getInputHandler().println("What's up, " + UserUtil.getCyderUser().getName() + "?");
+                    getInputHandler().println("What's up, " + UserDataManager.INSTANCE.getUsername() + "?");
                     break;
                 case 4:
-                    getInputHandler().println("How are you doing, " + UserUtil.getCyderUser().getName() + "?");
+                    getInputHandler().println("How are you doing, " + UserDataManager.INSTANCE.getUsername() + "?");
                     break;
                 case 5:
-                    getInputHandler().println("Greetings, " + UserUtil.getCyderUser().getName() + ".");
+                    getInputHandler().println("Greetings, " + UserDataManager.INSTANCE.getUsername() + ".");
                     break;
                 case 6:
                     getInputHandler().println("I'm here....");
@@ -165,13 +165,13 @@ public class GeneralPrintHandler extends InputHandler {
         } else if (getInputHandler().commandIs("home")) {
             getInputHandler().println("There's no place like localhost/127.0.0.1");
         } else if (getInputHandler().commandIs("love")) {
-            getInputHandler().println("Sorry, " + UserUtil.getCyderUser().getName() +
+            getInputHandler().println("Sorry, " + UserDataManager.INSTANCE.getUsername() +
                     ", but I don't understand human emotions or affections.");
         } else if (getInputHandler().commandIs("loop")) {
             getInputHandler().println("InputHandler.handle(\"loop\", true);");
         } else if (getInputHandler().commandIs("story")) {
             getInputHandler().println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly "
-                    + UserUtil.getCyderUser().getName() + " started talking to Cyder."
+                    + UserDataManager.INSTANCE.getUsername() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (getInputHandler().commandIs("i hate you")) {
             getInputHandler().println("That's not very nice.");
@@ -208,7 +208,7 @@ public class GeneralPrintHandler extends InputHandler {
             getInputHandler().println(OsUtil.USER_DIR);
         } else if (getInputHandler().commandIs("whoami")) {
             getInputHandler().println(OsUtil.getComputerName() + OsUtil.FILE_SEP
-                    + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
+                    + StringUtil.capsFirstWords(UserDataManager.INSTANCE.getUsername()));
         } else if (getInputHandler().commandIs("jarmode")) {
             getInputHandler().println(OsUtil.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");

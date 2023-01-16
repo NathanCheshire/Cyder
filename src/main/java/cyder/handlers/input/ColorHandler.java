@@ -10,8 +10,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.ui.field.CyderCaret;
 import cyder.user.UserData;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
 
@@ -41,7 +41,7 @@ public class ColorHandler extends InputHandler {
                     int w = Console.INSTANCE.getConsoleCyderFrame().getWidth();
                     int h = Console.INSTANCE.getConsoleCyderFrame().getHeight();
 
-                    if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
+                    if (UserDataManager.INSTANCE.isFullscreen()) {
                         Rectangle monitorBounds = Console.INSTANCE.getConsoleCyderFrame()
                                 .getMonitorBounds().getBounds();
 
@@ -81,19 +81,17 @@ public class ColorHandler extends InputHandler {
                     Console.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
                     Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
-                    UserUtil.getCyderUser()
-                            .setForeground(ColorUtil.toRgbHexString(CyderColors.defaultLightModeTextColor));
+                    UserDataManager.INSTANCE.setForegroundColor(CyderColors.defaultLightModeTextColor);
                 } else {
                     Console.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
                     Console.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
                     Console.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
                     Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
-                    UserUtil.getCyderUser()
-                            .setForeground(ColorUtil.toRgbHexString(CyderColors.defaultDarkModeTextColor));
+                    UserDataManager.INSTANCE.setForegroundColor(CyderColors.defaultDarkModeTextColor);
                 }
 
-                UserData.invokeRefresh(UserData.FOREGROUND);
+                UserData.foregroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
                 getInputHandler().println("Foreground fixed");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

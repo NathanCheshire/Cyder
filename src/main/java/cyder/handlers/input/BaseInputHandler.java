@@ -20,9 +20,12 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.*;
 import cyder.ui.pane.CyderOutputPane;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.OsUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.StaticUtil;
 import cyder.youtube.YouTubeDownloadManager;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 
@@ -271,10 +274,10 @@ public class BaseInputHandler {
         Logger.log(LogTag.CLIENT,
                 (userTriggered ? "" : "[SIMULATED INPUT]: ") + commandAndArgsToString);
 
-        if (UserUtil.getCyderUser().getFilterChat().equals("1")) {
+        if (UserDataManager.INSTANCE.shouldFilterchat()) {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
-                println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
+                println("Sorry, " + UserDataManager.INSTANCE.getUsername() + ", but that language"
                         + " is prohibited, word: " + CyderStrings.quote + result.triggerWord() + CyderStrings.quote);
                 return false;
             }
@@ -380,7 +383,7 @@ public class BaseInputHandler {
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
             SimilarCommand similarCommandObj = getSimilarCommand(command);
-            boolean wrapShell = UserUtil.getCyderUser().getWrapShell().equalsIgnoreCase("1");
+            boolean wrapShell = UserDataManager.INSTANCE.shouldWrapShell();
 
             if (similarCommandObj.command().isPresent()) {
                 String similarCommand = similarCommandObj.command().get();
@@ -645,7 +648,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean shouldDoTypingAnimation() {
-        return UserUtil.getCyderUser().getTypingAnimation().equals("1");
+        return UserDataManager.INSTANCE.shouldShowTypingAnimation();
     }
 
     /**
@@ -655,7 +658,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean shouldDoTypingSound() {
-        return UserUtil.getCyderUser().getTypingSound().equals("1");
+        return UserDataManager.INSTANCE.shouldPlayTypingSound();
     }
 
     /**
@@ -840,7 +843,7 @@ public class BaseInputHandler {
 
             for (char c : line.toCharArray()) {
                 String character = String.valueOf(c);
-                String insertChar = UserUtil.getCyderUser().getCapsMode().equals("1")
+                String insertChar = UserDataManager.INSTANCE.isCapsMode()
                         ? character.toUpperCase()
                         : character;
 
@@ -1359,7 +1362,7 @@ public class BaseInputHandler {
      */
     public void refreshPrintedLabels() {
         printedLabels.forEach(label -> {
-            label.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+            label.setForeground(UserDataManager.INSTANCE.getForegroundColor());
             label.setFont(Console.INSTANCE.generateUserFont());
         });
     }

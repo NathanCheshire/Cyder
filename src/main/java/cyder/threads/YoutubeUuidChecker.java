@@ -12,7 +12,7 @@ import cyder.strings.StringUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.ImageUtil;
 import cyder.youtube.YouTubeConstants;
 
@@ -93,7 +93,7 @@ public class YoutubeUuidChecker {
 
         String threadName = "YoutubeUuidChecker#" + YoutubeUuidCheckerManager.INSTANCE.getActiveUuidCheckersLength();
         CyderThreadRunner.submit(() -> {
-            youTubeUuid = UserUtil.getCyderUser().getYouTubeUuid();
+            youTubeUuid = UserDataManager.INSTANCE.getYouTubeUuid();
 
             Preconditions.checkNotNull(youTubeUuid);
             Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
@@ -232,6 +232,6 @@ public class YoutubeUuidChecker {
      */
     public void kill() {
         killed = true;
-        UserUtil.getCyderUser().setYouTubeUuid(youTubeUuid);
+        UserDataManager.INSTANCE.setYouTubeUuid(youTubeUuid);
     }
 }

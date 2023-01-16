@@ -1217,7 +1217,7 @@ public final class UserEditor {
                 Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
                 Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-                UserData.invokeRefresh(UserData.FOREGROUND_COLOR);
+                UserData.foregroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
             } catch (Exception ignored) {}
         }));
         foregroundField.setSize(160, 40);
@@ -1242,7 +1242,7 @@ public final class UserEditor {
                 windowColorBlock.setBackground(requestedWindowColor);
                 UserDataManager.INSTANCE.setFrameColor(requestedWindowColor);
                 CyderColors.setGuiThemeColor(requestedWindowColor);
-                UserData.invokeRefresh(UserData.FRAME_COLOR);
+                UserData.frameColor.getOnChangeRunnable().ifPresent(Runnable::run);
             } catch (Exception ignored) {}
         }));
         windowField.setOpaque(false);
@@ -1465,28 +1465,26 @@ public final class UserEditor {
 
     @SuppressWarnings("MagicConstant") /* font metrics are always checked */
     private static final ActionListener resetFontAndColorButtonActionListener = e -> {
-        String defaultForeground = UserData.get(UserData.FOREGROUND).getDefaultValue().toString();
-        Color defaultForegroundColor = ColorUtil.hexStringToColor(defaultForeground);
-
-        String defaultBackground = UserData.get(UserData.BACKGROUND).getDefaultValue().toString();
-        Color defaultBackgroundColor = ColorUtil.hexStringToColor(defaultBackground);
-
-        String defaultWindow = UserData.get(UserData.WINDOW_COLOR).getDefaultValue().toString();
-        Color defaultWindowColor = ColorUtil.hexStringToColor(defaultWindow);
+        Color defaultForegroundColor = UserData.foregroundColor.getDefaultValue().orElseThrow();
+        String defaultForegroundHex = ColorUtil.toRgbHexString(defaultForegroundColor);
+        Color defaultBackgroundColor = UserData.backgroundColor.getDefaultValue().orElseThrow();
+        String defaultBackgroundHex = ColorUtil.toRgbHexString(defaultBackgroundColor);
+        Color defaultFrameColor = UserData.frameColor.getDefaultValue().orElseThrow();
+        String defaultFrameHex = ColorUtil.toRgbHexString(defaultFrameColor);
 
         String defaultFontName = UserData.get(UserData.FONT_NAME).getDefaultValue().toString();
         int defaultFontMetric = FontUtil.getFontMetricFromProps();
         int defaultFontSize = Integer.parseInt(UserData.get(UserData.FONT_SIZE).getDefaultValue().toString());
 
-        UserUtil.getCyderUser().setForeground(defaultForeground);
+        UserDataManager.INSTANCE.setForegroundColor(defaultForegroundColor);
         foregroundColorBlock.setBackground(defaultForegroundColor);
-        foregroundField.setText(defaultForeground);
+        foregroundField.setText(defaultForegroundHex);
         Console.INSTANCE.getOutputArea().setForeground(defaultForegroundColor);
         Console.INSTANCE.getInputField().setForeground(defaultForegroundColor);
         Console.INSTANCE.getInputField().setCaretColor(defaultForegroundColor);
         Console.INSTANCE.getInputField().setCaret(new CyderCaret(defaultForegroundColor));
         Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-        UserData.invokeRefresh(UserData.FOREGROUND);
+        UserData.foregroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
 
         Font applyFont = new Font(defaultFontName, defaultFontMetric, defaultFontSize);
         Console.INSTANCE.getOutputArea().setFont(applyFont);
@@ -1499,11 +1497,11 @@ public final class UserEditor {
             JScrollBar scrollBar = fontScrollReference.get().getScrollPane().getVerticalScrollBar();
             scrollBar.setValue(scrollBar.getMinimum());
         }
-        UserData.invokeRefresh(UserData.FONT_NAME);
+        UserData.fontName.getOnChangeRunnable().ifPresent(Runnable::run);
 
         UserDataManager.INSTANCE.setBackgroundColor(defaultBackgroundColor);
         backgroundColorBlock.setBackground(defaultBackgroundColor);
-        backgroundField.setText(defaultBackground);
+        backgroundField.setText(defaultBackgroundHex);
 
         if (UserDataManager.INSTANCE.shouldDrawOutputFill()) {
             Console.INSTANCE.getOutputArea().setOpaque(true);
@@ -1518,17 +1516,17 @@ public final class UserEditor {
             Console.INSTANCE.getInputField().revalidate();
         }
 
-        UserData.invokeRefresh(UserData.BACKGROUND_COLOR);
+        UserData.backgroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
 
-        UserDataManager.INSTANCE.setFrameColor(defaultWindowColor);
-        windowColorBlock.setBackground(defaultWindowColor);
-        windowField.setText(defaultWindow);
-        windowColorBlock.setBackground((defaultWindowColor));
-        CyderColors.setGuiThemeColor((defaultWindowColor));
+        UserDataManager.INSTANCE.setFrameColor(defaultFrameColor);
+        windowColorBlock.setBackground(defaultFrameColor);
+        windowField.setText(defaultFrameHex);
+        windowColorBlock.setBackground((defaultFrameColor));
+        CyderColors.setGuiThemeColor((defaultFrameColor));
 
         // Double call on purpose
-        UserData.invokeRefresh(UserData.FRAME_COLOR);
-        UserData.invokeRefresh(UserData.FRAME_COLOR);
+        UserData.frameColor.getOnChangeRunnable().ifPresent(Runnable::run);
+        UserData.frameColor.getOnChangeRunnable().ifPresent(Runnable::run);
 
         editUserFrame.notify("Default fonts and colors reset");
     };
@@ -1624,6 +1622,7 @@ public final class UserEditor {
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
+        // todo logic here could be cleaner
         checkboxComponents.clear();
         UserData.getUserDatas().stream()
                 .filter(userData -> !userData.shouldIgnoreForToggleSwitches())
@@ -1638,11 +1637,12 @@ public final class UserEditor {
                             PRINTED_PREF_COMPONENT_HEIGHT);
                     preferenceContentLabel.add(preferenceNameLabel);
 
-                    boolean selected = UserUtil.getUserDataById(userData.getId()).equalsIgnoreCase("1");
+                    boolean selected = UserDataManager.INSTANCE.getUserDataById(userData.getId(),
+                            Boolean.class).orElseThrow();
                     CyderCheckbox checkbox = new CyderCheckbox(selected);
                     checkbox.setRefreshStateFunction(() -> {
-                        boolean checked = UserUtil.getUserDataById(
-                                userData.getId()).equalsIgnoreCase("1");
+                        boolean checked = UserDataManager.INSTANCE.getUserDataById(
+                                userData.getId(), Boolean.class).orElseThrow();
                         checkbox.setChecked(checked);
                         checkbox.repaint();
                     });
@@ -1650,7 +1650,7 @@ public final class UserEditor {
                     checkbox.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            UserUtil.setUserDataById(userData.getId(), checkbox.isChecked() ? "1" : "0");
+                            UserDataManager.INSTANCE.setUserDataById(userData.getId(), checkbox.isChecked());
                             UserData.invokeRefresh(userData.getId());
                         }
                     });
@@ -2217,21 +2217,19 @@ public final class UserEditor {
 
         ImmutableList<MappedExecutable> oldExes = UserDataManager.INSTANCE.getMappedExecutables();
 
-        for (MappedExecutable exe : oldExes) {
-            if (exe.getName().equalsIgnoreCase(name)) {
-                ImmutableList<MappedExecutable> newExes = new ImmutableList.Builder<MappedExecutable>()
-                        .addAll(oldExes).build();
-                // todo remove
-                UserDataManager.INSTANCE.setMappedExecutables(newExes);
-                editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
-                Console.INSTANCE.revalidateConsoleTaskbarMenu();
-                return;
-            }
+        ImmutableList.Builder<MappedExecutable> newExesBuilder = new ImmutableList.Builder<>();
+
+        oldExes.stream().filter(exe -> !exe.getName().equals(name)).forEach(newExesBuilder::add);
+
+        ImmutableList<MappedExecutable> newExes = newExesBuilder.build();
+        if (newExes.size() == oldExes.size()) {
+            editUserFrame.notify("Could not locate map with specified name");
+            return;
         }
 
-        editUserFrame.notify("Could not locate map with specified name");
-
-
+        UserDataManager.INSTANCE.setMappedExecutables(newExes);
+        editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
+        Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }
 
     /**

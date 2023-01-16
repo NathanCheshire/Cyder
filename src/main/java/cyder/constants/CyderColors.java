@@ -3,8 +3,7 @@ package cyder.constants;
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
-import cyder.user.UserUtil;
-import cyder.utils.ColorUtil;
+import cyder.user.UserDataManager;
 
 import java.awt.*;
 
@@ -161,6 +160,6 @@ public final class CyderColors {
      * Instantiates the gui theme color based on the current user's data.
      */
     public static void refreshGuiThemeColor() {
-        setGuiThemeColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowColor()));
+        setGuiThemeColor(UserDataManager.INSTANCE.getFrameColor());
     }
 }

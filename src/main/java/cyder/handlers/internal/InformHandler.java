@@ -14,7 +14,6 @@ import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.FrameType;
 import cyder.ui.label.CyderLabel;
-import cyder.user.UserUtil;
 import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
@@ -95,12 +94,9 @@ public final class InformHandler {
         }
         // intended to generate a text inform pane
         else {
-            boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
-
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
             textLabel.setOpaque(false);
-            textLabel.setForeground(darkMode
-                    ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor);
+            textLabel.setForeground(CyderColors.defaultLightModeTextColor);
 
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
 
@@ -112,8 +108,7 @@ public final class InformHandler {
             builder.setContainer(textLabel);
 
             informFrame = new CyderFrame(containerWidth + xPadding * 2,
-                    containerHeight + yOffset + 2 * yPadding,
-                    (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
+                    containerHeight + yOffset + 2 * yPadding, CyderColors.regularBackgroundColor);
             informFrame.setTitle(builder.getTitle());
 
             int containerX = informFrame.getWidth() / 2 - containerWidth / 2;

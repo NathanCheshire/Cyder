@@ -20,8 +20,8 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
@@ -315,7 +315,7 @@ public final class ImageAveragerWidget {
                     }
 
                     averagerFrame.notify("Average computed and saved to "
-                            + StringUtil.getApostropheSuffix(UserUtil.getCyderUser().getName())
+                            + StringUtil.getApostropheSuffix(UserDataManager.INSTANCE.getUsername())
                             + "backgrounds/ directory");
                     drawFrame.dispose(true);
                 }).build();

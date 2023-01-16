@@ -28,12 +28,10 @@ public final class UserData<T> {
     /*
     UserData keys.
      */
-    // todo all need to be used locally too
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String FONT_NAME = "font_name";
     public static final String FONT_SIZE = "font_size";
-    public static final String FONT_METRIC = "font_metric";
     public static final String FOREGROUND_COLOR = "foreground_color";
     public static final String BACKGROUND_COLOR = "background_color";
     public static final String INTRO_MUSIC = "intro_music";
@@ -268,7 +266,7 @@ public final class UserData<T> {
                 UiUtil.repaintCyderFrames();
             }).build();
 
-    public static final UserData<Color> windowColor = new Builder<>(FRAME_COLOR, Color.class)
+    public static final UserData<Color> frameColor = new Builder<>(FRAME_COLOR, Color.class)
             .setDescription("The color for frame borders")
             .setDefaultValue(CyderColors.navy)
             .setOnChangeFunction(() -> {
@@ -296,6 +294,7 @@ public final class UserData<T> {
 
     public static final UserData<Boolean> loggedIn = new Builder<>(LOGGED_IN, Boolean.class)
             .setDescription("Whether this user is currently logged in")
+            .setIgnoreForToggleSwitches(true)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LOGGED_IN)).build();
 
     public static final UserData<Boolean> audioTotalLength = new Builder<>(AUDIO_TOTAL_LENGTH, Boolean.class)
@@ -350,7 +349,7 @@ public final class UserData<T> {
                         ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
                     }).build();
 
-    public static final UserData<Boolean> fillOpacity = new Builder<>(FILL_OPACITY, Boolean.class)
+    public static final UserData<Integer> fillOpacity = new Builder<>(FILL_OPACITY, Integer.class)
             .setDescription("The opacity of the input and output fills")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FILL_OPACITY);
@@ -363,6 +362,7 @@ public final class UserData<T> {
 
     public static final UserData<Boolean> shownWelcomeMessage = new Builder<>(SHOWN_WELCOME_MESSAGE, Boolean.class)
             .setDescription("Whether the welcome message has been shown for this user")
+            .setIgnoreForToggleSwitches(true)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOWN_WELCOME_MESSAGE)).build();
 
     public static final UserData<Long> accountCreationTime = new Builder<>(ACCOUNT_CREATION_TIME, Long.class)
@@ -398,7 +398,7 @@ public final class UserData<T> {
             typingSound,
             busyAnimation,
             roundedWindows,
-            windowColor,
+            frameColor,
             clockFormat,
             youtubeUuid,
             capsMode,

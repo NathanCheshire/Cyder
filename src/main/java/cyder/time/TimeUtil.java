@@ -7,7 +7,7 @@ import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -298,7 +298,7 @@ public final class TimeUtil {
         if (Console.INSTANCE.getUuid() == null)
             throw new IllegalStateException("The console uuid is not set");
 
-        return getTime(UserUtil.getCyderUser().getConsoleClockFormat());
+        return getTime(UserDataManager.INSTANCE.getConsoleClockFormat());
     }
 
     /**

@@ -6,7 +6,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 
 import javax.swing.*;
 import java.io.File;
@@ -213,7 +213,7 @@ public class AudioLocationUpdater {
         lastSecondsIn = secondsIn;
         secondsInLabel.setText(TimeUtil.formatMillis(secondsIn * 1000L));
 
-        boolean totalLength = UserUtil.getCyderUser().getAudioLength().equals("1");
+        boolean totalLength = UserDataManager.INSTANCE.shouldShowAudioTotalLength();
         if (totalLength) {
             int displayMillis = (int) (Math.round(totalMilliSeconds / TimeUtil.MILLISECONDS_IN_SECOND) * 1000);
             secondsLeftLabel.setText(TimeUtil.formatMillis(displayMillis));

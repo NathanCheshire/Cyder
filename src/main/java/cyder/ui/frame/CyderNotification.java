@@ -13,7 +13,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -513,7 +513,7 @@ public class CyderNotification extends JLabel {
                     setVisible(true);
 
                     for (int i = 0 ; i < 256 ; i += 2) {
-                        if (UserUtil.getCyderUser().getDoAnimations().equals("0")) {
+                        if (!UserDataManager.INSTANCE.shouldDoAnimations()) {
                             break;
                         }
 
@@ -666,7 +666,7 @@ public class CyderNotification extends JLabel {
      * @return whether the notification should be vanished
      */
     private boolean shouldVanishNotification(int viewDuration) {
-        return UserUtil.getCyderUser().getPersistentNotifications().equals("0")
+        return !UserDataManager.INSTANCE.shouldPersistNotifications()
                 && viewDuration != NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION;
     }
 
@@ -799,7 +799,7 @@ public class CyderNotification extends JLabel {
      * @return whether a current animation should be stopped
      */
     private boolean shouldStopAnimation() {
-        return killed || UserUtil.getCyderUser().getDoAnimations().equals("0");
+        return killed || !UserDataManager.INSTANCE.shouldDoAnimations();
     }
 
     /**

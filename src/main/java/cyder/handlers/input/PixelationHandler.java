@@ -10,8 +10,8 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
@@ -47,7 +47,7 @@ public class PixelationHandler extends InputHandler {
                 }
 
                 if (isSolidColor) {
-                    getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
+                    getInputHandler().println("Silly " + UserDataManager.INSTANCE.getUsername()
                             + "; your background " + "is a solid color :P");
                 } else {
                     if (getInputHandler().checkArgsLength(1)) {
@@ -111,7 +111,7 @@ public class PixelationHandler extends InputHandler {
                 }
             }, "Console Background Pixelator");
         } else {
-            getInputHandler().println("Sorry, " + UserUtil.getCyderUser().getName()
+            getInputHandler().println("Sorry, " + UserDataManager.INSTANCE.getUsername()
                     + ", but your pixel value must be in the range ["
                     + pixelRange.lowerEndpoint() + ", " + pixelRange.upperEndpoint() + CyderStrings.closingBracket);
         }

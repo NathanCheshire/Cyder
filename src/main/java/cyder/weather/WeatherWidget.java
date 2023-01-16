@@ -31,7 +31,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.HtmlUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.MapUtil;
@@ -365,7 +365,7 @@ public class WeatherWidget {
     private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
             Console.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
-                    + UserUtil.getCyderUser().getName() + ", but this feature "
+                    + UserDataManager.INSTANCE.getUsername() + ", but this feature "
                     + "is suspended until a stable internet connection can be established");
             return;
         } else if (!Props.weatherKey.valuePresent()) {
@@ -1073,9 +1073,7 @@ public class WeatherWidget {
      */
     public void refreshMapBackground() {
         try {
-            boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
-
-            if (displayMap) {
+            if (UserDataManager.INSTANCE.shouldDrawWeatherMap()) {
                 MapUtil.Builder builder = new MapUtil.Builder(FRAME_WIDTH, FRAME_HEIGHT,
                         Props.mapQuestApiKey.getValue());
                 builder.setLocationString(currentLocationString);
@@ -1088,7 +1086,7 @@ public class WeatherWidget {
                 weatherFrame.setBackground(defaultBackground);
             }
 
-            refreshReadableLabels(displayMap);
+            refreshReadableLabels(UserDataManager.INSTANCE.shouldDrawWeatherMap());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             weatherFrame.notify("Could not refresh map background");

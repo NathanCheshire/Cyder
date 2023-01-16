@@ -28,8 +28,8 @@ import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.ui.pane.CyderScrollPane;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
@@ -725,7 +725,7 @@ public final class NotesWidget {
     private static void revalidateFrameTitle() {
         switch (currentView) {
             case LIST -> {
-                String name = UserUtil.getCyderUser().getName();
+                String name = UserDataManager.INSTANCE.getUsername();
                 noteFrame.setTitle(name + StringUtil.getApostropheSuffix(name) + " notes");
             }
             case ADD -> noteFrame.setTitle(ADD_NOTE);

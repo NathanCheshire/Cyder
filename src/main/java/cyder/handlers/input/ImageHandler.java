@@ -8,8 +8,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.SpotlightUtil;
@@ -52,7 +52,7 @@ public class ImageHandler extends InputHandler {
         } else if (getInputHandler().commandIs("blur")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().generateBufferedImage())) {
-                    getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
+                    getInputHandler().println("Silly " + UserDataManager.INSTANCE.getUsername()
                             + ". Your background is a solid color, bluing that won't do anything :P");
                 }
 

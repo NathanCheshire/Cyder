@@ -3,7 +3,6 @@ package cyder.constants;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.ui.UiUtil;
-import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StaticUtil;
 
@@ -80,13 +79,6 @@ public final class CyderIcons {
      * @return the ImageIcon of the requested dimensions
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
-        Color color;
-        if (UserUtil.getCyderUser() != null && UserUtil.getCyderUser().getDarkmode().equals("1")) {
-            color = CyderColors.darkModeBackgroundColor;
-        } else {
-            color = CyderColors.regularBackgroundColor;
-        }
-
-        return ImageUtil.imageIconFromColor(color, width, height);
+        return ImageUtil.imageIconFromColor(CyderColors.regularBackgroundColor, width, height);
     }
 }

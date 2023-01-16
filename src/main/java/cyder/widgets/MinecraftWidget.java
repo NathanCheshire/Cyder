@@ -14,7 +14,7 @@ import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.user.data.MappedExecutable;
 
 import javax.swing.*;
@@ -239,7 +239,7 @@ public final class MinecraftWidget {
      * Checks the current user's mapped executables to determine if any might reference a Minecraft launcher.
      */
     private static void checkMappedExes() {
-        for (MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
+        for (MappedExecutable exe : UserDataManager.INSTANCE.getMappedExecutables()) {
             File refFile = new File(exe.getFilepath());
 
             if (refFile.exists() && refFile.isFile()) {

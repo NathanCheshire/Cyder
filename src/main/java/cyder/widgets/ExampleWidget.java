@@ -10,7 +10,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 
 /**
  * An example widget for new Cyder developers to learn the standard widget construction.
@@ -52,7 +52,7 @@ public final class ExampleWidget {
         cyderButton.setSize(200, 40);
         cyderButton.addActionListener(e -> {
             // Your logic here or a method reference to a local method (See EJ items 42 and 43)
-            cyderFrame.notify("Hello " + UserUtil.getCyderUser().getName() + "!");
+            cyderFrame.notify("Hello " + UserDataManager.INSTANCE.getUsername() + "!");
         });
 
         CyderGridLayout gridLayout = new CyderGridLayout(1, 1);

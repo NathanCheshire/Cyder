@@ -30,7 +30,7 @@ import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.ui.label.CyderLabel;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 import cyder.weather.WeatherUtil;
 import cyder.weather.parsers.Coord;
@@ -367,8 +367,8 @@ public final class ClockWidget {
             clockColor = CyderColors.getGuiThemeColor();
 
             shouldUpdateWidget.set(true);
-            setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
-            setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
+            setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
+            setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
 
             IpData data = IpDataManager.INSTANCE.getIpData();
             currentLocation = commaJoiner.join(data.getCity(), data.getRegion(), data.getCountry_name());

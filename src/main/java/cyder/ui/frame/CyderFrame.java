@@ -35,7 +35,7 @@ import cyder.ui.drag.button.MenuButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
@@ -1412,7 +1412,7 @@ public class CyderFrame extends JFrame {
             setRestoreX(getX());
             setRestoreY(getY());
 
-            if (UserUtil.getCyderUser().getDoAnimations().equals("1")) {
+            if (UserDataManager.INSTANCE.shouldDoAnimations()) {
                 setDisableContentRepainting(true);
 
                 int monitorHeight = UiUtil.getMonitorHeight(this);
@@ -1531,7 +1531,7 @@ public class CyderFrame extends JFrame {
                 disableDragging();
                 setDisableContentRepainting(true);
 
-                boolean closingAnimation = UserUtil.getCyderUser().getDoAnimations().equals("1");
+                boolean closingAnimation = UserDataManager.INSTANCE.shouldDoAnimations();
                 if (isVisible() && (!fastClose && !shouldFastClose) && closingAnimation) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
@@ -2001,7 +2001,7 @@ public class CyderFrame extends JFrame {
         try {
             // Borderless frames are by default rounded
             if (isBorderlessFrame() || (cyderComponentResizer == null && Console.INSTANCE.getUuid() != null
-                    && UserUtil.getCyderUser().getRoundedWindows().equals("1"))) {
+                    && UserDataManager.INSTANCE.shouldDrawRoundedFrameBorders())) {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
             }

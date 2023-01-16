@@ -18,7 +18,7 @@ import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 import cyder.utils.ImageUtil;
 
 import javax.swing.*;
@@ -289,7 +289,7 @@ public class PhotoViewer {
                 .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
-            pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
+            pictureFrame.notify("Sorry, " + UserDataManager.INSTANCE.getUsername()
                     + ", but you're not allowed to" + " rename the background you are currently using");
             return;
         }

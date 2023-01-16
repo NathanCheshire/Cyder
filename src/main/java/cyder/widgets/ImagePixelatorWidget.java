@@ -23,8 +23,8 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
-import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
@@ -268,7 +268,7 @@ public final class ImagePixelatorWidget {
         }
 
         pixelFrame.notify("Successfully saved pixelated image to "
-                + StringUtil.getApostropheSuffix(UserUtil.getCyderUser().getName())
+                + StringUtil.getApostropheSuffix(UserDataManager.INSTANCE.getUsername())
                 + " files/ directory");
     }
 

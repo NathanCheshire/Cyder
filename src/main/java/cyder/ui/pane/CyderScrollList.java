@@ -8,7 +8,7 @@ import cyder.logging.Logger;
 import cyder.strings.ToStringUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
-import cyder.user.UserUtil;
+import cyder.user.UserDataManager;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -238,7 +238,7 @@ public class CyderScrollList {
      * </ul>
      */
     public void refreshList() {
-        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
+        boolean compactMode = UserDataManager.INSTANCE.compactTextMode();
 
         CyderOutputPane outputPane = new CyderOutputPane(listPane);
         outputPane.getJTextPane().setText("");
