@@ -1,13 +1,14 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
+import cyder.user.data.MappedExecutable;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -17,11 +18,27 @@ import java.lang.reflect.Type;
  */
 public final class SerializationUtil {
     /**
+     * A deserializer class for deserializing lists into ImmutableLists.
+     */
+    private static final class JsonDeserializer implements com.google.gson.JsonDeserializer<ImmutableList<?>> {
+        @Override
+        public ImmutableList<?> deserialize(final JsonElement json, final Type type,
+                                            final JsonDeserializationContext context) throws JsonParseException {
+            JsonArray array = json.getAsJsonArray();
+            ImmutableList.Builder<MappedExecutable> executableBuilder = new ImmutableList.Builder<>();
+            array.forEach(jsonElement -> executableBuilder.add(
+                    SerializationUtil.fromJson(jsonElement.toString(), MappedExecutable.class)));
+            return ImmutableList.copyOf(array);
+        }
+    }
+
+    /**
      * The master Gson object used for all of Cyder.
      */
     private static final Gson gson = new GsonBuilder()
             .setLenient()
             .setPrettyPrinting()
+            .registerTypeAdapter(ImmutableList.class, new JsonDeserializer())
             .create();
 
     /**

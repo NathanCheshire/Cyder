@@ -76,14 +76,15 @@ public final class UserUtil {
      * @param file the file to write to
      * @param user the user object to serialize and write to the file
      */
-    public static void writeUserToFile(File file, NewUser user) {
+    public static void writeUserToFile(File file, User user) {
         Preconditions.checkNotNull(file);
         Preconditions.checkNotNull(user);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         try {
-            SerializationUtil.toJson(user, file);
+            String json = SerializationUtil.toJson(user);
+            FileUtil.writeLinesToFile(file, ImmutableList.of(json), false);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -130,12 +131,12 @@ public final class UserUtil {
      * @param file the json file to extract a user object from
      * @return the resulting user object
      */
-    public static NewUser extractUser(File file) {
+    public static User extractUser(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
-        return SerializationUtil.fromJson(file, NewUser.class);
+        return SerializationUtil.fromJson(file, User.class);
     }
 
     /**
@@ -145,7 +146,7 @@ public final class UserUtil {
      * @param user     the user object
      * @return the setter method for a user object data piece with the provided name
      */
-    public static Optional<Method> getSetterMethodForDataWithName(String dataName, NewUser user) {
+    public static Optional<Method> getSetterMethodForDataWithName(String dataName, User user) {
         Preconditions.checkNotNull(dataName);
         Preconditions.checkArgument(!dataName.isEmpty());
 
@@ -166,7 +167,7 @@ public final class UserUtil {
      * @param user     the user object
      * @return the getter method for a user object data piece with the provided name
      */
-    public static Optional<Method> getGetterMethodForDataWithName(String dataName, NewUser user) {
+    public static Optional<Method> getGetterMethodForDataWithName(String dataName, User user) {
         for (Method method : user.getClass().getMethods()) {
             if (method.getName().startsWith(GET) && method.getParameterTypes().length == 0
                     && method.getName().equalsIgnoreCase(dataName.toLowerCase())) {
@@ -396,7 +397,7 @@ public final class UserUtil {
      */
     public static void logoutAllUsers() {
         getUserJsons().forEach(jsonFile -> {
-            NewUser user = extractUser(jsonFile);
+            User user = extractUser(jsonFile);
             user.setLoggedIn(false);
             SerializationUtil.toJson(user, jsonFile);
         });

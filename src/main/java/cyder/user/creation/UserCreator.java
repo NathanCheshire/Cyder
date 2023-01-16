@@ -22,7 +22,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
-import cyder.user.NewUser;
+import cyder.user.User;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.user.data.ScreenStat;
@@ -383,7 +383,7 @@ public final class UserCreator {
         String osUsername = OsUtil.getOsUsername();
 
         for (File userJson : UserUtil.getUserJsons()) {
-            NewUser user = UserUtil.extractUser(userJson);
+            User user = UserUtil.extractUser(userJson);
             if (user.getUsername().equalsIgnoreCase(osUsername)) {
                 return true;
             }
@@ -518,7 +518,7 @@ public final class UserCreator {
             return false;
         }
 
-        NewUser user = new NewUser();
+        User user = new User();
         user.setUsername(name);
         user.setPassword(SecurityUtil.doubleHashToHex(password));
 

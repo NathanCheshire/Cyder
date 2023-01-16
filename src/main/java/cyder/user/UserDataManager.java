@@ -21,16 +21,13 @@ import cyder.utils.SerializationUtil;
 import cyder.youtube.YouTubeConstants;
 
 import java.awt.*;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Optional;
 
 /**
- * A managed for the current {@link NewUser}.
+ * A managed for the current {@link User}.
  * The current Cyder user is not exposed but instead proxied by this manager
  * for purposes of encapsulation, validation, and convenience methods.
  */
@@ -43,12 +40,17 @@ public enum UserDataManager {
     /**
      * The tag for json writes.
      */
-    private static final String jsonTag = LoggingUtil.surroundWithBrackets("JSON Write");
+    private final String jsonTag = LoggingUtil.surroundWithBrackets("JSON Write");
+
+    /**
+     * A default user object.
+     */
+    private final User defaultUser = new User();
 
     /**
      * The current user object this manager is being a proxy for.
      */
-    private NewUser user;
+    private User user;
 
     /**
      * The file the current user object is written to periodically and on program closure.
@@ -64,6 +66,11 @@ public enum UserDataManager {
      * The last result of serializing {@link #user} before writing to {@link #userFile}
      */
     private String lastSerializedUser = "";
+
+    UserDataManager() {
+        Logger.log(LogTag.OBJECT_CREATION, "UserDataManager singleton constructed");
+        user = defaultUser;
+    }
 
     /**
      * Sets the current Cyder user to the user with the provided uuid.
@@ -82,7 +89,7 @@ public enum UserDataManager {
         Preconditions.checkArgument(jsonFile.exists());
 
         userFile = jsonFile;
-        user = NewUser.fromJson(jsonFile);
+        user = User.fromJson(jsonFile);
     }
 
     // todo this needs to be called periodically
@@ -131,19 +138,14 @@ public enum UserDataManager {
     /**
      * Serializes the current Cyder user to the {@link #userFile}, after which the user and user file are set to null
      * allowing for the {@link #initialize(String)} method to be invoked again.
-     *
-     * @throws IOException if an IO error occurs when writing the current user to the user file
      */
-    public synchronized void removeManagement() throws IOException {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(userFile));
-            SerializationUtil.toJson(user, writer);
-        } catch (Exception e) {
-            throw new IOException("Failed to write current user to file. Exception: " + e.getMessage());
-        }
+    public synchronized void removeManagement() {
+        Preconditions.checkState(isInitialized());
+
+        writeUser();
 
         userFile = null;
-        user = null;
+        user = defaultUser;
     }
 
     /**
@@ -165,18 +167,18 @@ public enum UserDataManager {
      * @param password the hashed password
      * @return the new user object
      */
-    public NewUser createNewUser(String username, String password) {
+    public User createNewUser(String username, String password) {
         Preconditions.checkNotNull(username);
         Preconditions.checkNotNull(password);
         Preconditions.checkArgument(!username.isEmpty());
         Preconditions.checkArgument(!password.isEmpty());
         Preconditions.checkArgument(!UserUtil.usernameInUse(username));
 
-        NewUser newUser = new NewUser();
-        newUser.setUsername(username);
-        newUser.setPassword(password);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
 
-        return newUser;
+        return user;
     }
 
     /**
@@ -204,6 +206,8 @@ public enum UserDataManager {
      */
     @CanIgnoreReturnValue
     public <T> boolean setUserDataById(String id, T value) {
+        Preconditions.checkState(isInitialized());
+
         Optional<Method> methodOptional = UserUtil.getSetterMethodForDataWithName(id, user);
 
         if (methodOptional.isPresent()) {
@@ -225,6 +229,8 @@ public enum UserDataManager {
      * @return the result of invoking the accessor method if found. Empty optional else
      */
     public <T> Optional<T> getUserDataById(String id, Class<T> type) {
+        Preconditions.checkState(isInitialized());
+
         Optional<Method> methodOptional = UserUtil.getGetterMethodForDataWithName(id, user);
 
         if (methodOptional.isPresent()) {
@@ -247,8 +253,6 @@ public enum UserDataManager {
      * @return the name of the current user
      */
     public synchronized String getUsername() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.USERNAME);
         return user.getUsername();
     }
@@ -259,6 +263,7 @@ public enum UserDataManager {
      * @param username the new requested username
      */
     public synchronized void setUsername(String username) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(username);
         Preconditions.checkArgument(!username.isEmpty());
@@ -273,8 +278,6 @@ public enum UserDataManager {
      * @return the password of the current user
      */
     public synchronized String getPassword() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.PASSWORD);
         return user.getPassword();
     }
@@ -285,6 +288,7 @@ public enum UserDataManager {
      * @param password the hashed password of the current user
      */
     public synchronized void setPassword(String password) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(password);
         Preconditions.checkArgument(!password.isEmpty());
 
@@ -297,8 +301,6 @@ public enum UserDataManager {
      * @return the name of the user font
      */
     public synchronized String getFontName() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FONT_NAME);
         return user.getFontName();
     }
@@ -309,6 +311,7 @@ public enum UserDataManager {
      * @param fontName the name of the user font
      */
     public synchronized void setFontName(String fontName) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(fontName);
         Preconditions.checkArgument(!fontName.isEmpty());
 
@@ -321,8 +324,6 @@ public enum UserDataManager {
      * @return the font size for the user
      */
     public synchronized int getFontSize() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FONT_SIZE);
         return user.getFontSize();
     }
@@ -333,6 +334,7 @@ public enum UserDataManager {
      * @param fontSize the font size for the user
      */
     public synchronized void setFontSize(int fontSize) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkArgument(fontSize >= Props.minFontSize.getValue());
         Preconditions.checkArgument(fontSize <= Props.maxFontSize.getValue());
 
@@ -345,8 +347,6 @@ public enum UserDataManager {
      * @return the user's foreground color
      */
     public synchronized Color getForegroundColor() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FOREGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getForegroundColorHexCode());
     }
@@ -357,8 +357,6 @@ public enum UserDataManager {
      * @return the hex code for the user's foreground color
      */
     public synchronized String getForegroundHexCode() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FOREGROUND_COLOR);
         return user.getForegroundColorHexCode();
     }
@@ -369,6 +367,7 @@ public enum UserDataManager {
      * @param color the user's foreground color
      */
     public synchronized void setForegroundColor(Color color) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(color);
 
         user.setForegroundColorHexCode(ColorUtil.toRgbHexString(color));
@@ -380,8 +379,6 @@ public enum UserDataManager {
      * @return the user's background color
      */
     public synchronized Color getBackgroundColor() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.BACKGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getBackgroundColorHexCode());
     }
@@ -392,8 +389,6 @@ public enum UserDataManager {
      * @return the user's background color hex code
      */
     public synchronized String getBackgroundHexCode() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.BACKGROUND_COLOR);
         return user.getBackgroundColorHexCode();
     }
@@ -404,6 +399,7 @@ public enum UserDataManager {
      * @param color the user's background color
      */
     public synchronized void setBackgroundColor(Color color) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(color);
 
         user.setBackgroundColorHexCode(ColorUtil.toRgbHexString(color));
@@ -415,8 +411,6 @@ public enum UserDataManager {
      * @return whether intro music should be played on user login
      */
     public synchronized boolean shouldPlayIntroMusic() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.INTRO_MUSIC);
         return user.shouldPlayIntroMusic();
     }
@@ -427,6 +421,7 @@ public enum UserDataManager {
      * @param shouldPlay whether intro music should be played on user login
      */
     public synchronized void setShouldPlayIntroMusic(boolean shouldPlay) {
+        Preconditions.checkState(isInitialized());
         user.setIntroMusic(shouldPlay);
     }
 
@@ -436,8 +431,6 @@ public enum UserDataManager {
      * @return whether debug stats should be shown on initial console load
      */
     public synchronized boolean shouldShowDebugStats() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.DEBUG_STATS);
         return user.shouldShowDebugStatsOnStart();
     }
@@ -448,6 +441,7 @@ public enum UserDataManager {
      * @param shouldShowDebugStats whether debug stats should be shown on initial console load
      */
     public synchronized void setShouldShowDebugStats(boolean shouldShowDebugStats) {
+        Preconditions.checkState(isInitialized());
         user.setDebugStats(shouldShowDebugStats);
     }
 
@@ -457,8 +451,6 @@ public enum UserDataManager {
      * @return whether a random background should be chosen on start for the console
      */
     public synchronized boolean shouldChooseRandomBackground() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.RANDOM_BACKGROUND);
         return user.shouldChooseRandomBackgroundOnStart();
     }
@@ -469,6 +461,7 @@ public enum UserDataManager {
      * @param shouldChooseRandomBackground whether a random background should be chosen on start for the console
      */
     public synchronized void setShouldChooseRandomBackground(boolean shouldChooseRandomBackground) {
+        Preconditions.checkState(isInitialized());
         user.setRandomBackgroundOnStart(shouldChooseRandomBackground);
     }
 
@@ -478,8 +471,6 @@ public enum UserDataManager {
      * @return whether a border should be drawn around the input field
      */
     public synchronized boolean shouldDrawInputBorder() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.INPUT_BORDER);
         return user.shouldDrawInputBorder();
     }
@@ -490,6 +481,7 @@ public enum UserDataManager {
      * @param shouldDrawInputBorder whether a border should be drawn around the input field
      */
     public synchronized void setShouldDrawInputBorder(boolean shouldDrawInputBorder) {
+        Preconditions.checkState(isInitialized());
         user.setDrawInputBorder(shouldDrawInputBorder);
     }
 
@@ -499,8 +491,6 @@ public enum UserDataManager {
      * @return whether a border should be drawn around the output area
      */
     public synchronized boolean shouldDrawOutputBorder() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.OUTPUT_BORDER);
         return user.shouldDrawOutputBorder();
     }
@@ -511,6 +501,7 @@ public enum UserDataManager {
      * @param shouldDrawOutputBorder whether a border should be drawn around the output area
      */
     public synchronized void setShouldDrawOutputBorder(boolean shouldDrawOutputBorder) {
+        Preconditions.checkState(isInitialized());
         user.setDrawOutputBorder(shouldDrawOutputBorder);
     }
 
@@ -520,8 +511,6 @@ public enum UserDataManager {
      * @return whether hourly chimes should be played
      */
     public synchronized boolean shouldPlayHourlyChimes() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.HOURLY_CHIMES);
         return user.shouldPlayHourlyChimes();
     }
@@ -532,6 +521,7 @@ public enum UserDataManager {
      * @param shouldPlayHourlyChimes whether hourly chimes should be played
      */
     public synchronized void setShouldPlayHourlyChimes(boolean shouldPlayHourlyChimes) {
+        Preconditions.checkState(isInitialized());
         user.setPlayHourlyChimes(shouldPlayHourlyChimes);
     }
 
@@ -541,8 +531,6 @@ public enum UserDataManager {
      * @return whether error notifications should be silenced
      */
     public synchronized boolean shouldSilenceErrors() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.SILENCE_ERRORS);
         return user.shouldSilenceErrors();
     }
@@ -553,6 +541,7 @@ public enum UserDataManager {
      * @param shouldSilenceErrors whether error notifications should be silenced
      */
     public synchronized void setShouldSilenceErrors(boolean shouldSilenceErrors) {
+        Preconditions.checkState(isInitialized());
         user.setSilenceErrors(shouldSilenceErrors);
     }
 
@@ -562,8 +551,6 @@ public enum UserDataManager {
      * @return whether the program should be shown in fullscreen mode
      */
     public synchronized boolean isFullscreen() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FULLSCREEN);
         return user.isFullscreen();
     }
@@ -574,6 +561,7 @@ public enum UserDataManager {
      * @param fullscreen whether the program should be shown in fullscreen mode
      */
     public synchronized void setFullscreen(boolean fullscreen) {
+        Preconditions.checkState(isInitialized());
         user.setFullscreen(fullscreen);
     }
 
@@ -583,8 +571,6 @@ public enum UserDataManager {
      * @return whether the output area should be filled
      */
     public synchronized boolean shouldDrawOutputFill() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.OUTPUT_FILL);
         return user.shouldDrawOutputFill();
     }
@@ -595,6 +581,7 @@ public enum UserDataManager {
      * @param shouldDrawOutputFill whether the output area should be filled
      */
     public synchronized void setShouldDrawOutputFill(boolean shouldDrawOutputFill) {
+        Preconditions.checkState(isInitialized());
         user.setDrawOutputFill(shouldDrawOutputFill);
     }
 
@@ -604,8 +591,6 @@ public enum UserDataManager {
      * @return whether the input field should be filled
      */
     public synchronized boolean shouldDrawInputFill() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.INPUT_FILL);
         return user.shouldDrawInputFill();
     }
@@ -616,6 +601,7 @@ public enum UserDataManager {
      * @param shouldDrawInputFill whether the input field should be filled
      */
     public synchronized void setShouldDrawInputFill(boolean shouldDrawInputFill) {
+        Preconditions.checkState(isInitialized());
         user.setDrawInputFill(shouldDrawInputFill);
     }
 
@@ -625,8 +611,6 @@ public enum UserDataManager {
      * @return whether the console clock should be drawn
      */
     public synchronized boolean shouldDrawConsoleClock() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.CONSOLE_CLOCK);
         return user.shouldDrawConsoleClock();
     }
@@ -637,6 +621,7 @@ public enum UserDataManager {
      * @param shouldDrawConsoleClock whether the console clock should be drawn
      */
     public synchronized void setShouldDrawConsoleClock(boolean shouldDrawConsoleClock) {
+        Preconditions.checkState(isInitialized());
         user.setDrawConsoleClock(shouldDrawConsoleClock);
     }
 
@@ -646,8 +631,6 @@ public enum UserDataManager {
      * @return whether seconds should be shown on the console clock
      */
     public synchronized boolean shouldShowConsoleClockSeconds() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.CONSOLE_CLOCK_SECONDS);
         return user.shouldShowConsoleClockSeconds();
     }
@@ -658,6 +641,7 @@ public enum UserDataManager {
      * @param shouldShowConsoleClockSeconds whether seconds should be shown on the console clock
      */
     public synchronized void setShouldShowConsoleClockSeconds(boolean shouldShowConsoleClockSeconds) {
+        Preconditions.checkState(isInitialized());
         user.setShowConsoleClockSeconds(shouldShowConsoleClockSeconds);
     }
 
@@ -667,8 +651,6 @@ public enum UserDataManager {
      * @return whether user input should be filtered
      */
     public synchronized boolean shouldFilterchat() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FILTER_CHAT);
         return user.shouldFilterChat();
     }
@@ -679,6 +661,7 @@ public enum UserDataManager {
      * @param shouldFilterChat whether user input should be filtered
      */
     public synchronized void setShouldFilterChat(boolean shouldFilterChat) {
+        Preconditions.checkState(isInitialized());
         user.setFilterChat(shouldFilterChat);
     }
 
@@ -688,8 +671,6 @@ public enum UserDataManager {
      * @return the time at which this user's last session started
      */
     public synchronized long getLastSessionStart() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.LAST_SESSION_START);
         return user.getLastSessionStart();
     }
@@ -700,6 +681,7 @@ public enum UserDataManager {
      * @param lastSessionStart the time at which this user's last session started
      */
     public synchronized void setLastSessionStart(long lastSessionStart) {
+        Preconditions.checkState(isInitialized());
         user.setLastSessionStart(lastSessionStart);
     }
 
@@ -709,8 +691,6 @@ public enum UserDataManager {
      * @return whether the program should be minimized on console close
      */
     public synchronized boolean shouldMinimizeOnClose() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.MINIMIZE_ON_CLOSE);
         return user.shouldMinimizeOnClose();
     }
@@ -721,6 +701,7 @@ public enum UserDataManager {
      * @param shouldMinimizeOnClose whether the program should be minimized on console close
      */
     public synchronized void setShouldMinimizeOnClose(boolean shouldMinimizeOnClose) {
+        Preconditions.checkState(isInitialized());
         user.setMinimizeOnClose(shouldMinimizeOnClose);
     }
 
@@ -730,8 +711,6 @@ public enum UserDataManager {
      * @return whether the typing animation should be shown
      */
     public synchronized boolean shouldShowTypingAnimation() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.TYPING_ANIMATION);
         return user.shouldShowTypingAnimation();
     }
@@ -742,6 +721,7 @@ public enum UserDataManager {
      * @param shouldShowTypingAnimation whether the typing animation should be shown
      */
     public synchronized void setShouldShowTypingAnimation(boolean shouldShowTypingAnimation) {
+        Preconditions.checkState(isInitialized());
         user.setTypingAnimation(shouldShowTypingAnimation);
     }
 
@@ -751,8 +731,6 @@ public enum UserDataManager {
      * @return whether the busy animation should be shown
      */
     public synchronized boolean shouldShowBusyAnimation() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.BUSY_ANIMATION);
         return user.showShowBusyAnimation();
     }
@@ -763,6 +741,7 @@ public enum UserDataManager {
      * @param shouldShowBusyAnimation whether the busy animation should be shown
      */
     public synchronized void setShouldShowBusyAnimation(boolean shouldShowBusyAnimation) {
+        Preconditions.checkState(isInitialized());
         user.setShowBusyAnimation(shouldShowBusyAnimation);
     }
 
@@ -772,8 +751,6 @@ public enum UserDataManager {
      * @return whether frames should be drawn with rounded borders
      */
     public synchronized boolean shouldDrawRoundedFrameBorders() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.ROUNDED_FRAME_BORDERS);
         return user.shouldDrawRoundedFrameBorders();
     }
@@ -784,6 +761,7 @@ public enum UserDataManager {
      * @param shouldDrawRoundedFrameBorders whether frames should be drawn with rounded borders
      */
     public synchronized void setShouldDrawRoundedFrameBorders(boolean shouldDrawRoundedFrameBorders) {
+        Preconditions.checkState(isInitialized());
         user.setRoundedFrameBorders(shouldDrawRoundedFrameBorders);
     }
 
@@ -793,8 +771,6 @@ public enum UserDataManager {
      * @return the frame color
      */
     public synchronized Color getFrameColor() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FRAME_COLOR);
         return ColorUtil.hexStringToColor(user.getFrameColorHexCode());
     }
@@ -805,8 +781,6 @@ public enum UserDataManager {
      * @return the hex code for teh frame color
      */
     public synchronized String getFrameColorHexCode() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FRAME_COLOR);
         return user.getFrameColorHexCode();
     }
@@ -817,6 +791,7 @@ public enum UserDataManager {
      * @param color the frame color
      */
     public synchronized void setFrameColor(Color color) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(color);
 
         user.setFrameColorHexCode(ColorUtil.toRgbHexString(color));
@@ -828,8 +803,6 @@ public enum UserDataManager {
      * @return the console clock format
      */
     public synchronized String getConsoleClockFormat() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.CLOCK_FORMAT);
         return user.getConsoleClockFormat();
     }
@@ -840,6 +813,7 @@ public enum UserDataManager {
      * @param clockFormat the console clock format
      */
     public synchronized void setConsoleClockFormat(String clockFormat) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(clockFormat);
         Preconditions.checkArgument(!clockFormat.isEmpty());
         Preconditions.checkArgument(UserEditor.validateDatePattern(clockFormat));
@@ -853,8 +827,6 @@ public enum UserDataManager {
      * @return whether a typing sound should be played when the typing animation is on-going
      */
     public synchronized boolean shouldPlayTypingSound() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.TYPING_SOUND);
         return user.shouldPlayTypingSound();
     }
@@ -865,6 +837,7 @@ public enum UserDataManager {
      * @param shouldPlayTypingSound whether a typing sound should be played when the typing animation is on-going
      */
     public synchronized void setShouldPlayTypingSound(boolean shouldPlayTypingSound) {
+        Preconditions.checkState(isInitialized());
         user.setPlayTypingSound(shouldPlayTypingSound);
     }
 
@@ -874,8 +847,6 @@ public enum UserDataManager {
      * @return the YouTube uuid this user is at in the random generation cycle
      */
     public synchronized String getYouTubeUuid() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.YOUTUBE_UUID);
         return user.getYoutubeUuid();
     }
@@ -886,6 +857,7 @@ public enum UserDataManager {
      * @param youTubeUuid the YouTube uuid this user is at in the random generation cycle
      */
     public synchronized void setYouTubeUuid(String youTubeUuid) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(youTubeUuid);
         Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
         Preconditions.checkArgument(CyderRegexPatterns.youTubeUuidPattern.matcher(youTubeUuid).matches());
@@ -899,8 +871,6 @@ public enum UserDataManager {
      * @return whether caps mode should be enabled
      */
     public synchronized boolean isCapsMode() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.CAPS_MODE);
         return user.isCapsMode();
     }
@@ -911,6 +881,7 @@ public enum UserDataManager {
      * @param capsMode whether caps mode should be enabled
      */
     public synchronized void setCapsMode(boolean capsMode) {
+        Preconditions.checkState(isInitialized());
         user.setCapsMode(capsMode);
     }
 
@@ -920,8 +891,6 @@ public enum UserDataManager {
      * @return whether this user is logged in
      */
     public synchronized boolean isLoggedIn() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.LOGGED_IN);
         return user.isLoggedIn();
     }
@@ -932,6 +901,7 @@ public enum UserDataManager {
      * @param loggedIn whether this user is logged in
      */
     public synchronized void setLoggedIn(boolean loggedIn) {
+        Preconditions.checkState(isInitialized());
         user.setLoggedIn(loggedIn);
     }
 
@@ -941,8 +911,6 @@ public enum UserDataManager {
      * @return whether the audio total length should be shown instead of the remaining time for the audio player
      */
     public synchronized boolean shouldShowAudioTotalLength() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.AUDIO_TOTAL_LENGTH);
         return user.shouldShowAudioTotalLength();
     }
@@ -954,6 +922,7 @@ public enum UserDataManager {
      *                                   be shown instead of the remaining time for the audio player
      */
     public synchronized void setShouldShowAudioTotalLength(boolean shouldShowAudioTotalLength) {
+        Preconditions.checkState(isInitialized());
         user.setShowAudioTotalLength(shouldShowAudioTotalLength);
     }
 
@@ -963,8 +932,6 @@ public enum UserDataManager {
      * @return whether notifications should be persisted until user dismissal
      */
     public synchronized boolean shouldPersistNotifications() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.SHOULD_PERSIST_NOTIFICATIONS);
         return user.shouldPersistNotifications();
     }
@@ -975,6 +942,7 @@ public enum UserDataManager {
      * @param shouldPersistNotifications whether notifications should be persisted until user dismissal
      */
     public synchronized void setShouldPersistNotifications(boolean shouldPersistNotifications) {
+        Preconditions.checkState(isInitialized());
         user.setPersistNotifications(shouldPersistNotifications);
     }
 
@@ -984,8 +952,6 @@ public enum UserDataManager {
      * @return whether certain animations should be performed
      */
     public synchronized boolean shouldDoAnimations() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.SHOULD_DO_ANIMATIONS);
         return user.shouldDoAnimations();
     }
@@ -996,6 +962,7 @@ public enum UserDataManager {
      * @param shouldDoAnimations whether certain animations should be performed
      */
     public synchronized void setShouldDoAnimations(boolean shouldDoAnimations) {
+        Preconditions.checkState(isInitialized());
         user.setDoAnimations(shouldDoAnimations);
     }
 
@@ -1005,8 +972,6 @@ public enum UserDataManager {
      * @return whether compact text mode is enabled
      */
     public synchronized boolean compactTextMode() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.COMPACT_TEXT_MODE);
         return user.isCompactTextMode();
     }
@@ -1017,6 +982,7 @@ public enum UserDataManager {
      * @param compactTextMode whether compact text mode is enabled
      */
     public synchronized void compactTextModeEnabled(boolean compactTextMode) {
+        Preconditions.checkState(isInitialized());
         user.setCompactTextMode(compactTextMode);
     }
 
@@ -1026,8 +992,6 @@ public enum UserDataManager {
      * @return whether unknown user commands should be passed to the native shell
      */
     public synchronized boolean shouldWrapShell() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.WRAP_SHELL);
         return user.shouldWrapNativeShell();
     }
@@ -1038,6 +1002,7 @@ public enum UserDataManager {
      * @param wrapShell whether unknown user commands should be passed to the native shell
      */
     public synchronized void setWrapShell(boolean wrapShell) {
+        Preconditions.checkState(isInitialized());
         user.setWrapNativeShell(wrapShell);
     }
 
@@ -1047,8 +1012,6 @@ public enum UserDataManager {
      * @return whether a map should be displayed as the background of the weather widget
      */
     public synchronized boolean shouldDrawWeatherMap() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.DRAW_WEATHER_MAP);
         return user.shouldDrawWeatherMap();
     }
@@ -1059,6 +1022,7 @@ public enum UserDataManager {
      * @param shouldDrawWeatherMap whether a map should be displayed as the background of the weather widget
      */
     public synchronized void setShouldDrawWeatherMap(boolean shouldDrawWeatherMap) {
+        Preconditions.checkState(isInitialized());
         user.setDrawWeatherMap(shouldDrawWeatherMap);
     }
 
@@ -1068,8 +1032,6 @@ public enum UserDataManager {
      * @return whether the hour labels should be painted for the clock widget
      */
     public synchronized boolean shouldPaintClockHourLabels() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.PAINT_CLOCK_LABELS);
         return user.shouldPaintClockWidgetHourLabels();
     }
@@ -1080,6 +1042,7 @@ public enum UserDataManager {
      * @param shouldPaintClockHourLabels whether the hour labels should be painted for the clock widget
      */
     public synchronized void setShouldPaintClockHourLabels(boolean shouldPaintClockHourLabels) {
+        Preconditions.checkState(isInitialized());
         user.setPaintClockWidgetHourLabels(shouldPaintClockHourLabels);
     }
 
@@ -1089,8 +1052,6 @@ public enum UserDataManager {
      * @return whether the second hand should be shown on the clock widget
      */
     public synchronized boolean shouldShowClockWidgetSecondHand() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.CLOCK_WIDGET_SECOND_HAND);
         return user.shouldShowClockWidgetSecondHand();
     }
@@ -1101,6 +1062,7 @@ public enum UserDataManager {
      * @param shouldShowClockWidgetSecondHand whether the second hand should be shown on the clock widget
      */
     public synchronized void setShouldShowClockWidgetSecondHand(boolean shouldShowClockWidgetSecondHand) {
+        Preconditions.checkState(isInitialized());
         user.setShowClockWidgetSecondHand(shouldShowClockWidgetSecondHand);
     }
 
@@ -1110,8 +1072,6 @@ public enum UserDataManager {
      * @return the current screen stat for this user
      */
     public synchronized ScreenStat getScreenStat() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.SCREEN_STAT);
         return user.getScreenStat();
     }
@@ -1122,6 +1082,7 @@ public enum UserDataManager {
      * @param screenStat the current screen stat for this user
      */
     public synchronized void setScreenStat(ScreenStat screenStat) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(screenStat);
 
         user.setScreenStat(screenStat);
@@ -1133,8 +1094,6 @@ public enum UserDataManager {
      * @return the mapped executables for this user
      */
     public synchronized ImmutableList<MappedExecutable> getMappedExecutables() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.MAPPED_EXECUTABLES);
         return user.getMappedExecutables();
     }
@@ -1145,6 +1104,7 @@ public enum UserDataManager {
      * @param mappedExecutables the mapped executables for this user
      */
     public synchronized void setMappedExecutables(Collection<MappedExecutable> mappedExecutables) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(mappedExecutables);
 
         user.setMappedExecutables(ImmutableList.copyOf(mappedExecutables));
@@ -1156,8 +1116,6 @@ public enum UserDataManager {
      * @return the fill opacity
      */
     public synchronized int getFillOpacity() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.FILL_OPACITY);
         return user.getFillOpacity();
     }
@@ -1168,6 +1126,7 @@ public enum UserDataManager {
      * @param fillOpacity the fill opacity
      */
     public synchronized void setFillOpacity(int fillOpacity) {
+        Preconditions.checkState(isInitialized());
         Preconditions.checkArgument(fillOpacity >= 0 && fillOpacity <= 255);
 
         user.setFillOpacity(fillOpacity);
@@ -1179,8 +1138,6 @@ public enum UserDataManager {
      * @return whether the welcome message has been shown
      */
     public synchronized boolean hasShownWelcomeMessage() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.SHOWN_WELCOME_MESSAGE);
         return user.hasShownWelcomeMessage();
     }
@@ -1191,6 +1148,7 @@ public enum UserDataManager {
      * @param shownWelcomeMessage whether the welcome message has been shown
      */
     public synchronized void setShownWelcomeMessage(boolean shownWelcomeMessage) {
+        Preconditions.checkState(isInitialized());
         user.setShownWelcomeMessage(shownWelcomeMessage);
     }
 
@@ -1200,8 +1158,6 @@ public enum UserDataManager {
      * @return the time at which this account was created
      */
     public synchronized long getAccountCreationTime() {
-        Preconditions.checkState(isInitialized());
-
         getterInvoked(UserData.ACCOUNT_CREATION_TIME);
         return user.getAccountCreationTime();
     }
@@ -1212,6 +1168,7 @@ public enum UserDataManager {
      * @param accountCreationTime the time at which this account was created
      */
     public synchronized void setAccountCreationTime(long accountCreationTime) {
+        Preconditions.checkState(isInitialized());
         user.setAccountCreationTime(accountCreationTime);
     }
 }

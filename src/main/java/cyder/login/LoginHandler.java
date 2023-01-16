@@ -24,7 +24,7 @@ import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
-import cyder.user.NewUser;
+import cyder.user.User;
 import cyder.user.UserUtil;
 import cyder.user.creation.UserCreator;
 import cyder.utils.ImageUtil;
@@ -656,15 +656,13 @@ public final class LoginHandler {
      */
     private static PasswordCheckResult checkPassword(String providedUsername, String hashedPass) {
         ArrayList<String> names = new ArrayList<>();
-        for (File userJson : UserUtil.getUserJsons()) {
-            names.add(UserUtil.extractUser(userJson).getUsername());
-        }
+        UserUtil.getUserJsons().forEach(userJson -> names.add(UserUtil.extractUser(userJson).getUsername()));
 
         boolean namePresent = StringUtil.in(providedUsername, true, names);
         if (!namePresent) return PasswordCheckResult.UNKNOWN_USER;
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
-            NewUser user = UserUtil.extractUser(userJsonFile);
+            User user = UserUtil.extractUser(userJsonFile);
             String username = user.getUsername();
             String password = user.getPassword();
 
