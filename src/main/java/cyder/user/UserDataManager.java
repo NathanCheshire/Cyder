@@ -7,6 +7,7 @@ import cyder.enums.Dynamic;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
+import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
@@ -124,10 +125,25 @@ public enum UserDataManager {
         Preconditions.checkNotNull(dataId);
         Preconditions.checkArgument(!dataId.isEmpty());
 
-        // todo need more logic here
-        if (!StringUtil.in(dataId, true, Props.ignoreData.getValue().getList())) {
-            Logger.log(LogTag.USER_GET, "key: " + dataId);
+        if (shouldIgnoreForLogging(dataId)) {
+            Logger.log(LogTag.USER_GET, ID + CyderStrings.colon + CyderStrings.space + dataId);
         }
+    }
+
+    private static final String ALL = "all";
+    private static final String ID = "ID";
+
+    // todo move to UserUtil?
+
+    /**
+     * Returns whether a getter for the user data with the provided ID should be ignored when logging.
+     *
+     * @param dataId the data is
+     * @return whether a getter for the user data with the provided ID should be ignored when logging
+     */
+    private boolean shouldIgnoreForLogging(String dataId) {
+        ImmutableList<String> ignoreDatas = Props.ignoreData.getValue().getList();
+        return ignoreDatas.contains(ALL) || StringUtil.in(dataId, true, ignoreDatas);
     }
 
     // -----------------------------

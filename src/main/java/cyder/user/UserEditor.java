@@ -1638,11 +1638,11 @@ public final class UserEditor {
                             PRINTED_PREF_COMPONENT_HEIGHT);
                     preferenceContentLabel.add(preferenceNameLabel);
 
-                    boolean selected = UserUtil.getUserDataById(userData.getID()).equalsIgnoreCase("1");
+                    boolean selected = UserUtil.getUserDataById(userData.getId()).equalsIgnoreCase("1");
                     CyderCheckbox checkbox = new CyderCheckbox(selected);
                     checkbox.setRefreshStateFunction(() -> {
                         boolean checked = UserUtil.getUserDataById(
-                                userData.getID()).equalsIgnoreCase("1");
+                                userData.getId()).equalsIgnoreCase("1");
                         checkbox.setChecked(checked);
                         checkbox.repaint();
                     });
@@ -1650,13 +1650,13 @@ public final class UserEditor {
                     checkbox.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            UserUtil.setUserDataById(userData.getID(), checkbox.isChecked() ? "1" : "0");
-                            UserData.invokeRefresh(userData.getID());
+                            UserUtil.setUserDataById(userData.getId(), checkbox.isChecked() ? "1" : "0");
+                            UserData.invokeRefresh(userData.getId());
                         }
                     });
                     checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
                             PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
-                    checkboxComponents.put(userData.getID(), checkbox);
+                    checkboxComponents.put(userData.getId(), checkbox);
                     preferenceContentLabel.add(checkbox);
 
                     printingUtil.printlnComponent(preferenceContentLabel);
@@ -2309,7 +2309,7 @@ public final class UserEditor {
     /**
      * Revalidates the preferences page if the user editor is open and on the preferences page.
      */
-    public static void revalidatePreferencesIfOpen() {
+    public static void revalidateCheckboxesIfOpen() {
         if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
             checkboxComponents.forEach((id, checkbox) -> checkbox.refreshState());
         }

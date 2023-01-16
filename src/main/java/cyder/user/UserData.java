@@ -68,20 +68,20 @@ public final class UserData<T> {
 
     // todo only booleans will be pulled for toggle switches unless they have ignore for toggle switches enabled
 
-    private static final UserData<String> username = new Builder<>(USERNAME, String.class)
+    public static final UserData<String> username = new Builder<>(USERNAME, String.class)
             .setDescription("The user's public username")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, USERNAME);
                 Console.INSTANCE.refreshConsoleSuperTitle();
             }).build();
 
-    private static final UserData<String> password = new Builder<>(PASSWORD, String.class)
+    public static final UserData<String> password = new Builder<>(PASSWORD, String.class)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PASSWORD);
                 // todo log out user
             }).build();
 
-    private static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
+    public static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
             .setDescription("The name of the font for the input and output fields")
             .setDefaultValue(CyderFonts.AGENCY_FB)
             .setOnChangeFunction(() -> {
@@ -89,7 +89,7 @@ public final class UserData<T> {
                 // todo refresh output and input fields.
             }).build();
 
-    private static final UserData<Color> foreground = new Builder<>(FOREGROUND_COLOR, Color.class)
+    public static final UserData<Color> foregroundColor = new Builder<>(FOREGROUND_COLOR, Color.class)
             .setDescription("The text color for the input and output fields")
             .setDefaultValue(CyderColors.navy)
             .setOnChangeFunction(() -> {
@@ -101,26 +101,34 @@ public final class UserData<T> {
                 Console.INSTANCE.getOutputScroll().setForeground(foregroundColor);
             }).build();
 
+    public static final UserData<Color> backgroundColor = new Builder<>(BACKGROUND_COLOR, Color.class)
+            .setDescription("The color for the output/input field borders and fills")
+            .setDefaultValue(Color.black)
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, BACKGROUND_COLOR);
+                Color backgroundColor = UserDataManager.INSTANCE.getBackgroundColor();
+                // todo refresh with backgroundColor
+            }).build();
+
+    public static final UserData<Boolean> introMusic = new Builder<>(INTRO_MUSIC, Boolean.class)
+            .setDescription("Whether to play intro music on user login").build();
+
+    public static final UserData<Boolean> debugStats = new Builder<>(DEBUG_STATS, Boolean.class)
+            .setDescription("Whether to show debug windows on initial console load").build();
+
     /**
      * The collection of {@link UserData} pieces.
      */
-    private static final ImmutableList<UserData<?>> datas = ImmutableList.of(
+    public static final ImmutableList<UserData<?>> datas = ImmutableList.of(
             username,
             password,
             fontName,
-            foreground
+            foregroundColor,
+            backgroundColor,
+            introMusic,
+            debugStats
     );
-    //            new UserData(BACKGROUND, IGNORE, EMPTY, "101010",
-    //                    () -> Logger.log(LogTag.USER_DATA, BACKGROUND))
-    //                    .setIgnoreForToggleSwitches(),
-    //
-    //            new UserData(INTRO_MUSIC, "Intro Music", "Play intro music on start",
-    //                    "0", () -> Logger.log(LogTag.USER_DATA, INTRO_MUSIC)),
-    //
-    //            new UserData(DEBUG_STATS, "Debug Windows",
-    //                    "Show debug menus on startup", "0",
-    //                    () -> Logger.log(LogTag.USER_DATA, DEBUG_WINDOWS)),
-    //
+
     //            new UserData(RANDOM_BACKGROUND, "Random Background",
     //                    "Choose a random background on startup", "0",
     //                    () -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND)),
@@ -327,74 +335,63 @@ public final class UserData<T> {
     //                        // todo change things that use opacity
     //                    })
 
-            /*
-                To add: create object in User.java with a getter/setter and add a new Preference here
-
-                Everything in userdata must be in this list in some way, perhaps this hints at
-                this class being called something different
-
-                Note: non primitive types such as ScreenStat need to be set by using the object reference
-                returned by the getter, UserUtil.getCyderUser().getScreenStat().setX(0);
-             */
-    //);
-
     /**
      * Returns the user data collection.
      *
-     * @return the preferences collection
+     * @return the user data collection
      */
     public static ImmutableList<UserData<?>> getUserDatas() {
         return datas;
     }
 
     /**
-     * Invokes the onChangeFunction() of the preference with the provided ID, if found.
+     * Invokes the refresh function of the user data with the provided ID, if found.
      *
-     * @param preferenceID the onChangeFunction() of the preference with the provided ID
+     * @param userDataId the id of the user data
      */
-    public static void invokeRefresh(String preferenceID) {
+    public static void invokeRefresh(String userDataId) {
         for (UserData<?> userData : datas) {
-            if (userData.getID().equals(preferenceID)) {
+            if (userData.getId().equals(userDataId)) {
                 Optional<Runnable> optionalRunnable = userData.getOnChangeRunnable();
                 optionalRunnable.ifPresent(Runnable::run);
 
-                onPreferenceRefresh();
+                onUserDataRefresh();
                 return;
             }
         }
 
-        throw new FatalException("Failed to invoke preference refresh, failed to find id: " + preferenceID);
+        throw new FatalException("Failed to invoke user data refresh, failed to find id: " + userDataId);
     }
 
     /**
-     * A hook to be ran after all preference on change function invocations.
+     * A hook to be ran after all user data on change function invocations.
      */
-    private static void onPreferenceRefresh() {
-        UserEditor.revalidatePreferencesIfOpen();
+    private static void onUserDataRefresh() {
+        UserEditor.revalidateCheckboxesIfOpen();
     }
 
     /**
-     * Returns the preference with the provided id.
+     * Returns the user data with the provided id.
      *
-     * @param preferenceID the provided id to get
-     * @return the preference with the provided id
-     * @throws IllegalArgumentException if a preference with the provided id cannot be found
+     * @param userDataId the provided id to get
+     * @return the user data with the provided id
+     * @throws IllegalArgumentException if a user data with the provided id cannot be found
      */
-    public static UserData<?> get(String preferenceID) {
-        Preconditions.checkNotNull(preferenceID);
-        Preconditions.checkArgument(!preferenceID.isEmpty());
+    public static UserData<?> get(String userDataId) {
+        Preconditions.checkNotNull(userDataId);
+        Preconditions.checkArgument(!userDataId.isEmpty());
 
         for (UserData<?> userData : datas) {
-            if (userData.getID().equals(preferenceID)) {
+            if (userData.getId().equals(userDataId)) {
                 return userData;
             }
         }
 
-        throw new IllegalArgumentException("Preference with id not found: " + preferenceID);
+        throw new IllegalArgumentException("User data with id not found: " + userDataId);
     }
 
     /**
-     * The id of the preference.
+     * The id of the user data.
      */
     private final String id;
 
@@ -404,7 +401,7 @@ public final class UserData<T> {
     private final Class<T> type;
 
     /**
-     * The name to display for the preference when allowing the user to make changes.
+     * The name to display for the user data when allowing the user to make changes.
      */
     private final String displayName;
 
@@ -414,17 +411,17 @@ public final class UserData<T> {
     private final String description;
 
     /**
-     * The default value for the preference.
+     * The default value for the user data.
      */
     private final T defaultValue;
 
     /**
-     * The method to run when a change of the preference occurs.
+     * The method to run when a change of the user data occurs.
      */
     private final Runnable onChangeFunction;
 
     /**
-     * Whether this preference should be ignored when creating the user preference toggle switches.
+     * Whether this user data should be ignored when creating the user data toggle switches.
      */
     private final boolean ignoreForToggleSwitches;
 
@@ -455,7 +452,7 @@ public final class UserData<T> {
      *
      * @return the id of the user data
      */
-    public String getID() {
+    public String getId() {
         return id;
     }
 

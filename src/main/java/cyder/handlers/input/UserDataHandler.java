@@ -56,9 +56,9 @@ public class UserDataHandler extends InputHandler {
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
         for (UserData<?> userdata : UserData.getUserDatas()) {
-            if (targetedUserData.equalsIgnoreCase(userdata.getID().trim())) {
+            if (targetedUserData.equalsIgnoreCase(userdata.getId().trim())) {
                 if (!userdata.getType().equals(Boolean.class)) { // todo test this
-                    boolean oldVal = UserUtil.getUserDataById(userdata.getID()).equals("1");
+                    boolean oldVal = UserUtil.getUserDataById(userdata.getId()).equals("1");
 
                     String newVal;
 
@@ -70,12 +70,12 @@ public class UserDataHandler extends InputHandler {
                         newVal = oldVal ? "0" : "1";
                     }
 
-                    UserUtil.setUserDataById(userdata.getID(), newVal);
+                    UserUtil.setUserDataById(userdata.getId(), newVal);
 
                     getInputHandler().println(userdata.getDisplayName()
                             + " set to " + (newVal.equals("1") ? "true" : "false"));
 
-                    UserData.invokeRefresh(userdata.getID());
+                    UserData.invokeRefresh(userdata.getId());
 
                     return true;
                 }
