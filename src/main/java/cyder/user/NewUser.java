@@ -10,7 +10,6 @@ import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.SerializationUtil;
 
-import java.awt.*;
 import java.io.File;
 
 /**
@@ -107,29 +106,6 @@ public final class NewUser {
      */
     public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
-    }
-
-    /**
-     * The font metric of the font used for the input and output fields.
-     */
-    private int fontMetric = Font.BOLD;
-
-    /**
-     * Returns the font metric of the font used for the input and output fields.
-     *
-     * @return the font metric of the font used for the input and output fields
-     */
-    public int getFontMetric() {
-        return fontMetric;
-    }
-
-    /**
-     * Sets the font metric of the font used for the input and output fields.
-     *
-     * @param fontMetric the font metric of the font used for the input and output fields
-     */
-    public void setFontMetric(int fontMetric) {
-        this.fontMetric = fontMetric;
     }
 
     /**
@@ -1109,7 +1085,6 @@ public final class NewUser {
                 + ", password=\"" + password + "\""
                 + ", fontName=\"" + fontName + "\""
                 + ", fontSize=" + fontSize
-                + ", fontMetric=" + fontMetric
                 + ", foregroundColorHexCode=\"" + foregroundColorHexCode + "\""
                 + ", backgroundColorHexCode=\"" + backgroundColorHexCode + "\""
                 + ", introMusic=" + introMusic

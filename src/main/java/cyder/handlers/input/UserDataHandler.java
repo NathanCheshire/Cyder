@@ -8,8 +8,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.UserData;
+import cyder.user.UserDataManager;
 import cyder.user.UserEditor;
-import cyder.user.UserUtil;
+
+import java.util.Optional;
 
 /**
  * A handler for switching/toggling user data.
@@ -58,23 +60,24 @@ public class UserDataHandler extends InputHandler {
         for (UserData<?> userdata : UserData.getUserDatas()) {
             if (targetedUserData.equalsIgnoreCase(userdata.getId().trim())) {
                 if (!userdata.getType().equals(Boolean.class)) { // todo test this
-                    boolean oldVal = UserUtil.getUserDataById(userdata.getId()).equals("1");
+                    Optional<Boolean> optionalOldValue =
+                            UserDataManager.INSTANCE.getUserDataById(userdata.getId(), Boolean.class);
+                    if (optionalOldValue.isEmpty()) return false;
 
-                    String newVal;
+                    boolean oldValue = optionalOldValue.get();
+
+                    boolean newValue;
 
                     if (StringUtil.in(parsedArgs, true, "true", "1")) {
-                        newVal = "1";
+                        newValue = true;
                     } else if (StringUtil.in(parsedArgs, true, "false", "0")) {
-                        newVal = "0";
+                        newValue = false;
                     } else {
-                        newVal = oldVal ? "0" : "1";
+                        newValue = !oldValue;
                     }
 
-                    UserUtil.setUserDataById(userdata.getId(), newVal);
-
-                    getInputHandler().println(userdata.getDisplayName()
-                            + " set to " + (newVal.equals("1") ? "true" : "false"));
-
+                    UserDataManager.INSTANCE.setUserDataById(userdata.getId(), newValue);
+                    getInputHandler().println(userdata.getDisplayName() + " set to " + newValue);
                     UserData.invokeRefresh(userdata.getId());
 
                     return true;

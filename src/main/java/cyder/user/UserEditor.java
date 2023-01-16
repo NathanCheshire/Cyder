@@ -1158,7 +1158,7 @@ public final class UserEditor {
         fontAndColorPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
 
         fontLabel = new CyderLabel("Fonts");
-        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, fontLabelFontSize));
+        fontLabel.setFont(new Font(UserDataManager.INSTANCE.getFontName(), Font.BOLD, fontLabelFontSize));
         fontLabel.setSize(FONT_SCROLL_WIDTH, 60);
 
         CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
@@ -1204,26 +1204,26 @@ public final class UserEditor {
         foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
         foregroundField.setHexColorRegexMatcher();
-        foregroundField.setText(UserUtil.getCyderUser().getForeground());
+        foregroundField.setText(UserDataManager.INSTANCE.getForegroundHexCode());
         foregroundField.setFont(CyderFonts.SEGOE_30);
         foregroundField.setToolTipText("Console input/output text color");
         foregroundField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
                 foregroundColorBlock.setBackground(foregroundColor);
-                UserUtil.getCyderUser().setForeground(foregroundField.getText());
+                UserDataManager.INSTANCE.setForegroundColor(ColorUtil.hexStringToColor(foregroundField.getText()));
                 Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
                 Console.INSTANCE.getInputField().setForeground(foregroundColor);
                 Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
                 Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-                UserData.invokeRefresh(UserData.FOREGROUND);
+                UserData.invokeRefresh(UserData.FOREGROUND_COLOR);
             } catch (Exception ignored) {}
         }));
         foregroundField.setSize(160, 40);
         foregroundField.setOpaque(false);
 
-        foregroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()),
+        foregroundColorBlock = generateColorBlock(UserDataManager.INSTANCE.getForegroundColor(),
                 "Foreground color preview");
 
         CyderLabel windowColorLabel = new CyderLabel("Window Color");
@@ -1233,23 +1233,22 @@ public final class UserEditor {
         windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
         windowField.setHexColorRegexMatcher();
-        windowField.setText(UserUtil.getCyderUser().getWindowColor());
+        windowField.setText(UserDataManager.INSTANCE.getFrameColorHexCode());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
         windowField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
                 windowColorBlock.setBackground(requestedWindowColor);
-                UserUtil.getCyderUser().setWindowColor(windowField.getText());
+                UserDataManager.INSTANCE.setFrameColor(requestedWindowColor);
                 CyderColors.setGuiThemeColor(requestedWindowColor);
-                UserData.invokeRefresh(UserData.WINDOW_COLOR);
+                UserData.invokeRefresh(UserData.FRAME_COLOR);
             } catch (Exception ignored) {}
         }));
         windowField.setOpaque(false);
         windowField.setSize(160, 40);
 
-        windowColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowColor()),
-                "Window color preview");
+        windowColorBlock = generateColorBlock(UserDataManager.INSTANCE.getFrameColor(), "Window color preview");
 
         CyderLabel backgroundColorLabel = new CyderLabel("Background Color");
         backgroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
@@ -1258,7 +1257,7 @@ public final class UserEditor {
         backgroundField = new CyderTextField(6);
         backgroundField.setHorizontalAlignment(JTextField.CENTER);
         backgroundField.setHexColorRegexMatcher();
-        backgroundField.setText(UserUtil.getCyderUser().getBackground());
+        backgroundField.setText(UserDataManager.INSTANCE.getBackgroundHexCode());
         backgroundField.setFont(CyderFonts.SEGOE_30);
         backgroundField.setToolTipText("Input field and output area fill color if enabled");
         backgroundField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
@@ -1266,12 +1265,12 @@ public final class UserEditor {
                 String backgroundColorString = backgroundField.getText();
                 Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
                 backgroundColorBlock.setBackground(backgroundColor);
-                UserUtil.getCyderUser().setBackground(backgroundColorString);
+                UserDataManager.INSTANCE.setBackgroundColor(backgroundColor);
 
-                boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
-                boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
-                boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
-                boolean inputBorder = UserUtil.getCyderUser().getInputBorder().equals("1");
+                boolean outputFill = UserDataManager.INSTANCE.shouldDrawOutputFill();
+                boolean inputFill = UserDataManager.INSTANCE.shouldDrawInputFill();
+                boolean outputBorder = UserDataManager.INSTANCE.shouldDrawOutputBorder();
+                boolean inputBorder = UserDataManager.INSTANCE.shouldDrawInputBorder();
 
                 if (outputFill) {
                     Console.INSTANCE.getOutputArea().setOpaque(true);
@@ -1302,8 +1301,8 @@ public final class UserEditor {
         backgroundField.setOpaque(false);
         backgroundField.setSize(160, 40);
 
-        backgroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(
-                UserUtil.getCyderUser().getBackground()), "Background color preview");
+        backgroundColorBlock = generateColorBlock(UserDataManager.INSTANCE.getBackgroundColor(),
+                "Background color preview");
 
         CyderGridLayout colorGridLayout = new CyderGridLayout(1, 3);
         CyderPartitionedLayout foregroundPartitionedLayout = new CyderPartitionedLayout();
@@ -1427,7 +1426,7 @@ public final class UserEditor {
 
             if (currentPage == Page.FONT_AND_COLOR) {
                 CyderScrollList scrollList = fontScrollReference.get();
-                scrollList.selectElement(UserUtil.getCyderUser().getFont());
+                scrollList.selectElement(UserDataManager.INSTANCE.getFontName());
                 JLabel fontLabel = scrollList.generateScrollList();
                 fontLabel.setSize(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT);
                 fontPartitionedLayout.setComponent(fontLabel, 2);
@@ -1446,14 +1445,14 @@ public final class UserEditor {
         String selectedFont = reference.getSelectedElements().get(0);
 
         if (selectedFont != null) {
-            UserUtil.getCyderUser().setFont(selectedFont);
+            UserDataManager.INSTANCE.setFontName(selectedFont);
 
             int requestedFontMetric = FontUtil.getFontMetricFromProps();
             if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
                 requestedFontMetric = Font.BOLD;
             }
 
-            int requestedFontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
+            int requestedFontSize = UserDataManager.INSTANCE.getFontSize();
 
             Font applyFont = new Font(selectedFont, requestedFontMetric, requestedFontSize);
             Console.INSTANCE.getOutputArea().setFont(applyFont);
@@ -1502,33 +1501,34 @@ public final class UserEditor {
         }
         UserData.invokeRefresh(UserData.FONT_NAME);
 
-        UserUtil.getCyderUser().setBackground(defaultBackground);
+        UserDataManager.INSTANCE.setBackgroundColor(defaultBackgroundColor);
         backgroundColorBlock.setBackground(defaultBackgroundColor);
         backgroundField.setText(defaultBackground);
 
-        boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
-        boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
-        if (outputFill) {
+        if (UserDataManager.INSTANCE.shouldDrawOutputFill()) {
             Console.INSTANCE.getOutputArea().setOpaque(true);
             Console.INSTANCE.getOutputArea().setBackground(defaultBackgroundColor);
             Console.INSTANCE.getOutputArea().repaint();
             Console.INSTANCE.getOutputArea().revalidate();
         }
-        if (inputFill) {
+        if (UserDataManager.INSTANCE.shouldDrawInputFill()) {
             Console.INSTANCE.getInputField().setOpaque(true);
             Console.INSTANCE.getInputField().setBackground(defaultBackgroundColor);
             Console.INSTANCE.getInputField().repaint();
             Console.INSTANCE.getInputField().revalidate();
         }
-        UserData.invokeRefresh(UserData.BACKGROUND);
 
-        UserUtil.getCyderUser().setWindowColor(defaultWindow);
+        UserData.invokeRefresh(UserData.BACKGROUND_COLOR);
+
+        UserDataManager.INSTANCE.setFrameColor(defaultWindowColor);
         windowColorBlock.setBackground(defaultWindowColor);
         windowField.setText(defaultWindow);
         windowColorBlock.setBackground((defaultWindowColor));
         CyderColors.setGuiThemeColor((defaultWindowColor));
-        UserData.invokeRefresh(UserData.WINDOW_COLOR);
-        UserData.invokeRefresh(UserData.WINDOW_COLOR);
+
+        // Double call on purpose
+        UserData.invokeRefresh(UserData.FRAME_COLOR);
+        UserData.invokeRefresh(UserData.FRAME_COLOR);
 
         editUserFrame.notify("Default fonts and colors reset");
     };
@@ -1631,7 +1631,7 @@ public final class UserEditor {
                     JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
                     preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
 
-                    CyderLabel preferenceNameLabel = new CyderLabel(userData.getDisplayName());
+                    CyderLabel preferenceNameLabel = new CyderLabel(userData.getDisplayName().orElse(""));
                     preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
                     preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
                             PRINTED_PREF_COMPONENT_WIDTH / 2,
@@ -1646,7 +1646,7 @@ public final class UserEditor {
                         checkbox.setChecked(checked);
                         checkbox.repaint();
                     });
-                    checkbox.setToolTipText(userData.getTooltip());
+                    checkbox.setToolTipText(userData.getDescription().orElse(""));
                     checkbox.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -1764,16 +1764,16 @@ public final class UserEditor {
         newUsernameField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         newUsernameField.addActionListener(e -> {
             attemptChangeUsername(newUsernameField.getTrimmedText());
-            newUsernameField.setText(UserUtil.getCyderUser().getName());
+            newUsernameField.setText(UserDataManager.INSTANCE.getUsername());
         });
-        newUsernameField.setText(UserUtil.getCyderUser().getName());
+        newUsernameField.setText(UserDataManager.INSTANCE.getUsername());
 
         CyderButton changeUsernameButton = new CyderButton("Change username");
         changeUsernameButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeUsernameButton.setToolTipText("Change username");
         changeUsernameButton.addActionListener(e -> {
             attemptChangeUsername(newUsernameField.getTrimmedText());
-            newUsernameField.setText(UserUtil.getCyderUser().getName());
+            newUsernameField.setText(UserDataManager.INSTANCE.getUsername());
         });
 
         CyderGridLayout changeUsernameLayout = new CyderGridLayout(1, 3);
@@ -1844,16 +1844,16 @@ public final class UserEditor {
         changeConsoleDatePatternField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeConsoleDatePatternField.addActionListener(e -> {
             setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
-            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
+            changeConsoleDatePatternField.setText(UserDataManager.INSTANCE.getConsoleClockFormat());
         });
-        changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
+        changeConsoleDatePatternField.setText(UserDataManager.INSTANCE.getConsoleClockFormat());
 
         CyderButton changeConsoleDaterPatternButton = new CyderButton("Change date pattern");
         changeConsoleDaterPatternButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeConsoleDaterPatternButton.setToolTipText("Change console date pattern");
         changeConsoleDaterPatternButton.addActionListener(e -> {
             setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
-            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
+            changeConsoleDatePatternField.setText(UserDataManager.INSTANCE.getConsoleClockFormat());
         });
 
         CyderGridLayout changeConsoleDaterPatternLayout = new CyderGridLayout(1, 3);
@@ -2032,7 +2032,7 @@ public final class UserEditor {
         String doublyHashedPassword = SecurityUtil.toHexString(SecurityUtil.getSha256(
                 SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray()));
 
-        if (!doublyHashedPassword.equals(UserUtil.getCyderUser().getPass())) {
+        if (!doublyHashedPassword.equals(UserDataManager.INSTANCE.getPassword())) {
             editUserFrame.notify("Invalid password; user not deleted");
             return;
         }
@@ -2072,8 +2072,9 @@ public final class UserEditor {
         InputValidation passwordValid = UserUtil.validatePassword(newPassword, newPasswordConf);
 
         if (passwordValid == InputValidation.VALID) {
-            UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
-                    SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
+            String doubleHash = SecurityUtil.toHexString(SecurityUtil.getSha256(
+                    SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray()));
+            UserDataManager.INSTANCE.setPassword(doubleHash);
             editUserFrame.notify("Password successfully changed");
         } else {
             editUserFrame.notify(passwordValid.getMessage());
@@ -2094,7 +2095,7 @@ public final class UserEditor {
         InputValidation validUsername = UserUtil.validateUsername(newUsername);
 
         if (validUsername == InputValidation.VALID) {
-            UserUtil.getCyderUser().setName(newUsername);
+            UserDataManager.INSTANCE.setUsername(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + CyderStrings.quote);
             Console.INSTANCE.refreshConsoleSuperTitle();
         } else {
@@ -2112,8 +2113,8 @@ public final class UserEditor {
         Preconditions.checkArgument(!consoleDatePattern.isEmpty());
         Preconditions.checkArgument(validateDatePattern(consoleDatePattern));
 
-        UserUtil.getCyderUser().setConsoleClockFormat(consoleDatePattern);
-        Console.INSTANCE.refreshClockText();
+        UserDataManager.INSTANCE.setConsoleClockFormat(consoleDatePattern);
+        UserData.consoleClock.getOnChangeRunnable().ifPresent(Runnable::run);
     }
 
     /**
@@ -2146,7 +2147,7 @@ public final class UserEditor {
     private static void showCurrentMaps() {
         StringBuilder informationBuilder = new StringBuilder();
 
-        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
 
         exes.forEach(exe -> informationBuilder.append(CyderStrings.quote)
                 .append(exe.getName())
@@ -2157,10 +2158,10 @@ public final class UserEditor {
                 .append(CyderStrings.quote)
                 .append(HtmlTags.breakTag));
 
-        String username = UserUtil.getCyderUser().getName();
+        String username = UserDataManager.INSTANCE.getUsername();
         String mapsString = informationBuilder.toString();
         editUserFrame.inform(mapsString.isEmpty()
-                ? "No maps found for " + UserUtil.getCyderUser().getName()
+                ? "No maps found for " + username
                 : mapsString, username + StringUtil.getApostropheSuffix(username) + CyderStrings.space + MAPS);
     }
 
@@ -2185,25 +2186,19 @@ public final class UserEditor {
             return;
         }
 
-        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-        boolean exists = false;
+        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
 
-        for (MappedExecutable exe : exes) {
-            if (exe.getName().equalsIgnoreCase(name)) {
-                exists = true;
-                break;
-            }
-        }
-
-        if (exists) {
-            editUserFrame.notify("Map name already exists");
+        if (exes.stream().anyMatch(exe -> exe.getName().equals(name))) {
+            editUserFrame.notify("Map name already in use");
             return;
         }
 
-        MappedExecutable addExe = new MappedExecutable(name, link);
-        LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
-        newExes.add(addExe);
-        UserUtil.getCyderUser().setExecutables(newExes);
+        ImmutableList<MappedExecutable> oldExes = UserDataManager.INSTANCE.getMappedExecutables();
+        ImmutableList<MappedExecutable> newExes = new ImmutableList.Builder<MappedExecutable>()
+                .addAll(oldExes)
+                .add(new MappedExecutable(name, link))
+                .build();
+        UserDataManager.INSTANCE.setMappedExecutables(newExes);
 
         editUserFrame.notify("Successfully added map "
                 + CyderStrings.quote + name + CyderStrings.quote + " linking to: "
@@ -2220,25 +2215,23 @@ public final class UserEditor {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-        boolean found = false;
+        ImmutableList<MappedExecutable> oldExes = UserDataManager.INSTANCE.getMappedExecutables();
 
-        for (MappedExecutable exe : exes) {
+        for (MappedExecutable exe : oldExes) {
             if (exe.getName().equalsIgnoreCase(name)) {
-                found = true;
-                exes.remove(exe);
-                break;
+                ImmutableList<MappedExecutable> newExes = new ImmutableList.Builder<MappedExecutable>()
+                        .addAll(oldExes).build();
+                // todo remove
+                UserDataManager.INSTANCE.setMappedExecutables(newExes);
+                editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
+                Console.INSTANCE.revalidateConsoleTaskbarMenu();
+                return;
             }
         }
 
-        if (!found) {
-            editUserFrame.notify("Could not locate map with specified name");
-            return;
-        }
+        editUserFrame.notify("Could not locate map with specified name");
 
-        UserUtil.getCyderUser().setExecutables(exes);
-        editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
-        Console.INSTANCE.revalidateConsoleTaskbarMenu();
+
     }
 
     /**

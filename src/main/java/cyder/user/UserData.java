@@ -324,16 +324,6 @@ public final class UserData<T> {
                 CyderScrollList.refreshAllLists();
             }).build();
 
-    // todo isn't this a prop?
-    public static final UserData<Integer> fontMetric = new Builder<>(FONT_METRIC, Integer.class)
-            .setDescription("The font metric for the input and output fields")
-            .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, FONT_METRIC);
-
-                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
-                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-            }).build();
-
     public static final UserData<Boolean> wrapShell = new Builder<>(WRAP_SHELL, Boolean.class)
             .setDescription("Whether unrecognized user commands should be pased to the native shell")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)).build();
@@ -417,7 +407,6 @@ public final class UserData<T> {
             shouldPersistNotifications,
             shouldDoAnimations,
             compactText,
-            fontMetric,
             wrapShell,
             drawWeatherMap,
             paintClocklabels,

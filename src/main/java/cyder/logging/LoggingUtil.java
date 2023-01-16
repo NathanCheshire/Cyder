@@ -449,7 +449,7 @@ public final class LoggingUtil {
      * @param string the string to surround with brackets
      * @return the string with brackets surrounding it
      */
-    private static String surroundWithBrackets(String string) {
+    public static String surroundWithBrackets(String string) {
         Preconditions.checkNotNull(string);
 
         return CyderStrings.openingBracket + string + CyderStrings.closingBracket;

@@ -58,6 +58,9 @@ public final class UserUtil {
      */
     private static final String SET = "set";
 
+    /**
+     * The method prefix to locate accessor methods reflectively.
+     */
     private static final String GET = "get";
 
     /**
@@ -133,65 +136,6 @@ public final class UserUtil {
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         return SerializationUtil.fromJson(file, NewUser.class);
-    }
-
-    /**
-     * Sets
-     *
-     * @param name  the name of the data to set
-     * @param value the new value
-     */
-    public static void setUserDataById(String name, String value) {
-        Preconditions.checkNotNull(name);
-        Preconditions.checkNotNull(value);
-        Preconditions.checkArgument(!name.isEmpty());
-        Preconditions.checkArgument(!value.isEmpty());
-
-        try {
-            for (Method m : cyderUser.getClass().getMethods()) {
-                if (m.getName().startsWith(SET)
-                        && m.getParameterTypes().length == 1
-                        && m.getName().replace(SET, "").equalsIgnoreCase(name)) {
-                    m.invoke(cyderUser, value);
-                    saveCurrentUserToFile();
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Returns
-     *
-     * @param id the ID of the data we want to obtain
-     * @return the resulting data
-     */
-    public static String getUserDataById(String id) {
-        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(id));
-
-        boolean shouldIgnore = StringUtil.in(id, true, Props.ignoreData.getValue().getList());
-
-        if (!shouldIgnore) {
-            Logger.log(LogTag.SYSTEM_IO, "Userdata requested via reflection: " + id);
-        }
-
-        try {
-            for (Method m : cyderUser.getClass().getMethods()) {
-                if (m.getName().startsWith("get")
-                        && m.getParameterTypes().length == 0
-                        && m.getName().toLowerCase().contains(id.toLowerCase())) {
-                    Object r = m.invoke(cyderUser);
-                    ret = (String) r;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
     }
 
     /**
@@ -623,5 +567,21 @@ public final class UserUtil {
         }
 
         return false;
+    }
+
+    /**
+     * The all string to indicate all user data should be ignored when logging.
+     */
+    private static final String ALL = "all";
+
+    /**
+     * Returns whether a getter for the user data with the provided ID should be ignored when logging.
+     *
+     * @param dataId the data is
+     * @return whether a getter for the user data with the provided ID should be ignored when logging
+     */
+    public static boolean shouldIgnoreForLogging(String dataId) {
+        ImmutableList<String> ignoreDatas = Props.ignoreData.getValue().getList();
+        return ignoreDatas.contains(ALL) || StringUtil.in(dataId, true, ignoreDatas);
     }
 }

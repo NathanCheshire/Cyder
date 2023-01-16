@@ -2,20 +2,20 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.logging.LoggingUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
-import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
-import cyder.utils.FontUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.youtube.YouTubeConstants;
@@ -25,7 +25,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * A managed for the current {@link NewUser}.
@@ -37,6 +39,11 @@ public enum UserDataManager {
      * The user data manager instance.
      */
     INSTANCE;
+
+    /**
+     * The tag for json writes.
+     */
+    private static final String jsonTag = LoggingUtil.surroundWithBrackets("JSON Write");
 
     /**
      * The current user object this manager is being a proxy for.
@@ -51,12 +58,12 @@ public enum UserDataManager {
     /**
      * The current levenshtein distance between the last and current write to the user json file.
      */
-    private static int currentLevenshteinDistance;
+    private int currentLevenshteinDistance;
 
     /**
      * The last result of serializing {@link #user} before writing to {@link #userFile}
      */
-    private static String lastSerializedUser = "";
+    private String lastSerializedUser = "";
 
     /**
      * Sets the current Cyder user to the user with the provided uuid.
@@ -98,7 +105,7 @@ public enum UserDataManager {
             SerializationUtil.toJson(user, userFile);
 
             if (currentLevenshteinDistance > 0) {
-                String representation = "[JSON WRITE" + CyderStrings.space + CyderStrings.openingBracket
+                String representation = jsonTag + CyderStrings.space + CyderStrings.openingBracket
                         + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
                         + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
                         + getUsername() + CyderStrings.quote + CyderStrings.space
@@ -182,25 +189,52 @@ public enum UserDataManager {
         Preconditions.checkNotNull(dataId);
         Preconditions.checkArgument(!dataId.isEmpty());
 
-        if (shouldIgnoreForLogging(dataId)) {
-            Logger.log(LogTag.USER_GET, ID + CyderStrings.colon + CyderStrings.space + dataId);
+        if (UserUtil.shouldIgnoreForLogging(dataId)) {
+            Logger.log(LogTag.USER_GET, "ID" + CyderStrings.colon + CyderStrings.space + dataId);
         }
     }
 
-    private static final String ALL = "all";
-    private static final String ID = "ID";
+    /**
+     * Sets the user data with the provided id to the value if a setter method can be found.
+     *
+     * @param id    the id of the data such as "username"
+     * @param value the value to set the data piece to
+     * @param <T>   the type of the value
+     * @return whether the mutator succeeded
+     */
+    @CanIgnoreReturnValue
+    public <T> boolean setUserDataById(String id, T value) {
+        Optional<Method> methodOptional = UserUtil.getSetterMethodForDataWithName(id, user);
 
-    // todo move to UserUtil?
+        if (methodOptional.isPresent()) {
+            try {
+                methodOptional.get().invoke(user, value);
+                return true;
+            } catch (Exception ignored) {}
+        }
+
+        return false;
+    }
 
     /**
-     * Returns whether a getter for the user data with the provided ID should be ignored when logging.
+     * Returns the user data with the provided is if found. Empty optional else.
      *
-     * @param dataId the data is
-     * @return whether a getter for the user data with the provided ID should be ignored when logging
+     * @param id   the id of the user data
+     * @param type the type to cast the return value to
+     * @param <T>  the type
+     * @return the result of invoking the accessor method if found. Empty optional else
      */
-    private boolean shouldIgnoreForLogging(String dataId) {
-        ImmutableList<String> ignoreDatas = Props.ignoreData.getValue().getList();
-        return ignoreDatas.contains(ALL) || StringUtil.in(dataId, true, ignoreDatas);
+    public <T> Optional<T> getUserDataById(String id, Class<T> type) {
+        Optional<Method> methodOptional = UserUtil.getGetterMethodForDataWithName(id, user);
+
+        if (methodOptional.isPresent()) {
+            try {
+                Object result = methodOptional.get().invoke(user);
+                return Optional.of(type.cast(result));
+            } catch (Exception ignored) {}
+        }
+
+        return Optional.empty();
     }
 
     // -----------------------------
@@ -306,29 +340,6 @@ public enum UserDataManager {
     }
 
     /**
-     * Returns the user's font metric.
-     *
-     * @return the user's font metric
-     */
-    public synchronized int getFontMetric() {
-        Preconditions.checkState(isInitialized());
-
-        getterInvoked(UserData.FONT_METRIC);
-        return user.getFontMetric();
-    }
-
-    /**
-     * Sets the user's font metric.
-     *
-     * @param fontMetric the user's font metric
-     */
-    public synchronized void setFontMetric(int fontMetric) {
-        Preconditions.checkArgument(FontUtil.isValidFontMetric(fontMetric));
-
-        user.setFontMetric(fontMetric);
-    }
-
-    /**
      * Returns the user's foreground color.
      *
      * @return the user's foreground color
@@ -338,6 +349,18 @@ public enum UserDataManager {
 
         getterInvoked(UserData.FOREGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getForegroundColorHexCode());
+    }
+
+    /**
+     * Returns the hex code for the user's foreground color.
+     *
+     * @return the hex code for the user's foreground color
+     */
+    public synchronized String getForegroundHexCode() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked(UserData.FOREGROUND_COLOR);
+        return user.getForegroundColorHexCode();
     }
 
     /**
@@ -361,6 +384,18 @@ public enum UserDataManager {
 
         getterInvoked(UserData.BACKGROUND_COLOR);
         return ColorUtil.hexStringToColor(user.getBackgroundColorHexCode());
+    }
+
+    /**
+     * Returns the user's background color hex code.
+     *
+     * @return the user's background color hex code
+     */
+    public synchronized String getBackgroundHexCode() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked(UserData.BACKGROUND_COLOR);
+        return user.getBackgroundColorHexCode();
     }
 
     /**
@@ -762,6 +797,18 @@ public enum UserDataManager {
 
         getterInvoked(UserData.FRAME_COLOR);
         return ColorUtil.hexStringToColor(user.getFrameColorHexCode());
+    }
+
+    /**
+     * Returns the hex code for teh frame color.
+     *
+     * @return the hex code for teh frame color
+     */
+    public synchronized String getFrameColorHexCode() {
+        Preconditions.checkState(isInitialized());
+
+        getterInvoked(UserData.FRAME_COLOR);
+        return user.getFrameColorHexCode();
     }
 
     /**
