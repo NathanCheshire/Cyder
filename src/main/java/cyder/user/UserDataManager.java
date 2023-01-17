@@ -452,7 +452,7 @@ public enum UserDataManager {
      * @return whether a random background should be chosen on start for the console
      */
     public synchronized boolean shouldChooseRandomBackground() {
-        getterInvoked(UserData.RANDOM_BACKGROUND);
+        getterInvoked(UserData.RANDOM_BACKGROUND_ON_START);
         return user.shouldChooseRandomBackgroundOnStart();
     }
 
@@ -472,7 +472,7 @@ public enum UserDataManager {
      * @return whether a border should be drawn around the input field
      */
     public synchronized boolean shouldDrawInputBorder() {
-        getterInvoked(UserData.INPUT_BORDER);
+        getterInvoked(UserData.DRAW_INPUT_BORDER);
         return user.shouldDrawInputBorder();
     }
 
@@ -492,7 +492,7 @@ public enum UserDataManager {
      * @return whether a border should be drawn around the output area
      */
     public synchronized boolean shouldDrawOutputBorder() {
-        getterInvoked(UserData.OUTPUT_BORDER);
+        getterInvoked(UserData.DRAW_OUTPUT_BORDER);
         return user.shouldDrawOutputBorder();
     }
 
@@ -512,7 +512,7 @@ public enum UserDataManager {
      * @return whether hourly chimes should be played
      */
     public synchronized boolean shouldPlayHourlyChimes() {
-        getterInvoked(UserData.HOURLY_CHIMES);
+        getterInvoked(UserData.PLAY_HOURLY_CHIMES);
         return user.shouldPlayHourlyChimes();
     }
 
@@ -572,7 +572,7 @@ public enum UserDataManager {
      * @return whether the output area should be filled
      */
     public synchronized boolean shouldDrawOutputFill() {
-        getterInvoked(UserData.OUTPUT_FILL);
+        getterInvoked(UserData.DRAW_OUTPUT_FILL);
         return user.shouldDrawOutputFill();
     }
 
@@ -592,7 +592,7 @@ public enum UserDataManager {
      * @return whether the input field should be filled
      */
     public synchronized boolean shouldDrawInputFill() {
-        getterInvoked(UserData.INPUT_FILL);
+        getterInvoked(UserData.DRAW_INPUT_FILL);
         return user.shouldDrawInputFill();
     }
 
@@ -612,7 +612,7 @@ public enum UserDataManager {
      * @return whether the console clock should be drawn
      */
     public synchronized boolean shouldDrawConsoleClock() {
-        getterInvoked(UserData.CONSOLE_CLOCK);
+        getterInvoked(UserData.DRAW_CONSOLE_CLOCK);
         return user.shouldDrawConsoleClock();
     }
 
@@ -632,7 +632,7 @@ public enum UserDataManager {
      * @return whether seconds should be shown on the console clock
      */
     public synchronized boolean shouldShowConsoleClockSeconds() {
-        getterInvoked(UserData.CONSOLE_CLOCK_SECONDS);
+        getterInvoked(UserData.SHOW_CONSOLE_CLOCK_SECONDS);
         return user.shouldShowConsoleClockSeconds();
     }
 
@@ -732,7 +732,7 @@ public enum UserDataManager {
      * @return whether the busy animation should be shown
      */
     public synchronized boolean shouldShowBusyAnimation() {
-        getterInvoked(UserData.BUSY_ANIMATION);
+        getterInvoked(UserData.SHOW_BUSY_ANIMATION);
         return user.showShowBusyAnimation();
     }
 
@@ -804,7 +804,7 @@ public enum UserDataManager {
      * @return the console clock format
      */
     public synchronized String getConsoleClockFormat() {
-        getterInvoked(UserData.CLOCK_FORMAT);
+        getterInvoked(UserData.CONSOLE_CLOCK_FORMAT);
         return user.getConsoleClockFormat();
     }
 
@@ -828,7 +828,7 @@ public enum UserDataManager {
      * @return whether a typing sound should be played when the typing animation is on-going
      */
     public synchronized boolean shouldPlayTypingSound() {
-        getterInvoked(UserData.TYPING_SOUND);
+        getterInvoked(UserData.PLAY_TYPING_SOUND);
         return user.shouldPlayTypingSound();
     }
 
@@ -912,7 +912,7 @@ public enum UserDataManager {
      * @return whether the audio total length should be shown instead of the remaining time for the audio player
      */
     public synchronized boolean shouldShowAudioTotalLength() {
-        getterInvoked(UserData.AUDIO_TOTAL_LENGTH);
+        getterInvoked(UserData.SHOW_AUDIO_TOTAL_LENGTH);
         return user.shouldShowAudioTotalLength();
     }
 
@@ -953,7 +953,7 @@ public enum UserDataManager {
      * @return whether certain animations should be performed
      */
     public synchronized boolean shouldDoAnimations() {
-        getterInvoked(UserData.SHOULD_DO_ANIMATIONS);
+        getterInvoked(UserData.DO_ANIMATIONS);
         return user.shouldDoAnimations();
     }
 
@@ -993,7 +993,7 @@ public enum UserDataManager {
      * @return whether unknown user commands should be passed to the native shell
      */
     public synchronized boolean shouldWrapShell() {
-        getterInvoked(UserData.WRAP_SHELL);
+        getterInvoked(UserData.WRAP_NATIVE_SHELL);
         return user.shouldWrapNativeShell();
     }
 
@@ -1033,7 +1033,7 @@ public enum UserDataManager {
      * @return whether the hour labels should be painted for the clock widget
      */
     public synchronized boolean shouldPaintClockHourLabels() {
-        getterInvoked(UserData.PAINT_CLOCK_LABELS);
+        getterInvoked(UserData.PAINT_CLOCK_WIDGET_HOUR_LABELS);
         return user.shouldPaintClockWidgetHourLabels();
     }
 
@@ -1053,7 +1053,7 @@ public enum UserDataManager {
      * @return whether the second hand should be shown on the clock widget
      */
     public synchronized boolean shouldShowClockWidgetSecondHand() {
-        getterInvoked(UserData.CLOCK_WIDGET_SECOND_HAND);
+        getterInvoked(UserData.SHOW_CLOCK_WIDGET_SECOND_HAND);
         return user.shouldShowClockWidgetSecondHand();
     }
 

@@ -594,7 +594,7 @@ public final class User {
     /**
      * The console clock date pattern format.
      */
-    private String consoleClockFormat;
+    private String consoleClockFormat = "EEEEEEEEE h:mm:ssaa";
 
     /**
      * Returns the console clock date pattern format.

@@ -2114,7 +2114,7 @@ public final class UserEditor {
         Preconditions.checkArgument(validateDatePattern(consoleDatePattern));
 
         UserDataManager.INSTANCE.setConsoleClockFormat(consoleDatePattern);
-        UserData.consoleClock.getOnChangeRunnable().ifPresent(Runnable::run);
+        UserData.drawConsoleClock.getOnChangeRunnable().ifPresent(Runnable::run);
     }
 
     /**

@@ -30,49 +30,49 @@ public final class UserData<T> {
      */
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
-    public static final String FONT_NAME = "font_name";
-    public static final String FONT_SIZE = "font_size";
-    public static final String FOREGROUND_COLOR = "foreground_color";
-    public static final String BACKGROUND_COLOR = "background_color";
-    public static final String INTRO_MUSIC = "intro_music";
-    public static final String DEBUG_STATS = "debug_stats";
-    public static final String RANDOM_BACKGROUND = "random_background";
-    public static final String INPUT_BORDER = "input_border";
-    public static final String OUTPUT_BORDER = "output_border";
-    public static final String HOURLY_CHIMES = "hourly_chimes";
-    public static final String SILENCE_ERRORS = "silence_errors";
+    public static final String FONT_NAME = "fontName";
+    public static final String FONT_SIZE = "fontSize";
+    public static final String FOREGROUND_COLOR = "foregroundColor";
+    public static final String BACKGROUND_COLOR = "backgroundColor";
+    public static final String INTRO_MUSIC = "introMusic";
+    public static final String DEBUG_STATS = "debugStats";
+    public static final String RANDOM_BACKGROUND_ON_START = "randomBackgroundOnStart";
+    public static final String DRAW_INPUT_BORDER = "drawInputBorder";
+    public static final String DRAW_OUTPUT_BORDER = "drawOutputBorder";
+    public static final String PLAY_HOURLY_CHIMES = "playHourlyChimes";
+    public static final String SILENCE_ERRORS = "silenceErrors";
     public static final String FULLSCREEN = "fullscreen";
-    public static final String OUTPUT_FILL = "output_fill";
-    public static final String INPUT_FILL = "input_fill";
-    public static final String CONSOLE_CLOCK = "console_clock";
-    public static final String CONSOLE_CLOCK_SECONDS = "console_clock_seconds";
-    public static final String FILTER_CHAT = "filter_chat";
-    public static final String LAST_SESSION_START = "last_session_start";
-    public static final String MINIMIZE_ON_CLOSE = "minimize_on_close";
-    public static final String TYPING_ANIMATION = "typing_animation";
-    public static final String BUSY_ANIMATION = "busy_animation";
-    public static final String ROUNDED_FRAME_BORDERS = "rounded_frame_borders";
-    public static final String FRAME_COLOR = "frame_color";
-    public static final String CLOCK_FORMAT = "clock_format";
-    public static final String TYPING_SOUND = "typing_sound";
-    public static final String YOUTUBE_UUID = "youtube_uuid";
-    public static final String CAPS_MODE = "caps_mode";
-    public static final String LOGGED_IN = "logged_in";
-    public static final String AUDIO_TOTAL_LENGTH = "audio_total_length";
-    public static final String SHOULD_PERSIST_NOTIFICATIONS = "should_persist_notifications";
-    public static final String SHOULD_DO_ANIMATIONS = "should_do_animations";
-    public static final String COMPACT_TEXT_MODE = "compact_text_mode";
-    public static final String WRAP_SHELL = "wrap_shell";
-    public static final String DRAW_WEATHER_MAP = "draw_weather_map";
-    public static final String PAINT_CLOCK_LABELS = "paint_clock_labels";
-    public static final String CLOCK_WIDGET_SECOND_HAND = "clock_widget_second_hand";
-    public static final String SCREEN_STAT = "screen_stat";
-    public static final String FILL_OPACITY = "fill_opacity";
-    public static final String SHOWN_WELCOME_MESSAGE = "shown_welcome_message";
-    public static final String ACCOUNT_CREATION_TIME = "account_creation_time";
+    public static final String DRAW_OUTPUT_FILL = "drawOutputFill";
+    public static final String DRAW_INPUT_FILL = "drawInputFill";
+    public static final String DRAW_CONSOLE_CLOCK = "drawConsoleClock";
+    public static final String SHOW_CONSOLE_CLOCK_SECONDS = "showConsoleClockSeconds";
+    public static final String FILTER_CHAT = "filterChat";
+    public static final String LAST_SESSION_START = "lastSessionStart";
+    public static final String MINIMIZE_ON_CLOSE = "minimizeOnClose";
+    public static final String TYPING_ANIMATION = "typingAnimation";
+    public static final String SHOW_BUSY_ANIMATION = "showBusyAnimation";
+    public static final String ROUNDED_FRAME_BORDERS = "roundedFrameBorders";
+    public static final String FRAME_COLOR = "frameColor";
+    public static final String CONSOLE_CLOCK_FORMAT = "consoleClockFormat";
+    public static final String PLAY_TYPING_SOUND = "playTypingSound";
+    public static final String YOUTUBE_UUID = "youtubeUuid";
+    public static final String CAPS_MODE = "capsMode";
+    public static final String LOGGED_IN = "loggedIn";
+    public static final String SHOW_AUDIO_TOTAL_LENGTH = "showAudioTotalLength";
+    public static final String SHOULD_PERSIST_NOTIFICATIONS = "persistNotifications";
+    public static final String DO_ANIMATIONS = "doAnimations";
+    public static final String COMPACT_TEXT_MODE = "compactTextMode";
+    public static final String WRAP_NATIVE_SHELL = "wrapNativeShell";
+    public static final String DRAW_WEATHER_MAP = "drawWeatherMap";
+    public static final String PAINT_CLOCK_WIDGET_HOUR_LABELS = "paintClockWidgetHourLabels";
+    public static final String SHOW_CLOCK_WIDGET_SECOND_HAND = "showClockWidgetSecondHand";
+    public static final String SCREEN_STAT = "screenStat";
+    public static final String FILL_OPACITY = "fillOpacity";
+    public static final String SHOWN_WELCOME_MESSAGE = "shownWelcomeMessage";
+    public static final String ACCOUNT_CREATION_TIME = "accountCreationTime";
 
     // todo object does not exist for
-    public static final String MAPPED_EXECUTABLES = "mapped_executables";
+    public static final String MAPPED_EXECUTABLES = "mappedExecutables";
 
     // todo only booleans will be pulled for toggle switches unless they have ignore for toggle switches enabled
 
@@ -132,14 +132,15 @@ public final class UserData<T> {
             .setDescription("Whether to show debug windows on initial console load")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, DEBUG_STATS)).build();
 
-    public static final UserData<Boolean> randomBackground = new Builder<>(RANDOM_BACKGROUND, Boolean.class)
-            .setDescription("Whether to choose a random background for the console on console load")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND)).build();
+    public static final UserData<Boolean> randomBackgroundOnStart =
+            new Builder<>(RANDOM_BACKGROUND_ON_START, Boolean.class)
+                    .setDescription("Whether to choose a random background for the console on console load")
+                    .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND_ON_START)).build();
 
-    public static final UserData<Boolean> outputBorder = new Builder<>(OUTPUT_BORDER, Boolean.class)
+    public static final UserData<Boolean> drawOutputBorder = new Builder<>(DRAW_OUTPUT_BORDER, Boolean.class)
             .setDescription("Whether to draw a border around the output field")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, OUTPUT_BORDER);
+                Logger.log(LogTag.USER_DATA, DRAW_OUTPUT_BORDER);
 
                 if (!UserDataManager.INSTANCE.shouldDrawOutputBorder()) {
                     Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
@@ -150,10 +151,10 @@ public final class UserData<T> {
                 }
             }).build();
 
-    public static final UserData<Boolean> inputBorder = new Builder<>(INPUT_BORDER, Boolean.class)
+    public static final UserData<Boolean> drawInputBorder = new Builder<>(DRAW_INPUT_BORDER, Boolean.class)
             .setDescription("Whether to draw a border around the input field")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, INPUT_BORDER);
+                Logger.log(LogTag.USER_DATA, DRAW_INPUT_BORDER);
 
                 if (!UserDataManager.INSTANCE.shouldDrawInputBorder()) {
                     Console.INSTANCE.getInputField().setBorder(null);
@@ -163,9 +164,9 @@ public final class UserData<T> {
                 }
             }).build();
 
-    public static final UserData<Boolean> hourlyChimes = new Builder<>(HOURLY_CHIMES, Boolean.class)
+    public static final UserData<Boolean> playHourlyChimes = new Builder<>(PLAY_HOURLY_CHIMES, Boolean.class)
             .setDescription("Whether to play chime sounds on the turning of the hour")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, HOURLY_CHIMES)).build();
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, PLAY_HOURLY_CHIMES)).build();
 
     public static final UserData<Boolean> silenceErrors = new Builder<>(SILENCE_ERRORS, Boolean.class)
             .setDescription("Whether to silence error notifications")
@@ -181,10 +182,10 @@ public final class UserData<T> {
                 Console.INSTANCE.setFullscreen(UserDataManager.INSTANCE.isFullscreen());
             }).build();
 
-    public static final UserData<Boolean> outputFill = new Builder<>(OUTPUT_FILL, Boolean.class)
+    public static final UserData<Boolean> drawOutputFill = new Builder<>(DRAW_OUTPUT_FILL, Boolean.class)
             .setDescription("Whether the output area should be filled")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, OUTPUT_FILL);
+                Logger.log(LogTag.USER_DATA, DRAW_OUTPUT_FILL);
 
                 JTextPane outputArea = Console.INSTANCE.getOutputArea();
 
@@ -199,10 +200,10 @@ public final class UserData<T> {
                 }
             }).build();
 
-    public static final UserData<Boolean> inputFill = new Builder<>(INPUT_FILL, Boolean.class)
+    public static final UserData<Boolean> drawInputFill = new Builder<>(DRAW_INPUT_FILL, Boolean.class)
             .setDescription("Whether the input field should be filled")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, INPUT_FILL);
+                Logger.log(LogTag.USER_DATA, DRAW_INPUT_FILL);
 
                 JTextField inputField = Console.INSTANCE.getInputField();
 
@@ -217,19 +218,20 @@ public final class UserData<T> {
                 }
             }).build();
 
-    public static final UserData<Boolean> consoleClock = new Builder<>(CONSOLE_CLOCK, Boolean.class)
+    public static final UserData<Boolean> drawConsoleClock = new Builder<>(DRAW_CONSOLE_CLOCK, Boolean.class)
             .setDescription("Whether to show a clock on the console")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK);
+                Logger.log(LogTag.USER_DATA, DRAW_CONSOLE_CLOCK);
                 Console.INSTANCE.refreshClockText();
             }).build();
 
-    public static final UserData<Boolean> consoleClockSeconds = new Builder<>(CONSOLE_CLOCK_SECONDS, Boolean.class)
-            .setDescription("Whether to show seconds on the console clock")
-            .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK_SECONDS);
-                Console.INSTANCE.refreshClockText();
-            }).build();
+    public static final UserData<Boolean> showConsoleClockSeconds =
+            new Builder<>(SHOW_CONSOLE_CLOCK_SECONDS, Boolean.class)
+                    .setDescription("Whether to show seconds on the console clock")
+                    .setOnChangeFunction(() -> {
+                        Logger.log(LogTag.USER_DATA, SHOW_CONSOLE_CLOCK_SECONDS);
+                        Console.INSTANCE.refreshClockText();
+                    }).build();
 
     public static final UserData<Boolean> filterChat = new Builder<>(FILTER_CHAT, Boolean.class)
             .setDescription("Whether the user input should be filtered")
@@ -248,18 +250,18 @@ public final class UserData<T> {
             .setDescription("Whether to show a typing animation for the console")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, TYPING_ANIMATION)).build();
 
-    public static final UserData<Boolean> typingSound = new Builder<>(TYPING_SOUND, Boolean.class)
+    public static final UserData<Boolean> playTypingSound = new Builder<>(PLAY_TYPING_SOUND, Boolean.class)
             .setDescription("Whether to play a typing sound effect when the typing animation is enabled")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, TYPING_SOUND)).build();
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, PLAY_TYPING_SOUND)).build();
 
-    public static final UserData<Boolean> busyAnimation = new Builder<>(BUSY_ANIMATION, Boolean.class)
+    public static final UserData<Boolean> showBusyAnimation = new Builder<>(SHOW_BUSY_ANIMATION, Boolean.class)
             .setDescription("Whether to show a busy animation")
             .setOnChangeFunction(() -> {
                 Console.INSTANCE.hideBusyAnimation();
-                Logger.log(LogTag.USER_DATA, BUSY_ANIMATION);
+                Logger.log(LogTag.USER_DATA, SHOW_BUSY_ANIMATION);
             }).build();
 
-    public static final UserData<Boolean> roundedWindows = new Builder<>(ROUNDED_FRAME_BORDERS, Boolean.class)
+    public static final UserData<Boolean> roundedFrameBorders = new Builder<>(ROUNDED_FRAME_BORDERS, Boolean.class)
             .setDescription("Whether to paint frames with rounded corners")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, ROUNDED_FRAME_BORDERS);
@@ -276,10 +278,10 @@ public final class UserData<T> {
                 Console.INSTANCE.revalidateMenuBackgrounds();
             }).build();
 
-    public static final UserData<String> clockFormat = new Builder<>(CLOCK_FORMAT, String.class)
+    public static final UserData<String> consoleClockFormat = new Builder<>(CONSOLE_CLOCK_FORMAT, String.class)
             .setDescription("The date pattern for the console clock")
             .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, CLOCK_FORMAT);
+                Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK_FORMAT);
                 Console.INSTANCE.refreshClockText();
             }).build();
 
@@ -297,10 +299,10 @@ public final class UserData<T> {
             .setIgnoreForToggleSwitches(true)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LOGGED_IN)).build();
 
-    public static final UserData<Boolean> audioTotalLength = new Builder<>(AUDIO_TOTAL_LENGTH, Boolean.class)
+    public static final UserData<Boolean> showAudioTotalLength = new Builder<>(SHOW_AUDIO_TOTAL_LENGTH, Boolean.class)
             .setDescription("Whether the audio total length should be shown instead"
                     + " of the time remaining for the audio player")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, AUDIO_TOTAL_LENGTH)).build();
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOW_AUDIO_TOTAL_LENGTH)).build();
 
     public static final UserData<Boolean> shouldPersistNotifications =
             new Builder<>(SHOULD_PERSIST_NOTIFICATIONS, Boolean.class)
@@ -310,11 +312,11 @@ public final class UserData<T> {
                         // todo hook to remove persisting notifications
                     }).build();
 
-    public static final UserData<Boolean> shouldDoAnimations = new Builder<>(SHOULD_DO_ANIMATIONS, Boolean.class)
+    public static final UserData<Boolean> doAnimations = new Builder<>(DO_ANIMATIONS, Boolean.class)
             .setDescription("Whether certain animations shoudl be performed")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOULD_DO_ANIMATIONS)).build();
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, DO_ANIMATIONS)).build();
 
-    public static final UserData<Boolean> compactText = new Builder<>(COMPACT_TEXT_MODE, Boolean.class)
+    public static final UserData<Boolean> compactTextMode = new Builder<>(COMPACT_TEXT_MODE, Boolean.class)
             .setDescription("Whether compact text mode is enabled")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, COMPACT_TEXT_MODE);
@@ -323,9 +325,9 @@ public final class UserData<T> {
                 CyderScrollList.refreshAllLists();
             }).build();
 
-    public static final UserData<Boolean> wrapShell = new Builder<>(WRAP_SHELL, Boolean.class)
+    public static final UserData<Boolean> wrapNativeShell = new Builder<>(WRAP_NATIVE_SHELL, Boolean.class)
             .setDescription("Whether unrecognized user commands should be pased to the native shell")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_SHELL)).build();
+            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_NATIVE_SHELL)).build();
 
     public static final UserData<Boolean> drawWeatherMap = new Builder<>(DRAW_WEATHER_MAP, Boolean.class)
             .setDescription("Whether a map should be drawn on the background of the weather widget")
@@ -334,18 +336,19 @@ public final class UserData<T> {
                 WeatherWidget.refreshAllMapBackgrounds();
             }).build();
 
-    public static final UserData<Boolean> paintClocklabels = new Builder<>(PAINT_CLOCK_LABELS, Boolean.class)
-            .setDescription("Whether the hour labels should be painted for the clock widget")
-            .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, PAINT_CLOCK_LABELS);
-                ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
-            }).build();
+    public static final UserData<Boolean> paintclockWidgetHourLabels =
+            new Builder<>(PAINT_CLOCK_WIDGET_HOUR_LABELS, Boolean.class)
+                    .setDescription("Whether the hour labels should be painted for the clock widget")
+                    .setOnChangeFunction(() -> {
+                        Logger.log(LogTag.USER_DATA, PAINT_CLOCK_WIDGET_HOUR_LABELS);
+                        ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
+                    }).build();
 
-    public static final UserData<Boolean> clockWidgetSecondHand =
-            new Builder<>(CLOCK_WIDGET_SECOND_HAND, Boolean.class)
+    public static final UserData<Boolean> showClockWidgetSecondHand =
+            new Builder<>(SHOW_CLOCK_WIDGET_SECOND_HAND, Boolean.class)
                     .setDescription("Whether the second hand should be shown for the clock widget")
                     .setOnChangeFunction(() -> {
-                        Logger.log(LogTag.USER_DATA, CLOCK_WIDGET_SECOND_HAND);
+                        Logger.log(LogTag.USER_DATA, SHOW_CLOCK_WIDGET_SECOND_HAND);
                         ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
                     }).build();
 
@@ -381,36 +384,36 @@ public final class UserData<T> {
             backgroundColor,
             introMusic,
             debugStats,
-            randomBackground,
-            outputBorder,
-            inputBorder,
-            hourlyChimes,
+            randomBackgroundOnStart,
+            drawOutputBorder,
+            drawInputBorder,
+            playHourlyChimes,
             silenceErrors,
             fullscreen,
-            outputFill,
-            inputFill,
-            consoleClock,
-            consoleClockSeconds,
+            drawOutputFill,
+            drawInputFill,
+            drawConsoleClock,
+            showConsoleClockSeconds,
             filterChat,
             lastSessionStart,
             minimizeOnClose,
             typingAnimation,
-            typingSound,
-            busyAnimation,
-            roundedWindows,
+            playTypingSound,
+            showBusyAnimation,
+            roundedFrameBorders,
             frameColor,
-            clockFormat,
+            consoleClockFormat,
             youtubeUuid,
             capsMode,
             loggedIn,
-            audioTotalLength,
+            showAudioTotalLength,
             shouldPersistNotifications,
-            shouldDoAnimations,
-            compactText,
-            wrapShell,
+            doAnimations,
+            compactTextMode,
+            wrapNativeShell,
             drawWeatherMap,
-            paintClocklabels,
-            clockWidgetSecondHand,
+            paintclockWidgetHourLabels,
+            showClockWidgetSecondHand,
             fillOpacity,
             screenStat,
             shownWelcomeMessage,

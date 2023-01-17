@@ -58,7 +58,7 @@ public class UserDataHandler extends InputHandler {
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
         for (UserData<?> userdata : UserData.getUserDatas()) {
-            if (targetedUserData.equalsIgnoreCase(userdata.getId().trim())) {
+            if (targetedUserData.equalsIgnoreCase(userdata.getId())) {
                 if (!userdata.getType().equals(Boolean.class)) { // todo test this
                     Optional<Boolean> optionalOldValue =
                             UserDataManager.INSTANCE.getUserDataById(userdata.getId(), Boolean.class);
