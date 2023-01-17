@@ -456,7 +456,7 @@ public final class User {
     /**
      * The last time this user was logged in.
      */
-    private long lastSessionStart;
+    private long lastSessionStart = System.currentTimeMillis();
 
     /**
      * Returns the last time this user was logged in.

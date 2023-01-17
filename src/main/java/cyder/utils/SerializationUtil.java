@@ -155,13 +155,15 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
-        try {
-            toJson(object, new FileWriter(file));
-            return true;
+        boolean ret = true;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+            toJson(object, writer);
         } catch (IOException e) {
             ExceptionHandler.handle(e);
+            ret = false;
         }
 
-        return false;
+        return ret;
     }
 }

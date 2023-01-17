@@ -93,6 +93,7 @@ public enum UserDataManager {
     }
 
     // todo this needs to be called periodically
+    // todo save after console orientation, pin button pressing, monitor changing (need callback arch for last one)
 
     /**
      * Writes the current user to the user's source JSON file.
