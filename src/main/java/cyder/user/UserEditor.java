@@ -231,11 +231,6 @@ public final class UserEditor {
     private static Page currentPage = null;
 
     /**
-     * The thickness of the border for the input and output areas if enabled.
-     */
-    public static final int inputOutputBorderThickness = 3;
-
-    /**
      * The title of the frame.
      */
     private static final String FRAME_TITLE = "Preferences";
@@ -1212,11 +1207,6 @@ public final class UserEditor {
                 Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
                 foregroundColorBlock.setBackground(foregroundColor);
                 UserDataManager.INSTANCE.setForegroundColor(ColorUtil.hexStringToColor(foregroundField.getText()));
-                Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
-                Console.INSTANCE.getInputField().setForeground(foregroundColor);
-                Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
-                Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
-                Console.INSTANCE.getInputHandler().refreshPrintedLabels();
                 UserData.foregroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
             } catch (Exception ignored) {}
         }));
@@ -1266,36 +1256,7 @@ public final class UserEditor {
                 Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
                 backgroundColorBlock.setBackground(backgroundColor);
                 UserDataManager.INSTANCE.setBackgroundColor(backgroundColor);
-
-                boolean outputFill = UserDataManager.INSTANCE.shouldDrawOutputFill();
-                boolean inputFill = UserDataManager.INSTANCE.shouldDrawInputFill();
-                boolean outputBorder = UserDataManager.INSTANCE.shouldDrawOutputBorder();
-                boolean inputBorder = UserDataManager.INSTANCE.shouldDrawInputBorder();
-
-                if (outputFill) {
-                    Console.INSTANCE.getOutputArea().setOpaque(true);
-                    Console.INSTANCE.getOutputArea().setBackground(backgroundColor);
-                    Console.INSTANCE.getOutputArea().repaint();
-                    Console.INSTANCE.getOutputArea().revalidate();
-                }
-                if (inputFill) {
-                    Console.INSTANCE.getInputField().setOpaque(true);
-                    Console.INSTANCE.getInputField().setBackground(backgroundColor);
-                    Console.INSTANCE.getInputField().repaint();
-                    Console.INSTANCE.getInputField().revalidate();
-                }
-
-                LineBorder inputOutputBorder = new LineBorder(backgroundColor, inputOutputBorderThickness, false);
-                if (outputBorder) {
-                    Console.INSTANCE.getOutputScroll().setBorder(inputOutputBorder);
-                    Console.INSTANCE.getOutputScroll().repaint();
-                    Console.INSTANCE.getOutputScroll().revalidate();
-                }
-                if (inputBorder) {
-                    Console.INSTANCE.getInputField().setBorder(inputOutputBorder);
-                    Console.INSTANCE.getInputField().repaint();
-                    Console.INSTANCE.getInputField().revalidate();
-                }
+                UserData.backgroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
             } catch (Exception ignored) {}
         }));
         backgroundField.setOpaque(false);
@@ -1437,7 +1398,6 @@ public final class UserEditor {
     /**
      * The action listener for the apply font button.
      */
-    @SuppressWarnings("MagicConstant") /* Font metrics are always checked */
     private static final ActionListener applyFontButtonActionListener = e -> {
         CyderScrollList reference = fontScrollReference.get();
         if (reference == null || reference.getSelectedElements().isEmpty()) return;
@@ -1446,19 +1406,7 @@ public final class UserEditor {
 
         if (selectedFont != null) {
             UserDataManager.INSTANCE.setFontName(selectedFont);
-
-            int requestedFontMetric = FontUtil.getFontMetricFromProps();
-            if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
-                requestedFontMetric = Font.BOLD;
-            }
-
-            int requestedFontSize = UserDataManager.INSTANCE.getFontSize();
-
-            Font applyFont = new Font(selectedFont, requestedFontMetric, requestedFontSize);
-            Console.INSTANCE.getOutputArea().setFont(applyFont);
-            Console.INSTANCE.getInputField().setFont(applyFont);
-            Console.INSTANCE.getInputHandler().refreshPrintedLabels();
-
+            UserData.fontName.getOnChangeRunnable().ifPresent(Runnable::run);
             editUserFrame.notify("Applied font: " + selectedFont);
         }
     };
@@ -1578,7 +1526,7 @@ public final class UserEditor {
     /**
      * The width of components printed to the preferences scroll.
      */
-    private static final int PRINTED_PREF_COMPONENT_WIDTH = 400;
+    private static final int PRINTED_PREF_COMPONENT_WIDTH = 450;
 
     /**
      * The height of components printed to the preferences scroll.
@@ -1630,7 +1578,7 @@ public final class UserEditor {
                     JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
                     preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
 
-                    CyderLabel preferenceNameLabel = new CyderLabel(userData.getDisplayName().orElse(""));
+                    CyderLabel preferenceNameLabel = new CyderLabel(userData.getId());
                     preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
                     preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
                             PRINTED_PREF_COMPONENT_WIDTH / 2,

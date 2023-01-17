@@ -19,13 +19,33 @@ public final class KeyCodeUtil {
     }
 
     /**
+     * Returns whether the provided key code is down on the arrow keys.
+     *
+     * @param code the key code
+     * @return whether the provided key code is down on the arrow keys
+     */
+    public static boolean down(int code) {
+        return code == KeyEvent.VK_DOWN;
+    }
+
+    /**
      * Returns whether the provided key code is down or right on the arrow keys.
      *
      * @param code the key code
      * @return whether the provided key code is down or right on the arrow keys
      */
     public static boolean downOrRight(int code) {
-        return code == KeyEvent.VK_DOWN || code == KeyEvent.VK_RIGHT;
+        return down(code) || code == KeyEvent.VK_RIGHT;
+    }
+
+    /**
+     * Returns whether the provided key code is up on the arrow keys.
+     *
+     * @param code the key code
+     * @return whether the provided key code is up on the arrow keys
+     */
+    public static boolean up(int code) {
+        return code == KeyEvent.VK_UP;
     }
 
     /**
@@ -35,7 +55,7 @@ public final class KeyCodeUtil {
      * @return whether the provided key code is up or left on the arrow keys
      */
     public static boolean upOrLeft(int code) {
-        return code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT;
+        return up(code) || code == KeyEvent.VK_LEFT;
     }
 
     /**

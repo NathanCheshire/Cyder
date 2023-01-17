@@ -988,6 +988,7 @@ public enum Console {
         //  Add custom pin button
         PinButton pinButton = new PinButton(consoleCyderFrame);
         pinButton.setForConsole(true);
+        pinButton.addClickAction(this::saveScreenStat);
         consoleCyderFrame.getTopDragLabel().setPinButton(pinButton);
         consoleCyderFrame.getTopDragLabel().addRightButton(pinButton, 1);
 
@@ -2307,9 +2308,9 @@ public enum Console {
         public void keyPressed(KeyEvent e) {
             if (!controlAltNotPressed(e)) return;
 
-            if (KeyCodeUtil.upOrLeft(e.getKeyCode())) {
+            if (KeyCodeUtil.up(e.getKeyCode())) {
                 attemptScrollUp();
-            } else if (KeyCodeUtil.downOrRight(e.getKeyCode())) {
+            } else if (KeyCodeUtil.down(e.getKeyCode())) {
                 attemptScrollDown();
             }
 
@@ -2717,7 +2718,7 @@ public enum Console {
             case RIGHT -> nextSlideDirection = Direction.BOTTOM;
             case TOP -> nextSlideDirection = Direction.RIGHT;
             case BOTTOM -> nextSlideDirection = Direction.LEFT;
-            default -> throw new IllegalStateException("Illegal last slide direction");
+            default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
         }
 
         // Set dimensions
@@ -2823,6 +2824,7 @@ public enum Console {
         UserDataManager.INSTANCE.setFullscreen(false);
         revalidate(true, false, maintainConsoleSize);
         revalidateConsoleMenuSize();
+        saveScreenStat();
     }
 
     /**
@@ -3536,6 +3538,7 @@ public enum Console {
 
         GeneralAndSystemAudioPlayer.stopAllAudio();
         NetworkUtil.terminateHighPingChecker();
+        UserDataManager.INSTANCE.removeManagement();
         LoginHandler.showGui();
     }
 
@@ -3742,6 +3745,7 @@ public enum Console {
     }
 
     // todo is there a way to ensure frame is the caller? would be cool if we had friend modifier as well
+
     /**
      * Removes the provided frame from {@link #frameTaskbarExceptions} if it is contained.
      *

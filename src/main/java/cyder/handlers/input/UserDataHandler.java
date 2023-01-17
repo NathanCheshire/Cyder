@@ -80,7 +80,7 @@ public class UserDataHandler extends InputHandler {
                     boolean toggled = UserDataManager.INSTANCE.setUserDataById(userdata.getId(), newValue);
                     if (toggled) {
                         getInputHandler().println(userdata.getId() + " set to " + newValue);
-                        UserData.invokeRefresh(userdata.getId()); // todo not sure this works
+                        UserData.invokeRefresh(userdata.getId());
                     } else {
                         getInputHandler().println("Failed to set " + userdata.getId());
                     }

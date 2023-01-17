@@ -10,8 +10,10 @@ import cyder.exceptions.FatalException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.UiUtil;
+import cyder.ui.field.CyderCaret;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.data.ScreenStat;
+import cyder.utils.FontUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 
@@ -74,7 +76,10 @@ public final class UserData<T> {
     // todo object does not exist for
     public static final String MAPPED_EXECUTABLES = "mappedExecutables";
 
-    // todo only booleans will be pulled for toggle switches unless they have ignore for toggle switches enabled
+    /**
+     * The thickness of the border for the input and output areas if enabled.
+     */
+    private static final int inputOutputBorderThickness = 3;
 
     public static final UserData<String> username = new Builder<>(USERNAME, String.class)
             .setDescription("The user's public username")
@@ -89,12 +94,25 @@ public final class UserData<T> {
                 // todo log out user
             }).build();
 
+    @SuppressWarnings("MagicConstant")
     public static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
             .setDescription("The name of the font for the input and output fields")
             .setDefaultValue(CyderFonts.AGENCY_FB)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FONT_NAME);
-                // todo refresh output and input fields.
+
+                int requestedFontMetric = FontUtil.getFontMetricFromProps();
+                if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
+                    requestedFontMetric = Font.BOLD;
+                }
+
+                int requestedFontSize = UserDataManager.INSTANCE.getFontSize();
+
+                Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
+                        requestedFontMetric, requestedFontSize);
+                Console.INSTANCE.getOutputArea().setFont(applyFont);
+                Console.INSTANCE.getInputField().setFont(applyFont);
+                Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
     public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
@@ -110,9 +128,11 @@ public final class UserData<T> {
                 Logger.log(LogTag.USER_DATA, FOREGROUND_COLOR);
                 Color foregroundColor = UserDataManager.INSTANCE.getForegroundColor();
 
-                Console.INSTANCE.getInputField().setForeground(foregroundColor);
                 Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
+                Console.INSTANCE.getInputField().setForeground(foregroundColor);
                 Console.INSTANCE.getOutputScroll().setForeground(foregroundColor);
+                Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
+                Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
     public static final UserData<Color> backgroundColor = new Builder<>(BACKGROUND_COLOR, Color.class)
@@ -121,7 +141,32 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, BACKGROUND_COLOR);
                 Color backgroundColor = UserDataManager.INSTANCE.getBackgroundColor();
-                // todo refresh with backgroundColor
+
+                if (UserDataManager.INSTANCE.shouldDrawOutputFill()) {
+                    Console.INSTANCE.getOutputArea().setOpaque(true);
+                    Console.INSTANCE.getOutputArea().setBackground(backgroundColor);
+                    Console.INSTANCE.getOutputArea().repaint();
+                    Console.INSTANCE.getOutputArea().revalidate();
+                }
+                if (UserDataManager.INSTANCE.shouldDrawInputFill()) {
+                    Console.INSTANCE.getInputField().setOpaque(true);
+                    Console.INSTANCE.getInputField().setBackground(backgroundColor);
+                    Console.INSTANCE.getInputField().repaint();
+                    Console.INSTANCE.getInputField().revalidate();
+                }
+
+                LineBorder inputOutputBorder = new LineBorder(backgroundColor,
+                        inputOutputBorderThickness, false);
+                if (UserDataManager.INSTANCE.shouldDrawOutputBorder()) {
+                    Console.INSTANCE.getOutputScroll().setBorder(inputOutputBorder);
+                    Console.INSTANCE.getOutputScroll().repaint();
+                    Console.INSTANCE.getOutputScroll().revalidate();
+                }
+                if (UserDataManager.INSTANCE.shouldDrawInputBorder()) {
+                    Console.INSTANCE.getInputField().setBorder(inputOutputBorder);
+                    Console.INSTANCE.getInputField().repaint();
+                    Console.INSTANCE.getInputField().revalidate();
+                }
             }).build();
 
     public static final UserData<Boolean> introMusic = new Builder<>(INTRO_MUSIC, Boolean.class)
@@ -146,7 +191,7 @@ public final class UserData<T> {
                     Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
                 } else {
                     LineBorder lineBorder = new LineBorder(UserDataManager.INSTANCE.getBackgroundColor(),
-                            UserEditor.inputOutputBorderThickness, true);
+                            inputOutputBorderThickness, true);
                     Console.INSTANCE.getOutputScroll().setBorder(lineBorder);
                 }
             }).build();
@@ -435,17 +480,15 @@ public final class UserData<T> {
      * @param userDataId the id of the user data
      */
     public static void invokeRefresh(String userDataId) {
-        for (UserData<?> userData : datas) {
-            if (userData.getId().equalsIgnoreCase(userDataId)) {
-                Optional<Runnable> optionalRunnable = userData.getOnChangeRunnable();
-                optionalRunnable.ifPresent(Runnable::run);
+        datas.stream().filter(userData -> userData.getId().equalsIgnoreCase(userDataId))
+                .findFirst().ifPresentOrElse(userData -> {
+                    Optional<Runnable> optionalRunnable = userData.getOnChangeRunnable();
+                    optionalRunnable.ifPresent(Runnable::run);
 
-                onUserDataRefresh();
-                return;
-            }
-        }
-
-        throw new FatalException("Failed to invoke user data refresh, failed to find id: " + userDataId);
+                    onUserDataRefresh();
+                }, () -> {
+                    throw new FatalException("Failed to invoke user data refresh, failed to find id: " + userDataId);
+                });
     }
 
     /**

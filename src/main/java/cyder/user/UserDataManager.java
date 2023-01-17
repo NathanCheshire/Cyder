@@ -80,7 +80,7 @@ public enum UserDataManager {
      * @throws IllegalArgumentException if the uuid is empty, the user json does not exist, or the manager
      *                                  is current initialized
      */
-    public synchronized void initialize(String uuid) { // todo need to call this on logout
+    public synchronized void initialize(String uuid) {
         Preconditions.checkState(!isInitialized());
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
@@ -93,7 +93,7 @@ public enum UserDataManager {
     }
 
     // todo this needs to be called periodically
-    // todo save after console orientation, pin button pressing, monitor changing (need callback arch for last one)
+    // todo when fill opacity is enabled/disabled, I want a cool up/down animation
 
     /**
      * Writes the current user to the user's source JSON file.
@@ -208,6 +208,9 @@ public enum UserDataManager {
     @CanIgnoreReturnValue
     public <T> boolean setUserDataById(String id, T value) {
         Preconditions.checkState(isInitialized());
+        Preconditions.checkNotNull(id);
+        Preconditions.checkArgument(!id.isEmpty());
+        Preconditions.checkNotNull(value);
 
         Optional<Method> methodOptional = UserUtil.getSetterMethodForDataWithName(id, user);
 
@@ -231,6 +234,9 @@ public enum UserDataManager {
      */
     public <T> Optional<T> getUserDataById(String id, Class<T> type) {
         Preconditions.checkState(isInitialized());
+        Preconditions.checkNotNull(id);
+        Preconditions.checkArgument(!id.isEmpty());
+        Preconditions.checkNotNull(type);
 
         Optional<Method> methodOptional = UserUtil.getGetterMethodForDataWithName(id, user);
 
