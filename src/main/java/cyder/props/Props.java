@@ -3,6 +3,7 @@ package cyder.props;
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.user.UserData;
 
 import static cyder.strings.CyderStrings.EMPTY;
 
@@ -29,17 +30,18 @@ public final class Props {
      */
     public static final Prop<PropValueList> ignoreData =
             new Prop<>("ignore_data", new PropValueList(ImmutableList.of(
-                    "typinganimation",
-                    "showseconds",
-                    "roundedwindows",
-                    "windowcolor",
-                    "audiolength",
-                    "capsmode",
-                    "typingsound",
-                    "showbusyicon",
-                    "clockonconsole",
-                    "consoleclockformat",
-                    "doanimations")), PropValueList.class);
+                    UserData.TYPING_ANIMATION,
+                    UserData.SHOW_CONSOLE_CLOCK_SECONDS,
+                    UserData.ROUNDED_FRAME_BORDERS,
+                    UserData.FRAME_COLOR,
+                    UserData.SHOW_AUDIO_TOTAL_LENGTH,
+                    UserData.CAPS_MODE,
+                    UserData.PLAY_TYPING_SOUND,
+                    UserData.SHOW_BUSY_ANIMATION,
+                    UserData.DRAW_CONSOLE_CLOCK,
+                    UserData.SHOW_CONSOLE_CLOCK_SECONDS,
+                    UserData.CONSOLE_CLOCK_FORMAT,
+                    UserData.DO_ANIMATIONS)), PropValueList.class);
 
     /**
      * The font metric for the input/output areas (One of: bold, italic, bold-italic, or plain).

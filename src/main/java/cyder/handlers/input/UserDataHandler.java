@@ -59,7 +59,7 @@ public class UserDataHandler extends InputHandler {
 
         for (UserData<?> userdata : UserData.getUserDatas()) {
             if (targetedUserData.equalsIgnoreCase(userdata.getId())) {
-                if (!userdata.getType().equals(Boolean.class)) { // todo test this
+                if (userdata.getType().equals(Boolean.class) && !userdata.shouldIgnoreForToggleSwitches()) {
                     Optional<Boolean> optionalOldValue =
                             UserDataManager.INSTANCE.getUserDataById(userdata.getId(), Boolean.class);
                     if (optionalOldValue.isEmpty()) return false;
@@ -68,6 +68,7 @@ public class UserDataHandler extends InputHandler {
 
                     boolean newValue;
 
+                    // todo methods for is true / is false maybe name weak?
                     if (StringUtil.in(parsedArgs, true, "true", "1")) {
                         newValue = true;
                     } else if (StringUtil.in(parsedArgs, true, "false", "0")) {
@@ -76,9 +77,13 @@ public class UserDataHandler extends InputHandler {
                         newValue = !oldValue;
                     }
 
-                    UserDataManager.INSTANCE.setUserDataById(userdata.getId(), newValue);
-                    getInputHandler().println(userdata.getDisplayName() + " set to " + newValue);
-                    UserData.invokeRefresh(userdata.getId());
+                    boolean toggled = UserDataManager.INSTANCE.setUserDataById(userdata.getId(), newValue);
+                    if (toggled) {
+                        getInputHandler().println(userdata.getId() + " set to " + newValue);
+                        UserData.invokeRefresh(userdata.getId()); // todo not sure this works
+                    } else {
+                        getInputHandler().println("Failed to set " + userdata.getId());
+                    }
 
                     return true;
                 }

@@ -54,16 +54,6 @@ public final class UserUtil {
     private static final String defaultBackgroundName = "Default";
 
     /**
-     * The method prefix to locate mutator methods reflectively.
-     */
-    private static final String SET = "set";
-
-    /**
-     * The method prefix to locate accessor methods reflectively.
-     */
-    private static final String GET = "get";
-
-    /**
      * Suppress default constructor.
      */
     private UserUtil() {
@@ -151,8 +141,8 @@ public final class UserUtil {
         Preconditions.checkArgument(!dataName.isEmpty());
 
         for (Method method : user.getClass().getMethods()) {
-            if (method.getName().startsWith(SET) && method.getParameterTypes().length == 0
-                    && method.getName().equalsIgnoreCase(dataName.toLowerCase())) {
+            if (method.getParameterCount() == 1
+                    && method.getName().toLowerCase().contains(dataName.toLowerCase())) {
                 return Optional.of(method);
             }
         }
@@ -169,8 +159,8 @@ public final class UserUtil {
      */
     public static Optional<Method> getGetterMethodForDataWithName(String dataName, User user) {
         for (Method method : user.getClass().getMethods()) {
-            if (method.getName().startsWith(GET) && method.getParameterTypes().length == 0
-                    && method.getName().equalsIgnoreCase(dataName.toLowerCase())) {
+            if (method.getParameterCount() == 0
+                    && method.getName().toLowerCase().contains(dataName.toLowerCase())) {
                 return Optional.of(method);
             }
         }

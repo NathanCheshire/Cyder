@@ -80,7 +80,7 @@ public enum UserDataManager {
      * @throws IllegalArgumentException if the uuid is empty, the user json does not exist, or the manager
      *                                  is current initialized
      */
-    public synchronized void initialize(String uuid) {
+    public synchronized void initialize(String uuid) { // todo need to call this on logout
         Preconditions.checkState(!isInitialized());
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
@@ -192,7 +192,7 @@ public enum UserDataManager {
         Preconditions.checkNotNull(dataId);
         Preconditions.checkArgument(!dataId.isEmpty());
 
-        if (UserUtil.shouldIgnoreForLogging(dataId)) {
+        if (!UserUtil.shouldIgnoreForLogging(dataId)) {
             Logger.log(LogTag.USER_GET, "ID" + CyderStrings.colon + CyderStrings.space + dataId);
         }
     }

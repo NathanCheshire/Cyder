@@ -436,7 +436,7 @@ public final class UserData<T> {
      */
     public static void invokeRefresh(String userDataId) {
         for (UserData<?> userData : datas) {
-            if (userData.getId().equals(userDataId)) {
+            if (userData.getId().equalsIgnoreCase(userDataId)) {
                 Optional<Runnable> optionalRunnable = userData.getOnChangeRunnable();
                 optionalRunnable.ifPresent(Runnable::run);
 
@@ -591,8 +591,9 @@ public final class UserData<T> {
      *
      * @return whether this user data should be ignored for toggle switches
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* Readability */
     public boolean shouldIgnoreForToggleSwitches() {
-        return ignoreForToggleSwitches || type != Boolean.class; // todo test
+        return ignoreForToggleSwitches || type != Boolean.class;
     }
 
     /**
