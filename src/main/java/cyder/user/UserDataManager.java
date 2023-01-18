@@ -133,6 +133,7 @@ public enum UserDataManager {
      * Writes the current user to the user's source JSON file.
      */
     public synchronized void writeUser() {
+
         Preconditions.checkState(isInitialized());
 
         try {

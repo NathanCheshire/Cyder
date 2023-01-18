@@ -1421,7 +1421,6 @@ public final class UserEditor {
         String defaultFrameHex = ColorUtil.toRgbHexString(defaultFrameColor);
 
         String defaultFontName = UserData.get(UserData.FONT_NAME).getDefaultValue().toString();
-        int defaultFontMetric = FontUtil.getFontMetricFromProps();
         int defaultFontSize = Integer.parseInt(UserData.get(UserData.FONT_SIZE).getDefaultValue().toString());
 
         UserDataManager.INSTANCE.setForegroundColor(defaultForegroundColor);
@@ -1434,7 +1433,7 @@ public final class UserEditor {
         Console.INSTANCE.getInputHandler().refreshPrintedLabels();
         UserData.foregroundColor.getOnChangeRunnable().ifPresent(Runnable::run);
 
-        Font applyFont = new Font(defaultFontName, defaultFontMetric, defaultFontSize);
+        Font applyFont = new Font(defaultFontName, FontUtil.getFontMetricFromProps(), defaultFontSize);
         Console.INSTANCE.getOutputArea().setFont(applyFont);
         Console.INSTANCE.getInputField().setFont(applyFont);
         if (fontScrollReference.get() != null) {

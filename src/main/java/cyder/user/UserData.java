@@ -13,6 +13,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.data.ScreenStat;
+import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
@@ -106,19 +107,29 @@ public final class UserData<T> {
                     requestedFontMetric = Font.BOLD;
                 }
 
-                int requestedFontSize = UserDataManager.INSTANCE.getFontSize();
-
                 Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
-                        requestedFontMetric, requestedFontSize);
+                        requestedFontMetric, UserDataManager.INSTANCE.getFontSize());
                 Console.INSTANCE.getOutputArea().setFont(applyFont);
                 Console.INSTANCE.getInputField().setFont(applyFont);
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
+    @SuppressWarnings("MagicConstant")
     public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
             .setDescription("The size of the user font")
             .setOnChangeFunction(() -> {
-                // todo
+                Logger.log(LogTag.USER_DATA, FONT_SIZE);
+
+                int requestedFontMetric = FontUtil.getFontMetricFromProps();
+                if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
+                    requestedFontMetric = Font.BOLD;
+                }
+
+                Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
+                        requestedFontMetric, UserDataManager.INSTANCE.getFontSize());
+                Console.INSTANCE.getOutputArea().setFont(applyFont);
+                Console.INSTANCE.getInputField().setFont(applyFont);
+                Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
     public static final UserData<Color> foregroundColor = new Builder<>(FOREGROUND_COLOR, Color.class)
@@ -401,7 +412,16 @@ public final class UserData<T> {
             .setDescription("The opacity of the input and output fills")
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FILL_OPACITY);
-                // todo change things that use opacity
+
+                if (UserDataManager.INSTANCE.shouldDrawInputFill()) {
+                    JTextField inputField = Console.INSTANCE.getInputField();
+                    inputField.setOpaque(true);
+                    inputField.setBackground(ColorUtil.setColorOpacity(
+                            UserDataManager.INSTANCE.getBackgroundColor(),
+                            UserDataManager.INSTANCE.getFillOpacity()));
+                    inputField.revalidate();
+                    inputField.repaint();
+                }
             }).build();
 
     public static final UserData<ScreenStat> screenStat = new Builder<>(SCREEN_STAT, ScreenStat.class)
