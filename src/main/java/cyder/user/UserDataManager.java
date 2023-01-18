@@ -13,6 +13,9 @@ import cyder.logging.LoggingUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
+import cyder.threads.CyderThreadFactory;
+import cyder.threads.IgnoreThread;
+import cyder.threads.ThreadUtil;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
@@ -25,6 +28,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A managed for the current {@link User}.
@@ -90,9 +95,38 @@ public enum UserDataManager {
 
         userFile = jsonFile;
         user = User.fromJson(jsonFile);
+
+        startUserSaverSubroutine();
     }
 
-    // todo this needs to be called periodically
+    /**
+     * The future
+     */
+    private Future<?> lastStartedUserSaverSubroutine;
+
+    /**
+     * Starts the subroutine to execute every {@link Props#serializeAndSaveCurrentUser}
+     * seconds to save the current {@link #user} to their {@link #userFile}.
+     */
+    private synchronized void startUserSaverSubroutine() {
+        lastStartedUserSaverSubroutine = Executors.newSingleThreadExecutor(
+                new CyderThreadFactory(IgnoreThread.UserSaver.getName())).submit(() -> {
+            while (true) {
+                writeUser();
+                ThreadUtil.sleepSeconds(Props.serializeAndSaveCurrentUser.getValue());
+            }
+        });
+    }
+
+    /**
+     * Stops the user saver subroutine if running.
+     */
+    private synchronized void stopUserSaverSubroutine() {
+        if (lastStartedUserSaverSubroutine != null) {
+            lastStartedUserSaverSubroutine.cancel(true);
+        }
+    }
+
     // todo when fill opacity is enabled/disabled, I want a cool up/down animation
 
     /**
@@ -143,6 +177,7 @@ public enum UserDataManager {
     public synchronized void removeManagement() {
         Preconditions.checkState(isInitialized());
 
+        stopUserSaverSubroutine();
         writeUser();
 
         userFile = null;

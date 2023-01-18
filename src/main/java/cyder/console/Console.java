@@ -35,6 +35,7 @@ import cyder.meta.ProgramStateManager;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -75,6 +76,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -242,7 +244,7 @@ public enum Console {
      *
      * @throws FatalException if the Console was left open
      */
-    public void launch() {
+    public void initializeAndLaunch() {
         ExceptionHandler.checkFatalCondition(isClosed());
 
         NetworkUtil.startHighPingChecker();
@@ -294,7 +296,7 @@ public enum Console {
 
         performSpecialDayChecks();
 
-        checkForDebugStats();
+        if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
 
         checkForTestingMode();
 
@@ -315,13 +317,6 @@ public enum Console {
 
         inputField.requestFocus();
         inputField.setCaretPosition(inputField.getPassword().length);
-    }
-
-    /**
-     * Checks for whether the debug stats should be shown.
-     */
-    private void checkForDebugStats() {
-        if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
     }
 
     /**
@@ -349,12 +344,12 @@ public enum Console {
         }
         UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
 
-        // if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
-        titleNotify("<html>Welcome to Cyder, <b>" + UserDataManager.INSTANCE.getUsername()
-                        + "</b>! Type \"help\" for command assists</html>",
-                CyderFonts.DEFAULT_FONT_LARGE, 6000);
-        UserDataManager.INSTANCE.setShownWelcomeMessage(true);
-        //   }
+        if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
+            titleNotify("<html>Welcome to Cyder, <b>" + UserDataManager.INSTANCE.getUsername()
+                            + "</b>! Type \"help\" for command assists</html>",
+                    CyderFonts.DEFAULT_FONT_LARGE, 6000);
+            UserDataManager.INSTANCE.setShownWelcomeMessage(true);
+        }
 
         long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
@@ -1372,9 +1367,7 @@ public enum Console {
      * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
-        boolean introMusic = UserDataManager.INSTANCE.shouldPlayIntroMusic();
-
-        if (introMusic) {
+        if (UserDataManager.INSTANCE.shouldPlayIntroMusic()) {
             performIntroMusic();
         } else if (CyderVersionManager.INSTANCE.isReleased()) {
             grayscaleImageCheck();
@@ -2750,60 +2743,60 @@ public enum Console {
         boolean outputAreaWasFocusable = outputArea.isFocusable();
         outputArea.setFocusable(false);
 
-        // todo could use a future here with a call back after the animation is done
-        CyderThreadRunner.submit(() -> {
-            int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
-            int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
+        Executors.newSingleThreadExecutor(new CyderThreadFactory(CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME))
+                .submit(() -> {
+                    int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
+                    int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
 
-            switch (nextSlideDirection) {
-                case TOP -> {
-                    for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
-                        ThreadUtil.sleep(timeout);
-                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                    switch (nextSlideDirection) {
+                        case TOP -> {
+                            for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
+                                ThreadUtil.sleep(timeout);
+                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                            }
+                            lastSlideDirection = nextSlideDirection;
+                        }
+                        case BOTTOM -> {
+                            for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
+                                ThreadUtil.sleep(timeout);
+                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                            }
+                            lastSlideDirection = nextSlideDirection;
+                        }
+                        case RIGHT -> {
+                            for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
+                                ThreadUtil.sleep(timeout);
+                                contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
+                            }
+                            lastSlideDirection = nextSlideDirection;
+                        }
+                        case LEFT -> {
+                            for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
+                                ThreadUtil.sleep(timeout);
+                                contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
+                            }
+                            lastSlideDirection = nextSlideDirection;
+                        }
                     }
-                    lastSlideDirection = nextSlideDirection;
-                }
-                case BOTTOM -> {
-                    for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
-                        ThreadUtil.sleep(timeout);
-                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                    }
-                    lastSlideDirection = nextSlideDirection;
-                }
-                case RIGHT -> {
-                    for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
-                        ThreadUtil.sleep(timeout);
-                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
-                    }
-                    lastSlideDirection = nextSlideDirection;
-                }
-                case LEFT -> {
-                    for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                        ThreadUtil.sleep(timeout);
-                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
-                    }
-                    lastSlideDirection = nextSlideDirection;
-                }
-            }
 
-            consoleCyderFrame.setBackground(nextBackFinal);
-            contentPane.setIcon(nextBackFinal);
+                    consoleCyderFrame.setBackground(nextBackFinal);
+                    contentPane.setIcon(nextBackFinal);
 
-            consoleCyderFrame.refreshBackground();
-            consoleCyderFrame.getContentPane().revalidate();
+                    consoleCyderFrame.refreshBackground();
+                    consoleCyderFrame.getContentPane().revalidate();
 
-            refreshConsoleMaxSize();
+                    refreshConsoleMaxSize();
 
-            consoleCyderFrame.setDraggingEnabled(wasDraggable);
+                    consoleCyderFrame.setDraggingEnabled(wasDraggable);
 
-            revalidateMaintainFullscreenOrDirection();
+                    revalidateMaintainFullscreenOrDirection();
 
-            defaultFocusOwner.requestFocus();
+                    defaultFocusOwner.requestFocus();
 
-            outputArea.setFocusable(outputAreaWasFocusable);
+                    outputArea.setFocusable(outputAreaWasFocusable);
 
-            backgroundSwitchingLocked.set(false);
-        }, CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME);
+                    backgroundSwitchingLocked.set(false);
+                });
     }
 
     /**

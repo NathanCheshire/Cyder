@@ -3673,7 +3673,7 @@ public class CyderFrame extends JFrame {
      * Sets the frame's visibility to true and fades in the frame.
      */
     public void finalizeAndShowCurrentPoint() {
-        finalizeAndShow(new Point(getX() + getWidth() / 2, getY() + getWidth() / 2));
+        finalizeAndShow(new Point(getX() + getWidth() / 2, getY() + getHeight() / 2));
     }
 
     /**
@@ -3865,6 +3865,7 @@ public class CyderFrame extends JFrame {
     // ------------------
     // Tooltip menu logic
     // ------------------
+
     // todo we need this to be an actual encapsulated class that CyderFrame's can create
 
     /**

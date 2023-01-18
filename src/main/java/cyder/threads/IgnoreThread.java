@@ -19,7 +19,8 @@ public enum IgnoreThread {
     WatchdogInitializer("Watchdog Initializer"),
     LatencyHostnameFinder("Latency Hostname finder"),
     ConsoleBusyAnimation("Console Busy Animation"),
-    InstanceSocket("Instance Socket");
+    InstanceSocket("Instance Socket"),
+    UserSaver("User Saver");
 
     /**
      * The name associated with the thread to ignore.

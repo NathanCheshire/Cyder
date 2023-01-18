@@ -240,6 +240,12 @@ public final class Props {
     public static final Prop<Boolean> preferJavawOverJavaForBootstrapping =
             new Prop<>("prefer_javaw_over_java_for_bootstrapping", false, Boolean.class);
 
+    /**
+     * The frequency at which to serialize and save the current, logged-in, user to their JSON file.
+     */
+    public static final Prop<Integer> serializeAndSaveCurrentUser =
+            new Prop<>("serialize_and_save_current_user", 3, Integer.class);
+
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.
     // ---------------------------------------------------
