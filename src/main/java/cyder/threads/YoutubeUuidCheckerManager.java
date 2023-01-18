@@ -102,6 +102,17 @@ public enum YoutubeUuidCheckerManager {
     }
 
     /**
+     * Reverts this manager to the non-initialized state.
+     */
+    public void deactivate() {
+        Preconditions.checkArgument(initialized.get());
+
+        initialized.set(false);
+
+        this.outputPane = null;
+    }
+
+    /**
      * Kills any instances of helper YouTube threads that are currently running.
      */
     public void killAll() {

@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": true,
   "filterChat": true,
-  "lastSessionStart": 1673921748579,
+  "lastSessionStart": 1674006117744,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -28,7 +28,7 @@
   "playTypingSound": false,
   "youtubeUuid": "aaaaaaaaaaa",
   "capsMode": false,
-  "loggedIn": true,
+  "loggedIn": false,
   "showAudioTotalLength": false,
   "persistNotifications": false,
   "doAnimations": true,
@@ -38,8 +38,8 @@
   "paintClockWidgetHourLabels": true,
   "showClockWidgetSecondHand": true,
   "screenStat": {
-    "consoleX": 1117,
-    "consoleY": 672,
+    "consoleX": 152,
+    "consoleY": 154,
     "consoleWidth": 900,
     "consoleHeight": 600,
     "monitor": 0,
@@ -48,6 +48,6 @@
   },
   "mappedExecutables": [],
   "fillOpacity": 0,
-  "shownWelcomeMessage": false,
+  "shownWelcomeMessage": true,
   "accountCreationTime": 0
 }

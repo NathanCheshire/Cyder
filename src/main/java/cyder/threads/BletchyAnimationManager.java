@@ -132,13 +132,15 @@ public enum BletchyAnimationManager {
         initialized.set(true);
 
         this.outputPane = outputPane;
-        printer = outputPane.getStringUtil();
+        this.printer = outputPane.getStringUtil();
     }
 
     /**
-     * Deconstructs this manager, removing set variables, objects, and trackers.
+     * Deactivates this manager, removing set variables, objects, and trackers.
      */
-    public synchronized void deconstruct() {
+    public synchronized void deactivate() {
+        Preconditions.checkState(initialized.get());
+
         this.outputPane = null;
         this.printer = null;
 

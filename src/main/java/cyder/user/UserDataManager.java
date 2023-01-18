@@ -104,7 +104,7 @@ public enum UserDataManager {
         try {
             if (!userFile.exists()) {
                 if (!userFile.createNewFile()) {
-                    throw new FatalException("Failed to re-create user file: " + userFile.getAbsolutePath());
+                    throw new FatalException("Failed to re-create user data file: " + userFile.getAbsolutePath());
                 }
             }
 

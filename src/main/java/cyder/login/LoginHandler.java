@@ -266,10 +266,19 @@ public final class LoginHandler {
     }
 
     /**
-     * Shows the login frame.
+     * Shows the login frame
      */
     @Widget(triggers = {"login", "pin"}, description = "A widget to switch between Cyder users")
     public static void showGui() {
+        showGui(null);
+    }
+
+    /**
+     * Shows the login frame relative to the provided point.
+     *
+     * @param centerPoint the point to place the center of the login frame at
+     */
+    public static void showGui(Point centerPoint) {
         priorityPrintingList.clear();
         printingList.clear();
         loginMode = LoginMode.INPUT;
@@ -350,7 +359,11 @@ public final class LoginHandler {
 
         loginField.setCaretPosition(currentBashString.length());
         loginFrame.getContentPane().add(loginField);
-        loginFrame.finalizeAndShow();
+        if (centerPoint == null) {
+            loginFrame.finalizeAndShow();
+        } else {
+            loginFrame.finalizeAndShow(centerPoint);
+        }
 
         CyderSplash.INSTANCE.fastDispose();
         if (UserUtil.noCyderUsers()) printlnPriority("No users found; please type " + quote + CREATE + quote);

@@ -10,6 +10,7 @@ import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
@@ -347,6 +348,13 @@ public enum Console {
             consoleCyderFrame.notify("Welcome back, " + username + "!");
         }
         UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
+
+        // if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
+        titleNotify("<html>Welcome to Cyder, <b>" + UserDataManager.INSTANCE.getUsername()
+                        + "</b>! Type \"help\" for command assists</html>",
+                CyderFonts.DEFAULT_FONT_LARGE, 6000);
+        UserDataManager.INSTANCE.setShownWelcomeMessage(true);
+        //   }
 
         long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
@@ -1883,7 +1891,7 @@ public enum Console {
             new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(this::onLogout)
+                    .setRunnable(this::logUserOut)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build()
     );
@@ -1910,7 +1918,7 @@ public enum Console {
             TaskbarIcon logoutTaskbarIcon = new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(this::onLogout)
+                    .setRunnable(this::logUserOut)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build();
 
@@ -3478,7 +3486,7 @@ public enum Console {
         GeneralAndSystemAudioPlayer.stopGeneralAudio();
 
         if (baseInputHandler != null) {
-            baseInputHandler.killThreads();
+            baseInputHandler.deactivate();
             baseInputHandler = null;
         }
 
@@ -3529,17 +3537,19 @@ public enum Console {
     }
 
     /**
-     * Closes the CyderFrame and shows the LoginFrame
-     * relative to where Console was closed.
+     * Logs this user out, closes the console frame, and shows the login frame.
+     * Any resources initialized in the console loading phase are released.
      */
-    public void onLogout() {
+    public void logUserOut() {
+        Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
+
         closeFrame(false, true);
         UiUtil.closeAllFrames(true);
 
         GeneralAndSystemAudioPlayer.stopAllAudio();
         NetworkUtil.terminateHighPingChecker();
         UserDataManager.INSTANCE.removeManagement();
-        LoginHandler.showGui();
+        LoginHandler.showGui(centerPoint);
     }
 
     // -----------------------------------------------------
@@ -3644,7 +3654,7 @@ public enum Console {
     /**
      * An semaphore to ensure only one title notification is ever visible
      */
-    private final Semaphore titleNotifySemaphore = new Semaphore(1);
+    private final Semaphore titleNotifyLock = new Semaphore(1);
 
     /**
      * The label used for title notifications.
@@ -3671,15 +3681,13 @@ public enum Console {
 
         CyderThreadRunner.submit(() -> {
             try {
-                titleNotifySemaphore.acquire();
-
-                BufferedImage bi = getCurrentBackground().generateBufferedImage();
+                titleNotifyLock.acquire();
 
                 titleNotifyLabel.setFont(labelFont);
                 titleNotifyLabel.setOpaque(true);
                 titleNotifyLabel.setVisible(true);
-                titleNotifyLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
-                titleNotifyLabel.setForeground(ColorUtil.getSuitableOverlayTextColor(bi));
+                titleNotifyLabel.setForeground(CyderColors.defaultDarkModeTextColor);
+                titleNotifyLabel.setBackground(CyderColors.darkModeBackgroundColor);
 
                 BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
                         labelFont, consoleCyderFrame.getWidth());
@@ -3704,11 +3712,12 @@ public enum Console {
                 consoleCyderFrame.repaint();
 
                 ThreadUtil.sleep(visibleDuration);
+
                 titleNotifyLabel.setVisible(false);
                 consoleCyderFrame.remove(titleNotifyLabel);
                 titleNotifyLabel.setText("");
 
-                titleNotifySemaphore.release();
+                titleNotifyLock.release();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

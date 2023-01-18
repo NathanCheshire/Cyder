@@ -79,25 +79,23 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
-     * Suppress default constructor.
-     */
-    private BaseInputHandler() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The robot used for screen operations.
      */
     private static final Robot robot;
 
     static {
         try {
-            // This should be the only instance of "new Robot()" in all of Cyder.
-            // Future may require a RobotManager class in which we might want more instances.
             robot = new Robot();
         } catch (Exception e) {
             throw new FatalException(e);
         }
+    }
+
+    /**
+     * Suppress default constructor.
+     */
+    private BaseInputHandler() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -107,40 +105,6 @@ public class BaseInputHandler {
      */
     public final Robot getRobot() {
         return robot;
-    }
-
-    /**
-     * Constructs a new base input handler liked to the provided {@link JTextPane}.
-     *
-     * @param outputArea the JTextPane object to append content to
-     */
-    public BaseInputHandler(JTextPane outputArea) {
-        this.linkedOutputPane = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
-        initializeSpecialThreads();
-        clearLists();
-        Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}, that of the following:
-     * <ul>
-     *     <li>{@link YoutubeUuidCheckerManager}</li>
-     *     <li>{@link BletchyAnimationManager}</li>
-     * </ul>
-     */
-    @ForReadability
-    private void initializeSpecialThreads() {
-        YoutubeUuidCheckerManager.INSTANCE.initialize(linkedOutputPane);
-        BletchyAnimationManager.INSTANCE.initialize(linkedOutputPane);
-    }
-
-    /**
-     * Clears the console printing lists.
-     */
-    @ForReadability
-    private void clearLists() {
-        consolePrintingList.clear();
-        consolePriorityPrintingList.clear();
     }
 
     /**
@@ -176,6 +140,56 @@ public class BaseInputHandler {
             TestHandler.class,
             WrappedCommandHandler.class
     );
+
+    /**
+     * Constructs a new base input handler liked to the provided {@link JTextPane}.
+     *
+     * @param outputArea the JTextPane object to append content to
+     */
+    public BaseInputHandler(JTextPane outputArea) {
+        Preconditions.checkNotNull(outputArea);
+
+        this.linkedOutputPane = new CyderOutputPane(outputArea);
+        initializeSpecialThreads();
+        clearLists();
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Releases resources acquired and initialized via the constructor.
+     */
+    public void deactivate() {
+        deactivateSpecialThreads();
+        killThreads();
+    }
+
+    /**
+     * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}, that of the following:
+     * <ul>
+     *     <li>{@link YoutubeUuidCheckerManager}</li>
+     *     <li>{@link BletchyAnimationManager}</li>
+     * </ul>
+     */
+    private void initializeSpecialThreads() {
+        YoutubeUuidCheckerManager.INSTANCE.initialize(linkedOutputPane);
+        BletchyAnimationManager.INSTANCE.initialize(linkedOutputPane);
+    }
+
+    /**
+     * Releases the resources initialied by the {@link #initializeSpecialThreads()} method.
+     */
+    private void deactivateSpecialThreads() {
+        YoutubeUuidCheckerManager.INSTANCE.deactivate();
+        BletchyAnimationManager.INSTANCE.deactivate();
+    }
+
+    /**
+     * Clears the console printing lists.
+     */
+    private void clearLists() {
+        consolePrintingList.clear();
+        consolePriorityPrintingList.clear();
+    }
 
     /**
      * Handles the input and provides output if necessary to the linked JTextPane.
