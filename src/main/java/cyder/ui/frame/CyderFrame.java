@@ -1505,7 +1505,7 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        String threadName = openingBracket + getTitle() + closingBracket + " dispose() animation thread";
+        String threadName = openingBracket + getTitle() + closingBracket + " Dispose Animation Thread";
         CyderThreadRunner.submit(() -> {
             try {
                 if (disposed) return;
@@ -2545,25 +2545,25 @@ public class CyderFrame extends JFrame {
     /**
      * Actions to be invoked before dispose is invoked.
      */
-    private LinkedList<Runnable> preCloseActions = new LinkedList<>();
+    private final ArrayList<Runnable> preCloseActions = new ArrayList<>();
 
     /**
      * Actions to be invoked after dispose is invoked.
      */
-    private LinkedList<Runnable> postCloseActions = new LinkedList<>();
+    private final ArrayList<Runnable> postCloseActions = new ArrayList<>();
 
     /**
      * Removes all pre close actions.
      */
     public void removePreCloseActions() {
-        preCloseActions = new LinkedList<>();
+        preCloseActions.clear();
     }
 
     /**
      * Removes all post close actions.
      */
     public void removePostCloseActions() {
-        postCloseActions = new LinkedList<>();
+        postCloseActions.clear();
     }
 
     /**
@@ -2573,6 +2573,8 @@ public class CyderFrame extends JFrame {
      * @param action the action to perform before closing/disposing
      */
     public void addPreCloseAction(Runnable action) {
+        Preconditions.checkNotNull(action);
+
         preCloseActions.add(action);
     }
 
@@ -2583,6 +2585,8 @@ public class CyderFrame extends JFrame {
      * @param action the action to perform before closing/disposing
      */
     public void addPostCloseAction(Runnable action) {
+        Preconditions.checkNotNull(action);
+
         postCloseActions.add(action);
     }
 

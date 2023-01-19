@@ -1996,8 +1996,10 @@ public final class UserEditor {
                 return;
             }
 
-            Console.INSTANCE.closeFrame(false, true);
+            Console.INSTANCE.logoutCurrentUser();
+            Console.INSTANCE.releaseResourcesAndCloseFrame();
 
+            // todo test this
             UiUtil.closeAllFrames(true);
 
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid()));

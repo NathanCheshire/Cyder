@@ -15,7 +15,18 @@ import java.io.File;
 /**
  * A user object.
  */
+@SuppressWarnings("SpellCheckingInspection")
 public final class User {
+    /**
+     * The default size of the user font.
+     */
+    public static final int DEFAULT_FONT_SIZE = 28;
+
+    /**
+     * The default console clock format.
+     */
+    public static final String DEFAULT_CONSOLE_CLOCK_FORMAT = "EEEEEEEEE h:mm:ssaa";
+
     /**
      * The username.
      */
@@ -88,7 +99,7 @@ public final class User {
     /**
      * The size of the font used for the input and output fields.
      */
-    private int fontSize = 28;
+    private int fontSize = DEFAULT_FONT_SIZE;
 
     /**
      * Returns the size of the font used for the input and output fields.
@@ -594,7 +605,7 @@ public final class User {
     /**
      * The console clock date pattern format.
      */
-    private String consoleClockFormat = "EEEEEEEEE h:mm:ssaa";
+    private String consoleClockFormat = DEFAULT_CONSOLE_CLOCK_FORMAT;
 
     /**
      * Returns the console clock date pattern format.

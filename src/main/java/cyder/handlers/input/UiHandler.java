@@ -76,10 +76,11 @@ public class UiHandler extends InputHandler {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
-                Console.INSTANCE.closeFrame(true, false);
+                Console.INSTANCE.releaseResourcesAndCloseFrame();
+                OsUtil.exit(ExitCondition.StandardControlledExit);
             }
         } else if (getInputHandler().commandIs("logout")) {
-            Console.INSTANCE.logUserOut();
+            Console.INSTANCE.logoutCurrentUserAndShowLoginFrame();
         } else if (getInputHandler().commandIs("mouse")) {
             if (getInputHandler().checkArgsLength(2)) {
                 OsUtil.setMouseLocation(Integer.parseInt(getInputHandler().getArg(0)),

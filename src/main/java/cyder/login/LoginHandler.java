@@ -651,11 +651,14 @@ public final class LoginHandler {
     private static void handleSuccessfulPasswordCheck() {
         Preconditions.checkState(!recognizedUuid.isEmpty());
 
-        Console.INSTANCE.setUuid(recognizedUuid);
+        if (!Console.INSTANCE.isClosed()) {
+            Console.INSTANCE.logoutCurrentUser();
+            Console.INSTANCE.releaseResourcesAndCloseFrame();
+        }
 
         doLoginAnimations = false;
 
-        if (!Console.INSTANCE.isClosed()) Console.INSTANCE.closeFrame(false, true);
+        Console.INSTANCE.setUuid(recognizedUuid);
         Console.INSTANCE.initializeAndLaunch();
     }
 

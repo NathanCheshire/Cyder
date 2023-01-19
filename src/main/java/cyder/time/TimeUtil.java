@@ -7,6 +7,7 @@ import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.user.User;
 import cyder.user.UserDataManager;
 
 import java.text.DecimalFormat;
@@ -137,7 +138,7 @@ public final class TimeUtil {
     /**
      * The date formatter to use when formatting a date object to the console clock time format.
      */
-    public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
+    public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat(User.DEFAULT_CONSOLE_CLOCK_FORMAT);
 
     /**
      * The date formatter to use when formatting a date object to the console clock time format without seconds.
@@ -295,8 +296,7 @@ public final class TimeUtil {
      * clock format as set by the currently logged-in user
      */
     public static String userFormattedTime() {
-        if (Console.INSTANCE.getUuid() == null)
-            throw new IllegalStateException("The console uuid is not set");
+        Preconditions.checkState(!Console.INSTANCE.isClosed());
 
         return getTime(UserDataManager.INSTANCE.getConsoleClockFormat());
     }

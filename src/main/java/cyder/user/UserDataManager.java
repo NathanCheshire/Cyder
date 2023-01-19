@@ -127,8 +127,6 @@ public enum UserDataManager {
         }
     }
 
-    // todo when fill opacity is enabled/disabled, I want a cool up/down animation
-
     /**
      * Writes the current user to the user's source JSON file.
      */
@@ -166,7 +164,7 @@ public enum UserDataManager {
      * and the result of serializing the current user fields.
      */
     private synchronized void updateCurrentLevenshteinDistance() {
-        String serialized = SerializationUtil.toJson(user);
+        String serialized = user.toJson();
         currentLevenshteinDistance = LevenshteinUtil.computeLevenshteinDistance(serialized, lastSerializedUser);
         lastSerializedUser = serialized;
     }

@@ -960,11 +960,12 @@ public enum Console {
         closeButton = new CloseButton();
         closeButton.setForConsole(true);
         closeButton.setClickAction(() -> {
-            boolean shouldMinimize = UserDataManager.INSTANCE.shouldMinimizeOnClose();
-            if (shouldMinimize) {
+            if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
-                closeFrame(true, false);
+                releaseResourcesAndCloseFrame();
+                // todo after
+                OsUtil.exit(ExitCondition.StandardControlledExit);
             }
         });
         closeButton.addFocusListener(new FocusAdapter() {
@@ -1137,14 +1138,7 @@ public enum Console {
          */
         @Override
         public void windowClosed(WindowEvent e) {
-            if (!consoleClosed.get()) {
-                boolean shouldMinimize = UserDataManager.INSTANCE.shouldMinimizeOnClose();
-                if (shouldMinimize) {
-                    UiUtil.minimizeAllFrames();
-                } else {
-                    closeFrame(true, false);
-                }
-            }
+            // todo
         }
     };
 
@@ -1884,7 +1878,7 @@ public enum Console {
             new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(this::logUserOut)
+                    .setRunnable(this::logoutCurrentUserAndShowLoginFrame)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build()
     );
@@ -1911,7 +1905,7 @@ public enum Console {
             TaskbarIcon logoutTaskbarIcon = new TaskbarIcon.Builder(LOGOUT)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(this::logUserOut)
+                    .setRunnable(this::logoutCurrentUserAndShowLoginFrame)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build();
 
@@ -3466,34 +3460,40 @@ public enum Console {
     }
 
     /**
-     * Simply closes the console frame.
-     *
-     * @param exit       whether to exit Cyder upon closing the Console
-     * @param logoutUser whether to log out the currently logged-in user
+     * Logs out the current user and revokes user management from the {@link UserDataManager}.
      */
-    public void closeFrame(boolean exit, boolean logoutUser) {
+    public void logoutCurrentUser() {
+        Logger.log(LogTag.LOGOUT, UserDataManager.INSTANCE.getUsername());
+        UserDataManager.INSTANCE.setLoggedIn(false);
+        UserDataManager.INSTANCE.removeManagement();
+        NetworkUtil.terminateHighPingChecker();
+    }
+
+    /**
+     * Logs out the current user and shows the login frame
+     * relative to the Console's location before it was closed.
+     */
+    public void logoutCurrentUserAndShowLoginFrame() {
+        Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
+        UiUtil.closeAllFrames(true, consoleCyderFrame);
+        releaseResourcesAndCloseFrame();
+        logoutCurrentUser();
+        LoginHandler.showGui(centerPoint);
+    }
+
+    public void releaseResourcesAndCloseFrame() {
         if (consoleClosed.get()) return;
         consoleClosed.set(true);
 
         saveScreenStat();
-        GeneralAndSystemAudioPlayer.stopGeneralAudio();
+        GeneralAndSystemAudioPlayer.stopAllAudio();
 
         if (baseInputHandler != null) {
             baseInputHandler.deactivate();
             baseInputHandler = null;
         }
 
-        if (logoutUser) {
-            Logger.log(LogTag.LOGOUT, UserDataManager.INSTANCE.getUsername());
-            UserDataManager.INSTANCE.setLoggedIn(false);
-        }
-
-        if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
-        if (consoleCyderFrame.isDisposed()) {
-            OsUtil.exit(ExitCondition.StandardControlledExit);
-        } else {
-            consoleCyderFrame.dispose();
-        }
+        consoleCyderFrame.dispose();
     }
 
     /**
@@ -3529,25 +3529,9 @@ public enum Console {
         UserDataManager.INSTANCE.writeUser();
     }
 
-    /**
-     * Logs this user out, closes the console frame, and shows the login frame.
-     * Any resources initialized in the console loading phase are released.
-     */
-    public void logUserOut() {
-        Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
-
-        closeFrame(false, true);
-        UiUtil.closeAllFrames(true);
-
-        GeneralAndSystemAudioPlayer.stopAllAudio();
-        NetworkUtil.terminateHighPingChecker();
-        UserDataManager.INSTANCE.removeManagement();
-        LoginHandler.showGui(centerPoint);
-    }
-
-    // -----------------------------------------------------
-    // Dancing (Get up on the floor, dancing all night long)
-    // -----------------------------------------------------
+    // -------
+    // Dancing
+    // -------
 
     /**
      * A record for a frame to dance.

@@ -12,6 +12,7 @@ import cyder.logging.Logger;
 import cyder.ui.UiUtil;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.pane.CyderScrollList;
+import cyder.user.data.MappedExecutable;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
@@ -73,8 +74,6 @@ public final class UserData<T> {
     public static final String FILL_OPACITY = "fillOpacity";
     public static final String SHOWN_WELCOME_MESSAGE = "shownWelcomeMessage";
     public static final String ACCOUNT_CREATION_TIME = "accountCreationTime";
-
-    // todo object does not exist for
     public static final String MAPPED_EXECUTABLES = "mappedExecutables";
 
     /**
@@ -129,6 +128,7 @@ public final class UserData<T> {
     @SuppressWarnings("MagicConstant")
     public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
             .setDescription("The size of the user font")
+            .setDefaultValue(User.DEFAULT_FONT_SIZE)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FONT_SIZE);
 
@@ -355,6 +355,7 @@ public final class UserData<T> {
      */
     public static final UserData<Long> lastSessionStart = new Builder<>(LAST_SESSION_START, Long.class)
             .setDescription("The time at which the last session for this user was started")
+            .setDefaultValue(Long.MAX_VALUE)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LAST_SESSION_START)).build();
 
     /**
@@ -417,13 +418,14 @@ public final class UserData<T> {
      */
     public static final UserData<String> consoleClockFormat = new Builder<>(CONSOLE_CLOCK_FORMAT, String.class)
             .setDescription("The date pattern for the console clock")
+            .setDefaultValue(User.DEFAULT_CONSOLE_CLOCK_FORMAT)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, CONSOLE_CLOCK_FORMAT);
                 Console.INSTANCE.refreshClockText();
             }).build();
 
     /**
-     * The YouTubeUUID data piece.
+     * The YouTube UUID data piece.
      */
     public static final UserData<String> youtubeUuid = new Builder<>(YOUTUBE_UUID, String.class)
             .setDescription("The uuid this user is at for YouTube UUID generation")
@@ -527,6 +529,7 @@ public final class UserData<T> {
      */
     public static final UserData<Integer> fillOpacity = new Builder<>(FILL_OPACITY, Integer.class)
             .setDescription("The opacity of the input and output fills")
+            .setDefaultValue(ColorUtil.maxOpacity)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FILL_OPACITY);
 
@@ -560,8 +563,19 @@ public final class UserData<T> {
      * The account creation time data piece.
      */
     public static final UserData<Long> accountCreationTime = new Builder<>(ACCOUNT_CREATION_TIME, Long.class)
+            .setDefaultValue(System.currentTimeMillis())
             .setDescription("The time at which this account was created")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, ACCOUNT_CREATION_TIME)).build();
+
+    // todo this will want to be a class wrapping it for purposes of user data
+    /**
+     * The mapped executables data piece.
+     */
+    public static final UserData<MappedExecutable> mappedExecutables =
+            new Builder<>(MAPPED_EXECUTABLES, MappedExecutable.class)
+                    .setDescription("The list of mapped executables stored by this user")
+                    .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, MAPPED_EXECUTABLES))
+                    .build();
 
     /**
      * The list of all {@link UserData} pieces.
@@ -608,7 +622,8 @@ public final class UserData<T> {
             fillOpacity,
             screenStat,
             shownWelcomeMessage,
-            accountCreationTime
+            accountCreationTime,
+            mappedExecutables
     );
 
     /**
