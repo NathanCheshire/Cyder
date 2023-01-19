@@ -82,6 +82,9 @@ public final class UserData<T> {
      */
     private static final int inputOutputBorderThickness = 3;
 
+    /**
+     * The username data piece.
+     */
     public static final UserData<String> username = new Builder<>(USERNAME, String.class)
             .setDescription("The user's public username")
             .setOnChangeFunction(() -> {
@@ -89,12 +92,18 @@ public final class UserData<T> {
                 Console.INSTANCE.refreshConsoleSuperTitle();
             }).build();
 
+    /**
+     * The password data piece.
+     */
     public static final UserData<String> password = new Builder<>(PASSWORD, String.class)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PASSWORD);
                 // todo log out user
             }).build();
 
+    /**
+     * The font name data piece.
+     */
     @SuppressWarnings("MagicConstant")
     public static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
             .setDescription("The name of the font for the input and output fields")
@@ -114,6 +123,9 @@ public final class UserData<T> {
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
+    /**
+     * The font size data piece.
+     */
     @SuppressWarnings("MagicConstant")
     public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
             .setDescription("The size of the user font")
@@ -132,6 +144,9 @@ public final class UserData<T> {
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
+    /**
+     * The foreground color data piece.
+     */
     public static final UserData<Color> foregroundColor = new Builder<>(FOREGROUND_COLOR, Color.class)
             .setDescription("The text color for the input and output fields")
             .setDefaultValue(CyderColors.navy)
@@ -146,6 +161,9 @@ public final class UserData<T> {
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
             }).build();
 
+    /**
+     * The background color data piece.
+     */
     public static final UserData<Color> backgroundColor = new Builder<>(BACKGROUND_COLOR, Color.class)
             .setDescription("The color for the output/input field borders and fills")
             .setDefaultValue(Color.black)
@@ -180,19 +198,31 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The intro music data piece.
+     */
     public static final UserData<Boolean> introMusic = new Builder<>(INTRO_MUSIC, Boolean.class)
             .setDescription("Whether to play intro music on user login")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, INTRO_MUSIC)).build();
 
+    /**
+     * The debug stats data piece.
+     */
     public static final UserData<Boolean> debugStats = new Builder<>(DEBUG_STATS, Boolean.class)
             .setDescription("Whether to show debug windows on initial console load")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, DEBUG_STATS)).build();
 
+    /**
+     * The random background on start data piece.
+     */
     public static final UserData<Boolean> randomBackgroundOnStart =
             new Builder<>(RANDOM_BACKGROUND_ON_START, Boolean.class)
                     .setDescription("Whether to choose a random background for the console on console load")
                     .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, RANDOM_BACKGROUND_ON_START)).build();
 
+    /**
+     * The draw output border data piece.
+     */
     public static final UserData<Boolean> drawOutputBorder = new Builder<>(DRAW_OUTPUT_BORDER, Boolean.class)
             .setDescription("Whether to draw a border around the output field")
             .setOnChangeFunction(() -> {
@@ -207,6 +237,9 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The draw input border data piece.
+     */
     public static final UserData<Boolean> drawInputBorder = new Builder<>(DRAW_INPUT_BORDER, Boolean.class)
             .setDescription("Whether to draw a border around the input field")
             .setOnChangeFunction(() -> {
@@ -220,10 +253,16 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The play hourly chimes data piece.
+     */
     public static final UserData<Boolean> playHourlyChimes = new Builder<>(PLAY_HOURLY_CHIMES, Boolean.class)
             .setDescription("Whether to play chime sounds on the turning of the hour")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, PLAY_HOURLY_CHIMES)).build();
 
+    /**
+     * The silence errors data piece.
+     */
     public static final UserData<Boolean> silenceErrors = new Builder<>(SILENCE_ERRORS, Boolean.class)
             .setDescription("Whether to silence error notifications")
             .setOnChangeFunction(() -> {
@@ -231,6 +270,9 @@ public final class UserData<T> {
                 // todo if error panes are present, remove
             }).build();
 
+    /**
+     * The fullscreen data piece.
+     */
     public static final UserData<Boolean> fullscreen = new Builder<>(FULLSCREEN, Boolean.class)
             .setDescription("Whether the program shoul be in fullscreen mode")
             .setOnChangeFunction(() -> {
@@ -238,6 +280,9 @@ public final class UserData<T> {
                 Console.INSTANCE.setFullscreen(UserDataManager.INSTANCE.isFullscreen());
             }).build();
 
+    /**
+     * The draw output fill data piece.
+     */
     public static final UserData<Boolean> drawOutputFill = new Builder<>(DRAW_OUTPUT_FILL, Boolean.class)
             .setDescription("Whether the output area should be filled")
             .setOnChangeFunction(() -> {
@@ -256,6 +301,9 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The draw input fill data piece.
+     */
     public static final UserData<Boolean> drawInputFill = new Builder<>(DRAW_INPUT_FILL, Boolean.class)
             .setDescription("Whether the input field should be filled")
             .setOnChangeFunction(() -> {
@@ -274,6 +322,9 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The draw console clock data piece..
+     */
     public static final UserData<Boolean> drawConsoleClock = new Builder<>(DRAW_CONSOLE_CLOCK, Boolean.class)
             .setDescription("Whether to show a clock on the console")
             .setOnChangeFunction(() -> {
@@ -281,6 +332,9 @@ public final class UserData<T> {
                 Console.INSTANCE.refreshClockText();
             }).build();
 
+    /**
+     * The show console clock seconds data piece.
+     */
     public static final UserData<Boolean> showConsoleClockSeconds =
             new Builder<>(SHOW_CONSOLE_CLOCK_SECONDS, Boolean.class)
                     .setDescription("Whether to show seconds on the console clock")
@@ -289,27 +343,45 @@ public final class UserData<T> {
                         Console.INSTANCE.refreshClockText();
                     }).build();
 
+    /**
+     * The filter chat data piece.
+     */
     public static final UserData<Boolean> filterChat = new Builder<>(FILTER_CHAT, Boolean.class)
             .setDescription("Whether the user input should be filtered")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, FILTER_CHAT)).build();
 
+    /**
+     * The last session start data piece.
+     */
     public static final UserData<Long> lastSessionStart = new Builder<>(LAST_SESSION_START, Long.class)
             .setDescription("The time at which the last session for this user was started")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LAST_SESSION_START)).build();
 
+    /**
+     * The minimize on close data piece.
+     */
     public static final UserData<Boolean> minimizeOnClose = new Builder<>(MINIMIZE_ON_CLOSE, Boolean.class)
             .setDescription("Whether the cnosole should be minimized instead"
                     + " of closed when the closed button is pressed")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, MINIMIZE_ON_CLOSE)).build();
 
+    /**
+     * The typing animation data piece.
+     */
     public static final UserData<Boolean> typingAnimation = new Builder<>(TYPING_ANIMATION, Boolean.class)
             .setDescription("Whether to show a typing animation for the console")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, TYPING_ANIMATION)).build();
 
+    /**
+     * The play typing sound data piece.
+     */
     public static final UserData<Boolean> playTypingSound = new Builder<>(PLAY_TYPING_SOUND, Boolean.class)
             .setDescription("Whether to play a typing sound effect when the typing animation is enabled")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, PLAY_TYPING_SOUND)).build();
 
+    /**
+     * The show busy animation data piece.
+     */
     public static final UserData<Boolean> showBusyAnimation = new Builder<>(SHOW_BUSY_ANIMATION, Boolean.class)
             .setDescription("Whether to show a busy animation")
             .setOnChangeFunction(() -> {
@@ -317,6 +389,9 @@ public final class UserData<T> {
                 Logger.log(LogTag.USER_DATA, SHOW_BUSY_ANIMATION);
             }).build();
 
+    /**
+     * The rounded frame borders data piece.
+     */
     public static final UserData<Boolean> roundedFrameBorders = new Builder<>(ROUNDED_FRAME_BORDERS, Boolean.class)
             .setDescription("Whether to paint frames with rounded corners")
             .setOnChangeFunction(() -> {
@@ -324,6 +399,9 @@ public final class UserData<T> {
                 UiUtil.repaintCyderFrames();
             }).build();
 
+    /**
+     * The frame color data piece.
+     */
     public static final UserData<Color> frameColor = new Builder<>(FRAME_COLOR, Color.class)
             .setDescription("The color for frame borders")
             .setDefaultValue(CyderColors.navy)
@@ -334,6 +412,9 @@ public final class UserData<T> {
                 Console.INSTANCE.revalidateMenuBackgrounds();
             }).build();
 
+    /**
+     * The console clock format data piece.
+     */
     public static final UserData<String> consoleClockFormat = new Builder<>(CONSOLE_CLOCK_FORMAT, String.class)
             .setDescription("The date pattern for the console clock")
             .setOnChangeFunction(() -> {
@@ -341,25 +422,40 @@ public final class UserData<T> {
                 Console.INSTANCE.refreshClockText();
             }).build();
 
+    /**
+     * The YouTubeUUID data piece.
+     */
     public static final UserData<String> youtubeUuid = new Builder<>(YOUTUBE_UUID, String.class)
             .setDescription("The uuid this user is at for YouTube UUID generation")
             .setDefaultValue("aaaaaaaaaaa")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, YOUTUBE_UUID)).build();
 
+    /**
+     * The caps mode data piece.
+     */
     public static final UserData<Boolean> capsMode = new Builder<>(CAPS_MODE, Boolean.class)
             .setDescription("Whether conosle output should be appended in capital letters")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, CAPS_MODE)).build();
 
+    /**
+     * The logged in data piece.
+     */
     public static final UserData<Boolean> loggedIn = new Builder<>(LOGGED_IN, Boolean.class)
             .setDescription("Whether this user is currently logged in")
             .setIgnoreForToggleSwitches(true)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, LOGGED_IN)).build();
 
+    /**
+     * The show audio total length data piece.
+     */
     public static final UserData<Boolean> showAudioTotalLength = new Builder<>(SHOW_AUDIO_TOTAL_LENGTH, Boolean.class)
             .setDescription("Whether the audio total length should be shown instead"
                     + " of the time remaining for the audio player")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOW_AUDIO_TOTAL_LENGTH)).build();
 
+    /**
+     * The should persist notifications data piece.
+     */
     public static final UserData<Boolean> shouldPersistNotifications =
             new Builder<>(SHOULD_PERSIST_NOTIFICATIONS, Boolean.class)
                     .setDescription("Whether notifications should be persited until manually dismissed")
@@ -368,10 +464,16 @@ public final class UserData<T> {
                         // todo hook to remove persisting notifications
                     }).build();
 
+    /**
+     * The do animations data piece.
+     */
     public static final UserData<Boolean> doAnimations = new Builder<>(DO_ANIMATIONS, Boolean.class)
             .setDescription("Whether certain animations shoudl be performed")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, DO_ANIMATIONS)).build();
 
+    /**
+     * The compact text mode data piece.
+     */
     public static final UserData<Boolean> compactTextMode = new Builder<>(COMPACT_TEXT_MODE, Boolean.class)
             .setDescription("Whether compact text mode is enabled")
             .setOnChangeFunction(() -> {
@@ -381,10 +483,16 @@ public final class UserData<T> {
                 CyderScrollList.refreshAllLists();
             }).build();
 
+    /**
+     * The wrap native shell data piece.
+     */
     public static final UserData<Boolean> wrapNativeShell = new Builder<>(WRAP_NATIVE_SHELL, Boolean.class)
             .setDescription("Whether unrecognized user commands should be pased to the native shell")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, WRAP_NATIVE_SHELL)).build();
 
+    /**
+     * The draw weather map data piece.
+     */
     public static final UserData<Boolean> drawWeatherMap = new Builder<>(DRAW_WEATHER_MAP, Boolean.class)
             .setDescription("Whether a map should be drawn on the background of the weather widget")
             .setOnChangeFunction(() -> {
@@ -392,6 +500,9 @@ public final class UserData<T> {
                 WeatherWidget.refreshAllMapBackgrounds();
             }).build();
 
+    /**
+     * The paint clock widget hour labels data piece.
+     */
     public static final UserData<Boolean> paintclockWidgetHourLabels =
             new Builder<>(PAINT_CLOCK_WIDGET_HOUR_LABELS, Boolean.class)
                     .setDescription("Whether the hour labels should be painted for the clock widget")
@@ -400,6 +511,9 @@ public final class UserData<T> {
                         ClockWidget.setPaintHourLabels(UserDataManager.INSTANCE.shouldPaintClockHourLabels());
                     }).build();
 
+    /**
+     * The show clock widget second hand data piece.
+     */
     public static final UserData<Boolean> showClockWidgetSecondHand =
             new Builder<>(SHOW_CLOCK_WIDGET_SECOND_HAND, Boolean.class)
                     .setDescription("Whether the second hand should be shown for the clock widget")
@@ -408,6 +522,9 @@ public final class UserData<T> {
                         ClockWidget.setShowSecondHand(UserDataManager.INSTANCE.shouldShowClockWidgetSecondHand());
                     }).build();
 
+    /**
+     * The fill opacity data piece.
+     */
     public static final UserData<Integer> fillOpacity = new Builder<>(FILL_OPACITY, Integer.class)
             .setDescription("The opacity of the input and output fills")
             .setOnChangeFunction(() -> {
@@ -424,21 +541,30 @@ public final class UserData<T> {
                 }
             }).build();
 
+    /**
+     * The screen stat data piece.
+     */
     public static final UserData<ScreenStat> screenStat = new Builder<>(SCREEN_STAT, ScreenStat.class)
             .setDescription("The user's screen stats")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SCREEN_STAT)).build();
 
+    /**
+     * The shown welcome message data piece.
+     */
     public static final UserData<Boolean> shownWelcomeMessage = new Builder<>(SHOWN_WELCOME_MESSAGE, Boolean.class)
             .setDescription("Whether the welcome message has been shown for this user")
             .setIgnoreForToggleSwitches(true)
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOWN_WELCOME_MESSAGE)).build();
 
+    /**
+     * The account creation time data piece.
+     */
     public static final UserData<Long> accountCreationTime = new Builder<>(ACCOUNT_CREATION_TIME, Long.class)
             .setDescription("The time at which this account was created")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, ACCOUNT_CREATION_TIME)).build();
 
     /**
-     * The collection of {@link UserData} pieces.
+     * The list of all {@link UserData} pieces.
      */
     public static final ImmutableList<UserData<?>> datas = ImmutableList.of(
             username,
