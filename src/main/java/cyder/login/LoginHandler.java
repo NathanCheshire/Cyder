@@ -597,7 +597,7 @@ public final class LoginHandler {
             return;
         }
 
-        Optional<String> optionalUuid = UserUtil.getFirstLoggedInUser();
+        Optional<String> optionalUuid = UserUtil.getMostRecentLoggedInUser();
         if (optionalUuid.isPresent()) {
             String loggedInUuid = optionalUuid.get();
             Logger.log(LogTag.CONSOLE_LOAD, "Found previously logged in user: " + loggedInUuid);
@@ -659,7 +659,6 @@ public final class LoginHandler {
         doLoginAnimations = false;
 
         Console.INSTANCE.setUuid(recognizedUuid);
-        // todo console still open apparently
         Console.INSTANCE.initializeAndLaunch();
     }
 

@@ -394,18 +394,26 @@ public final class UserUtil {
     }
 
     /**
-     * Searches through the users directory and finds the first logged-in user.
+     * Searches through the users directory and the logged-in user with the most recent
+     * last login time if possible. Empty optional else
      *
-     * @return the uuid of the first logged-in user
+     * @return the uuid of the user matching the specified parameters above if possible. Empty optional else
      */
-    public static Optional<String> getFirstLoggedInUser() {
-        for (File userJson : getUserJsons()) {
-            if (extractUser(userJson).isLoggedIn()) {
-                return Optional.of(FileUtil.getFilename(userJson.getParentFile().getName()));
+    public static Optional<String> getMostRecentLoggedInUser() {
+        String uuid = null;
+        long latestSessionStart = 0;
+
+        for (File userJsonFile : getUserJsons()) {
+            User user = extractUser(userJsonFile);
+            long lastUserSessionStart = user.getLastSessionStart();
+
+            if (user.isLoggedIn() && lastUserSessionStart > latestSessionStart) {
+                latestSessionStart = lastUserSessionStart;
+                uuid = FileUtil.getFilename(userJsonFile.getParentFile().getName());
             }
         }
 
-        return Optional.empty();
+        return Optional.ofNullable(uuid);
     }
 
     /**
