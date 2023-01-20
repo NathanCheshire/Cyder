@@ -242,11 +242,21 @@ public enum Console {
      * Performs Console setup routines before constructing
      * the frame and setting its visibility, location, and size.
      *
-     * @throws FatalException if the Console was left open
+     * @param uuid the uuid of the user to be linked to this instance of the console
+     * @throws IllegalStateException if the Console was left open
      */
-    public void initializeAndLaunch() {
+    public void initializeAndLaunch(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
         Preconditions.checkState(isClosed());
         consoleClosed.set(false);
+
+        this.uuid = uuid;
+
+        UserDataManager.INSTANCE.initialize(uuid);
+        UserUtil.logoutAllUsers();
+        UserDataManager.INSTANCE.setLoggedIn(true);
+        UserUtil.deleteInvalidBackgrounds(uuid);
 
         NetworkUtil.startHighPingChecker();
 
@@ -2386,24 +2396,6 @@ public enum Console {
             baseInputHandler.refreshPrintedLabels();
         }
     };
-
-    /**
-     * Sets the UUID for this Cyder session. Everything else relies on this being set and not null.
-     *
-     * @param uuid the user uuid that we will use to determine our output dir and other
-     *             information specific to this instance of the console
-     */
-    public void setUuid(String uuid) {
-        Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(!uuid.isEmpty());
-
-        this.uuid = uuid;
-
-        UserDataManager.INSTANCE.initialize(uuid);
-        UserUtil.logoutAllUsers();
-        UserDataManager.INSTANCE.setLoggedIn(true);
-        UserUtil.deleteInvalidBackgrounds(uuid);
-    }
 
     /**
      * Returns the uuid of the current user.

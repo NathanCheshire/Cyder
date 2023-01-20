@@ -602,8 +602,7 @@ public final class LoginHandler {
             String loggedInUuid = optionalUuid.get();
             Logger.log(LogTag.CONSOLE_LOAD, "Found previously logged in user: " + loggedInUuid);
             UserUtil.logoutAllUsers();
-            Console.INSTANCE.setUuid(loggedInUuid);
-            Console.INSTANCE.initializeAndLaunch();
+            Console.INSTANCE.initializeAndLaunch(loggedInUuid);
             return;
         }
 
@@ -658,8 +657,7 @@ public final class LoginHandler {
 
         doLoginAnimations = false;
 
-        Console.INSTANCE.setUuid(recognizedUuid);
-        Console.INSTANCE.initializeAndLaunch();
+        Console.INSTANCE.initializeAndLaunch(recognizedUuid);
     }
 
     /**
