@@ -126,7 +126,7 @@ public final class UserUtil {
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
-        return SerializationUtil.fromJson(file, User.class);
+        return User.fromJson(file);
     }
 
     /**

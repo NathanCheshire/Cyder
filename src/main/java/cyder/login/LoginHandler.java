@@ -623,7 +623,7 @@ public final class LoginHandler {
 
         PasswordCheckResult result = checkPassword(name, hashedPass);
         switch (result) {
-            case FAILED -> handleFailedPasswordCheck(autoCypherAttempt);
+            case FAILED -> onRecognizedFailed(autoCypherAttempt);
             case UNKNOWN_USER -> printlnPriority("Unknown user");
             case SUCCESS -> {
                 handleSuccessfulPasswordCheck();
@@ -636,11 +636,11 @@ public final class LoginHandler {
     }
 
     /**
-     * Handles a failed check password invocation.
+     * Handles a failed recognize invocation.
      *
      * @param autoCypherAttempt whether the recognize invocation was invoked with an autocypher
      */
-    private static void handleFailedPasswordCheck(boolean autoCypherAttempt) {
+    private static void onRecognizedFailed(boolean autoCypherAttempt) {
         printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
         loginField.requestFocusInWindow();
     }
@@ -652,13 +652,14 @@ public final class LoginHandler {
         Preconditions.checkState(!recognizedUuid.isEmpty());
 
         if (!Console.INSTANCE.isClosed()) {
+            Console.INSTANCE.releaseResourcesAndCloseFrame(false);
             Console.INSTANCE.logoutCurrentUser();
-            Console.INSTANCE.releaseResourcesAndCloseFrame();
         }
 
         doLoginAnimations = false;
 
         Console.INSTANCE.setUuid(recognizedUuid);
+        // todo console still open apparently
         Console.INSTANCE.initializeAndLaunch();
     }
 

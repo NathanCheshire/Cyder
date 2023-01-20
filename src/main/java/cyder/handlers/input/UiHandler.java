@@ -76,8 +76,7 @@ public class UiHandler extends InputHandler {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
-                Console.INSTANCE.releaseResourcesAndCloseFrame();
-                OsUtil.exit(ExitCondition.StandardControlledExit);
+                Console.INSTANCE.releaseResourcesAndCloseFrame(true);
             }
         } else if (getInputHandler().commandIs("logout")) {
             Console.INSTANCE.logoutCurrentUserAndShowLoginFrame();

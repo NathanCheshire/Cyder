@@ -345,17 +345,6 @@ public final class ExceptionHandler {
     /**
      * Validates the provided condition, throwing a fatal exception if false.
      *
-     * @param condition the condition to validate
-     */
-    public static void checkFatalCondition(boolean condition) {
-        if (!condition) {
-            throw new FatalException(FATAL_EXCEPTION);
-        }
-    }
-
-    /**
-     * Validates the provided condition, throwing a fatal exception if false.
-     *
      * @param condition          the condition to validate
      * @param fatalExceptionText the exception text if the condition is false
      */

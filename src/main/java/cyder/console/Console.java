@@ -245,7 +245,8 @@ public enum Console {
      * @throws FatalException if the Console was left open
      */
     public void initializeAndLaunch() {
-        ExceptionHandler.checkFatalCondition(isClosed());
+        Preconditions.checkState(isClosed());
+        consoleClosed.set(false);
 
         NetworkUtil.startHighPingChecker();
 
@@ -484,7 +485,6 @@ public enum Console {
 
         commandIndex = 0;
 
-        consoleClosed.set(false);
         menuLabel = null;
 
         commandList.clear();
@@ -963,9 +963,7 @@ public enum Console {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
-                releaseResourcesAndCloseFrame();
-                // todo after
-                OsUtil.exit(ExitCondition.StandardControlledExit);
+                releaseResourcesAndCloseFrame(true);
             }
         });
         closeButton.addFocusListener(new FocusAdapter() {
@@ -1131,14 +1129,6 @@ public enum Console {
         @Override
         public void windowDeiconified(WindowEvent e) {
             onConsoleWindowDeiconified();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void windowClosed(WindowEvent e) {
-            // todo
         }
     };
 
@@ -3476,12 +3466,12 @@ public enum Console {
     public void logoutCurrentUserAndShowLoginFrame() {
         Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
         UiUtil.closeAllFrames(true, consoleCyderFrame);
-        releaseResourcesAndCloseFrame();
+        releaseResourcesAndCloseFrame(false);
         logoutCurrentUser();
         LoginHandler.showGui(centerPoint);
     }
 
-    public void releaseResourcesAndCloseFrame() {
+    public void releaseResourcesAndCloseFrame(boolean invokeExit) {
         if (consoleClosed.get()) return;
         consoleClosed.set(true);
 
@@ -3493,6 +3483,7 @@ public enum Console {
             baseInputHandler = null;
         }
 
+        if (invokeExit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
         consoleCyderFrame.dispose();
     }
 

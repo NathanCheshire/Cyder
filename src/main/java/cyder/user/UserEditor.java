@@ -1997,7 +1997,7 @@ public final class UserEditor {
             }
 
             Console.INSTANCE.logoutCurrentUser();
-            Console.INSTANCE.releaseResourcesAndCloseFrame();
+            Console.INSTANCE.releaseResourcesAndCloseFrame(false);
 
             // todo test this
             UiUtil.closeAllFrames(true);
