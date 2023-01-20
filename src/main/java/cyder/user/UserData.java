@@ -115,6 +115,7 @@ public final class UserData<T> {
                     requestedFontMetric = Font.BOLD;
                 }
 
+                // todo isn't there a common method to get the font from the currently set params?
                 Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
                         requestedFontMetric, UserDataManager.INSTANCE.getFontSize());
                 Console.INSTANCE.getOutputArea().setFont(applyFont);
@@ -268,6 +269,8 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, SILENCE_ERRORS);
                 // todo if error panes are present, remove
+                // todo this implies we need some kind of a manager, should also have errors stck up the side
+                //  with padding and if more than like half of screen height, just say like "2 more..."
             }).build();
 
     /**

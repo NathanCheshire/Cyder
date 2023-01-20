@@ -290,26 +290,16 @@ public final class UiUtil {
      * @param ignoreFrames frames to not dispose if encountered
      */
     public static void closeAllFrames(boolean fastClose, Frame... ignoreFrames) {
-        for (Frame frame : Frame.getFrames()) {
-            boolean skip = false;
-
-            if (ignoreFrames.length > 0) {
-                for (Frame ignoreFrame : ignoreFrames) {
-                    if (frame.equals(ignoreFrame)) {
-                        skip = true;
-                        break;
+        ImmutableList<Frame> ignores = ImmutableList.copyOf(ignoreFrames);
+        Arrays.stream(Frame.getFrames())
+                .filter(frame -> !ignores.contains(frame))
+                .forEach(frame -> {
+                    if (frame instanceof CyderFrame cyderFrame) {
+                        cyderFrame.dispose(fastClose);
+                    } else {
+                        frame.dispose();
                     }
-                }
-            }
-
-            if (skip) continue;
-
-            if (frame instanceof CyderFrame cyderFrame) {
-                cyderFrame.dispose(fastClose);
-            } else {
-                frame.dispose();
-            }
-        }
+                });
     }
 
     /**
@@ -318,18 +308,14 @@ public final class UiUtil {
      * @param fastClose whether to invoke fast close on all CyderFrames found
      */
     public static void closeAllCyderFrames(boolean fastClose) {
-        for (CyderFrame f : getCyderFrames()) {
-            f.dispose(fastClose);
-        }
+        getCyderFrames().forEach(frame -> frame.dispose(fastClose));
     }
 
     /**
      * Repaints all valid instances of CyderFrame.
      */
     public static void repaintCyderFrames() {
-        for (CyderFrame frame : getCyderFrames()) {
-            frame.repaint();
-        }
+        getCyderFrames().forEach(CyderFrame::repaint);
     }
 
     /**
@@ -337,11 +323,11 @@ public final class UiUtil {
      * Found {@link CyderFrame}s have their {@link CyderFrame#minimizeAndIconify()} invoked instead.
      */
     public static void minimizeAllFrames() {
-        for (Frame f : getFrames()) {
-            if (f instanceof CyderFrame) {
-                ((CyderFrame) f).minimizeAndIconify();
+        for (Frame frame : getFrames()) {
+            if (frame instanceof CyderFrame cyderFrame) {
+                cyderFrame.minimizeAndIconify();
             } else {
-                f.setState(Frame.ICONIFIED);
+                frame.setState(Frame.ICONIFIED);
             }
         }
     }
@@ -600,6 +586,9 @@ public final class UiUtil {
      * @return the drag label button size
      */
     public static DragLabelButtonSize dragLabelButtonSizeFromString(String size) {
+        Preconditions.checkNotNull(size);
+        Preconditions.checkArgument(!size.isEmpty());
+
         return switch (size) {
             case "small" -> DragLabelButtonSize.SMALL;
             case "medium" -> DragLabelButtonSize.MEDIUM;
