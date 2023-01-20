@@ -284,6 +284,27 @@ public enum UserDataManager {
         return Optional.empty();
     }
 
+    /**
+     * Returns the boolean value for the user data with the provided ID.
+     *
+     * @param id the id of the boolean user data to return
+     * @return the value of the user data
+     */
+    public boolean getBooleanUserDataValue(String id) {
+        Preconditions.checkNotNull(id);
+        Preconditions.checkArgument(!id.isEmpty());
+
+        Optional<Method> methodOptional = UserUtil.getGetterMethodForDataWithName(id, user);
+
+        if (methodOptional.isPresent()) {
+            try {
+                return (boolean) methodOptional.get().invoke(user);
+            } catch (Exception ignored) {}
+        }
+
+        throw new IllegalArgumentException("No boolean user data found with ID: " + id);
+    }
+
     // -----------------------------
     // Proxy methods for user object
     // -----------------------------

@@ -437,7 +437,10 @@ public final class UserData<T> {
      */
     public static final UserData<Boolean> capsMode = new Builder<>(CAPS_MODE, Boolean.class)
             .setDescription("Whether conosle output should be appended in capital letters")
-            .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, CAPS_MODE)).build();
+            .setOnChangeFunction(() -> {
+                Logger.log(LogTag.USER_DATA, CAPS_MODE);
+                // todo make all text in console capital letters? how would this be undone?
+            }).build();
 
     /**
      * The logged in data piece.

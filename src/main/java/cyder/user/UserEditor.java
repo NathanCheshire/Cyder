@@ -1569,10 +1569,10 @@ public final class UserEditor {
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
-        // todo logic here could be cleaner
         checkboxComponents.clear();
         UserData.getUserDatas().stream()
                 .filter(userData -> !userData.shouldIgnoreForToggleSwitches())
+                .filter(userData -> userData.getType() == Boolean.class)
                 .forEach(userData -> {
                     JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
                     preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
@@ -1584,13 +1584,10 @@ public final class UserEditor {
                             PRINTED_PREF_COMPONENT_HEIGHT);
                     preferenceContentLabel.add(preferenceNameLabel);
 
-                    boolean selected = UserDataManager.INSTANCE.getUserDataById(userData.getId(),
-                            Boolean.class).orElseThrow();
-                    CyderCheckbox checkbox = new CyderCheckbox(selected);
+                    boolean checked = UserDataManager.INSTANCE.getBooleanUserDataValue(userData.getId());
+                    CyderCheckbox checkbox = new CyderCheckbox(checked);
                     checkbox.setRefreshStateFunction(() -> {
-                        boolean checked = UserDataManager.INSTANCE.getUserDataById(
-                                userData.getId(), Boolean.class).orElseThrow();
-                        checkbox.setChecked(checked);
+                        checkbox.setChecked(UserDataManager.INSTANCE.getBooleanUserDataValue(userData.getId()));
                         checkbox.repaint();
                     });
                     checkbox.setToolTipText(userData.getDescription().orElse(""));

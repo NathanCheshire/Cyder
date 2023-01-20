@@ -2129,9 +2129,6 @@ public enum Console {
         menuPane.setCaretPosition(0);
     }
 
-    // todo adding files bug to user editor
-    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
-
     /**
      * Removes the provided frame reference from the taskbar frame list.
      *
@@ -3703,6 +3700,9 @@ public enum Console {
 
         consoleCyderFrame.repaint();
     }
+
+    // todo adding files bug to user editor
+    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
     // todo could add some logic and separate with a class to return a hash when a frame taskbar exception is added
     //  that way only the caller can remove itself from the taskbar exceptions list
