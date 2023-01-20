@@ -2132,6 +2132,11 @@ public enum Console {
     // todo adding files bug to user editor
     // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
+    // todo continuation indents for logger are sometimes one char too much if split
+    //  at a space, need to trim before adding the leading whitespace
+
+    // todo fix random new lines in logger?
+
     /**
      * Removes the provided frame reference from the taskbar frame list.
      *
@@ -2721,8 +2726,10 @@ public enum Console {
 
         Executors.newSingleThreadExecutor(new CyderThreadFactory(CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME))
                 .submit(() -> {
-                    int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
-                    int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
+                    int timeout =
+                            isFullscreen() ? fullscreenBackgroundAnimationTimeout : defaultBackgroundAnimationTimeout;
+                    int increment = isFullscreen() ? fullscreenBackgroundAnimationIncrement :
+                            defaultBackgroundAnimationIncrement;
 
                     switch (nextSlideDirection) {
                         case TOP -> {
@@ -3655,8 +3662,8 @@ public enum Console {
                 int containerWidth = boundsString.getWidth();
                 int containerHeight = boundsString.getHeight();
 
-                if (containerHeight + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getHeight()
-                        || containerWidth + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getWidth()) {
+                if (containerHeight + 2 * titleNotificationPadding > consoleCyderFrame.getHeight()
+                        || containerWidth + 2 * titleNotificationPadding > consoleCyderFrame.getWidth()) {
                     consoleCyderFrame.inform(htmlString, "Console Notification");
                     return;
                 }
@@ -3665,8 +3672,8 @@ public enum Console {
 
                 titleNotifyLabel.setText(HtmlUtil.addCenteringToHtml(boundsString.getText()));
                 titleNotifyLabel.setBounds(
-                        (int) (center.getX() - NOTIFICATION_PADDING - containerWidth / 2),
-                        (int) (center.getY() - NOTIFICATION_PADDING - containerHeight / 2),
+                        (int) (center.getX() - titleNotificationPadding - containerWidth / 2),
+                        (int) (center.getY() - titleNotificationPadding - containerHeight / 2),
                         containerWidth, containerHeight);
                 consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
@@ -3695,12 +3702,15 @@ public enum Console {
 
         Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-        w = (int) (center.getX() - NOTIFICATION_PADDING - w / 2);
-        h = (int) (center.getY() - NOTIFICATION_PADDING - h / 2);
+        w = (int) (center.getX() - titleNotificationPadding - w / 2);
+        h = (int) (center.getY() - titleNotificationPadding - h / 2);
         titleNotifyLabel.setLocation(w, h);
 
         consoleCyderFrame.repaint();
     }
+
+    // todo could add some logic and separate with a class to return a hash when a frame taskbar exception is added
+    //  that way only the caller can remove itself from the taskbar exceptions list
 
     /**
      * Adds the provided frame to {@link #frameTaskbarExceptions}.
@@ -3709,11 +3719,10 @@ public enum Console {
      */
     public void addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
+        Preconditions.checkArgument(!frameTaskbarExceptions.contains(frame));
 
         frameTaskbarExceptions.add(frame);
     }
-
-    // todo is there a way to ensure frame is the caller? would be cool if we had friend modifier as well
 
     /**
      * Removes the provided frame from {@link #frameTaskbarExceptions} if it is contained.
