@@ -2132,11 +2132,6 @@ public enum Console {
     // todo adding files bug to user editor
     // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
-    // todo continuation indents for logger are sometimes one char too much if split
-    //  at a space, need to trim before adding the leading whitespace
-
-    // todo fix random new lines in logger?
-
     /**
      * Removes the provided frame reference from the taskbar frame list.
      *

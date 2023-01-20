@@ -134,8 +134,6 @@ public final class Logger {
         zipPastLogs();
     }
 
-    // todo use me on start from boostrap
-
     /**
      * Initializes the logger for logging by invoking the following actions:
      *
@@ -152,6 +150,7 @@ public final class Logger {
      *
      * @param logFile the log file to use
      */
+    // todo use me on start from boostrap
     public static void initializeWithLogFile(File logFile) {
         Preconditions.checkState(!loggerInitialized.get());
         Preconditions.checkNotNull(logFile);
@@ -380,7 +379,7 @@ public final class Logger {
                 prefixSpacing = StringUtil.generateSpaces(prepend.length());
             }
 
-            String writeLine = prefixSpacing + lengthCheckedLines.get(i);
+            String writeLine = prefixSpacing + lengthCheckedLines.get(i).trim();
             prefixedLines.add(writeLine);
         }
 
