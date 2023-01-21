@@ -1812,7 +1812,6 @@ public enum Console {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
                     // todo what if this was deleted while closed? need a subroutine to validate these on startup
-                    // todo apparently this doesn't work for opening a directory?
                     FileUtil.openResource(exe.getFilepath(), true);
                     exe.displayInvokedNotification();
                 };

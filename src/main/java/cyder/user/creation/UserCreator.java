@@ -308,9 +308,9 @@ public final class UserCreator {
             } else {
                 createUserFrame.dispose();
 
-                InformHandler.inform(new InformHandler.Builder("The new user \"" + name
+                new InformHandler.Builder("The new user \"" + name
                         + "\" has been created successfully.").setTitle("User Created")
-                        .setRelativeTo(CyderFrame.getDominantFrame()));
+                        .setRelativeTo(CyderFrame.getDominantFrame()).inform();
 
                 if (onlyOneUser()) {
                     LoginHandler.getLoginFrame().dispose();

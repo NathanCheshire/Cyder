@@ -26,6 +26,22 @@ import java.awt.event.WindowEvent;
  */
 public final class InformHandler {
     /**
+     * The width padding on each side of the information pane.
+     */
+    private static final int frameXPadding = 10;
+
+    /**
+     * The offset to translate the text label on the information pane down by.
+     */
+    private static final int frameYOffset = CyderDragLabel.DEFAULT_HEIGHT;
+
+    /**
+     * THe height padding on each side of the information pane.
+     */
+    private static final int frameYPadding = 10;
+
+
+    /**
      * Suppress default constructor.
      */
     private InformHandler() {
@@ -45,21 +61,6 @@ public final class InformHandler {
 
         return inform(new Builder(text).setTitle(Builder.DEFAULT_TITLE));
     }
-
-    /**
-     * The width padding on each side of the information pane.
-     */
-    private static final int xPadding = 10;
-
-    /**
-     * The offset to translate the text label on the information pane down by.
-     */
-    private static final int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
-
-    /**
-     * THe height padding on each side of the information pane.
-     */
-    private static final int yPadding = 10;
 
     /**
      * Opens an information using the information provided by builder.
@@ -107,8 +108,8 @@ public final class InformHandler {
 
             builder.setContainer(textLabel);
 
-            informFrame = new CyderFrame(containerWidth + xPadding * 2,
-                    containerHeight + yOffset + 2 * yPadding, CyderColors.regularBackgroundColor);
+            informFrame = new CyderFrame(containerWidth + frameXPadding * 2,
+                    containerHeight + frameYOffset + 2 * frameYPadding, CyderColors.regularBackgroundColor);
             informFrame.setTitle(builder.getTitle());
 
             int containerX = informFrame.getWidth() / 2 - containerWidth / 2;
@@ -235,6 +236,7 @@ public final class InformHandler {
          * @param title the title for the frame
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setTitle(String title) {
             this.title = title;
             return this;
@@ -255,6 +257,7 @@ public final class InformHandler {
          * @param relativeTo the component to set the frame relative to
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setRelativeTo(Component relativeTo) {
             this.relativeTo = relativeTo;
             return this;
@@ -275,6 +278,7 @@ public final class InformHandler {
          * @param preCloseAction the pre close action to invoke before disposing the frame
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setPreCloseAction(Runnable preCloseAction) {
             this.preCloseAction = preCloseAction;
             return this;
@@ -295,6 +299,7 @@ public final class InformHandler {
          * @param postCloseAction the post close action to invoke before closing the frame
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setPostCloseAction(Runnable postCloseAction) {
             this.postCloseAction = postCloseAction;
             return this;
@@ -315,6 +320,7 @@ public final class InformHandler {
          * @param container the container to use for the frame's pane
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setContainer(JLabel container) {
             this.container = container;
             return this;
@@ -335,9 +341,17 @@ public final class InformHandler {
          * @param disableRelativeTo to disable the relative to component upon showing this dialog
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setDisableRelativeTo(boolean disableRelativeTo) {
             this.disableRelativeTo = disableRelativeTo;
             return this;
+        }
+
+        /**
+         * Creates an information pane using the parameters set by this builder
+         */
+        public void inform() {
+            InformHandler.inform(this);
         }
     }
 }

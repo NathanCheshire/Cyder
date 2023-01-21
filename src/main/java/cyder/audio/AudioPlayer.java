@@ -766,11 +766,11 @@ public final class AudioPlayer {
                 if (!passedPreliminaries.get()) {
                     audioPlayerFrame.revokeAllNotifications();
 
-                    InformHandler.inform(new InformHandler.Builder("Could not download necessary "
+                    new InformHandler.Builder("Could not download necessary "
                             + "binaries. Try to install both ffmpeg and YouTube-dl and try again")
                             .setTitle("Network Error")
                             .setRelativeTo(audioPlayerFrame)
-                            .setPostCloseAction(AudioPlayer::killAndCloseWidget));
+                            .setPostCloseAction(AudioPlayer::killAndCloseWidget).inform();
                 } else {
                     audioPlayerFrame.revokeAllNotifications();
                     unlockUi();

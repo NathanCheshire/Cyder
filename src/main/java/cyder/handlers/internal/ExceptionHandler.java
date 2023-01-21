@@ -102,11 +102,6 @@ public final class ExceptionHandler {
     private static final Font exceptionPopupFont = CyderFonts.DEFAULT_FONT_SMALL;
 
     /**
-     * The fatal exception default text.
-     */
-    private static final String FATAL_EXCEPTION = "Fatal exception";
-
-    /**
      * Suppress default constructor.
      */
     private ExceptionHandler() {
@@ -326,9 +321,9 @@ public final class ExceptionHandler {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 
-        InformHandler.inform(new InformHandler.Builder(message)
+        new InformHandler.Builder(message)
                 .setTitle(title)
-                .setPostCloseAction(() -> OsUtil.exit(condition)));
+                .setPostCloseAction(() -> OsUtil.exit(condition)).inform();
     }
 
     /**

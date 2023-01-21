@@ -15,7 +15,6 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
-import cyder.utils.FontUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 
@@ -97,27 +96,19 @@ public final class UserData<T> {
     public static final UserData<String> password = new Builder<>(PASSWORD, String.class)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PASSWORD);
-                // todo log out user
+                // todo log out user and show login screen?
             }).build();
 
     /**
      * The font name data piece.
      */
-    @SuppressWarnings("MagicConstant")
     public static final UserData<String> fontName = new Builder<>(FONT_NAME, String.class)
             .setDescription("The name of the font for the input and output fields")
             .setDefaultValue(CyderFonts.AGENCY_FB)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FONT_NAME);
 
-                int requestedFontMetric = FontUtil.getFontMetricFromProps();
-                if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
-                    requestedFontMetric = Font.BOLD;
-                }
-
-                // todo isn't there a common method to get the font from the currently set params?
-                Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
-                        requestedFontMetric, UserDataManager.INSTANCE.getFontSize());
+                Font applyFont = Console.INSTANCE.generateUserFont();
                 Console.INSTANCE.getOutputArea().setFont(applyFont);
                 Console.INSTANCE.getInputField().setFont(applyFont);
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
@@ -126,20 +117,13 @@ public final class UserData<T> {
     /**
      * The font size data piece.
      */
-    @SuppressWarnings("MagicConstant")
     public static final UserData<Integer> fontSize = new Builder<>(FONT_SIZE, Integer.class)
             .setDescription("The size of the user font")
             .setDefaultValue(User.DEFAULT_FONT_SIZE)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FONT_SIZE);
 
-                int requestedFontMetric = FontUtil.getFontMetricFromProps();
-                if (!FontUtil.isValidFontMetric(requestedFontMetric)) {
-                    requestedFontMetric = Font.BOLD;
-                }
-
-                Font applyFont = new Font(UserDataManager.INSTANCE.getFontName(),
-                        requestedFontMetric, UserDataManager.INSTANCE.getFontSize());
+                Font applyFont = Console.INSTANCE.generateUserFont();
                 Console.INSTANCE.getOutputArea().setFont(applyFont);
                 Console.INSTANCE.getInputField().setFont(applyFont);
                 Console.INSTANCE.getInputHandler().refreshPrintedLabels();
@@ -443,6 +427,7 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, CAPS_MODE);
                 // todo make all text in console capital letters? how would this be undone?
+                // todo would have to maintain two styled text documents basically
             }).build();
 
     /**

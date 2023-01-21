@@ -495,7 +495,7 @@ public final class NecessarySubroutines {
         String errorMessagePrefix = handleWarning.getLogPrefix() + CyderStrings.colon + space + classOrMethodName;
 
         Logger.log(LogTag.HANDLE_WARNING, errorMessagePrefix);
-        InformHandler.inform(new InformHandler.Builder(errorMessagePrefix).setTitle(
-                StringUtil.capsFirstWord(handleWarning.name().replace(CyderStrings.underscore, space))));
+        new InformHandler.Builder(errorMessagePrefix).setTitle(
+                StringUtil.capsFirstWord(handleWarning.name().replace(CyderStrings.underscore, space))).inform();
     }
 }

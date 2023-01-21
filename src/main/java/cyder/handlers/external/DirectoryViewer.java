@@ -287,7 +287,6 @@ public final class DirectoryViewer {
         directoryFrame.revalidate();
         directoryFrame.repaint();
 
-
         directoryFrame.setTitle(getTitleForCurrentDirectory());
         directoryField.setText(currentDirectory.getAbsolutePath());
     }

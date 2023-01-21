@@ -424,9 +424,9 @@ public enum CyderSplash {
      */
     private void fatalError() {
         splashFrame.dispose(true);
-        InformHandler.inform(new InformHandler.Builder(FATAL_EXCEPTION_TEXT)
+        new InformHandler.Builder(FATAL_EXCEPTION_TEXT)
                 .setTitle(STARTUP_EXCEPTION)
-                .setPostCloseAction(FATAL_EXCEPTION_POST_CLOSE_ACTION));
+                .setPostCloseAction(FATAL_EXCEPTION_POST_CLOSE_ACTION).inform();
     }
 
     /**

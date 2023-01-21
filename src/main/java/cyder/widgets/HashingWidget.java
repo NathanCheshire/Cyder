@@ -181,9 +181,9 @@ public class HashingWidget {
             OsUtil.setClipboard(hashResult);
         }
 
-        InformHandler.inform(new InformHandler.Builder(informText)
+        new InformHandler.Builder(informText)
                 .setTitle(algorithm + CyderStrings.space + HASH_RESULT)
-                .setRelativeTo(hashField));
+                .setRelativeTo(hashField).inform();
 
         reset();
     }

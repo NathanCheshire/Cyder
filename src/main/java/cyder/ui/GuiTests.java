@@ -730,9 +730,9 @@ public final class GuiTests {
 
         testFrame.finalizeAndShow();
 
-        InformHandler.inform(new InformHandler.Builder("Hello")
+        new InformHandler.Builder("Hello")
                 .setDisableRelativeTo(true)
-                .setRelativeTo(testFrame));
+                .setRelativeTo(testFrame).inform();
     }
 
     /**

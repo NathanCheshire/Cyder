@@ -1212,12 +1212,10 @@ public class CyderFrame extends JFrame {
 
     @ForReadability
     private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
-        InformHandler.Builder builder = new InformHandler.Builder(text == null ? "NULL" : text)
-                .setContainer(container)
-                .setTitle(generateNotificationTooltip(time))
-                .setRelativeTo(this);
-
-        InformHandler.inform(builder);
+       new InformHandler.Builder(text == null ? "NULL" : text)
+               .setContainer(container)
+               .setTitle(generateNotificationTooltip(time))
+               .setRelativeTo(this).inform();
         notificationConstructionLock.release();
     }
 
@@ -1386,7 +1384,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 
-        InformHandler.inform(new InformHandler.Builder(text).setTitle(title).setRelativeTo(this));
+        new InformHandler.Builder(text).setTitle(title).setRelativeTo(this).inform();
     }
 
     // ----------
