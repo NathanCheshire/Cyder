@@ -1874,7 +1874,7 @@ public enum Console {
             new TaskbarIcon.Builder(PREFERENCES)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(() -> onPrefsMenuItemClicked())
+                    .setRunnable(this::onPrefsMenuItemClicked)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder(LOGOUT)
@@ -1900,7 +1900,7 @@ public enum Console {
             TaskbarIcon prefsTaskbarIcon = new TaskbarIcon.Builder(PREFERENCES)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(() -> onPrefsMenuItemClicked())
+                    .setRunnable(this::onPrefsMenuItemClicked)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build();
 

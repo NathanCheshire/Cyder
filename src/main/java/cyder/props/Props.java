@@ -65,13 +65,13 @@ public final class Props {
      * The font for the console clock if enabled.
      */
     public static final Prop<String> consoleClockFontName =
-            new Prop<>("console_clock_font_name", "Agency FB", String.class);
+            new Prop<>("console_clock_font_name", "Segoe UI Black", String.class);
 
     /**
      * The font size for the console clock if enabled.
      */
     public static final Prop<Integer> consoleClockFontSize =
-            new Prop<>("console_clock_font_size", 26, Integer.class);
+            new Prop<>("console_clock_font_size", 22, Integer.class);
 
     /**
      * Whether testing mode is active. (Any CyderTest annotations found with the trigger of "test"
