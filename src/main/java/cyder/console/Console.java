@@ -1805,8 +1805,8 @@ public enum Console {
      * @return the current mapped exe taskbar icon items
      */
     private ImmutableList<TaskbarIcon> getMappedExeTaskbarIcons(boolean compactMode) {
-        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables().getExecutables();
-        LinkedList<TaskbarIcon> ret = new LinkedList<>();
+        Collection<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables().getExecutables();
+        ArrayList<TaskbarIcon> ret = new ArrayList<>();
 
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
@@ -2116,7 +2116,7 @@ public enum Console {
             menuPaneOutputPane.getStringUtil().newline(!compactMode);
         });
 
-        if (currentMappedExeItems.size() > 0 && currentFrameMenuItems.size() > 0 && !compactMode) {
+        if (currentMappedExeItems.size() > 0 && !compactMode) {
             menuPaneOutputPane.printlnMenuSeparator();
         }
 

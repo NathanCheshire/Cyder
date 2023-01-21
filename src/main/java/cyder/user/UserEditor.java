@@ -2122,6 +2122,8 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkArgument(!link.isEmpty());
 
+        // todo this doesn't work for folders?
+
         File referenceFile = new File(link);
         boolean isValidFile = referenceFile.isFile();
         boolean isValidLink = NetworkUtil.isValidUrl(link);
@@ -2138,10 +2140,8 @@ public final class UserEditor {
             return;
         }
 
-        ImmutableList<MappedExecutable> newExes = new ImmutableList.Builder<MappedExecutable>()
-                .addAll(oldExes.getExecutables())
-                .add(new MappedExecutable(name, link))
-                .build();
+        ArrayList<MappedExecutable> newExes = new ArrayList<>(oldExes.getExecutables());
+        newExes.add(new MappedExecutable(name, link));
         UserDataManager.INSTANCE.setMappedExecutables(MappedExecutables.from(newExes));
 
         editUserFrame.notify("Successfully added map "

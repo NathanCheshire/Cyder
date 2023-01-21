@@ -1,35 +1,34 @@
 package cyder.user.data;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.Immutable;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * A class representing a list of mapped executables for a user data object.
  */
-@Immutable
 public class MappedExecutables {
     /**
      * The list of mapped executables.
      */
-    private final ImmutableList<MappedExecutable> mappedExecutables;
+    private ArrayList<MappedExecutable> mappedExecutables;
 
     /**
      * Constructs a new mapped executables.
      */
     public MappedExecutables() {
-        this(ImmutableList.of());
+        this(new ArrayList<>());
     }
 
     /**
      * Constructs a new mapped executables.
      */
-    private MappedExecutables(ImmutableList<MappedExecutable> mappedExecutables) {
-        this.mappedExecutables = Preconditions.checkNotNull(mappedExecutables);
+    private MappedExecutables(Collection<MappedExecutable> mappedExecutables) {
+        Preconditions.checkNotNull(mappedExecutables);
+        this.mappedExecutables = new ArrayList<>(mappedExecutables);
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -39,8 +38,19 @@ public class MappedExecutables {
      *
      * @return the list of mapped executables
      */
-    public ImmutableList<MappedExecutable> getExecutables() {
+    public ArrayList<MappedExecutable> getExecutables() {
         return mappedExecutables;
+    }
+
+    /**
+     * Sets the list of mapped executables.
+     *
+     * @param mappedExecutables the list of mapped executables
+     */
+    public void setMappedExecutables(ArrayList<MappedExecutable> mappedExecutables) {
+        Preconditions.checkNotNull(mappedExecutables);
+
+        this.mappedExecutables = mappedExecutables;
     }
 
     /**
@@ -59,7 +69,7 @@ public class MappedExecutables {
      * @return a new mapped executables object
      */
     public static MappedExecutables from(Collection<MappedExecutable> collection) {
-        return new MappedExecutables(ImmutableList.copyOf(collection));
+        return new MappedExecutables(collection);
     }
 
     /**
