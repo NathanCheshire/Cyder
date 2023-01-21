@@ -300,7 +300,13 @@ public final class UserUtil {
 
         File albumArtDirectory = OsUtil.buildFile(userMusicDirectory.getAbsolutePath(),
                 UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
-        if (!albumArtDirectory.exists()) return;
+        if (!albumArtDirectory.exists()) {
+            if (!albumArtDirectory.mkdir()) {
+                throw new FatalException("Failed to create album art directory at: "
+                        + albumArtDirectory.getAbsolutePath());
+            }
+            return;
+        }
         File[] albumArtFiles = albumArtDirectory.listFiles();
 
         if (albumArtFiles != null && albumArtFiles.length > 0) {

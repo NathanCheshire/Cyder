@@ -487,6 +487,7 @@ public final class AudioUtil {
      * @param audioFile the audio file to return the duration of
      * @return the duration of the provided audio file in milliseconds
      */
+    // todo occasionally this says that the file DNE for some reason when it does
     public static Future<Integer> getMillisMutagen(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());

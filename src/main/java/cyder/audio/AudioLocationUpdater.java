@@ -107,6 +107,7 @@ public class AudioLocationUpdater {
             try {
                 File file = currentAudioFile.get();
                 Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(file);
+                while (!futureTotalMilliSeconds.isDone()) Thread.onSpinWait();
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
                 updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), false);
                 startUpdateThread();

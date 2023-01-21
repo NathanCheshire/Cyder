@@ -164,7 +164,7 @@ public class StatHandler extends InputHandler {
             } else {
                 if (getInputHandler().checkArgsLength(0)
                         || getInputHandler().checkArgsLength(1)) {
-                    File startDir = new File("src/main/java/cyder");
+                    File startDir = new File("src");
 
                     if (getInputHandler().checkArgsLength(1)) {
                         startDir = new File(getInputHandler().getArg(0));

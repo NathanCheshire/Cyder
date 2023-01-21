@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
@@ -353,7 +354,7 @@ public final class UiUtil {
     /**
      * The index which determines which color to choose for the border color.
      */
-    private static int colorIndex;
+    private static final AtomicInteger colorIndex = new AtomicInteger();
 
     /**
      * Returns the color to be associated with a CyderFrame's TaskbarIcon border color.
@@ -361,14 +362,16 @@ public final class UiUtil {
      * @return the color to be associated with a CyderFrame's TaskbarIcon border color
      */
     public static Color getTaskbarBorderColor() {
-        Color ret = CyderColors.TASKBAR_BORDER_COLORS.get(colorIndex);
-        colorIndex++;
+        synchronized (UiUtil.class) {
+            Color ret = CyderColors.TASKBAR_BORDER_COLORS.get(colorIndex.get());
+            colorIndex.getAndIncrement();
 
-        if (colorIndex > CyderColors.TASKBAR_BORDER_COLORS.size() - 1) {
-            colorIndex = 0;
+            if (colorIndex.get() > CyderColors.TASKBAR_BORDER_COLORS.size() - 1) {
+                colorIndex.set(0);
+            }
+
+            return ret;
         }
-
-        return ret;
     }
 
     /**

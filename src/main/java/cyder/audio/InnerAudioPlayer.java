@@ -101,6 +101,7 @@ public class InnerAudioPlayer {
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
+                this.totalMilliSeconds = 0;
             }
         }, SETUP_THREAD_NAME);
     }
