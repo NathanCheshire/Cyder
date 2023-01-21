@@ -2122,13 +2122,12 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkArgument(!link.isEmpty());
 
-        // todo this doesn't work for folders?
-
         File referenceFile = new File(link);
-        boolean isValidFile = referenceFile.isFile();
+        boolean isValidFile = referenceFile.isFile() && referenceFile.exists();
+        boolean isValidFolder = referenceFile.isDirectory() && referenceFile.exists();
         boolean isValidLink = NetworkUtil.isValidUrl(link);
 
-        if (!isValidFile && !isValidLink) {
+        if (!isValidFile && !isValidLink && !isValidFolder) {
             editUserFrame.notify("Could not locate local file/link is invalid");
             return;
         }

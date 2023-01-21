@@ -167,7 +167,8 @@ public final class DirectoryViewer {
         UiUtil.closeIfOpen(directoryFrame);
 
         directoryFrame = new CyderFrame(frameWidth, frameHeight, CyderColors.regularBackgroundColor);
-        directoryFrame.setTitle(currentDirectory.getName());
+        String name = currentDirectory.getName();
+        directoryFrame.setTitle(name.isEmpty() ? currentDirectory.getAbsolutePath() : name);
 
         directoryField = new CyderTextField();
         directoryField.setBackground(Color.white);
@@ -286,7 +287,10 @@ public final class DirectoryViewer {
 
         directoryFrame.revalidate();
         directoryFrame.repaint();
-        directoryFrame.setTitle(currentDirectory.getName());
+
+        String name = currentDirectory.getName();
+
+        directoryFrame.setTitle(name.isEmpty() ? currentDirectory.getAbsolutePath() : name);
         directoryField.setText(currentDirectory.getAbsolutePath());
     }
 }

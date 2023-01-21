@@ -1811,6 +1811,8 @@ public enum Console {
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
+                    // todo what if this was deleted while closed? need a subroutine to validate these on startup
+                    // todo apparently this doesn't work for opening a directory?
                     FileUtil.openResource(exe.getFilepath(), true);
                     exe.displayInvokedNotification();
                 };
@@ -1833,9 +1835,9 @@ public enum Console {
     private final AtomicBoolean sentToFront = new AtomicBoolean();
 
     /**
-     * The runnable for when the preferences default taskbar icon is clicked.
+     * The action for when the preferences default taskbar icon is clicked.
      */
-    private final Runnable prefsRunnable = () -> {
+    private void onPrefsMenuItemClicked() {
         if (UserEditor.isOpen()) {
             if (UserEditor.isMinimized()) {
                 UserEditor.restore();
@@ -1853,7 +1855,7 @@ public enum Console {
         }
 
         revalidateConsoleTaskbarMenu();
-    };
+    }
 
     /**
      * The tooltip and label text for the preferences default taskbar icon.
@@ -1872,7 +1874,7 @@ public enum Console {
             new TaskbarIcon.Builder(PREFERENCES)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(prefsRunnable)
+                    .setRunnable(() -> onPrefsMenuItemClicked())
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder(LOGOUT)
@@ -1898,7 +1900,7 @@ public enum Console {
             TaskbarIcon prefsTaskbarIcon = new TaskbarIcon.Builder(PREFERENCES)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(prefsRunnable)
+                    .setRunnable(() -> onPrefsMenuItemClicked())
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build();
 

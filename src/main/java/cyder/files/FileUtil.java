@@ -101,7 +101,10 @@ public final class FileUtil {
     public static boolean isSupportedImageExtension(File file) {
         checkNotNull(file);
 
-        String extension = getExtension(file.getName());
+        String name = file.getName();
+        if (StringUtil.isNullOrEmpty(name)) return false;
+
+        String extension = getExtension(name);
         if (StringUtil.isNullOrEmpty(extension)) return false;
 
         return StringUtil.in(extension, true, SUPPORTED_IMAGE_EXTENSIONS)
@@ -118,7 +121,10 @@ public final class FileUtil {
     public static boolean isSupportedAudioExtension(File file) {
         checkNotNull(file);
 
-        String extension = getExtension(file.getName());
+        String name = file.getName();
+        if (StringUtil.isNullOrEmpty(name)) return false;
+
+        String extension = getExtension(name);
         if (StringUtil.isNullOrEmpty(extension)) return false;
 
         return StringUtil.in(extension, true, SUPPORTED_AUDIO_EXTENSIONS)
@@ -634,12 +640,16 @@ public final class FileUtil {
             File referenceFile = new File(resource);
             boolean referenceFileExists = referenceFile.exists();
 
-            if (referenceFileExists && allowCyderHandlers) {
-                for (CyderFileHandler handler : CyderFileHandler.values()) {
-                    if (handler.shouldUseForFile(referenceFile)) {
-                        return handler.open(referenceFile);
+            try {
+                if (referenceFileExists && allowCyderHandlers) {
+                    for (CyderFileHandler handler : CyderFileHandler.values()) {
+                        if (handler.shouldUseForFile(referenceFile)) {
+                            return handler.open(referenceFile);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
 
             return openResourceUsingNativeProgram(resource);
