@@ -239,7 +239,7 @@ public final class MinecraftWidget {
      * Checks the current user's mapped executables to determine if any might reference a Minecraft launcher.
      */
     private static void checkMappedExes() {
-        for (MappedExecutable exe : UserDataManager.INSTANCE.getMappedExecutables()) {
+        for (MappedExecutable exe : UserDataManager.INSTANCE.getMappedExecutables().getExecutables()) {
             File refFile = new File(exe.getFilepath());
 
             if (refFile.exists() && refFile.isFile()) {

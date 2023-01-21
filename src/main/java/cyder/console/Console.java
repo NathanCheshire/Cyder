@@ -1805,7 +1805,7 @@ public enum Console {
      * @return the current mapped exe taskbar icon items
      */
     private ImmutableList<TaskbarIcon> getMappedExeTaskbarIcons(boolean compactMode) {
-        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
+        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables().getExecutables();
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!exes.isEmpty()) {

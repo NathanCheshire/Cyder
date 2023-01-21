@@ -49,6 +49,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.user.creation.InputValidation;
 import cyder.user.data.MappedExecutable;
+import cyder.user.data.MappedExecutables;
 import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
 import cyder.utils.OsUtil;
@@ -2091,9 +2092,9 @@ public final class UserEditor {
     private static void showCurrentMaps() {
         StringBuilder informationBuilder = new StringBuilder();
 
-        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
+        MappedExecutables exes = UserDataManager.INSTANCE.getMappedExecutables();
 
-        exes.forEach(exe -> informationBuilder.append(CyderStrings.quote)
+        exes.getExecutables().forEach(exe -> informationBuilder.append(CyderStrings.quote)
                 .append(exe.getName())
                 .append(CyderStrings.quote)
                 .append(" maps to: ")
@@ -2130,19 +2131,18 @@ public final class UserEditor {
             return;
         }
 
-        ImmutableList<MappedExecutable> exes = UserDataManager.INSTANCE.getMappedExecutables();
+        MappedExecutables oldExes = UserDataManager.INSTANCE.getMappedExecutables();
 
-        if (exes.stream().anyMatch(exe -> exe.getName().equals(name))) {
+        if (oldExes.getExecutables().stream().anyMatch(exe -> exe.getName().equals(name))) {
             editUserFrame.notify("Map name already in use");
             return;
         }
 
-        ImmutableList<MappedExecutable> oldExes = UserDataManager.INSTANCE.getMappedExecutables();
         ImmutableList<MappedExecutable> newExes = new ImmutableList.Builder<MappedExecutable>()
-                .addAll(oldExes)
+                .addAll(oldExes.getExecutables())
                 .add(new MappedExecutable(name, link))
                 .build();
-        UserDataManager.INSTANCE.setMappedExecutables(newExes);
+        UserDataManager.INSTANCE.setMappedExecutables(MappedExecutables.from(newExes));
 
         editUserFrame.notify("Successfully added map "
                 + CyderStrings.quote + name + CyderStrings.quote + " linking to: "
@@ -2159,11 +2159,12 @@ public final class UserEditor {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        ImmutableList<MappedExecutable> oldExes = UserDataManager.INSTANCE.getMappedExecutables();
+        MappedExecutables oldExes = UserDataManager.INSTANCE.getMappedExecutables();
 
         ImmutableList.Builder<MappedExecutable> newExesBuilder = new ImmutableList.Builder<>();
 
-        oldExes.stream().filter(exe -> !exe.getName().equals(name)).forEach(newExesBuilder::add);
+        oldExes.getExecutables().stream()
+                .filter(exe -> !exe.getName().equals(name)).forEach(newExesBuilder::add);
 
         ImmutableList<MappedExecutable> newExes = newExesBuilder.build();
         if (newExes.size() == oldExes.size()) {
@@ -2171,7 +2172,7 @@ public final class UserEditor {
             return;
         }
 
-        UserDataManager.INSTANCE.setMappedExecutables(newExes);
+        UserDataManager.INSTANCE.setMappedExecutables(MappedExecutables.from(newExes));
         editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
         Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }

@@ -12,7 +12,7 @@ import cyder.logging.Logger;
 import cyder.ui.UiUtil;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.pane.CyderScrollList;
-import cyder.user.data.MappedExecutable;
+import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
 import cyder.utils.FontUtil;
@@ -573,12 +573,11 @@ public final class UserData<T> {
             .setDescription("The time at which this account was created")
             .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, ACCOUNT_CREATION_TIME)).build();
 
-    // todo this will want to be a class wrapping it for purposes of user data
     /**
      * The mapped executables data piece.
      */
-    public static final UserData<MappedExecutable> mappedExecutables =
-            new Builder<>(MAPPED_EXECUTABLES, MappedExecutable.class)
+    public static final UserData<MappedExecutables> mappedExecutables =
+            new Builder<>(MAPPED_EXECUTABLES, MappedExecutables.class)
                     .setDescription("The list of mapped executables stored by this user")
                     .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, MAPPED_EXECUTABLES))
                     .build();

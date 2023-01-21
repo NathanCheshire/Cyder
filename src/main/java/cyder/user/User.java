@@ -1,12 +1,11 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import cyder.enums.Extension;
 import cyder.files.FileUtil;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.user.data.MappedExecutable;
+import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.SerializationUtil;
 
@@ -926,25 +925,25 @@ public final class User {
     }
 
     /**
-     * The list of mapped executables.
+     * The mapped executables object.
      */
-    private ImmutableList<MappedExecutable> mappedExecutables = ImmutableList.of();
+    private MappedExecutables mappedExecutables = new MappedExecutables();
 
     /**
-     * Returns the list of mapped executables.
+     * Returns the mapped executables.
      *
-     * @return the list of mapped executables
+     * @return the mapped executables
      */
-    public ImmutableList<MappedExecutable> getMappedExecutables() {
+    public MappedExecutables getMappedExecutables() {
         return mappedExecutables;
     }
 
     /**
-     * Sets the list of mapped executables.
+     * Sets the mapped executables.
      *
-     * @param mappedExecutables the list of mapped executables
+     * @param mappedExecutables the mapped executables
      */
-    public void setMappedExecutables(ImmutableList<MappedExecutable> mappedExecutables) {
+    public void setMappedExecutables(MappedExecutables mappedExecutables) {
         this.mappedExecutables = mappedExecutables;
     }
 

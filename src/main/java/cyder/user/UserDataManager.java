@@ -1,7 +1,6 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
@@ -16,7 +15,7 @@ import cyder.strings.LevenshteinUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
-import cyder.user.data.MappedExecutable;
+import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;
 import cyder.utils.OsUtil;
@@ -26,7 +25,6 @@ import cyder.youtube.YouTubeConstants;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -1155,7 +1153,7 @@ public enum UserDataManager {
      *
      * @return the mapped executables for this user
      */
-    public synchronized ImmutableList<MappedExecutable> getMappedExecutables() {
+    public synchronized MappedExecutables getMappedExecutables() {
         getterInvoked(UserData.MAPPED_EXECUTABLES);
         return user.getMappedExecutables();
     }
@@ -1165,11 +1163,11 @@ public enum UserDataManager {
      *
      * @param mappedExecutables the mapped executables for this user
      */
-    public synchronized void setMappedExecutables(Collection<MappedExecutable> mappedExecutables) {
+    public synchronized void setMappedExecutables(MappedExecutables mappedExecutables) {
         Preconditions.checkState(isInitialized());
         Preconditions.checkNotNull(mappedExecutables);
 
-        user.setMappedExecutables(ImmutableList.copyOf(mappedExecutables));
+        user.setMappedExecutables(mappedExecutables);
     }
 
     /**
