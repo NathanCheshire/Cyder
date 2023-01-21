@@ -40,7 +40,6 @@ public final class InformHandler {
      */
     private static final int frameYPadding = 10;
 
-
     /**
      * Suppress default constructor.
      */
