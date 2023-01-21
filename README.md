@@ -35,13 +35,7 @@ Some examples of what you can do with Cyder include:
 
 <details open>
 <summary><b>Cyder Console</b></summary>
-<br>
-  <b> Background 1: Roses Tribute album art </b>
-<img src="https://user-images.githubusercontent.com/60986919/211179508-8dbecc68-573d-499f-8146-acaf9399a993.png" alt="Liminal Cyder Roses" width="800">
-  <br/>
-  <b> Background 2: Tic Tac album art </b>
-  <br/>
-<img src="https://user-images.githubusercontent.com/60986919/211179510-fa334ede-259f-46d5-9f31-80e74188d50a.png" alt="Liminal Cyder Tic Tac" width="800">
+<img src="https://user-images.githubusercontent.com/60986919/213841875-18e68a3e-7fc0-4ad7-9154-a3fef54669be.png" alt="Liminal Cyder Roses" width="800">
 </details>
 
 <details>
