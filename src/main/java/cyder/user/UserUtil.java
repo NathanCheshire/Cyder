@@ -20,6 +20,8 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.user.creation.InputValidation;
+import cyder.user.data.MappedExecutable;
+import cyder.user.data.MappedExecutables;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -33,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
@@ -176,6 +179,7 @@ public final class UserUtil {
      *     <li>Deleting non audio files from the Music/ directory</li>
      *     <li>Removing album art not linked to an audio file</li>
      *     <li>Removing backup json files which are not linked to any users</li>
+     *     <li>Removing any invalid mapped executables</li>
      * </ul>
      */
     public static void cleanUsers() {
@@ -220,6 +224,26 @@ public final class UserUtil {
                 }
             }
         }
+
+        removeInvalidUserMappedExecutables();
+    }
+
+    /**
+     * Checks and removes any invalid user mapped executables
+     */
+    private static void removeInvalidUserMappedExecutables() {
+        CyderSplash.INSTANCE.setLoadingMessage("Removing invalid mapped executables");
+
+        getUserJsons().forEach(userJson -> {
+            User user = extractUser(userJson);
+            ArrayList<MappedExecutable> validMappedExecutables =
+                    user.getMappedExecutables().getExecutables().stream()
+                            .filter(exe -> UserEditor.isValidMapPath(exe.getFilepath()))
+                            .collect(Collectors.toCollection(ArrayList::new));
+
+            user.setMappedExecutables(MappedExecutables.from(validMappedExecutables));
+            writeUserToFile(userJson, user);
+        });
     }
 
     /**

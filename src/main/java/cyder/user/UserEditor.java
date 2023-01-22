@@ -72,7 +72,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * An editor for user preferences, files, colors, fonts, and more.
+ * An editor for user boolean preferences, files, colors, fonts, and more.
  */
 public final class UserEditor {
     /**
@@ -159,7 +159,7 @@ public final class UserEditor {
      */
     public enum Page {
         FIELDS("Fields", UserEditor::switchToFieldInputs),
-        PREFERENCES("Preferences", UserEditor::switchToPreferences),
+        BOOLEANS("Booleans", UserEditor::switchToBooleans),
         FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
         FILES("Files", UserEditor::switchToUserFiles);
 
@@ -234,7 +234,7 @@ public final class UserEditor {
     /**
      * The title of the frame.
      */
-    private static final String FRAME_TITLE = "Preferences";
+    private static final String FRAME_TITLE = "User Editor";
 
     /**
      * Suppress default constructor.
@@ -243,7 +243,7 @@ public final class UserEditor {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"prefs", "edit user"}, description = "A widget to edit your user preferences and files")
+    @Widget(triggers = {"prefs", "edit user"}, description = "A widget to edit your user settings and files")
     public static void showGui() {
         showGui(Page.FILES);
     }
@@ -891,7 +891,7 @@ public final class UserEditor {
     }
 
     /**
-     * Switches to the user files preference page, wiping past components
+     * Switches to the user files page, wiping past components
      * and regenerating the files scroll label in the process.
      */
     private static void switchToUserFiles() {
@@ -1360,7 +1360,7 @@ public final class UserEditor {
     /**
      * The name of the thread which loads the fonts
      */
-    private static final String FONT_LOADER_THREAD_NAME = "Preferences Font Loader";
+    private static final String FONT_LOADER_THREAD_NAME = "UserEditor Font Loader";
 
     /**
      * The
@@ -1549,14 +1549,14 @@ public final class UserEditor {
     private static final HashMap<String, CyderCheckbox> checkboxComponents = new HashMap<>();
 
     /**
-     * Switches to the preferences preference page.
+     * Switches to the booleans page.
      */
-    private static void switchToPreferences() {
-        setSelectedPageMenuItem(Page.PREFERENCES);
+    private static void switchToBooleans() {
+        setSelectedPageMenuItem(Page.BOOLEANS);
 
         CyderPartitionedLayout preferencesPartitionedLayout = new CyderPartitionedLayout();
 
-        CyderLabel prefsTitle = new CyderLabel("Preferences");
+        CyderLabel prefsTitle = new CyderLabel("Booleans");
         prefsTitle.setFont(CyderFonts.DEFAULT_FONT);
         prefsTitle.setSize(200, 40);
 
@@ -2122,12 +2122,7 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkArgument(!link.isEmpty());
 
-        File referenceFile = new File(link);
-        boolean isValidFile = referenceFile.isFile() && referenceFile.exists();
-        boolean isValidFolder = referenceFile.isDirectory() && referenceFile.exists();
-        boolean isValidLink = NetworkUtil.isValidUrl(link);
-
-        if (!isValidFile && !isValidLink && !isValidFolder) {
+        if (isValidMapPath(link)) {
             editUserFrame.notify("Could not locate local file/link is invalid");
             return;
         }
@@ -2174,6 +2169,24 @@ public final class UserEditor {
         UserDataManager.INSTANCE.setMappedExecutables(MappedExecutables.from(newExes));
         editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
         Console.INSTANCE.revalidateConsoleTaskbarMenu();
+    }
+
+    /**
+     * Returns whether the provided map path is valid.
+     *
+     * @param mapPath the path for the mapped executable
+     * @return whether the provided map path is valid
+     */
+    public static boolean isValidMapPath(String mapPath) {
+        Preconditions.checkNotNull(mapPath);
+        Preconditions.checkArgument(!mapPath.isEmpty());
+
+        File referenceFile = new File(mapPath);
+        boolean isValidFile = referenceFile.isFile() && referenceFile.exists();
+        boolean isValidFolder = referenceFile.isDirectory() && referenceFile.exists();
+        boolean isValidLink = NetworkUtil.isValidUrl(mapPath);
+
+        return isValidFile || isValidFolder || isValidLink;
     }
 
     /**
@@ -2245,13 +2258,13 @@ public final class UserEditor {
      * Revalidates the preferences page if the user editor is open and on the preferences page.
      */
     public static void revalidateCheckboxesIfOpen() {
-        if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
+        if (isOpen() && currentPage == UserEditor.Page.BOOLEANS) {
             checkboxComponents.forEach((id, checkbox) -> checkbox.refreshState());
         }
     }
 
     /**
-     * Returns the generated preference toggling checkbox for the preference with
+     * Returns the generated boolean preference toggling checkbox for the boolean preference with
      * the provided id if present. Empty optional else.
      *
      * @param preferenceId the id of the preference

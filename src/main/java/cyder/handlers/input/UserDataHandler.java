@@ -37,7 +37,7 @@ public class UserDataHandler extends InputHandler {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
         } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-prefs")) {
-            UserEditor.showGui(UserEditor.Page.PREFERENCES); // todo rename
+            UserEditor.showGui(UserEditor.Page.BOOLEANS); // todo rename
             return true;
         } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-fields")) {
             UserEditor.showGui(UserEditor.Page.FIELDS);
