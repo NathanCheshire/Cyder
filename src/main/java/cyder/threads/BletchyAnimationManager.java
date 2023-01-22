@@ -137,6 +137,8 @@ public enum BletchyAnimationManager {
 
     /**
      * Deactivates this manager, removing set variables, objects, and trackers.
+     *
+     * @throws IllegalStateException if this manager has not been initialized via {@link #initialize(CyderOutputPane)}
      */
     public synchronized void deactivate() {
         Preconditions.checkState(initialized.get());
@@ -147,6 +149,15 @@ public enum BletchyAnimationManager {
         kill();
 
         initialized.set(false);
+    }
+
+    /**
+     * Returns whether this manager is initialized.
+     *
+     * @return whether this manager is initialized
+     */
+    public synchronized boolean isInitialized() {
+        return initialized.get();
     }
 
     /**

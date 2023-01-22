@@ -57,6 +57,12 @@ public final class UserUtil {
     private static final String defaultBackgroundName = "Default";
 
     /**
+     * The all string to indicate all user data should be ignored when logging.
+     */
+    private static final String ALL = "all";
+
+
+    /**
      * Suppress default constructor.
      */
     private UserUtil() {
@@ -585,23 +591,11 @@ public final class UserUtil {
         Preconditions.checkNotNull(username);
         Preconditions.checkArgument(!username.isEmpty());
 
-        if (noCyderUsers()) {
-            return false;
-        }
+        if (noCyderUsers()) return false;
 
-        for (File userFile : getUserJsons()) {
-            if (extractUser(userFile).getUsername().equalsIgnoreCase(username)) {
-                return true;
-            }
-        }
-
-        return false;
+        return getUserJsons().stream()
+                .anyMatch(userFile -> extractUser(userFile).getUsername().equalsIgnoreCase(username));
     }
-
-    /**
-     * The all string to indicate all user data should be ignored when logging.
-     */
-    private static final String ALL = "all";
 
     /**
      * Returns whether a getter for the user data with the provided ID should be ignored when logging.

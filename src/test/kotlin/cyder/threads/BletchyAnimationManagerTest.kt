@@ -36,7 +36,7 @@ class BletchyAnimationManagerTest {
      */
     @Test
     fun testBletchy() {
-        BletchyAnimationManager.INSTANCE.deactivate()
+        if (BletchyAnimationManager.INSTANCE.isInitialized) BletchyAnimationManager.INSTANCE.deactivate()
 
         assertThrows(IllegalStateException::class.java) {
             BletchyAnimationManager.INSTANCE.bletchy(null, false, 0, false)
@@ -71,7 +71,8 @@ class BletchyAnimationManagerTest {
      */
     @Test
     fun testIsActive() {
-        BletchyAnimationManager.INSTANCE.deactivate()
+        if (BletchyAnimationManager.INSTANCE.isInitialized)
+            BletchyAnimationManager.INSTANCE.deactivate()
 
         val outputPane = CyderOutputPane(JTextPane())
         BletchyAnimationManager.INSTANCE.initialize(outputPane)
