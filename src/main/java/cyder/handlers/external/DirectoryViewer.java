@@ -7,6 +7,7 @@ import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
@@ -293,6 +294,6 @@ public final class DirectoryViewer {
 
     private static String getTitleForCurrentDirectory() {
         String name = currentDirectory.getName();
-        return name.isEmpty() ? currentDirectory.getAbsolutePath() : name;
+        return name.isEmpty() ? currentDirectory.getAbsolutePath() : StringUtil.capsFirstWords(name.toLowerCase());
     }
 }
