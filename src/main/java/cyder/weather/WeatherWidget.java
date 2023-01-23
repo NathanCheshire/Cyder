@@ -370,8 +370,8 @@ public class WeatherWidget {
             return;
         } else if (!Props.weatherKey.valuePresent()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
-                    + "not been set or is invalid, as a result, many features of Cyder will not work as"
-                    + " intended. Please see the fields panel of the user editor to learn how to acquire "
+                    + "not been set or is invalid, as a result, many features of Cyder will not work as "
+                    + "intended. Please see the fields panel of the user editor to learn how to acquire "
                     + "a key and set it.", "Weather Key Not Set");
             return;
         }

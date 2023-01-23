@@ -213,6 +213,11 @@ public final class MapUtil {
      */
     public static final class Builder {
         /**
+         * The default length of the map image.
+         */
+        private static final int DEFAULT_LENGTH = 400;
+
+        /**
          * The range a latitude value must fall into.
          */
         private static final Range<Double> latitudeRange = Range.closed(-90.0, 90.0);
@@ -295,8 +300,18 @@ public final class MapUtil {
         /**
          * Constructs a new MapQuestApi request builder.
          *
+         * @param key the MapQuest API key
+         */
+        public Builder(String key) {
+            this(DEFAULT_LENGTH, DEFAULT_LENGTH, key);
+        }
+
+        /**
+         * Constructs a new MapQuestApi request builder.
+         *
          * @param width  the width of the final image
          * @param height the height of the final image
+         * @param key    the MapQuest API key
          */
         public Builder(int width, int height, String key) {
             Preconditions.checkArgument(widthRange.contains(width));

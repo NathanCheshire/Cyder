@@ -83,14 +83,14 @@ public final class ApiKeyUtil {
      * @param ipDataKey the ip data key
      * @return whether the ip key was valid
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* Validation */
     private static boolean validateIpKey(String ipDataKey) {
         Preconditions.checkNotNull(ipDataKey);
         Preconditions.checkArgument(!ipDataKey.isEmpty());
 
-        try {
-            URL url = new URL(CyderUrls.IPDATA_BASE + ipDataKey);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.close();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new URL(CyderUrls.IPDATA_BASE + ipDataKey).openStream()))) {
+            reader.read();
             return true;
         } catch (Exception ignored) {
             return false;
@@ -108,7 +108,7 @@ public final class ApiKeyUtil {
         Preconditions.checkArgument(!mapApikey.isEmpty());
 
         try {
-            MapUtil.getMapView(new MapUtil.Builder(400, 400, mapApikey).setFilterWaterMark(true));
+            MapUtil.getMapView(new MapUtil.Builder(mapApikey).setFilterWaterMark(true));
             return true;
         } catch (Exception ignored) {
             return false;
