@@ -6,10 +6,10 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
-import cyder.strings.StringUtil;
 import cyder.user.UserData;
 import cyder.user.UserDataManager;
 import cyder.user.UserEditor;
+import cyder.utils.BooleanUtils;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public class UserDataHandler extends InputHandler {
     }
 
     @SuppressCyderInspections(CyderInspection.HandleInspection)
-    @Handle({"userdata-files", "userdata-fonts", "userdata-colors", "userdata-prefs", "userdata-fields"})
+    @Handle({"userdata-files", "userdata-fonts", "userdata-colors", "userdata-booleans", "userdata-fields"})
     public static boolean handle() {
         if (getInputHandler().inputIgnoringSpacesMatches("userdata-files")) {
             UserEditor.showGui(UserEditor.Page.FILES);
@@ -36,8 +36,8 @@ public class UserDataHandler extends InputHandler {
         } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-colors")) {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
-        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-prefs")) {
-            UserEditor.showGui(UserEditor.Page.BOOLEANS); // todo rename
+        } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-booleans")) {
+            UserEditor.showGui(UserEditor.Page.BOOLEANS);
             return true;
         } else if (getInputHandler().inputIgnoringSpacesMatches("userdata-fields")) {
             UserEditor.showGui(UserEditor.Page.FIELDS);
@@ -66,12 +66,11 @@ public class UserDataHandler extends InputHandler {
 
                     boolean oldValue = optionalOldValue.get();
 
+                    // todo use when statement when converting to Kotlin
                     boolean newValue;
-
-                    // todo methods for is true / is false maybe name weak?
-                    if (StringUtil.in(parsedArgs, true, "true", "1")) {
+                    if (BooleanUtils.isTrue(parsedArgs)) {
                         newValue = true;
-                    } else if (StringUtil.in(parsedArgs, true, "false", "0")) {
+                    } else if (BooleanUtils.isFalse(parsedArgs)) {
                         newValue = false;
                     } else {
                         newValue = !oldValue;

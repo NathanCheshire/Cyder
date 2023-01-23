@@ -1811,7 +1811,6 @@ public enum Console {
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
-                    // todo what if this was deleted while closed? need a subroutine to validate these on startup
                     FileUtil.openResource(exe.getFilepath(), true);
                     exe.displayInvokedNotification();
                 };

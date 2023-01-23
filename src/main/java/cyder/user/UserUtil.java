@@ -61,7 +61,6 @@ public final class UserUtil {
      */
     private static final String ALL = "all";
 
-
     /**
      * Suppress default constructor.
      */
