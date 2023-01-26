@@ -593,7 +593,16 @@ public final class MapUtil {
                     + ", scaleBarLocation=" + scaleBarLocation
                     + ", mapType=" + mapType
                     + ", zoomLevel=" + zoomLevel
-                    + '}';
+                    + "}";
+        }
+
+        /**
+         * Returns the Map view from this builder.
+         *
+         * @return the Map view from this builder
+         */
+        public ImageIcon getMapView() throws UnknownHostException {
+            return MapUtil.getMapView(this);
         }
     }
 }

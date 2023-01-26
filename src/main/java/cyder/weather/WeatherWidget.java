@@ -1055,10 +1055,10 @@ public class WeatherWidget {
 
             refreshMapBackground();
 
-            sunriseFormatted = sunriseSunsetFormat.format(new Date((long) Integer.parseInt(sunriseMillis) * 1000));
-
-            Date sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000);
-            sunsetFormatted = sunriseSunsetFormat.format(sunsetTime);
+            sunriseFormatted = sunriseSunsetFormat.format(new Date(
+                    (long) ((long) Integer.parseInt(sunriseMillis) * TimeUtil.MILLISECONDS_IN_SECOND)));
+            sunsetFormatted = sunriseSunsetFormat.format(new Date(
+                    (long) ((long) Integer.parseInt(sunsetMillis) * TimeUtil.MILLISECONDS_IN_SECOND)));
 
             setGmtIfNotSet();
             refreshWeatherLabels();
@@ -1068,19 +1068,21 @@ public class WeatherWidget {
     }
 
     /**
+     * The builder for acquiring the map view.
+     */
+    private static final MapUtil.Builder mapViewBuilder = new MapUtil.Builder(
+            FRAME_WIDTH, FRAME_HEIGHT, Props.mapQuestApiKey.getValue())
+            .setFilterWaterMark(true)
+            .setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
+
+    /**
      * Refreshes the map background of the weather frame. If not enabled, hides the map.
      * If enabled, shows the map.
      */
     public void refreshMapBackground() {
         try {
             if (UserDataManager.INSTANCE.shouldDrawWeatherMap()) {
-                MapUtil.Builder builder = new MapUtil.Builder(FRAME_WIDTH, FRAME_HEIGHT,
-                        Props.mapQuestApiKey.getValue());
-                builder.setLocationString(currentLocationString);
-                builder.setFilterWaterMark(true);
-                builder.setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
-
-                ImageIcon newMapBackground = MapUtil.getMapView(builder);
+                ImageIcon newMapBackground = mapViewBuilder.setLocationString(currentLocationString).getMapView();
                 weatherFrame.setBackground(newMapBackground);
             } else {
                 weatherFrame.setBackground(defaultBackground);
