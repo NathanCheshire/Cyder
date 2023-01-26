@@ -3,7 +3,6 @@ package cyder.weather;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.annotations.CyderAuthor;
-import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
@@ -32,10 +31,7 @@ import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserDataManager;
-import cyder.utils.HtmlUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.MapUtil;
-import cyder.utils.OsUtil;
+import cyder.utils.*;
 import cyder.weather.parsers.WeatherData;
 
 import javax.swing.*;
@@ -458,7 +454,7 @@ public class WeatherWidget {
                 sunriseLabelIcon.getHeight() / 2);
         sunriseLabelIcon.add(sunriseLabel);
 
-        ImageIcon sunsetIcon = new ImageIcon("static/pictures/weather/sunset.png");
+        ImageIcon sunsetIcon = new ImageIcon(StaticUtil.getStaticPath("sunset.png"));
         JLabel sunsetLabelIcon = new JLabel(sunsetIcon) {
             private static final int arcLen = 25;
             private static final int offset = 10;
@@ -797,6 +793,41 @@ public class WeatherWidget {
      */
     private static final int stateAbbrLen = 2;
 
+    /**
+     * The day time identifier.
+     */
+    private static final String DAY_IMAGE_ID = "d";
+
+    /**
+     * The night time identifier.
+     */
+    private static final String NIGHT_IMAGE_ID = "n";
+
+    /**
+     * The value to add to the center x value for the temperature label within the custom painted component.
+     */
+    private static final int temperatureLineCenterAdditive = 5;
+
+    /**
+     * The refreshed keyword.
+     */
+    private static final String REFRESHED = "Refreshed";
+
+    /**
+     * The dst active bracketed text.
+     */
+    private static final String DST_ACTIVE = "DST Active";
+
+    /**
+     * The range a minute value must fall within.
+     */
+    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
+
+    /**
+     * The date formatter for the sunrise and sunset times.
+     */
+    private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
+
     private boolean isRepresentativeOfStateAbbreviation(int locationStringSplitLength, int currentIndex, String part) {
         return locationStringSplitLength == cityStateCountryFormatLen
                 && currentIndex == stateIndex
@@ -867,16 +898,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The day time identifier.
-     */
-    private static final String DAY_IMAGE_ID = "d";
-
-    /**
-     * The night time identifier.
-     */
-    private static final String NIGHT_IMAGE_ID = "n";
-
-    /**
      * Returns an ImageIcon for the current weather state.
      *
      * @return an ImageIcon for the current weather state
@@ -892,11 +913,6 @@ public class WeatherWidget {
         return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
                 weatherIconIdAndTime + Extension.PNG.getExtension()));
     }
-
-    /**
-     * The value to add to the center x value for the temperature label within the custom painted component.
-     */
-    private static final int temperatureLineCenterAdditive = 5;
 
     /**
      * Calculates the x center for the current temperature within the temperature label.
@@ -928,11 +944,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The refreshed keyword.
-     */
-    private static final String REFRESHED = "Refreshed";
-
-    /**
      * Refreshes the frame title based on the provided city.
      *
      * @param city the city to display in the frame title
@@ -949,11 +960,6 @@ public class WeatherWidget {
             weatherFrame.setTitle(DEFAULT_TITLE);
         }
     }
-
-    /**
-     * The dst active bracketed text.
-     */
-    private static final String DST_ACTIVE = "DST Active";
 
     /**
      * Returns the text for the timezone label. For example, if weatherDataGmtOffset is -18000
@@ -993,11 +999,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The range a minute value must fall within.
-     */
-    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
-
-    /**
      * Formats the provided minutes to always have two digits.
      *
      * @param minute the minutes value
@@ -1012,11 +1013,6 @@ public class WeatherWidget {
             return String.valueOf(minute);
         }
     }
-
-    /**
-     * The date formatter for the sunrise and sunset times.
-     */
-    private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
 
     /**
      * Refreshes the weather stat variables.
@@ -1070,10 +1066,35 @@ public class WeatherWidget {
     /**
      * The builder for acquiring the map view.
      */
-    private static final MapUtil.Builder mapViewBuilder = new MapUtil.Builder(
+    private final MapUtil.Builder mapViewBuilder = new MapUtil.Builder(
             FRAME_WIDTH, FRAME_HEIGHT, Props.mapQuestApiKey.getValue())
             .setFilterWaterMark(true)
             .setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
+
+    /**
+     * The north cardinal direction abbreviation.
+     */
+    private static final String NORTH = "N";
+
+    /**
+     * The south cardinal direction abbreviation.
+     */
+    private static final String SOUTH = "S";
+
+    /**
+     * The east cardinal direction abbreviation.
+     */
+    private static final String EAST = "E";
+
+    /**
+     * The west cardinal direction abbreviation.
+     */
+    private static final String WEST = "W";
+
+    /**
+     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
+     */
+    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
 
     /**
      * Refreshes the map background of the weather frame. If not enabled, hides the map.
@@ -1136,26 +1157,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The north cardinal direction abbreviation.
-     */
-    private static final String NORTH = "N";
-
-    /**
-     * The south cardinal direction abbreviation.
-     */
-    private static final String SOUTH = "S";
-
-    /**
-     * The east cardinal direction abbreviation.
-     */
-    private static final String EAST = "E";
-
-    /**
-     * The west cardinal direction abbreviation.
-     */
-    private static final String WEST = "W";
-
-    /**
      * Returns the wind direction String.
      *
      * @param bearing the bearing of the wind vector
@@ -1176,7 +1177,7 @@ public class WeatherWidget {
 
         StringBuilder ret = new StringBuilder();
 
-        if (inNorthernHemisphere(bearing)) {
+        if (AngleUtil.angleInNorthernHemisphere(bearing)) {
             ret.append(NORTH);
 
             if (bearing > AngleUtil.NINETY_DEGREES) {
@@ -1184,7 +1185,7 @@ public class WeatherWidget {
             } else if (bearing < AngleUtil.NINETY_DEGREES) {
                 ret.append(EAST);
             }
-        } else if (inSouthernHemisphere(bearing)) {
+        } else if (AngleUtil.angleInSouthernHemisphere(bearing)) {
             ret.append(SOUTH);
 
             if (bearing < AngleUtil.TWO_SEVENTY_DEGREES) {
@@ -1192,39 +1193,14 @@ public class WeatherWidget {
             } else if (bearing > AngleUtil.TWO_SEVENTY_DEGREES) {
                 ret.append(EAST);
             }
-        } else if (isEast(bearing)) {
+        } else if (AngleUtil.angleIsEast(bearing)) {
             ret.append(EAST);
-        } else if (isWest(bearing)) {
+        } else if (AngleUtil.angleIsWest(bearing)) {
             ret.append(WEST);
         }
 
         return ret.toString();
     }
-
-    @ForReadability
-    private static boolean inNorthernHemisphere(double bearing) {
-        return bearing > 0.0 && bearing < AngleUtil.ONE_EIGHTY_DEGREES;
-    }
-
-    @ForReadability
-    private static boolean inSouthernHemisphere(double bearing) {
-        return bearing > AngleUtil.ONE_EIGHTY_DEGREES && bearing < AngleUtil.THREE_SIXTY_DEGREES;
-    }
-
-    @ForReadability
-    private static boolean isEast(double bearing) {
-        return bearing == 0.0;
-    }
-
-    @ForReadability
-    private static boolean isWest(double bearing) {
-        return bearing == AngleUtil.ONE_EIGHTY_DEGREES;
-    }
-
-    /**
-     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
-     */
-    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
 
     /**
      * Returns a formatted string no greater than {@link WeatherWidget#MAX_FLOAT_MEASUREMENT_LENGTH}.

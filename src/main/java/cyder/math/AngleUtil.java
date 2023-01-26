@@ -91,4 +91,52 @@ public final class AngleUtil {
         if (angle < 0) angle += ONE_EIGHTY_DEGREES;
         return angle;
     }
+
+    /**
+     * Returns whether the provided angle is north.
+     *
+     * @param bearing the angle of bearing
+     * @return whether the provided angle is north
+     */
+    public static boolean angleInNorthernHemisphere(double bearing) {
+        bearing = normalizeAngle360(bearing);
+
+        return bearing > 0.0 && bearing < AngleUtil.ONE_EIGHTY_DEGREES;
+    }
+
+    /**
+     * Returns whether the provided angle is south.
+     *
+     * @param bearing the angle of bearing
+     * @return whether the provided angle is south
+     */
+    public static boolean angleInSouthernHemisphere(double bearing) {
+        bearing = normalizeAngle360(bearing);
+
+        return bearing > AngleUtil.ONE_EIGHTY_DEGREES && bearing < AngleUtil.THREE_SIXTY_DEGREES;
+    }
+
+    /**
+     * Returns whether the provided angle is east.
+     *
+     * @param bearing the angle of bearing
+     * @return whether the provided angle is east
+     */
+    public static boolean angleIsEast(double bearing) {
+        bearing = normalizeAngle360(bearing);
+
+        return bearing == 0.0;
+    }
+
+    /**
+     * Returns whether the provided angle is west.
+     *
+     * @param bearing the angle of bearing
+     * @return whether the provided angle is west
+     */
+    public static boolean angleIsWest(double bearing) {
+        bearing = normalizeAngle360(bearing);
+
+        return bearing == AngleUtil.ONE_EIGHTY_DEGREES;
+    }
 }
