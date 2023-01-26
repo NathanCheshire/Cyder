@@ -1,7 +1,6 @@
 package cyder.weather;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -38,10 +37,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.strings.CyderStrings.colon;
+import static cyder.strings.CyderStrings.space;
 
 /**
  * A widget for showing the weather for a local area.
@@ -127,12 +128,12 @@ public class WeatherWidget {
     /**
      * The sunrise time in unix time format.
      */
-    private String sunriseMillis = "0";
+    private long sunriseMillis = 0L;
 
     /**
      * The sunset time in unix time format.
      */
-    private String sunsetMillis = "0";
+    private long sunsetMillis = 0L;
 
     /**
      * The sunrise time to display on the label.
@@ -143,6 +144,16 @@ public class WeatherWidget {
      * The sunset time to display on the label.
      */
     private String sunsetFormatted = "";
+
+    /**
+     * The sunrise hour.
+     */
+    private int sunriseHour;
+
+    /**
+     * The sunset hour.
+     */
+    private int sunsetHour;
 
     /**
      * The current weather icon resource.
@@ -218,11 +229,6 @@ public class WeatherWidget {
      * Whether to repull weather data every updateFrequency minutes.
      */
     private final AtomicBoolean stopUpdating = new AtomicBoolean(false);
-
-    /**
-     * The frequency at which to update the weather data at in minutes.
-     */
-    private final int updateFrequency = 5;
 
     /**
      * The maximum temperature
@@ -377,11 +383,6 @@ public class WeatherWidget {
     private static final String DST_ACTIVE = "DST Active";
 
     /**
-     * The range a minute value must fall within.
-     */
-    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
-
-    /**
      * The date formatter for the sunrise and sunset times.
      */
     private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
@@ -418,7 +419,6 @@ public class WeatherWidget {
      * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
      */
     private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
-
 
     /**
      * The change location text.
@@ -457,6 +457,16 @@ public class WeatherWidget {
      * The thread name for the weather clock updater.
      */
     private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
+
+    /**
+     * The frequency to update the weather stats.
+     */
+    private static final Duration updateStatsFrequency = Duration.ofMinutes(5);
+
+    /**
+     * The frequency to check the exit condition for the stats updater.
+     */
+    private static final Duration checkUpdateStatsExitConditionFrequency = Duration.ofSeconds(10);
 
     /**
      * Creates a new weather widget initialized to the user's current location.
@@ -815,11 +825,9 @@ public class WeatherWidget {
     private void startWeatherStatsUpdater() {
         CyderThreadRunner.submit(() -> {
             try {
-                int sleepTime = (int) (updateFrequency * TimeUtil.MILLISECONDS_IN_SECOND * TimeUtil.SECONDS_IN_MINUTE);
-                int checkFrequency = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 10);
-
                 while (true) {
-                    ThreadUtil.sleepWithChecks(sleepTime, checkFrequency, stopUpdating);
+                    ThreadUtil.sleepWithChecks(updateStatsFrequency.toMillis(),
+                            checkUpdateStatsExitConditionFrequency.toMillis(), stopUpdating);
                     if (stopUpdating.get()) break;
                     repullWeatherStats();
                 }
@@ -891,22 +899,26 @@ public class WeatherWidget {
 
         currentWeatherIconLabel.setIcon(generateCurrentWeatherIcon());
 
-        String centeringDivText = "<div style='text-align: center; vertical-align:bottom'>";
         currentWeatherLabel.setText(HtmlTags.openingHtml
-                + centeringDivText
+                + HtmlTags.divTextAlignCenterVerticalAlignBottom
                 + StringUtil.capsFirstWords(weatherCondition)
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, HtmlTags.breakTag)
                 + HtmlTags.closingHtml);
 
-        windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
-                + "deg (" + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
+        // todo constants class for units and abbreviations? Maybe even an enum
+        windSpeedLabel.setText("Wind" + colon + space + windSpeed + "mph"
+                + CyderStrings.comma + space + windBearing + "deg" + space
+                + CyderStrings.openingParenthesis + getWindDirection(windBearing)
+                + CyderStrings.closingParenthesis);
         humidityLabel.setText("Humidity: " + humidity + "%");
         pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
         timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
 
-        // todo using AM or PM should be determined by determining if the time truly is after/before 12:00am
-        sunriseLabel.setText(accountForGmtOffset(sunriseFormatted) + AM);
-        sunsetLabel.setText(accountForGmtOffset(sunsetFormatted) + PM);
+        String sunriseMeridiemModifier = sunriseHour < 12 ? AM : PM;
+        String sunsetMeridiemModifier = sunsetHour >= 12 ? AM : PM;
+
+        sunriseLabel.setText(accountForGmtOffset(sunriseFormatted) + sunriseMeridiemModifier);
+        sunsetLabel.setText(accountForGmtOffset(sunsetFormatted) + sunsetMeridiemModifier);
 
         customTempLabel.repaint();
         currentTempLabel.setText(temperature + "F");
@@ -923,8 +935,7 @@ public class WeatherWidget {
         String splitCity = currentLocationString.split(CyderStrings.comma)[0];
         refreshFrameTitle(splitCity);
 
-        if (weatherFrame != null) weatherFrame.toast(
-                new NotificationBuilder(REFRESHED).setViewDuration(1000));
+        if (weatherFrame != null) weatherFrame.toast(new NotificationBuilder(REFRESHED).setViewDuration(1000));
     }
 
     /**
@@ -933,7 +944,7 @@ public class WeatherWidget {
      * @return an ImageIcon for the current weather state
      */
     private ImageIcon generateCurrentWeatherIcon() {
-        long sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000).getTime();
+        long sunsetTime = new Date(sunsetMillis * 1000).getTime();
         long currentTime = new Date().getTime();
 
         boolean isAfterSunset = currentTime > sunsetTime;
@@ -1035,13 +1046,9 @@ public class WeatherWidget {
      * @return the formatted minutes string
      */
     private String formatMinutes(int minute) {
-        Preconditions.checkArgument(minuteRange.contains(minute));
+        Preconditions.checkArgument(TimeUtil.minuteRange.contains(minute));
 
-        if (minute < 10) {
-            return "0" + minute;
-        } else {
-            return String.valueOf(minute);
-        }
+        return minute < 10 ? "0" + minute : String.valueOf(minute);
     }
 
     /**
@@ -1066,8 +1073,8 @@ public class WeatherWidget {
             }
 
             WeatherData weatherData = optionalWeatherData.get();
-            sunriseMillis = String.valueOf(weatherData.getSys().getSunrise());
-            sunsetMillis = String.valueOf(weatherData.getSys().getSunset());
+            sunriseMillis = Long.parseLong(String.valueOf(weatherData.getSys().getSunrise()));
+            sunsetMillis = Long.parseLong(String.valueOf(weatherData.getSys().getSunset()));
             weatherIconId = weatherData.getWeather().get(0).getIcon();
             windSpeed = weatherData.getWind().getSpeed();
             windBearing = weatherData.getWind().getDeg();
@@ -1081,10 +1088,17 @@ public class WeatherWidget {
 
             refreshMapBackground();
 
-            sunriseFormatted = sunriseSunsetFormat.format(new Date(
-                    (long) ((long) Integer.parseInt(sunriseMillis) * TimeUtil.MILLISECONDS_IN_SECOND)));
-            sunsetFormatted = sunriseSunsetFormat.format(new Date(
-                    (long) ((long) Integer.parseInt(sunsetMillis) * TimeUtil.MILLISECONDS_IN_SECOND)));
+            Date sunrise = new Date((long) (sunriseMillis * TimeUtil.MILLISECONDS_IN_SECOND));
+            sunriseFormatted = sunriseSunsetFormat.format(sunrise);
+            Calendar sunriseCalendar = GregorianCalendar.getInstance();
+            sunriseCalendar.setTimeInMillis(sunriseMillis);
+            sunriseHour = sunriseCalendar.get(Calendar.HOUR);
+
+            Date sunset = new Date((long) (sunsetMillis * TimeUtil.MILLISECONDS_IN_SECOND));
+            sunsetFormatted = sunriseSunsetFormat.format(sunset);
+            Calendar sunsetCalendar = GregorianCalendar.getInstance();
+            sunsetCalendar.setTimeInMillis(sunsetMillis);
+            sunsetHour = sunsetCalendar.get(Calendar.HOUR);
 
             setGmtIfNotSet();
             refreshWeatherLabels();

@@ -219,6 +219,11 @@ public final class TimeUtil {
     private static final MonthDay piDay = new MonthDay(3, 14);
 
     /**
+     * The range a minute value must fall within.
+     */
+    public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
+
+    /**
      * Suppress default constructor.
      */
     private TimeUtil() {

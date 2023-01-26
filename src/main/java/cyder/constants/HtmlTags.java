@@ -64,6 +64,12 @@ public final class HtmlTags {
     public static final String closingBold = "</b>";
 
     /**
+     * An opening div tag with the text-align property set to center and the vertical-align property set to bottom.
+     */
+    public static final String divTextAlignCenterVerticalAlignBottom =
+            "<div style='text-align: center; vertical-align:bottom'>";
+
+    /**
      * Suppress default constructor.
      */
     private HtmlTags() {
