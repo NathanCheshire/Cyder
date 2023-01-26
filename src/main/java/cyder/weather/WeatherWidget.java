@@ -332,6 +332,148 @@ public class WeatherWidget {
     private static final LinkedList<WeatherWidget> instances = new LinkedList<>();
 
     /**
+     * The gmt keyword.
+     */
+    private static final String GMT = "GMT";
+
+    /**
+     * The number of comma separated parts for a valid location string.
+     */
+    private static final int cityStateCountryFormatLen = 3;
+
+    /**
+     * The index of the state abbreviation in a city state country string.
+     */
+    private static final int stateIndex = 1;
+
+    /**
+     * The length of USA state abbreviations.
+     */
+    private static final int stateAbbrLen = 2;
+
+    /**
+     * The day time identifier.
+     */
+    private static final String DAY_IMAGE_ID = "d";
+
+    /**
+     * The night time identifier.
+     */
+    private static final String NIGHT_IMAGE_ID = "n";
+
+    /**
+     * The value to add to the center x value for the temperature label within the custom painted component.
+     */
+    private static final int temperatureLineCenterAdditive = 5;
+
+    /**
+     * The refreshed keyword.
+     */
+    private static final String REFRESHED = "Refreshed";
+
+    /**
+     * The dst active bracketed text.
+     */
+    private static final String DST_ACTIVE = "DST Active";
+
+    /**
+     * The range a minute value must fall within.
+     */
+    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
+
+    /**
+     * The date formatter for the sunrise and sunset times.
+     */
+    private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
+
+    /**
+     * The builder for acquiring the map view.
+     */
+    private final MapUtil.Builder mapViewBuilder = new MapUtil.Builder(
+            FRAME_WIDTH, FRAME_HEIGHT, Props.mapQuestApiKey.getValue())
+            .setFilterWaterMark(true)
+            .setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
+
+    /**
+     * The north cardinal direction abbreviation.
+     */
+    private static final String NORTH = "N";
+
+    /**
+     * The south cardinal direction abbreviation.
+     */
+    private static final String SOUTH = "S";
+
+    /**
+     * The east cardinal direction abbreviation.
+     */
+    private static final String EAST = "E";
+
+    /**
+     * The west cardinal direction abbreviation.
+     */
+    private static final String WEST = "W";
+
+    /**
+     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
+     */
+    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
+
+
+    /**
+     * The change location text.
+     */
+    private static final String CHANGE_LOCATION = "Change Location";
+
+    /**
+     * The color for the styled text for the example location.
+     */
+    private static final Color exampleColor = new Color(45, 100, 220);
+
+    /**
+     * The example location.
+     */
+    private static final String exampleChangeLocationText = Props.defaultLocation.getValue();
+
+    /**
+     * The styled example change location text.
+     */
+    private static final String styledExampleText = HtmlUtil.generateColoredHtmlText(
+            exampleChangeLocationText, exampleColor);
+
+    /**
+     * The complete change location html styled text to show on the string getter's label.
+     */
+    private static final String changeLocationHtmlText = HtmlTags.openingHtml
+            + "Enter your city, state, and country code separated by a comma. Example: "
+            + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
+
+    /**
+     * The thread name for the weather stats updater.
+     */
+    private static final String WEATHER_STATS_UPDATER_THREAD_NAME = "Weather Stats Updater";
+
+    /**
+     * The thread name for the weather clock updater.
+     */
+    private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
+
+    /**
+     * Creates a new weather widget initialized to the user's current location.
+     */
+    private WeatherWidget() {
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Shows a new weather widget instance.
+     */
+    @Widget(triggers = "weather", description = widgetDescription)
+    public static void showGui() {
+        getInstance().innerShowGui();
+    }
+
+    /**
      * Returns a new instance of weather widget.
      *
      * @return a new instance of weather widget
@@ -343,45 +485,30 @@ public class WeatherWidget {
     }
 
     /**
-     * Creates a new weather widget initialized to the user's current location.
-     */
-    private WeatherWidget() {
-        Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    @Widget(triggers = "weather", description = widgetDescription)
-    public static void showGui() {
-        getInstance().innerShowGui();
-    }
-
-    /**
      * Shows the UI since we need to allow multiple instances of weather widget
      * while still having the public static showGui() method with the @Widget annotation.
      */
     private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
             Console.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
-                    + UserDataManager.INSTANCE.getUsername() + ", but this feature "
-                    + "is suspended until a stable internet connection can be established");
+                    + UserDataManager.INSTANCE.getUsername() + ", but this feature"
+                    + " is suspended until a stable internet connection can be established");
             return;
         } else if (!Props.weatherKey.valuePresent()) {
-            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
-                    + "not been set or is invalid, as a result, many features of Cyder will not work as "
-                    + "intended. Please see the fields panel of the user editor to learn how to acquire "
-                    + "a key and set it.", "Weather Key Not Set");
+            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has"
+                    + " not been set or is invalid, as a result, many features of Cyder will not work as"
+                    + " intended. Please see the fields panel of the user editor to learn how to acquire"
+                    + " a key and set it.", "Weather Key Not Set");
             return;
         }
 
         repullWeatherStats();
 
         UiUtil.closeIfOpen(weatherFrame);
-        WeatherWidget thisInstance = this;
         weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.regularBlue) {
             @Override
             public void dispose() {
-                stopUpdating.set(true);
-                instances.remove(thisInstance);
-                getterUtilInstance.closeAllGetFrames();
+                onWeatherFrameDisposed();
                 super.dispose();
             }
         };
@@ -534,6 +661,9 @@ public class WeatherWidget {
         currentTempLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
 
         customTempLabel = new JLabel() {
+            private static final int borderLen = 3;
+            private static final int componentHeight = 40;
+
             @Override
             public void paintComponent(Graphics g) {
                 int w = customTempLabelWidth - 2 * borderLen;
@@ -582,16 +712,6 @@ public class WeatherWidget {
                 g.fillRect(0, 0, customTempLabelWidth, borderLen);
                 g.fillRect(0, componentHeight - borderLen, customTempLabelWidth, borderLen);
             }
-
-            /**
-             * The length of the border around this component.
-             */
-            private static final int borderLen = 3;
-
-            /**
-             * The height of this component
-             */
-            public static final int componentHeight = 40;
         };
         customTempLabel.setBounds(40, 320, customTempLabelWidth, 40);
         weatherFrame.getContentPane().add(customTempLabel);
@@ -669,42 +789,13 @@ public class WeatherWidget {
     }
 
     /**
-     * The change location text.
+     * The actions to invoke when this weather frame is disposed.
      */
-    private static final String CHANGE_LOCATION = "Change Location";
-
-    /**
-     * The color for the styled text for the example location.
-     */
-    private static final Color exampleColor = new Color(45, 100, 220);
-
-    /**
-     * The example location.
-     */
-    private static final String exampleChangeLocationText = Props.defaultLocation.getValue();
-
-    /**
-     * The styled example change location text.
-     */
-    private static final String styledExampleText = HtmlUtil.generateColoredHtmlText(
-            exampleChangeLocationText, exampleColor);
-
-    /**
-     * The complete change location html styled text to show on the string getter's label.
-     */
-    private static final String changeLocationHtmlText = HtmlTags.openingHtml
-            + "Enter your city, state, and country code separated by a comma. Example: "
-            + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
-
-    /**
-     * The thread name for the weather stats updater.
-     */
-    private static final String WEATHER_STATS_UPDATER_THREAD_NAME = "Weather Stats Updater";
-
-    /**
-     * The thread name for the weather clock updater.
-     */
-    private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
+    private void onWeatherFrameDisposed() {
+        stopUpdating.set(true);
+        instances.remove(this);
+        getterUtilInstance.closeAllGetFrames();
+    }
 
     /**
      * Starts the thread to update the current time label.
@@ -724,15 +815,12 @@ public class WeatherWidget {
     private void startWeatherStatsUpdater() {
         CyderThreadRunner.submit(() -> {
             try {
-                int sleepTime = updateFrequency * 1000 * 60;
-                int checkFrequency = 1000 * 10;
+                int sleepTime = (int) (updateFrequency * TimeUtil.MILLISECONDS_IN_SECOND * TimeUtil.SECONDS_IN_MINUTE);
+                int checkFrequency = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 10);
 
                 while (true) {
                     ThreadUtil.sleepWithChecks(sleepTime, checkFrequency, stopUpdating);
-                    if (stopUpdating.get()) {
-                        break;
-                    }
-
+                    if (stopUpdating.get()) break;
                     repullWeatherStats();
                 }
             } catch (Exception e) {
@@ -752,11 +840,6 @@ public class WeatherWidget {
     private double map(double value, double oldRangeMin, double oldRangeMax) {
         return (value - oldRangeMin) * (float) customTempLabelWidth / (oldRangeMax - oldRangeMin);
     }
-
-    /**
-     * The gmt keyword.
-     */
-    private static final String GMT = "GMT";
 
     /**
      * Returns the current weather time correct based on the current gmt offset.
@@ -779,62 +862,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The length for a string with two commas containing city, state, and country.
-     */
-    private static final int cityStateCountryFormatLen = 3;
-
-    /**
-     * The index of the state abbreviation in a city state country string.
-     */
-    private static final int stateIndex = 1;
-
-    /**
-     * The length of USA state abbreviations.
-     */
-    private static final int stateAbbrLen = 2;
-
-    /**
-     * The day time identifier.
-     */
-    private static final String DAY_IMAGE_ID = "d";
-
-    /**
-     * The night time identifier.
-     */
-    private static final String NIGHT_IMAGE_ID = "n";
-
-    /**
-     * The value to add to the center x value for the temperature label within the custom painted component.
-     */
-    private static final int temperatureLineCenterAdditive = 5;
-
-    /**
-     * The refreshed keyword.
-     */
-    private static final String REFRESHED = "Refreshed";
-
-    /**
-     * The dst active bracketed text.
-     */
-    private static final String DST_ACTIVE = "DST Active";
-
-    /**
-     * The range a minute value must fall within.
-     */
-    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
-
-    /**
-     * The date formatter for the sunrise and sunset times.
-     */
-    private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
-
-    private boolean isRepresentativeOfStateAbbreviation(int locationStringSplitLength, int currentIndex, String part) {
-        return locationStringSplitLength == cityStateCountryFormatLen
-                && currentIndex == stateIndex
-                && part.length() == stateAbbrLen;
-    }
-
-    /**
      * Refreshes the weather labels based off of the current vars.
      */
     private void refreshWeatherLabels() {
@@ -845,7 +872,10 @@ public class WeatherWidget {
             for (int i = 0 ; i < parts.length ; i++) {
                 String part = parts[i].trim();
 
-                if (isRepresentativeOfStateAbbreviation(parts.length, i, part)) {
+                boolean properLength = parts.length == cityStateCountryFormatLen;
+                boolean isState = i == stateIndex;
+                boolean stateAbbreviationLength = part.length() == stateAbbrLen;
+                if (properLength && isState && stateAbbreviationLength) {
                     sb.append(part.toUpperCase());
                 } else {
                     sb.append(StringUtil.capsFirstWords(part));
@@ -1017,7 +1047,7 @@ public class WeatherWidget {
     /**
      * Refreshes the weather stat variables.
      */
-    protected void repullWeatherStats() {
+    private void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
             IpData data = IpDataManager.INSTANCE.getIpData();
 
@@ -1062,39 +1092,6 @@ public class WeatherWidget {
             Console.INSTANCE.revalidateConsoleTaskbarMenu();
         }, WEATHER_STATS_UPDATER_THREAD_NAME);
     }
-
-    /**
-     * The builder for acquiring the map view.
-     */
-    private final MapUtil.Builder mapViewBuilder = new MapUtil.Builder(
-            FRAME_WIDTH, FRAME_HEIGHT, Props.mapQuestApiKey.getValue())
-            .setFilterWaterMark(true)
-            .setScaleBarLocation(MapUtil.ScaleBarLocation.BOTTOM);
-
-    /**
-     * The north cardinal direction abbreviation.
-     */
-    private static final String NORTH = "N";
-
-    /**
-     * The south cardinal direction abbreviation.
-     */
-    private static final String SOUTH = "S";
-
-    /**
-     * The east cardinal direction abbreviation.
-     */
-    private static final String EAST = "E";
-
-    /**
-     * The west cardinal direction abbreviation.
-     */
-    private static final String WEST = "W";
-
-    /**
-     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
-     */
-    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
 
     /**
      * Refreshes the map background of the weather frame. If not enabled, hides the map.
@@ -1154,16 +1151,6 @@ public class WeatherWidget {
             parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
             isGmtSet = true;
         }
-    }
-
-    /**
-     * Returns the wind direction String.
-     *
-     * @param bearing the bearing of the wind vector
-     * @return the wind direction string
-     */
-    public String getWindDirection(String bearing) {
-        return getWindDirection(Double.parseDouble(bearing));
     }
 
     /**
