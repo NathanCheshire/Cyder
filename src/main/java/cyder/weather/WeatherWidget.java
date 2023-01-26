@@ -580,22 +580,22 @@ public class WeatherWidget {
                 customTempLabel.add(maxTempLabel);
 
                 g.setColor(Color.black);
-                paintCustomBorder(g);
-            }
 
-            /** The length of the border around this component. */
-            private static final int borderLen = 3;
-
-            /** The height of this component */
-            public static final int componentHeight = 40;
-
-            @ForReadability
-            private void paintCustomBorder(Graphics g) {
                 g.fillRect(0, 0, borderLen, componentHeight);
                 g.fillRect(customTempLabelWidth - borderLen, 0, borderLen, componentHeight);
                 g.fillRect(0, 0, customTempLabelWidth, borderLen);
                 g.fillRect(0, componentHeight - borderLen, customTempLabelWidth, borderLen);
             }
+
+            /**
+             * The length of the border around this component.
+             */
+            private static final int borderLen = 3;
+
+            /**
+             * The height of this component
+             */
+            public static final int componentHeight = 40;
         };
         customTempLabel.setBounds(40, 320, customTempLabelWidth, 40);
         weatherFrame.getContentPane().add(customTempLabel);
@@ -713,7 +713,6 @@ public class WeatherWidget {
     /**
      * Starts the thread to update the current time label.
      */
-    @ForReadability
     private void startUpdatingClock() {
         CyderThreadRunner.submit(() -> {
             while (!stopUpdating.get()) {
@@ -726,7 +725,6 @@ public class WeatherWidget {
     /**
      * Starts the thread to update the weather stats.
      */
-    @ForReadability
     private void startWeatherStatsUpdater() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -799,7 +797,6 @@ public class WeatherWidget {
      */
     private static final int stateAbbrLen = 2;
 
-    @ForReadability
     private boolean isRepresentativeOfStateAbbreviation(int locationStringSplitLength, int currentIndex, String part) {
         return locationStringSplitLength == cityStateCountryFormatLen
                 && currentIndex == stateIndex
@@ -872,21 +869,25 @@ public class WeatherWidget {
     /**
      * The day time identifier.
      */
-    private static final String D = "d";
+    private static final String DAY_IMAGE_ID = "d";
 
     /**
      * The night time identifier.
      */
-    private static final String N = "n";
+    private static final String NIGHT_IMAGE_ID = "n";
 
-    @ForReadability
+    /**
+     * Returns an ImageIcon for the current weather state.
+     *
+     * @return an ImageIcon for the current weather state
+     */
     private ImageIcon generateCurrentWeatherIcon() {
         long sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000).getTime();
         long currentTime = new Date().getTime();
 
         boolean isAfterSunset = currentTime > sunsetTime;
         String weatherIconIdAndTime = weatherIconId.replaceAll(CyderRegexPatterns.englishLettersRegex, "")
-                + (isAfterSunset ? N : D);
+                + (isAfterSunset ? NIGHT_IMAGE_ID : DAY_IMAGE_ID);
 
         return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
                 weatherIconIdAndTime + Extension.PNG.getExtension()));
@@ -897,7 +898,14 @@ public class WeatherWidget {
      */
     private static final int temperatureLineCenterAdditive = 5;
 
-    @ForReadability
+    /**
+     * Calculates the x center for the current temperature within the temperature label.
+     *
+     * @param temperature the current temperature
+     * @param minTemp     the minimum temperature
+     * @param maxTemp     the maximum temperature
+     * @return the x center for the current temperature within the temperature label
+     */
     private int calculateTemperatureLineCenter(float temperature, float minTemp, float maxTemp) {
         int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
 
@@ -929,7 +937,6 @@ public class WeatherWidget {
      *
      * @param city the city to display in the frame title
      */
-    @ForReadability
     private void refreshFrameTitle(String city) {
         Preconditions.checkNotNull(city);
         city = city.trim();
@@ -946,7 +953,7 @@ public class WeatherWidget {
     /**
      * The dst active bracketed text.
      */
-    private static final String DST_ACTIVE = "[DST Active]";
+    private static final String DST_ACTIVE = "DST Active";
 
     /**
      * Returns the text for the timezone label. For example, if weatherDataGmtOffset is -18000
@@ -958,7 +965,8 @@ public class WeatherWidget {
         IpData data = IpDataManager.INSTANCE.getIpData();
 
         String gmtPart = GMT + (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR);
-        String dstPart = data.getTime_zone().isIs_dst() ? CyderStrings.space + DST_ACTIVE : "";
+        String dstPart = data.getTime_zone().isIs_dst() ?
+                CyderStrings.space + CyderStrings.openingBracket + DST_ACTIVE + CyderStrings.closingBracket : "";
 
         return gmtPart + dstPart;
     }
@@ -995,7 +1003,6 @@ public class WeatherWidget {
      * @param minute the minutes value
      * @return the formatted minutes string
      */
-    @ForReadability
     private String formatMinutes(int minute) {
         Preconditions.checkArgument(minuteRange.contains(minute));
 
@@ -1005,6 +1012,11 @@ public class WeatherWidget {
             return String.valueOf(minute);
         }
     }
+
+    /**
+     * The date formatter for the sunrise and sunset times.
+     */
+    private static final SimpleDateFormat sunriseSunsetFormat = new SimpleDateFormat("h:mm");
 
     /**
      * Refreshes the weather stat variables.
@@ -1043,24 +1055,12 @@ public class WeatherWidget {
 
             refreshMapBackground();
 
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
-            sunriseFormatted = dateFormatter.format(new Date((long) Integer.parseInt(sunriseMillis) * 1000));
+            sunriseFormatted = sunriseSunsetFormat.format(new Date((long) Integer.parseInt(sunriseMillis) * 1000));
 
             Date sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000);
-            sunsetFormatted = dateFormatter.format(sunsetTime);
+            sunsetFormatted = sunriseSunsetFormat.format(sunsetTime);
 
             setGmtIfNotSet();
-
-            String[] currentLocationParts = currentLocationString.split(CyderStrings.comma);
-            String currentLocationCityPart = currentLocationParts[0].trim();
-
-            if (!currentLocationCityPart.isEmpty()) {
-                String city = StringUtil.capsFirstWords(currentLocationCityPart);
-                weatherFrame.setTitle(city + StringUtil.getApostropheSuffix(city) + CyderStrings.space + WEATHER);
-            } else {
-                weatherFrame.setTitle(DEFAULT_TITLE);
-            }
-
             refreshWeatherLabels();
 
             Console.INSTANCE.revalidateConsoleTaskbarMenu();
@@ -1098,7 +1098,6 @@ public class WeatherWidget {
      *
      * @param mapVisible whether the map is visible
      */
-    @ForReadability
     private void refreshReadableLabels(boolean mapVisible) {
         if (mapVisible) {
             currentTimeLabel.setForeground(CyderColors.navy);
@@ -1127,7 +1126,6 @@ public class WeatherWidget {
     /**
      * Calculates the timezone offset from GMT0/Zulu time if not yet performed.
      */
-    @ForReadability
     private void setGmtIfNotSet() {
         if (!isGmtSet) {
             parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
