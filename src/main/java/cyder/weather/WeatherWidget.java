@@ -10,6 +10,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.HtmlTags;
 import cyder.enums.Extension;
+import cyder.enums.Units;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -727,8 +728,9 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(customTempLabel);
 
         windSpeedLabel = new JLabel("", SwingConstants.CENTER);
-        windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
-                + "deg (" + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
+        windSpeedLabel.setText("Wind: " + windSpeed + Units.MILES_PER_HOUR.getAbbreviation() + ", " + windBearing
+                + Units.DEGREES.getAbbreviation() + " ("
+                + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
         windSpeedLabel.setForeground(CyderColors.navy);
         windSpeedLabel.setFont(CyderFonts.SEGOE_20);
         windSpeedLabel.setBounds(0, 390, 480, 30);
@@ -779,7 +781,7 @@ public class WeatherWidget {
         humidityLabel.setBounds(0, 500, 480, 30);
         weatherFrame.getContentPane().add(humidityLabel);
 
-        pressureLabel = new JLabel("Pressure: " + pressure + "atm",
+        pressureLabel = new JLabel("Pressure: " + pressure + Units.ATMOSPHERES.getAbbreviation(),
                 SwingConstants.CENTER);
         pressureLabel.setForeground(CyderColors.navy);
         pressureLabel.setFont(CyderFonts.SEGOE_20);
@@ -906,12 +908,12 @@ public class WeatherWidget {
                 + HtmlTags.closingHtml);
 
         // todo constants class for units and abbreviations? Maybe even an enum
-        windSpeedLabel.setText("Wind" + colon + space + windSpeed + "mph"
-                + CyderStrings.comma + space + windBearing + "deg" + space
+        windSpeedLabel.setText("Wind" + colon + space + windSpeed + Units.MILES_PER_HOUR.getAbbreviation()
+                + CyderStrings.comma + space + windBearing + Units.DEGREES.getAbbreviation() + space
                 + CyderStrings.openingParenthesis + getWindDirection(windBearing)
                 + CyderStrings.closingParenthesis);
         humidityLabel.setText("Humidity: " + humidity + "%");
-        pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
+        pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + Units.ATMOSPHERES.getAbbreviation());
         timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
 
         String sunriseMeridiemModifier = sunriseHour < 12 ? AM : PM;
