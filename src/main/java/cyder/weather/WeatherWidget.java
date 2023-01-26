@@ -17,6 +17,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.AngleUtil;
+import cyder.math.InterpolationUtil;
 import cyder.network.IpDataManager;
 import cyder.network.NetworkUtil;
 import cyder.parsers.ip.IpData;
@@ -41,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static cyder.strings.CyderStrings.colon;
 import static cyder.strings.CyderStrings.space;
@@ -446,7 +448,7 @@ public class WeatherWidget {
      * The complete change location html styled text to show on the string getter's label.
      */
     private static final String changeLocationHtmlText = HtmlTags.openingHtml
-            + "Enter your city, state, and country code separated by a comma. Example: "
+            + "Enter your city, state (if applicable), and country code separated by a comma. Example: "
             + HtmlTags.breakTag + styledExampleText + HtmlTags.closingHtml;
 
     /**
@@ -468,6 +470,11 @@ public class WeatherWidget {
      * The frequency to check the exit condition for the stats updater.
      */
     private static final Duration checkUpdateStatsExitConditionFrequency = Duration.ofSeconds(10);
+
+    /**
+     * The last notification text following a location change attempt.
+     */
+    private String refreshingNotificationText;
 
     /**
      * Creates a new weather widget initialized to the user's current location.
@@ -624,8 +631,7 @@ public class WeatherWidget {
                 .setInitialFieldText(currentLocationString)
                 .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 
-        DragLabelTextButton locationButton = new DragLabelTextButton.Builder("Location")
-                .setTooltip("Change Location")
+        DragLabelTextButton locationButton = new DragLabelTextButton.Builder("Change Location")
                 .setClickAction(() -> CyderThreadRunner.submit(() -> {
                     getterUtilInstance.closeAllGetFrames();
                     Optional<String> optionalNewLocation = getterUtilInstance.getInput(changeLocationBuilder);
@@ -634,23 +640,17 @@ public class WeatherWidget {
                         if (optionalNewLocation.isEmpty()) return;
                         String newLocation = optionalNewLocation.get();
                         previousLocationString = currentLocationString;
-                        String[] newLocationParts = newLocation.split(CyderStrings.comma);
-
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 0 ; i < newLocationParts.length ; i++) {
-                            sb.append(StringUtil.capsFirstWords(newLocationParts[i].trim()));
-
-                            if (i != newLocationParts.length - 1) sb.append(CyderStrings.comma);
-                        }
-
-                        currentLocationString = sb.toString();
+                        ArrayList<String> parts = Arrays.stream(newLocation.split(CyderStrings.comma))
+                                .map(string -> StringUtil.capsFirstWords(string.trim()))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                        currentLocationString = StringUtil.joinParts(parts, CyderStrings.comma);
                         useCustomLoc = true;
 
-                        weatherFrame.notify("Attempting to refresh weather stats for location \""
-                                + currentLocationString + CyderStrings.quote);
+                        refreshingNotificationText = "Attempting to refresh weather stats for location "
+                                + CyderStrings.quote + currentLocationString + CyderStrings.quote;
+                        weatherFrame.notify(refreshingNotificationText);
 
                         repullWeatherStats();
-
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
@@ -682,7 +682,8 @@ public class WeatherWidget {
                 g.setColor(CyderColors.navy);
                 g.fillRect(borderLen, borderLen, w, h);
 
-                int mappedTemperatureValue = (int) Math.round(map(temperature, minTemp, maxTemp));
+                int mappedTemperatureValue = (int) Math.round(
+                        InterpolationUtil.rangeMap(temperature, minTemp, maxTemp, 0, customTempLabelWidth));
                 int yOffset = 3;
                 int lineWidth = 6;
                 g.setColor(CyderColors.regularPink);
@@ -840,18 +841,6 @@ public class WeatherWidget {
     }
 
     /**
-     * Maps the value from the old range to the range [0, customTempLabelWidth].
-     *
-     * @param value       the value to map
-     * @param oldRangeMin the old range's min
-     * @param oldRangeMax the old range's max
-     * @return the value mapped from the old range to the new range
-     */
-    private double map(double value, double oldRangeMin, double oldRangeMax) {
-        return (value - oldRangeMin) * (float) customTempLabelWidth / (oldRangeMax - oldRangeMin);
-    }
-
-    /**
      * Returns the current weather time correct based on the current gmt offset.
      *
      * @return the current weather time correct based on the current gmt offset
@@ -907,7 +896,6 @@ public class WeatherWidget {
                 .replaceAll(CyderRegexPatterns.whiteSpaceRegex, HtmlTags.breakTag)
                 + HtmlTags.closingHtml);
 
-        // todo constants class for units and abbreviations? Maybe even an enum
         windSpeedLabel.setText("Wind" + colon + space + windSpeed + Units.MILES_PER_HOUR.getAbbreviation()
                 + CyderStrings.comma + space + windBearing + Units.DEGREES.getAbbreviation() + space
                 + CyderStrings.openingParenthesis + getWindDirection(windBearing)
@@ -919,8 +907,8 @@ public class WeatherWidget {
         String sunriseMeridiemModifier = sunriseHour < 12 ? AM : PM;
         String sunsetMeridiemModifier = sunsetHour >= 12 ? AM : PM;
 
-        sunriseLabel.setText(accountForGmtOffset(sunriseFormatted) + sunriseMeridiemModifier);
-        sunsetLabel.setText(accountForGmtOffset(sunsetFormatted) + sunsetMeridiemModifier);
+        sunriseLabel.setText(formatTimeAccountingForGmtOffset(sunriseFormatted) + sunriseMeridiemModifier);
+        sunsetLabel.setText(formatTimeAccountingForGmtOffset(sunsetFormatted) + sunsetMeridiemModifier);
 
         customTempLabel.repaint();
         currentTempLabel.setText(temperature + "F");
@@ -937,7 +925,10 @@ public class WeatherWidget {
         String splitCity = currentLocationString.split(CyderStrings.comma)[0];
         refreshFrameTitle(splitCity);
 
-        if (weatherFrame != null) weatherFrame.toast(new NotificationBuilder(REFRESHED).setViewDuration(1000));
+        if (weatherFrame != null) {
+            weatherFrame.revokeAllNotifications();
+            weatherFrame.toast(new NotificationBuilder(REFRESHED).setViewDuration(1000));
+        }
     }
 
     /**
@@ -971,8 +962,8 @@ public class WeatherWidget {
         int customTempLabelMinX = customTempLabel.getX();
         int customTempLabelMaxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
 
-        int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
-                + map(temperature, minTemp, maxTemp)) + temperatureLineCenterAdditive;
+        int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX() + InterpolationUtil.rangeMap(
+                temperature, minTemp, maxTemp, 0, customTempLabelWidth)) + temperatureLineCenterAdditive;
         temperatureLineCenter -= (tempLabelWidth) / 2;
 
         if (temperatureLineCenter < customTempLabelMinX) {
@@ -993,6 +984,7 @@ public class WeatherWidget {
      */
     private void refreshFrameTitle(String city) {
         Preconditions.checkNotNull(city);
+
         city = city.trim();
 
         if (!city.isEmpty()) {
@@ -1026,7 +1018,7 @@ public class WeatherWidget {
      * @param absoluteTime the absolute hh:mm time
      * @return the hh:mm time after accounting for the GMT offset
      */
-    private String accountForGmtOffset(String absoluteTime) {
+    private String formatTimeAccountingForGmtOffset(String absoluteTime) {
         Preconditions.checkNotNull(absoluteTime);
         Preconditions.checkArgument(absoluteTime.contains(colon));
 
@@ -1068,6 +1060,7 @@ public class WeatherWidget {
 
             Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(currentLocationString);
             if (optionalWeatherData.isEmpty()) {
+                weatherFrame.revokeNotification(refreshingNotificationText);
                 weatherFrame.notify("Sorry, but that location is invalid");
                 currentLocationString = previousLocationString;
                 useCustomLoc = false;
@@ -1102,7 +1095,11 @@ public class WeatherWidget {
             sunsetCalendar.setTimeInMillis(sunsetMillis);
             sunsetHour = sunsetCalendar.get(Calendar.HOUR);
 
-            setGmtIfNotSet();
+            if (!isGmtSet) {
+                parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
+                isGmtSet = true;
+            }
+
             refreshWeatherLabels();
 
             Console.INSTANCE.revalidateConsoleTaskbarMenu();
@@ -1157,16 +1154,6 @@ public class WeatherWidget {
      */
     public static void refreshAllMapBackgrounds() {
         instances.forEach(WeatherWidget::refreshMapBackground);
-    }
-
-    /**
-     * Calculates the timezone offset from GMT0/Zulu time if not yet performed.
-     */
-    private void setGmtIfNotSet() {
-        if (!isGmtSet) {
-            parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
-            isGmtSet = true;
-        }
     }
 
     /**
