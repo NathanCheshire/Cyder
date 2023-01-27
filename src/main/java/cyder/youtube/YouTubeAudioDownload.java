@@ -236,7 +236,7 @@ public class YouTubeAudioDownload {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
 
-        String firstUuid = YouTubeUtil.getFirstUuid(query);
+        String firstUuid = YouTubeUtil.getMostLikelyUuid(query);
         this.providedDownloadString = YouTubeUtil.buildVideoUrl(firstUuid);
     }
 

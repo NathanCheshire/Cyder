@@ -124,7 +124,7 @@ public class PlayAudioHandler extends InputHandler {
                 YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             } else {
                 getInputHandler().println("Searching YouTube for: " + url);
-                String uuid = YouTubeUtil.getFirstUuid(url);
+                String uuid = YouTubeUtil.getMostLikelyUuid(url);
                 url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
                 YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             }

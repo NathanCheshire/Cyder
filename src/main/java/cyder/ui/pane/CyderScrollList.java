@@ -5,10 +5,12 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.strings.ToStringUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserDataManager;
+import org.jsoup.internal.StringUtil;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -384,7 +386,8 @@ public class CyderScrollList {
         Preconditions.checkNotNull(labelText);
         Preconditions.checkArgument(!labelText.isEmpty());
         Preconditions.checkNotNull(doubleClickAction);
-        Preconditions.checkArgument(!elementInList(labelText));
+        Preconditions.checkArgument(!elementInList(labelText),
+                labelText + " already in: " + StringUtil.join(elements, CyderStrings.comma));
 
         JLabel addElement = new JLabel(labelText);
         addElement.setForeground(nonSelectedColor);

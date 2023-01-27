@@ -187,6 +187,11 @@ public final class YouTubeConstants {
     static final String videoIdHtmlSubstring = "videoId\":\"";
 
     /**
+     * The character used to indicate a space in a url query.
+     */
+    static final String querySpace = "+";
+
+    /**
      * Suppress default constructor.
      */
     private YouTubeConstants() {

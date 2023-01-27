@@ -253,6 +253,13 @@ public final class Props {
             new Prop<>("specific_object_creation_logs",
                     new PropValueList(ImmutableList.of()), PropValueList.class);
 
+    /**
+     * The maximum number of UUIDs to get the title of and choose the one with the lowest
+     * Levenshtein distance when attempting to find the most likely YouTube UUID for a search query.
+     */
+    public static final Prop<Integer> maxYouTubeUuidChecksPlayCommand =
+            new Prop<>("max_youtube_uuid_checks_play_command", 10, Integer.class);
+
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.
     // ---------------------------------------------------

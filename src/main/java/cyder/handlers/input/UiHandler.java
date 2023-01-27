@@ -1,5 +1,6 @@
 package cyder.handlers.input;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
@@ -52,8 +53,12 @@ public class UiHandler extends InputHandler {
             UiUtil.screenshotCyderFrames();
             getInputHandler().println("Successfully saved to your Files directory");
         } else if (getInputHandler().commandIs("monitors")) {
-            StringBuilder printString = new StringBuilder("Monitor display modes: ");
-            for (DisplayMode displayMode : UiUtil.getMonitorDisplayModes()) {
+            StringBuilder printString = new StringBuilder("Monitor display modes: ").append(CyderStrings.newline);
+            ImmutableList<DisplayMode> modes = UiUtil.getMonitorDisplayModes();
+            for (int i = 0 ; i < modes.size() ; i++) {
+                printString.append("Mode ").append(i + 1).append(CyderStrings.newline);
+
+                DisplayMode displayMode = modes.get(i);
                 printString.append("Width: ").append(displayMode.getWidth()).append(CyderStrings.newline);
                 printString.append("Height: ").append(displayMode.getHeight()).append(CyderStrings.newline);
                 printString.append("Bit depth: ").append(displayMode.getBitDepth()).append(CyderStrings.newline);

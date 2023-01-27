@@ -349,27 +349,6 @@ public final class UserEditor {
     }
 
     /**
-     * Refreshes the contents of {@link #filesNameList}. Note this method does not update the
-     * ui based on the updated contents, {@link #revalidateFilesScroll()} should be used to
-     * regenerate the scroll list with the new contents.
-     */
-    private static void refreshFileLists() {
-        filesNameList.clear();
-
-        Arrays.stream(ScrollListFolder.values()).forEach(folder -> {
-            File directoryReference = UserUtil.getUserFile(folder.getUserFile());
-            File[] directoryFiles = directoryReference.listFiles();
-            if (directoryFiles != null && directoryFiles.length > 0) {
-                Arrays.stream(directoryFiles).forEach(file -> {
-                    if (Boolean.TRUE.equals(folder.getShouldShowFunction().apply(file))) {
-                        filesNameList.add(folder.getUserFile().getName() + FILES_SCROLL_SEPARATOR + file.getName());
-                    }
-                });
-            }
-        });
-    }
-
-    /**
      * The directory watcher for the user's music directory.
      */
     private static DirectoryWatcher musicDirectoryWatcher;
@@ -472,8 +451,6 @@ public final class UserEditor {
                         String copyFolderPath = UserUtil.getUserFile(copyLocation).getAbsolutePath();
                         File copyFile = OsUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
                         Files.copy(fileToAdd.toPath(), copyFile.toPath());
-
-                        revalidateFilesScroll();
 
                         if (copyLocation.getName().equals(UserFile.BACKGROUNDS.getName())) {
                             Console.INSTANCE.reloadBackgrounds();
@@ -702,7 +679,6 @@ public final class UserEditor {
                     default -> editUserFrame.notify("Deleted file: " + filename);
                 }
 
-                revalidateFilesScroll();
             } else {
                 editUserFrame.notify("Could not delete " + filename);
             }
@@ -933,7 +909,19 @@ public final class UserEditor {
         CyderScrollList filesScrollList = filesScrollListReference.get();
         filesScrollList.removeAllElements();
 
-        refreshFileLists();
+        filesNameList.clear();
+
+        Arrays.stream(ScrollListFolder.values()).forEach(folder -> {
+            File directoryReference = UserUtil.getUserFile(folder.getUserFile());
+            File[] directoryFiles = directoryReference.listFiles();
+            if (directoryFiles != null && directoryFiles.length > 0) {
+                Arrays.stream(directoryFiles).forEach(file -> {
+                    if (Boolean.TRUE.equals(folder.getShouldShowFunction().apply(file))) {
+                        filesNameList.add(folder.getUserFile().getName() + FILES_SCROLL_SEPARATOR + file.getName());
+                    }
+                });
+            }
+        });
 
         filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
                 element, () -> CyderThreadRunner.submit(() -> {
@@ -967,6 +955,9 @@ public final class UserEditor {
         parentBorderLabel.setBackground(CyderColors.navy);
         parentBorderLabel.add(filesLabel);
 
+        filesLabel.repaint();
+        parentBorderLabel.repaint();
+
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
 
@@ -979,10 +970,8 @@ public final class UserEditor {
             if (e.getKeyCode() == KeyEvent.VK_DELETE) {
                 filesScrollListReference.get().getSelectedElements().forEach(listElement -> {
                     File deleteFile = getFile(listElement);
-                    boolean deleted = OsUtil.deleteFile(deleteFile);
-                    if (deleted) {
+                    if (OsUtil.deleteFile(deleteFile)) {
                         editUserFrame.notify("Deleted file: " + deleteFile.getName());
-                        revalidateFilesScroll();
                     } else {
                         editUserFrame.notify("Could not delete file \""
                                 + deleteFile.getName() + "\" at this time");

@@ -1267,9 +1267,8 @@ public class CyderFrame extends JFrame {
         };
     }
 
-    @ForReadability
     private static String constructNotificationLogLine(String title, String text) {
-        return openingBracket + title + "] [NOTIFICATION] \"" + text + quote;
+        return openingBracket + title + closingBracket + space + "[Notification]" + space + quote + text + quote;
     }
 
     /**
