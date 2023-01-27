@@ -32,7 +32,10 @@ import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.NotificationBuilder;
 import cyder.user.UserDataManager;
-import cyder.utils.*;
+import cyder.utils.HtmlUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.MapUtil;
+import cyder.utils.StaticUtil;
 import cyder.weather.parsers.WeatherData;
 
 import javax.swing.*;
@@ -943,8 +946,7 @@ public class WeatherWidget {
         String weatherIconIdAndTime = weatherIconId.replaceAll(CyderRegexPatterns.englishLettersRegex, "")
                 + (isAfterSunset ? NIGHT_IMAGE_ID : DAY_IMAGE_ID);
 
-        return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
-                weatherIconIdAndTime + Extension.PNG.getExtension()));
+        return StaticUtil.getImageIcon(weatherIconIdAndTime + Extension.PNG.getExtension());
     }
 
     /**

@@ -38,7 +38,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
+import cyder.utils.StaticUtil;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -2813,8 +2813,7 @@ public class CyderFrame extends JFrame {
     /**
      * The image for the debug lines for the console.
      */
-    private static final ImageIcon neffexIcon = new ImageIcon(
-            OsUtil.buildPath("static", "pictures", "print", "neffex.png"));
+    private static final ImageIcon neffexIcon = StaticUtil.getImageIcon("neffex.png");
 
     /**
      * The minor axis length of a debug line.

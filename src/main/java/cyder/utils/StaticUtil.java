@@ -9,6 +9,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.LinkedHashMap;
 
@@ -56,6 +57,19 @@ public final class StaticUtil {
      */
     public static String getStaticPath(String filename) {
         return getStaticResource(filename).getAbsolutePath();
+    }
+
+    /**
+     * Returns a new {@link ImageIcon} from the file found with the
+     * provided name/path in any subdirectory of the static directory.
+     *
+     * @param filename the name of the file, with or without the extension
+     *                 or as much of the relative file path as possible
+     * @return a new {@link ImageIcon}
+     * @throws IllegalArgumentException if a file cannot be found matching the provided name/path
+     */
+    public static ImageIcon getImageIcon(String filename) {
+        return new ImageIcon(getStaticResource(filename).getAbsolutePath());
     }
 
     /**

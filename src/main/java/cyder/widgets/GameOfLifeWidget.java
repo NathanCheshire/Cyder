@@ -805,7 +805,7 @@ public final class GameOfLifeWidget {
     }
 
     /**
-     * Loads the preset conway states from static/json/conway.
+     * Loads the preset conway states from static JSON conway.
      */
     private static void loadConwayStates() {
         comboItems = new ArrayList<>();
