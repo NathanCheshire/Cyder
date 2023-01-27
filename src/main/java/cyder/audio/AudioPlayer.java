@@ -2447,13 +2447,17 @@ public final class AudioPlayer {
             searchResults.clear();
 
             for (YouTubeVideo video : youTubeSearchResultPage.get().getItems()) {
+                BufferedImage image = ImageUtil.ensureFitsInBounds(
+                        YouTubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
+                                .orElse(defaultAlbumArtImage),
+                        new Dimension(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
+
                 searchResults.add(new YoutubeSearchResult(
                         video.getId().getVideoId(),
                         video.getSnippet().getTitle(),
                         video.getSnippet().getDescription(),
                         video.getSnippet().getChannelTitle(),
-                        YouTubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
-                                .orElse(defaultAlbumArtImage)));
+                        image));
             }
 
             // if user has searched for something else while getting the search results, don't update pane
