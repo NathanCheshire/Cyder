@@ -36,19 +36,19 @@ public class ImageHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("java")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/duke.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("duke.png")));
         } else if (getInputHandler().commandIs("msu")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/msu.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("msu.png")));
         } else if (getInputHandler().commandIs("nathan") || getInputHandler().commandIs("nate")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/me.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("me.png")));
         } else if (getInputHandler().commandIs("html")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/html5.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("html5.png")));
         } else if (getInputHandler().commandIs("css")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/css.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("css.png")));
         } else if (getInputHandler().commandIs("docker")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/Docker.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("Docker.png")));
         } else if (getInputHandler().commandIs("redis")) {
-            getInputHandler().println(new ImageIcon("static/pictures/print/Redis.png"));
+            getInputHandler().println(new ImageIcon(StaticUtil.getStaticPath("Redis.png")));
         } else if (getInputHandler().commandIs("blur")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().generateBufferedImage())) {

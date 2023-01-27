@@ -16,6 +16,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.user.UserDataManager;
 import cyder.user.data.MappedExecutable;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,72 +57,65 @@ public final class MinecraftWidget {
     public static final String MINECRAFT_BLOCK = "https://my.minecraft.net/en-us/store/minecraft/";
 
     /**
-     * Suppress default constructor.
-     */
-    private MinecraftWidget() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The block image icon.
      */
-    private static final ImageIcon BLOCK = new ImageIcon("static/pictures/minecraft/Block.png");
+    private static final ImageIcon BLOCK = new ImageIcon(StaticUtil.getStaticPath("Block.png"));
 
     /**
      * The block enter animation.
      */
-    private static final ImageIcon BLOCK_ENTER = new ImageIcon("static/pictures/minecraft/BlockEnter.gif");
+    private static final ImageIcon BLOCK_ENTER = new ImageIcon(StaticUtil.getStaticPath("BlockEnter.gif"));
 
     /**
      * The block exit animation.
      */
-    private static final ImageIcon BLOCK_EXIT = new ImageIcon("static/pictures/minecraft/BlockExit.gif");
+    private static final ImageIcon BLOCK_EXIT = new ImageIcon(StaticUtil.getStaticPath("BlockExit.gif"));
 
     /**
      * The realms icon.
      */
-    private static final ImageIcon REALMS = new ImageIcon("static/pictures/minecraft/Realms.png");
+    private static final ImageIcon REALMS = new ImageIcon(StaticUtil.getStaticPath("Realms.png"));
 
     /**
      * The realms enter animation.
      */
-    private static final ImageIcon REALMS_ENTER = new ImageIcon("static/pictures/minecraft/RealmsEnter.gif");
+    private static final ImageIcon REALMS_ENTER = new ImageIcon(StaticUtil.getStaticPath("RealmsEnter.gif"));
 
     /**
      * The realms exit animation.
      */
-    private static final ImageIcon REALMS_EXIT = new ImageIcon("static/pictures/minecraft/RealmsExit.gif");
+    private static final ImageIcon REALMS_EXIT = new ImageIcon(StaticUtil.getStaticPath("RealmsExit.gif"));
 
     /**
      * The chest icon.
      */
-    private static final ImageIcon CHEST = new ImageIcon("static/pictures/minecraft/Chest.png");
+    private static final ImageIcon CHEST = new ImageIcon(StaticUtil.getStaticPath("Chest.png"));
 
     /**
      * The chest enter animation.
      */
-    private static final ImageIcon CHEST_ENTER = new ImageIcon("static/pictures/minecraft/ChestEnter.gif");
+    private static final ImageIcon CHEST_ENTER = new ImageIcon(StaticUtil.getStaticPath("ChestEnter.gif"));
 
     /**
      * The chest exit animation.
      */
-    private static final ImageIcon CHEST_EXIT = new ImageIcon("static/pictures/minecraft/ChestExit.gif");
+    private static final ImageIcon CHEST_EXIT = new ImageIcon(StaticUtil.getStaticPath("ChestExit.gif"));
 
     /**
      * The hamburger icon.
      */
-    private static final ImageIcon HAMBURGER = new ImageIcon("static/pictures/minecraft/Hamburger.png");
+    private static final ImageIcon HAMBURGER = new ImageIcon(StaticUtil.getStaticPath("Hamburger.png"));
     /**
      * The hamburger enter animation.
      */
-    private static final ImageIcon HAMBURGER_ENTER
-            = new ImageIcon("static/pictures/minecraft/HamburgerEnter.gif");
+    private static final ImageIcon HAMBURGER_ENTER = new ImageIcon(
+            StaticUtil.getStaticPath("HamburgerEnter.gif"));
 
     /**
      * The hamburger exit animation.
      */
-    private static final ImageIcon HAMBURGER_EXIT
-            = new ImageIcon("static/pictures/minecraft/HamburgerExit.gif");
+    private static final ImageIcon HAMBURGER_EXIT = new ImageIcon(
+            StaticUtil.getStaticPath("HamburgerExit.gif"));
 
     /**
      * The title of the widget frame.
@@ -154,7 +148,14 @@ public final class MinecraftWidget {
     /**
      * The background of the frame.
      */
-    private static final ImageIcon background = new ImageIcon("static/pictures/minecraft/Minecraft.png");
+    private static final ImageIcon background = new ImageIcon(StaticUtil.getStaticPath("Minecraft.png"));
+
+    /**
+     * Suppress default constructor.
+     */
+    private MinecraftWidget() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGui() {
@@ -205,10 +206,8 @@ public final class MinecraftWidget {
      * @return the mouse listener
      */
     @ForReadability
-    private static MouseListener generateMouseListener(JLabel label,
-                                                       String url,
-                                                       ImageIcon enterGif,
-                                                       ImageIcon exitGif) {
+    private static MouseListener generateMouseListener(JLabel label, String url,
+                                                       ImageIcon enterGif, ImageIcon exitGif) {
         Preconditions.checkNotNull(label);
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
@@ -239,17 +238,25 @@ public final class MinecraftWidget {
      * Checks the current user's mapped executables to determine if any might reference a Minecraft launcher.
      */
     private static void checkMappedExes() {
-        for (MappedExecutable exe : UserDataManager.INSTANCE.getMappedExecutables().getExecutables()) {
-            File refFile = new File(exe.getFilepath());
+        UserDataManager.INSTANCE.getMappedExecutables().getExecutables()
+                .stream().filter(MinecraftWidget::mappedExeReferencesPossibleMinecraftLauncher)
+                .findFirst().ifPresent(exe -> FileUtil.openResourceUsingNativeProgram(exe.getFilepath()));
+    }
 
-            if (refFile.exists() && refFile.isFile()) {
-                String name = FileUtil.getFilename(refFile);
+    /**
+     * Returns whether the provided mapped executable likely references a Minecraft launcher.
+     *
+     * @param mappedExecutable the mapped executable
+     * @return whether the provided mapped executable likely references a Minecraft launcher
+     */
+    private static boolean mappedExeReferencesPossibleMinecraftLauncher(MappedExecutable mappedExecutable) {
+        Preconditions.checkNotNull(mappedExecutable);
 
-                if (StringUtil.in(name, true, MINECRAFT_NAMES)) {
-                    FileUtil.openResourceUsingNativeProgram(exe.getFilepath());
-                    return;
-                }
-            }
+        File refFile = new File(mappedExecutable.getFilepath());
+        if (refFile.exists() && refFile.isFile()) {
+            return StringUtil.in(FileUtil.getFilename(refFile), true, MINECRAFT_NAMES);
         }
+
+        return false;
     }
 }

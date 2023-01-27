@@ -17,6 +17,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
+import cyder.utils.OsUtil;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -155,6 +156,11 @@ public final class HangmanGame {
      * The height of the primary components, not including the image label.
      */
     private static final int componentHeight = 40;
+
+    /**
+     * The maximum number of wrong guesses a user can make.
+     */
+    private static final int maxNumWrongGuesses = 8;
 
     /**
      * Suppress default constructor.
@@ -302,9 +308,9 @@ public final class HangmanGame {
             }
         } else {
             numWrongGuesses++;
-            imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman"
-                    + numWrongGuesses + Extension.PNG.getExtension()));
-            if (numWrongGuesses == 8) {
+            imageLabel.setIcon(new ImageIcon(OsUtil.buildPath("static", "pictures",
+                    "hangman", "hangman" + numWrongGuesses + Extension.PNG.getExtension())));
+            if (numWrongGuesses == maxNumWrongGuesses) {
                 currentWordLabel.setText("Game over! You were unable to guess \"" + hangmanWord
                         + "\" Would you like to start again?");
                 resetButton.setText(PLAY_AGAIN);

@@ -171,12 +171,12 @@ public final class GameOfLifeWidget {
     private static LinkedList<GridNode> lastState = new LinkedList<>();
 
     /**
-     * The conway states loaded from static/json/conway.
+     * The conway states loaded from static JSON conway directory.
      */
     private static ArrayList<ConwayState> correspondingConwayStates;
 
     /**
-     * The switcher states to cycle between the states loaded from static/json/conway.
+     * The switcher states to cycle between the states loaded from static JSON conway directory.
      */
     private static ArrayList<CyderComboBoxState> comboItems;
 

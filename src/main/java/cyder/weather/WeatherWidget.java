@@ -38,14 +38,14 @@ import cyder.weather.parsers.WeatherData;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-import static cyder.strings.CyderStrings.colon;
-import static cyder.strings.CyderStrings.space;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A widget for showing the weather for a local area.
@@ -419,11 +419,6 @@ public class WeatherWidget {
     private static final String WEST = "W";
 
     /**
-     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
-     */
-    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
-
-    /**
      * The change location text.
      */
     private static final String CHANGE_LOCATION = "Change Location";
@@ -477,6 +472,11 @@ public class WeatherWidget {
     private String refreshingNotificationText;
 
     /**
+     * The decimal formatter for the result.
+     */
+    private static final DecimalFormat floatMeasurementFormatter = new DecimalFormat("#.####");
+
+    /**
      * Creates a new weather widget initialized to the user's current location.
      */
     private WeatherWidget() {
@@ -492,11 +492,11 @@ public class WeatherWidget {
     }
 
     /**
-     * Returns a new instance of weather widget.
+     * Returns a new instance of the weather widget.
      *
-     * @return a new instance of weather widget
+     * @return a new instance of the weather widget
      */
-    public static WeatherWidget getInstance() {
+    private static WeatherWidget getInstance() {
         WeatherWidget instance = new WeatherWidget();
         instances.add(instance);
         return instance;
@@ -545,6 +545,8 @@ public class WeatherWidget {
         locationLabel.setBounds(0, 85, 480, 30);
         weatherFrame.getContentPane().add(locationLabel);
 
+        final int strokeWidth = 3;
+
         JLabel currentWeatherContainer = new JLabel() {
             private static final int arcLen = 25;
             private static final int offset = 10;
@@ -553,7 +555,7 @@ public class WeatherWidget {
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
-                g2d.setStroke(new BasicStroke(3));
+                g2d.setStroke(new BasicStroke(strokeWidth));
                 g2d.fillRoundRect(offset, offset, 100, 160, arcLen, arcLen);
                 super.paint(g);
             }
@@ -573,12 +575,10 @@ public class WeatherWidget {
                 currentWeatherContainer.getWidth(), currentWeatherContainer.getHeight() / 2);
         currentWeatherContainer.add(currentWeatherLabel);
 
-        ImageIcon sunriseIcon = new ImageIcon(
-                OsUtil.buildPath("static", "pictures", WEATHER, "sunrise.png"));
+        ImageIcon sunriseIcon = new ImageIcon(StaticUtil.getStaticPath("sunrise.png"));
         JLabel sunriseLabelIcon = new JLabel(sunriseIcon) {
             private static final int arcLen = 25;
             private static final int offset = 10;
-            private static final int strokeWidth = 3;
 
             @Override
             public void paint(Graphics g) {
@@ -603,7 +603,6 @@ public class WeatherWidget {
         JLabel sunsetLabelIcon = new JLabel(sunsetIcon) {
             private static final int arcLen = 25;
             private static final int offset = 10;
-            private static final int strokeWidth = 3;
 
             @Override
             public void paint(Graphics g) {
@@ -729,8 +728,8 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(customTempLabel);
 
         windSpeedLabel = new JLabel("", SwingConstants.CENTER);
-        windSpeedLabel.setText("Wind: " + windSpeed + Units.MILES_PER_HOUR.getAbbreviation() + ", " + windBearing
-                + Units.DEGREES.getAbbreviation() + " ("
+        windSpeedLabel.setText("Wind: " + windSpeed + Units.MILES_PER_HOUR.getAbbreviation()
+                + comma + space + windBearing + Units.DEGREES.getAbbreviation() + space + openingParenthesis
                 + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
         windSpeedLabel.setForeground(CyderColors.navy);
         windSpeedLabel.setFont(CyderFonts.SEGOE_20);
@@ -1193,14 +1192,12 @@ public class WeatherWidget {
     }
 
     /**
-     * Returns a formatted string no greater than {@link WeatherWidget#MAX_FLOAT_MEASUREMENT_LENGTH}.
+     * Returns the float formatted using {@link #floatMeasurementFormatter}.
      *
      * @param measurement the float measurement to format
      * @return the formatted measurement
      */
     private static String formatFloatMeasurement(float measurement) {
-        String string = String.valueOf(measurement);
-        return string.substring(0, string.length() > MAX_FLOAT_MEASUREMENT_LENGTH - 1
-                ? MAX_FLOAT_MEASUREMENT_LENGTH : string.length());
+        return floatMeasurementFormatter.format(measurement);
     }
 }
