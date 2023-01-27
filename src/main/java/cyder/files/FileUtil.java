@@ -429,7 +429,7 @@ public final class FileUtil {
      * Note that this returns the complete filename and not a {@link File} object.
      *
      * @param file      the file to ensure a unique name for
-     * @param directory the directory the file will e placed in
+     * @param directory the directory the file will be placed in
      * @return a unique name for the file. Note this may or may not equal
      * the original file name
      */

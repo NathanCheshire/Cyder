@@ -35,6 +35,7 @@ import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
+import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
@@ -95,8 +96,7 @@ public final class PaintWidget {
     /**
      * ShowGUI method standard.
      */
-    @Widget(triggers = {"paint", "draw"}, description =
-            "A painting widget")
+    @Widget(triggers = {"paint", "draw"}, description = "A painting widget")
     public static void showGui() {
         UiUtil.closeIfOpen(paintFrame);
 
@@ -129,31 +129,23 @@ public final class PaintWidget {
         cyderGrid.setNodeColor(currentPaintColor);
 
         paintFrame.setMenuEnabled(true);
-        paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {
+        paintFrame.addMenuItem("Export PNG", () -> CyderThreadRunner.submit(() -> {
             if (cyderGrid.getGridNodes().isEmpty()) {
                 paintFrame.notify("Please place at least one node before saving");
                 return;
             }
 
-            String base = "image";
-            int increment = 0;
-            String defaultFilename = base + increment + Extension.PNG.getExtension();
-
-            String path = OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getFileName(),
-                    Console.INSTANCE.getUuid(), "Files");
-
-            while (new File(path + OsUtil.FILE_SEP + defaultFilename).exists()) {
-                increment++;
-                defaultFilename = base + increment + Extension.PNG.getExtension();
-            }
+            String filename = FileUtil.constructUniqueName(new File("image" + Extension.PNG.getExtension()),
+                    OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getFileName(),
+                            Console.INSTANCE.getUuid(), UserFile.FILES.getName()));
 
             Optional<String> optionalFilename = GetterUtil.getInstance().getInput(
                     new GetInputBuilder("Filename", "Enter the filename to save the image as")
                             .setRelativeTo(paintFrame)
-                            .setInitialFieldText(defaultFilename)
+                            .setInitialFieldText(filename)
                             .setSubmitButtonText("Save Image"));
             if (optionalFilename.isEmpty()) return;
-            String filename = optionalFilename.get();
+            filename = optionalFilename.get();
 
             if (!filename.endsWith(Extension.PNG.getExtension())) {
                 filename += Extension.PNG.getExtension();
@@ -175,15 +167,16 @@ public final class PaintWidget {
                     ImageIO.write(image, Extension.PNG.getExtensionWithoutPeriod(), referenceFile);
 
                     paintFrame.notify(new NotificationBuilder(
-                            "Successfully saved grid as \"" + filename
-                                    + "\" to your Files/ directory. Click me to view it")
+                            "Successfully saved grid as " + CyderStrings.quote + filename
+                                    + CyderStrings.quote + " to your Files/ directory. Click me to view it")
                             .setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui()));
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");
                 }
             } else {
-                paintFrame.notify("Sorry, but \"" + filename + "\" is not a valid filename");
+                paintFrame.notify("Sorry, but " + CyderStrings.quote
+                        + filename + CyderStrings.quote + " is not a valid filename");
             }
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
@@ -219,15 +212,12 @@ public final class PaintWidget {
                 String pixelSizeString = optionalPixelSizeString.get();
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
+                if (pixelSize == 1) return;
 
-                // no change so continue
-                if (pixelSize == 1) {
-                    return;
-                }
-
-                // convert to image
-                BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
-                        cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
+                BufferedImage image = new BufferedImage(
+                        cyderGrid.getNodeDimensionLength(),
+                        cyderGrid.getNodeDimensionLength(),
+                        BufferedImage.TYPE_INT_ARGB);
 
                 Graphics2D g2d = (Graphics2D) image.getGraphics();
 
@@ -366,7 +356,7 @@ public final class PaintWidget {
     /**
      * The add nodes checkbox.
      */
-    private static CyderCheckbox add;
+    private static CyderCheckbox addNodesCheckbox;
 
     /**
      * Opens the paint controls frame.
@@ -560,18 +550,18 @@ public final class PaintWidget {
         addLabel.setBounds(5, 5, 50, 30);
         checkBoxLabel.add(addLabel);
 
-        add = new CyderCheckbox();
-        add.setToolTipText("Paint cells");
-        add.setBounds(5, 100 - 55, 50, 50);
-        add.addMouseListener(new MouseAdapter() {
+        addNodesCheckbox = new CyderCheckbox();
+        addNodesCheckbox.setToolTipText("Paint cells");
+        addNodesCheckbox.setBounds(5, 100 - 55, 50, 50);
+        addNodesCheckbox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 cyderGrid.setMode(CyderGrid.Mode.ADD);
             }
         });
-        group.addCheckbox(add);
-        add.setChecked();
-        checkBoxLabel.add(add);
+        group.addCheckbox(addNodesCheckbox);
+        addNodesCheckbox.setChecked();
+        checkBoxLabel.add(addNodesCheckbox);
 
         CyderLabel deleteLabel = new CyderLabel("Delete");
         deleteLabel.setBounds(5 + 50 + 10, 5, 50, 30);
@@ -804,7 +794,7 @@ public final class PaintWidget {
         } else {
             paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-            if (add.isEnabled()) {
+            if (addNodesCheckbox.isEnabled()) {
                 cyderGrid.setMode(CyderGrid.Mode.ADD);
             } else {
                 cyderGrid.setMode(CyderGrid.Mode.DELETE);
@@ -841,7 +831,7 @@ public final class PaintWidget {
         } else {
             paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-            if (add.isEnabled()) {
+            if (addNodesCheckbox.isEnabled()) {
                 cyderGrid.setMode(CyderGrid.Mode.ADD);
             } else {
                 cyderGrid.setMode(CyderGrid.Mode.DELETE);
@@ -857,7 +847,7 @@ public final class PaintWidget {
      */
     private static void resetToAdding() {
         // refresh add/delete buttons
-        add.setChecked();
+        addNodesCheckbox.setChecked();
 
         // de-select toggle-able buttons
         selectColor.setIcon(StaticUtil.getImageIcon("select_color.png"));
