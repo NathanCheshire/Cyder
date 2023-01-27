@@ -7,6 +7,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.BletchyAnimationManager;
@@ -18,6 +19,7 @@ import cyder.youtube.YouTubeUtil;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.concurrent.Future;
 
 /**
  * A handler for commands that play audio.
@@ -124,9 +126,15 @@ public class PlayAudioHandler extends InputHandler {
                 YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             } else {
                 getInputHandler().println("Searching YouTube for: " + url);
-                String uuid = YouTubeUtil.getMostLikelyUuid(url);
-                url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
-                YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
+
+                try {
+                    Future<String> futureUuid = YouTubeUtil.getMostLikelyUuid(url);
+                    while (!futureUuid.isDone()) Thread.onSpinWait();
+                    url = CyderUrls.YOUTUBE_VIDEO_HEADER + futureUuid.get();
+                    YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
             }
         }, "YouTube Download Initializer");
     }

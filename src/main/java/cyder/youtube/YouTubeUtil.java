@@ -18,6 +18,7 @@ import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
 import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
 import cyder.ui.button.CyderButton;
 import cyder.user.UserFile;
 import cyder.utils.ArrayUtil;
@@ -32,7 +33,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
+import java.util.stream.IntStream;
 
 import static cyder.strings.CyderStrings.forwardSlash;
 import static cyder.youtube.YouTubeConstants.*;
@@ -102,39 +106,41 @@ public final class YouTubeUtil {
      * @param youTubeQuery the raw query as if the input was entered directly into the YouTube search bar
      * @return the most likely UUID for the search query if present. Empty optional else
      */
-    // todo future optional
-    public static String getMostLikelyUuid(String youTubeQuery) {
+    public static Future<String> getMostLikelyUuid(String youTubeQuery) {
         Preconditions.checkNotNull(youTubeQuery);
         Preconditions.checkArgument(!youTubeQuery.isEmpty());
 
-        String query = YOUTUBE_QUERY_BASE + youTubeQuery.replaceAll(CyderRegexPatterns.whiteSpaceRegex, querySpace);
-        String jsonString = NetworkUtil.readUrl(query);
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("MostLikelyUuid finder, query=" + youTubeQuery)).submit(() -> {
+            String query = YOUTUBE_QUERY_BASE + youTubeQuery.replaceAll(CyderRegexPatterns.whiteSpaceRegex, querySpace);
+            String jsonString = NetworkUtil.readUrl(query);
 
-        LinkedHashMap<Integer, String> levenshteinDistanceToUuids = new LinkedHashMap<>();
+            LinkedHashMap<Integer, String> levenshteinDistanceToUuids = new LinkedHashMap<>();
 
-        if (jsonString.contains(videoIdHtmlSubstring)) {
-            ArrayList<String> uuids = new ArrayList<>();
+            if (jsonString.contains(videoIdHtmlSubstring)) {
+                ArrayList<String> uuids = new ArrayList<>();
 
+                String[] parts = jsonString.split(videoIdHtmlSubstring);
+                IntStream.range(0, Math.min(parts.length, Props.maxYouTubeUuidChecksPlayCommand.getValue()))
+                        .forEach(index -> {
+                            String part = parts[index];
 
-            String[] parts = jsonString.split(videoIdHtmlSubstring);
-            for (int i = 0 ; i < Math.min(parts.length, Props.maxYouTubeUuidChecksPlayCommand.getValue()) ; i++) {
-                String part = parts[i];
+                            if (part.length() >= UUID_LENGTH) {
+                                String uuid = part.substring(0, UUID_LENGTH);
+                                if (UUID_PATTERN.matcher(uuid).matches() && !uuids.contains(uuid)) {
+                                    uuids.add(uuid);
+                                }
+                            }
+                        });
 
-                if (part.length() >= UUID_LENGTH) {
-                    String uuid = part.substring(0, UUID_LENGTH);
-                    if (UUID_PATTERN.matcher(uuid).matches() && !uuids.contains(uuid)) {
-                        uuids.add(uuid);
-                    }
-                }
+                uuids.forEach(uuid -> NetworkUtil.getUrlTitle(YouTubeUtil.buildVideoUrl(uuid))
+                        .ifPresent(title -> levenshteinDistanceToUuids.put(
+                                LevenshteinUtil.computeLevenshteinDistance(title, youTubeQuery), uuid)));
             }
 
-            uuids.forEach(uuid -> NetworkUtil.getUrlTitle(YouTubeUtil.buildVideoUrl(uuid))
-                    .ifPresent(title -> levenshteinDistanceToUuids.put(
-                            LevenshteinUtil.computeLevenshteinDistance(title, youTubeQuery), uuid)));
-        }
-
-        return levenshteinDistanceToUuids.get(levenshteinDistanceToUuids.keySet().stream().mapToInt(i -> i).min()
-                .orElseThrow(() -> new FatalException("Could not find YouTube uuid for query: " + youTubeQuery)));
+            return levenshteinDistanceToUuids.get(levenshteinDistanceToUuids.keySet().stream().mapToInt(i -> i).min()
+                    .orElseThrow(() -> new FatalException("Could not find YouTube uuid for query: " + youTubeQuery)));
+        });
     }
 
     /**

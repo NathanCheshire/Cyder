@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 
 import static cyder.youtube.YouTubeConstants.*;
@@ -231,13 +232,20 @@ public class YouTubeAudioDownload {
      * Sets the download type of this download to a query.
      *
      * @param query the video link
+     * @throws YoutubeException if a likely uuid for the provided query cannot be found
      */
-    public void setVideoQuery(String query) {
+    public void setVideoQuery(String query) throws YoutubeException {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
 
-        String firstUuid = YouTubeUtil.getMostLikelyUuid(query);
-        this.providedDownloadString = YouTubeUtil.buildVideoUrl(firstUuid);
+        Future<String> futureUuid = YouTubeUtil.getMostLikelyUuid(query);
+        while (!futureUuid.isDone()) Thread.onSpinWait();
+
+        try {
+            this.providedDownloadString = YouTubeUtil.buildVideoUrl(futureUuid.get());
+        } catch (Exception e) {
+            throw new YoutubeException(e.getMessage());
+        }
     }
 
     /**
