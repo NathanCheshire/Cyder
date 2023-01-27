@@ -157,7 +157,7 @@ public final class ReflectionUtil {
             ret += space + openingParenthesis + "inner class" + closingParenthesis;
         }
 
-        return ret;
+        return ret.trim();
     }
 
     /**

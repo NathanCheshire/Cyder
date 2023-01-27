@@ -459,6 +459,7 @@ class StringUtilTest {
         assertThrows(NullPointerException::class.java) { StringUtil.firstCharToLowerCase(null) }
 
         assertEquals("", StringUtil.firstCharToLowerCase(""))
+        assertEquals("a", StringUtil.firstCharToLowerCase("A"))
         assertEquals("hello world", StringUtil.firstCharToLowerCase("Hello world"))
         assertEquals("hello world", StringUtil.firstCharToLowerCase("hello world"))
         assertEquals("pretty", StringUtil.firstCharToLowerCase("Pretty"))

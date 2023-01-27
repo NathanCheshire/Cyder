@@ -103,7 +103,7 @@ public enum UserDataManager {
     private Future<?> lastStartedUserSaverSubroutine;
 
     /**
-     * Starts the subroutine to execute every {@link Props#serializeAndSaveCurrentUser}
+     * Starts the subroutine to execute every {@link Props#serializeAndSaveCurrentUserFrequency}
      * seconds to save the current {@link #user} to their {@link #userFile}.
      */
     private synchronized void startUserSaverSubroutine() {
@@ -111,7 +111,7 @@ public enum UserDataManager {
                 new CyderThreadFactory(IgnoreThread.UserSaver.getName())).submit(() -> {
             while (true) {
                 writeUser();
-                ThreadUtil.sleepSeconds(Props.serializeAndSaveCurrentUser.getValue());
+                ThreadUtil.sleepSeconds(Props.serializeAndSaveCurrentUserFrequency.getValue());
             }
         });
     }

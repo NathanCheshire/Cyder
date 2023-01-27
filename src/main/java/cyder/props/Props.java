@@ -243,8 +243,15 @@ public final class Props {
     /**
      * The frequency at which to serialize and save the current, logged-in, user to their JSON file.
      */
-    public static final Prop<Integer> serializeAndSaveCurrentUser =
-            new Prop<>("serialize_and_save_current_user", 3, Integer.class);
+    public static final Prop<Integer> serializeAndSaveCurrentUserFrequency =
+            new Prop<>("serialize_and_save_current_user_frequency", 3, Integer.class);
+
+    /**
+     * The list of specific objects to log when they are created.
+     */
+    public static final Prop<PropValueList> specificObjectCreationLogs =
+            new Prop<>("specific_object_creation_logs",
+                    new PropValueList(ImmutableList.of()), PropValueList.class);
 
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,9 +42,9 @@ import static java.lang.System.out;
  */
 public final class Logger {
     /**
-     * The counter used to log the number of objects created each deltaT seconds.
+     * The counter used to log the number of specific objects created each deltaT seconds.
      */
-    private static final AtomicInteger objectCreationCounter = new AtomicInteger();
+    private static final ConcurrentHashMap<Class<?>, AtomicInteger> objectCreationCounter = new ConcurrentHashMap<>();
 
     /**
      * The counter used to log the number of exceptions thrown
@@ -330,7 +331,12 @@ public final class Logger {
                     tags.add(LogTag.OBJECT_CREATION.getLogName());
                     logBuilder.append(statement);
                 } else {
-                    objectCreationCounter.incrementAndGet();
+                    if (objectCreationCounter.containsKey(statement.getClass())) {
+                        objectCreationCounter.get(statement.getClass()).getAndIncrement();
+                    } else {
+                        objectCreationCounter.put(statement.getClass(), new AtomicInteger(1));
+                    }
+
                     return;
                 }
 
@@ -638,11 +644,8 @@ public final class Logger {
                 ThreadUtil.sleep(INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
 
                 while (true) {
-                    int objectsCreated = objectCreationCounter.getAndSet(0);
-                    if (objectsCreated > 0) {
-                        logObjectsCreated(objectsCreated);
-                    }
-
+                    logSpecificObjectsCreated();
+                    logTotalObjectsCreated();
                     ThreadUtil.sleep(objectCreationLogFrequency);
                 }
             } catch (Exception e) {
@@ -652,19 +655,48 @@ public final class Logger {
     }
 
     /**
-     * Logs the number of objects created since the last delta.
-     *
-     * @param objectsCreated the number of objects created since the last delta
+     * Logs the specific objects created as configured via the {@link Props#specificObjectCreationLogs} prop.
      */
-    private static void logObjectsCreated(int objectsCreated) {
-        totalObjectsCreated += objectsCreated;
+    private static void logSpecificObjectsCreated() {
+        objectCreationCounter.keySet().forEach(key -> {
+            String bottomLevelClassName = ReflectionUtil.getBottomLevelClass(key);
+            if (StringUtil.in(bottomLevelClassName, true,
+                    Props.specificObjectCreationLogs.getValue().getList())) {
+                String line = bottomLevelClassName + space + "objects created since last delta"
+                        + space + openingParenthesis + objectCreationLogFrequency
+                        + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
+                        + colon + space + objectCreationCounter.get(key).get();
 
-        String line = objectsCreatedSinceLastDelta
-                + space + openingParenthesis + objectCreationLogFrequency
-                + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
-                + colon + space + objectsCreated;
+                Logger.log(LogTag.OBJECT_CREATION, line);
+            }
+        });
+    }
 
-        log(LogTag.OBJECT_CREATION, line);
+    /**
+     * Logs the total number of objects created from {@link #objectCreationCounter}.
+     */
+    private static void logTotalObjectsCreated() {
+        int currentObjectsCreated = getTotalObjectsCreated();
+        objectCreationCounter.clear();
+        if (currentObjectsCreated > 0) {
+            totalObjectsCreated += currentObjectsCreated;
+
+            String line = objectsCreatedSinceLastDelta
+                    + space + openingParenthesis + objectCreationLogFrequency
+                    + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
+                    + colon + space + currentObjectsCreated;
+
+            log(LogTag.OBJECT_CREATION, line);
+        }
+    }
+
+    /**
+     * Returns the total objects created contained in {@link #objectCreationCounter}.
+     *
+     * @return the total objects created contained in {@link #objectCreationCounter}
+     */
+    private static int getTotalObjectsCreated() {
+        return objectCreationCounter.keySet().stream().mapToInt(key -> objectCreationCounter.get(key).get()).sum();
     }
 
     /**

@@ -901,17 +901,9 @@ public final class StringUtil {
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         Preconditions.checkNotNull(lookFor);
         Preconditions.checkNotNull(strings);
-        for (String string : strings) {
-            Preconditions.checkNotNull(string);
-        }
 
-        for (String look : strings) {
-            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
-                return true;
-            }
-        }
-
-        return false;
+        return strings.stream().anyMatch(look ->
+                (ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look));
     }
 
     /**

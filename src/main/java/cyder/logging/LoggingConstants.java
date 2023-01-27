@@ -70,7 +70,7 @@ public final class LoggingConstants {
     /**
      * The objects created since last delta string.
      */
-    static final String objectsCreatedSinceLastDelta = "Objects created since last delta";
+    static final String objectsCreatedSinceLastDelta = "Total objects created since last delta";
 
     /**
      * Only check 10 chars to the left of a line unless we force a break regardless
