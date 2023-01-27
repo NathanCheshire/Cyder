@@ -139,6 +139,13 @@ public class AudioLocationUpdater {
 
         started = true;
 
+        String filename = "AudioLocationUpdater";
+        try {
+            filename = FileUtil.getFilename(currentAudioFile.get());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+        String threadName = filename + " Progress Label Thread";
         CyderThreadRunner.submit(() -> {
             while (!killed) {
                 ThreadUtil.sleep(TIMEOUT);
@@ -153,7 +160,7 @@ public class AudioLocationUpdater {
                     }
                 }
             }
-        }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
+        }, threadName);
     }
 
     /**

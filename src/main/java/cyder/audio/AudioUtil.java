@@ -477,11 +477,6 @@ public final class AudioUtil {
     }
 
     /**
-     * The maximum number of times to attempt to get the milliseconds of an audio file using Py-Mutagen.
-     */
-    private static final int maxGetMillisMutagenAttempts = 50;
-
-    /**
      * A cache of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
@@ -501,31 +496,32 @@ public final class AudioUtil {
             return Futures.immediateFuture(milliTimes.get(audioFile));
         }
 
+        // todo end this if taking longer than 1s
         String threadName = "getMillisMutagen, file" + colon + space + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            int currentAttempts = 0;
-            while (currentAttempts < maxGetMillisMutagenAttempts) {
-                try {
-                    String command = PythonArgument.COMMAND.getFullArgument()
-                            + CyderStrings.space + PythonCommand.AUDIO_LENGTH.getCommand()
-                            + CyderStrings.space + PythonArgument.INPUT.getFullArgument()
-                            + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
+            String command = PythonArgument.COMMAND.getFullArgument()
+                    + CyderStrings.space + PythonCommand.AUDIO_LENGTH.getCommand()
+                    + CyderStrings.space + PythonArgument.INPUT.getFullArgument()
+                    + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
 
-                    Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
-                    while (!futureResult.isDone()) Thread.onSpinWait();
+            Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
+            while (!futureResult.isDone()) Thread.onSpinWait();
 
-                    String result = futureResult.get();
-                    String parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(result);
+            String result = futureResult.get();
 
-                    int millis = (int) (Float.parseFloat(parsedResult) * TimeUtil.MILLISECONDS_IN_SECOND);
-                    milliTimes.put(audioFile, millis);
-                    return millis;
-                } catch (Exception ignored) {
-                    currentAttempts++;
-                }
+            String parsedResult;
+            try {
+                parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(result);
+            } catch (Exception ignored) {
+                ThreadUtil.sleep(1000);
+                futureResult = PythonFunctionsWrapper.invokeCommand(command);
+                while (!futureResult.isDone()) Thread.onSpinWait();
+                parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(futureResult.get());
             }
 
-            return 0;
+            int millis = (int) (Float.parseFloat(parsedResult) * TimeUtil.MILLISECONDS_IN_SECOND);
+            milliTimes.put(audioFile, millis);
+            return millis;
         });
     }
 
