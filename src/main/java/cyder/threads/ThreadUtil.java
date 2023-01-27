@@ -5,10 +5,10 @@ import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * A utility class for querying threads, names, and counts.
@@ -48,17 +48,11 @@ public final class ThreadUtil {
      */
     public static ImmutableList<String> getDaemonThreadNames() {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        int num = threadGroup.activeCount();
-        Thread[] printThreads = new Thread[num];
+        Thread[] printThreads = new Thread[threadGroup.activeCount()];
         threadGroup.enumerate(printThreads);
 
-        LinkedList<String> ret = new LinkedList<>();
-
-        for (int i = 0 ; i < num ; i++) {
-            ret.add(printThreads[i].getName());
-        }
-
-        return ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(Arrays.stream(printThreads)
+                .map(Thread::getName).collect(Collectors.toList()));
     }
 
     /**
@@ -68,19 +62,12 @@ public final class ThreadUtil {
      */
     public static ImmutableList<String> getThreadNames() {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        int num = threadGroup.activeCount();
-        Thread[] printThreads = new Thread[num];
+        Thread[] printThreads = new Thread[threadGroup.activeCount()];
         threadGroup.enumerate(printThreads);
 
-        LinkedList<String> ret = new LinkedList<>();
-
-        for (int i = 0 ; i < num ; i++) {
-            if (!printThreads[i].isDaemon()) {
-                ret.add(printThreads[i].getName());
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(Arrays.stream(printThreads)
+                .filter(thread -> !thread.isDaemon())
+                .map(Thread::getName).collect(Collectors.toList()));
     }
 
     /**
@@ -94,12 +81,8 @@ public final class ThreadUtil {
         Thread[] currentThreads = new Thread[group.activeCount()];
         group.enumerate(currentThreads);
 
-        ArrayList<Thread> ret = new ArrayList<>();
-        for (Thread thread : currentThreads) {
-            if (thread != null) ret.add(thread);
-        }
-
-        return ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(Arrays.stream(currentThreads)
+                .filter(thread -> thread != null).collect(Collectors.toList()));
     }
 
     /**

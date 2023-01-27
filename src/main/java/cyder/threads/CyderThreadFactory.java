@@ -46,6 +46,7 @@ public class CyderThreadFactory implements ThreadFactory {
      * @param runnable the runnable to use for the thread
      * @return a new thread using the provided runnable and name
      */
+    @Override
     public Thread newThread(Runnable runnable) {
         return new Thread(Preconditions.checkNotNull(runnable), name);
     }

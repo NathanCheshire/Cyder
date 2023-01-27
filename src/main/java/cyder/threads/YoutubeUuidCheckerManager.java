@@ -2,6 +2,7 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
+import cyder.enums.Units;
 import cyder.time.TimeUtil;
 import cyder.ui.pane.CyderOutputPane;
 
@@ -191,10 +192,10 @@ public enum YoutubeUuidCheckerManager {
     private void notifyOfRate() {
         long timeTaken = System.currentTimeMillis() - startTime.get();
         float urlsPerMs = urlsChecked.get() / (float) timeTaken;
-        float urlsPerSecond = urlsPerMs * 1000.0f;
-        float urlsPerMinute = (int) urlsPerSecond * 60.f;
+        double urlsPerSecond = urlsPerMs * TimeUtil.MILLISECONDS_IN_SECOND;
+        double urlsPerMinute = urlsPerSecond * TimeUtil.SECONDS_IN_MINUTE;
 
         Console.INSTANCE.getConsoleCyderFrame().notify(
-                "Current YouTube thread rate: " + urlsPerMinute + " / min");
+                "Current YouTube thread rate: " + urlsPerMinute + " / " + Units.MINUTES.getAbbreviation());
     }
 }

@@ -11,12 +11,17 @@ public enum Units {
     KILOMETERS_PER_HOUR("kmh"),
 
     /*
-     Pressure units
+     Pressure units.
      */
     ATMOSPHERES("atm"),
 
     /*
-    Degree units
+    Time units.
+     */
+    MINUTES("min"),
+
+    /*
+    Degree units.
      */
     DEGREES("deg"),
     RADIANS("rad");

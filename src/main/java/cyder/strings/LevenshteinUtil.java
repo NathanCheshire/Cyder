@@ -35,7 +35,6 @@ public final class LevenshteinUtil {
         if (lengthAlpha == 0) return lengthBeta;
         if (lengthBeta == 0) return lengthAlpha;
 
-        // Ensure alpha is dominant
         if (lengthAlpha < lengthBeta) {
             int tempAlphaLength = lengthAlpha;
             lengthAlpha = lengthBeta;

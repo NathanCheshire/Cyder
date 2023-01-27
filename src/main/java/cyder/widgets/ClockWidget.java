@@ -40,6 +40,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -322,7 +323,7 @@ public final class ClockWidget {
     /**
      * The timeout for mini clock updates.
      */
-    private static final int miniClockUpdateTimeout = 500;
+    private static final Duration miniClockUpdateTimeout = Duration.ofMillis(500);
 
     /**
      * The mini clock thread prefix.
@@ -347,7 +348,7 @@ public final class ClockWidget {
     /**
      * The delay between clock updates.
      */
-    private static final int CLOCK_UPDATER_TIMEOUT = 250;
+    private static final Duration CLOCK_UPDATER_TIMEOUT = Duration.ofMillis(250);
 
     /**
      * The builder for getting the theme color.
@@ -550,7 +551,7 @@ public final class ClockWidget {
     private static void startClockUpdater() {
         CyderThreadRunner.submit(() -> {
             while (shouldUpdateWidget.get()) {
-                ThreadUtil.sleep(CLOCK_UPDATER_TIMEOUT);
+                ThreadUtil.sleep(CLOCK_UPDATER_TIMEOUT.toMillis());
                 digitalTimeAndDateLabel.setText(getCurrentTimeAccountingForOffset(currentGmtOffset));
                 clockLabel.repaint();
             }
@@ -714,7 +715,7 @@ public final class ClockWidget {
             // Localize since the global can change
             int localGmtOffset = currentGmtOffset;
             while (updateMiniClock.get()) {
-                ThreadUtil.sleep(miniClockUpdateTimeout);
+                ThreadUtil.sleep(miniClockUpdateTimeout.toMillis());
                 currentTimeLabel.setText(getCurrentTimeAccountingForOffset(localGmtOffset));
             }
         }, threadName);
