@@ -4144,6 +4144,11 @@ public class CyderFrame extends JFrame {
             ret.add(generateTooltipMenuItemLabel("Frame size",
                     this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
         }
+        ret.add(generateTooltipMenuItemLabel("Screenshot",
+                () -> {
+                    UiUtil.screenshotCyderFrame(this);
+                    notify("Saved screenshot to your user's Files directory");
+                }, tooltipMenuLabel));
 
         return ImmutableList.copyOf(ret);
     }
