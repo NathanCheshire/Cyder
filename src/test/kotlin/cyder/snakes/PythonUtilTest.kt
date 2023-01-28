@@ -45,12 +45,12 @@ class PythonUtilTest {
     @Test
     fun testInstallPipDependency() {
         var futureResult: Future<ProcessResult>? = null
-        assertDoesNotThrow { futureResult = PythonUtil.installPipDependency(PythonPackage.MUTAGEN) }
+        assertDoesNotThrow { futureResult = PythonUtil.installPipDependency(PythonPackage.PILLOW) }
         assertNotNull(futureResult)
         while (!futureResult!!.isDone) Thread.onSpinWait()
         val result = futureResult!!.get()
 
-        println("Install Mutagen pip dependency results:")
+        println("Install Pillow pip dependency results:")
         println("Standard output: ${result.standardOutput}")
         println("Error output: ${result.errorOutput}")
         println("---------------------------------------")
@@ -62,20 +62,12 @@ class PythonUtilTest {
     @Test
     fun testIsPipDependencyPresent() {
         var futureResult: Future<Boolean>? = null
-        assertDoesNotThrow { futureResult = PythonUtil.isPipDependencyPresent(PythonPackage.MUTAGEN) }
-        while (!futureResult!!.isDone) Thread.onSpinWait()
-        assertNotNull(futureResult)
-
-        var result = futureResult!!.get()
-        println("Mutagen present: $result")
-
-        futureResult = null
         assertDoesNotThrow { futureResult = PythonUtil.isPipDependencyPresent(PythonPackage.PILLOW) }
         while (!futureResult!!.isDone) Thread.onSpinWait()
         assertNotNull(futureResult)
-
-        result = futureResult!!.get()
+        val result = futureResult!!.get()
         println("Pillow present: $result")
+
     }
 
     /**
@@ -84,16 +76,9 @@ class PythonUtilTest {
     @Test
     fun testGetPipDependencyVersion() {
         var futureOptionalVersion: Future<Optional<String>>? = null
-        assertDoesNotThrow { futureOptionalVersion = PythonUtil.getPipDependencyVersion(PythonPackage.MUTAGEN) }
-        while (!futureOptionalVersion!!.isDone) Thread.onSpinWait()
-        var optionalVersion = futureOptionalVersion!!.get()
-        assertTrue(optionalVersion.isPresent)
-        println("Mutagen version: ${optionalVersion.get()}")
-
-        futureOptionalVersion = null
         assertDoesNotThrow { futureOptionalVersion = PythonUtil.getPipDependencyVersion(PythonPackage.PILLOW) }
         while (!futureOptionalVersion!!.isDone) Thread.onSpinWait()
-        optionalVersion = futureOptionalVersion!!.get()
+        val optionalVersion = futureOptionalVersion!!.get()
         assertTrue(optionalVersion.isPresent)
         println("Pillow version: ${optionalVersion.get()}")
     }

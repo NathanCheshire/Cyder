@@ -2,7 +2,6 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.Futures;
 import cyder.console.Console;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -12,13 +11,9 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.process.Program;
-import cyder.snakes.PythonArgument;
-import cyder.snakes.PythonCommand;
-import cyder.snakes.PythonFunctionsWrapper;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
-import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
 import javazoom.jl.decoder.Bitstream;
@@ -30,7 +25,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.regex.Pattern;
 
 import static cyder.strings.CyderStrings.*;
 
@@ -102,11 +96,6 @@ public final class AudioUtil {
      * The delay between polling milliseconds when dreamifying an audio.
      */
     private static final int pollMillisDelay = 500;
-
-    /**
-     * The pattern used to find the duration of an audio file from ffprobe.
-     */
-    private static final Pattern durationPattern = Pattern.compile("\\s*duration=.*\\s*");
 
     /**
      * The thread name for the ffmpeg downloader
@@ -257,15 +246,10 @@ public final class AudioUtil {
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             Process process = processBuilder.start();
 
-            Future<Integer> originalFileMillis = getMillisFfprobe(wavOrMp3File);
-            while (!originalFileMillis.isDone()) Thread.onSpinWait();
-
+            int originalFileMillis = getMillisJLayer(wavOrMp3File);
             while (!outputFile.exists()) Thread.onSpinWait();
 
-            while (true) {
-                Future<Integer> updatedLen = getMillisFfprobe(outputFile);
-                while (!updatedLen.isDone()) Thread.onSpinWait();
-                if (updatedLen.get().equals(originalFileMillis.get())) break;
+            while (getMillisJLayer(outputFile) != originalFileMillis) {
                 ThreadUtil.sleep(pollMillisDelay);
             }
 
@@ -275,49 +259,6 @@ public final class AudioUtil {
             }
 
             return Optional.of(outputFile);
-        });
-    }
-
-    /**
-     * Uses ffprobe to get the length of the audio file in milliseconds.
-     * If the duration cannot be found, -1 is returned.
-     *
-     * @param audioFile the audio file to find the length of in milliseconds
-     * @return the length of the audio file in milliseconds
-     */
-    private static Future<Integer> getMillisFfprobe(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
-
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("getMillisFfprobe, file"
-                        + colon
-                        + space
-                        + quote + FileUtil.getFilename(audioFile) + quote)).submit(() -> {
-            try {
-                ProcessBuilder processBuilder = new ProcessBuilder(getFfprobeCommand(),
-                        INPUT_FLAG,
-                        quote + audioFile.getAbsolutePath() + quote,
-                        "-show_format");
-
-                Process process = processBuilder.start();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (durationPattern.matcher(line).matches()) {
-                        line = line.replace("duration=", "").trim();
-                        return (int) (Double.parseDouble(line) * 1000);
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            // return values are auto boxed.
-            return -1;
         });
     }
 
@@ -480,49 +421,6 @@ public final class AudioUtil {
      * A cache of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
-
-    /**
-     * Returns the number of milliseconds in an audio file using the python dependency Mutagen.
-     *
-     * @param audioFile the audio file to return the duration of
-     * @return the duration of the provided audio file in milliseconds
-     */
-    public static Future<Integer> getMillisMutagen(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
-
-        if (milliTimes.containsKey(audioFile)) {
-            return Futures.immediateFuture(milliTimes.get(audioFile));
-        }
-
-        String threadName = "getMillisMutagen, file" + colon + space + quote + audioFile + quote;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            String command = PythonArgument.COMMAND.getFullArgument()
-                    + CyderStrings.space + PythonCommand.AUDIO_LENGTH.getCommand()
-                    + CyderStrings.space + PythonArgument.INPUT.getFullArgument()
-                    + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
-
-            Future<String> futureResult = PythonFunctionsWrapper.invokeCommand(command);
-            while (!futureResult.isDone()) Thread.onSpinWait();
-
-            String result = futureResult.get();
-
-            String parsedResult;
-            try {
-                parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(result);
-            } catch (Exception ignored) {
-                ThreadUtil.sleep(1000);
-                futureResult = PythonFunctionsWrapper.invokeCommand(command);
-                while (!futureResult.isDone()) Thread.onSpinWait();
-                parsedResult = PythonCommand.AUDIO_LENGTH.parseResponse(futureResult.get());
-            }
-
-            int millis = (int) (Float.parseFloat(parsedResult) * TimeUtil.MILLISECONDS_IN_SECOND);
-            milliTimes.put(audioFile, millis);
-            return millis;
-        });
-    }
 
     /**
      * Returns the milliseconds of the provided file

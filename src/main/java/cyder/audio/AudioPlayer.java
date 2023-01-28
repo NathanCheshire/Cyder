@@ -2702,7 +2702,11 @@ public final class AudioPlayer {
             @Override
             public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
                 if (FileUtil.validateExtension(eventFile, Extension.MP3.getExtension())) {
-                    AudioUtil.getMillisMutagen(eventFile);
+                    try {
+                        AudioUtil.getMillisJLayer(eventFile);
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
                 }
             }
         };

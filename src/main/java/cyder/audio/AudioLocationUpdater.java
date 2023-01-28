@@ -10,7 +10,6 @@ import cyder.user.UserDataManager;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -106,9 +105,7 @@ public class AudioLocationUpdater {
         CyderThreadRunner.submit(() -> {
             try {
                 File file = currentAudioFile.get();
-                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(file);
-                while (!futureTotalMilliSeconds.isDone()) Thread.onSpinWait();
-                this.totalMilliSeconds = futureTotalMilliSeconds.get();
+                this.totalMilliSeconds = AudioUtil.getMillisJLayer(file);
                 updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), false);
                 startUpdateThread();
             } catch (Exception e) {

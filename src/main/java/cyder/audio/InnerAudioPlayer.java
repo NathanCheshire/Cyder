@@ -12,7 +12,6 @@ import javazoom.jl.player.Player;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.concurrent.Future;
 
 /**
  * An inner class for easily playing a single audio file
@@ -97,9 +96,7 @@ public class InnerAudioPlayer {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(audioFile);
-                while (!futureTotalMilliSeconds.isDone()) Thread.onSpinWait();
-                this.totalMilliSeconds = futureTotalMilliSeconds.get();
+                this.totalMilliSeconds = AudioUtil.getMillisJLayer(audioFile);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 this.totalMilliSeconds = 0;

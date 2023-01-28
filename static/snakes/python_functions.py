@@ -1,5 +1,5 @@
 """
-python_fucntions.py
+python_functions.py
 
 python functions utilized by Cyder. 
 These exist purely because it is simpler to create an API to 
@@ -10,7 +10,6 @@ the functionality in Java since I couldn't find a good library to do these opera
 import argparse
 import os
 from PIL import Image, ImageFilter
-from mutagen.mp3 import MP3
 
 
 def gaussian_blur(image_path: str, radius: int) -> str:
@@ -39,20 +38,8 @@ def gaussian_blur(image_path: str, radius: int) -> str:
     return save_as
 
 
-def get_audio_length(path: str) -> float:
-    """ 
-    Returns the length of the provided audio file in seconds.
-
-    :param path: the path to the audio file
-    :type path: str
-    :return: how long the audio file is in seconds
-    :rtype: float
-    """
-    return MP3(path).info.length
-
-
 # The commands supported by python_functions
-COMMANDS = ['blur', 'audio_length']
+COMMANDS = ['blur']
 
 
 def main():
@@ -91,11 +78,6 @@ def main():
 
         save_as = gaussian_blur(input_file, radius)
         print("Blurred: ", save_as)
-                
-    elif args.command == COMMANDS[1]:
-        length = str(get_audio_length(input_file))
-        print("Audio length: " + length)
-
     else:
         print(f"Unsupported command: {args.command}")
 

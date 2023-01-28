@@ -12,12 +12,7 @@ public enum PythonPackage {
     /**
      * Pillow package for image utilities.
      */
-    PILLOW("Pillow"),
-
-    /**
-     * Mutagen package for audio metadata.
-     */
-    MUTAGEN("Mutagen");
+    PILLOW("Pillow");
 
     /**
      * The package name for this python package.
