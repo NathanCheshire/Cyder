@@ -66,7 +66,6 @@ public class UserDataHandler extends InputHandler {
 
                     boolean oldValue = optionalOldValue.get();
 
-                    // todo use when statement when converting to Kotlin
                     boolean newValue;
                     if (BooleanUtils.isTrue(parsedArgs)) {
                         newValue = true;

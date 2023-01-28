@@ -56,7 +56,6 @@ public final class BooleanUtils {
      */
     public static boolean isTrue(String input) {
         Preconditions.checkNotNull(input);
-        Preconditions.checkArgument(!input.isEmpty());
 
         return StringUtil.in(input, true, trueStrings);
     }
@@ -69,7 +68,6 @@ public final class BooleanUtils {
      */
     public static boolean isFalse(String input) {
         Preconditions.checkNotNull(input);
-        Preconditions.checkArgument(!input.isEmpty());
 
         return StringUtil.in(input, true, falseStrings);
     }

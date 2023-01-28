@@ -1,15 +1,11 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
-import cyder.enums.Extension;
-import cyder.files.FileUtil;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.SerializationUtil;
-
-import java.io.File;
 
 /**
  * A user object.
@@ -1043,20 +1039,6 @@ public final class User {
         Preconditions.checkArgument(!jsonMessage.isEmpty());
 
         return SerializationUtil.fromJson(jsonMessage, User.class);
-    }
-
-    /**
-     * Serializes and returns a user object from the json contained in the provided file.
-     *
-     * @param file the file
-     * @return a user object from the provided file
-     */
-    public static User fromJson(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
-
-        return SerializationUtil.fromJson(file, User.class);
     }
 
     /**

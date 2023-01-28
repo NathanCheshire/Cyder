@@ -92,7 +92,7 @@ public enum UserDataManager {
         Preconditions.checkArgument(jsonFile.exists());
 
         userFile = jsonFile;
-        user = User.fromJson(jsonFile);
+        user = SerializationUtil.fromJson(jsonFile, User.class);
 
         startUserSaverSubroutine();
     }

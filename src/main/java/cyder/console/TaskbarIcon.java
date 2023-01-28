@@ -160,8 +160,6 @@ public class TaskbarIcon {
      * @param builder the builder to construct the non-compact taskbar icon from
      */
     private void generateNonCompactTaskbarIcon(Builder builder) {
-        JLabel nonCompactTaskbarLabel = new JLabel();
-
         BufferedImage paintedImage;
         if (builder.getCustomIcon() != null) {
             paintedImage = ImageUtil.resizeImage(ICON_LEN, ICON_LEN, builder.getCustomIcon());
@@ -180,21 +178,18 @@ public class TaskbarIcon {
         ImageIcon defaultIcon = new ImageIcon(paintedImage);
         ImageIcon focusIcon = new ImageIcon(rescaleOp.filter(paintedImage, null));
 
-        // image construction done so place on label
-        nonCompactTaskbarLabel.setIcon(builder.isFocused() ? focusIcon : defaultIcon);
+        JLabel nonCompactTaskbarLabel = new JLabel();
         nonCompactTaskbarLabel.setSize(ICON_LEN, ICON_LEN);
+        nonCompactTaskbarLabel.setIcon(builder.isFocused() ? focusIcon : defaultIcon);
 
-        // add name label and mouse listeners on top of background image
         String name = builder.getName().trim();
-        String localName = name.substring(0, Math.min(MAX_NON_COMPACT_LABEL_CHARS, name.length())).trim();
-        CyderLabel titleLabel = new CyderLabel(builder.getCustomIcon() == null ? localName : "");
+        String labelName = name.substring(0, Math.min(MAX_NON_COMPACT_LABEL_CHARS, name.length())).trim();
+
+        CyderLabel titleLabel = new CyderLabel(builder.getCustomIcon() == null ? labelName : "");
         titleLabel.setFont(labelFont);
         titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setBounds(0, 0, ICON_LEN, ICON_LEN);
         titleLabel.setFocusable(false);
-
-        nonCompactTaskbarLabel.add(titleLabel);
-
         titleLabel.setToolTipText(builder.getName());
         titleLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -214,6 +209,7 @@ public class TaskbarIcon {
                 nonCompactTaskbarLabel.setIcon(builder.isFocused() ? focusIcon : defaultIcon);
             }
         });
+        nonCompactTaskbarLabel.add(titleLabel);
 
         taskbarIcon = nonCompactTaskbarLabel;
     }
