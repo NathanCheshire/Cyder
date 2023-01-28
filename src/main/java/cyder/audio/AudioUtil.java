@@ -21,11 +21,11 @@ import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.BitstreamException;
+import javazoom.jl.decoder.Header;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -496,7 +496,6 @@ public final class AudioUtil {
             return Futures.immediateFuture(milliTimes.get(audioFile));
         }
 
-        // todo end this if taking longer than 1s
         String threadName = "getMillisMutagen, file" + colon + space + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             String command = PythonArgument.COMMAND.getFullArgument()
@@ -523,6 +522,33 @@ public final class AudioUtil {
             milliTimes.put(audioFile, millis);
             return millis;
         });
+    }
+
+    /**
+     * Returns the milliseconds of the provided file
+     *
+     * @param audioFile the MP3 file to return the milliseconds of
+     * @return the milliseconds of the provided file
+     * @throws IOException        if a FileInputStream cannot be made from the provided file
+     * @throws BitstreamException if a BitStream cannot be made from the FileInputStream
+     *                            or if an exception occurs when reading the header/frames
+     */
+    public static int getMillisJLayer(File audioFile) throws IOException, BitstreamException {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
+
+        if (milliTimes.containsKey(audioFile)) {
+            return milliTimes.get(audioFile);
+        }
+
+        FileInputStream fis = new FileInputStream(audioFile);
+        Bitstream bitstream = new Bitstream(fis);
+        Header header = bitstream.readFrame();
+        long channelSize = fis.getChannel().size();
+        int retMillis = (int) header.total_ms((int) channelSize);
+        milliTimes.put(audioFile, retMillis);
+        return retMillis;
     }
 
     /**
