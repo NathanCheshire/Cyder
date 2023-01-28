@@ -52,11 +52,6 @@ public final class ConsoleBackground {
     }
 
     /**
-     * The error message for the fatal exception to throw if a buffered image cannot be generated.
-     */
-    private static final String COULD_NOT_GENERATE = "Could not general buffered image from reference file: ";
-
-    /**
      * Returns a generated buffered image from the reference file.
      *
      * @return a generated buffered image from the reference file
@@ -71,7 +66,8 @@ public final class ConsoleBackground {
         }
 
         if (image == null) {
-            throw new FatalException(COULD_NOT_GENERATE + referenceFile.getAbsolutePath());
+            throw new FatalException("Could not general buffered image from reference file: "
+                    + referenceFile.getAbsolutePath());
         }
 
         CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();

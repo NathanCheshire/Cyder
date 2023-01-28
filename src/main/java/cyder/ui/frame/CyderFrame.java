@@ -2722,6 +2722,7 @@ public class CyderFrame extends JFrame {
      * @return the taskbar border color for this cyder frame
      */
     public Color getTaskbarIconBorderColor() {
+        if (taskbarIconBorderColor == null) taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
         return taskbarIconBorderColor;
     }
 
