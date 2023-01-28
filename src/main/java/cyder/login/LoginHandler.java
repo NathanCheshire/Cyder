@@ -16,7 +16,6 @@ import cyder.managers.CyderVersionManager;
 import cyder.managers.ProgramModeManager;
 import cyder.meta.CyderSplash;
 import cyder.props.Props;
-import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.field.CyderCaret;
@@ -50,13 +49,6 @@ import static cyder.strings.CyderStrings.*;
  * A widget to log into Cyder or any other way that the Console might be invoked.
  */
 public final class LoginHandler {
-    /**
-     * Suppress default constructor.
-     */
-    private LoginHandler() {
-        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
-    }
-
     /**
      * The width of the login frame.
      */
@@ -95,8 +87,7 @@ public final class LoginHandler {
     /**
      * The string at the beginning of the input field.
      */
-    private static final String defaultBashString =
-            OsUtil.getOsUsername() + "@" + OsUtil.getComputerName() + ":~$ ";
+    private static final String defaultBashString = OsUtil.getOsUsername() + "@" + OsUtil.getComputerName() + ":~$ ";
 
     /**
      * The BashString currently being used.
@@ -204,22 +195,38 @@ public final class LoginHandler {
     private static String recognizedUuid = "";
 
     /**
+     * Whether Cyder was initially started with a successful AutoCypher
+     */
+    private static boolean startedViaAutoCypher = false;
+
+    /**
+     * The list of standard prints to print to the login output pane.
+     */
+    private static final ImmutableList<String> standardPrints = ImmutableList.of(
+            "Cyder version: " + CyderVersionManager.INSTANCE.getVersion() + newline,
+            "Type " + quote + HELP + quote + " for a list of valid commands" + newline,
+            "Build: " + CyderVersionManager.INSTANCE.getReleaseDate() + newline,
+            "Author: Nate Cheshire" + newline,
+            "Design JVM: 17" + newline,
+            "Description: A programmer's swiss army knife" + newline
+    );
+
+    /**
+     * Suppress default constructor.
+     */
+    private LoginHandler() {
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
+    }
+
+    // todo perhaps we can encapsulate printing animation logic in a cyder output pane?
+
+    /**
      * Begins the login typing animation and printing thread.
      */
     private static void startTypingAnimation() {
         doLoginAnimations = true;
         printingList.clear();
 
-        String cyderVersion = CyderVersionManager.INSTANCE.getVersion();
-        String cyderReleaseDate = CyderVersionManager.INSTANCE.getReleaseDate();
-        ImmutableList<String> standardPrints = ImmutableList.of(
-                "Cyder version: " + cyderVersion + newline,
-                "Type " + quote + "help" + quote + " for a list of valid commands" + newline,
-                "Build: " + cyderReleaseDate + newline,
-                "Author: Nate Cheshire" + newline,
-                "Design JVM: 17" + newline,
-                "Description: A programmer's swiss army knife" + newline
-        );
         printingList.addAll(standardPrints);
 
         CyderOutputPane outputPane = new CyderOutputPane(loginArea);
@@ -290,7 +297,9 @@ public final class LoginHandler {
 
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(backgroundColor));
-        loginFrame.setTitle(getLoginFrameTitle());
+        String title = titlePrefix + openingBracket + CyderVersionManager.INSTANCE.getVersion()
+                + space + "Build" + closingBracket;
+        loginFrame.setTitle(title);
         loginFrame.setBackground(backgroundColor);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -341,16 +350,19 @@ public final class LoginHandler {
         loginField.setCaretColor(textColor);
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyTyped(KeyEvent event) {
                 loginFieldEnterAction(event);
             }
 
+            @Override
             public void keyPressed(KeyEvent event) {
-                fixLoginFieldCaretPosition();
+                correctLoginFieldCaretPosition();
             }
 
+            @Override
             public void keyReleased(KeyEvent event) {
-                fixLoginFieldCaretPosition();
+                correctLoginFieldCaretPosition();
             }
         });
 
@@ -370,10 +382,12 @@ public final class LoginHandler {
         startTypingAnimation();
     }
 
+    // todo make a method like this for console
+
     /**
      * Checks for the caret position in the login field being before the current bash string
      */
-    private static void fixLoginFieldCaretPosition() {
+    private static void correctLoginFieldCaretPosition() {
         if (loginMode != LoginMode.PASSWORD) {
             int caretPosition = loginField.getCaretPosition();
             int length = loginField.getPassword().length;
@@ -385,17 +399,6 @@ public final class LoginHandler {
             boolean beforeBashString = caretPosition < prefix.length();
             if (beforeBashString) loginField.setCaretPosition(length);
         }
-    }
-
-    /**
-     * Returns the title to use for the login frame.
-     *
-     * @return the title to use for the login frame
-     */
-    @ForReadability
-    public static String getLoginFrameTitle() {
-        String cyderVersion = CyderVersionManager.INSTANCE.getVersion();
-        return titlePrefix + openingBracket + cyderVersion + space + "Build" + closingBracket;
     }
 
     /**
@@ -563,11 +566,6 @@ public final class LoginHandler {
     }
 
     /**
-     * Whether Cyder was initially started with a successful AutoCypher
-     */
-    private static boolean startedViaAutoCypher = false;
-
-    /**
      * Begins the login sequence to figure out how to enter Cyder and which frame to show, that of
      * the console, the login frame, or an exception pane.
      */
@@ -610,6 +608,13 @@ public final class LoginHandler {
     }
 
     /**
+     * Rests the state variables prior to the logic of {@link #recognize(String, String, boolean)}.
+     */
+    private static void resetRecognitionVars() {
+        recognizedUuid = "";
+    }
+
+    /**
      * Attempts to log in a user based on the provided
      * name and an already hashed password.
      *
@@ -618,71 +623,61 @@ public final class LoginHandler {
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        recognizedUuid = "";
+        resetRecognitionVars();
 
-        PasswordCheckResult result = checkPassword(name, hashedPass);
-        switch (result) {
-            case FAILED -> onRecognizedFailed(autoCypherAttempt);
-            case UNKNOWN_USER -> printlnPriority("Unknown user");
+        switch (checkPassword(name, hashedPass)) {
+            case FAILED -> {
+                printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
+                loginField.requestFocusInWindow();
+                return false;
+            }
+            case UNKNOWN_USER -> {
+                printlnPriority("Unknown user");
+                return false;
+            }
             case SUCCESS -> {
-                handleSuccessfulPasswordCheck();
+                Preconditions.checkState(!recognizedUuid.isEmpty());
+
+                if (!Console.INSTANCE.isClosed()) {
+                    Console.INSTANCE.releaseResourcesAndCloseFrame(false);
+                    Console.INSTANCE.logoutCurrentUser();
+                }
+
+                doLoginAnimations = false;
+
+                Console.INSTANCE.initializeAndLaunch(recognizedUuid);
+
                 return true;
             }
-            default -> throw new IllegalArgumentException("Invalid password status: " + result);
+            default -> throw new IllegalArgumentException("Invalid password status");
         }
-
-        return false;
-    }
-
-    /**
-     * Handles a failed recognize invocation.
-     *
-     * @param autoCypherAttempt whether the recognize invocation was invoked with an autocypher
-     */
-    private static void onRecognizedFailed(boolean autoCypherAttempt) {
-        printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
-        loginField.requestFocusInWindow();
-    }
-
-    /**
-     * Handles a successful check password invocation.
-     */
-    private static void handleSuccessfulPasswordCheck() {
-        Preconditions.checkState(!recognizedUuid.isEmpty());
-
-        if (!Console.INSTANCE.isClosed()) {
-            Console.INSTANCE.releaseResourcesAndCloseFrame(false);
-            Console.INSTANCE.logoutCurrentUser();
-        }
-
-        doLoginAnimations = false;
-
-        Console.INSTANCE.initializeAndLaunch(recognizedUuid);
     }
 
     /**
      * Checks whether the given name/pass combo is valid and if so, returns the UUID matched.
      * Otherwise, an empty optional is returned to represent that no user was found.
      *
-     * @param providedUsername the username given
-     * @param hashedPass       the singly-hashed password
+     * @param providedUsername     the username given
+     * @param singlyHashedPassword the singly-hashed password
      * @return the result of checking for the a user with the provided name and password
      */
-    private static PasswordCheckResult checkPassword(String providedUsername, String hashedPass) {
+    private static PasswordCheckResult checkPassword(String providedUsername, String singlyHashedPassword) {
         ArrayList<String> names = new ArrayList<>();
         UserUtil.getUserJsons().forEach(userJson -> names.add(UserUtil.extractUser(userJson).getUsername()));
 
-        boolean namePresent = StringUtil.in(providedUsername, true, names);
-        if (!namePresent) return PasswordCheckResult.UNKNOWN_USER;
+        if (names.stream().map(String::toLowerCase).noneMatch(name -> name.equalsIgnoreCase(providedUsername))) {
+            return PasswordCheckResult.UNKNOWN_USER;
+        }
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJsonFile);
             String username = user.getUsername();
             String password = user.getPassword();
 
-            String providedPassword = SecurityUtil.toHexString(SecurityUtil.getSha256(hashedPass.toCharArray()));
+            String doublyHashedPassword = SecurityUtil.toHexString(
+                    SecurityUtil.getSha256(singlyHashedPassword.toCharArray()));
 
-            if (providedUsername.equalsIgnoreCase(username) && providedPassword.equals(password)) {
+            if (providedUsername.equalsIgnoreCase(username) && doublyHashedPassword.equals(password)) {
                 recognizedUuid = userJsonFile.getParentFile().getName();
                 return PasswordCheckResult.SUCCESS;
             }
