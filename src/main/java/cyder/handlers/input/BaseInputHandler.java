@@ -34,10 +34,8 @@ import javax.swing.text.ElementIterator;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -79,32 +77,10 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
-     * The robot used for screen operations.
-     */
-    private static final Robot robot;
-
-    static {
-        try {
-            robot = new Robot();
-        } catch (Exception e) {
-            throw new FatalException(e);
-        }
-    }
-
-    /**
      * Suppress default constructor.
      */
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * Returns the common {@link Robot} object.
-     *
-     * @return the common robot object
-     */
-    public final Robot getRobot() {
-        return robot;
     }
 
     /**
@@ -192,13 +168,37 @@ public class BaseInputHandler {
     }
 
     /**
+     * The input type associated with possible handle strings.
+     */
+    private enum InputType {
+        /**
+         * The input was user generated.
+         */
+        USER,
+
+        /**
+         * The input is the result of a similar command invocation.
+         */
+        SIMILAR_COMMAND
+    }
+
+    /**
      * Handles the input and provides output if necessary to the linked JTextPane.
      *
-     * @param op            the operation that is being handled
-     * @param userTriggered whether the provided op was produced via a user
+     * @param op the operation that is being handled
      */
-    public final void handle(String op, boolean userTriggered) {
-        if (!handlePreliminaries(op, userTriggered)) {
+    public void handle(String op) {
+        handle(op, InputType.USER);
+    }
+
+    /**
+     * Handles the input and provides output if necessary to the linked JTextPane.
+     *
+     * @param op        the operation that is being handled
+     * @param inputType the input type
+     */
+    public final void handle(String op, InputType inputType) {
+        if (!handlePreliminaries(op, inputType)) {
             Logger.log(LogTag.HANDLE_METHOD, "Failed preliminaries for op: "
                     + CyderStrings.quote + op + CyderStrings.quote);
             return;
@@ -211,11 +211,11 @@ public class BaseInputHandler {
                 if (method.isAnnotationPresent(Handle.class)) {
                     if (method.getParameterCount() != 0) continue;
 
-                    Object invocationResult = null;
+                    Object invocationResult;
                     try {
                         invocationResult = method.invoke(redirectionHandler);
                     } catch (Exception e) {
-                        ExceptionHandler.handle(e);
+                        throw new FatalException(e.getMessage());
                     }
 
                     if (invocationResult instanceof Boolean bool && bool) return;
@@ -231,11 +231,11 @@ public class BaseInputHandler {
                     String[] triggers = method.getAnnotation(Handle.class).value();
                     for (String trigger : triggers) {
                         if (commandAndArgsToString().startsWith(trigger)) {
-                            Object invocationResult = null;
+                            Object invocationResult;
                             try {
                                 invocationResult = method.invoke(handle);
                             } catch (Exception e) {
-                                ExceptionHandler.handle(e);
+                                throw new FatalException(e.getMessage());
                             }
 
                             if (invocationResult instanceof Boolean bool && bool) return;
@@ -250,11 +250,11 @@ public class BaseInputHandler {
                 if (method.isAnnotationPresent(Handle.class)) {
                     if (method.getParameterCount() != 0) return;
 
-                    Object invocationResult = null;
+                    Object invocationResult;
                     try {
                         invocationResult = method.invoke(handle);
                     } catch (Exception e) {
-                        ExceptionHandler.handle(e);
+                        throw new FatalException(e.getMessage());
                     }
 
                     if (invocationResult instanceof Boolean bool && bool) return;
@@ -269,11 +269,11 @@ public class BaseInputHandler {
      * Handles preliminaries such as argument/command parsing and redirection checks
      * before passing input data to the jhandle methods.
      *
-     * @param command       the command to handle preliminaries on before behind handled
-     * @param userTriggered whether the provided operation was produced via a user
+     * @param command   the command to handle preliminaries on before behind handled
+     * @param inputType the input type
      * @return whether preliminary checks successfully completed
      */
-    private boolean handlePreliminaries(String command, boolean userTriggered) {
+    private boolean handlePreliminaries(String command, InputType inputType) {
         Preconditions.checkNotNull(linkedOutputPane);
         Preconditions.checkNotNull(command);
         this.command = command.trim();
@@ -285,8 +285,8 @@ public class BaseInputHandler {
         }
 
         String commandAndArgsToString = commandAndArgsToString();
-        Logger.log(LogTag.CLIENT,
-                (userTriggered ? "" : "[SIMULATED INPUT]: ") + commandAndArgsToString);
+        Logger.log(LogTag.CLIENT, (inputType == InputType.SIMILAR_COMMAND
+                ? "" : "[Similar Command]: ") + commandAndArgsToString);
 
         if (UserDataManager.INSTANCE.shouldFilterchat()) {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
@@ -387,54 +387,49 @@ public class BaseInputHandler {
     private static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
-     * The name of the thread for handling unknown input.
-     */
-    private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
-
-    /**
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
-        CyderThreadRunner.submit(() -> {
-            SimilarCommand similarCommandObj = getSimilarCommand(command);
-            boolean wrapShell = UserDataManager.INSTANCE.shouldWrapShell();
+        SimilarCommand similarCommandObj = getSimilarCommand(command);
+        boolean wrapShell = UserDataManager.INSTANCE.shouldWrapShell();
 
-            if (similarCommandObj.command().isPresent()) {
-                String similarCommand = similarCommandObj.command().get();
-                double tolerance = similarCommandObj.tolerance();
-                if (tolerance == 1.0) return;
+        if (similarCommandObj.command().isPresent()) {
+            String similarCommand = similarCommandObj.command().get();
+            double tolerance = similarCommandObj.tolerance();
+            if (tolerance == 1.0) return;
 
-                if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                    Logger.log(LogTag.DEBUG, "Similar command to " + CyderStrings.quote
-                            + command + CyderStrings.quote + " found with tolerance of " + tolerance
-                            + ", command: " + CyderStrings.quote + similarCommand + CyderStrings.quote);
+            if (!StringUtil.isNullOrEmpty(similarCommand)) {
+                Logger.log(LogTag.DEBUG, "Similar command to " + CyderStrings.quote
+                        + command + CyderStrings.quote + " found with tolerance of " + tolerance
+                        + ", command: " + CyderStrings.quote + similarCommand + CyderStrings.quote);
 
-                    if (!wrapShell) {
-                        boolean autoTrigger = Props.autoTriggerSimilarCommands.getValue();
-                        boolean toleranceMet = tolerance >= Props.autoTriggerSimilarCommandTolerance.getValue();
+                if (!wrapShell) {
+                    boolean autoTrigger = Props.autoTriggerSimilarCommands.getValue();
+                    boolean toleranceMet = tolerance >= Props.autoTriggerSimilarCommandTolerance.getValue();
 
-                        if (tolerance >= SIMILAR_COMMAND_TOL) {
-                            if (autoTrigger && toleranceMet) {
-                                println(UNKNOWN_COMMAND + "; Invoking similar command: "
-                                        + CyderStrings.quote + similarCommand + CyderStrings.quote);
-                                handle(similarCommand, false);
-                            } else {
-                                println(UNKNOWN_COMMAND + "; Most similar command: "
-                                        + CyderStrings.quote + similarCommand + CyderStrings.quote);
-                            }
-
-                            return;
+                    if (tolerance >= SIMILAR_COMMAND_TOL) {
+                        if (autoTrigger && toleranceMet) {
+                            println(UNKNOWN_COMMAND + "; Invoking similar command: "
+                                    + CyderStrings.quote + similarCommand + CyderStrings.quote);
+                            handle(similarCommand, InputType.SIMILAR_COMMAND);
+                        } else {
+                            println(UNKNOWN_COMMAND + "; Most similar command: "
+                                    + CyderStrings.quote + similarCommand + CyderStrings.quote);
                         }
+
+                        return;
                     }
                 }
             }
+        }
 
-            if (wrapShell) {
-                performWrapShell();
-            } else {
-                println(UNKNOWN_COMMAND);
-            }
-        }, UNKNOWN_INPUT_HANDLER_THREAD_NAME);
+        if (wrapShell) {
+            CyderThreadRunner.submit(this::performWrapShell, "Unknown Input Shell Wrapper, input: "
+                    + StringUtil.joinParts(args, CyderStrings.space));
+
+        } else {
+            println(UNKNOWN_COMMAND);
+        }
     }
 
     /**
@@ -487,10 +482,9 @@ public class BaseInputHandler {
     /**
      * The actions performed when it is known that a wrap shell action should be taken.
      */
-    @ForReadability
     private void performWrapShell() {
-        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName()
-                + CyderStrings.closingParenthesis);
+        println(UNKNOWN_COMMAND + ", passing to operating system native shell" + CyderStrings.space
+                + CyderStrings.openingParenthesis + OsUtil.getShellName() + CyderStrings.closingParenthesis);
 
         CyderThreadRunner.submit(() -> {
             try {

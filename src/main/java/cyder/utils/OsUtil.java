@@ -3,7 +3,6 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -14,6 +13,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.managers.ProgramModeManager;
+import cyder.managers.RobotManager;
 import cyder.meta.Cyder;
 import cyder.strings.CyderStrings;
 
@@ -487,7 +487,7 @@ public final class OsUtil {
      */
     public static void setMouseLocation(int x, int y) {
         try {
-            Console.INSTANCE.getInputHandler().getRobot().mouseMove(x, y);
+            RobotManager.INSTANCE.getRobot().mouseMove(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

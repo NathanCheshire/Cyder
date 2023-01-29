@@ -26,6 +26,7 @@ import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.managers.CyderVersionManager;
 import cyder.managers.ProgramModeManager;
+import cyder.managers.RobotManager;
 import cyder.math.AngleUtil;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
@@ -1977,7 +1978,7 @@ public enum Console {
 
             if (shouldAddToCommandList(input)) commandList.add(input);
             commandIndex = commandList.size();
-            baseInputHandler.handle(input, true);
+            baseInputHandler.handle(input);
 
             resetInputField();
         }
@@ -3590,7 +3591,7 @@ public enum Console {
             Rectangle monitorBounds = ref.getMonitorBounds();
 
             consoleCyderFrame.setVisible(false);
-            BufferedImage capture = getInputHandler().getRobot().createScreenCapture(monitorBounds);
+            BufferedImage capture = RobotManager.INSTANCE.getRobot().createScreenCapture(monitorBounds);
             consoleCyderFrame.setVisible(true);
 
             capture = ImageUtil.cropImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),

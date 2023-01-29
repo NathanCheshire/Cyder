@@ -8,6 +8,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.managers.RobotManager;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.BletchyAnimationManager;
@@ -95,8 +96,8 @@ public class PlayAudioHandler extends InputHandler {
                 || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
             chadwickBosemanEasterEgg();
         } else if (getInputHandler().commandIs("f17")) {
-            if (getInputHandler().getRobot() != null) {
-                getInputHandler().getRobot().keyPress(KeyEvent.VK_F17);
+            if (RobotManager.INSTANCE.getRobot() != null) {
+                RobotManager.INSTANCE.getRobot().keyPress(KeyEvent.VK_F17);
             } else {
                 getInputHandler().println("Mr. Robot didn't start :(");
             }
