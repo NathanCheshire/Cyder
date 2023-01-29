@@ -77,13 +77,6 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
-     * Suppress default constructor.
-     */
-    private BaseInputHandler() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The handles which contain specific triggers for pre-determined commands.
      */
     public static final ImmutableList<Class<? extends InputHandler>> primaryHandlers = ImmutableList.of(
@@ -116,6 +109,13 @@ public class BaseInputHandler {
             TestHandler.class,
             WrappedCommandHandler.class
     );
+
+    /**
+     * Suppress default constructor.
+     */
+    private BaseInputHandler() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Constructs a new base input handler liked to the provided {@link JTextPane}.
@@ -198,14 +198,20 @@ public class BaseInputHandler {
      * @param inputType the input type
      */
     public final void handle(String op, InputType inputType) {
-        if (!handlePreliminaries(op, inputType)) {
-            Logger.log(LogTag.HANDLE_METHOD, "Failed preliminaries for op: "
-                    + CyderStrings.quote + op + CyderStrings.quote);
-            return;
-        }
+        if (!handlePreliminaries(op, inputType)) return;
+        if (attemptRedirection()) return;
+        if (attemptPrimaryHandlers()) return;
+        if (attemptFinalHandlers()) return;
 
-        // todo maybe we can have three methods for these blocks?
+        unknownInput();
+    }
 
+    /**
+     * Attempts to pass the current command input to the {@link #redirectionHandler} if not null.
+     *
+     * @return whether the {@link #redirectionHandler} handled the current command input
+     */
+    private boolean attemptRedirection() {
         if (redirectionHandler != null) {
             for (Method method : redirectionHandler.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
@@ -218,11 +224,20 @@ public class BaseInputHandler {
                         throw new FatalException(e.getMessage());
                     }
 
-                    if (invocationResult instanceof Boolean bool && bool) return;
+                    if (invocationResult instanceof Boolean bool) return bool;
                 }
             }
         }
 
+        return false;
+    }
+
+    /**
+     * Attempts to handle the current command input using the {@link #primaryHandlers}.
+     *
+     * @return whether a primary handler handled the current command input
+     */
+    private boolean attemptPrimaryHandlers() {
         for (Class<?> handle : primaryHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
@@ -238,17 +253,26 @@ public class BaseInputHandler {
                                 throw new FatalException(e.getMessage());
                             }
 
-                            if (invocationResult instanceof Boolean bool && bool) return;
+                            if (invocationResult instanceof Boolean bool) return bool;
                         }
                     }
                 }
             }
         }
 
+        return false;
+    }
+
+    /**
+     * Attempts to handle the current command input using the {@link #finalHandlers}.
+     *
+     * @return whether a final handler handled the current command input
+     */
+    private boolean attemptFinalHandlers() {
         for (Class<?> handle : finalHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
-                    if (method.getParameterCount() != 0) return;
+                    if (method.getParameterCount() != 0) continue;
 
                     Object invocationResult;
                     try {
@@ -257,12 +281,12 @@ public class BaseInputHandler {
                         throw new FatalException(e.getMessage());
                     }
 
-                    if (invocationResult instanceof Boolean bool && bool) return;
+                    if (invocationResult instanceof Boolean bool) return bool;
                 }
             }
         }
 
-        unknownInput();
+        return false;
     }
 
     /**
@@ -281,6 +305,7 @@ public class BaseInputHandler {
         resetMembers();
 
         if (StringUtil.isNullOrEmpty(this.command)) {
+            Logger.log(LogTag.HANDLE_METHOD, "Failed preliminaries for empty/null operation");
             return false;
         }
 
@@ -293,6 +318,7 @@ public class BaseInputHandler {
             if (result.failed()) {
                 println("Sorry, " + UserDataManager.INSTANCE.getUsername() + ", but that language"
                         + " is prohibited, word: " + CyderStrings.quote + result.triggerWord() + CyderStrings.quote);
+                Logger.log(LogTag.HANDLE_METHOD, "Failed preliminaries due to prohibited language");
                 return false;
             }
         }
@@ -334,12 +360,17 @@ public class BaseInputHandler {
     }
 
     /**
+     * The char for redirecting input to a file.
+     */
+    private static final String REDIRECTION_CHAR = ">";
+
+    /**
      * Checks for a requested redirection and attempts to create the file if valid.
      */
     private void redirectionCheck() {
         if (args.size() < 2) return;
         String secondToLastArg = args.get(args.size() - 2);
-        if (!secondToLastArg.equalsIgnoreCase(">")) return;
+        if (!secondToLastArg.equalsIgnoreCase(REDIRECTION_CHAR)) return;
 
         String requestedFilename = args.get(args.size() - 1);
 
@@ -351,7 +382,7 @@ public class BaseInputHandler {
         redirection = true;
 
         try {
-            redirectionSem.acquire();
+            redirectionLock.acquire();
 
             redirectionFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     Console.INSTANCE.getUuid(), UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
@@ -366,7 +397,7 @@ public class BaseInputHandler {
         } catch (Exception ignored) {
             failedRedirection();
         } finally {
-            redirectionSem.release();
+            redirectionLock.release();
         }
     }
 
@@ -943,10 +974,10 @@ public class BaseInputHandler {
     // -----------------
 
     /**
-     * Semaphore used to ensure all things that need to be written to the redirectionFile are written to it.
+     * The lock used to ensure output is properly written to the {@link #redirectionFile}
      * This also ensures that multiple redirections aren't performed at the same time.
      */
-    private final Semaphore redirectionSem = new Semaphore(1);
+    private final Semaphore redirectionLock = new Semaphore(1);
 
     /**
      * The error message to print if redirection fails.
@@ -970,11 +1001,11 @@ public class BaseInputHandler {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
-            redirectionSem.acquire();
+            redirectionLock.acquire();
             writer.write(String.valueOf(object));
             Logger.log(LogTag.CONSOLE_REDIRECTION, "Console output was redirected to: "
                     + redirectionFile.getAbsolutePath());
-            redirectionSem.release();
+            redirectionLock.release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

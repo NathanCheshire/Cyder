@@ -25,6 +25,36 @@ public class GithubCloneRepoLink {
     private static final Pattern githubRepoClonePattern = Pattern.compile(githubRepoCloneRegex);
 
     /**
+     * The world wide web subdomain.
+     */
+    private static final String www = "www";
+
+    /**
+     * The colon slash slash protocol suffix.
+     */
+    private static final String colonSlashSlash = "://";
+
+    /**
+     * The safe hyper text transfer protocol.
+     */
+    private static final String https = "https";
+
+    /**
+     * The hyper text transfer protocol.
+     */
+    private static final String http = "http";
+
+    /**
+     * The safe hyper text transfer protocol with colon slash slash suffix.
+     */
+    private static final String httpsColonSlashSlash = https + colonSlashSlash;
+
+    /**
+     * The hyper text transfer protocol with colon slash slash suffix.
+     */
+    private static final String httpColonSlashSlash = http + colonSlashSlash;
+
+    /**
      * The .git link for the github repository.
      */
     private final String link;
@@ -161,29 +191,29 @@ public class GithubCloneRepoLink {
         StringBuilder ret = new StringBuilder(link);
 
         // Insert www if starts with github.com
-        if (!link.startsWith("www") && !link.startsWith("https://") && !link.startsWith("http://")) {
-            ret.insert(0, "www.");
+        if (!link.startsWith(www) && !link.startsWith(httpsColonSlashSlash) && !link.startsWith(httpColonSlashSlash)) {
+            ret.insert(0, www + ".");
         }
 
         // Insert https if http not present
-        if (!link.startsWith("https://") && !link.startsWith("http://")) {
-            ret.insert(0, "https://");
+        if (!link.startsWith(httpsColonSlashSlash) && !link.startsWith(httpColonSlashSlash)) {
+            ret.insert(0, httpsColonSlashSlash);
         }
 
         // Convert non-safe to safe
-        if (ret.toString().startsWith("http") && !ret.toString().startsWith("https")) {
+        if (ret.toString().startsWith(http) && !ret.toString().startsWith(https)) {
             ret.insert(4, "s");
         }
 
-        String[] parts = ret.toString().split("://");
+        String[] parts = ret.toString().split(colonSlashSlash);
         String protocol = parts[0];
         String domainAndRemainingUrl = parts[1];
 
         // Ensure www precedes github.com
-        if (!domainAndRemainingUrl.startsWith("www")) {
-            domainAndRemainingUrl = "www." + domainAndRemainingUrl;
+        if (!domainAndRemainingUrl.startsWith(www)) {
+            domainAndRemainingUrl = www + "." + domainAndRemainingUrl;
         }
 
-        return protocol + "://" + domainAndRemainingUrl;
+        return protocol + colonSlashSlash + domainAndRemainingUrl;
     }
 }

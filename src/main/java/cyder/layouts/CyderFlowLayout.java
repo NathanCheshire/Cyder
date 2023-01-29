@@ -405,11 +405,7 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @ForReadability
     private @Nullable Component findFocusOwner() {
-        for (Component flowComponent : components) {
-            if (flowComponent.isFocusOwner()) return flowComponent;
-        }
-
-        return null;
+        return components.stream().filter(Component::isFocusOwner).findFirst().orElse(null);
     }
 
     /**
