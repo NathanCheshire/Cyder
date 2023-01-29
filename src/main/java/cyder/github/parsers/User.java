@@ -1,5 +1,7 @@
 package cyder.github.parsers;
 
+import com.google.common.base.Preconditions;
+import com.google.gson.annotations.SerializedName;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
@@ -10,84 +12,97 @@ import cyder.logging.Logger;
 @SuppressWarnings("unused")
 public class User {
     /**
-     * The username.
+     * This user's username.
      */
     public String login;
 
     /**
-     * The user id.
+     * This user's id.
      */
     public int id;
 
     /**
-     * The node id.
+     * This user's node id.
      */
-    public String node_id;
+    @SerializedName("node_id")
+    public String nodeId;
 
     /**
-     * The url to the user's avatar.
+     * The url to this user's avatar.
      */
-    public String avatar_url;
+    @SerializedName("avatar_url")
+    public String avatarUrl;
 
     /**
-     * The id of the user's gravatar if present.
+     * The id of this user's gravatar if not using a custom avatar.
      */
-    public String gravatar_id;
+    @SerializedName("gravatar_id")
+    public String gravatarId;
 
     /**
-     * The url used to obtain these results.
+     * The url used to obtain these results from the users API endpoint.
      */
     public String url;
 
     /**
-     * The url to the user's github profile page.
+     * The url to this user's github profile page.
      */
-    public String html_url;
+    @SerializedName("html_url")
+    public String htmlUrl;
 
     /**
      * The url to the list of users following this user.
      */
-    public String following_url;
+    @SerializedName("following_url")
+    public String followingUrl;
 
     /**
      * The url to the list of users this user is following.
      */
-    public String followers_url;
+    @SerializedName("followers_url")
+    public String followersUrl;
 
     /**
      * The url to the list of gists this user has created.
      */
-    public String gists_url;
+    @SerializedName("gists_url")
+    public String gistsUrl;
 
     /**
      * The url to the list of repos this user has stared.
      */
-    public String starred_url;
+    @SerializedName("starred_url")
+    public String starredUrl;
 
     /**
      * The subscriptions url for this user.
      */
-    public String subscriptions_url;
+    @SerializedName("subscriptions_url")
+    public String subscriptionsUrl;
 
     /**
      * The organizations url for this user.
      */
-    public String organizations_url;
+    @SerializedName("organizations_url")
+    public String organizationsUrl;
 
     /**
      * The repos url for this user.
      */
-    public String repos_url;
+    @SerializedName("repos_url")
+    public String reposUrl;
 
     /**
      * The events url for this user.
      */
-    public String events_url;
+    @SerializedName("events_url")
+    public String eventsUrl;
 
     /**
      * The received events url for this user.
      */
-    public String received_events_url;
+    @SerializedName("received_events_url")
+    public String receivedEventsUrl;
 
     /**
      * The type of user this is.
@@ -97,57 +112,61 @@ public class User {
     /**
      * Whether this user is an admin.
      */
-    public boolean site_admin;
+    @SerializedName("site_admin")
+    public boolean siteAdmin;
 
     /**
-     * The user's name.
+     * This user's display name.
      */
     public String name;
 
     /**
-     * The user's company.
+     * This user's company.
      */
     public String company;
 
     /**
-     * The user's blog (website, I have no idea why GH calls it blog).
+     * This user's blog (actually website, I have no idea why GitHub calls it blog in their API).
      */
     public String blog;
 
     /**
-     * The user's location.
+     * This user's set location.
      */
     public String location;
 
     /**
-     * The user's public email.
+     * This user's public email.
      */
     public String email;
 
     /**
-     * Whether the user has designated themselves as hireable.
+     * Whether this user has designated themselves as hireable.
      */
     public boolean hireable;
 
     /**
-     * The user's bio.
+     * This user's bio.
      */
     public String bio;
 
     /**
-     * The user's twitter username if present.
+     * This user's twitter username if set.
      */
-    public String twitter_username;
+    @SerializedName("twitter_username")
+    public String twitterUsername;
 
     /**
      * The number of public repos exposed by this user.
      */
-    public int public_repos;
+    @SerializedName("public_repos")
+    public int publicRepos;
 
     /**
-     * The number of public gists exposed by this user.
+     * The number of public Gists exposed by this user.
      */
-    public int public_gists;
+    @SerializedName("public_gists")
+    public int publicGists;
 
     /**
      * The number of followers this user has.
@@ -162,18 +181,336 @@ public class User {
     /**
      * The time this user was created at.
      */
-    public String created_at;
+    @SerializedName("created_at")
+    public String createdAt;
 
     /**
      * The last time this user was updated at.
      */
-    public String updated_at;
+    @SerializedName("updated_at")
+    public String updatedAt;
 
     /**
      * Constructs a new GitHub user object.
      */
     public User() {
         Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Returns this user's username.
+     *
+     * @return this user's username
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * Sets this user's username.
+     *
+     * @param login this user's username
+     */
+    public void setLogin(String login) {
+        Preconditions.checkNotNull(login);
+
+        this.login = login;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        Preconditions.checkNotNull(nodeId);
+
+        this.nodeId = nodeId;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        Preconditions.checkNotNull(avatarUrl);
+
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getGravatarId() {
+        return gravatarId;
+    }
+
+    public void setGravatarId(String gravatarId) {
+        Preconditions.checkNotNull(gravatarId);
+
+        this.gravatarId = gravatarId;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        Preconditions.checkNotNull(url);
+
+        this.url = url;
+    }
+
+    public String getHtmlUrl() {
+        return htmlUrl;
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        Preconditions.checkNotNull(htmlUrl);
+
+        this.htmlUrl = htmlUrl;
+    }
+
+    public String getFollowingUrl() {
+        return followingUrl;
+    }
+
+    public void setFollowingUrl(String followingUrl) {
+        Preconditions.checkNotNull(followingUrl);
+
+        this.followingUrl = followingUrl;
+    }
+
+    public String getFollowersUrl() {
+        return followersUrl;
+    }
+
+    public void setFollowersUrl(String followersUrl) {
+        Preconditions.checkNotNull(followersUrl);
+
+        this.followersUrl = followersUrl;
+    }
+
+    public String getGistsUrl() {
+        return gistsUrl;
+    }
+
+    public void setGistsUrl(String gistsUrl) {
+        Preconditions.checkNotNull(gistsUrl);
+
+        this.gistsUrl = gistsUrl;
+    }
+
+    public String getStarredUrl() {
+        return starredUrl;
+    }
+
+    public void setStarredUrl(String starredUrl) {
+        Preconditions.checkNotNull(starredUrl);
+
+        this.starredUrl = starredUrl;
+    }
+
+    public String getSubscriptionsUrl() {
+        return subscriptionsUrl;
+    }
+
+    public void setSubscriptionsUrl(String subscriptionsUrl) {
+        Preconditions.checkNotNull(subscriptionsUrl);
+
+        this.subscriptionsUrl = subscriptionsUrl;
+    }
+
+    public String getOrganizationsUrl() {
+        return organizationsUrl;
+    }
+
+    public void setOrganizationsUrl(String organizationsUrl) {
+        Preconditions.checkNotNull(organizationsUrl);
+
+        this.organizationsUrl = organizationsUrl;
+    }
+
+    public String getReposUrl() {
+        return reposUrl;
+    }
+
+    public void setReposUrl(String reposUrl) {
+        Preconditions.checkNotNull(reposUrl);
+
+        this.reposUrl = reposUrl;
+    }
+
+    public String getEventsUrl() {
+        return eventsUrl;
+    }
+
+    public void setEventsUrl(String eventsUrl) {
+        Preconditions.checkNotNull(eventsUrl);
+
+        this.eventsUrl = eventsUrl;
+    }
+
+    public String getReceivedEventsUrl() {
+        return receivedEventsUrl;
+    }
+
+    public void setReceivedEventsUrl(String receivedEventsUrl) {
+        Preconditions.checkNotNull(receivedEventsUrl);
+
+        this.receivedEventsUrl = receivedEventsUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        Preconditions.checkNotNull(type);
+
+        this.type = type;
+    }
+
+    public boolean isSiteAdmin() {
+        return siteAdmin;
+    }
+
+    public void setSiteAdmin(boolean siteAdmin) {
+        this.siteAdmin = siteAdmin;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        Preconditions.checkNotNull(name);
+
+        this.name = name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        Preconditions.checkNotNull(company);
+
+        this.company = company;
+    }
+
+    public String getBlog() {
+        return blog;
+    }
+
+    public void setBlog(String blog) {
+        Preconditions.checkNotNull(blog);
+
+        this.blog = blog;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        Preconditions.checkNotNull(location);
+
+        this.location = location;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        Preconditions.checkNotNull(email);
+
+        this.email = email;
+    }
+
+    public boolean isHireable() {
+        return hireable;
+    }
+
+    public void setHireable(boolean hireable) {
+        this.hireable = hireable;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        Preconditions.checkNotNull(bio);
+
+        this.bio = bio;
+    }
+
+    public String getTwitterUsername() {
+        return twitterUsername;
+    }
+
+    public void setTwitterUsername(String twitterUsername) {
+        Preconditions.checkNotNull(twitterUsername);
+
+        this.twitterUsername = twitterUsername;
+    }
+
+    public int getPublicRepos() {
+        return publicRepos;
+    }
+
+    public void setPublicRepos(int publicRepos) {
+        this.publicRepos = publicRepos;
+    }
+
+    public int getPublicGists() {
+        return publicGists;
+    }
+
+    public void setPublicGists(int publicGists) {
+        this.publicGists = publicGists;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(int following) {
+        this.following = following;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        Preconditions.checkNotNull(createdAt);
+
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        Preconditions.checkNotNull(updatedAt);
+
+        this.updatedAt = updatedAt;
     }
 
     /**
@@ -190,35 +527,35 @@ public class User {
         User other = (User) o;
         return other.login.equals(login)
                 && other.id == id
-                && other.node_id.equals(node_id)
-                && other.avatar_url.equals(avatar_url)
-                && other.gravatar_id.equals(gravatar_id)
+                && other.nodeId.equals(nodeId)
+                && other.avatarUrl.equals(avatarUrl)
+                && other.gravatarId.equals(gravatarId)
                 && other.url.equals(url)
-                && other.html_url.equals(html_url)
-                && other.following_url.equals(following_url)
-                && other.followers_url.equals(followers_url)
-                && other.gists_url.equals(gists_url)
-                && other.starred_url.equals(starred_url)
-                && other.subscriptions_url.equals(subscriptions_url)
-                && other.organizations_url.equals(organizations_url)
-                && other.repos_url.equals(repos_url)
-                && other.events_url.equals(events_url)
-                && other.received_events_url.equals(received_events_url)
+                && other.htmlUrl.equals(htmlUrl)
+                && other.followingUrl.equals(followingUrl)
+                && other.followersUrl.equals(followersUrl)
+                && other.gistsUrl.equals(gistsUrl)
+                && other.starredUrl.equals(starredUrl)
+                && other.subscriptionsUrl.equals(subscriptionsUrl)
+                && other.organizationsUrl.equals(organizationsUrl)
+                && other.reposUrl.equals(reposUrl)
+                && other.eventsUrl.equals(eventsUrl)
+                && other.receivedEventsUrl.equals(receivedEventsUrl)
                 && other.type.equals(type)
-                && other.site_admin == site_admin
+                && other.siteAdmin == siteAdmin
                 && other.name.equals(name)
                 && other.company.equals(company)
                 && other.location.equals(location)
                 && other.email.equals(email)
                 && other.hireable == hireable
                 && other.bio.equals(bio)
-                && other.twitter_username.equals(twitter_username)
-                && other.public_repos == public_repos
-                && other.public_gists == public_gists
+                && other.twitterUsername.equals(twitterUsername)
+                && other.publicRepos == publicRepos
+                && other.publicGists == publicGists
                 && other.followers == followers
                 && other.following == following
-                && other.created_at.equals(created_at)
-                && other.updated_at.equals(updated_at);
+                && other.createdAt.equals(createdAt)
+                && other.updatedAt.equals(updatedAt);
     }
 
     /**
@@ -229,22 +566,22 @@ public class User {
         int ret = login.hashCode();
 
         ret = 31 * ret + Integer.hashCode(id);
-        ret = 31 * ret + node_id.hashCode();
-        ret = 31 * ret + avatar_url.hashCode();
-        ret = 31 * ret + gravatar_id.hashCode();
+        ret = 31 * ret + nodeId.hashCode();
+        ret = 31 * ret + avatarUrl.hashCode();
+        ret = 31 * ret + gravatarId.hashCode();
         ret = 31 * ret + url.hashCode();
-        ret = 31 * ret + html_url.hashCode();
-        ret = 31 * ret + following_url.hashCode();
-        ret = 31 * ret + followers_url.hashCode();
-        ret = 31 * ret + gists_url.hashCode();
-        ret = 31 * ret + starred_url.hashCode();
-        ret = 31 * ret + subscriptions_url.hashCode();
-        ret = 31 * ret + organizations_url.hashCode();
-        ret = 31 * ret + repos_url.hashCode();
-        ret = 31 * ret + events_url.hashCode();
-        ret = 31 * ret + received_events_url.hashCode();
+        ret = 31 * ret + htmlUrl.hashCode();
+        ret = 31 * ret + followingUrl.hashCode();
+        ret = 31 * ret + followersUrl.hashCode();
+        ret = 31 * ret + gistsUrl.hashCode();
+        ret = 31 * ret + starredUrl.hashCode();
+        ret = 31 * ret + subscriptionsUrl.hashCode();
+        ret = 31 * ret + organizationsUrl.hashCode();
+        ret = 31 * ret + reposUrl.hashCode();
+        ret = 31 * ret + eventsUrl.hashCode();
+        ret = 31 * ret + receivedEventsUrl.hashCode();
         ret = 31 * ret + type.hashCode();
-        ret = 31 * ret + Boolean.hashCode(site_admin);
+        ret = 31 * ret + Boolean.hashCode(siteAdmin);
         ret = 31 * ret + name.hashCode();
         ret = 31 * ret + company.hashCode();
         ret = 31 * ret + blog.hashCode();
@@ -252,13 +589,13 @@ public class User {
         ret = 31 * ret + email.hashCode();
         ret = 31 * ret + Boolean.hashCode(hireable);
         ret = 31 * ret + bio.hashCode();
-        ret = 31 * ret + twitter_username.hashCode();
-        ret = 31 * ret + Integer.hashCode(public_repos);
-        ret = 31 * ret + Integer.hashCode(public_gists);
+        ret = 31 * ret + twitterUsername.hashCode();
+        ret = 31 * ret + Integer.hashCode(publicRepos);
+        ret = 31 * ret + Integer.hashCode(publicGists);
         ret = 31 * ret + Integer.hashCode(followers);
         ret = 31 * ret + Integer.hashCode(following);
-        ret = 31 * ret + created_at.hashCode();
-        ret = 31 * ret + updated_at.hashCode();
+        ret = 31 * ret + createdAt.hashCode();
+        ret = 31 * ret + updatedAt.hashCode();
 
         return ret;
     }
@@ -271,22 +608,22 @@ public class User {
         return "User{"
                 + "login=\"" + login + "\""
                 + ", id=" + id
-                + ", node_id=\"" + node_id + "\""
-                + ", avatar_url=\"" + avatar_url + "\""
-                + ", gravatar_id=\"" + gravatar_id + "\""
+                + ", node_id=\"" + nodeId + "\""
+                + ", avatar_url=\"" + avatarUrl + "\""
+                + ", gravatar_id=\"" + gravatarId + "\""
                 + ", url=\"" + url + "\""
-                + ", html_url=\"" + html_url + "\""
-                + ", following_url=\"" + following_url + "\""
-                + ", followers_url=\"" + followers_url + "\""
-                + ", gists_url=\"" + gists_url + "\""
-                + ", starred_url=\"" + starred_url + "\""
-                + ", subscriptions_url=\"" + subscriptions_url + "\""
-                + ", organizations_url=\"" + organizations_url + "\""
-                + ", repos_url=\"" + repos_url + "\""
-                + ", events_url=\"" + events_url + "\""
-                + ", received_events_url=\"" + received_events_url + "\""
+                + ", html_url=\"" + htmlUrl + "\""
+                + ", following_url=\"" + followingUrl + "\""
+                + ", followers_url=\"" + followersUrl + "\""
+                + ", gists_url=\"" + gistsUrl + "\""
+                + ", starred_url=\"" + starredUrl + "\""
+                + ", subscriptions_url=\"" + subscriptionsUrl + "\""
+                + ", organizations_url=\"" + organizationsUrl + "\""
+                + ", repos_url=\"" + reposUrl + "\""
+                + ", events_url=\"" + eventsUrl + "\""
+                + ", received_events_url=\"" + receivedEventsUrl + "\""
                 + ", type=\"" + type + "\""
-                + ", site_admin=" + site_admin
+                + ", site_admin=" + siteAdmin
                 + ", name=" + name
                 + ", company=" + company
                 + ", blog=" + blog
@@ -294,13 +631,13 @@ public class User {
                 + ", email=" + email
                 + ", hireable=" + hireable
                 + ", bio=" + bio
-                + ", twitter_username=" + twitter_username
-                + ", public_repos=" + public_repos
-                + ", public_gists=" + public_gists
+                + ", twitter_username=" + twitterUsername
+                + ", public_repos=" + publicRepos
+                + ", public_gists=" + publicGists
                 + ", followers=" + followers
                 + ", following=" + following
-                + ", created_at=" + created_at
-                + ", updated_at=" + updated_at
+                + ", created_at=" + createdAt
+                + ", updated_at=" + updatedAt
                 + "}";
     }
 }
