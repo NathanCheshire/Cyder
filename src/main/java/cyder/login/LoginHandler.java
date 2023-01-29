@@ -26,6 +26,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.User;
 import cyder.user.UserUtil;
 import cyder.user.creation.UserCreator;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
@@ -207,7 +208,6 @@ public final class LoginHandler {
             "Type " + quote + HELP + quote + " for a list of valid commands" + newline,
             "Build: " + CyderVersionManager.INSTANCE.getReleaseDate() + newline,
             "Author: Nate Cheshire" + newline,
-            "Design JVM: 17" + newline,
             "Description: A programmer's swiss army knife" + newline
     );
 
@@ -242,10 +242,10 @@ public final class LoginHandler {
                         String line = priorityPrintingList.removeFirst();
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
-                        for (char c : line.toCharArray()) {
-                            outputPane.getStringUtil().print(String.valueOf(c));
+                        ArrayUtil.toList(line.toCharArray()).forEach(charizard -> {
+                            outputPane.getStringUtil().print(String.valueOf(charizard));
                             ThreadUtil.sleep(charTimeout);
-                        }
+                        });
 
                         outputPane.releaseLock();
                     } else if (!printingList.isEmpty()) {
@@ -256,10 +256,10 @@ public final class LoginHandler {
                         String line = printingList.removeFirst();
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
-                        for (char c : line.toCharArray()) {
-                            outputPane.getStringUtil().print(String.valueOf(c));
+                        ArrayUtil.toList(line.toCharArray()).forEach(charizard -> {
+                            outputPane.getStringUtil().print(String.valueOf(charizard));
                             ThreadUtil.sleep(charTimeout);
-                        }
+                        });
 
                         outputPane.releaseLock();
                     }
@@ -382,8 +382,6 @@ public final class LoginHandler {
         startTypingAnimation();
     }
 
-    // todo make a method like this for console
-
     /**
      * Checks for the caret position in the login field being before the current bash string
      */
@@ -448,17 +446,12 @@ public final class LoginHandler {
         }
 
         switch (loginMode) {
-            case INPUT -> handleInputEnter(userInput);
-            case USERNAME -> handleUsernameEnter(userInput);
-            case PASSWORD -> {
-                handlePasswordEnter(fieldInput);
-                Arrays.fill(fieldInput, '\0');
-            }
-            default -> {
-                loginField.setText(currentBashString);
-                throw new IllegalArgumentException("Error resulting from login shell default case trigger");
-            }
+            case INPUT -> onInputEntered(userInput);
+            case USERNAME -> onUsernameEntered(userInput);
+            case PASSWORD -> onPasswordEntered(fieldInput);
         }
+
+        Arrays.fill(fieldInput, '\0');
     }
 
     /**
@@ -466,7 +459,7 @@ public final class LoginHandler {
      *
      * @param userInput the current field input with the bash string parsed away
      */
-    private static void handleInputEnter(String userInput) {
+    private static void onInputEntered(String userInput) {
         if (userInput.equalsIgnoreCase(CREATE)) {
             UserCreator.showGui();
             loginField.setText(currentBashString);
@@ -493,7 +486,7 @@ public final class LoginHandler {
      *
      * @param userInput the current field input with the bash string parsed away
      */
-    private static void handleUsernameEnter(String userInput) {
+    private static void onUsernameEntered(String userInput) {
         username = userInput;
         loginMode = LoginMode.PASSWORD;
         loginField.setEchoChar(ECHO_CHAR);
@@ -508,7 +501,7 @@ public final class LoginHandler {
      *
      * @param fieldInput the current field input
      */
-    private static void handlePasswordEnter(char[] fieldInput) {
+    private static void onPasswordEntered(char[] fieldInput) {
         loginField.setEchoChar(DEFAULT_FIELD_ECHO_CHAR);
         shiftShowsPassword.set(false);
         loginField.setText("");
@@ -625,7 +618,7 @@ public final class LoginHandler {
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
         resetRecognitionVars();
 
-        switch (checkPassword(name, hashedPass)) {
+        switch (validateUsernamePassword(name, hashedPass)) {
             case FAILED -> {
                 printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
                 loginField.requestFocusInWindow();
@@ -654,14 +647,13 @@ public final class LoginHandler {
     }
 
     /**
-     * Checks whether the given name/pass combo is valid and if so, returns the UUID matched.
-     * Otherwise, an empty optional is returned to represent that no user was found.
+     * Checks whether the given name/pass combo is valid and returns the result of the check.
      *
      * @param providedUsername     the username given
      * @param singlyHashedPassword the singly-hashed password
      * @return the result of checking for the a user with the provided name and password
      */
-    private static PasswordCheckResult checkPassword(String providedUsername, String singlyHashedPassword) {
+    private static PasswordCheckResult validateUsernamePassword(String providedUsername, String singlyHashedPassword) {
         ArrayList<String> names = new ArrayList<>();
         UserUtil.getUserJsons().forEach(userJson -> names.add(UserUtil.extractUser(userJson).getUsername()));
 
@@ -671,13 +663,8 @@ public final class LoginHandler {
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJsonFile);
-            String username = user.getUsername();
-            String password = user.getPassword();
-
-            String doublyHashedPassword = SecurityUtil.toHexString(
-                    SecurityUtil.getSha256(singlyHashedPassword.toCharArray()));
-
-            if (providedUsername.equalsIgnoreCase(username) && doublyHashedPassword.equals(password)) {
+            if (providedUsername.equalsIgnoreCase(user.getUsername())
+                    && SecurityUtil.hashAndHex(singlyHashedPassword).equals(user.getPassword())) {
                 recognizedUuid = userJsonFile.getParentFile().getName();
                 return PasswordCheckResult.SUCCESS;
             }

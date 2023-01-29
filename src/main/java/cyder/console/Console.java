@@ -327,7 +327,7 @@ public enum Console {
         revalidateInputAndOutputBounds(true);
 
         inputField.requestFocus();
-        inputField.setCaretPosition(inputField.getPassword().length);
+        setInputFieldCaretPositionToEnd();
     }
 
     /**
@@ -854,7 +854,7 @@ public enum Console {
                 ? new LineBorder(backgroundColor, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
         inputField.setSelectionColor(CyderColors.selectionColor);
-        inputField.setCaretPosition(inputField.getPassword().length);
+        setInputFieldCaretPositionToEnd();
 
         inputField.setOpaque(false);
         inputField.setCaretColor(UserDataManager.INSTANCE.getForegroundColor());
@@ -1147,7 +1147,7 @@ public enum Console {
      */
     private void onConsoleWindowDeiconified() {
         inputField.requestFocus();
-        inputField.setCaretPosition(inputField.getPassword().length);
+        setInputFieldCaretPositionToEnd();
     }
 
     /**
@@ -1489,7 +1489,7 @@ public enum Console {
                 closeButton.requestFocus();
             } else {
                 inputField.requestFocusInWindow();
-                inputField.setCaretPosition(inputField.getPassword().length);
+                setInputFieldCaretPositionToEnd();
             }
         }
     };
@@ -2245,7 +2245,7 @@ public enum Console {
 
             if (inputField.getCaretPosition() < consoleBashString.toCharArray().length) {
                 ensureFullBashStringPresent();
-                setCaretPositionAtEnd();
+                setInputFieldCaretPositionToEnd();
             } else {
                 ensureStartsWithBashString();
             }
@@ -2285,12 +2285,14 @@ public enum Console {
         private void setCaretPositionAtBashStringLength() {
             inputField.setCaretPosition(consoleBashString.length());
         }
-
-        @ForReadability
-        private void setCaretPositionAtEnd() {
-            inputField.setCaretPosition(inputField.getPassword().length);
-        }
     };
+
+    /**
+     * Sets the caret position of the input field to the end.
+     */
+    private void setInputFieldCaretPositionToEnd() {
+        inputField.setCaretPosition(inputField.getPassword().length);
+    }
 
     /**
      * The key listener for input field to control command scrolling.
