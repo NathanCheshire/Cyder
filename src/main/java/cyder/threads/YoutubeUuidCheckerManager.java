@@ -5,6 +5,7 @@ import cyder.console.Console;
 import cyder.enums.Units;
 import cyder.time.TimeUtil;
 import cyder.ui.pane.CyderOutputPane;
+import cyder.user.UserDataManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -117,7 +118,10 @@ public enum YoutubeUuidCheckerManager {
      * Kills any instances of helper YouTube threads that are currently running.
      */
     public void killAll() {
-        youTubeUuidCheckers.forEach(YoutubeUuidChecker::kill);
+        youTubeUuidCheckers.forEach(youtubeUuidChecker -> {
+            String lastCheckedUuid = youtubeUuidChecker.kill();
+            UserDataManager.INSTANCE.setYouTubeUuid(lastCheckedUuid);
+        });
         youTubeUuidCheckers.clear();
 
         isActive = false;
@@ -140,7 +144,11 @@ public enum YoutubeUuidCheckerManager {
 
         checkIfStartingFirstThreads();
 
-        IntStream.range(0, number).forEach(i -> youTubeUuidCheckers.add(new YoutubeUuidChecker(outputPane)));
+        IntStream.range(0, number).forEach(i -> {
+            YoutubeUuidChecker checker = new YoutubeUuidChecker(outputPane);
+            checker.startChecking();
+            youTubeUuidCheckers.add(checker);
+        });
 
         Console.INSTANCE.getConsoleCyderFrame().notify("Type \"stop script\" or press ctrl + c to halt");
 

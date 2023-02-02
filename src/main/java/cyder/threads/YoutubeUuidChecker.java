@@ -2,10 +2,10 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -13,6 +13,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserDataManager;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 import cyder.youtube.YouTubeConstants;
 
@@ -21,8 +22,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A class for generating random YouTube UUIDs and attempting to parse the resulting url for a valid video.
@@ -30,9 +33,15 @@ import java.util.Optional;
  */
 public class YoutubeUuidChecker {
     /**
+     * The index to pass to {@link #incrementUuid(char[], int)} as the
+     * position argument when attempting to increment a uuid.
+     */
+    private static final int startingIndexForAttemptingIncrements = YouTubeConstants.UUID_LENGTH - 1;
+
+    /**
      * The chances of success for a singular thread running.
      */
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // Nice to have
     public static final BigInteger CHANCE_OF_SUCCESS = new BigInteger("73786976294838206464");
 
     /**
@@ -52,12 +61,17 @@ public class YoutubeUuidChecker {
     /**
      * Whether this uuid checker instance has been killed.
      */
-    private boolean killed;
+    private final AtomicBoolean killed = new AtomicBoolean();
+
+    /**
+     * The list of uuids this checker has checked.
+     */
+    private final ArrayList<String> checkedUuids = new ArrayList<>();
 
     /**
      * The uuid this checker is currently on.
      */
-    private String youTubeUuid;
+    private String currentUuid;
 
     /**
      * The output pane used for printing.
@@ -81,67 +95,80 @@ public class YoutubeUuidChecker {
         Preconditions.checkNotNull(outputPane);
 
         this.outputPane = outputPane;
-
-        // todo remove this from constructor and force client to call
-        startChecking();
     }
-
 
     /**
-     * Kills this YouTube thread and writes the last checked UUID to system data.
+     * Kills this YouTube thread returns the last checked UUID.
+     *
+     * @return the last checked UUID
      */
-    // todo can ignore return value
-    public void kill() {
-        killed = true;
-
-        // todo this should be a manager call not local, we should return it here
-        UserDataManager.INSTANCE.setYouTubeUuid(youTubeUuid);
+    @CanIgnoreReturnValue
+    /* Future logic will allow multiple instances of this, meaning manager will need to figure out which uuid to save */
+    public String kill() {
+        killed.set(true);
+        return currentUuid;
     }
 
-    // todo keep track of checked uuids and be able to return an immutable list of checked uuids
+    /**
+     * Returns the list of uuids this checker has checked.
+     *
+     * @return the list of uuids this checker has checked
+     */
+    public ImmutableList<String> getCheckedUuids() {
+        return ImmutableList.copyOf(checkedUuids);
+    }
+
+    // todo keep track of rate in checksPerSecond
 
     /**
      * Starts this instance checking for a valid UUID.
      */
-    private void startChecking() {
-        Preconditions.checkState(!killed);
+    public void startChecking() {
+        Preconditions.checkState(!killed.get());
 
         StringUtil stringUtil = outputPane.getStringUtil();
 
         String threadName = "YoutubeUuidChecker#" + YoutubeUuidCheckerManager.INSTANCE.getActiveUuidCheckersLength();
         CyderThreadRunner.submit(() -> {
-            youTubeUuid = UserDataManager.INSTANCE.getYouTubeUuid();
+            currentUuid = UserDataManager.INSTANCE.getYouTubeUuid();
 
-            Preconditions.checkNotNull(youTubeUuid);
-            Preconditions.checkArgument(youTubeUuid.length() == YouTubeConstants.UUID_LENGTH);
+            Preconditions.checkNotNull(currentUuid);
+            Preconditions.checkArgument(currentUuid.length() == YouTubeConstants.UUID_LENGTH);
 
-            while (!killed) {
+            while (!killed.get()) {
                 YoutubeUuidCheckerManager.INSTANCE.incrementUrlsChecked();
 
                 try {
-                    if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
-                        throw new FatalException("Failed to acquire lock");
-                    }
-                    stringUtil.println("Checked uuid: " + youTubeUuid);
+                    attemptToAcquireLock();
+                    stringUtil.println("Checked uuid: " + currentUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
+                    // todo this could be cleaner
                     BufferedImage thumbnail = ImageUtil.read(
-                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youTubeUuid));
+                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", currentUuid));
 
                     YoutubeUuidCheckerManager.INSTANCE.killAll();
 
-                    if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
-                        throw new FatalException("Failed to acquire lock");
-                    }
-                    stringUtil.println("YouTube script found valid video with uuid: " + youTubeUuid);
+                    attemptToAcquireLock();
+                    stringUtil.println("YouTube UUID checker found valid video with uuid: " + currentUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
                     showThumbnailFrame(thumbnail);
                 } catch (Exception ignored) {
+                    checkedUuids.add(currentUuid);
                     incrementUuid();
                 }
             }
         }, threadName);
+    }
+
+    /**
+     * Attempts to acquire the {@link YoutubeUuidCheckerManager}'s lock.
+     */
+    private void attemptToAcquireLock() {
+        if (!YoutubeUuidCheckerManager.INSTANCE.acquireLock()) {
+            throw new FatalException("Failed to acquire lock");
+        }
     }
 
     /**
@@ -155,14 +182,12 @@ public class YoutubeUuidChecker {
                 thumbnail.getHeight(),
                 new ImageIcon(thumbnail));
         thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
-        thumbnailFrame.setTitle(youTubeUuid);
+        thumbnailFrame.setTitle(currentUuid);
 
-        String videoUrl = CyderUrls.YOUTUBE_VIDEO_HEADER + youTubeUuid;
+        String videoUrl = CyderUrls.YOUTUBE_VIDEO_HEADER + currentUuid;
         String title = videoUrl;
         Optional<String> optionalTitle = NetworkUtil.getUrlTitle(videoUrl);
-        if (optionalTitle.isPresent()) {
-            title = optionalTitle.get();
-        }
+        if (optionalTitle.isPresent()) title = optionalTitle.get();
 
         JLabel pictureLabel = new JLabel();
         pictureLabel.setToolTipText("Open video " + title);
@@ -182,40 +207,39 @@ public class YoutubeUuidChecker {
      * Increments the current UUID by one.
      */
     private void incrementUuid() {
-        try {
-            youTubeUuid = String.valueOf(incrementUuid(youTubeUuid.toCharArray(), 10));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        currentUuid = String.valueOf(incrementUuid(currentUuid.toCharArray(), startingIndexForAttemptingIncrements));
     }
 
     /**
-     * Complex logic to increment the provided UUID based on YouTube's base 64 character set.
+     * Increments the provided eleven digit YouTube uuid by one, returning the result as a character array.
      *
-     * @param uuid the uuid to increment in char array form
-     * @param pos  the position to add to (needed since this method is recursive)
-     * @return the provided uuid incremented starting at the provided position
-     * (ripples down the array if overflow)
+     * @param uuid        the uuid to increment in char array form
+     * @param addPosition the position to attempt to add to first
+     * @return the incremented uuid in the form of a new character array
      */
-    static char[] incrementUuid(char[] uuid, int pos) {
+    static char[] incrementUuid(char[] uuid, int addPosition) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!ArrayUtil.isEmpty(uuid));
+        Preconditions.checkArgument(addPosition >= 0 && addPosition < YouTubeConstants.UUID_LENGTH);
+
         char[] ret;
 
-        char positionChar = uuid[pos];
+        char positionChar = uuid[addPosition];
 
         if (positionChar == uuidChars.get(uuidChars.size() - 1)) {
-            if (pos - 1 < 0) {
+            if (addPosition - 1 < 0) {
                 throw new IllegalArgumentException("YouTube uuid incrementer overflow, provided uuid: "
                         + Arrays.toString(uuid));
             } else {
-                ret = incrementUuid(uuid, pos - 1);
+                ret = incrementUuid(uuid, addPosition - 1);
             }
         } else {
             positionChar = uuidChars.get(findCharIndex(positionChar) + 1);
             char[] copy = uuid.clone();
-            copy[pos] = positionChar;
+            copy[addPosition] = positionChar;
 
-            if (pos + 1 <= 10) {
-                copy[pos + 1] = uuidChars.get(0);
+            if (addPosition + 1 < YouTubeConstants.UUID_LENGTH) {
+                copy[addPosition + 1] = uuidChars.get(0);
             }
 
             ret = copy;
