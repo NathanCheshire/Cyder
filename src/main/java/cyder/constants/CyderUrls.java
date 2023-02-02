@@ -56,11 +56,6 @@ public final class CyderUrls {
             "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html";
 
     /**
-     * The default thumbnail base url for YouTube videos.
-     */
-    public static final String THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
-
-    /**
      * A link for Desmos graphing calculator.
      */
     public static final String DESMOS = "https://www.desmos.com/calculator";

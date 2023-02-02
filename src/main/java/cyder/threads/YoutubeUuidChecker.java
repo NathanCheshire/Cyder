@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -79,6 +80,16 @@ public class YoutubeUuidChecker {
     private final CyderOutputPane outputPane;
 
     /**
+     * The instant this checker was started at.
+     */
+    private Instant startingInstant;
+
+    /**
+     * The instant this checker was killed at.
+     */
+    private Instant endingInstant;
+
+    /**
      * Suppress default constructor. Requires two parameters for instantiation.
      */
     private YoutubeUuidChecker() {
@@ -106,6 +117,7 @@ public class YoutubeUuidChecker {
     /* Future logic will allow multiple instances of this, meaning manager will need to figure out which uuid to save */
     public String kill() {
         killed.set(true);
+        endingInstant = Instant.now();
         return currentUuid;
     }
 
@@ -118,7 +130,30 @@ public class YoutubeUuidChecker {
         return ImmutableList.copyOf(checkedUuids);
     }
 
-    // todo keep track of rate in checksPerSecond
+    /**
+     * Returns the current rate of checks per second.
+     * If this has been killed, the starting and ending time as well as the total checked uuids
+     * are used to compute the returned value
+     *
+     * @return the current rate of checks per second
+     */
+    public float getCurrentChecksPerSecond() {
+        int numChecked = checkedUuids.size();
+
+        long endingMillis = endingInstant == null ? Instant.now().toEpochMilli() : endingInstant.toEpochMilli();
+        long millisElapsed = endingMillis - startingInstant.toEpochMilli();
+        return numChecked / (float) millisElapsed;
+    }
+
+    /**
+     * Constructs and returns a url for the thumbnail of the provided uuid.
+     *
+     * @param uuid the YouTube uuid
+     * @return the url for the thumbnail of the YouTube video with the provided id if it exists
+     */
+    public static String constructThumbnailUrl(String uuid) {
+        return "https://img.youtube.com/vi/" + uuid + "/hqdefault.jpg";
+    }
 
     /**
      * Starts this instance checking for a valid UUID.
@@ -135,6 +170,8 @@ public class YoutubeUuidChecker {
             Preconditions.checkNotNull(currentUuid);
             Preconditions.checkArgument(currentUuid.length() == YouTubeConstants.UUID_LENGTH);
 
+            startingInstant = Instant.now();
+
             while (!killed.get()) {
                 YoutubeUuidCheckerManager.INSTANCE.incrementUrlsChecked();
 
@@ -143,9 +180,7 @@ public class YoutubeUuidChecker {
                     stringUtil.println("Checked uuid: " + currentUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
-                    // todo this could be cleaner
-                    BufferedImage thumbnail = ImageUtil.read(
-                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", currentUuid));
+                    BufferedImage thumbnail = ImageUtil.read(constructThumbnailUrl(currentUuid));
 
                     YoutubeUuidCheckerManager.INSTANCE.killAll();
 
