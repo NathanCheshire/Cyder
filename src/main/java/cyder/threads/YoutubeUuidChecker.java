@@ -82,13 +82,30 @@ public class YoutubeUuidChecker {
 
         this.outputPane = outputPane;
 
+        // todo remove this from constructor and force client to call
         startChecking();
     }
+
+
+    /**
+     * Kills this YouTube thread and writes the last checked UUID to system data.
+     */
+    // todo can ignore return value
+    public void kill() {
+        killed = true;
+
+        // todo this should be a manager call not local, we should return it here
+        UserDataManager.INSTANCE.setYouTubeUuid(youTubeUuid);
+    }
+
+    // todo keep track of checked uuids and be able to return an immutable list of checked uuids
 
     /**
      * Starts this instance checking for a valid UUID.
      */
     private void startChecking() {
+        Preconditions.checkState(!killed);
+
         StringUtil stringUtil = outputPane.getStringUtil();
 
         String threadName = "YoutubeUuidChecker#" + YoutubeUuidCheckerManager.INSTANCE.getActiveUuidCheckersLength();
@@ -180,7 +197,7 @@ public class YoutubeUuidChecker {
      * @return the provided uuid incremented starting at the provided position
      * (ripples down the array if overflow)
      */
-    private char[] incrementUuid(char[] uuid, int pos) {
+    static char[] incrementUuid(char[] uuid, int pos) {
         char[] ret;
 
         char positionChar = uuid[pos];
@@ -213,7 +230,7 @@ public class YoutubeUuidChecker {
      * @param c the character to find in the provided array
      * @return the index of the provided char in the provided array
      */
-    private int findCharIndex(char c) {
+    static int findCharIndex(char c) {
         int i = 0;
 
         while (i < uuidChars.size()) {
@@ -225,13 +242,5 @@ public class YoutubeUuidChecker {
         }
 
         return -1;
-    }
-
-    /**
-     * Kills this YouTube thread and writes the last checked UUID to system data.
-     */
-    public void kill() {
-        killed = true;
-        UserDataManager.INSTANCE.setYouTubeUuid(youTubeUuid);
     }
 }

@@ -224,7 +224,7 @@ public final class BoundsUtil {
     }
 
     /**
-     * Inserts breaks into the text based on the amount of lines needed.
+     * Inserts {@link HtmlTags#breakTag}s into the text based on the amount of required lines.
      * Note that HTML tags should NOT exist in this string and should be parsed
      * away prior to invoking this method.
      *
@@ -233,7 +233,7 @@ public final class BoundsUtil {
      * @return the text with html line breaks inserted
      * @throws NullPointerException     if the provided text is null
      * @throws IllegalArgumentException if the provided text contains html tags or
-     *                                  if the number of lines is less than 1
+     *                                  if the number of required lines is less than 1
      */
     public static String insertBreaks(String text, int requiredLines) {
         Preconditions.checkNotNull(text);

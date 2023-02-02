@@ -31,14 +31,14 @@ import static cyder.strings.CyderStrings.*;
  */
 public final class GitHubUtil {
     /**
-     * The nathan cheshire user string.
+     * The Cyder author GitHub username.
      */
-    private static final String nathanCheshireUserName = "nathancheshire";
+    private static final String authorUsername = "nathancheshire";
 
     /**
-     * The repo name for cyder.
+     * The name for the Cyder GitHub repository.
      */
-    private static final String cyderRepoName = "cyder";
+    private static final String repoName = "cyder";
 
     /**
      * The name of the thread for cloning repos from GitHub.
@@ -52,20 +52,40 @@ public final class GitHubUtil {
             new CyderThreadFactory(GIT_REPO_CLONER_THREAD_NAME));
 
     /**
-     * The link to download git from.
+     * The url to download Git from.
      */
-    private static final String DOWNLOAD_GIT = "https://git-scm.com/downloads";
+    private static final String GIT_DOWNLOAD_URL = "https://git-scm.com/downloads";
+
+    /**
+     * The repos keyword for the GitHub repos API.
+     */
+    private static final String REPOS = "repos";
+
+    /**
+     * The repos keyword for the GitHub languages API.
+     */
+    private static final String LANGUAGES = "languages";
+
+    /**
+     * The repos keyword for the GitHub issues API.
+     */
+    private static final String ISSUES = "issues";
+
+    /**
+     * The Git command string.
+     */
+    private static final String GIT = "git";
 
     /**
      * The GitHub repos API header.
      */
-    private static final String GITHUB_REPOS_API_HEADER = "https://api.github.com/repos/";
+    private static final String GITHUB_REPOS_API_HEADER = "https://api.github.com/" + REPOS;
 
     /**
      * The url to get the languages used throughout Cyder from.
      */
-    private static final String cyderLanguagesUrl = GITHUB_REPOS_API_HEADER + nathanCheshireUserName
-            + "/" + cyderRepoName + "/languages";
+    private static final String cyderLanguagesUrl = GITHUB_REPOS_API_HEADER + "/" + authorUsername
+            + "/" + repoName + "/" + LANGUAGES;
 
     /**
      * Suppress default constructor.
@@ -80,7 +100,7 @@ public final class GitHubUtil {
      * @return the list of currently open issues for Cyder
      */
     public static ImmutableList<Issue> getCyderIssues() {
-        return getIssues(nathanCheshireUserName, cyderRepoName);
+        return getIssues(authorUsername, repoName);
     }
 
     /**
@@ -99,7 +119,7 @@ public final class GitHubUtil {
         Issue[] ret = new Issue[0];
 
         try {
-            String urlString = GITHUB_REPOS_API_HEADER + user + "/" + githubRepo + "/issues";
+            String urlString = GITHUB_REPOS_API_HEADER + "/" + user + "/" + githubRepo + "/" + ISSUES;
             URL url = new URL(urlString);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -221,9 +241,9 @@ public final class GitHubUtil {
                 inputHandler.println("Checking for git");
             }
 
-            if (!OsUtil.isBinaryInstalled("git")) {
+            if (!OsUtil.isBinaryInstalled(GIT)) {
                 if (print) {
-                    inputHandler.println("Git not installed. Please install it at: " + DOWNLOAD_GIT);
+                    inputHandler.println("Git not installed. Please install it at: " + GIT_DOWNLOAD_URL);
                 }
                 return false;
             }
@@ -237,7 +257,7 @@ public final class GitHubUtil {
             }
 
             try {
-                String command = "git" + space
+                String command = GIT + space
                         + "clone" + space + githubCloneRepoLink.getLink()
                         + space + saveDirectory.getAbsolutePath();
                 ProcessUtil.runAndWaitForProcess(command);
