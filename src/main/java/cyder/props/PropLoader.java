@@ -150,7 +150,10 @@ public final class PropLoader {
         LinkedHashMap<String, String> ret = new LinkedHashMap<>();
 
         discoverPropFiles(propsDirectory)
-                .forEach(propFile -> ret.putAll(extractPropsFromFile(propFile)));
+                .forEach(propFile -> {
+                    Logger.log(LogTag.PROPS_ACTION, "Discovered prop file: " + propFile.getAbsolutePath());
+                    ret.putAll(extractPropsFromFile(propFile));
+                });
 
         return ImmutableMap.copyOf(ret);
     }
