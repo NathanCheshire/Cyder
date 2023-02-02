@@ -131,6 +131,13 @@ public final class Props {
             new Prop<>("printing_animation_line_timeout", 100, Integer.class);
 
     /**
+     * The tolerance for commands found by the similar command finder to be counted as possible
+     * desired commands for a provided user input.
+     */
+    public static final Prop<Float> similarCommandTolerance =
+            new Prop<>("similar_command_tolerance", 0.80f, Float.class);
+
+    /**
      * Whether similar commands should be automatically triggered if a command cannot be found for the exactly input.
      */
     public static final Prop<Boolean> autoTriggerSimilarCommands =

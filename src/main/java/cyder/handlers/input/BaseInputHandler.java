@@ -291,7 +291,7 @@ public class BaseInputHandler {
 
     /**
      * Handles preliminaries such as argument/command parsing and redirection checks
-     * before passing input data to the jhandle methods.
+     * before passing input data to the handle methods.
      *
      * @param command   the command to handle preliminaries on before behind handled
      * @param inputType the input type
@@ -375,7 +375,7 @@ public class BaseInputHandler {
         String requestedFilename = args.get(args.size() - 1);
 
         if (!OsUtil.isValidFilename(requestedFilename)) {
-            failedRedirection();
+            onFailedRedirect("Provided filename is not valid: \"" + requestedFilename + "\"");
             return;
         }
 
@@ -392,10 +392,10 @@ public class BaseInputHandler {
             }
 
             if (!OsUtil.createFile(redirectionFile, true)) {
-                failedRedirection();
+                onFailedRedirect("Could not create redirection file: " + redirectionFile.getAbsolutePath());
             }
-        } catch (Exception ignored) {
-            failedRedirection();
+        } catch (Exception e) {
+            onFailedRedirect(e.getMessage());
         } finally {
             redirectionLock.release();
         }
@@ -403,19 +403,15 @@ public class BaseInputHandler {
 
     /**
      * Handles a failed redirection attempt.
+     *
+     * @param errorMessage the error message to show to the user
      */
-    private void failedRedirection() {
+    private void onFailedRedirect(String errorMessage) {
         redirection = false;
         redirectionFile = null;
 
-        println("Failed to redirect output");
+        println("Failed to redirect output: " + errorMessage);
     }
-
-    /**
-     * The tolerance value that the similar command function must be at or above
-     * to be passed off as a legit recommendation.
-     */
-    private static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
      * The final handle method for if all other handle methods failed.
@@ -438,7 +434,8 @@ public class BaseInputHandler {
                     boolean autoTrigger = Props.autoTriggerSimilarCommands.getValue();
                     boolean toleranceMet = tolerance >= Props.autoTriggerSimilarCommandTolerance.getValue();
 
-                    if (tolerance >= SIMILAR_COMMAND_TOL) {
+                    // User may want to change configuration value if they're more error prone
+                    if (tolerance >= Props.similarCommandTolerance.getValue()) {
                         if (autoTrigger && toleranceMet) {
                             println(UNKNOWN_COMMAND + "; Invoking similar command: "
                                     + CyderStrings.quote + similarCommand + CyderStrings.quote);
