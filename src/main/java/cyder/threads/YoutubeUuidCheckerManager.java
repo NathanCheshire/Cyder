@@ -188,7 +188,8 @@ public enum YoutubeUuidCheckerManager {
      * Checks for whether the user should be notified of the current uuid check rate.
      */
     private void checkIfShouldNotifyOfRate() {
-        if (System.currentTimeMillis() - lastNotifyTime > notifyUserOfRateFrequency * TimeUtil.SECONDS_IN_MINUTE) {
+        if (System.currentTimeMillis() - lastNotifyTime > notifyUserOfRateFrequency * TimeUtil.SECONDS_IN_MINUTE
+                && Console.INSTANCE.getConsoleCyderFrame() != null) {
             notifyOfRate();
             lastNotifyTime = System.currentTimeMillis();
         }

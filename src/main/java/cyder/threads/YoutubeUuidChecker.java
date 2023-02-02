@@ -9,6 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
@@ -122,6 +123,15 @@ public class YoutubeUuidChecker {
     }
 
     /**
+     * Returns whether this uuid checker has been killed.
+     *
+     * @return whether this uuid checker has been killed
+     */
+    public boolean isKilled() {
+        return killed.get();
+    }
+
+    /**
      * Returns the list of uuids this checker has checked.
      *
      * @return the list of uuids this checker has checked
@@ -139,10 +149,11 @@ public class YoutubeUuidChecker {
      */
     public float getCurrentChecksPerSecond() {
         int numChecked = checkedUuids.size();
-
         long endingMillis = endingInstant == null ? Instant.now().toEpochMilli() : endingInstant.toEpochMilli();
         long millisElapsed = endingMillis - startingInstant.toEpochMilli();
-        return numChecked / (float) millisElapsed;
+        float checksPerMillis = numChecked / (float) millisElapsed;
+
+        return (float) (checksPerMillis * TimeUtil.MILLISECONDS_IN_SECOND);
     }
 
     /**
@@ -152,6 +163,9 @@ public class YoutubeUuidChecker {
      * @return the url for the thumbnail of the YouTube video with the provided id if it exists
      */
     public static String constructThumbnailUrl(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
+
         return "https://img.youtube.com/vi/" + uuid + "/hqdefault.jpg";
     }
 
@@ -242,7 +256,11 @@ public class YoutubeUuidChecker {
      * Increments the current UUID by one.
      */
     private void incrementUuid() {
-        currentUuid = String.valueOf(incrementUuid(currentUuid.toCharArray(), startingIndexForAttemptingIncrements));
+        currentUuid = String.valueOf(incrementUuid(currentUuid.toCharArray()));
+    }
+
+    static char[] incrementUuid(char[] uuid) {
+        return incrementUuid(uuid, startingIndexForAttemptingIncrements);
     }
 
     /**
@@ -252,7 +270,7 @@ public class YoutubeUuidChecker {
      * @param addPosition the position to attempt to add to first
      * @return the incremented uuid in the form of a new character array
      */
-    static char[] incrementUuid(char[] uuid, int addPosition) {
+    private static char[] incrementUuid(char[] uuid, int addPosition) {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!ArrayUtil.isEmpty(uuid));
         Preconditions.checkArgument(addPosition >= 0 && addPosition < YouTubeConstants.UUID_LENGTH);
