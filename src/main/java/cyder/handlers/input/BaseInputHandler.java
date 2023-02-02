@@ -224,7 +224,7 @@ public class BaseInputHandler {
                         throw new FatalException(e.getMessage());
                     }
 
-                    if (invocationResult instanceof Boolean bool) return bool;
+                    if (invocationResult instanceof Boolean bool && bool) return true;
                 }
             }
         }
@@ -253,7 +253,7 @@ public class BaseInputHandler {
                                 throw new FatalException(e.getMessage());
                             }
 
-                            if (invocationResult instanceof Boolean bool) return bool;
+                            if (invocationResult instanceof Boolean bool && bool) return true;
                         }
                     }
                 }
@@ -281,7 +281,7 @@ public class BaseInputHandler {
                         throw new FatalException(e.getMessage());
                     }
 
-                    if (invocationResult instanceof Boolean bool) return bool;
+                    if (invocationResult instanceof Boolean bool && bool) return true;
                 }
             }
         }
