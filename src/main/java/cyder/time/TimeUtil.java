@@ -304,11 +304,11 @@ public final class TimeUtil {
     }
 
     /**
-     * Returns a nice, common, easy to read time.
+     * Returns a nice, easy to read time.
      *
-     * @return a nice, common, easy to read time
+     * @return a nice, easy to read time
      */
-    public static String userTime() {
+    public static String userReadableTime() {
         return getFormattedTime(userFormat);
     }
 
@@ -588,13 +588,7 @@ public final class TimeUtil {
     public static boolean isMardiGrassDay(MonthDay monthDay) {
         Preconditions.checkNotNull(monthDay);
 
-        int year = getCurrentYear();
-        MonthDay easter = getEasterSundayDate(year);
-        LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
-        LocalDate mardiGrassDate = easterLocalDate.minusDays(MARDI_GRASS_EASTER_SEPARATION_DAYS);
-        MonthDay mardiGrassDay = new MonthDay(mardiGrassDate.getMonthValue(), mardiGrassDate.getDayOfMonth());
-
-        return monthDay.equals(mardiGrassDay);
+        return monthDay.equals(getMardiGrassDay(getCurrentYear()));
     }
 
     /**
@@ -615,11 +609,7 @@ public final class TimeUtil {
     public static boolean isLaborDay(MonthDay monthDay) {
         Preconditions.checkNotNull(monthDay);
 
-        LocalDate laborDate = LocalDate.of(getCurrentYear(), laborDayMonth, nthMondayLaborDay)
-                .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
-        MonthDay laborDay = new MonthDay(laborDayMonth, laborDate.getDayOfMonth());
-
-        return monthDay.equals(laborDay);
+        return monthDay.equals(getLaborDay(getCurrentYear()));
     }
 
     /**
@@ -640,11 +630,7 @@ public final class TimeUtil {
     public static boolean isMemorialDay(MonthDay monthDay) {
         Preconditions.checkNotNull(monthDay);
 
-        LocalDate memorialDate = LocalDate.of(getCurrentYear(), mayMonth, 1)
-                .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
-        MonthDay memorialDay = new MonthDay(mayMonth, memorialDate.getDayOfMonth());
-
-        return monthDay.equals(memorialDay);
+        return monthDay.equals(getMemorialDay(getCurrentYear()));
     }
 
     /**
@@ -670,6 +656,44 @@ public final class TimeUtil {
             case THANKSGIVING -> isThanksgiving(monthDay);
             case CHRISTMAS -> isChristmas(monthDay);
         };
+    }
+
+    /**
+     * Returns the month day object for Memorial day for the provided year.
+     *
+     * @param year the year
+     * @return the month day object for Memorial day for the provided year
+     */
+    public static MonthDay getMemorialDay(int year) {
+        LocalDate memorialDate = LocalDate.of(year, mayMonth, 1)
+                .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
+        return new MonthDay(mayMonth, memorialDate.getDayOfMonth());
+    }
+
+    /**
+     * Returns the labor day month day object for the provided year.
+     *
+     * @param year the year
+     * @return the labor day month day object for the provided year
+     */
+    public static MonthDay getLaborDay(int year) {
+        LocalDate laborDate = LocalDate.of(year, laborDayMonth, nthMondayLaborDay)
+                .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
+        return new MonthDay(laborDayMonth, laborDate.getDayOfMonth());
+    }
+
+
+    /**
+     * Returns the month day object for Mardi Grass for the provided year.
+     *
+     * @param year the year
+     * @return the month day object for Mardi Grass for the provided year
+     */
+    public static MonthDay getMardiGrassDay(int year) {
+        MonthDay easter = getEasterSundayDate(year);
+        LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
+        LocalDate mardiGrassDate = easterLocalDate.minusDays(MARDI_GRASS_EASTER_SEPARATION_DAYS);
+        return new MonthDay(mardiGrassDate.getMonthValue(), mardiGrassDate.getDayOfMonth());
     }
 
     /**

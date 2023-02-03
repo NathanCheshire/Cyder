@@ -18,7 +18,7 @@ class TimeUtilTest {
         assertDoesNotThrow { TimeUtil.logTime() }
         assertDoesNotThrow { TimeUtil.getLogLineTime() }
         assertDoesNotThrow { TimeUtil.notificationTime() }
-        assertDoesNotThrow { TimeUtil.userTime() }
+        assertDoesNotThrow { TimeUtil.userReadableTime() }
         assertDoesNotThrow { TimeUtil.consoleSecondTime() }
         assertDoesNotThrow { TimeUtil.consoleNoSecondTime() }
 
@@ -163,5 +163,114 @@ class TimeUtilTest {
         assertEquals(MonthDay(4, 16), TimeUtil.getEasterSundayDate(2028))
         assertEquals(MonthDay(4, 1), TimeUtil.getEasterSundayDate(2029))
         assertEquals(MonthDay(4, 21), TimeUtil.getEasterSundayDate(2030))
+    }
+
+    /**
+     * Tests for the is new years day method.
+     */
+    @Test
+    fun testIsNewYearsDay() {
+        assertDoesNotThrow { TimeUtil.isNewYearsDay() }
+        assertThrows(NullPointerException::class.java) { TimeUtil.isNewYearsDay(null) }
+        assertTrue(TimeUtil.isNewYearsDay(MonthDay(1, 1)))
+        assertFalse(TimeUtil.isNewYearsDay(MonthDay(1, 2)))
+    }
+
+    /**
+     * Tests for the is ground hog day method.
+     */
+    @Test
+    fun testIsGroundHogDay() {
+        assertDoesNotThrow { TimeUtil.isGroundHogDay() }
+        assertThrows(NullPointerException::class.java) { TimeUtil.isGroundHogDay(null) }
+        assertTrue(TimeUtil.isGroundHogDay(MonthDay(2, 2)))
+        assertFalse(TimeUtil.isGroundHogDay(MonthDay(2, 3)))
+    }
+
+    /**
+     * Tests for the is Mardi Grass day method.
+     */
+    @Test
+    fun testIsMardiGrass() {
+        assertDoesNotThrow { TimeUtil.isMardiGrassDay() }
+        assertThrows(NullPointerException::class.java) { TimeUtil.isMardiGrassDay(null) }
+
+        assertEquals(MonthDay(3, 1), TimeUtil.getMardiGrassDay(2022))
+        assertEquals(MonthDay(2, 21), TimeUtil.getMardiGrassDay(2023))
+        assertEquals(MonthDay(2, 13), TimeUtil.getMardiGrassDay(2024))
+        assertEquals(MonthDay(3, 4), TimeUtil.getMardiGrassDay(2025))
+        assertEquals(MonthDay(2, 17), TimeUtil.getMardiGrassDay(2026))
+        assertEquals(MonthDay(2, 9), TimeUtil.getMardiGrassDay(2027))
+        assertEquals(MonthDay(2, 29), TimeUtil.getMardiGrassDay(2028))
+        assertEquals(MonthDay(2, 13), TimeUtil.getMardiGrassDay(2029))
+        assertEquals(MonthDay(3, 5), TimeUtil.getMardiGrassDay(2030))
+    }
+
+    /**
+     * Tests for the is labor day method.
+     */
+    @Test
+    fun testIsLaborDay() {
+        assertDoesNotThrow { TimeUtil.isLaborDay() }
+        assertThrows(NullPointerException::class.java) { TimeUtil.isLaborDay(null) }
+
+        // Labor day can fall on Sep 1-7
+        IntStream.range(8, 32).forEach { assertFalse(TimeUtil.isLaborDay(MonthDay(8, it))) }
+
+        assertEquals(MonthDay(9, 4), TimeUtil.getLaborDay(2023))
+        assertEquals(MonthDay(9, 2), TimeUtil.getLaborDay(2024))
+        assertEquals(MonthDay(9, 1), TimeUtil.getLaborDay(2025))
+        assertEquals(MonthDay(9, 7), TimeUtil.getLaborDay(2026))
+        assertEquals(MonthDay(9, 6), TimeUtil.getLaborDay(2027))
+        assertEquals(MonthDay(9, 4), TimeUtil.getLaborDay(2028))
+        assertEquals(MonthDay(9, 3), TimeUtil.getLaborDay(2029))
+        assertEquals(MonthDay(9, 2), TimeUtil.getLaborDay(2030))
+    }
+
+    /**
+     * Test for the is memorial day method.
+     */
+    @Test
+    fun testIsMemorialDay() {
+        assertDoesNotThrow { TimeUtil.isMemorialDay() }
+        assertThrows(NullPointerException::class.java) { TimeUtil.isMemorialDay(null) }
+
+        // Memorial day can fall on May 25 - 31
+        IntStream.range(1, 25).forEach { assertFalse(TimeUtil.isMemorialDay(MonthDay(5, it))) }
+
+        assertEquals(MonthDay(5, 29), TimeUtil.getMemorialDay(2023))
+        assertEquals(MonthDay(5, 27), TimeUtil.getMemorialDay(2024))
+        assertEquals(MonthDay(5, 26), TimeUtil.getMemorialDay(2025))
+        assertEquals(MonthDay(5, 25), TimeUtil.getMemorialDay(2026))
+        assertEquals(MonthDay(5, 31), TimeUtil.getMemorialDay(2027))
+        assertEquals(MonthDay(5, 29), TimeUtil.getMemorialDay(2028))
+        assertEquals(MonthDay(5, 28), TimeUtil.getMemorialDay(2029))
+        assertEquals(MonthDay(5, 27), TimeUtil.getMemorialDay(2030))
+    }
+
+    /**
+     * Tests for the get current year method.
+     */
+    @Test
+    fun testGetCurrentYear() {
+        assertDoesNotThrow { TimeUtil.getCurrentYear() }
+        assertEquals(2023, TimeUtil.getCurrentYear())
+    }
+
+    /**
+     * Tests for the get easter sunday string method.
+     */
+    @Test
+    fun testGetEasterSundayString() {
+        assertDoesNotThrow { TimeUtil.getEasterSundayString() }
+        assertEquals("April 9th", TimeUtil.getEasterSundayString())
+    }
+
+    /**
+     * Tests for the format number suffix method.
+     */
+    @Test
+    fun testFormatNumberSuffix() {
+
     }
 }

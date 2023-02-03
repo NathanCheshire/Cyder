@@ -134,7 +134,8 @@ public final class LoggingUtil {
     static String getLogRecoveryDebugLine() {
         String time = surroundWithBrackets(TimeUtil.getLogLineTime());
         String debug = surroundWithBrackets(LogTag.DEBUG.toString());
-        String message = "Log was deleted during runtime, recreating and restarting log at: " + TimeUtil.userTime();
+        String message =
+                "Log was deleted during runtime, recreating and restarting log at: " + TimeUtil.userReadableTime();
 
         return time + space + debug + colon + space + message;
     }

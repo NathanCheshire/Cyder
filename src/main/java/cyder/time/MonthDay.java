@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.strings.CyderStrings;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 /**
@@ -52,7 +53,17 @@ public final class MonthDay {
         this.date = date;
     }
 
-    // todo from Date object factory?
+    /**
+     * Returns a new {@link MonthDay} object from the provided LocalDate.
+     *
+     * @param date the local date
+     * @return a new month day object
+     */
+    public static MonthDay fromDate(LocalDate date) {
+        Preconditions.checkNotNull(date);
+
+        return new MonthDay(date.getMonthValue(), date.getDayOfMonth());
+    }
 
     /**
      * Returns the month number.

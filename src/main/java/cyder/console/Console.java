@@ -72,6 +72,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3431,7 +3432,8 @@ public enum Console {
 
         String regularSecondTime = TimeUtil.consoleSecondTime();
         String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
-        String userConfiguredTime = TimeUtil.userTime();
+        String userConfiguredTime = TimeUtil.getFormattedTime(
+                new SimpleDateFormat(UserDataManager.INSTANCE.getConsoleClockFormat()));
 
         // No custom pattern so take into account showSeconds
         if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
