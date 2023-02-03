@@ -242,6 +242,11 @@ public final class TimeUtil {
     private static final int mayMonth = Calendar.MAY + 1;
 
     /**
+     * The number of days which separate Mardi Grass from Easter Sunday.
+     */
+    private static final int MARDI_GRASS_EASTER_SEPARATION_DAYS = 47;
+
+    /**
      * The range a minute value must fall within.
      */
     public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
@@ -354,6 +359,8 @@ public final class TimeUtil {
     // -------------------------------
     // Special day computation methods
     // -------------------------------
+
+    // todo test all methods below with hard coded month day objects that go to 2027
 
     /**
      * Returns whether {@link MonthDay#TODAY} is Christmas day.
@@ -574,7 +581,7 @@ public final class TimeUtil {
         int year = getCurrentYear();
         MonthDay easter = getEasterSundayDate(year);
         LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
-        LocalDate mardiGrassDate = easterLocalDate.minusDays(47); // todo
+        LocalDate mardiGrassDate = easterLocalDate.minusDays(MARDI_GRASS_EASTER_SEPARATION_DAYS);
         MonthDay mardiGrassDay = new MonthDay(mardiGrassDate.getMonthValue(), mardiGrassDate.getDayOfMonth());
 
         return monthDay.equals(mardiGrassDay);

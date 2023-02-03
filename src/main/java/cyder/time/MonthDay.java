@@ -107,7 +107,7 @@ public final class MonthDay {
     public boolean isSpecialDay(SpecialDay specialDay) {
         Preconditions.checkNotNull(specialDay);
 
-        return TimeUtil.isSpecialDay(TODAY, specialDay);
+        return TimeUtil.isSpecialDay(this, specialDay);
     }
 
     /**

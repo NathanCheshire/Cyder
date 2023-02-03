@@ -22,7 +22,7 @@ class TimeUtilTest {
         assertDoesNotThrow { TimeUtil.consoleNoSecondTime() }
 
         assertThrows(NullPointerException::class.java) { TimeUtil.getTime(null) }
-        assertThrows(NullPointerException::class.java) { TimeUtil.getTime("") }
+        assertThrows(IllegalArgumentException::class.java) { TimeUtil.getTime("") }
     }
 
     /**
