@@ -97,13 +97,13 @@ public final class NetworkUtil {
     /**
      * The timeout between checking for high ping.
      */
-    private static final int HIGH_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND
-            * TimeUtil.SECONDS_IN_MINUTE * 2.0f);
+    private static final int HIGH_PING_TIMEOUT = (int) (TimeUtil.millisInSecond
+            * TimeUtil.secondsInMinute * 2.0f);
 
     /**
      * The timeout between checking for the high ping checker's exit condition.
      */
-    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 2.0f);
+    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.millisInSecond * 2.0f);
 
     /**
      * Starts the high ping checker.
@@ -171,7 +171,7 @@ public final class NetworkUtil {
     /**
      * The timeout value when determining if a site is reachable.
      */
-    public static final int SITE_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 5);
+    public static final int SITE_PING_TIMEOUT = (int) (TimeUtil.millisInSecond * 5);
 
     /**
      * The slash slash for urls.

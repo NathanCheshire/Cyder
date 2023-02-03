@@ -436,7 +436,7 @@ public final class ClockWidget {
      */
     @ForReadability
     private static void drawHourHand(Graphics2D g2d) {
-        int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.HOURS_IN_DAY / 2);
+        int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.hoursInDay / 2);
 
         float oneHourAngle = (float) (AngleUtil.THREE_SIXTY_DEGREES / romanNumerals.size());
         double hourTheta = hour * oneHourAngle + AngleUtil.TWO_SEVENTY_DEGREES;
@@ -457,7 +457,7 @@ public final class ClockWidget {
     private static void drawMinuteHand(Graphics2D g2d) {
         int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
 
-        double minuteTheta = (minute / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
+        double minuteTheta = (minute / TimeUtil.minutesInHour) * Math.PI * 2.0 + Math.PI * 1.5;
         int minuteHandDrawToX = (int) Math.round(minuteHandRadius * Math.cos(minuteTheta));
         int minuteHandDrawToY = (int) Math.round(minuteHandRadius * Math.sin(minuteTheta));
         g2d.drawLine(clockLabelCenter, clockLabelCenter,
@@ -474,7 +474,7 @@ public final class ClockWidget {
     private static void drawSecondHand(Graphics2D g2d) {
         int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
 
-        double secondTheta = (second / TimeUtil.SECONDS_IN_MINUTE)
+        double secondTheta = (second / TimeUtil.secondsInMinute)
                 * Math.PI * 2.0f + Math.PI * 1.5;
         int secondHandDrawToX = (int) Math.round(secondHandRadius * Math.cos(secondTheta));
         int secondHandDrawToY = (int) Math.round(secondHandRadius * Math.sin(secondTheta));
@@ -618,7 +618,7 @@ public final class ClockWidget {
                 clockFrame.notify("Failed to update location");
                 return;
             }
-            currentGmtOffset = timezoneMinutes / TimeUtil.SECONDS_IN_HOUR;
+            currentGmtOffset = timezoneMinutes / TimeUtil.secondsInHour;
             currentLocation = StringUtil.capsFirstWords(possibleLocation);
 
             Coord coord = weatherData.getCoord();
@@ -826,7 +826,7 @@ public final class ClockWidget {
         }
 
         WeatherData weatherData = optionalWeatherData.get();
-        currentGmtOffset = Integer.parseInt(String.valueOf(weatherData.getTimezone())) / TimeUtil.SECONDS_IN_HOUR;
+        currentGmtOffset = Integer.parseInt(String.valueOf(weatherData.getTimezone())) / TimeUtil.secondsInHour;
         return currentGmtOffset;
     }
 

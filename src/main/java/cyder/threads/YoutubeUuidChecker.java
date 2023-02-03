@@ -153,7 +153,7 @@ public class YoutubeUuidChecker {
         long millisElapsed = endingMillis - startingInstant.toEpochMilli();
         float checksPerMillis = numChecked / (float) millisElapsed;
 
-        return (float) (checksPerMillis * TimeUtil.MILLISECONDS_IN_SECOND);
+        return (float) (checksPerMillis * TimeUtil.millisInSecond);
     }
 
     /**

@@ -191,7 +191,7 @@ public enum YoutubeUuidCheckerManager {
      */
     private void checkIfShouldNotifyOfRate() {
         if (System.currentTimeMillis() - lastNotifyTime
-                > notifyUserOfRateFrequency * TimeUtil.SECONDS_IN_MINUTE) {
+                > notifyUserOfRateFrequency * TimeUtil.secondsInMinute) {
             notifyOfRate();
             lastNotifyTime = System.currentTimeMillis();
         }
@@ -203,8 +203,8 @@ public enum YoutubeUuidCheckerManager {
     private void notifyOfRate() {
         long timeTaken = System.currentTimeMillis() - startTime.get();
         float urlsPerMs = urlsChecked.get() / (float) timeTaken;
-        double urlsPerSecond = urlsPerMs * TimeUtil.MILLISECONDS_IN_SECOND;
-        double urlsPerMinute = urlsPerSecond * TimeUtil.SECONDS_IN_MINUTE;
+        double urlsPerSecond = urlsPerMs * TimeUtil.millisInSecond;
+        double urlsPerMinute = urlsPerSecond * TimeUtil.secondsInMinute;
 
         notifyOnConsoleIfPossible("Current YouTube thread rate: "
                 + urlsPerMinute + " / " + Units.MINUTES.getAbbreviation());

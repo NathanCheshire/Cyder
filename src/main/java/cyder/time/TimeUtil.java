@@ -24,37 +24,47 @@ public final class TimeUtil {
     /**
      * The number of milliseconds in a single second.
      */
-    public static final double MILLISECONDS_IN_SECOND = 1000.0;
+    public static final double millisInSecond = 1000.0;
 
     /**
      * The number of seconds in a single minute.
      */
-    public static final double SECONDS_IN_MINUTE = 60.0;
+    public static final double secondsInMinute = 60.0;
 
     /**
      * The number of minutes in a single hour.
      */
-    public static final double MINUTES_IN_HOUR = 60.0;
+    public static final double minutesInHour = 60.0;
 
     /**
      * The number of hours in a single day.
      */
-    public static final double HOURS_IN_DAY = 24.0;
+    public static final double hoursInDay = 24.0;
 
     /**
      * The number of days in a single month.
      */
-    public static final double DAYS_IN_MONTH = 30.0;
+    public static final double daysInMonth = 30.0;
+
+    /**
+     * The number of days in a single week.
+     */
+    public static final double daysInWeek = 7.0;
+
+    /**
+     * The number of days in a single year.
+     */
+    public static final double daysInYear = 365.0;
 
     /**
      * The number of months in a single year.
      */
-    public static final double MONTHS_IN_YEAR = 12.0;
+    public static final double monthsInyear = 12.0;
 
     /**
      * The number of seconds in a single hour.
      */
-    public static final int SECONDS_IN_HOUR = 3600;
+    public static final int secondsInHour = 3600;
 
     /**
      * The abbreviation for a year.
@@ -249,7 +259,7 @@ public final class TimeUtil {
     /**
      * The range a minute value must fall within.
      */
-    public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
+    public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.secondsInMinute);
 
     /**
      * Suppress default constructor.
@@ -682,7 +692,6 @@ public final class TimeUtil {
         return new MonthDay(laborDayMonth, laborDate.getDayOfMonth());
     }
 
-
     /**
      * Returns the month day object for Mardi Grass for the provided year.
      *
@@ -851,52 +860,52 @@ public final class TimeUtil {
         double seconds = 0;
 
         // Convert milliseconds to seconds
-        if (milliseconds >= MILLISECONDS_IN_SECOND) {
-            seconds = Math.floor(milliseconds / MILLISECONDS_IN_SECOND);
+        if (milliseconds >= millisInSecond) {
+            seconds = Math.floor(milliseconds / millisInSecond);
         }
 
         // Take away milliseconds that were converted
-        milliseconds -= seconds * MILLISECONDS_IN_SECOND;
+        milliseconds -= seconds * millisInSecond;
 
         // Convert seconds to minutes
-        if (seconds >= SECONDS_IN_MINUTE) {
-            minutes = Math.floor(seconds / SECONDS_IN_MINUTE);
+        if (seconds >= secondsInMinute) {
+            minutes = Math.floor(seconds / secondsInMinute);
         }
 
         // Take away seconds that were converted
-        seconds -= minutes * SECONDS_IN_MINUTE;
+        seconds -= minutes * secondsInMinute;
 
         // Convert minutes to hours
-        if (minutes >= MINUTES_IN_HOUR) {
-            hours = Math.floor(minutes / MINUTES_IN_HOUR);
+        if (minutes >= minutesInHour) {
+            hours = Math.floor(minutes / minutesInHour);
         }
 
         // Take a way minutes that were converted
-        minutes -= hours * MINUTES_IN_HOUR;
+        minutes -= hours * minutesInHour;
 
         // Convert hours to days
-        if (hours >= HOURS_IN_DAY) {
-            days = Math.floor(hours / HOURS_IN_DAY);
+        if (hours >= hoursInDay) {
+            days = Math.floor(hours / hoursInDay);
         }
 
         // Take away hours that were converted
-        hours -= days * HOURS_IN_DAY;
+        hours -= days * hoursInDay;
 
         // Convert days to months
-        if (days >= DAYS_IN_MONTH) {
-            months = Math.floor(days / DAYS_IN_MONTH);
+        if (days >= daysInMonth) {
+            months = Math.floor(days / daysInMonth);
         }
 
         // Take away days that were converted
-        days -= months * DAYS_IN_MONTH;
+        days -= months * daysInMonth;
 
         // Convert months to years
-        if (months >= MONTHS_IN_YEAR) {
-            years = Math.floor(months / MONTHS_IN_YEAR);
+        if (months >= monthsInyear) {
+            years = Math.floor(months / monthsInyear);
         }
 
         // Take away months that were converted
-        months -= years * MONTHS_IN_YEAR;
+        months -= years * monthsInyear;
 
         if (years != 0) {
             sb.append(milliFormatter.format(years)).append(YEAR_ABBREVIATION).append(CyderStrings.space);
@@ -939,7 +948,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to seconds
      */
     public static double millisToSeconds(long msTime) {
-        return msTime / MILLISECONDS_IN_SECOND;
+        return msTime / millisInSecond;
     }
 
     /**
@@ -949,7 +958,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to minutes
      */
     public static double millisToMinutes(long msTime) {
-        return millisToSeconds(msTime) / SECONDS_IN_MINUTE;
+        return millisToSeconds(msTime) / secondsInMinute;
     }
 
     /**
@@ -959,7 +968,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to hours
      */
     public static double millisToHours(long msTime) {
-        return millisToMinutes(msTime) / MINUTES_IN_HOUR;
+        return millisToMinutes(msTime) / minutesInHour;
     }
 
     /**
@@ -969,26 +978,6 @@ public final class TimeUtil {
      * @return the provided milliseconds to days
      */
     public static double millisToDays(long msTime) {
-        return millisToHours(msTime) / HOURS_IN_DAY;
-    }
-
-    /**
-     * Converts the provided milliseconds to months (30 days).
-     *
-     * @param msTime the time represented in milliseconds
-     * @return the provided milliseconds to months
-     */
-    public static double millisToMonths(long msTime) {
-        return millisToDays(msTime) / DAYS_IN_MONTH;
-    }
-
-    /**
-     * Converts the provided milliseconds to years.
-     *
-     * @param msTime the time represented in milliseconds
-     * @return the provided milliseconds to years
-     */
-    public static double millisToYears(long msTime) {
-        return millisToMonths(msTime) / MONTHS_IN_YEAR;
+        return millisToHours(msTime) / hoursInDay;
     }
 }

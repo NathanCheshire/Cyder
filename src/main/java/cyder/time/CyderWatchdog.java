@@ -38,11 +38,6 @@ public final class CyderWatchdog {
     public static final int POLL_TIMEOUT = Props.watchdogPollTimeout.getValue();
 
     /**
-     * The standard name of the AWT-EventQueue-0 thread.
-     */
-    public static final String AWT_EVENT_QUEUE_0_NAME = "AWT-EventQueue-0";
-
-    /**
      * The watchdog counter to detect a halt if it is not reset by the time
      * {@link #MAX_WATCHDOG_FREEZE_MS} value is reached.
      */
@@ -104,7 +99,7 @@ public final class CyderWatchdog {
                     ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
                     for (Thread thread : ThreadUtil.getCurrentThreads()) {
-                        if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
+                        if (thread.getName().equals(IgnoreThread.AwtEventQueue0.getName())) {
                             startWatchDog(thread);
                             return;
                         }
@@ -135,11 +130,10 @@ public final class CyderWatchdog {
      * Starts the watchdog checker after the AWT-EventQueue-0 thread has been started.
      *
      * @param awtEventQueueThread the AWT-EventQueue-0 thread
-     * @throws IllegalArgumentException if the provided thread
-     *                                  is not named {@link CyderWatchdog#AWT_EVENT_QUEUE_0_NAME}
+     * @throws IllegalArgumentException if the provided thread is not the {@link IgnoreThread#AwtEventQueue0} thread
      */
     private static void startWatchDog(Thread awtEventQueueThread) {
-        Preconditions.checkArgument(awtEventQueueThread.getName().equals(AWT_EVENT_QUEUE_0_NAME));
+        Preconditions.checkArgument(awtEventQueueThread.getName().equals(IgnoreThread.AwtEventQueue0.getName()));
 
         AtomicInteger maxSessionFreezeLength = new AtomicInteger();
 

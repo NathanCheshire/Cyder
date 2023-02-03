@@ -818,7 +818,7 @@ public class WeatherWidget {
     private void startUpdatingClock() {
         CyderThreadRunner.submit(() -> {
             while (!stopUpdating.get()) {
-                ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
+                ThreadUtil.sleep((long) TimeUtil.millisInSecond);
                 currentTimeLabel.setText(getWeatherTimeAccountForGmtOffset());
             }
         }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
@@ -1084,13 +1084,13 @@ public class WeatherWidget {
 
             refreshMapBackground();
 
-            Date sunrise = new Date((long) (sunriseMillis * TimeUtil.MILLISECONDS_IN_SECOND));
+            Date sunrise = new Date((long) (sunriseMillis * TimeUtil.millisInSecond));
             sunriseFormatted = sunriseSunsetFormat.format(sunrise);
             Calendar sunriseCalendar = GregorianCalendar.getInstance();
             sunriseCalendar.setTimeInMillis(sunriseMillis);
             sunriseHour = sunriseCalendar.get(Calendar.HOUR);
 
-            Date sunset = new Date((long) (sunsetMillis * TimeUtil.MILLISECONDS_IN_SECOND));
+            Date sunset = new Date((long) (sunsetMillis * TimeUtil.millisInSecond));
             sunsetFormatted = sunriseSunsetFormat.format(sunset);
             Calendar sunsetCalendar = GregorianCalendar.getInstance();
             sunsetCalendar.setTimeInMillis(sunsetMillis);

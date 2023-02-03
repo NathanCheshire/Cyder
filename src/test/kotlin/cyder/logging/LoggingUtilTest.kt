@@ -398,7 +398,7 @@ class LoggingUtilTest {
             it.newLine()
         }
 
-        assertEquals((TimeUtil.SECONDS_IN_HOUR * TimeUtil.MILLISECONDS_IN_SECOND).toLong(),
+        assertEquals((TimeUtil.secondsInHour * TimeUtil.millisInSecond).toLong(),
                 LoggingUtil.getRuntimeFromLog(tmpFile))
 
         BufferedWriter(FileWriter(tmpFile, false)).use {
@@ -408,7 +408,7 @@ class LoggingUtilTest {
             it.newLine()
         }
 
-        assertEquals((2 * TimeUtil.SECONDS_IN_HOUR * TimeUtil.MILLISECONDS_IN_SECOND + 500).toLong(),
+        assertEquals((2 * TimeUtil.secondsInHour * TimeUtil.millisInSecond + 500).toLong(),
                 LoggingUtil.getRuntimeFromLog(tmpFile))
     }
 

@@ -656,7 +656,7 @@ public final class GameOfLifeWidget {
                     }
 
                     updateLabels();
-                    ThreadUtil.sleep((long) (TimeUtil.MILLISECONDS_IN_SECOND / iterationsPerSecond));
+                    ThreadUtil.sleep((long) (TimeUtil.millisInSecond / iterationsPerSecond));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

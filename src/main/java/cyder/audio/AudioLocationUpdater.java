@@ -106,7 +106,7 @@ public class AudioLocationUpdater {
             try {
                 File file = currentAudioFile.get();
                 this.totalMilliSeconds = AudioUtil.getMillisJLayer(file);
-                updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), false);
+                updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.millisInSecond)), false);
                 startUpdateThread();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -148,7 +148,7 @@ public class AudioLocationUpdater {
                 ThreadUtil.sleep(TIMEOUT);
 
                 milliSecondsIn = AudioPlayer.getMillisecondsIn();
-                int newSecondsIn = (int) (milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND);
+                int newSecondsIn = (int) (milliSecondsIn / TimeUtil.millisInSecond);
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
@@ -192,7 +192,7 @@ public class AudioLocationUpdater {
      * @param userTriggered whether this even was triggered by a user or automatically
      */
     public void update(boolean userTriggered) {
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.MILLISECONDS_IN_SECOND)), userTriggered);
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.millisInSecond)), userTriggered);
         updateSlider();
     }
 
@@ -209,7 +209,7 @@ public class AudioLocationUpdater {
      */
     private void updateEffectLabel(int secondsIn, boolean userTriggered) {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
-        int secondsLeft = (int) (milliSecondsLeft / TimeUtil.MILLISECONDS_IN_SECOND);
+        int secondsLeft = (int) (milliSecondsLeft / TimeUtil.millisInSecond);
 
         if (secondsLeft < 0 || (secondsIn < lastSecondsIn && !userTriggered)) {
             return;
@@ -220,7 +220,7 @@ public class AudioLocationUpdater {
 
         boolean totalLength = UserDataManager.INSTANCE.shouldShowAudioTotalLength();
         if (totalLength) {
-            int displayMillis = (int) (Math.round(totalMilliSeconds / TimeUtil.MILLISECONDS_IN_SECOND) * 1000);
+            int displayMillis = (int) (Math.round(totalMilliSeconds / TimeUtil.millisInSecond) * 1000);
             secondsLeftLabel.setText(TimeUtil.formatMillis(displayMillis));
         } else {
             secondsLeftLabel.setText(TimeUtil.formatMillis(secondsLeft * 1000L));
