@@ -92,8 +92,6 @@ public final class MonthDay {
         return getMonthString() + CyderStrings.space + THE + CyderStrings.space + getDateString();
     }
 
-    // todo unit test me
-
     /**
      * Returns whether today is the provided special day.
      *

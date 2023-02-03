@@ -181,52 +181,62 @@ public final class TimeUtil {
     /**
      * The Christmas month day object.
      */
-    private static final MonthDay christmas = new MonthDay(12, 25);
+    private static final MonthDay christmas = new MonthDay(Calendar.DECEMBER + 1, 25);
 
     /**
      * The Halloween month day object.
      */
-    private static final MonthDay halloween = new MonthDay(10, 31);
+    private static final MonthDay halloween = new MonthDay(Calendar.OCTOBER + 1, 31);
 
     /**
      * The independence day month day object.
      */
-    private static final MonthDay independenceDay = new MonthDay(7, 4);
+    private static final MonthDay independenceDay = new MonthDay(Calendar.JULY + 1, 4);
 
     /**
-     * The valentines day month day object.
+     * The Valentines day month day object.
      */
-    private static final MonthDay valentinesDay = new MonthDay(2, 14);
+    private static final MonthDay valentinesDay = new MonthDay(Calendar.FEBRUARY + 1, 14);
 
     /**
-     * The month thanksgiving falls in.
+     * The month Thanksgiving falls in.
      */
-    private static final int thanksgivingMonth = 11;
+    private static final int thanksgivingMonth = Calendar.NOVEMBER + 1;
 
     /**
-     * The nth thursday thanksgiving falls on.
+     * The nth Thursday Thanksgiving falls on.
      */
     private static final int thanksgivingNthThursday = 4;
 
     /**
-     * The april fools month day object.
+     * The April fools month day object.
      */
-    private static final MonthDay aprilFoolsDay = new MonthDay(4, 1);
+    private static final MonthDay aprilFoolsDay = new MonthDay(Calendar.APRIL + 1, 1);
 
     /**
      * The pi day month day object.
      */
-    private static final MonthDay piDay = new MonthDay(3, 14);
+    private static final MonthDay piDay = new MonthDay(Calendar.MARCH + 1, 14);
 
     /**
      * The new years day month day object.
      */
-    private static final MonthDay newYearsDay = new MonthDay(1, 1);
+    private static final MonthDay newYearsDay = new MonthDay(Calendar.JANUARY + 1, 1);
 
     /**
      * The ground hog day month day object.
      */
-    private static final MonthDay groundHogDay = new MonthDay(2, 2);
+    private static final MonthDay groundHogDay = new MonthDay(Calendar.FEBRUARY + 1, 2);
+
+    /**
+     * The month labor day falls in.
+     */
+    private static final int laborDayMonth = Calendar.SEPTEMBER + 1;
+
+    /**
+     * The nth Monday labor day falls on
+     */
+    private static final int nthMondayLaborDay = 1;
 
     /**
      * The range a minute value must fall within.
@@ -414,7 +424,7 @@ public final class TimeUtil {
      * @return whether the current day is thanksgiving day
      */
     public static boolean isThanksgiving() {
-        MonthDay thanksgivingMonthDay = getThanksgiving(calendarInstance.get(Calendar.YEAR));
+        MonthDay thanksgivingMonthDay = getThanksgiving(getCurrentYear());
 
         int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
         int currentDate = calendarInstance.get(Calendar.DATE);
@@ -469,9 +479,35 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        MonthDay sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
+        MonthDay sundayDate = getEasterSundayDate(getCurrentYear());
 
         return month == sundayDate.getMonth() && date == sundayDate.getDate();
+    }
+
+    /**
+     * Returns the month day object representing when easter sunday is for the provided year.
+     *
+     * @param year the year to find the date of easter sunday
+     * @return the month day object representing when easter sunday is for the provided year
+     */
+    public static MonthDay getEasterSundayDate(int year) {
+        Preconditions.checkArgument(year >= 0);
+
+        int a = year % 19;
+        int b = year / 100;
+        int c = year % 100;
+        int d = b / 4;
+        int e = b % 4;
+        int g = (8 * b + 13) / 25;
+        int h = (19 * a + b - d - g + 15) % 30;
+        int j = c / 4;
+        int k = c % 4;
+        int m = (a + 11 * h) / 319;
+        int r = (2 * e + 2 * j - k - h + m + 32) % 7;
+        int n = (h - m + r + 90) / 25;
+        int p = (h - m + r + n + 19) % 32;
+
+        return new MonthDay(n, p);
     }
 
     /**
@@ -507,7 +543,7 @@ public final class TimeUtil {
         int month = calendarInstance.get(Calendar.MONTH) + 1;
         int date = calendarInstance.get(Calendar.DATE);
 
-        int year = calendarInstance.get(Calendar.YEAR);
+        int year = getCurrentYear();
         MonthDay easter = getEasterSundayDate(year);
         LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
 
@@ -516,15 +552,54 @@ public final class TimeUtil {
         return month == mardiGrassDate.getMonthValue() && date == mardiGrassDate.getDayOfMonth();
     }
 
+    /**
+     * Returns whether the current day is labor day.
+     *
+     * @return whether the current day is labor day
+     */
+    public static boolean isLaborDay() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        LocalDate laborDay = LocalDate.of(getCurrentYear(), laborDayMonth, nthMondayLaborDay)
+                .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
+
+        return month == laborDayMonth && date == laborDay.getDayOfMonth();
+    }
+
+    /**
+     * Returns whether the curent day is Memorial day.
+     *
+     * @return whether the curent day is Memorial day
+     */
+    public static boolean isMemorialDay() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        int mayDay = Calendar.MAY + 1;
+        LocalDate memorialDay = LocalDate.of(getCurrentYear(), mayDay, 1)
+                .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
+
+        return month == mayDay && date == memorialDay.getDayOfMonth();
+    }
+
+    /**
+     * Returns whether the current date is the provided special day.
+     *
+     * @param specialDays the special day to compare to today's date
+     * @return whether the current date is the provided special day
+     */
     public static boolean isSpecialDay(SpecialDay specialDays) {
+        Preconditions.checkNotNull(specialDays);
+
         return switch (specialDays) {
             case NEW_YEARS_DAY -> isNewYearsDay();
             case GROUND_HOG_DAY -> isGroundHogDay();
             case MARDI_GRASS_DAY -> isMardiGrassDay();
             case EASTER -> isEaster();
-            case MEMORIAL_DAY -> {}
+            case MEMORIAL_DAY -> isMemorialDay();
             case INDEPENDENCE_DAY -> isIndependenceDay();
-            case LABOR_DAY -> {}
+            case LABOR_DAY -> isLaborDay();
             case HALLOWEEN -> isHalloween();
             case THANKSGIVING -> isThanksgiving();
             case CHRISTMAS -> isChristmas();
@@ -532,29 +607,12 @@ public final class TimeUtil {
     }
 
     /**
-     * Returns an int array representing the date easter is on for the given year.
+     * Returns the current year.
      *
-     * @param year the year to find the date of easter sunday
-     * @return the easter sunday date; 4,13 would correspond to April 13th
+     * @return the current year
      */
-    public static MonthDay getEasterSundayDate(int year) {
-        Preconditions.checkArgument(year >= 0);
-
-        int a = year % 19;
-        int b = year / 100;
-        int c = year % 100;
-        int d = b / 4;
-        int e = b % 4;
-        int g = (8 * b + 13) / 25;
-        int h = (19 * a + b - d - g + 15) % 30;
-        int j = c / 4;
-        int k = c % 4;
-        int m = (a + 11 * h) / 319;
-        int r = (2 * e + 2 * j - k - h + m + 32) % 7;
-        int n = (h - m + r + 90) / 25;
-        int p = (h - m + r + n + 19) % 32;
-
-        return new MonthDay(n, p);
+    public static int getCurrentYear() {
+        return calendarInstance.get(Calendar.YEAR);
     }
 
     /**
