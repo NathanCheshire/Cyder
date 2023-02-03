@@ -2,6 +2,7 @@ package cyder.time
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.util.*
 
 /**
  * Tests for [MonthDay] objects.
@@ -41,6 +42,32 @@ class MonthDayTest {
         assertEquals("July", julyFourth.monthString)
         assertEquals("4th", julyFourth.dateString)
         assertEquals("July the 4th", julyFourth.monthDateString)
+    }
+
+    /**
+     * Tests for the get today method.
+     */
+    @Test
+    fun testGetToday() {
+        val month = Calendar.getInstance()[Calendar.MONTH] + 1
+        val date = Calendar.getInstance()[Calendar.DATE]
+
+        assertDoesNotThrow { MonthDay.getToday() }
+        val today = MonthDay.getToday()
+        assertEquals(date, today.date)
+        assertEquals(month, today.month)
+    }
+
+    /**
+     * Tests for the is special day method.
+     */
+    @Test
+    fun testIsSpecialDay() {
+        assertThrows(NullPointerException::class.java) { MonthDay.getToday().isSpecialDay(null) }
+
+        SpecialDay.values().forEach {
+            assertDoesNotThrow { MonthDay.getToday().isSpecialDay(it) }
+        }
     }
 
     /**
