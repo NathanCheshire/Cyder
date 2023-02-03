@@ -219,6 +219,16 @@ public final class TimeUtil {
     private static final MonthDay piDay = new MonthDay(3, 14);
 
     /**
+     * The new years day month day object.
+     */
+    private static final MonthDay newYearsDay = new MonthDay(1, 1);
+
+    /**
+     * The ground hog day month day object.
+     */
+    private static final MonthDay groundHogDay = new MonthDay(2, 2);
+
+    /**
      * The range a minute value must fall within.
      */
     public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
@@ -332,6 +342,9 @@ public final class TimeUtil {
      * @return the string representation of the current time
      */
     public static String getTime(String datePattern) {
+        Preconditions.checkNotNull(datePattern);
+        Preconditions.checkArgument(!datePattern.isEmpty());
+
         return getFormattedTime(new SimpleDateFormat(datePattern));
     }
 
@@ -342,6 +355,8 @@ public final class TimeUtil {
      * @return the formatted date
      */
     public static String getFormattedTime(SimpleDateFormat formatter) {
+        Preconditions.checkNotNull(formatter);
+
         return formatter.format(new Date());
     }
 
@@ -457,6 +472,63 @@ public final class TimeUtil {
         MonthDay sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
         return month == sundayDate.getMonth() && date == sundayDate.getDate();
+    }
+
+    /**
+     * Returns whether the current day is new years day.
+     *
+     * @return whether the current day is new years day
+     */
+    public static boolean isNewYearsDay() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return new MonthDay(month, date).equals(newYearsDay);
+    }
+
+    /**
+     * Returns whether the current day is new ground hog day.
+     *
+     * @return whether the current day is new ground hog day
+     */
+    public static boolean isGroundHogDay() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return new MonthDay(month, date).equals(groundHogDay);
+    }
+
+    /**
+     * Returns whether the current day is Mardi Grass.
+     *
+     * @return whether the current day is Mardi Grass
+     */
+    public static boolean isMardiGrassDay() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        int year = calendarInstance.get(Calendar.YEAR);
+        MonthDay easter = getEasterSundayDate(year);
+        LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
+
+        LocalDate mardiGrassDate = easterLocalDate.minusDays(47);
+
+        return month == mardiGrassDate.getMonthValue() && date == mardiGrassDate.getDayOfMonth();
+    }
+
+    public static boolean isSpecialDay(SpecialDay specialDays) {
+        return switch (specialDays) {
+            case NEW_YEARS_DAY -> isNewYearsDay();
+            case GROUND_HOG_DAY -> isGroundHogDay();
+            case MARDI_GRASS_DAY -> isMardiGrassDay();
+            case EASTER -> isEaster();
+            case MEMORIAL_DAY -> {}
+            case INDEPENDENCE_DAY -> isIndependenceDay();
+            case LABOR_DAY -> {}
+            case HALLOWEEN -> isHalloween();
+            case THANKSGIVING -> isThanksgiving();
+            case CHRISTMAS -> isChristmas();
+        };
     }
 
     /**

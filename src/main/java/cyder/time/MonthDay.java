@@ -2,12 +2,25 @@ package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
+import cyder.strings.CyderStrings;
+
+import java.util.Calendar;
 
 /**
  * A class used to represent a month and date such as July 4th.
  */
 @Immutable
 public final class MonthDay {
+    /**
+     * The calendar instance for querying today's month and date.
+     */
+    private static final Calendar calendarInstance = Calendar.getInstance();
+
+    /**
+     * The "the" string used by the {@link #getMonthDateString()} method.
+     */
+    private static final String THE = "the";
+
     /**
      * The month number.
      */
@@ -70,17 +83,40 @@ public final class MonthDay {
     }
 
     /**
-     * Returns the month date string.
-     * This is the result of concatenating {@link #getMonthString()}, " and ",
-     * and {@link #getDateString()}.
+     * Returns the month date string. This is the result of concatenating
+     * {@link #getMonthString()}, " and ", and {@link #getDateString()}.
      *
      * @return the month date string
      */
     public String getMonthDateString() {
-        return getMonthString() + " the " + getDateString();
+        return getMonthString() + CyderStrings.space + THE + CyderStrings.space + getDateString();
     }
 
-    // todo we should add is special day checks here with an enum for CHRISTMAS, HALLOWEEN, etc.
+    // todo unit test me
+
+    /**
+     * Returns whether today is the provided special day.
+     *
+     * @param specialDay the special day to compare to today
+     * @return whether today is the provided special day
+     */
+    public boolean isSpecialDay(SpecialDay specialDay) {
+        Preconditions.checkNotNull(specialDay);
+
+        return TimeUtil.isSpecialDay(specialDay);
+    }
+
+    /**
+     * Returns a new month day object representing today.
+     *
+     * @return a new month day object representing today
+     */
+    public static MonthDay getToday() {
+        int month = calendarInstance.get(Calendar.MONTH) + 1;
+        int date = calendarInstance.get(Calendar.DATE);
+
+        return new MonthDay(month, date);
+    }
 
     /**
      * {@inheritDoc}
