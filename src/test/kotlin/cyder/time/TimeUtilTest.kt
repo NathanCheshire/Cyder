@@ -271,6 +271,81 @@ class TimeUtilTest {
      */
     @Test
     fun testFormatNumberSuffix() {
+        assertEquals("-1000th", TimeUtil.formatNumberSuffix(-1000))
+        assertEquals("-500th", TimeUtil.formatNumberSuffix(-500))
+        assertEquals("-515th", TimeUtil.formatNumberSuffix(-515))
+        assertEquals("-100th", TimeUtil.formatNumberSuffix(-100))
+        assertEquals("-55th", TimeUtil.formatNumberSuffix(-55))
+        assertEquals("-1st", TimeUtil.formatNumberSuffix(-1))
+        assertEquals("0th", TimeUtil.formatNumberSuffix(0))
+        assertEquals("1st", TimeUtil.formatNumberSuffix(1))
+        assertEquals("2nd", TimeUtil.formatNumberSuffix(2))
+        assertEquals("3rd", TimeUtil.formatNumberSuffix(3))
+        assertEquals("4th", TimeUtil.formatNumberSuffix(4))
+        assertEquals("5th", TimeUtil.formatNumberSuffix(5))
+        assertEquals("6th", TimeUtil.formatNumberSuffix(6))
+        assertEquals("7th", TimeUtil.formatNumberSuffix(7))
+        assertEquals("8th", TimeUtil.formatNumberSuffix(8))
+        assertEquals("9th", TimeUtil.formatNumberSuffix(9))
+        assertEquals("10th", TimeUtil.formatNumberSuffix(10))
+        assertEquals("11th", TimeUtil.formatNumberSuffix(11))
+        assertEquals("12th", TimeUtil.formatNumberSuffix(12))
+        assertEquals("13th", TimeUtil.formatNumberSuffix(13))
+        assertEquals("14th", TimeUtil.formatNumberSuffix(14))
+        assertEquals("15th", TimeUtil.formatNumberSuffix(15))
+        assertEquals("16th", TimeUtil.formatNumberSuffix(16))
+        assertEquals("17th", TimeUtil.formatNumberSuffix(17))
+        assertEquals("18th", TimeUtil.formatNumberSuffix(18))
+        assertEquals("19th", TimeUtil.formatNumberSuffix(19))
+        assertEquals("20th", TimeUtil.formatNumberSuffix(20))
+        assertEquals("21st", TimeUtil.formatNumberSuffix(21))
+        assertEquals("22nd", TimeUtil.formatNumberSuffix(22))
+        assertEquals("23rd", TimeUtil.formatNumberSuffix(23))
+    }
 
+    /**
+     * Tests for the format millis method.
+     */
+    @Test
+    fun testFormatMillis() {
+        assertThrows(IllegalArgumentException::class.java) { TimeUtil.formatMillis(-100) }
+        assertThrows(IllegalArgumentException::class.java) { TimeUtil.formatMillis(-1) }
+
+        assertEquals("0ms", TimeUtil.formatMillis(0))
+        assertEquals("1ms", TimeUtil.formatMillis(1))
+        assertEquals("1s", TimeUtil.formatMillis(1000))
+        assertEquals("1s 101ms", TimeUtil.formatMillis(1101))
+        assertEquals("1s 11ms", TimeUtil.formatMillis(1011))
+        assertEquals("1s 500ms", TimeUtil.formatMillis(1500))
+        assertEquals("11s 567ms", TimeUtil.formatMillis(11567))
+        assertEquals("2m 45s 534ms", TimeUtil.formatMillis(165534))
+        assertEquals("2m 42s 324ms", TimeUtil.formatMillis(162324))
+        assertEquals("9m 52s 929ms", TimeUtil.formatMillis(592929))
+        assertEquals("13m 12s 929ms", TimeUtil.formatMillis(792929))
+        assertEquals("2h 12m 9s 290ms", TimeUtil.formatMillis(7929290))
+        assertEquals("2h 12m 9s 294ms", TimeUtil.formatMillis(7929294))
+        assertEquals("22h 1m 32s 900ms", TimeUtil.formatMillis(79292900))
+        assertEquals("9d 4h 15m 29s 1ms", TimeUtil.formatMillis(792929001))
+        assertEquals("3mo 1d 18h 34m 50s 19ms", TimeUtil.formatMillis(7929290019))
+        assertEquals("2y 6mo 17d 17h 48m 20s 196ms", TimeUtil.formatMillis(79292900196))
+        assertEquals("25y 5mo 27d 10h 3m 21s 960ms", TimeUtil.formatMillis(792929001960))
+    }
+
+    /**
+     * Tests for the millis to seconds method.
+     */
+    @Test
+    fun testMillisToSeconds() {
+        assertEquals(0.0, TimeUtil.millisToSeconds(0))
+        assertEquals(0.001, TimeUtil.millisToSeconds(1))
+        assertEquals(0.002, TimeUtil.millisToSeconds(2))
+        assertEquals(0.005, TimeUtil.millisToSeconds(5))
+        assertEquals(0.5, TimeUtil.millisToSeconds(500))
+        assertEquals(1.0, TimeUtil.millisToSeconds(1000))
+        assertEquals(1.5, TimeUtil.millisToSeconds(1500))
+        assertEquals(5.0, TimeUtil.millisToSeconds(5000))
+        assertEquals(10.0, TimeUtil.millisToSeconds(10000))
+        assertEquals(50.642, TimeUtil.millisToSeconds(50642))
+        assertEquals(5034.534, TimeUtil.millisToSeconds(5034534))
     }
 }

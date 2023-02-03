@@ -40,6 +40,7 @@ import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
+import cyder.time.SpecialDay;
 import cyder.time.TimeUtil;
 import cyder.ui.UiConstants;
 import cyder.ui.UiUtil;
@@ -1279,40 +1280,12 @@ public enum Console {
     private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
 
     /**
-     * Performs the special day checks.
+     * Checks today against all the values of {@link SpecialDay}.
+     * If any are today, the notification message is shown to the user.
      */
     private void performSpecialDayChecks() {
-        if (TimeUtil.isChristmas()) {
-            consoleCyderFrame.notify("Merry Christmas!");
-        }
-
-        if (TimeUtil.isHalloween()) {
-            consoleCyderFrame.notify("Happy Halloween!");
-        }
-
-        if (TimeUtil.isIndependenceDay()) {
-            consoleCyderFrame.notify("Happy 4th of July!");
-        }
-
-        if (TimeUtil.isThanksgiving()) {
-            consoleCyderFrame.notify("Happy Thanksgiving!");
-        }
-
-        if (TimeUtil.isAprilFoolsDay()) {
-            consoleCyderFrame.notify("Happy April Fools Day!");
-        }
-
-        if (TimeUtil.isValentinesDay()) {
-            consoleCyderFrame.notify("Happy Valentines Day!");
-        }
-
-        if (TimeUtil.isPiDay()) {
-            consoleCyderFrame.notify("Happy Pi day!");
-        }
-
-        if (TimeUtil.isEaster()) {
-            consoleCyderFrame.notify("Happy Easter!");
-        }
+        SpecialDay.getSpecialDaysOfToday().forEach(
+                specialDay -> consoleCyderFrame.notify(specialDay.getNotificationMessage()));
     }
 
     /**

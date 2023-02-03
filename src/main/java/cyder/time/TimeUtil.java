@@ -513,7 +513,7 @@ public final class TimeUtil {
      * @return whether {@link MonthDay#TODAY} is Easter
      */
     public static boolean isEaster() {
-        return isEaster(getEasterSundayDate(getCurrentYear()));
+        return isEaster(MonthDay.TODAY);
     }
 
     /**
@@ -765,18 +765,27 @@ public final class TimeUtil {
      * @return the number with a proper suffix appended
      */
     public static String formatNumberSuffix(int dateInMonth) {
+        boolean negative = false;
+        if (dateInMonth < 0) {
+            negative = true;
+            dateInMonth *= -1;
+        }
         int j = dateInMonth % 10;
         int k = dateInMonth % 100;
 
+        String suffix;
         if (j == 1 && k != 11) {
-            return dateInMonth + "st";
+            suffix = "st";
         } else if (j == 2 && k != 12) {
-            return dateInMonth + "nd";
+            suffix = "nd";
         } else if (j == 3 && k != 13) {
-            return dateInMonth + "rd";
+            suffix = "rd";
         } else {
-            return dateInMonth + "th";
+            suffix = "th";
         }
+
+        if (negative) dateInMonth *= -1;
+        return dateInMonth + suffix;
     }
 
     /**
