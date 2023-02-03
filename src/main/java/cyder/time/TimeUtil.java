@@ -356,134 +356,278 @@ public final class TimeUtil {
     // -------------------------------
 
     /**
-     * Returns whether the current day is Christmas day.
+     * Returns whether {@link MonthDay#TODAY} is Christmas day.
      *
-     * @return whether the current day is Christmas day
+     * @return whether {@link MonthDay#TODAY} is Christmas day
      */
     public static boolean isChristmas() {
-        return MonthDay.TODAY.equals(christmas);
+        return isChristmas(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is halloween.
+     * Returns whether the provided month day is Christmas.
      *
-     * @return whether the current day is halloween
+     * @param monthDay the month day object
+     * @return whether the provided month day is Christmas
+     */
+    public static boolean isChristmas(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(christmas);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is halloween.
+     *
+     * @return whether {@link MonthDay#TODAY} is halloween
      */
     public static boolean isHalloween() {
-        return MonthDay.TODAY.equals(halloween);
+        return isHalloween(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is independence day (U.S. Holiday).
+     * Returns whether the provided month day day is halloween.
      *
-     * @return whether the current day is independence day
+     * @param monthDay the month day object
+     * @return whether the provided month day is halloween
+     */
+    public static boolean isHalloween(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(halloween);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is independence day (U.S. Holiday).
+     *
+     * @return whether {@link MonthDay#TODAY} is independence day
      */
     public static boolean isIndependenceDay() {
-        return MonthDay.TODAY.equals(independenceDay);
+        return isIndependenceDay(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is Valentine's Day.
+     * Returns whether the provided day is independence day (U.S. Holiday).
      *
-     * @return whether the current day is Valentine's Day
+     * @param monthDay the month day object
+     * @return whether the provided day is independence day
+     */
+    public static boolean isIndependenceDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(independenceDay);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is Valentine's Day.
+     *
+     * @return whether {@link MonthDay#TODAY} is Valentine's Day
      */
     public static boolean isValentinesDay() {
-        return MonthDay.TODAY.equals(valentinesDay);
+        return isValentinesDay(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is thanksgiving day.
+     * Returns whether the provided day is Valentine's Day.
      *
-     * @return whether the current day is thanksgiving day
+     * @param monthDay the month day object
+     * @return whether the provided day is Valentine's Day
+     */
+    public static boolean isValentinesDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(valentinesDay);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is thanksgiving day.
+     *
+     * @return whether {@link MonthDay#TODAY} is thanksgiving day
      */
     public static boolean isThanksgiving() {
-        return MonthDay.TODAY.equals(getThanksgiving(getCurrentYear()));
+        return isThanksgiving(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is April Fools' Day.
+     * Returns whether the provided day is thanksgiving day.
      *
-     * @return whether the current day is April Fools' Day
+     * @param monthDay the month day object
+     * @return whether the provided day is thanksgiving day
+     */
+    public static boolean isThanksgiving(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(getThanksgiving(getCurrentYear()));
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is April Fools' Day.
+     *
+     * @return whether {@link MonthDay#TODAY} is April Fools' Day
      */
     public static boolean isAprilFoolsDay() {
-        return MonthDay.TODAY.equals(aprilFoolsDay);
+        return isAprilFoolsDay(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is Pi day.
+     * Returns whether the provided day is April Fools' Day.
      *
-     * @return whether the current day is Pi day
+     * @param monthDay the month day object
+     * @return whether the provided day is April Fools' Day
+     */
+    public static boolean isAprilFoolsDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(aprilFoolsDay);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is Pi day.
+     *
+     * @return whether {@link MonthDay#TODAY} is Pi day
      */
     public static boolean isPiDay() {
         return MonthDay.TODAY.equals(piDay);
     }
 
     /**
-     * Returns whether the current day is Easter.
+     * Returns whether {@link MonthDay#TODAY} is Easter.
      *
-     * @return whether the current day is Easter
+     * @return whether {@link MonthDay#TODAY} is Easter
      */
     public static boolean isEaster() {
-        return MonthDay.TODAY.equals(getEasterSundayDate(getCurrentYear()));
+        return isEaster(getEasterSundayDate(getCurrentYear()));
     }
 
     /**
-     * Returns whether the current day is new years day.
+     * Returns whether the provided day is Easter.
      *
-     * @return whether the current day is new years day
+     * @param monthDay the month day object
+     * @return whether the provided day is Easter
+     */
+    public static boolean isEaster(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(getEasterSundayDate(getCurrentYear()));
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is new years day.
+     *
+     * @return whether {@link MonthDay#TODAY} is new years day
      */
     public static boolean isNewYearsDay() {
-        return MonthDay.TODAY.equals(newYearsDay);
+        return isNewYearsDay(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is new ground hog day.
+     * Returns whether the provided day is new years day.
      *
-     * @return whether the current day is new ground hog day
+     * @param monthDay the month day object
+     * @return whether the provided day is new years day
+     */
+    public static boolean isNewYearsDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(newYearsDay);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is new ground hog day.
+     *
+     * @return whether {@link MonthDay#TODAY} is new ground hog day
      */
     public static boolean isGroundHogDay() {
-        return MonthDay.TODAY.equals(groundHogDay);
+        return isGroundHogDay(MonthDay.TODAY);
     }
 
     /**
-     * Returns whether the current day is Mardi Grass.
+     * Returns whether the provided day is new ground hog day.
      *
-     * @return whether the current day is Mardi Grass
+     * @param monthDay the month day object
+     * @return whether the provided day is new ground hog day
+     */
+    public static boolean isGroundHogDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(groundHogDay);
+    }
+
+    /**
+     * Returns whether {@link MonthDay#TODAY} is Mardi Grass.
+     *
+     * @return whether {@link MonthDay#TODAY} is Mardi Grass
      */
     public static boolean isMardiGrassDay() {
+        return isMardiGrassDay(MonthDay.TODAY);
+    }
+
+    /**
+     * Returns whether the provided day is Mardi Grass.
+     *
+     * @param monthDay the month day object
+     * @return whether the provided day is Mardi Grass
+     */
+    public static boolean isMardiGrassDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
         int year = getCurrentYear();
         MonthDay easter = getEasterSundayDate(year);
         LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
-        LocalDate mardiGrassDate = easterLocalDate.minusDays(47);
+        LocalDate mardiGrassDate = easterLocalDate.minusDays(47); // todo
         MonthDay mardiGrassDay = new MonthDay(mardiGrassDate.getMonthValue(), mardiGrassDate.getDayOfMonth());
 
-        return MonthDay.TODAY.equals(mardiGrassDay);
+        return monthDay.equals(mardiGrassDay);
     }
 
     /**
-     * Returns whether the current day is labor day.
+     * Returns whether {@link MonthDay#TODAY} is labor day.
      *
-     * @return whether the current day is labor day
+     * @return whether {@link MonthDay#TODAY} is labor day
      */
     public static boolean isLaborDay() {
+        return isLaborDay(MonthDay.TODAY);
+    }
+
+    /**
+     * Returns whether the provided day is labor day.
+     *
+     * @param monthDay the month day object
+     * @return whether the provided day is labor day
+     */
+    public static boolean isLaborDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
         LocalDate laborDate = LocalDate.of(getCurrentYear(), laborDayMonth, nthMondayLaborDay)
                 .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
         MonthDay laborDay = new MonthDay(laborDayMonth, laborDate.getDayOfMonth());
 
-        return MonthDay.TODAY.equals(laborDay);
+        return monthDay.equals(laborDay);
     }
 
     /**
-     * Returns whether the curent day is Memorial day.
+     * Returns whether {@link MonthDay#TODAY}} is Memorial day.
      *
-     * @return whether the curent day is Memorial day
+     * @return whether {@link MonthDay#TODAY} }is Memorial day
      */
     public static boolean isMemorialDay() {
+        return isMemorialDay(MonthDay.TODAY);
+    }
+
+    /**
+     * Returns whether the provided day is Memorial day.
+     *
+     * @param monthDay the month day object
+     * @return whether the provided day is Memorial day
+     */
+    public static boolean isMemorialDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
         LocalDate memorialDate = LocalDate.of(getCurrentYear(), mayMonth, 1)
                 .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
         MonthDay memorialDay = new MonthDay(mayMonth, memorialDate.getDayOfMonth());
 
-        return MonthDay.TODAY.equals(memorialDay);
+        return monthDay.equals(memorialDay);
     }
 
     /**
@@ -497,19 +641,17 @@ public final class TimeUtil {
         Preconditions.checkNotNull(monthDay);
         Preconditions.checkNotNull(specialDays);
 
-        // todo all these need to take a month day object and if not provided, the method will provide TODAY
-
         return switch (specialDays) {
-            case NEW_YEARS_DAY -> isNewYearsDay();
-            case GROUND_HOG_DAY -> isGroundHogDay();
-            case MARDI_GRASS_DAY -> isMardiGrassDay();
-            case EASTER -> isEaster();
-            case MEMORIAL_DAY -> isMemorialDay();
-            case INDEPENDENCE_DAY -> isIndependenceDay();
-            case LABOR_DAY -> isLaborDay();
-            case HALLOWEEN -> isHalloween();
-            case THANKSGIVING -> isThanksgiving();
-            case CHRISTMAS -> isChristmas();
+            case NEW_YEARS_DAY -> isNewYearsDay(monthDay);
+            case GROUND_HOG_DAY -> isGroundHogDay(monthDay);
+            case MARDI_GRASS_DAY -> isMardiGrassDay(monthDay);
+            case EASTER -> isEaster(monthDay);
+            case MEMORIAL_DAY -> isMemorialDay(monthDay);
+            case INDEPENDENCE_DAY -> isIndependenceDay(monthDay);
+            case LABOR_DAY -> isLaborDay(monthDay);
+            case HALLOWEEN -> isHalloween(monthDay);
+            case THANKSGIVING -> isThanksgiving(monthDay);
+            case CHRISTMAS -> isChristmas(monthDay);
         };
     }
 
