@@ -109,6 +109,8 @@ public enum YoutubeUuidCheckerManager {
     public void deactivate() {
         Preconditions.checkArgument(initialized.get());
 
+        killAll();
+
         initialized.set(false);
 
         this.outputPane = null;
@@ -137,8 +139,8 @@ public enum YoutubeUuidCheckerManager {
         Preconditions.checkState(initialized.get());
 
         if (BletchyAnimationManager.INSTANCE.isActive() || hasActiveCheckers()) {
-            Console.INSTANCE.getConsoleCyderFrame().notify(
-                    "Cannot start bletchy/YouTube thread at the same time as another instance");
+            notifyOnConsoleIfPossible("Cannot start bletchy/YouTube thread"
+                    + " at the same time as another instance");
             return;
         }
 
@@ -150,7 +152,7 @@ public enum YoutubeUuidCheckerManager {
             youTubeUuidCheckers.add(checker);
         });
 
-        Console.INSTANCE.getConsoleCyderFrame().notify("Type \"stop script\" or press ctrl + c to halt");
+        notifyOnConsoleIfPossible("Type \"stop script\" or press ctrl + c to halt");
 
         isActive = true;
     }
@@ -188,8 +190,8 @@ public enum YoutubeUuidCheckerManager {
      * Checks for whether the user should be notified of the current uuid check rate.
      */
     private void checkIfShouldNotifyOfRate() {
-        if (System.currentTimeMillis() - lastNotifyTime > notifyUserOfRateFrequency * TimeUtil.SECONDS_IN_MINUTE
-                && Console.INSTANCE.getConsoleCyderFrame() != null) {
+        if (System.currentTimeMillis() - lastNotifyTime
+                > notifyUserOfRateFrequency * TimeUtil.SECONDS_IN_MINUTE) {
             notifyOfRate();
             lastNotifyTime = System.currentTimeMillis();
         }
@@ -204,7 +206,24 @@ public enum YoutubeUuidCheckerManager {
         double urlsPerSecond = urlsPerMs * TimeUtil.MILLISECONDS_IN_SECOND;
         double urlsPerMinute = urlsPerSecond * TimeUtil.SECONDS_IN_MINUTE;
 
-        Console.INSTANCE.getConsoleCyderFrame().notify(
-                "Current YouTube thread rate: " + urlsPerMinute + " / " + Units.MINUTES.getAbbreviation());
+        notifyOnConsoleIfPossible("Current YouTube thread rate: "
+                + urlsPerMinute + " / " + Units.MINUTES.getAbbreviation());
+    }
+
+    /**
+     * Notifies the user of the provided string using the Console if possible. If not possible,
+     * the notify string is printed via the {@link #outputPane}.
+     *
+     * @param notifyString the string to notify to the user
+     */
+    private void notifyOnConsoleIfPossible(String notifyString) {
+        Preconditions.checkNotNull(notifyString);
+        Preconditions.checkArgument(!notifyString.isEmpty());
+
+        if (Console.INSTANCE.getConsoleCyderFrame() != null) {
+            Console.INSTANCE.getConsoleCyderFrame().notify(notifyString);
+        } else {
+            outputPane.getStringUtil().println(notifyString);
+        }
     }
 }
