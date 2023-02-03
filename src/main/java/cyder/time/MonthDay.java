@@ -80,6 +80,8 @@ public final class MonthDay {
         return getMonthString() + " the " + getDateString();
     }
 
+    // todo we should add is special day checks here with an enum for CHRISTMAS, HALLOWEEN, etc.
+
     /**
      * {@inheritDoc}
      */
