@@ -3,12 +3,10 @@ package cyder.time;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
-import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.User;
-import cyder.user.UserDataManager;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -111,11 +109,6 @@ public final class TimeUtil {
     public static final SimpleDateFormat logSubDirFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * The date formatter to use when the year is requested.
-     */
-    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-
-    /**
      * The date formatter to use when the log line time is requested.
      */
     public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
@@ -166,12 +159,17 @@ public final class TimeUtil {
     /**
      * The range an hour must fall within to be counted as in the morning.
      */
-    private static final Range<Integer> MORNING_RANGE = Range.openClosed(0, 12);
+    private static final Range<Integer> MORNING_RANGE = Range.closedOpen(0, 12);
 
     /**
      * The range an hour must fall within to be counted as in the after-noon.
      */
-    private static final Range<Integer> AFTERNOON_RANGE = Range.openClosed(12, 18);
+    private static final Range<Integer> AFTERNOON_RANGE = Range.closedOpen(12, 18);
+
+    /**
+     * The range an hour must fall within to be counted as in the evening.
+     */
+    private static final Range<Integer> EVENING_RANGE = Range.closedOpen(18, 24);
 
     /**
      * The decimal formatter for the {@link #formatMillis(long)} method.
@@ -269,15 +267,6 @@ public final class TimeUtil {
     }
 
     /**
-     * Returns the current year in the format "yyyy".
-     *
-     * @return the current year in the format "yyyy"
-     */
-    public static int getYear() {
-        return Integer.parseInt(getFormattedTime(yearFormat));
-    }
-
-    /**
      * Returns the time used for log files.
      *
      * @return the time used for log files
@@ -311,19 +300,6 @@ public final class TimeUtil {
      */
     public static String userTime() {
         return getFormattedTime(userFormat);
-    }
-
-    /**
-     * Returns the time formatted to the current console
-     * clock format as set by the currently logged-in user.
-     *
-     * @return the time formatted to the current console
-     * clock format as set by the currently logged-in user
-     */
-    public static String userFormattedTime() {
-        Preconditions.checkState(!Console.INSTANCE.isClosed());
-
-        return getTime(UserDataManager.INSTANCE.getConsoleClockFormat());
     }
 
     /**
@@ -369,6 +345,12 @@ public final class TimeUtil {
 
         return formatter.format(new Date());
     }
+
+    // -------------------------------
+    // Special day computation methods
+    // -------------------------------
+
+    // todo these methods need to be unit testable using mock data
 
     /**
      * Returns whether the current day is Christmas day.
@@ -621,7 +603,7 @@ public final class TimeUtil {
      * @return a string representing the date easter is on for the current year
      */
     public static String getEasterSundayString() {
-        MonthDay sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
+        MonthDay sundayDate = getEasterSundayDate(getCurrentYear());
 
         return monthFromNumber(sundayDate.getMonth())
                 + CyderStrings.space + formatNumberSuffix(sundayDate.getDate());
@@ -671,8 +653,7 @@ public final class TimeUtil {
      * @return whether the local time is past 6:00pm
      */
     public static boolean isEvening() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return hour >= 18;
+        return EVENING_RANGE.contains(calendarInstance.get(Calendar.HOUR_OF_DAY));
     }
 
     /**
@@ -681,7 +662,7 @@ public final class TimeUtil {
      * @return whether the local time is before 12:00pm
      */
     public static boolean isMorning() {
-        return MORNING_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        return MORNING_RANGE.contains(calendarInstance.get(Calendar.HOUR_OF_DAY));
     }
 
     /**
@@ -690,7 +671,7 @@ public final class TimeUtil {
      * @return whether the current time is between 12:00pm and 6:00pm
      */
     public static boolean isAfterNoon() {
-        return AFTERNOON_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        return AFTERNOON_RANGE.contains(calendarInstance.get(Calendar.HOUR_OF_DAY));
     }
 
     /**
@@ -790,6 +771,10 @@ public final class TimeUtil {
 
         return StringUtil.getTrimmedText(ret).trim();
     }
+
+    // ------------------
+    // Conversion methods
+    // ------------------
 
     /**
      * Converts the provided milliseconds to seconds.

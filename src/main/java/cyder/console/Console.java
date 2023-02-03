@@ -3431,7 +3431,7 @@ public enum Console {
 
         String regularSecondTime = TimeUtil.consoleSecondTime();
         String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
-        String userConfiguredTime = TimeUtil.userFormattedTime();
+        String userConfiguredTime = TimeUtil.userTime();
 
         // No custom pattern so take into account showSeconds
         if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
