@@ -360,8 +360,6 @@ public final class TimeUtil {
     // Special day computation methods
     // -------------------------------
 
-    // todo test all methods below with hard coded month day objects that go to 2027
-
     /**
      * Returns whether {@link MonthDay#TODAY} is Christmas day.
      *
@@ -494,7 +492,19 @@ public final class TimeUtil {
      * @return whether {@link MonthDay#TODAY} is Pi day
      */
     public static boolean isPiDay() {
-        return MonthDay.TODAY.equals(piDay);
+        return isPiDay(MonthDay.TODAY);
+    }
+
+    /**
+     * Returns whether the provided day is Pi day.
+     *
+     * @param monthDay the month day object
+     * @return whether the provided day is Pi day
+     */
+    public static boolean isPiDay(MonthDay monthDay) {
+        Preconditions.checkNotNull(monthDay);
+
+        return monthDay.equals(piDay);
     }
 
     /**

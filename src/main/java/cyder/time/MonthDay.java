@@ -19,7 +19,8 @@ public final class MonthDay {
     /**
      * The today month day object.
      */
-    public static final MonthDay TODAY = new MonthDay(calendarInstance.get(Calendar.MONTH) + 1,
+    public static final MonthDay TODAY = new MonthDay(
+            calendarInstance.get(Calendar.MONTH) + 1,
             calendarInstance.get(Calendar.DATE));
 
     /**
@@ -50,6 +51,8 @@ public final class MonthDay {
         this.month = month;
         this.date = date;
     }
+
+    // todo from Date object factory?
 
     /**
      * Returns the month number.
