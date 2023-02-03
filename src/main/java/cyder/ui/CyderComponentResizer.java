@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * A listener to allow custom, undecorated frames (typically {@link CyderFrame}s) to be resizable.
  */
-public class CyderComponentResizer extends MouseAdapter {
+public final class CyderComponentResizer extends MouseAdapter {
     /**
      * The default minimum size to use for a resizable component.
      */
@@ -59,22 +59,22 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * The northern drag direction integer.
      */
-    protected static final int NORTH = 1;
+    private static final int NORTH = 1;
 
     /**
      * The western drag direction integer.
      */
-    protected static final int WEST = 2;
+    private static final int WEST = 2;
 
     /**
      * The southern drag direction integer.
      */
-    protected static final int SOUTH = 4;
+    private static final int SOUTH = 4;
 
     /**
      * The eastern drag direction integer.
      */
-    protected static final int EAST = 8;
+    private static final int EAST = 8;
 
     /**
      * The source cursor from the dragging component.
@@ -433,7 +433,7 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param pressed   the point at which the component was pressed
      * @param current   the current point at which the component is pressed
      */
-    protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
+    private void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
         Preconditions.checkNotNull(source);
         Preconditions.checkNotNull(bounds);
         Preconditions.checkNotNull(pressed);

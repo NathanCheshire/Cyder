@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -59,15 +60,10 @@ public final class UiUtil {
      * @return a list of CyderFrames currently opened by this instance
      */
     public static ImmutableList<CyderFrame> getCyderFrames() {
-        ArrayList<CyderFrame> ret = new ArrayList<>();
-
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame cyderFrame && !cyderFrame.isDisposed()) {
-                ret.add((CyderFrame) f);
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(Arrays.stream(Frame.getFrames())
+                .filter(f -> f instanceof CyderFrame frame && !frame.isDisposed())
+                .map(frame -> (CyderFrame) frame)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -76,27 +72,19 @@ public final class UiUtil {
      * @return a list of non CyderFrame frame objects opened by this instance
      */
     public static ImmutableList<Frame> getNonCyderFrames() {
-        ArrayList<Frame> ret = new ArrayList<>();
-
-        for (Frame f : Frame.getFrames()) {
-            if (!(f instanceof CyderFrame)) {
-                ret.add(f);
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
+        return ImmutableList.copyOf(Arrays.stream(Frame.getFrames())
+                .filter(f -> !(f instanceof CyderFrame)).collect(Collectors.toList()));
     }
 
     /**
      * Saves a screenshot of all CyderFrames to the user's Files/ directory.
      */
     public static void screenshotCyderFrames() {
-        for (CyderFrame frame : getCyderFrames()) {
-            if (frame.isVisible() && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
-                    && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT) {
-                screenshotCyderFrame(frame);
-            }
-        }
+        getCyderFrames().stream()
+                .filter(Component::isVisible)
+                .filter(f -> f.getWidth() >= CyderFrame.MINIMUM_WIDTH)
+                .filter(f -> f.getHeight() >= CyderFrame.MINIMUM_HEIGHT)
+                .forEach(UiUtil::screenshotCyderFrame);
     }
 
     /**
@@ -135,7 +123,7 @@ public final class UiUtil {
     private static File generateScreenshotSaveFile(CyderFrame cyderFrame) {
         String saveName = cyderFrame.getTitle().substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH,
                 cyderFrame.getTitle().length()));
-        return UserUtil.createFileInUserSpace(saveName.trim() + "_"
+        return UserUtil.createFileInUserSpace(saveName.trim() + CyderStrings.underscore
                 + TimeUtil.logTime().trim() + Extension.PNG.getExtension());
     }
 
@@ -263,24 +251,16 @@ public final class UiUtil {
      * @throws DeviceNotFoundException if a device with the provided id cannot be found
      */
     public static GraphicsDevice getGraphicsDevice(int id) {
-        for (GraphicsDevice device : getGraphicsDevices()) {
-            int localId = Integer.parseInt(device.getIDstring()
-                    .replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
-            if (localId == id) {
-                return device;
-            }
-        }
-
-        throw new DeviceNotFoundException("Could not find device with id: " + id);
+        return getGraphicsDevices().stream().filter(device -> Integer.parseInt(device.getIDstring()
+                        .replaceAll(CyderRegexPatterns.nonNumberRegex, "")) == id)
+                .findFirst().orElseThrow(() -> new DeviceNotFoundException("Could not find device with id: " + id));
     }
 
     /**
      * Closes all instances of {@link Frame} by invoking {@link Frame#dispose()} on all instances.
      */
     public static void closeAllFrames() {
-        for (Frame frame : Frame.getFrames()) {
-            frame.dispose();
-        }
+        Arrays.stream(Frame.getFrames()).forEach(Frame::dispose);
     }
 
     /**
@@ -324,13 +304,13 @@ public final class UiUtil {
      * Found {@link CyderFrame}s have their {@link CyderFrame#minimizeAndIconify()} invoked instead.
      */
     public static void minimizeAllFrames() {
-        for (Frame frame : getFrames()) {
+        getFrames().forEach(frame -> {
             if (frame instanceof CyderFrame cyderFrame) {
                 cyderFrame.minimizeAndIconify();
             } else {
                 frame.setState(Frame.ICONIFIED);
             }
-        }
+        });
     }
 
     /**
@@ -383,7 +363,10 @@ public final class UiUtil {
      * @param runnable the runnable to invoke
      * @return the generated key adapter
      */
-    public static KeyAdapter generateKeyAdapter(boolean typed, boolean pressed, boolean released, Runnable runnable) {
+    public static KeyAdapter generateKeyAdapter(boolean typed,
+                                                boolean pressed,
+                                                boolean released,
+                                                Runnable runnable) {
         Preconditions.checkNotNull(runnable);
 
         return new KeyAdapter() {
