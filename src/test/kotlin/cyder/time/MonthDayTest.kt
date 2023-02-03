@@ -52,8 +52,8 @@ class MonthDayTest {
         val month = Calendar.getInstance()[Calendar.MONTH] + 1
         val date = Calendar.getInstance()[Calendar.DATE]
 
-        assertDoesNotThrow { MonthDay.getToday() }
-        val today = MonthDay.getToday()
+        assertDoesNotThrow { MonthDay.TODAY }
+        val today = MonthDay.TODAY
         assertEquals(date, today.date)
         assertEquals(month, today.month)
     }
@@ -63,10 +63,10 @@ class MonthDayTest {
      */
     @Test
     fun testIsSpecialDay() {
-        assertThrows(NullPointerException::class.java) { MonthDay.getToday().isSpecialDay(null) }
+        assertThrows(NullPointerException::class.java) { MonthDay.TODAY.isSpecialDay(null) }
 
         SpecialDay.values().forEach {
-            assertDoesNotThrow { MonthDay.getToday().isSpecialDay(it) }
+            assertDoesNotThrow { MonthDay.TODAY.isSpecialDay(it) }
         }
     }
 

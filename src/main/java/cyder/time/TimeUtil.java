@@ -237,6 +237,11 @@ public final class TimeUtil {
     private static final int nthMondayLaborDay = 1;
 
     /**
+     * The number for the month of may
+     */
+    private static final int mayMonth = Calendar.MAY + 1;
+
+    /**
      * The range a minute value must fall within.
      */
     public static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
@@ -350,18 +355,13 @@ public final class TimeUtil {
     // Special day computation methods
     // -------------------------------
 
-    // todo these methods need to be unit testable using mock data
-
     /**
      * Returns whether the current day is Christmas day.
      *
      * @return whether the current day is Christmas day
      */
     public static boolean isChristmas() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(christmas);
+        return MonthDay.TODAY.equals(christmas);
     }
 
     /**
@@ -370,10 +370,7 @@ public final class TimeUtil {
      * @return whether the current day is halloween
      */
     public static boolean isHalloween() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(halloween);
+        return MonthDay.TODAY.equals(halloween);
     }
 
     /**
@@ -382,10 +379,7 @@ public final class TimeUtil {
      * @return whether the current day is independence day
      */
     public static boolean isIndependenceDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(independenceDay);
+        return MonthDay.TODAY.equals(independenceDay);
     }
 
     /**
@@ -394,10 +388,7 @@ public final class TimeUtil {
      * @return whether the current day is Valentine's Day
      */
     public static boolean isValentinesDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(valentinesDay);
+        return MonthDay.TODAY.equals(valentinesDay);
     }
 
     /**
@@ -406,13 +397,120 @@ public final class TimeUtil {
      * @return whether the current day is thanksgiving day
      */
     public static boolean isThanksgiving() {
-        MonthDay thanksgivingMonthDay = getThanksgiving(getCurrentYear());
+        return MonthDay.TODAY.equals(getThanksgiving(getCurrentYear()));
+    }
 
-        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
-        int currentDate = calendarInstance.get(Calendar.DATE);
+    /**
+     * Returns whether the current day is April Fools' Day.
+     *
+     * @return whether the current day is April Fools' Day
+     */
+    public static boolean isAprilFoolsDay() {
+        return MonthDay.TODAY.equals(aprilFoolsDay);
+    }
 
-        return thanksgivingMonthDay.getMonth() == currentMonth
-                && thanksgivingMonthDay.getDate() == currentDate;
+    /**
+     * Returns whether the current day is Pi day.
+     *
+     * @return whether the current day is Pi day
+     */
+    public static boolean isPiDay() {
+        return MonthDay.TODAY.equals(piDay);
+    }
+
+    /**
+     * Returns whether the current day is Easter.
+     *
+     * @return whether the current day is Easter
+     */
+    public static boolean isEaster() {
+        return MonthDay.TODAY.equals(getEasterSundayDate(getCurrentYear()));
+    }
+
+    /**
+     * Returns whether the current day is new years day.
+     *
+     * @return whether the current day is new years day
+     */
+    public static boolean isNewYearsDay() {
+        return MonthDay.TODAY.equals(newYearsDay);
+    }
+
+    /**
+     * Returns whether the current day is new ground hog day.
+     *
+     * @return whether the current day is new ground hog day
+     */
+    public static boolean isGroundHogDay() {
+        return MonthDay.TODAY.equals(groundHogDay);
+    }
+
+    /**
+     * Returns whether the current day is Mardi Grass.
+     *
+     * @return whether the current day is Mardi Grass
+     */
+    public static boolean isMardiGrassDay() {
+        int year = getCurrentYear();
+        MonthDay easter = getEasterSundayDate(year);
+        LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
+        LocalDate mardiGrassDate = easterLocalDate.minusDays(47);
+        MonthDay mardiGrassDay = new MonthDay(mardiGrassDate.getMonthValue(), mardiGrassDate.getDayOfMonth());
+
+        return MonthDay.TODAY.equals(mardiGrassDay);
+    }
+
+    /**
+     * Returns whether the current day is labor day.
+     *
+     * @return whether the current day is labor day
+     */
+    public static boolean isLaborDay() {
+        LocalDate laborDate = LocalDate.of(getCurrentYear(), laborDayMonth, nthMondayLaborDay)
+                .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
+        MonthDay laborDay = new MonthDay(laborDayMonth, laborDate.getDayOfMonth());
+
+        return MonthDay.TODAY.equals(laborDay);
+    }
+
+    /**
+     * Returns whether the curent day is Memorial day.
+     *
+     * @return whether the curent day is Memorial day
+     */
+    public static boolean isMemorialDay() {
+        LocalDate memorialDate = LocalDate.of(getCurrentYear(), mayMonth, 1)
+                .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
+        MonthDay memorialDay = new MonthDay(mayMonth, memorialDate.getDayOfMonth());
+
+        return MonthDay.TODAY.equals(memorialDay);
+    }
+
+    /**
+     * Returns whether the provided date is the provided special day.
+     *
+     * @param monthDay    the month day to check for being the special day
+     * @param specialDays the special day to compare to the provided date
+     * @return whether the provided date is the provided special day
+     */
+    public static boolean isSpecialDay(MonthDay monthDay, SpecialDay specialDays) {
+        Preconditions.checkNotNull(monthDay);
+        Preconditions.checkNotNull(specialDays);
+
+        // todo all these need to take a month day object and if not provided, the method will provide TODAY
+
+        return switch (specialDays) {
+            case NEW_YEARS_DAY -> isNewYearsDay();
+            case GROUND_HOG_DAY -> isGroundHogDay();
+            case MARDI_GRASS_DAY -> isMardiGrassDay();
+            case EASTER -> isEaster();
+            case MEMORIAL_DAY -> isMemorialDay();
+            case INDEPENDENCE_DAY -> isIndependenceDay();
+            case LABOR_DAY -> isLaborDay();
+            case HALLOWEEN -> isHalloween();
+            case THANKSGIVING -> isThanksgiving();
+            case CHRISTMAS -> isChristmas();
+        };
     }
 
     /**
@@ -426,44 +524,6 @@ public final class TimeUtil {
                 .with(TemporalAdjusters.dayOfWeekInMonth(thanksgivingNthThursday, DayOfWeek.THURSDAY));
 
         return new MonthDay(thanksgivingMonth, thanksgivingDay.getDayOfMonth());
-    }
-
-    /**
-     * Returns whether the current day is April Fools' Day.
-     *
-     * @return whether the current day is April Fools' Day
-     */
-    public static boolean isAprilFoolsDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(aprilFoolsDay);
-    }
-
-    /**
-     * Returns whether the current day is Pi day.
-     *
-     * @return whether the current day is Pi day
-     */
-    public static boolean isPiDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(piDay);
-    }
-
-    /**
-     * Returns whether the current day is Easter.
-     *
-     * @return whether the current day is Easter
-     */
-    public static boolean isEaster() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        MonthDay sundayDate = getEasterSundayDate(getCurrentYear());
-
-        return month == sundayDate.getMonth() && date == sundayDate.getDate();
     }
 
     /**
@@ -490,102 +550,6 @@ public final class TimeUtil {
         int p = (h - m + r + n + 19) % 32;
 
         return new MonthDay(n, p);
-    }
-
-    /**
-     * Returns whether the current day is new years day.
-     *
-     * @return whether the current day is new years day
-     */
-    public static boolean isNewYearsDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(newYearsDay);
-    }
-
-    /**
-     * Returns whether the current day is new ground hog day.
-     *
-     * @return whether the current day is new ground hog day
-     */
-    public static boolean isGroundHogDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date).equals(groundHogDay);
-    }
-
-    /**
-     * Returns whether the current day is Mardi Grass.
-     *
-     * @return whether the current day is Mardi Grass
-     */
-    public static boolean isMardiGrassDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        int year = getCurrentYear();
-        MonthDay easter = getEasterSundayDate(year);
-        LocalDate easterLocalDate = LocalDate.of(year, easter.getMonth(), easter.getDate());
-
-        LocalDate mardiGrassDate = easterLocalDate.minusDays(47);
-
-        return month == mardiGrassDate.getMonthValue() && date == mardiGrassDate.getDayOfMonth();
-    }
-
-    /**
-     * Returns whether the current day is labor day.
-     *
-     * @return whether the current day is labor day
-     */
-    public static boolean isLaborDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        LocalDate laborDay = LocalDate.of(getCurrentYear(), laborDayMonth, nthMondayLaborDay)
-                .with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.MONDAY));
-
-        return month == laborDayMonth && date == laborDay.getDayOfMonth();
-    }
-
-    /**
-     * Returns whether the curent day is Memorial day.
-     *
-     * @return whether the curent day is Memorial day
-     */
-    public static boolean isMemorialDay() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        int mayDay = Calendar.MAY + 1;
-        LocalDate memorialDay = LocalDate.of(getCurrentYear(), mayDay, 1)
-                .with(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY));
-
-        return month == mayDay && date == memorialDay.getDayOfMonth();
-    }
-
-    /**
-     * Returns whether the current date is the provided special day.
-     *
-     * @param specialDays the special day to compare to today's date
-     * @return whether the current date is the provided special day
-     */
-    public static boolean isSpecialDay(SpecialDay specialDays) {
-        Preconditions.checkNotNull(specialDays);
-
-        return switch (specialDays) {
-            case NEW_YEARS_DAY -> isNewYearsDay();
-            case GROUND_HOG_DAY -> isGroundHogDay();
-            case MARDI_GRASS_DAY -> isMardiGrassDay();
-            case EASTER -> isEaster();
-            case MEMORIAL_DAY -> isMemorialDay();
-            case INDEPENDENCE_DAY -> isIndependenceDay();
-            case LABOR_DAY -> isLaborDay();
-            case HALLOWEEN -> isHalloween();
-            case THANKSGIVING -> isThanksgiving();
-            case CHRISTMAS -> isChristmas();
-        };
     }
 
     /**

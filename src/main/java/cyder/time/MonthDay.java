@@ -17,6 +17,12 @@ public final class MonthDay {
     private static final Calendar calendarInstance = Calendar.getInstance();
 
     /**
+     * The today month day object.
+     */
+    public static final MonthDay TODAY = new MonthDay(calendarInstance.get(Calendar.MONTH) + 1,
+            calendarInstance.get(Calendar.DATE));
+
+    /**
      * The "the" string used by the {@link #getMonthDateString()} method.
      */
     private static final String THE = "the";
@@ -101,19 +107,7 @@ public final class MonthDay {
     public boolean isSpecialDay(SpecialDay specialDay) {
         Preconditions.checkNotNull(specialDay);
 
-        return TimeUtil.isSpecialDay(specialDay);
-    }
-
-    /**
-     * Returns a new month day object representing today.
-     *
-     * @return a new month day object representing today
-     */
-    public static MonthDay getToday() {
-        int month = calendarInstance.get(Calendar.MONTH) + 1;
-        int date = calendarInstance.get(Calendar.DATE);
-
-        return new MonthDay(month, date);
+        return TimeUtil.isSpecialDay(TODAY, specialDay);
     }
 
     /**
