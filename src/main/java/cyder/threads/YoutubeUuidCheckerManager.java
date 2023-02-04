@@ -4,9 +4,11 @@ import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.enums.Units;
 import cyder.time.TimeUtil;
+import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserDataManager;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,8 +47,7 @@ public enum YoutubeUuidCheckerManager {
     /**
      * The frequency in seconds to notify the user of the time remaining until all YouTube uuids have been checked.
      */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int notifyUserOfRateFrequency = 60;
+    private static final Duration notifyUserOfRateFrequency = Duration.ofSeconds(1);
 
     /**
      * The list of active YouTube uuid checkers.
@@ -173,6 +174,8 @@ public enum YoutubeUuidCheckerManager {
      * Increments the urls checked counter.
      */
     public void incrementUrlsChecked() {
+        Preconditions.checkState(initialized.get());
+
         urlsChecked.getAndIncrement();
         checkIfShouldNotifyOfRate();
     }
@@ -190,8 +193,7 @@ public enum YoutubeUuidCheckerManager {
      * Checks for whether the user should be notified of the current uuid check rate.
      */
     private void checkIfShouldNotifyOfRate() {
-        if (System.currentTimeMillis() - lastNotifyTime
-                > notifyUserOfRateFrequency * TimeUtil.secondsInMinute) {
+        if (System.currentTimeMillis() - lastNotifyTime > notifyUserOfRateFrequency.toMillis()) {
             notifyOfRate();
             lastNotifyTime = System.currentTimeMillis();
         }
@@ -220,8 +222,9 @@ public enum YoutubeUuidCheckerManager {
         Preconditions.checkNotNull(notifyString);
         Preconditions.checkArgument(!notifyString.isEmpty());
 
-        if (Console.INSTANCE.getConsoleCyderFrame() != null) {
-            Console.INSTANCE.getConsoleCyderFrame().notify(notifyString);
+        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
+        if (console != null) {
+            console.notify(notifyString);
         } else {
             outputPane.getStringUtil().println(notifyString);
         }

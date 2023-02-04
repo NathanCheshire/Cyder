@@ -64,10 +64,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -415,14 +412,18 @@ public final class AudioPlayer {
     }
 
     /**
-     * Starts playing the provided audio file.
-     * The file must be mp3 or wav.
+     * Starts playing the provided mp3 file.
      *
      * @param startPlaying the audio file to start playing
-     * @return whether the gui was successfully shown
-     * @throws IllegalArgumentException if startPlaying is null or doesn't exist
+     * @throws IllegalArgumentException if startPlaying is null or does not exist
      */
-    public static boolean showGui(File startPlaying) {
+    public static void showGui(File startPlaying) {
+        // todo remove return value?
+        // todo pressing download from search view freezes for a couple seconds
+        // todo animation on audio volume label from small text size to main and then animate back down
+        // todo on quit from console close all frames first before animating frame away
+        // todo detect debug mode and if so, no frames should be always on top
+
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
 
@@ -432,31 +433,16 @@ public final class AudioPlayer {
 
         startMusicFileAddedDirectoryWatcher();
 
-        // if frame is open, stop whatever audio is playing or
-        // paused and begin playing the requested audio
         if (isWidgetOpen()) {
-            if (currentFrameView.get() == FrameView.SEARCH) {
-                goBackFromSearchView();
-            }
-
+            if (currentFrameView.get() == FrameView.SEARCH) goBackFromSearchView();
             boolean audioPlaying = isAudioPlaying();
-
-            if (audioPlaying) {
-                pauseAudio();
-            }
-
+            if (audioPlaying) pauseAudio();
             revalidateFromAudioFileChange();
-
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             innerAudioPlayer.setLocation(0);
             audioLocationUpdater.setPercentIn(0f);
             audioLocationUpdater.update(false);
-
-            if (audioPlaying) {
-                playAudio();
-            }
-
-            return true;
+            if (audioPlaying) playAudio();
         }
 
         currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
@@ -494,6 +480,11 @@ public final class AudioPlayer {
                 // should be added or window listeners
                 killAndCloseWidget();
             }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                playPauseButton.requestFocus();
+            }
         });
         installFrameMenuItems();
 
@@ -529,6 +520,11 @@ public final class AudioPlayer {
         lastAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(lastAudioButton);
 
+        /*
+        Note to maintainers: play pause button is special and is the only one of the primary control buttons
+        initialized here. The others are initialized using CyderIconButtons as class level final members.
+         */
+
         playPauseButton = new JButton();
         refreshPlayPauseButtonIcon();
         playPauseButton.setFocusPainted(false);
@@ -554,6 +550,8 @@ public final class AudioPlayer {
         });
         playPauseButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(playPauseButton);
+
+        installFocusTraversalSystem();
 
         nextAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(nextAudioButton);
@@ -702,9 +700,7 @@ public final class AudioPlayer {
         audioVolumeSlider.setVisible(true);
         audioVolumeSlider.setValue(DEFAULT_AUDIO_SLIDER_VALUE);
         audioVolumeSlider.addChangeListener(e -> {
-            if (uiLocked) {
-                return;
-            }
+            if (uiLocked) return;
 
             refreshAudioLine();
             audioVolumePercentLabel.setVisible(true);
@@ -731,19 +727,68 @@ public final class AudioPlayer {
         refreshAudioLine();
 
         setPhaseOneComponentsVisible(false);
-
         setupAndShowFrameView(FrameView.FULL);
-
         audioPlayerFrame.finalizeAndShow();
-
         Console.INSTANCE.revalidateAudioMenuVisibility();
 
-        // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youTubeDlInstalled()) {
             downloadBinaries();
         }
+    }
 
-        return true;
+    /**
+     * Sets up the focus traversal system for the primary control components.
+     */
+    private static void installFocusTraversalSystem() {
+        CyderThreadRunner.submit(() -> {
+            while (true) {
+                ThreadUtil.sleep(1000);
+                System.out.println(audioPlayerFrame.getFocusOwner());
+            }
+        }, "asdf");
+
+        shuffleAudioButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                lastAudioButton.requestFocus();
+            }
+        });
+        lastAudioButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                playPauseButton.requestFocus();
+            }
+        });
+        playPauseButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                nextAudioButton.requestFocus();
+            }
+        });
+        nextAudioButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                repeatAudioButton.requestFocus();
+            }
+        });
+        repeatAudioButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                audioLocationSlider.requestFocus();
+            }
+        });
+        audioLocationSlider.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                audioVolumeSlider.requestFocus();
+            }
+        });
+        audioVolumeSlider.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                shuffleAudioButton.requestFocus();
+            }
+        });
     }
 
     /**
@@ -819,7 +864,6 @@ public final class AudioPlayer {
      */
     public static void lockUi() {
         uiLocked = true;
-
         audioPlayerFrame.setMenuEnabled(false);
     }
 
@@ -828,7 +872,6 @@ public final class AudioPlayer {
      */
     public static void unlockUi() {
         uiLocked = false;
-
         audioPlayerFrame.setMenuEnabled(true);
     }
 

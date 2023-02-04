@@ -199,7 +199,7 @@ public class YoutubeUuidChecker {
                     YoutubeUuidCheckerManager.INSTANCE.killAll();
 
                     attemptToAcquireLock();
-                    stringUtil.println("YouTube UUID checker found valid video with uuid: " + currentUuid);
+                    stringUtil.println("YoutubeUuidChecker found valid video with uuid: " + currentUuid);
                     YoutubeUuidCheckerManager.INSTANCE.releaseLock();
 
                     showThumbnailFrame(thumbnail);

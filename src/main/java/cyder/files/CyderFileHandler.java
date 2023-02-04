@@ -21,7 +21,14 @@ public enum CyderFileHandler {
     }, file -> {
         return TextViewer.getInstance(file).showGui();
     }),
-    AUDIO(FileUtil::isSupportedAudioExtension, AudioPlayer::showGui),
+    AUDIO(FileUtil::isSupportedAudioExtension, (file) -> {
+        try {
+            AudioPlayer.showGui(file);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }),
     IMAGE(FileUtil::isSupportedImageExtension, file -> {
         Future<Boolean> futureBoolean = PhotoViewer.getInstance(file).showGui();
         while (!futureBoolean.isDone()) Thread.onSpinWait();
