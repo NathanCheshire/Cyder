@@ -2,10 +2,8 @@ package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
-import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -61,24 +59,43 @@ public class CyderIconButton extends JButton {
     @ForReadability
     private void addFocusListener() {
         if (builder.getFocusListener() == null) {
-            addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    if (!builder.isToggleButton()) {
-                        setIcon(builder.getHoverAndFocusIcon());
-                    }
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if (!builder.isToggleButton()) {
-                        setIcon(builder.getDefaultIcon());
-                    }
-                }
-            });
+            addDefaultFocusListener();
         } else {
             addFocusListener(builder.getFocusListener());
         }
+    }
+
+    /**
+     * Adds the default focus listener to this icon button.
+     */
+    private void addDefaultFocusListener() {
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (builder.isToggleButton()) {
+                    if (toggledOn) {
+                        setIcon(builder.getDefaultIcon());
+                    } else {
+                        setIcon(builder.getHoverAndFocusIcon());
+                    }
+                } else {
+                    setIcon(builder.getHoverAndFocusIcon());
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (builder.isToggleButton()) {
+                    if (toggledOn) {
+                        setIcon(builder.getHoverAndFocusIcon());
+                    } else {
+                        setIcon(builder.getDefaultIcon());
+                    }
+                } else {
+                    setIcon(builder.getDefaultIcon());
+                }
+            }
+        });
     }
 
     /**
@@ -170,14 +187,10 @@ public class CyderIconButton extends JButton {
                 + ", delay: " + msDelay + TimeUtil.MILLISECOND_ABBREVIATION);
     }
 
-    private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";
-
     /**
-     * Suppress default constructor.
+     * The name of the thread which performs the flash animation.
      */
-    private CyderIconButton() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
+    private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";
 
     /**
      * A builder pattern for constructing a Cyder icon button.

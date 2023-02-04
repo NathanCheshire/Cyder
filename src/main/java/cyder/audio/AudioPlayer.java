@@ -396,10 +396,8 @@ public final class AudioPlayer {
      */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
-        File userMusicDir = Dynamic.buildDynamic(
-                Dynamic.USERS.getFileName(),
-                Console.INSTANCE.getUuid(),
-                UserFile.MUSIC.getName());
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
+                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName());
 
         File[] userMusicFiles = userMusicDir.listFiles((dir, name)
                 -> FileUtil.isSupportedAudioExtension(OsUtil.buildFile(userMusicDir.getAbsolutePath(), name)));
@@ -418,7 +416,6 @@ public final class AudioPlayer {
      * @throws IllegalArgumentException if startPlaying is null or does not exist
      */
     public static void showGui(File startPlaying) {
-        // todo remove return value?
         // todo pressing download from search view freezes for a couple seconds
         // todo animation on audio volume label from small text size to main and then animate back down
         // todo on quit from console close all frames first before animating frame away
@@ -480,11 +477,6 @@ public final class AudioPlayer {
                 // should be added or window listeners
                 killAndCloseWidget();
             }
-
-            @Override
-            public void windowOpened(WindowEvent e) {
-                playPauseButton.requestFocus();
-            }
         });
         installFrameMenuItems();
 
@@ -545,6 +537,17 @@ public final class AudioPlayer {
 
             @Override
             public void mouseExited(MouseEvent e) {
+                playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
+            }
+        });
+        playPauseButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
                 playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
             }
         });
@@ -740,13 +743,6 @@ public final class AudioPlayer {
      * Sets up the focus traversal system for the primary control components.
      */
     private static void installFocusTraversalSystem() {
-        CyderThreadRunner.submit(() -> {
-            while (true) {
-                ThreadUtil.sleep(1000);
-                System.out.println(audioPlayerFrame.getFocusOwner());
-            }
-        }, "asdf");
-
         shuffleAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -775,18 +771,6 @@ public final class AudioPlayer {
             @Override
             public void focusLost(FocusEvent e) {
                 audioLocationSlider.requestFocus();
-            }
-        });
-        audioLocationSlider.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                audioVolumeSlider.requestFocus();
-            }
-        });
-        audioVolumeSlider.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                shuffleAudioButton.requestFocus();
             }
         });
     }
