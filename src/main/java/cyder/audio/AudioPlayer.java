@@ -226,7 +226,7 @@ public final class AudioPlayer {
     /**
      * The audio volume percent label which appears on change of the audio volume.
      */
-    private static final CyderLabel audioVolumePercentLabel = new CyderLabel();
+    private static final CyderLabel audioVolumePercentLabel = new CyderLabel("");
 
     /**
      * The size of the primary audio control buttons.
@@ -417,7 +417,6 @@ public final class AudioPlayer {
      */
     public static void showGui(File startPlaying) {
         // todo pressing download from search view freezes for a couple seconds
-        // todo animation on audio volume label from small text size to main and then animate back down
         // todo on quit from console close all frames first before animating frame away
         // todo detect debug mode and if so, no frames should be always on top
 
@@ -685,6 +684,7 @@ public final class AudioPlayer {
 
         audioVolumePercentLabel.setForeground(CyderColors.vanilla);
         audioVolumePercentLabel.setSize(100, 40);
+        audioVolumePercentLabel.setVisible(false);
         audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
 
         if (audioVolumeLabelAnimator != null) {
@@ -706,9 +706,8 @@ public final class AudioPlayer {
             if (uiLocked) return;
 
             refreshAudioLine();
-            audioVolumePercentLabel.setVisible(true);
             audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
-            audioVolumeLabelAnimator.resetTimeout();
+            audioVolumeLabelAnimator.onValueChanged();
         });
         audioVolumeSlider.addMouseListener(new MouseAdapter() {
             @Override
@@ -832,7 +831,7 @@ public final class AudioPlayer {
         secondsInLabel.setVisible(visible);
         totalSecondsLabel.setVisible(visible);
 
-        audioVolumePercentLabel.setVisible(visible);
+        // todo audioVolumePercentLabel.setVisible(visible);
 
         audioVolumeSlider.setVisible(visible);
         audioLocationSlider.setVisible(visible);
