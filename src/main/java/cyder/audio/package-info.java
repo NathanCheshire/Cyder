@@ -1,4 +1,4 @@
 /**
- * Utilities and encapsulating classes related to audio and the {@link cyder.audio.player.AudioPlayer}.
+ * Utilities and encapsulating classes related audio.
  */
 package cyder.audio;

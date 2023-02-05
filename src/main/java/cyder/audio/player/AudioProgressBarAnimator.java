@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * An encapsulation class for incrementing the audio progress bar's animation increment.
  */
-public final class AudioProgressBarAnimator {
+final class AudioProgressBarAnimator {
     /**
      * The delay between update calls while the animation is in the {@link State#RUNNING} state.
      */

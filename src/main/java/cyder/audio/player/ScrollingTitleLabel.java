@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Private inner class for the scrolling audio label.
  */
-public final class ScrollingTitleLabel {
+final class ScrollingTitleLabel {
     /**
      * The minimum width of the title label.
      */

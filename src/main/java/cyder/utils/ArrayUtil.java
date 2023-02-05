@@ -307,6 +307,20 @@ public final class ArrayUtil {
     }
 
     /**
+     * Returns a random element from the provided array.
+     *
+     * @param array the array
+     * @param <T>   the type contained in the array
+     * @return a random element from the provided array
+     */
+    public static <T> T getRandomElement(T[] array) {
+        Preconditions.checkNotNull(array);
+
+        return Arrays.stream(array).skip((int) (array.length * Math.random())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Failed to get random element of collection"));
+    }
+
+    /**
      * Returns a random element from the provided collection.
      *
      * @param collection the collection

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * The class to update the audio location label and progress bar.
  */
-public final class AudioLocationUpdater {
+final class AudioLocationUpdater {
     /**
      * The thread for setting up the props during object construction.
      */

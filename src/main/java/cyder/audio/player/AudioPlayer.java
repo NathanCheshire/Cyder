@@ -45,10 +45,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
 import cyder.user.UserFile;
-import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.SerializationUtil;
-import cyder.utils.StaticUtil;
+import cyder.utils.*;
 import cyder.youtube.YouTubeAudioDownload;
 import cyder.youtube.YouTubeConstants;
 import cyder.youtube.YouTubeUtil;
@@ -459,13 +456,19 @@ public final class AudioPlayer {
         File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName());
 
-        File[] userMusicFiles = userMusicDir.listFiles((dir, name)
-                -> FileUtil.isSupportedAudioExtension(OsUtil.buildFile(userMusicDir.getAbsolutePath(), name)));
+        File[] userMusicFiles = userMusicDir.listFiles((dir, name) ->
+                FileUtil.isSupportedAudioExtension(OsUtil.buildFile(userMusicDir.getAbsolutePath(), name)));
 
         if (userMusicFiles != null && userMusicFiles.length > 0) {
-            showGui(userMusicFiles[NumberUtil.generateRandomInt(userMusicFiles.length - 1)]);
+            showGui(ArrayUtil.getRandomElement(userMusicFiles));
         } else {
-            // todo attempt to find user's music directory or possibly move a default audio file to tmp and play
+            if (OsUtil.isWindows()) {
+                Optional<File> optionalMp3File = AudioUtil.getFirstMp3FileForWindowsUser();
+                optionalMp3File.ifPresent(AudioPlayer::showGui);
+                if (optionalMp3File.isPresent()) return;
+            }
+
+            // todo copy to tmp and play?
             throw new IllegalArgumentException("Could not find any user audio files");
         }
     }
@@ -1851,7 +1854,6 @@ public final class AudioPlayer {
         }
 
     }
-
 
     /*
      * The location the previous InnerAudioPlayer was killed at, if available.

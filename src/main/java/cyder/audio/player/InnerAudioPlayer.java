@@ -17,7 +17,7 @@ import java.io.FileInputStream;
 /**
  * An inner class for easily playing a single audio file
  */
-public final class InnerAudioPlayer {
+final class InnerAudioPlayer {
     /**
      * The one and only file this audio player can play.
      */
