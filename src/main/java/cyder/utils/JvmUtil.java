@@ -301,15 +301,7 @@ public final class JvmUtil {
 
         CyderThreadRunner.submit(() -> {
             try {
-                StringBuilder argBuilder = new StringBuilder();
-
-                for (int i = 0 ; i < cyderArgs.size() ; i++) {
-                    if (i != 0) {
-                        argBuilder.append(",");
-                    }
-
-                    argBuilder.append(cyderArgs.get(i));
-                }
+                StringBuilder argBuilder = new StringBuilder(StringUtil.joinParts(cyderArgs, comma));
 
                 ScrapingUtil.IspQueryResult result = ScrapingUtil.getIspAndNetworkDetails();
 
@@ -334,9 +326,9 @@ public final class JvmUtil {
     }
 
     /**
-     * Calculates the run time of the current JVM running Cyder.
+     * Calculates the run time of the JVM running Cyder.
      *
-     * @return the run time of Cyder
+     * @return the run time of Cyder starting from JVM entry
      */
     public static long getRuntime() {
         return ManagementFactory.getRuntimeMXBean().getUptime();

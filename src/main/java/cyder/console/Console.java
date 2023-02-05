@@ -72,8 +72,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.lang.management.ManagementFactory;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -359,14 +360,33 @@ public enum Console {
         UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
 
         if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
-            titleNotify("<html>Welcome to Cyder, <b>" + UserDataManager.INSTANCE.getUsername()
-                            + "</b>! Type \"help\" for command assists</html>",
-                    CyderFonts.DEFAULT_FONT_LARGE, 6000);
+            String boldUsername = HtmlUtil.applyBold(UserDataManager.INSTANCE.getUsername());
+            String notifyText = "Welcome to Cyder, " + boldUsername + "! Type \"help\" for command assists";
+            titleNotify(HtmlUtil.surroundWithHtmlTags(notifyText), CyderFonts.DEFAULT_FONT_LARGE, 6000);
             UserDataManager.INSTANCE.setShownWelcomeMessage(true);
         }
 
-        long loadTime = ManagementFactory.getRuntimeMXBean().getUptime();
+        long loadTime = Instant.now().minusMillis(consoleLoadStartTime.toEpochMilli()).toEpochMilli();
+        if (initialConsoleLoad) {
+            loadTime = JvmUtil.getRuntime();
+            initialConsoleLoad = false;
+        }
+
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
+    }
+
+    private boolean initialConsoleLoad = true;
+
+    /**
+     * The time at which the console load was started.
+     */
+    private Instant consoleLoadStartTime;
+
+    /**
+     * Sets the time at which teh console load was started to now.
+     */
+    public void setConsoleLoadStartTime() {
+        consoleLoadStartTime = Instant.now();
     }
 
     /**
@@ -392,7 +412,7 @@ public enum Console {
     /**
      * The delay the busy icon stops between sliding from the right to left and the left to the right.
      */
-    private final int busyIconAnimationTransitionDelay = 500;
+    private final Duration busyIconAnimationTransitionDelay = Duration.ofMillis(500);
 
     /**
      * The busy icon for the console.
@@ -458,7 +478,7 @@ public enum Console {
                     if (!shouldShowBusyAnimation.get()) break OUTER;
                 }
 
-                ThreadUtil.sleep(busyIconAnimationTransitionDelay);
+                ThreadUtil.sleep(busyIconAnimationTransitionDelay.toMillis());
 
                 while (busyIcon.getX() > 0) {
                     if (busyIcon.getX() + busyIcon.getWidth() > consoleCyderFrame.getWidth()) {
@@ -472,7 +492,7 @@ public enum Console {
                     if (!shouldShowBusyAnimation.get()) break OUTER;
                 }
 
-                ThreadUtil.sleep(busyIconAnimationTransitionDelay);
+                ThreadUtil.sleep(busyIconAnimationTransitionDelay.toMillis());
             }
 
             busyIcon.setVisible(false);
@@ -515,7 +535,9 @@ public enum Console {
         int h = (int) consoleIcon.dimension().getHeight();
 
         consoleCyderFrame = new CyderFrame(w, h, consoleIcon.background()) {
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void setBounds(int x, int y, int width, int height) {
                 super.setBounds(x, y, width, height);
@@ -539,11 +561,6 @@ public enum Console {
                 UiUtil.disposeAllFrames(true, consoleCyderFrame);
                 super.dispose(isFullscreen());
             }
-
-            /**
-             * Full barrel roll's rotation degrees.
-             */
-            private static final int FULL_ROTATION_DEGREES = 360;
 
             /**
              * The increment in degrees for a barrel roll.
@@ -575,7 +592,7 @@ public enum Console {
 
                 CyderThreadRunner.submit(() -> {
                     BufferedImage masterImage = getCurrentBackground().generateBufferedImage();
-                    for (int i = 0 ; i <= FULL_ROTATION_DEGREES ; i += DEGREE_INCREMENT) {
+                    for (int i = 0 ; i <= AngleUtil.THREE_SIXTY_DEGREES ; i += DEGREE_INCREMENT) {
                         BufferedImage rotated = ImageUtil.rotateImage(masterImage, i);
                         getConsoleCyderFrameContentPane().setIcon(new ImageIcon(rotated));
                         ThreadUtil.sleep(BARREL_ROLL_DELAY);
@@ -3694,7 +3711,6 @@ public enum Console {
         consoleCyderFrame.repaint();
     }
 
-    // todo adding files bug to user editor
     // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
     // todo could add some logic and separate with a class to return a hash when a frame taskbar exception is added

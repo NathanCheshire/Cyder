@@ -218,8 +218,6 @@ public final class LoginHandler {
         throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
-    // todo perhaps we can encapsulate printing animation logic in a cyder output pane?
-
     /**
      * Begins the login typing animation and printing thread.
      */
@@ -630,6 +628,8 @@ public final class LoginHandler {
             }
             case SUCCESS -> {
                 Preconditions.checkState(!recognizedUuid.isEmpty());
+
+                Console.INSTANCE.setConsoleLoadStartTime();
 
                 if (!Console.INSTANCE.isClosed()) {
                     Console.INSTANCE.releaseResourcesAndCloseFrame(false);

@@ -93,4 +93,16 @@ public final class HtmlUtil {
         Pattern htmlPattern = Pattern.compile(".*<[^>]+>.*", Pattern.DOTALL);
         return htmlPattern.matcher(text).matches();
     }
+
+    /**
+     * Surrounds the provided html text with {@link HtmlTags#openingHtml} and {@link HtmlTags#closingHtml}.
+     *
+     * @param htmlText the html text to surround
+     * @return the html text surrounded with html tags
+     */
+    public static String surroundWithHtmlTags(String htmlText) {
+        Preconditions.checkNotNull(htmlText);
+
+        return HtmlTags.openingHtml + htmlText + HtmlTags.closingHtml;
+    }
 }
