@@ -413,7 +413,6 @@ public final class AudioPlayer {
      * @throws IllegalArgumentException if startPlaying is null or does not exist
      */
     public static void showGui(File startPlaying) {
-        // todo pressing download from search view freezes for a couple seconds
         // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
@@ -2507,7 +2506,7 @@ public final class AudioPlayer {
                 downloadButton.setBorder(BorderFactory.createEmptyBorder());
                 downloadButton.setFont(CyderFonts.DEFAULT_FONT.deriveFont(26f));
                 downloadButton.setSize(phaseTwoWidth, 40);
-                downloadButton.addActionListener(e -> {
+                downloadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                     if (downloadable.get().isDownloading()) {
                         downloadable.get().cancel();
                         return;
@@ -2531,9 +2530,8 @@ public final class AudioPlayer {
                     }
 
                     downloadable.get().downloadAudioAndThumbnail();
-
                     startDownloadUpdater(downloadable, downloadButton, mouseEntered);
-                });
+                }, "AudioPlayer search download: " + result.title()));
                 downloadButton.addMouseListener(generateDownloadButtonMouseListener(downloadable,
                         mouseEntered, downloadButton, alreadyExists));
                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
@@ -2653,8 +2651,8 @@ public final class AudioPlayer {
      * @param mouseEntered   whether the mouse is currently in the button
      */
     private static void startDownloadUpdater(AtomicReference<YouTubeAudioDownload> downloadable,
-                                             CyderButton downloadButton, AtomicBoolean mouseEntered) {
-
+                                             CyderButton downloadButton,
+                                             AtomicBoolean mouseEntered) {
         String threadName = "YouTube audio downloader, name: " + CyderStrings.quote
                 + downloadable.get().getDownloadableName() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {

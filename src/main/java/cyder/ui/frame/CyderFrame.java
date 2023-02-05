@@ -965,7 +965,7 @@ public class CyderFrame extends JFrame {
     public void setTitle(String title) {
         Preconditions.checkNotNull(title);
 
-        title = StringUtil.getTrimmedText(StringUtil.removeNonAscii(title));
+        title = StringUtil.getTrimmedText(title);
 
         if (paintSuperTitle) {
             super.setTitle(title);
@@ -992,7 +992,7 @@ public class CyderFrame extends JFrame {
      */
     public void setCyderFrameTitle(String title) {
         Preconditions.checkNotNull(title);
-        title = StringUtil.getTrimmedText(StringUtil.removeNonAscii(title));
+        title = StringUtil.getTrimmedText(title);
 
         if (titleLabel == null) return;
 

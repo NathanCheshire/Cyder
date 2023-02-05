@@ -147,17 +147,20 @@ public class GitHandler extends InputHandler {
             return;
         }
 
-        ProcessBuilder gitAddProcessBuilder = new ProcessBuilder(generateGitAddCommand());
-
         String commitMessage = quote + getInputHandler().argsToString() + quote;
-        String[] GIT_COMMIT_COMMAND = {GIT, "commit", "-m", commitMessage};
-        ProcessBuilder gitCommitProcessBuilder = new ProcessBuilder(GIT_COMMIT_COMMAND);
+        String threadName = "Gitme command, commit message: " + commitMessage;
+        CyderThreadRunner.submit(() -> {
+            ProcessBuilder gitAddProcessBuilder = new ProcessBuilder(generateGitAddCommand());
 
-        ProcessBuilder gitPushProcessBuilder = new ProcessBuilder(generateGitPushCommand());
+            String[] GIT_COMMIT_COMMAND = {GIT, "commit", "-m", commitMessage};
+            ProcessBuilder gitCommitProcessBuilder = new ProcessBuilder(GIT_COMMIT_COMMAND);
 
-        ImmutableList<ProcessBuilder> builders = ImmutableList.of(
-                gitAddProcessBuilder, gitCommitProcessBuilder, gitPushProcessBuilder);
-        ProcessUtil.runProcesses(builders).forEach(getInputHandler()::println);
+            ProcessBuilder gitPushProcessBuilder = new ProcessBuilder(generateGitPushCommand());
+
+            ImmutableList<ProcessBuilder> builders = ImmutableList.of(
+                    gitAddProcessBuilder, gitCommitProcessBuilder, gitPushProcessBuilder);
+            ProcessUtil.runProcesses(builders).forEach(getInputHandler()::println);
+        }, threadName);
     }
 
     /**

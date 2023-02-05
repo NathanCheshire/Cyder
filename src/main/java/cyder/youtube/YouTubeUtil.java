@@ -85,8 +85,7 @@ public final class YouTubeUtil {
 
         String urlTitle = NetworkUtil.getUrlTitle(youTubeVideoUrl).orElse(UNKNOWN_TITLE);
 
-        String safeName = StringUtil.removeNonAscii(urlTitle)
-                .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
+        String safeName = urlTitle.replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
                 .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 
         while (safeName.endsWith(".")) {
