@@ -34,6 +34,9 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.ChangeSizeButton;
+import cyder.ui.drag.button.CloseButton;
+import cyder.ui.drag.button.MinimizeButton;
+import cyder.ui.drag.button.PinButton;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.frame.CyderFrame;
@@ -631,7 +634,7 @@ public final class AudioPlayer {
         playPauseButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(playPauseButton);
 
-        installFocusTraversalSystem();
+        setupFocusTraversal();
 
         nextAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(nextAudioButton);
@@ -765,10 +768,7 @@ public final class AudioPlayer {
         audioVolumePercentLabel.setVisible(false);
         audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
 
-        if (audioVolumeLabelAnimator != null) {
-            audioVolumeLabelAnimator.kill();
-        }
-
+        if (audioVolumeLabelAnimator != null) audioVolumeLabelAnimator.kill();
         audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
 
         audioVolumeSlider.setSize(fullRowWidth, fullRowHeight);
@@ -819,7 +819,13 @@ public final class AudioPlayer {
     /**
      * Sets up the focus traversal system for the primary control components.
      */
-    private static void installFocusTraversalSystem() {
+    private static void setupFocusTraversal() {
+        LinkedList<Component> buttons = audioPlayerFrame.getTopDragLabel().getRightButtonList();
+        MinimizeButton minimizeButton = (MinimizeButton) buttons.get(0);
+        ChangeSizeButton changeSizeButton = (ChangeSizeButton) buttons.get(1);
+        PinButton pinButton = (PinButton) buttons.get(2);
+        CloseButton closeButton = (CloseButton) buttons.get(3);
+
         shuffleAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -847,9 +853,26 @@ public final class AudioPlayer {
         repeatAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                audioLocationSlider.requestFocus();
+                minimizeButton.requestFocus();
             }
         });
+
+        CyderThreadRunner.submit(() -> {
+            while (true) {
+                ThreadUtil.sleepSeconds(2);
+                System.out.println(minimizeButton.isFocusOwner());
+            }
+        }, "asdf");
+
+        minimizeButton.setFocusPaintable(true);
+        changeSizeButton.setFocusPaintable(true);
+        pinButton.setFocusPaintable(true);
+        closeButton.setFocusPaintable(true);
+
+        minimizeButton.addFocusLostAction(changeSizeButton::requestFocus);
+        changeSizeButton.addFocusLostAction(pinButton::requestFocus);
+        pinButton.addFocusLostAction(closeButton::requestFocus);
+        closeButton.addFocusLostAction(shuffleAudioButton::requestFocus);
     }
 
     /**
@@ -863,10 +886,7 @@ public final class AudioPlayer {
                 audioPlayerFrame.notify("Attempting to download ffmpeg or YouTube-dl");
 
                 Future<Boolean> passedPreliminaries = handlePreliminaries();
-
-                while (!passedPreliminaries.isDone()) {
-                    Thread.onSpinWait();
-                }
+                while (!passedPreliminaries.isDone()) Thread.onSpinWait();
 
                 // wait to start playing if downloading
                 if (!passedPreliminaries.get()) {

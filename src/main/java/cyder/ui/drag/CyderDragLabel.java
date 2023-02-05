@@ -80,6 +80,8 @@ public class CyderDragLabel extends JLabel {
      */
     private LinkedList<Component> rightButtonList;
 
+    // todo can these be array lists and can we return defensive copies?
+
     /**
      * The list of buttons to paint on the left of the drag label.
      * If any buttons exist in this list then the title label is restricted/moved to
@@ -442,8 +444,8 @@ public class CyderDragLabel extends JLabel {
         if (consoleFrame != null) {
             boolean consolePinned = consoleFrame.getTopDragLabel()
                     .getPinButton().getCurrentState() == PinButton.PinState.CONSOLE_PINNED;
-            boolean weAreConsole = consoleFrame.equals(effectFrame);
-            if (consolePinned && !weAreConsole) {
+            boolean thisIsConsole = consoleFrame.equals(effectFrame);
+            if (consolePinned && !thisIsConsole) {
                 ret = PinButton.PinState.FRAME_PINNED;
             }
         }

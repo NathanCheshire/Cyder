@@ -104,53 +104,60 @@ public class CyderIconButton extends JButton {
     @ForReadability
     private void addMouseListener() {
         if (builder.getMouseListener() == null) {
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    Runnable runnable = builder.getClickAction();
-                    if (runnable != null) runnable.run();
+            addDefaultMouseListener();
+        } else {
+            addMouseListener(builder.getMouseListener());
+        }
+    }
 
-                    if (builder.isToggleButton()) {
-                        toggledOn = !toggledOn;
+    /**
+     * Adds the default mouse listener to this icon button.
+     */
+    private void addDefaultMouseListener() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Runnable runnable = builder.getClickAction();
+                if (runnable != null) runnable.run();
 
-                        if (toggledOn) {
-                            setIcon(builder.getDefaultIcon());
-                        } else {
-                            setIcon(builder.getHoverAndFocusIcon());
-                        }
-                    }
-                }
+                if (builder.isToggleButton()) {
+                    toggledOn = !toggledOn;
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    if (builder.isToggleButton()) {
-
-                        if (toggledOn) {
-                            setIcon(builder.getDefaultIcon());
-                        } else {
-                            setIcon(builder.getHoverAndFocusIcon());
-                        }
+                    if (toggledOn) {
+                        setIcon(builder.getDefaultIcon());
                     } else {
                         setIcon(builder.getHoverAndFocusIcon());
                     }
                 }
+            }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    if (builder.isToggleButton()) {
-                        if (toggledOn) {
-                            setIcon(builder.getHoverAndFocusIcon());
-                        } else {
-                            setIcon(builder.getDefaultIcon());
-                        }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (builder.isToggleButton()) {
+
+                    if (toggledOn) {
+                        setIcon(builder.getDefaultIcon());
+                    } else {
+                        setIcon(builder.getHoverAndFocusIcon());
+                    }
+                } else {
+                    setIcon(builder.getHoverAndFocusIcon());
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (builder.isToggleButton()) {
+                    if (toggledOn) {
+                        setIcon(builder.getHoverAndFocusIcon());
                     } else {
                         setIcon(builder.getDefaultIcon());
                     }
+                } else {
+                    setIcon(builder.getDefaultIcon());
                 }
-            });
-        } else {
-            addMouseListener(builder.getMouseListener());
-        }
+            }
+        });
     }
 
     /**

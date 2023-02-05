@@ -227,10 +227,10 @@ public interface ICyderDragLabelButton {
     boolean getMouseIn();
 
     /**
-     * Sets whether this drag label button is for the console.
+     * Sets whether this drag label button is focus paintable.
      * This means focus will be enabled and the default focus adapter will be added if enabled.
      *
-     * @param forConsole whether this drag label button is for the console.
+     * @param focusPaintable whether this drag label button is focus paintable
      */
-    void setForConsole(boolean forConsole);
+    void setFocusPaintable(boolean focusPaintable);
 }

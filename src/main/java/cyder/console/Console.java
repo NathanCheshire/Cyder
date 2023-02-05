@@ -986,7 +986,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
         // Add custom close button
         closeButton = new CloseButton();
-        closeButton.setForConsole(true);
+        closeButton.setFocusPaintable(true);
         closeButton.setClickAction(() -> {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
@@ -1010,20 +1010,20 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().removeRightButton(0);
         // Add custom minimize button
         MinimizeButton minimizeButton = new MinimizeButton(consoleCyderFrame);
-        minimizeButton.setForConsole(true);
+        minimizeButton.setFocusPaintable(true);
         consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
 
         // Remove default pin button
         consoleCyderFrame.getTopDragLabel().removeRightButton(1);
         //  Add custom pin button
         PinButton pinButton = new PinButton(consoleCyderFrame);
-        pinButton.setForConsole(true);
+        pinButton.setFocusPaintable(true);
         pinButton.addClickAction(this::saveScreenStat);
         consoleCyderFrame.getTopDragLabel().setPinButton(pinButton);
         consoleCyderFrame.getTopDragLabel().addRightButton(pinButton, 1);
 
         changeSizeButton = new ChangeSizeButton();
-        changeSizeButton.setForConsole(true);
+        changeSizeButton.setFocusPaintable(true);
         changeSizeButton.setToolTipText(ALTERNATE_BACKGROUND);
         changeSizeButton.setClickAction(() -> {
             reloadBackgrounds();
@@ -1037,7 +1037,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
         toggleAudioControls = new MenuButton();
-        toggleAudioControls.setForConsole(true);
+        toggleAudioControls.setFocusPaintable(true);
         toggleAudioControls.setToolTipText(AUDIO_MENU);
         toggleAudioControls.setClickAction(() -> {
             if (audioControlsLabel.isVisible()) {
@@ -1056,7 +1056,7 @@ public enum Console {
     @ForReadability
     private void installLeftDragLabelButtons() {
         menuButton = new MenuButton();
-        menuButton.setForConsole(true);
+        menuButton.setFocusPaintable(true);
         menuButton.setClickAction(this::onMenuButtonClicked);
         menuButton.addKeyListener(menuButtonKeyAdapter);
         menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
