@@ -705,7 +705,7 @@ public class YouTubeAudioDownload {
         } else if (!isCanceled()) {
             downloaded = true;
 
-            AudioPlayer.addAudioNext(audioDownloadFile);
+            AudioPlayer.playAudioNext(audioDownloadFile);
 
             if (onDownloadedCallback != null) {
                 onDownloadedCallback.run();

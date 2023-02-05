@@ -836,9 +836,9 @@ public enum UserDataManager {
     }
 
     /**
-     * Returns the hex code for teh frame color.
+     * Returns the hex code for the frame color.
      *
-     * @return the hex code for teh frame color
+     * @return the hex code for the frame color
      */
     public synchronized String getFrameColorHexCode() {
         getterInvoked(UserData.FRAME_COLOR);

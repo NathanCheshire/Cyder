@@ -71,6 +71,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -424,10 +425,10 @@ public final class AudioPlayer {
         audioDreamified.set(isCurrentAudioDreamy());
 
         if (isWidgetOpen()) {
-            if (currentFrameView.get() == FrameView.SEARCH) goBackFromSearchView();
+            if (currentFrameView.get() == FrameView.SEARCH) onBackPressedFromSearchView();
             boolean audioPlaying = isAudioPlaying();
             if (audioPlaying) pauseAudio();
-            revalidateFromAudioFileChange();
+            revalidateAfterAudioFileChange();
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             innerAudioPlayer.setLocation(0);
             audioLocationUpdater.setPercentIn(0f);
@@ -451,7 +452,7 @@ public final class AudioPlayer {
                 case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ALBUM_ART);
                 case HIDDEN_ALBUM_ART -> setupAndShowFrameView(FrameView.MINI);
                 case MINI -> setupAndShowFrameView(FrameView.FULL);
-                case SEARCH -> goBackFromSearchView();
+                case SEARCH -> onBackPressedFromSearchView();
                 default -> throw new IllegalArgumentException(
                         "Illegal requested view to switch to via view switch frame button");
             }
@@ -1082,7 +1083,7 @@ public final class AudioPlayer {
      */
     private static void onSearchMenuItemPressed() {
         if (onSearchView.get()) {
-            goBackFromSearchView();
+            onBackPressedFromSearchView();
         } else {
             onSearchView.set(true);
             constructSearchYouTubeView();
@@ -1111,14 +1112,14 @@ public final class AudioPlayer {
                 lastAction = LastAction.FileChosen;
 
                 if (currentFrameView.get() == FrameView.SEARCH) {
-                    goBackFromSearchView();
+                    onBackPressedFromSearchView();
                 }
 
                 pauseAudio();
 
                 currentAudioFile.set(chosenFile);
 
-                revalidateFromAudioFileChange();
+                revalidateAfterAudioFileChange();
 
                 playAudio();
             } else {
@@ -1192,7 +1193,7 @@ public final class AudioPlayer {
 
         currentAudioFile.set(dreamyAudio);
 
-        revalidateFromAudioFileChange();
+        revalidateAfterAudioFileChange();
 
         innerAudioPlayer = new InnerAudioPlayer(dreamyAudio);
         innerAudioPlayer.setLocation((long) (percentIn
@@ -1267,7 +1268,7 @@ public final class AudioPlayer {
 
                 currentAudioFile.set(validAudioFile);
 
-                revalidateFromAudioFileChange();
+                revalidateAfterAudioFileChange();
 
                 innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
                 innerAudioPlayer.setLocation((long) (percentIn
@@ -1310,7 +1311,7 @@ public final class AudioPlayer {
 
                 currentAudioFile.set(validAudioFile);
 
-                revalidateFromAudioFileChange();
+                revalidateAfterAudioFileChange();
 
                 innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
                 innerAudioPlayer.setLocation((long) (percentIn
@@ -1771,19 +1772,19 @@ public final class AudioPlayer {
         } else if (!audioFileQueue.isEmpty()) {
             currentAudioFile.set(audioFileQueue.remove(0));
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            revalidateFromAudioFileChange();
+            revalidateAfterAudioFileChange();
             playAudio();
         } else if (shuffleAudio.get()) {
             currentAudioFile.set(getValidAudioFiles().get(getRandomIndex()));
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            revalidateFromAudioFileChange();
+            revalidateAfterAudioFileChange();
             playAudio();
         } else {
             int currentIndex = getCurrentAudioIndex();
             int nextIndex = currentIndex + 1 == getValidAudioFiles().size() ? 0 : currentIndex + 1;
             currentAudioFile.set(getValidAudioFiles().get(nextIndex));
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            revalidateFromAudioFileChange();
+            revalidateAfterAudioFileChange();
             playAudio();
         }
 
@@ -1873,7 +1874,7 @@ public final class AudioPlayer {
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             audioLocationUpdater.update(false);
             audioLocationSliderUi.resetAnimation();
-            revalidateFromAudioFileChange();
+            revalidateAfterAudioFileChange();
         }
 
         if (wasPlayingAudio) playAudio();
@@ -1904,7 +1905,7 @@ public final class AudioPlayer {
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
         audioLocationSliderUi.resetAnimation();
 
-        revalidateFromAudioFileChange();
+        revalidateAfterAudioFileChange();
 
         if (shouldPlay) {
             playAudio();
@@ -1930,6 +1931,8 @@ public final class AudioPlayer {
 
         return currentIndex;
     }
+
+    // todo audio labels say 0ms when they should say 0s instead
 
     /**
      * Whether the current audio should be repeated on conclusion.
@@ -1968,7 +1971,7 @@ public final class AudioPlayer {
      *
      * @param audioFile the audio file to add to the beginning of the queue
      */
-    public static void addAudioNext(File audioFile) {
+    public static void playAudioNext(File audioFile) {
         checkNotNull(audioFile);
         checkArgument(audioFile.exists());
 
@@ -1984,7 +1987,7 @@ public final class AudioPlayer {
      *
      * @param audioFile the audio file to add to the end of the queue
      */
-    public static void addAudioLast(File audioFile) {
+    public static void playAudioLast(File audioFile) {
         checkNotNull(audioFile);
         checkArgument(audioFile.exists());
 
@@ -2008,9 +2011,7 @@ public final class AudioPlayer {
      * Resets all objects and closes the audio player widget.
      */
     private static void killAndCloseWidget() {
-        if (isAudioPlaying()) {
-            pauseAudio();
-        }
+        if (isAudioPlaying()) pauseAudio();
 
         currentAudioFile.set(null);
 
@@ -2043,14 +2044,14 @@ public final class AudioPlayer {
     }
 
     /**
-     * The time in ms to delay possible ui interactions.
+     * The time in ms to delay primary ui interactions, that of play, pause, and skip.
      */
-    private static final int ACTION_TIMEOUT_MS = 50;
+    private static final int primaryActionThrottleDelay = 50;
 
     /**
      * The last time a ui action was permitted.
      */
-    private static long lastActionTime;
+    private static Instant lastActionTime = Instant.ofEpochMilli(0);
 
     /**
      * Returns whether to suppress a requested ui action such as a button click.
@@ -2058,8 +2059,9 @@ public final class AudioPlayer {
      * @return whether to suppress a requested ui action such as a button click
      */
     private static boolean shouldSuppressClick() {
-        if (System.currentTimeMillis() - lastActionTime >= ACTION_TIMEOUT_MS) {
-            lastActionTime = System.currentTimeMillis();
+        Instant now = Instant.now();
+        if (now.minusMillis(lastActionTime.toEpochMilli()).toEpochMilli() >= primaryActionThrottleDelay) {
+            lastActionTime = now;
             return false;
         } else {
             return true;
@@ -2069,7 +2071,7 @@ public final class AudioPlayer {
     /**
      * Revalidates necessary components following an audio file change.
      */
-    private static void revalidateFromAudioFileChange() {
+    private static void revalidateAfterAudioFileChange() {
         refreshFrameTitle();
         refreshAudioTitleLabel();
         refreshAlbumArt();
@@ -2079,6 +2081,8 @@ public final class AudioPlayer {
 
         audioPlayerFrame.revalidateMenuIfVisible();
     }
+
+    // todo method to generate random number in range ignoring certain values
 
     /**
      * Returns a random index of the validAudioFiles list.
@@ -2117,9 +2121,24 @@ public final class AudioPlayer {
     private static final LinkedList<YoutubeSearchResult> searchResults = new LinkedList<>();
 
     /**
-     * The length of the thumbnails.
+     * The length of the thumbnails printed to the search view {@link #searchResultsPane}.
      */
-    private static final int thumbnailLength = 250;
+    private static final int searchViewThumbnailLength = 250;
+
+    /**
+     * The default information label text.
+     */
+    private static final String DEFAULT_INFORMATION_LABEL_TEXT = "Search YouTube using the above field";
+
+    /**
+     * The color used as the background for the search results scroll and information label.
+     */
+    private static final Color searchViewScrollBackground = new Color(30, 30, 30);
+
+    /**
+     * The width of the search view components excluding the scroll pane.
+     */
+    private static final int searchViewComponentWidth = 300;
 
     /**
      * The text pane used to display YouTube search results.
@@ -2129,7 +2148,7 @@ public final class AudioPlayer {
     /**
      * The printing util used for printing out search results to the scroll pane.
      */
-    private static StringUtil printingUtil;
+    private static StringUtil searchResultsPrintingUtil;
 
     /**
      * The scroll pane for the search results pane.
@@ -2144,15 +2163,10 @@ public final class AudioPlayer {
     /**
      * The button used to go back to the main audio page.
      */
-    private static CyderButton backButton;
+    private static CyderButton searchBackButton;
 
     /**
-     * The width of the search view components excluding the scroll pane.
-     */
-    private static final int searchViewComponentWidth = 300;
-
-    /**
-     * The information label for displaying progress when a search is underway.
+     * The information label placed in the center of the search pane for displaying progress when a search is underway.
      */
     private static CyderLabel informationLabel;
 
@@ -2172,25 +2186,15 @@ public final class AudioPlayer {
     private static int previousScrollLocation;
 
     /**
-     * The default information label text.
-     */
-    private static final String DEFAULT_INFORMATION_LABEL_TEXT = "Search YouTube using the above field";
-
-    /**
      * Performs operations necessary to transitioning from the search view to the {@link FrameView#FULL} view.
      */
-    private static void goBackFromSearchView() {
+    private static void onBackPressedFromSearchView() {
         previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
         onSearchView.set(false);
         setYouTubeSearchViewComponentsVisible(false);
         audioPlayerFrame.hideMenu();
         setupAndShowFrameView(FrameView.FULL);
     }
-
-    /**
-     * The color used as the background for the search results scroll and information label.
-     */
-    private static final Color SCROLL_BACKGROUND_COLOR = new Color(30, 30, 30);
 
     /**
      * Constructs the search view where a user can search for and download audio from YouTube.
@@ -2237,15 +2241,15 @@ public final class AudioPlayer {
         searchField.addActionListener(e -> searchAndUpdate());
         searchViewSearchButton.addActionListener(e -> searchAndUpdate());
 
-        backButton = new CyderButton(" < ");
-        backButton.setBorder(BorderFactory.createEmptyBorder());
-        backButton.setBackground(CyderColors.regularPurple);
-        backButton.setToolTipText("Back");
-        backButton.setForeground(CyderColors.vanilla);
-        backButton.setFont(CyderFonts.DEFAULT_FONT);
-        backButton.setBounds((audioPlayerFrame.getWidth() - searchViewComponentWidth) / 2, yOff, 40, 40);
-        audioPlayerFrame.getContentPane().add(backButton);
-        backButton.addActionListener(e -> goBackFromSearchView());
+        searchBackButton = new CyderButton(" < ");
+        searchBackButton.setBorder(BorderFactory.createEmptyBorder());
+        searchBackButton.setBackground(CyderColors.regularPurple);
+        searchBackButton.setToolTipText("Back");
+        searchBackButton.setForeground(CyderColors.vanilla);
+        searchBackButton.setFont(CyderFonts.DEFAULT_FONT);
+        searchBackButton.setBounds((audioPlayerFrame.getWidth() - searchViewComponentWidth) / 2, yOff, 40, 40);
+        audioPlayerFrame.getContentPane().add(searchBackButton);
+        searchBackButton.addActionListener(e -> onBackPressedFromSearchView());
 
         yOff += 60;
 
@@ -2279,12 +2283,12 @@ public final class AudioPlayer {
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - fullRowWidth) / 2,
                 yOff, fullRowWidth, audioPlayerFrame.getWidth() - 20 - yOff);
-        searchResultsScroll.setBackground(SCROLL_BACKGROUND_COLOR);
+        searchResultsScroll.setBackground(searchViewScrollBackground);
 
         informationLabel = new CyderLabel();
         informationLabel.setForeground(CyderColors.vanilla);
         informationLabel.setFont(CyderFonts.DEFAULT_FONT);
-        informationLabel.setBackground(SCROLL_BACKGROUND_COLOR);
+        informationLabel.setBackground(searchViewScrollBackground);
         informationLabel.setOpaque(true);
         informationLabel.setBorder(new LineBorder(Color.black, 4));
         informationLabel.setBounds((audioPlayerFrame.getWidth() - fullRowWidth) / 2,
@@ -2299,7 +2303,9 @@ public final class AudioPlayer {
             searchField.setText(previousSearch);
             hideInformationLabel();
 
-            // yes there are two here, no I don't know why it works like this
+            /*
+            Note to maintainers: this is a necessary bodge for the intended functionality to work.
+             */
             searchResultsScroll.getVerticalScrollBar().setValue(previousScrollLocation);
             searchResultsScroll.getVerticalScrollBar().setValue(previousScrollLocation);
         } else {
@@ -2307,7 +2313,7 @@ public final class AudioPlayer {
             searchResultsScroll.getVerticalScrollBar().setValue(0);
         }
 
-        printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
+        searchResultsPrintingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
 
         searchYouTubeViewLocked.set(false);
     }
@@ -2322,7 +2328,7 @@ public final class AudioPlayer {
         if (searchField == null) return;
         searchField.setVisible(visible);
         searchViewSearchButton.setVisible(visible);
-        backButton.setVisible(visible);
+        searchBackButton.setVisible(visible);
         informationLabel.setVisible(visible);
         searchResultsPane.setVisible(visible);
         searchResultsScroll.setVisible(visible);
@@ -2354,8 +2360,11 @@ public final class AudioPlayer {
     /**
      * A search result object to hold data in the results scroll pane.
      */
-    private static record YoutubeSearchResult(String uuid, String title, String description,
-                                              String channel, BufferedImage bi) {}
+    private static record YoutubeSearchResult(String uuid,
+                                              String title,
+                                              String description,
+                                              String channel,
+                                              BufferedImage bi) {}
 
     /**
      * The alignment object used for menu alignment.
@@ -2393,24 +2402,21 @@ public final class AudioPlayer {
     private static final String NO_RESULTS = "No results found";
 
     /**
-     * The last search result output.
-     */
-    private static Document lastSearchResultsPage;
-
-    /**
      * The formatting results string.
      */
     private static final String FORMATTING_RESULTS = "Formatting results...";
+
+    /**
+     * The last search result output.
+     */
+    private static Document lastSearchResultsPage;
 
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
      */
     private static void searchAndUpdate() {
         String rawFieldText = searchField.getText();
-
-        if (StringUtil.isNullOrEmpty(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) {
-            return;
-        }
+        if (StringUtil.isNullOrEmpty(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) return;
 
         // Trim and replace multiple spaces with one
         String fieldText = rawFieldText.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space);
@@ -2456,11 +2462,11 @@ public final class AudioPlayer {
 
             showInformationLabel(FORMATTING_RESULTS);
 
-            for (YoutubeSearchResult result : searchResults) {
+            searchResults.forEach(result -> {
                 Optional<File> alreadyExistsOptional = AudioUtil.getCurrentUserMusicFileWithName(result.title);
                 boolean alreadyExists = alreadyExistsOptional.isPresent();
 
-                printSearchResultLabels(result);
+                printSearchResultToPane(result);
 
                 String url = YouTubeUtil.buildVideoUrl(result.uuid);
                 YouTubeAudioDownload youTubeAudioDownload = new YouTubeAudioDownload();
@@ -2480,41 +2486,38 @@ public final class AudioPlayer {
                 downloadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                     if (downloadable.get().isDownloading()) {
                         downloadable.get().cancel();
-                        return;
                     } else if (alreadyExists) {
-                        playAudioFromSearchView(alreadyExistsOptional.get());
-                        return;
+                        onPlayDownloadedAudioPressedFromSearchView(alreadyExistsOptional.get());
                     } else if (downloadable.get().isDownloaded()) {
-                        playAudioFromSearchView(downloadable.get().getAudioDownloadFile());
-                        return;
-                    }
+                        onPlayDownloadedAudioPressedFromSearchView(downloadable.get().getAudioDownloadFile());
+                    } else {
+                        if (downloadable.get().isCanceled()) {
+                            downloadable.set(new YouTubeAudioDownload());
+                            downloadable.get().setVideoLink(url);
+                            downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                            downloadable.get().setOnDownloadedCallback(() -> {
+                                downloadButton.setText(PLAY);
+                                downloadButton.addActionListener(event -> onPlayDownloadedAudioPressedFromSearchView(
+                                        downloadable.get().getAudioDownloadFile()));
+                            });
+                        }
 
-                    if (downloadable.get().isCanceled()) {
-                        downloadable.set(new YouTubeAudioDownload());
-                        downloadable.get().setVideoLink(url);
-                        downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
-                        downloadable.get().setOnDownloadedCallback(() -> {
-                            downloadButton.setText(PLAY);
-                            downloadButton.addActionListener(event ->
-                                    playAudioFromSearchView(downloadable.get().getAudioDownloadFile()));
-                        });
+                        downloadable.get().downloadAudioAndThumbnail();
+                        startDownloadUpdater(downloadable, downloadButton, mouseEntered);
                     }
-
-                    downloadable.get().downloadAudioAndThumbnail();
-                    startDownloadUpdater(downloadable, downloadButton, mouseEntered);
-                }, "AudioPlayer search download: " + result.title()));
+                }, "AudioPlayer search downloader, audio: " + result.title()));
                 downloadButton.addMouseListener(generateDownloadButtonMouseListener(downloadable,
                         mouseEntered, downloadButton, alreadyExists));
                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                 downloadable.get().setOnDownloadedCallback(() -> {
                     downloadButton.setText(PLAY);
-                    downloadButton.addActionListener(event -> playAudioFromSearchView(
-                            downloadable.get().getAudioDownloadFile()));
+                    downloadButton.addActionListener(e ->
+                            onPlayDownloadedAudioPressedFromSearchView(downloadable.get().getAudioDownloadFile()));
                 });
 
-                printingUtil.printlnComponent(downloadButton);
-                printingUtil.println(CyderStrings.newline);
-            }
+                searchResultsPrintingUtil.printlnComponent(downloadButton);
+                searchResultsPrintingUtil.println(CyderStrings.newline);
+            });
 
             searchResultsPane.setCaretPosition(0);
             searchResultsScroll.setVisible(true);
@@ -2530,15 +2533,13 @@ public final class AudioPlayer {
      *
      * @param audio the audio file to play after switching to the main view
      */
-    private static void playAudioFromSearchView(File audio) {
-        if (isAudioPlaying()) {
-            pauseAudio();
-        }
+    private static void onPlayDownloadedAudioPressedFromSearchView(File audio) {
+        if (isAudioPlaying()) pauseAudio();
 
         currentAudioFile.set(audio);
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-        revalidateFromAudioFileChange();
-        goBackFromSearchView();
+        revalidateAfterAudioFileChange();
+        onBackPressedFromSearchView();
 
         playAudio();
     }
@@ -2548,26 +2549,26 @@ public final class AudioPlayer {
      *
      * @param result the YouTube search result record
      */
-    private static void printSearchResultLabels(YoutubeSearchResult result) {
+    private static void printSearchResultToPane(YoutubeSearchResult result) {
         JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
-        imageLabel.setSize(thumbnailLength, thumbnailLength);
+        imageLabel.setSize(searchViewThumbnailLength, searchViewThumbnailLength);
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         imageLabel.setBorder(new LineBorder(Color.black, 4));
-        printingUtil.printlnComponent(imageLabel);
+        searchResultsPrintingUtil.printlnComponent(imageLabel);
 
-        printingUtil.println(CyderStrings.newline);
+        searchResultsPrintingUtil.println(CyderStrings.newline);
 
         CyderLabel titleLabel = new CyderLabel(result.title);
         titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        printingUtil.printlnComponent(titleLabel);
+        searchResultsPrintingUtil.printlnComponent(titleLabel);
 
         CyderLabel channelLabel = new CyderLabel(result.channel);
         channelLabel.setForeground(CyderColors.vanilla);
         channelLabel.setHorizontalAlignment(JLabel.CENTER);
-        printingUtil.printlnComponent(channelLabel);
+        searchResultsPrintingUtil.printlnComponent(channelLabel);
 
-        printingUtil.println(CyderStrings.newline);
+        searchResultsPrintingUtil.println(CyderStrings.newline);
     }
 
     /**
@@ -2580,8 +2581,10 @@ public final class AudioPlayer {
      * @return a download button mouse listener
      */
     private static MouseAdapter generateDownloadButtonMouseListener(
-            AtomicReference<YouTubeAudioDownload> downloadable, AtomicBoolean mouseEntered,
-            CyderButton downloadButton, boolean alreadyExists) {
+            AtomicReference<YouTubeAudioDownload> downloadable,
+            AtomicBoolean mouseEntered,
+            CyderButton downloadButton,
+            boolean alreadyExists) {
         return new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -2650,8 +2653,7 @@ public final class AudioPlayer {
      * @return the YoutubeSearchResultPage object if present, empty optional else
      */
     private static Optional<YouTubeSearchResultPage> getSearchResults(String url) {
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new URL(url).openStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             return Optional.of(SerializationUtil.fromJson(reader, YouTubeSearchResultPage.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);

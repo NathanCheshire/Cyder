@@ -35,7 +35,7 @@ class YoutubeUuidCheckerTest {
     }
 
     /**
-     * Tests for teh increment uuid function.
+     * Tests for the increment uuid function.
      */
     @Test
     @Suppress("SpellCheckingInspection")
