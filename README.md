@@ -84,6 +84,14 @@ https://user-images.githubusercontent.com/60986919/190872371-323bb51d-f678-4965-
 </p>
 </details>
 
+<details>
+<summary><b>Perlin Terrain Visualizer</b></summary>
+<p>
+<br>
+<img src="https://user-images.githubusercontent.com/60986919/216802241-eb3ee195-1291-42b5-9e4e-dca4adf7735f.png" alt="Perlin widget" width="600">
+</p>
+</details>
+
 ## Usage and Setup
 
 To get started with Cyder, first download your favorite Java IDE such as IntelliJ, NetBeans, Eclipse, etc. You'll then
