@@ -183,7 +183,6 @@ public final class UserUtil {
      *     <li>Ensuring the users directory is created</li>
      *     <li>Deleting non audio files from the Music/ directory</li>
      *     <li>Removing album art not linked to an audio file</li>
-     *     <li>Removing backup json files which are not linked to any users</li>
      *     <li>Removing any invalid mapped executables</li>
      * </ul>
      */
