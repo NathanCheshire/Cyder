@@ -724,7 +724,7 @@ public final class AudioPlayer {
         audioVolumeSlider.repaint();
         refreshAudioLine();
 
-        setPhaseOneComponentsVisible(false);
+        setAudioPlayerComponentsVisible(false);
         setupAndShowFrameView(FrameView.FULL);
         audioPlayerFrame.finalizeAndShow();
         Console.INSTANCE.revalidateAudioMenuVisibility();
@@ -808,11 +808,11 @@ public final class AudioPlayer {
     }
 
     /**
-     * Sets the visibility of all phase 1 components to the value of visible.
+     * Sets the visibility of all audio player components to the value of visible.
      *
-     * @param visible whether to set phase 1 components to visible
+     * @param visible whether to set audio player components to visible
      */
-    public static void setPhaseOneComponentsVisible(boolean visible) {
+    public static void setAudioPlayerComponentsVisible(boolean visible) {
         albumArtLabel.setVisible(visible);
 
         audioTitleLabel.setVisible(visible);
@@ -1084,7 +1084,7 @@ public final class AudioPlayer {
             goBackFromSearchView();
         } else {
             onSearchView.set(true);
-            constructPhaseTwoView();
+            constructSearchYouTubeView();
         }
     }
 
@@ -1363,12 +1363,12 @@ public final class AudioPlayer {
      * @param view the requested frame view
      */
     private static void setupAndShowFrameView(FrameView view) {
-        setPhaseOneComponentsVisible(false);
-        setPhaseTwoComponentsVisible(false);
+        setAudioPlayerComponentsVisible(false);
+        setYouTubeSearchViewComponentsVisible(false);
 
         switch (view) {
             case FULL -> {
-                setPhaseOneComponentsVisible(true);
+                setAudioPlayerComponentsVisible(true);
                 currentFrameView.set(FrameView.FULL);
                 audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength);
 
@@ -1401,7 +1401,7 @@ public final class AudioPlayer {
                 audioVolumeSlider.setLocation(xOff, yOff);
             }
             case HIDDEN_ALBUM_ART -> {
-                setPhaseOneComponentsVisible(true);
+                setAudioPlayerComponentsVisible(true);
                 audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength
                         - albumArtSize - hiddenArtHeightOffset);
                 albumArtLabel.setVisible(false);
@@ -1434,7 +1434,7 @@ public final class AudioPlayer {
             }
             case MINI -> {
                 currentFrameView.set(FrameView.MINI);
-                setPhaseOneComponentsVisible(true);
+                setAudioPlayerComponentsVisible(true);
                 audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength
                         - albumArtSize - miniFrameHeightOffset);
                 albumArtLabel.setVisible(false);
@@ -2126,11 +2126,11 @@ public final class AudioPlayer {
         return integers.get(NumberUtil.generateRandomInt(integers.size() - 1));
     }
 
-    // --------------------------------
-    // Phase Two Components and methods
-    // --------------------------------
+    // ----------------------------------
+    // Search View components and methods
+    // ----------------------------------
 
-    private static final AtomicBoolean phaseTwoViewLocked = new AtomicBoolean(false);
+    private static final AtomicBoolean searchYouTubeViewLocked = new AtomicBoolean(false);
 
     /**
      * The list of search results previously found.
@@ -2158,9 +2158,9 @@ public final class AudioPlayer {
     private static CyderScrollPane searchResultsScroll;
 
     /**
-     * The search button for phase two.
+     * The search button for the search view two.
      */
-    private static CyderButton searchButton;
+    private static CyderButton searchViewSearchButton;
 
     /**
      * The button used to go back to the main audio page.
@@ -2168,9 +2168,9 @@ public final class AudioPlayer {
     private static CyderButton backButton;
 
     /**
-     * The width of phase two components excluding the scroll pane.
+     * The width of the search view components excluding the scroll pane.
      */
-    private static final int phaseTwoWidth = 300;
+    private static final int searchViewComponentWidth = 300;
 
     /**
      * The information label for displaying progress when a search is underway.
@@ -2203,7 +2203,7 @@ public final class AudioPlayer {
     private static void goBackFromSearchView() {
         previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
         onSearchView.set(false);
-        setPhaseTwoComponentsVisible(false);
+        setYouTubeSearchViewComponentsVisible(false);
         audioPlayerFrame.hideMenu();
         setupAndShowFrameView(FrameView.FULL);
     }
@@ -2216,14 +2216,14 @@ public final class AudioPlayer {
     /**
      * Constructs the search view where a user can search for and download audio from YouTube.
      */
-    private static void constructPhaseTwoView() {
-        if (uiLocked || phaseTwoViewLocked.get()) return;
+    private static void constructSearchYouTubeView() {
+        if (uiLocked || searchYouTubeViewLocked.get()) return;
 
         currentFrameView.set(FrameView.SEARCH);
 
-        phaseTwoViewLocked.set(true);
+        searchYouTubeViewLocked.set(true);
 
-        setPhaseOneComponentsVisible(false);
+        setAudioPlayerComponentsVisible(false);
         audioVolumePercentLabel.setVisible(false);
 
         audioPlayerFrame.hideMenu();
@@ -2240,22 +2240,23 @@ public final class AudioPlayer {
         searchField.setRippleColor(CyderColors.regularPurple);
         searchField.setCaret(new CyderCaret(CyderColors.vanilla));
         searchField.setBackground(BACKGROUND_COLOR);
-        searchField.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
+        searchField.setBounds((audioPlayerFrame.getWidth() - searchViewComponentWidth) / 2, yOff,
+                searchViewComponentWidth, 40);
         searchField.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.vanilla));
         audioPlayerFrame.getContentPane().add(searchField);
 
         yOff += 50;
 
-        searchButton = new CyderButton("Search");
-        searchButton.setBorder(BorderFactory.createEmptyBorder());
-        searchButton.setBackground(CyderColors.regularPurple);
-        searchButton.setForeground(CyderColors.vanilla);
-        searchButton.setFont(CyderFonts.DEFAULT_FONT);
-        searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2 + 50, yOff,
-                phaseTwoWidth - 50, 40);
-        audioPlayerFrame.getContentPane().add(searchButton);
+        searchViewSearchButton = new CyderButton("Search");
+        searchViewSearchButton.setBorder(BorderFactory.createEmptyBorder());
+        searchViewSearchButton.setBackground(CyderColors.regularPurple);
+        searchViewSearchButton.setForeground(CyderColors.vanilla);
+        searchViewSearchButton.setFont(CyderFonts.DEFAULT_FONT);
+        searchViewSearchButton.setBounds((audioPlayerFrame.getWidth() - searchViewComponentWidth) / 2 + 50, yOff,
+                searchViewComponentWidth - 50, 40);
+        audioPlayerFrame.getContentPane().add(searchViewSearchButton);
         searchField.addActionListener(e -> searchAndUpdate());
-        searchButton.addActionListener(e -> searchAndUpdate());
+        searchViewSearchButton.addActionListener(e -> searchAndUpdate());
 
         backButton = new CyderButton(" < ");
         backButton.setBorder(BorderFactory.createEmptyBorder());
@@ -2263,7 +2264,7 @@ public final class AudioPlayer {
         backButton.setToolTipText("Back");
         backButton.setForeground(CyderColors.vanilla);
         backButton.setFont(CyderFonts.DEFAULT_FONT);
-        backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
+        backButton.setBounds((audioPlayerFrame.getWidth() - searchViewComponentWidth) / 2, yOff, 40, 40);
         audioPlayerFrame.getContentPane().add(backButton);
         backButton.addActionListener(e -> goBackFromSearchView());
 
@@ -2329,22 +2330,19 @@ public final class AudioPlayer {
 
         printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
 
-        phaseTwoViewLocked.set(false);
+        searchYouTubeViewLocked.set(false);
     }
 
     /**
-     * Sets the phase two components to the visibility specified.
+     * Sets the YouTube search view components to the visibility specified.
      *
-     * @param visible whether the phase two components should be visible
+     * @param visible whether the YouTube search view components should be visible
      */
     @SuppressWarnings("SameParameterValue")
-    private static void setPhaseTwoComponentsVisible(boolean visible) {
-        if (searchField == null) {
-            return;
-        }
-
+    private static void setYouTubeSearchViewComponentsVisible(boolean visible) {
+        if (searchField == null) return;
         searchField.setVisible(visible);
-        searchButton.setVisible(visible);
+        searchViewSearchButton.setVisible(visible);
         backButton.setVisible(visible);
         informationLabel.setVisible(visible);
         searchResultsPane.setVisible(visible);
@@ -2499,7 +2497,7 @@ public final class AudioPlayer {
                 downloadButton.setForeground(CyderColors.vanilla);
                 downloadButton.setBorder(BorderFactory.createEmptyBorder());
                 downloadButton.setFont(CyderFonts.DEFAULT_FONT.deriveFont(26f));
-                downloadButton.setSize(phaseTwoWidth, 40);
+                downloadButton.setSize(searchViewComponentWidth, 40);
                 downloadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                     if (downloadable.get().isDownloading()) {
                         downloadable.get().cancel();
