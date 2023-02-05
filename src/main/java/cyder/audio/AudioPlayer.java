@@ -93,37 +93,32 @@ public final class AudioPlayer {
     /**
      * The width and height of the audio frame.
      */
-    private static final int DEFAULT_FRAME_LEN = 600;
+    private static final int defaultFrameLength = 600;
 
     /**
      * The width and height of the album art label.
      */
-    private static final int ALBUM_ART_LABEL_SIZE = 300;
+    private static final int albumArtSize = 300;
 
     /**
      * The number to subtract from the frame height when the frame is in mini mode.
      */
-    private static final int MINI_FRAME_HEIGHT_OFFSET = 150;
+    private static final int miniFrameHeightOffset = 150;
 
     /**
      * The number to subtract from the frame height when the frame is in hidden art mode.
      */
-    private static final int HIDDEN_ART_HEIGHT_OFFSET = 40;
+    private static final int hiddenArtHeightOffset = 40;
 
     /**
      * The width of a primary ui control row.
      */
-    private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+    private static final int fullRowWidth = (int) (albumArtSize * 1.5);
 
     /**
      * The height of a primary ui control row.
      */
-    private static final int UI_ROW_HEIGHT = 40;
-
-    /**
-     * The audio player frame.
-     */
-    private static CyderFrame audioPlayerFrame;
+    private static final int fullRowHeight = 40;
 
     /**
      * The label used to hold the album art or default album art if no album
@@ -134,18 +129,13 @@ public final class AudioPlayer {
     /**
      * The border width of black borders placed on some ui components.
      */
-    private static final int BORDER_WIDTH = 3;
+    private static final int borderWidth = 3;
 
     /**
      * The file representing the default album art to use if the frame is
      * in the standard audio view and the current audio file has no linked album art.
      */
-    private static final File DEFAULT_ALBUM_ART = StaticUtil.getStaticResource("Default.png");
-
-    /**
-     * The format of the waveform image to export.
-     */
-    private static final String WAVEFORM_EXPORT_FORMAT = Extension.PNG.getExtensionWithoutPeriod();
+    private static final File defaultAlbumArt = StaticUtil.getStaticResource("Default.png");
 
     /**
      * The default text to display for the audio title label.
@@ -216,11 +206,6 @@ public final class AudioPlayer {
     private static final CyderSliderUi audioLocationSliderUi = new CyderSliderUi(audioLocationSlider);
 
     /**
-     * The album art directory for the current Cyder user.
-     */
-    private static File currentUserAlbumArtDir;
-
-    /**
      * The audio volume percent label which appears on change of the audio volume.
      */
     private static final CyderLabel audioVolumePercentLabel = new CyderLabel("");
@@ -229,11 +214,6 @@ public final class AudioPlayer {
      * The size of the primary audio control buttons.
      */
     private static final Dimension CONTROL_BUTTON_SIZE = new Dimension(30, 30);
-
-    /**
-     * The play pause icon button.
-     */
-    private static JButton playPauseButton;
 
     /**
      * The play last audio icon button.
@@ -291,29 +271,6 @@ public final class AudioPlayer {
     private static final AtomicReference<File> currentAudioFile = new AtomicReference<>();
 
     /**
-     * The animator object for the audio volume percent.
-     * This is set upon the frame appearing and is only killed when the widget is killed.
-     */
-    private static AudioVolumeLabelAnimator audioVolumeLabelAnimator;
-
-    /**
-     * The animator object for the audio location label.
-     * This is set and the previous object killed whenever a new audio file is initiated.
-     */
-    private static AudioLocationUpdater audioLocationUpdater;
-
-    /**
-     * The scrolling title label to display and scroll the current
-     * audio title if it exceeds the parent container's bounds.
-     */
-    private static ScrollingTitleLabel scrollingTitleLabel;
-
-    /**
-     * The last action invoked by the user.
-     */
-    private static LastAction lastAction = LastAction.Unknown;
-
-    /**
      * Whether the audio location slider is currently pressed.
      */
     private static final AtomicBoolean audioLocationSliderPressed = new AtomicBoolean(false);
@@ -332,11 +289,6 @@ public final class AudioPlayer {
      * The thumb size for the sliders on click events.
      */
     private static final int BIG_THUMB_SIZE = THUMB_SIZE + 2 * BIG_THUMB_INC;
-
-    /**
-     * The actual object that plays audio.
-     */
-    private static InnerAudioPlayer innerAudioPlayer;
 
     /**
      * The audio progress bar animation controller.
@@ -371,15 +323,63 @@ public final class AudioPlayer {
     private static final float completedProgress = 100.0f;
 
     /**
+     * The switch view mode text.
+     */
+    private static final String SWITCH_VIEW_MODE = "Switch view mode";
+
+    /**
+     * The animator object for the audio volume percent.
+     * This is set upon the frame appearing and is only killed when the widget is killed.
+     */
+    private static AudioVolumeLabelAnimator audioVolumeLabelAnimator;
+
+    /**
+     * The animator object for the audio location label.
+     * This is set and the previous object killed whenever a new audio file is initiated.
+     */
+    private static AudioLocationUpdater audioLocationUpdater;
+
+    /**
+     * The scrolling title label to display and scroll the current
+     * audio title if it exceeds the parent container's bounds.
+     */
+    private static ScrollingTitleLabel scrollingTitleLabel;
+
+    /**
+     * The last action invoked by the user.
+     */
+    private static LastAction lastAction = LastAction.Unknown;
+
+    /**
+     * The actual object that plays audio.
+     */
+    private static InnerAudioPlayer innerAudioPlayer;
+
+    /**
      * The default album art image.
      */
     private static BufferedImage defaultAlbumArtImage;
 
     static {
         try {
-            defaultAlbumArtImage = ImageUtil.read(DEFAULT_ALBUM_ART);
+            defaultAlbumArtImage = ImageUtil.read(defaultAlbumArt);
         } catch (Exception ignored) {}
     }
+
+    /**
+     * The audio player frame.
+     */
+    private static CyderFrame audioPlayerFrame;
+
+    /**
+     * The album art directory for the current Cyder user.
+     */
+    private static File currentUserAlbumArtDir;
+
+    /**
+     * The play pause icon button.
+     */
+    private static JButton playPauseButton;
 
     /**
      * Suppress default constructor.
@@ -402,6 +402,7 @@ public final class AudioPlayer {
         if (userMusicFiles != null && userMusicFiles.length > 0) {
             showGui(userMusicFiles[NumberUtil.generateRandomInt(userMusicFiles.length - 1)]);
         } else {
+            // todo attempt to find user's music directory or possibly move a default audio file to tmp and play
             throw new IllegalArgumentException("Could not find any user audio files");
         }
     }
@@ -410,15 +411,15 @@ public final class AudioPlayer {
      * Starts playing the provided mp3 file.
      *
      * @param startPlaying the audio file to start playing
-     * @throws IllegalArgumentException if startPlaying is null or does not exist
+     * @throws NullPointerException     if startPlaying is null
+     * @throws IllegalArgumentException if startPlaying does not exist, or is not a supported audio file
      */
     public static void showGui(File startPlaying) {
-        // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
+        checkArgument(FileUtil.isSupportedAudioExtension(startPlaying));
 
         currentAudioFile.set(startPlaying);
-
         audioDreamified.set(isCurrentAudioDreamy());
 
         if (isWidgetOpen()) {
@@ -431,16 +432,19 @@ public final class AudioPlayer {
             audioLocationUpdater.setPercentIn(0f);
             audioLocationUpdater.update(false);
             if (audioPlaying) playAudio();
+            return;
         }
+
+        // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
 
         currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
-        audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
+        audioPlayerFrame = new CyderFrame(defaultFrameLength, defaultFrameLength, BACKGROUND_COLOR);
         refreshFrameTitle();
 
         ChangeSizeButton changeSizeButton = new ChangeSizeButton();
-        changeSizeButton.setToolTipText("Switch Mode");
+        changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
         changeSizeButton.setClickAction(() -> {
             switch (currentFrameView.get()) {
                 case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ALBUM_ART);
@@ -477,10 +481,10 @@ public final class AudioPlayer {
          The sizes are almost never set outside the construction below.
          */
 
-        albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
+        albumArtLabel.setSize(albumArtSize, albumArtSize);
         albumArtLabel.setOpaque(true);
         albumArtLabel.setBackground(BACKGROUND_COLOR);
-        albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
+        albumArtLabel.setBorder(new LineBorder(Color.BLACK, borderWidth));
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
         albumArtLabel.add(dreamyLabel);
@@ -488,8 +492,8 @@ public final class AudioPlayer {
         dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
         dreamyLabel.setVisible(false);
 
-        audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
-        audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioTitleLabelContainer.setSize(fullRowWidth, fullRowHeight);
+        audioTitleLabel.setSize(fullRowWidth, fullRowHeight);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         audioTitleLabel.setForeground(CyderColors.vanilla);
@@ -564,7 +568,7 @@ public final class AudioPlayer {
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
 
-        audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioLocationSlider.setSize(fullRowWidth, fullRowHeight);
         audioLocationSlider.setMinorTickSpacing(1);
         audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);
         audioLocationSlider.setMinimum(DEFAULT_LOCATION_SLIDER_MIN_VALUE);
@@ -648,14 +652,14 @@ public final class AudioPlayer {
         audioLocationSlider.repaint();
         audioPlayerFrame.getContentPane().add(audioLocationSlider);
 
-        secondsInLabel.setSize(UI_ROW_WIDTH / 4, UI_ROW_HEIGHT);
+        secondsInLabel.setSize(fullRowWidth / 4, fullRowHeight);
         secondsInLabel.setText("");
         secondsInLabel.setHorizontalAlignment(JLabel.LEFT);
         secondsInLabel.setForeground(CyderColors.vanilla);
         audioPlayerFrame.getContentPane().add(secondsInLabel);
         secondsInLabel.setFocusable(false);
 
-        totalSecondsLabel.setSize(UI_ROW_WIDTH / 4, UI_ROW_HEIGHT);
+        totalSecondsLabel.setSize(fullRowWidth / 4, fullRowHeight);
         totalSecondsLabel.setText("");
         totalSecondsLabel.setHorizontalAlignment(JLabel.RIGHT);
         totalSecondsLabel.setForeground(CyderColors.vanilla);
@@ -685,7 +689,7 @@ public final class AudioPlayer {
 
         audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
 
-        audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioVolumeSlider.setSize(fullRowWidth, fullRowHeight);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
@@ -923,21 +927,19 @@ public final class AudioPlayer {
     private static void installFrameMenuItems() {
         audioPlayerFrame.clearMenuItems();
 
-        audioPlayerFrame.addMenuItem("Export wav", exportWavMenuItem);
-        audioPlayerFrame.addMenuItem("Export mp3", exportMp3MenuItem);
-        audioPlayerFrame.addMenuItem("Waveform", waveformExporterMenuItem);
-        audioPlayerFrame.addMenuItem("Search", searchMenuItem, onSearchView);
-        audioPlayerFrame.addMenuItem("Choose File", chooseFileMenuItem);
-        audioPlayerFrame.addMenuItem("Dreamify", dreamifyMenuItem, audioDreamified);
+        audioPlayerFrame.addMenuItem("Export wav", AudioPlayer::onExportWavMenuItemPressed);
+        audioPlayerFrame.addMenuItem("Export mp3", AudioPlayer::onExportMp3MenuItemPressed);
+        audioPlayerFrame.addMenuItem("Waveform", AudioPlayer::onWaveformExporterMenuItemPressed);
+        audioPlayerFrame.addMenuItem("Search", AudioPlayer::onSearchMenuItemPressed, onSearchView);
+        audioPlayerFrame.addMenuItem("Choose File", AudioPlayer::onChooseFileMenuItemPressed);
+        audioPlayerFrame.addMenuItem("Dreamify", AudioPlayer::onDreamifyMenuItemPressed, audioDreamified);
     }
 
     /**
      * The menu item to export the current audio as a wav.
      */
-    private static final Runnable exportWavMenuItem = () -> {
-        if (wavExporterLocked.get() || uiLocked) {
-            return;
-        }
+    private static void onExportWavMenuItemPressed() {
+        if (wavExporterLocked.get() || uiLocked) return;
 
         if (FileUtil.validateExtension(currentAudioFile.get(), Extension.WAV.getExtension())) {
             audioPlayerFrame.notify("This file is already a wav");
@@ -977,15 +979,13 @@ public final class AudioPlayer {
         } else {
             throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
         }
-    };
+    }
 
     /**
      * The menu item for exporting the current audio as an mp3.
      */
-    private static final Runnable exportMp3MenuItem = () -> {
-        if (mp3ExporterLocked.get() || uiLocked) {
-            return;
-        }
+    private static void onExportMp3MenuItemPressed() {
+        if (mp3ExporterLocked.get() || uiLocked) return;
 
         if (FileUtil.validateExtension(currentAudioFile.get(), Extension.MP3.getExtension())) {
             audioPlayerFrame.notify("This file is already an mp3");
@@ -1025,15 +1025,13 @@ public final class AudioPlayer {
         } else {
             throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
         }
-    };
+    }
 
     /**
      * The logic for the export waveform menu option.
      */
-    private static final Runnable waveformExporterMenuItem = () -> {
-        if (waveformExporterLocked.get() || uiLocked) {
-            return;
-        }
+    private static void onWaveformExporterMenuItemPressed() {
+        if (waveformExporterLocked.get() || uiLocked) return;
 
         CyderThreadRunner.submit(() -> {
             Optional<String> optionalSaveName = GetterUtil.getInstance().getInput(
@@ -1049,7 +1047,7 @@ public final class AudioPlayer {
                         Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(),
                         UserFile.FILES.getName(),
-                        saveName + "." + WAVEFORM_EXPORT_FORMAT);
+                        saveName + Extension.PNG.getExtension());
 
                 Future<BufferedImage> waveform = MessagingUtil.generateLargeWaveform(currentAudioFile.get());
 
@@ -1062,9 +1060,10 @@ public final class AudioPlayer {
                 waveformExporterLocked.set(false);
 
                 try {
-                    ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
-                    audioPlayerFrame.notify(new NotificationBuilder
-                            ("Saved waveform to your files directory")
+                    ImageIO.write(waveform.get(),
+                            Extension.PNG.getExtensionWithoutPeriod(),
+                            saveFile.getAbsoluteFile());
+                    audioPlayerFrame.notify(new NotificationBuilder("Saved waveform to your files directory")
                             .setOnKillAction(() -> ImageViewer.getInstance(saveFile).showGui()));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
@@ -1075,24 +1074,24 @@ public final class AudioPlayer {
             }
 
         }, "AudioPlayer Waveform Exporter");
-    };
+    }
 
     /**
      * The menu item for searching YouTube for songs.
      */
-    private static final Runnable searchMenuItem = () -> {
+    private static void onSearchMenuItemPressed() {
         if (onSearchView.get()) {
             goBackFromSearchView();
         } else {
             onSearchView.set(true);
             constructPhaseTwoView();
         }
-    };
+    }
 
     /**
      * The menu item for choosing a local audio file.
      */
-    private static final Runnable chooseFileMenuItem = () -> {
+    private static void onChooseFileMenuItemPressed() {
         if (chooseFileLocked.get() || uiLocked) {
             return;
         }
@@ -1125,7 +1124,7 @@ public final class AudioPlayer {
                 audioPlayerFrame.notify("Invalid file chosen");
             }
         }, "AudioPlayer File Chooser");
-    };
+    }
 
     /**
      * The runnable used to dreamify an audio file.
@@ -1211,14 +1210,9 @@ public final class AudioPlayer {
     /**
      * The item menu to toggle between dreamify states of an audio file.
      */
-    private static final Runnable dreamifyMenuItem = () -> {
-        if (dreamifierLocked.get() || uiLocked) {
-            return;
-        }
-
-        if (currentAudioFile.get() == null) {
-            return;
-        }
+    private static void onDreamifyMenuItemPressed() {
+        if (dreamifierLocked.get() || uiLocked) return;
+        if (currentAudioFile.get() == null) return;
 
         String currentAudioFilename = FileUtil.getFilename(currentAudioFile.get());
 
@@ -1246,7 +1240,7 @@ public final class AudioPlayer {
         }
 
         CyderThreadRunner.submit(dreamifyRunnable, "Audio Dreamifier: " + currentAudioFilename);
-    };
+    }
 
     /**
      * Attempts to find the non dreamy version of the audio currently
@@ -1361,7 +1355,7 @@ public final class AudioPlayer {
     /**
      * The spacing between the primary buttons.
      */
-    private static final int primaryButtonSpacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+    private static final int primaryButtonSpacing = (int) ((1.5 * albumArtSize - 5 * 30) / 6);
 
     /**
      * Sets component visibilities and locations based on the provided frame view.
@@ -1376,19 +1370,19 @@ public final class AudioPlayer {
             case FULL -> {
                 setPhaseOneComponentsVisible(true);
                 currentFrameView.set(FrameView.FULL);
-                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
+                audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength);
 
                 // set location of all components needed
-                int xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
+                int xOff = defaultFrameLength / 2 - albumArtSize / 2;
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT;
                 yOff += 20;
                 albumArtLabel.setLocation(xOff, yOff);
-                yOff += ALBUM_ART_LABEL_SIZE + yComponentPadding;
+                yOff += albumArtSize + yComponentPadding;
                 refreshAlbumArt();
 
                 // xOff of rest of components is len s.t. the total
                 // width is 1.5x the width of the  album art label
-                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+                xOff = (int) (defaultFrameLength / 2 - (1.5 * albumArtSize) / 2);
                 refreshAudioTitleLabel();
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yComponentPadding;
@@ -1400,16 +1394,16 @@ public final class AudioPlayer {
                 yOff += 30 + yComponentPadding;
                 audioLocationSlider.setLocation(xOff, yOff);
                 secondsInLabel.setLocation(xOff, yOff + 20);
-                totalSecondsLabel.setLocation(xOff + UI_ROW_WIDTH - UI_ROW_WIDTH / 4, yOff + 20);
-                audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
+                totalSecondsLabel.setLocation(xOff + fullRowWidth - fullRowWidth / 4, yOff + 20);
+                audioVolumePercentLabel.setLocation(defaultFrameLength / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
             }
             case HIDDEN_ALBUM_ART -> {
                 setPhaseOneComponentsVisible(true);
-                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
-                        - ALBUM_ART_LABEL_SIZE - HIDDEN_ART_HEIGHT_OFFSET);
+                audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength
+                        - albumArtSize - hiddenArtHeightOffset);
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
 
@@ -1418,7 +1412,7 @@ public final class AudioPlayer {
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
-                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+                xOff = (int) (defaultFrameLength / 2 - (1.5 * albumArtSize) / 2);
                 refreshAudioTitleLabel();
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yComponentPadding;
@@ -1430,10 +1424,10 @@ public final class AudioPlayer {
                 yOff += 30 + yComponentPadding;
                 audioLocationSlider.setLocation(xOff, yOff);
                 secondsInLabel.setLocation(xOff, yOff + 20);
-                totalSecondsLabel.setLocation(xOff + UI_ROW_WIDTH - UI_ROW_WIDTH / 4, yOff + 20);
+                totalSecondsLabel.setLocation(xOff + fullRowWidth - fullRowWidth / 4, yOff + 20);
 
                 audioVolumePercentLabel.setLocation(
-                        DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
+                        defaultFrameLength / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
                 currentFrameView.set(FrameView.HIDDEN_ALBUM_ART);
@@ -1441,8 +1435,8 @@ public final class AudioPlayer {
             case MINI -> {
                 currentFrameView.set(FrameView.MINI);
                 setPhaseOneComponentsVisible(true);
-                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
-                        - ALBUM_ART_LABEL_SIZE - MINI_FRAME_HEIGHT_OFFSET);
+                audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength
+                        - albumArtSize - miniFrameHeightOffset);
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
 
@@ -1451,7 +1445,7 @@ public final class AudioPlayer {
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
-                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+                xOff = (int) (defaultFrameLength / 2 - (1.5 * albumArtSize) / 2);
                 refreshAudioTitleLabel();
                 yOff += 40 + yComponentPadding;
                 shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
@@ -1523,14 +1517,14 @@ public final class AudioPlayer {
             } else if (albumArtFileJpg.exists()) {
                 customAlbumArt = new ImageIcon(ImageUtil.read(albumArtFileJpg));
             } else {
-                customAlbumArt = new ImageIcon(ImageUtil.read(DEFAULT_ALBUM_ART));
+                customAlbumArt = new ImageIcon(ImageUtil.read(defaultAlbumArt));
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         ImageIcon regularIcon = ImageUtil.ensureFitsInBounds(customAlbumArt,
-                new Dimension(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
+                new Dimension(albumArtSize, albumArtSize));
         if (dreamy) {
 
             ImageIcon distortedIcon = ImageUtil.toImageIcon(
@@ -2236,7 +2230,7 @@ public final class AudioPlayer {
 
         int yOff = 50;
 
-        audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
+        audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength);
 
         searchField = new CyderModernTextField();
         searchField.setHorizontalAlignment(JTextField.CENTER);
@@ -2278,8 +2272,8 @@ public final class AudioPlayer {
         searchResultsPane = new JTextPane();
         searchResultsPane.setEditable(false);
         searchResultsPane.setAutoscrolls(false);
-        searchResultsPane.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
-                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        searchResultsPane.setBounds((audioPlayerFrame.getWidth() - fullRowWidth) / 2,
+                yOff, fullRowWidth, audioPlayerFrame.getWidth() - 20 - yOff);
         searchResultsPane.setFocusable(true);
         searchResultsPane.setOpaque(false);
         searchResultsPane.setBackground(Color.white);
@@ -2303,8 +2297,8 @@ public final class AudioPlayer {
         searchResultsScroll.setBorder(new LineBorder(Color.black, 4));
         searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
-                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - fullRowWidth) / 2,
+                yOff, fullRowWidth, audioPlayerFrame.getWidth() - 20 - yOff);
         searchResultsScroll.setBackground(SCROLL_BACKGROUND_COLOR);
 
         informationLabel = new CyderLabel();
@@ -2313,8 +2307,8 @@ public final class AudioPlayer {
         informationLabel.setBackground(SCROLL_BACKGROUND_COLOR);
         informationLabel.setOpaque(true);
         informationLabel.setBorder(new LineBorder(Color.black, 4));
-        informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
-                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        informationLabel.setBounds((audioPlayerFrame.getWidth() - fullRowWidth) / 2,
+                yOff, fullRowWidth, audioPlayerFrame.getWidth() - 20 - yOff);
         audioPlayerFrame.getContentPane().add(informationLabel);
 
         audioPlayerFrame.getContentPane().add(searchResultsScroll);
@@ -2463,7 +2457,7 @@ public final class AudioPlayer {
                 BufferedImage image = ImageUtil.ensureFitsInBounds(
                         YouTubeUtil.getMaxResolutionSquareThumbnail(video.getId().getVideoId())
                                 .orElse(defaultAlbumArtImage),
-                        new Dimension(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
+                        new Dimension(albumArtSize, albumArtSize));
 
                 searchResults.add(new YoutubeSearchResult(
                         video.getId().getVideoId(),
