@@ -56,4 +56,13 @@ public enum ProgramMode {
     public int getPriorityLevel() {
         return priorityLevel;
     }
+
+    /**
+     * Returns whether this priority level has developer priority.
+     *
+     * @return whether this priority level has developer priority
+     */
+    public boolean hasDeveloperPriorityLevel() {
+        return priorityLevel >= IDE_NORMAL.getPriorityLevel();
+    }
 }

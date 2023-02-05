@@ -1173,17 +1173,18 @@ public enum Console {
          */
         @Override
         public void windowDeiconified(WindowEvent e) {
-            onConsoleWindowDeiconified();
+            inputField.requestFocus();
+            setInputFieldCaretPositionToEnd();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void windowClosed(WindowEvent e) {
+            System.out.println(CyderFrame.getDominantFrame());
         }
     };
-
-    /**
-     * The actions to invoke when the console window is de-iconified.
-     */
-    private void onConsoleWindowDeiconified() {
-        inputField.requestFocus();
-        setInputFieldCaretPositionToEnd();
-    }
 
     /**
      * The chime mp3 file.

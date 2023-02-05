@@ -124,6 +124,11 @@ public final class TimeUtil {
     public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
 
     /**
+     * The date formatter to use when a screenshot is taken for the timestamp suffix.
+     */
+    public static final SimpleDateFormat SCREENSHOT_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+    /**
      * The date formatter used for when a log line is being written to the log file.
      */
     public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss.SSS");
@@ -293,6 +298,15 @@ public final class TimeUtil {
      */
     public static String logTime() {
         return getFormattedTime(LOG_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the time used for screenshot images.
+     *
+     * @return the time used for screenshot images
+     */
+    public static String screenshotTime() {
+        return getFormattedTime(SCREENSHOT_FORMAT);
     }
 
     /**

@@ -536,8 +536,6 @@ public final class AudioPlayer {
                 case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
                 case MINI -> setupAndShowFrameView(View.FULL);
                 case SEARCH -> onBackPressedFromSearchView();
-                default -> throw new IllegalArgumentException(
-                        "Illegal requested view to switch to via view switch frame button");
             }
         });
         audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);

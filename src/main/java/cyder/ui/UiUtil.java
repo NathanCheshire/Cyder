@@ -121,10 +121,11 @@ public final class UiUtil {
 
     @ForReadability
     private static File generateScreenshotSaveFile(CyderFrame cyderFrame) {
-        String saveName = cyderFrame.getTitle().substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH,
-                cyderFrame.getTitle().length()));
-        return UserUtil.createFileInUserSpace(saveName.trim() + CyderStrings.underscore
-                + TimeUtil.logTime().trim() + Extension.PNG.getExtension());
+        String saveName = cyderFrame.getTitle()
+                .substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length())).trim();
+        String timestampSuffix = TimeUtil.screenshotTime();
+        return UserUtil.createFileInUserSpace(saveName
+                + CyderStrings.underscore + timestampSuffix + Extension.PNG.getExtension());
     }
 
     /**

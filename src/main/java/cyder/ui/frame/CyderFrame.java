@@ -18,6 +18,7 @@ import cyder.layouts.CyderLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
+import cyder.managers.ProgramModeManager;
 import cyder.math.AngleUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
@@ -4135,22 +4136,24 @@ public class CyderFrame extends JFrame {
     private ImmutableList<JLabel> getTooltipMenuItems(JLabel tooltipMenuLabel) {
         Preconditions.checkNotNull(tooltipMenuLabel);
 
-        ArrayList<JLabel> ret = new ArrayList<>();
-        ret.add(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
-        ret.add(generateTooltipMenuItemLabel("Frame location",
+        ImmutableList.Builder<JLabel> tooltipMenuItemsBuilder = new ImmutableList.Builder<>();
+        tooltipMenuItemsBuilder.add(generateTooltipMenuItemLabel("To back", this::toBack, tooltipMenuLabel));
+        tooltipMenuItemsBuilder.add(generateTooltipMenuItemLabel("Frame location",
                 this::onFrameLocationTooltipMenuItemPressed, tooltipMenuLabel));
         if (cyderComponentResizer != null && cyderComponentResizer.isResizingEnabled()) {
-            ret.add(generateTooltipMenuItemLabel("Frame size",
+            tooltipMenuItemsBuilder.add(generateTooltipMenuItemLabel("Frame size",
                     this::onFrameSizeTooltipMenuItemPressed, tooltipMenuLabel));
         }
-        ret.add(generateTooltipMenuItemLabel("Screenshot",
-                () -> {
-                    tooltipMenuLabel.setVisible(false);
-                    UiUtil.screenshotCyderFrame(this);
-                    notify("Saved screenshot to your user's Files directory");
-                }, tooltipMenuLabel));
+        if (ProgramModeManager.INSTANCE.getProgramMode().hasDeveloperPriorityLevel()) {
+            tooltipMenuItemsBuilder.add(generateTooltipMenuItemLabel("Screenshot",
+                    () -> {
+                        tooltipMenuLabel.setVisible(false);
+                        UiUtil.screenshotCyderFrame(this);
+                        notify("Saved screenshot to your user's Files directory");
+                    }, tooltipMenuLabel));
+        }
 
-        return ImmutableList.copyOf(ret);
+        return tooltipMenuItemsBuilder.build();
     }
 
     /**
