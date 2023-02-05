@@ -1775,7 +1775,7 @@ public final class AudioPlayer {
             revalidateAfterAudioFileChange();
             playAudio();
         } else if (shuffleAudio.get()) {
-            currentAudioFile.set(getValidAudioFiles().get(getRandomIndex()));
+            currentAudioFile.set(getValidAudioFiles().get(getRandomAudioIndex()));
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             revalidateAfterAudioFileChange();
             playAudio();
@@ -1898,7 +1898,7 @@ public final class AudioPlayer {
         int nextIndex = currentIndex == getValidAudioFiles().size() - 1 ? 0 : currentIndex + 1;
 
         if (shuffleAudio.get()) {
-            nextIndex = getRandomIndex();
+            nextIndex = getRandomAudioIndex();
         }
 
         currentAudioFile.set(getValidAudioFiles().get(nextIndex));
@@ -2082,31 +2082,15 @@ public final class AudioPlayer {
         audioPlayerFrame.revalidateMenuIfVisible();
     }
 
-    // todo method to generate random number in range ignoring certain values
+    // todo right click and close on frame from windows taskbar broken
 
     /**
      * Returns a random index of the validAudioFiles list.
      *
      * @return a random index of the validAudioFiles list
      */
-    private static int getRandomIndex() {
-        ImmutableList<File> validAudioFiles = getValidAudioFiles();
-
-        if (validAudioFiles.size() == 1) {
-            return 0;
-        }
-
-        LinkedList<Integer> integers = new LinkedList<>();
-
-        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-            if (i == getCurrentAudioIndex()) {
-                continue;
-            }
-
-            integers.add(i);
-        }
-
-        return integers.get(NumberUtil.generateRandomInt(integers.size() - 1));
+    private static int getRandomAudioIndex() {
+        return NumberUtil.getRandomIndex(0, getValidAudioFiles().size(), getCurrentAudioIndex());
     }
 
     // ----------------------------------

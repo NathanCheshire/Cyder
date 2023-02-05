@@ -184,4 +184,45 @@ class NumberUtilTest {
         assertEquals(24, NumberUtil.lcm(ImmutableList.of(2, 6, 8)))
         assertEquals(105, NumberUtil.lcm(ImmutableList.of(5, 7, 15)))
     }
+
+    /**
+     * Tests for the get random index method.
+     */
+    @Test
+    fun testGetRandomIndex() {
+        assertThrows(IllegalArgumentException::class.java) { NumberUtil.getRandomIndex(0, 0) }
+        assertThrows(IllegalArgumentException::class.java) { NumberUtil.getRandomIndex(0, -1) }
+        assertThrows(IllegalArgumentException::class.java) { NumberUtil.getRandomIndex(6, 5) }
+
+        assertThrows(IllegalArgumentException::class.java) {
+            NumberUtil.getRandomIndex(0, 1, 0, 1)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8, 9, 10)
+        }
+
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5, 6) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5, 6, 7) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9) }
+        assertThrows(IllegalArgumentException::class.java) {
+            NumberUtil.getRandomIndex(0, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        }
+
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5, 6) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5, 6, 7) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8) }
+        assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8, 9) }
+        assertThrows(IllegalArgumentException::class.java) {
+            NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8, 9, 10)
+        }
+    }
 }

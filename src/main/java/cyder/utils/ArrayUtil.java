@@ -7,6 +7,7 @@ import cyder.strings.CyderStrings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -303,5 +304,19 @@ public final class ArrayUtil {
         for (int i = 0 ; i < reversedList.size() ; i++) reversedAArray[i] = reversedList.get(i);
 
         return reversedAArray;
+    }
+
+    /**
+     * Returns a random element from the provided collection.
+     *
+     * @param collection the collection
+     * @param <T>        the type contained in the collection
+     * @return a random element from the provided collection
+     */
+    public static <T> T getRandomElement(Collection<T> collection) {
+        Preconditions.checkNotNull(collection);
+
+        return collection.stream().skip((int) (collection.size() * Math.random())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Failed to get random element of collection"));
     }
 }

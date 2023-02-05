@@ -7,6 +7,7 @@ import com.google.common.math.BigIntegerMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.utils.ArrayUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A util for working with numbers and not necessarily math.
@@ -332,5 +335,24 @@ public final class NumberUtil {
      */
     private static int lcm(int first, int second) {
         return ((first * second) / gcd(first, second));
+    }
+
+    /**
+     * Returns a random integer in the range of [min, max] guaranteed not to be one of the provided ignore values.
+     *
+     * @param min          the minimum possible value
+     * @param max          the maximum possible value
+     * @param ignoreValues the values which should be excluded which fall within the range
+     * @return a random index in the range [min, max] but not one of the ignore values
+     */
+    public static int getRandomIndex(int min, int max, int... ignoreValues) {
+        Preconditions.checkArgument(min < max);
+        Preconditions.checkArgument(max - min + 1 > ignoreValues.length);
+
+        ImmutableList<Integer> ignoreInts = ArrayUtil.toList(ignoreValues);
+        ArrayList<Integer> possibleInts = IntStream.rangeClosed(min, max)
+                .filter(value -> !ignoreInts.contains(value))
+                .boxed().collect(Collectors.toCollection(ArrayList::new));
+        return ArrayUtil.getRandomElement(possibleInts);
     }
 }
