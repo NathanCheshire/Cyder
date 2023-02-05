@@ -1,4 +1,4 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
@@ -7,6 +7,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.audio.AudioUtil;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -92,6 +93,66 @@ import static cyder.audio.AudioIcons.*;
 @CyderAuthor
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class AudioPlayer {
+    /**
+     * The available views for this widget.
+     */
+    enum View {
+        /**
+         * All ui elements visible.
+         */
+        FULL,
+
+        /**
+         * Album art hidden.
+         */
+        HIDDEN_ALBUM_ART,
+
+        /**
+         * Mini audio player mode.
+         */
+        MINI,
+
+        /**
+         * Searching YouTube for a video's audio to download.
+         */
+        SEARCH,
+    }
+
+    /**
+     * Primary ui control actions.
+     */
+    private enum LastAction {
+        /**
+         * The user pressed play.
+         */
+        Play,
+
+        /**
+         * The user pressed skip back or skip forward.
+         */
+        Skip,
+
+        /**
+         * The audio was skipped
+         */
+        Pause,
+
+        /**
+         * The user changed the audio location.
+         */
+        Scrub,
+
+        /**
+         * An audio file was chosen using the file chooser menu option.
+         */
+        FileChosen,
+
+        /**
+         * Something else not yet handled.
+         */
+        Unknown,
+    }
+
     /**
      * The width and height of the audio frame.
      */
@@ -250,7 +311,7 @@ public final class AudioPlayer {
     /**
      * The current frame view the audio player is in.
      */
-    private static final AtomicReference<FrameView> currentFrameView = new AtomicReference<>(FrameView.FULL);
+    private static final AtomicReference<View> currentView = new AtomicReference<>(View.FULL);
 
     /**
      * The frame background color.
@@ -425,7 +486,7 @@ public final class AudioPlayer {
         audioDreamified.set(isCurrentAudioDreamy());
 
         if (isWidgetOpen()) {
-            if (currentFrameView.get() == FrameView.SEARCH) onBackPressedFromSearchView();
+            if (currentView.get() == View.SEARCH) onBackPressedFromSearchView();
             boolean audioPlaying = isAudioPlaying();
             if (audioPlaying) pauseAudio();
             revalidateAfterAudioFileChange();
@@ -437,6 +498,7 @@ public final class AudioPlayer {
             return;
         }
 
+        // todo right click and close on frame from windows taskbar broken
         // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
 
         currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
@@ -448,10 +510,10 @@ public final class AudioPlayer {
         ChangeSizeButton changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
         changeSizeButton.setClickAction(() -> {
-            switch (currentFrameView.get()) {
-                case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ALBUM_ART);
-                case HIDDEN_ALBUM_ART -> setupAndShowFrameView(FrameView.MINI);
-                case MINI -> setupAndShowFrameView(FrameView.FULL);
+            switch (currentView.get()) {
+                case FULL -> setupAndShowFrameView(View.HIDDEN_ALBUM_ART);
+                case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
+                case MINI -> setupAndShowFrameView(View.FULL);
                 case SEARCH -> onBackPressedFromSearchView();
                 default -> throw new IllegalArgumentException(
                         "Illegal requested view to switch to via view switch frame button");
@@ -668,7 +730,7 @@ public final class AudioPlayer {
         audioPlayerFrame.getContentPane().add(totalSecondsLabel);
         totalSecondsLabel.setFocusable(false);
 
-        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
+        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
         audioVolumeSliderUi.setThumbStroke(sliderStroke);
@@ -727,7 +789,7 @@ public final class AudioPlayer {
         refreshAudioLine();
 
         setAudioPlayerComponentsVisible(false);
-        setupAndShowFrameView(FrameView.FULL);
+        setupAndShowFrameView(View.FULL);
         audioPlayerFrame.finalizeAndShow();
         Console.INSTANCE.revalidateAudioMenuVisibility();
 
@@ -1111,7 +1173,7 @@ public final class AudioPlayer {
             if (FileUtil.isSupportedAudioExtension(chosenFile)) {
                 lastAction = LastAction.FileChosen;
 
-                if (currentFrameView.get() == FrameView.SEARCH) {
+                if (currentView.get() == View.SEARCH) {
                     onBackPressedFromSearchView();
                 }
 
@@ -1364,14 +1426,14 @@ public final class AudioPlayer {
      *
      * @param view the requested frame view
      */
-    private static void setupAndShowFrameView(FrameView view) {
+    private static void setupAndShowFrameView(View view) {
         setAudioPlayerComponentsVisible(false);
         setYouTubeSearchViewComponentsVisible(false);
 
         switch (view) {
             case FULL -> {
                 setAudioPlayerComponentsVisible(true);
-                currentFrameView.set(FrameView.FULL);
+                currentView.set(View.FULL);
                 audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength);
 
                 // set location of all components needed
@@ -1432,10 +1494,10 @@ public final class AudioPlayer {
                         defaultFrameLength / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
-                currentFrameView.set(FrameView.HIDDEN_ALBUM_ART);
+                currentView.set(View.HIDDEN_ALBUM_ART);
             }
             case MINI -> {
-                currentFrameView.set(FrameView.MINI);
+                currentView.set(View.MINI);
                 setAudioPlayerComponentsVisible(true);
                 audioPlayerFrame.setSize(defaultFrameLength, defaultFrameLength
                         - albumArtSize - miniFrameHeightOffset);
@@ -1493,7 +1555,7 @@ public final class AudioPlayer {
      * default album art.
      */
     private static void refreshAlbumArt() {
-        if (currentFrameView.get() != FrameView.FULL) {
+        if (currentView.get() != View.FULL) {
             albumArtLabel.setVisible(false);
             return;
         }
@@ -1596,7 +1658,7 @@ public final class AudioPlayer {
      * Refreshes the audio progress label and total length.
      */
     private static void refreshAudioProgressLabel() {
-        if (currentFrameView.get() == FrameView.MINI) {
+        if (currentView.get() == View.MINI) {
             return;
         }
 
@@ -1604,7 +1666,7 @@ public final class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
+        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
     }
 
@@ -2080,8 +2142,6 @@ public final class AudioPlayer {
         audioPlayerFrame.revalidateMenuIfVisible();
     }
 
-    // todo right click and close on frame from windows taskbar broken
-
     /**
      * Returns a random index of the validAudioFiles list.
      *
@@ -2168,14 +2228,14 @@ public final class AudioPlayer {
     private static int previousScrollLocation;
 
     /**
-     * Performs operations necessary to transitioning from the search view to the {@link FrameView#FULL} view.
+     * Performs operations necessary to transitioning from the search view to the {@link View#FULL} view.
      */
     private static void onBackPressedFromSearchView() {
         previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
         onSearchView.set(false);
         setYouTubeSearchViewComponentsVisible(false);
         audioPlayerFrame.hideMenu();
-        setupAndShowFrameView(FrameView.FULL);
+        setupAndShowFrameView(View.FULL);
     }
 
     /**
@@ -2184,7 +2244,7 @@ public final class AudioPlayer {
     private static void constructSearchYouTubeView() {
         if (uiLocked || searchYouTubeViewLocked.get()) return;
 
-        currentFrameView.set(FrameView.SEARCH);
+        currentView.set(View.SEARCH);
 
         searchYouTubeViewLocked.set(true);
 

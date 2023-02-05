@@ -2,7 +2,7 @@ package cyder.files;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.audio.AudioPlayer;
+import cyder.audio.player.AudioPlayer;
 import cyder.enums.Extension;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.ImageViewer;

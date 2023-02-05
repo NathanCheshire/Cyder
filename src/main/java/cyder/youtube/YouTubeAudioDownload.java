@@ -1,8 +1,8 @@
 package cyder.youtube;
 
 import com.google.common.base.Preconditions;
-import cyder.audio.AudioPlayer;
 import cyder.audio.AudioUtil;
+import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;

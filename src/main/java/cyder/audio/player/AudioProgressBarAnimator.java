@@ -1,4 +1,4 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.base.Preconditions;
 import cyder.threads.CyderThreadRunner;
@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * An encapsulation class for incrementing the audio progress bar's animation increment.
  */
-public class AudioProgressBarAnimator {
+public final class AudioProgressBarAnimator {
     /**
      * The delay between update calls while the animation is in the {@link State#RUNNING} state.
      */

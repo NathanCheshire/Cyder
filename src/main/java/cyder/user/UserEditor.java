@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
-import cyder.audio.AudioPlayer;
+import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;

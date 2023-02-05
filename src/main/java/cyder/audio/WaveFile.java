@@ -28,7 +28,7 @@ import java.util.Objects;
  * Instances of this class are immutable.
  */
 @Immutable
-public class WaveFile {
+public final class WaveFile {
     /**
      * The number of bits per sample of a wav file.
      */

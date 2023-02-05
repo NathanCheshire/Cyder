@@ -1,4 +1,4 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.base.Preconditions;
 import cyder.threads.CyderThreadRunner;
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * A class to control the visibility of the audio volume level label and perform animations.
  */
-public class AudioVolumeLabelAnimator {
+public final class AudioVolumeLabelAnimator {
     /**
      * The thread name for the thread which waits for the proper time to pass before invoking the animate out method.
      */

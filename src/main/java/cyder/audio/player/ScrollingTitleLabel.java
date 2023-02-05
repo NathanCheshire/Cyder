@@ -1,4 +1,4 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Private inner class for the scrolling audio label.
  */
-public class ScrollingTitleLabel {
+public final class ScrollingTitleLabel {
     /**
      * The minimum width of the title label.
      */

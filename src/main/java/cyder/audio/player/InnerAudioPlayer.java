@@ -1,7 +1,8 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.audio.AudioUtil;
 import cyder.console.Console;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -16,7 +17,7 @@ import java.io.FileInputStream;
 /**
  * An inner class for easily playing a single audio file
  */
-public class InnerAudioPlayer {
+public final class InnerAudioPlayer {
     /**
      * The one and only file this audio player can play.
      */

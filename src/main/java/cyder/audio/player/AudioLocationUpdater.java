@@ -1,6 +1,7 @@
-package cyder.audio;
+package cyder.audio.player;
 
 import com.google.common.base.Preconditions;
+import cyder.audio.AudioUtil;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * The class to update the audio location label and progress bar.
  */
-public class AudioLocationUpdater {
+public final class AudioLocationUpdater {
     /**
      * The thread for setting up the props during object construction.
      */
@@ -40,7 +41,7 @@ public class AudioLocationUpdater {
     /**
      * The current frame view the audio player is in.
      */
-    private final AtomicReference<FrameView> currentFrameView;
+    private final AtomicReference<AudioPlayer.View> currentFrameView;
 
     /**
      * The current audio file of the audio player.
@@ -77,7 +78,7 @@ public class AudioLocationUpdater {
      * @param sliderPressed    whether the provided slider is currently under a mouse pressed event
      */
     public AudioLocationUpdater(JLabel secondsInLabel, JLabel secondsLeftLabel,
-                                AtomicReference<FrameView> currentFrameView,
+                                AtomicReference<AudioPlayer.View> currentFrameView,
                                 AtomicReference<File> currentAudioFile, AtomicBoolean sliderPressed,
                                 JSlider slider) {
         this.secondsInLabel = Preconditions.checkNotNull(secondsInLabel);
@@ -150,7 +151,7 @@ public class AudioLocationUpdater {
                 milliSecondsIn = AudioPlayer.getMillisecondsIn();
                 int newSecondsIn = (int) (milliSecondsIn / TimeUtil.millisInSecond);
 
-                if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
+                if (!timerPaused && currentFrameView.get() != AudioPlayer.View.MINI) {
                     if (!sliderPressed.get()) {
                         updateEffectLabel(newSecondsIn, false);
                         updateSlider();

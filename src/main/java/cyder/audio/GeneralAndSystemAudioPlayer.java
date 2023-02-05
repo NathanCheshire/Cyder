@@ -2,6 +2,7 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
