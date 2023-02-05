@@ -536,25 +536,38 @@ public enum Console {
                 outputArea.setFocusable(false);
                 outputScroll.setFocusable(false);
 
+                UiUtil.disposeAllFrames(true, consoleCyderFrame);
                 super.dispose(isFullscreen());
             }
 
-            /** A full barrel roll's rotation degrees. */
+            /**
+             * Full barrel roll's rotation degrees.
+             */
             private static final int FULL_ROTATION_DEGREES = 360;
 
-            /** The increment in degrees for a barrel roll. */
+            /**
+             * The increment in degrees for a barrel roll.
+             */
             private static final int DEGREE_INCREMENT = 2;
 
-            /** The delay between barrel roll increments. */
+            /**
+             * The delay between barrel roll increments.
+             */
             private static final int BARREL_ROLL_DELAY = 2;
 
-            /** Whether a barrel roll is currently underway. */
+            /**
+             * Whether a barrel roll is currently underway
+             */
             private static boolean consoleBarrelRollLocked = false;
 
-            /** The thread name for the barrel roll animator. */
+            /**
+             * The thread name for the barrel roll animator.
+             */
             private static final String BARREL_ROLL_THREAD_NAME = "Console Barrel Roll Thread";
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void barrelRoll() {
                 if (consoleBarrelRollLocked) return;
@@ -573,7 +586,9 @@ public enum Console {
                 }, BARREL_ROLL_THREAD_NAME);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void minimizeAndIconify() {
                 saveScreenStat();
@@ -3434,7 +3449,7 @@ public enum Console {
      */
     public void logoutCurrentUserAndShowLoginFrame() {
         Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
-        UiUtil.closeAllFrames(true, consoleCyderFrame);
+        UiUtil.disposeAllFrames(true, consoleCyderFrame);
         releaseResourcesAndCloseFrame(false);
         logoutCurrentUser();
         LoginHandler.showGui(centerPoint);

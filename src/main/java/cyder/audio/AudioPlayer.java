@@ -417,8 +417,7 @@ public final class AudioPlayer {
      */
     public static void showGui(File startPlaying) {
         // todo pressing download from search view freezes for a couple seconds
-        // todo on quit from console close all frames first before animating frame away
-        // todo detect debug mode and if so, no frames should be always on top
+        // todo picture viewer frame title is cut off?
 
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());

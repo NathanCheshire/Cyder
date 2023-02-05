@@ -259,18 +259,18 @@ public final class UiUtil {
     /**
      * Closes all instances of {@link Frame} by invoking {@link Frame#dispose()} on all instances.
      */
-    public static void closeAllFrames() {
+    public static void disposeAllFrames() {
         Arrays.stream(Frame.getFrames()).forEach(Frame::dispose);
     }
 
     /**
-     * Closes all instances of Frame. If a frame is an instance of CyderFrame,
+     * Disposes all instances of {@link Frame}. If a frame is an instance of CyderFrame,
      * fastClose follows the value provided.
      *
      * @param fastClose    whether to fastClose any instances of CyderFrame
      * @param ignoreFrames frames to not dispose if encountered
      */
-    public static void closeAllFrames(boolean fastClose, Frame... ignoreFrames) {
+    public static void disposeAllFrames(boolean fastClose, Frame... ignoreFrames) {
         ImmutableList<Frame> ignores = ImmutableList.copyOf(ignoreFrames);
         Arrays.stream(Frame.getFrames())
                 .filter(frame -> !ignores.contains(frame))
@@ -284,7 +284,7 @@ public final class UiUtil {
     }
 
     /**
-     * Closes all instances of CyderFrame.
+     * Disposes all instances of {@link CyderFrame}.
      *
      * @param fastClose whether to invoke fast close on all CyderFrames found
      */
