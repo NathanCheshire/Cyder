@@ -414,6 +414,7 @@ public final class AudioPlayer {
      */
     public static void showGui(File startPlaying) {
         // todo pressing download from search view freezes for a couple seconds
+        // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
 

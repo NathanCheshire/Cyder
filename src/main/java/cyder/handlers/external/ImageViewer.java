@@ -11,7 +11,6 @@ import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.drag.button.LeftButton;
@@ -33,6 +32,10 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
+
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A widget which displays the images supported by Cyder in a provided directory.
@@ -62,6 +65,11 @@ public class ImageViewer {
      * The maximum dimension of the image viewer frame.
      */
     private static final Dimension maxFrameSize = new Dimension(maxFrameLength, maxFrameLength);
+
+    /**
+     * The getter util instance used to acquire the new filename from the user during a rename image attempt.
+     */
+    private final GetterUtil getterUtil = GetterUtil.getInstance();
 
     /**
      * The list of valid image files in the current directory, not recursive.
@@ -99,7 +107,7 @@ public class ImageViewer {
     private LeftButton lastButton;
 
     /**
-     * Returns a new instance with the provided starting directory.
+     * Creates and returns a new instance.
      *
      * @param imageDirectoryOrFile the image directory or an image file.
      *                             If a file is provided, the file's parent is used as the directory
@@ -131,27 +139,17 @@ public class ImageViewer {
     }
 
     /**
-     * Opens the instance of.
+     * Shows this ImageViewer instance.
      *
-     * @return whether the gui opened the image successfully
+     * @return whether the the image was successfully loaded and opened
      */
     public Future<Boolean> showGui() {
         return Executors.newSingleThreadExecutor(generateThreadFactory()).submit(() -> {
-            refreshValidFiles();
+            refreshImageFiles();
 
-            File currentImage = validDirectoryImages.get(0);
-
-            if (imageDirectory.isFile()) {
-                for (File validDirectoryImage : validDirectoryImages) {
-                    if (validDirectoryImage.equals(imageDirectory)) {
-                        currentImage = validDirectoryImage;
-                        break;
-                    }
-                }
-            }
+            File currentImage = getCurrentImageFile();
 
             ImageIcon newImage = scaleImageIfNeeded(currentImage);
-
             pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
             pictureFrame.setBackground(Color.BLACK);
             pictureFrame.setTitlePosition(TitlePosition.CENTER);
@@ -164,21 +162,20 @@ public class ImageViewer {
                 }
             });
 
-            pictureFrame.finalizeAndShow();
-
             pictureFrame.setMenuEnabled(true);
-            pictureFrame.addMenuItem(RENAME, this::rename);
+            pictureFrame.addMenuItem(RENAME, this::onRenameButtonClicked);
 
             nextButton = new RightButton();
             nextButton.setToolTipText(NEXT);
-            nextButton.setClickAction(() -> transition(true));
+            nextButton.setClickAction(this::transitionForward);
             pictureFrame.getTopDragLabel().addRightButton(nextButton, 0);
 
             lastButton = new LeftButton();
             lastButton.setToolTipText(LAST);
-            lastButton.setClickAction(() -> transition(false));
+            lastButton.setClickAction(this::transitionBackward);
             pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
 
+            pictureFrame.finalizeAndShow();
             revalidateNavigationButtonVisibility();
             startDirectoryWatcher();
 
@@ -187,18 +184,33 @@ public class ImageViewer {
     }
 
     /**
+     * Returns a reference to the current image file if possible. The first image is returned otherwise.
+     *
+     * @return a reference to the current image file. The first image is returned otherwise
+     */
+    private File getCurrentImageFile() {
+        AtomicReference<File> currentImage = new AtomicReference<>(validDirectoryImages.get(0));
+        if (imageDirectory.isFile()) {
+            validDirectoryImages.stream()
+                    .filter(image -> image.equals(imageDirectory))
+                    .findFirst().ifPresent(currentImage::set);
+        }
+        return currentImage.get();
+    }
+
+    /**
      * Generates and returns a new {@link CyderThreadFactory} for the loading {@link Executor}.
      *
      * @return a new {@link CyderThreadFactory} for the loading {@link Executor}
      */
     private CyderThreadFactory generateThreadFactory() {
-        return new CyderThreadFactory("ImageViewer showGui thread, initial directory: " + imageDirectory);
+        return new CyderThreadFactory("ImageViewer showGui thread, directory" + colon + space + imageDirectory);
     }
 
     /**
-     * Refreshes the {@link #validDirectoryImages} list.
+     * Refreshes the {@link #validDirectoryImages} list based on the currently set {@link #imageDirectory}.
      */
-    private void refreshValidFiles() {
+    private void refreshImageFiles() {
         validDirectoryImages.clear();
 
         File[] neighbors = imageDirectory.isDirectory()
@@ -209,39 +221,34 @@ public class ImageViewer {
     }
 
     /**
-     * Transitions to a new image in the directory if more exist.
-     *
-     * @param forward whether to transition forwards.
-     *                If false, the direction traversed is backwards
+     * Transitions to the next image if possible.
      */
-    private void transition(boolean forward) {
-        refreshValidFiles();
+    private void transitionForward() {
+        refreshImageFiles();
+        if (validDirectoryImages.size() < 2) return;
+        currentIndex = currentIndex == validDirectoryImages.size() - 1 ? 0 : currentIndex + 1;
+        revalidateFromTransition();
+    }
 
-        if (validDirectoryImages.size() <= 1) return;
+    /**
+     * Transitions to the previous image if possible.
+     */
+    private void transitionBackward() {
+        refreshImageFiles();
+        if (validDirectoryImages.size() < 2) return;
+        currentIndex = currentIndex == 0 ? validDirectoryImages.size() - 1 : currentIndex - 1;
+        revalidateFromTransition();
+    }
 
-        if (forward) {
-            if (currentIndex + 1 < validDirectoryImages.size()) {
-                currentIndex += 1;
-            } else {
-                currentIndex = 0;
-            }
-        } else {
-            if (currentIndex - 1 >= 0) {
-                currentIndex -= 1;
-            } else {
-                currentIndex = validDirectoryImages.size() - 1;
-            }
-        }
-
-        Point center = pictureFrame.getCenterPointOnScreen();
-
-        ImageIcon newImage = scaleImageIfNeeded(validDirectoryImages.get(currentIndex));
-        pictureFrame.setSize(newImage.getIconWidth(), newImage.getIconHeight());
-        pictureFrame.setBackground(newImage);
-
-        pictureFrame.setLocation((int) (center.getX() - newImage.getIconWidth() / 2),
-                (int) (center.getY() - newImage.getIconHeight() / 2));
-
+    /**
+     * The logic to perform following a transition.
+     */
+    private void revalidateFromTransition() {
+        Point oldCenterPoint = pictureFrame.getCenterPointOnScreen();
+        ImageIcon image = scaleImageIfNeeded(validDirectoryImages.get(currentIndex));
+        pictureFrame.setSize(image.getIconWidth(), image.getIconHeight());
+        pictureFrame.setBackground(image);
+        pictureFrame.setCenterPoint(oldCenterPoint);
         pictureFrame.refreshBackground();
         revalidateTitle(FileUtil.getFilename(validDirectoryImages.get(currentIndex).getName()));
     }
@@ -254,62 +261,65 @@ public class ImageViewer {
      * @return the ImageIcon from the image file guaranteed to be no bigger than MAX_LEN x MAX_LEN
      */
     private ImageIcon scaleImageIfNeeded(File imageFile) {
+        Preconditions.checkNotNull(imageFile);
+        Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkArgument(imageFile.isFile());
+
         try {
             BufferedImage bufferedImage = ImageUtil.read(imageFile);
             bufferedImage = ImageUtil.ensureFitsInBounds(bufferedImage, maxFrameSize);
             return ImageUtil.toImageIcon(bufferedImage);
         } catch (Exception e) {
-            ExceptionHandler.handle(e);
+            throw new IllegalStateException("Could not generate ImageIcon for file" + colon
+                    + space + imageFile.getAbsolutePath() + ", error: " + e.getMessage());
         }
-
-        throw new IllegalStateException("Could not generate ImageIcon for file: " + imageFile.getAbsolutePath());
     }
 
     /**
-     * Attempts to rename the current image file if not in use by the Console.
+     * The actions to invoke when the rename menu item is pressed.
      */
-    private void rename() {
+    private void onRenameButtonClicked() {
         File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
         File currentBackground = Console.INSTANCE
                 .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
             pictureFrame.notify("Sorry, " + UserDataManager.INSTANCE.getUsername()
-                    + ", but you're not allowed to" + " rename the background you are currently using");
+                    + ", but you're not allowed to rename the background you are currently using");
             return;
         }
 
+        getterUtil.closeAllGetInputFrames();
+
+        String initialFieldText = FileUtil.getFilename(validDirectoryImages.get(currentIndex));
+
         CyderThreadRunner.submit(() -> {
             try {
-                Optional<String> optionalName = GetterUtil.getInstance().getInput(
-                        new GetInputBuilder("Rename", "New filename for " + CyderStrings.quote
-                                + validDirectoryImages.get(currentIndex).getName() + CyderStrings.quote)
-                                .setRelativeTo(pictureFrame)
-                                .setInitialFieldText(FileUtil.getFilename(validDirectoryImages.get(currentIndex)))
-                                .setSubmitButtonText("Rename"));
-                if (optionalName.isEmpty()) {
-                    pictureFrame.notify("File not renamed");
-                    return;
-                }
-                String name = optionalName.get();
+                GetInputBuilder builder = new GetInputBuilder(RENAME, "New filename for"
+                        + space + quote + validDirectoryImages.get(currentIndex).getName() + quote)
+                        .setRelativeTo(pictureFrame)
+                        .setInitialFieldText(initialFieldText)
+                        .setSubmitButtonText(RENAME);
+                Optional<String> optionalName = getterUtil.getInput(builder);
+                if (optionalName.isEmpty() || optionalName.get().equals(initialFieldText)) return;
 
-                File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
-                String replaceOldName = FileUtil.getFilename(oldName);
-                File newName = new File(oldName.getAbsolutePath().replace(replaceOldName, name));
+                String requestedName = optionalName.get();
 
-                if (oldName.renameTo(newName)) {
-                    pictureFrame.notify("Successfully renamed to \"" + name + CyderStrings.quote);
+                File oldFileReference = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
+                File newFileReference = new File(oldFileReference.getAbsolutePath()
+                        .replace(FileUtil.getFilename(oldFileReference), requestedName));
 
-                    refreshValidFiles();
+                if (oldFileReference.renameTo(newFileReference)) {
+                    pictureFrame.notify("Successfully renamed to" + space + quote + requestedName + quote);
 
-                    // Update index based on new name
-                    for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
-                        if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
-                            currentIndex = i;
-                        }
-                    }
-
-                    revalidateTitle(name);
+                    refreshImageFiles();
+                    IntStream.range(0, validDirectoryImages.size())
+                            .forEach(index -> {
+                                if (FileUtil.getFilename(validDirectoryImages.get(index)).equals(requestedName)) {
+                                    currentIndex = index;
+                                }
+                            });
+                    revalidateTitle(requestedName);
                 } else {
                     pictureFrame.notify("Could not rename at this time");
                 }
@@ -317,7 +327,7 @@ public class ImageViewer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "ImageViewer File Renamer");
+        }, "ImageViewer File Renamer, file" + colon + space + initialFieldText);
     }
 
     /**
@@ -326,12 +336,15 @@ public class ImageViewer {
      * @param title the title of the frame
      */
     public void revalidateTitle(String title) {
+        Preconditions.checkNotNull(title);
+
         title = title.trim();
 
         try {
-            BufferedImage bi = ImageUtil.read(validDirectoryImages.get(currentIndex));
-            pictureFrame.setTitle(title + CyderStrings.space + CyderStrings.openingBracket
-                    + bi.getWidth() + "x" + bi.getHeight() + CyderStrings.closingBracket);
+            BufferedImage image = ImageUtil.read(validDirectoryImages.get(currentIndex));
+            int width = image.getWidth();
+            int height = image.getHeight();
+            pictureFrame.setTitle(title + space + openingBracket + width + "x" + height + closingBracket);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pictureFrame.setTitle(title);
@@ -346,7 +359,7 @@ public class ImageViewer {
         WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
             @Override
             public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
-                refreshValidFiles();
+                refreshImageFiles();
                 revalidateNavigationButtonVisibility();
             }
         };
@@ -360,7 +373,7 @@ public class ImageViewer {
      * Revalidates the visibility of the navigation buttons.
      */
     private void revalidateNavigationButtonVisibility() {
-        refreshValidFiles();
+        refreshImageFiles();
         setNavigationButtonsVisibility(validDirectoryImages.size() > 1);
     }
 
