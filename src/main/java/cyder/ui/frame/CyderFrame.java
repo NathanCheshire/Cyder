@@ -1211,10 +1211,10 @@ public class CyderFrame extends JFrame {
 
     @ForReadability
     private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
-       new InformHandler.Builder(text == null ? "NULL" : text)
-               .setContainer(container)
-               .setTitle(generateNotificationTooltip(time))
-               .setRelativeTo(this).inform();
+        new InformHandler.Builder(text == null ? "NULL" : text)
+                .setContainer(container)
+                .setTitle(generateNotificationTooltip(time))
+                .setRelativeTo(this).inform();
         notificationConstructionLock.release();
     }
 
@@ -4145,6 +4145,7 @@ public class CyderFrame extends JFrame {
         }
         ret.add(generateTooltipMenuItemLabel("Screenshot",
                 () -> {
+                    tooltipMenuLabel.setVisible(false);
                     UiUtil.screenshotCyderFrame(this);
                     notify("Saved screenshot to your user's Files directory");
                 }, tooltipMenuLabel));
