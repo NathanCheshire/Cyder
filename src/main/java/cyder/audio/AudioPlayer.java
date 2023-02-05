@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Range;
 import com.google.common.util.concurrent.AtomicDouble;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
@@ -578,7 +579,7 @@ public final class AudioPlayer {
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
         audioLocationSlider.addChangeListener(e -> {
-            if (audioTotalLength == UNKNOWN_AUDIO_LENGTH || audioTotalLength == 0) {
+            if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
                 audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
             }
 
@@ -629,7 +630,7 @@ public final class AudioPlayer {
 
                         playAudio();
                     } else {
-                        if (audioTotalLength == UNKNOWN_AUDIO_LENGTH || audioTotalLength == 0) {
+                        if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
                             audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
                         }
 
@@ -1744,59 +1745,50 @@ public final class AudioPlayer {
                 audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
             }
 
-            pauseLocation = UNKNOWN_PAUSE_LOCATION;
-            pauseLocationMillis = UNKNOWN_PAUSE_LOCATION;
+            pauseLocation = unknownPauseLocation;
+            pauseLocationMillis = unknownPauseLocation;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
     /**
-     * A call back for InnerAudioPlayers to invoke when they are killed.
+     * A call back for {@link InnerAudioPlayer}s to invoke when they naturally conclude and are not killed.
      */
     static void playAudioCallback() {
-        // user didn't click any buttons so we should try and find the next audio
-        if (lastAction == LastAction.Play) {
-            if (innerAudioPlayer != null) {
-                innerAudioPlayer.kill();
-                innerAudioPlayer = null;
-            }
+        if (lastAction != LastAction.Play) return;
 
-            if (repeatAudio) {
-                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                audioLocationUpdater.setPercentIn(0);
-                audioLocationUpdater.update(false);
-                playAudio();
-            } else if (!audioFileQueue.isEmpty()) {
-                currentAudioFile.set(audioFileQueue.remove(0));
-                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                revalidateFromAudioFileChange();
-                playAudio();
-            } else if (shuffleAudio) {
-                currentAudioFile.set(getValidAudioFiles().get(getRandomIndex()));
-                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                revalidateFromAudioFileChange();
-                playAudio();
-            } else {
-                int currentIndex = getCurrentAudioIndex();
-
-                int nextIndex = currentIndex + 1 == getValidAudioFiles().size() ? 0 : currentIndex + 1;
-
-                currentAudioFile.set(getValidAudioFiles().get(nextIndex));
-
-                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-
-                revalidateFromAudioFileChange();
-
-                playAudio();
-            }
+        if (innerAudioPlayer != null) {
+            innerAudioPlayer.kill();
+            innerAudioPlayer = null;
         }
+
+        if (repeatAudio.get()) {
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            audioLocationUpdater.setPercentIn(0);
+            audioLocationUpdater.update(false);
+            playAudio();
+        } else if (!audioFileQueue.isEmpty()) {
+            currentAudioFile.set(audioFileQueue.remove(0));
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            revalidateFromAudioFileChange();
+            playAudio();
+        } else if (shuffleAudio.get()) {
+            currentAudioFile.set(getValidAudioFiles().get(getRandomIndex()));
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            revalidateFromAudioFileChange();
+            playAudio();
+        } else {
+            int currentIndex = getCurrentAudioIndex();
+            int nextIndex = currentIndex + 1 == getValidAudioFiles().size() ? 0 : currentIndex + 1;
+            currentAudioFile.set(getValidAudioFiles().get(nextIndex));
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            revalidateFromAudioFileChange();
+            playAudio();
+        }
+
     }
 
-    /**
-     * A magic number to denote an undefined pause location.
-     */
-    private static final long UNKNOWN_PAUSE_LOCATION = -1L;
 
     /*
      * The location the previous InnerAudioPlayer was killed at, if available.
@@ -1809,14 +1801,19 @@ public final class AudioPlayer {
     private static long pauseLocationMillis;
 
     /**
+     * A magic number to denote an undefined pause location.
+     */
+    private static final long unknownPauseLocation = -1L;
+
+    /**
      * A magic number used to denote an unknown audio length;
      */
-    private static final long UNKNOWN_AUDIO_LENGTH = -1;
+    private static final long unknownAudioLength = -1;
 
     /**
      * The total length of the current (paused or playing) audio.
      */
-    private static long audioTotalLength = UNKNOWN_AUDIO_LENGTH;
+    private static long audioTotalLength = unknownAudioLength;
 
     /**
      * Returns the location in milliseconds into the current audio file.
@@ -1828,84 +1825,65 @@ public final class AudioPlayer {
     }
 
     /**
-     * Pauses playback of the current audio file.
+     * Pauses playback of the current audio file if {@link #innerAudioPlayer} is not null.
      */
     private static void pauseAudio() {
-        if (innerAudioPlayer != null) {
-            audioTotalLength = innerAudioPlayer.getTotalAudioLength();
-            pauseLocationMillis = innerAudioPlayer.getMillisecondsIn();
-            audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.PAUSED);
-            pauseLocation = innerAudioPlayer.kill();
-            innerAudioPlayer = null;
-            lastAction = LastAction.Pause;
-            audioLocationUpdater.pauseTimer();
-            refreshPlayPauseButtonIcon();
-        }
+        if (innerAudioPlayer == null) return;
+
+        audioTotalLength = innerAudioPlayer.getTotalAudioLength();
+        pauseLocationMillis = innerAudioPlayer.getMillisecondsIn();
+        audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.PAUSED);
+        pauseLocation = innerAudioPlayer.kill();
+        innerAudioPlayer = null;
+        lastAction = LastAction.Pause;
+        audioLocationUpdater.pauseTimer();
+        refreshPlayPauseButtonIcon();
     }
 
     /**
-     * The number of milliseconds which will not trigger a song restart instead of previous audio skip action if
-     * the skip back button is pressed in the inclusive [0, SECONDS_IN_RESTART_TOL].
+     * The range a pause location must fall within in order for a skip back action to occur. Any value outside
+     * of the first 5000ms will cause the current audio to be restarted on a skip back invocation.
      */
-    private static final int MILLISECONDS_IN_RESTART_TOL = 5000;
+    private static final Range<Long> millisecondsIntoAudioToSkipBack = Range.closed(0L, 5000L);
 
     /**
      * Handles a click from the last button.
      */
     public static void handleLastAudioButtonClick() {
-        if (shouldSuppressClick()) {
-            return;
-        }
-
+        if (shouldSuppressClick()) return;
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
         lastAction = LastAction.Skip;
 
-        boolean shouldPlay = isAudioPlaying();
+        boolean wasPlayingAudio = isAudioPlaying();
+        if (wasPlayingAudio) pauseAudio();
 
-        if (shouldPlay) {
-            pauseAudio();
-        }
-
-        if (pauseLocationMillis > MILLISECONDS_IN_RESTART_TOL) {
+        if (!millisecondsIntoAudioToSkipBack.contains(pauseLocationMillis)) {
             audioLocationUpdater.pauseTimer();
             audioLocationUpdater.setPercentIn(0);
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            audioLocationUpdater.update(false);
+        } else {
+            int currentIndex = getCurrentAudioIndex();
+            int lastIndex = currentIndex == 0 ? getValidAudioFiles().size() - 1 : currentIndex - 1;
+
+            currentAudioFile.set(getValidAudioFiles().get(lastIndex));
 
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             audioLocationUpdater.update(false);
-
-            if (shouldPlay) {
-                playAudio();
-            }
-
-            return;
+            audioLocationSliderUi.resetAnimation();
+            revalidateFromAudioFileChange();
         }
 
-        int currentIndex = getCurrentAudioIndex();
-        int lastIndex = currentIndex == 0 ? getValidAudioFiles().size() - 1 : currentIndex - 1;
-
-        currentAudioFile.set(getValidAudioFiles().get(lastIndex));
-
-        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-        audioLocationUpdater.update(false);
-        audioLocationSliderUi.resetAnimation();
-
-        revalidateFromAudioFileChange();
-
-        if (shouldPlay) {
-            playAudio();
-        }
+        if (wasPlayingAudio) playAudio();
     }
 
     /**
      * Handles a click from the next audio button.
      */
     public static void handleNextAudioButtonClick() {
-        if (shouldSuppressClick()) {
-            return;
-        }
-
+        if (shouldSuppressClick()) return;
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
@@ -1918,7 +1896,7 @@ public final class AudioPlayer {
         int currentIndex = getCurrentAudioIndex();
         int nextIndex = currentIndex == getValidAudioFiles().size() - 1 ? 0 : currentIndex + 1;
 
-        if (shuffleAudio) {
+        if (shuffleAudio.get()) {
             nextIndex = getRandomIndex();
         }
 
@@ -1956,23 +1934,23 @@ public final class AudioPlayer {
     /**
      * Whether the current audio should be repeated on conclusion.
      */
-    private static boolean repeatAudio;
+    private static final AtomicBoolean repeatAudio = new AtomicBoolean(false);
 
     /**
      * Handles a click from the repeat button.
      */
     public static void handleRepeatButtonClick() {
-        // always before handle button methods
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
-        repeatAudio = !repeatAudio;
+        boolean repeatAudioValue = repeatAudio.get();
+        repeatAudio.compareAndSet(repeatAudioValue, !repeatAudioValue);
     }
 
     /**
      * Whether the next audio file should be chosen at random upon completion of the current audio file.
      */
-    private static boolean shuffleAudio;
+    private static final AtomicBoolean shuffleAudio = new AtomicBoolean(false);
 
     /**
      * Handles a click of the shuffle button.
@@ -1981,7 +1959,8 @@ public final class AudioPlayer {
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
-        shuffleAudio = !shuffleAudio;
+        boolean shuffleAudioValue = shuffleAudio.get();
+        shuffleAudio.compareAndSet(shuffleAudioValue, !shuffleAudioValue);
     }
 
     /**
