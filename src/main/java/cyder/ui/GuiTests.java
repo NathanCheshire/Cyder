@@ -423,7 +423,7 @@ public final class GuiTests {
     /**
      * Tests for the frame title length.
      */
-    @GuiTest("frame length test")
+    @GuiTest("frame title length test")
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame(600, 200);
         cf.setTitle("Title Length Test");

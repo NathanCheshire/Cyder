@@ -964,7 +964,6 @@ public class CyderFrame extends JFrame {
     @Override
     public void setTitle(String title) {
         Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
 
         title = StringUtil.getTrimmedText(StringUtil.removeNonAscii(title));
 
@@ -2056,7 +2055,7 @@ public class CyderFrame extends JFrame {
             rightButtonsEnd = Math.max(rightButtonsEnd, rightButton.getX() + rightButton.getWidth());
         }
 
-        int necessaryTitleWidth = StringUtil.getAbsoluteMinWidth(title, titleLabel.getFont());
+        int necessaryTitleWidth = StringUtil.getMinWidth(title, titleLabel.getFont());
         int necessaryTitleHeight = CyderDragLabel.DEFAULT_HEIGHT;
         int y = 0;
 

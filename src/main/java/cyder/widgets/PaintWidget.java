@@ -15,7 +15,7 @@ import cyder.files.FileUtil;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
-import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.ImageViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.strings.CyderStrings;
@@ -169,7 +169,7 @@ public final class PaintWidget {
                     paintFrame.notify(new NotificationBuilder(
                             "Successfully saved grid as " + CyderStrings.quote + filename
                                     + CyderStrings.quote + " to your Files/ directory. Click me to view it")
-                            .setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui()));
+                            .setOnKillAction(() -> ImageViewer.getInstance(referenceFile).showGui()));
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");

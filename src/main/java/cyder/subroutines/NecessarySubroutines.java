@@ -28,6 +28,7 @@ import cyder.utils.StaticUtil;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -60,7 +61,7 @@ public final class NecessarySubroutines {
     /**
      * The list of triggers for GuiTest methods.
      */
-    private static final LinkedList<String> guiTestTriggers = new LinkedList<>();
+    private static final ArrayList<String> guiTestTriggers = new ArrayList<>();
 
     /**
      * The font directory name to load the true-type fonts from.

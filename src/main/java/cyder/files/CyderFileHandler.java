@@ -5,7 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.AudioPlayer;
 import cyder.enums.Extension;
 import cyder.handlers.external.DirectoryViewer;
-import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.ImageViewer;
 import cyder.handlers.external.TextViewer;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public enum CyderFileHandler {
         }
     }),
     IMAGE(FileUtil::isSupportedImageExtension, file -> {
-        Future<Boolean> futureBoolean = PhotoViewer.getInstance(file).showGui();
+        Future<Boolean> futureBoolean = ImageViewer.getInstance(file).showGui();
         while (!futureBoolean.isDone()) Thread.onSpinWait();
         try {
             return futureBoolean.get();

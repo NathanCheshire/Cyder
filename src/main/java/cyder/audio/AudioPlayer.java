@@ -14,14 +14,11 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
-import cyder.files.DirectoryWatcher;
 import cyder.files.FileUtil;
-import cyder.files.WatchDirectoryEvent;
-import cyder.files.WatchDirectorySubscriber;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
-import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.ImageViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.math.NumberUtil;
@@ -417,16 +414,12 @@ public final class AudioPlayer {
      */
     public static void showGui(File startPlaying) {
         // todo pressing download from search view freezes for a couple seconds
-        // todo picture viewer frame title is cut off?
-
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
 
         currentAudioFile.set(startPlaying);
 
         audioDreamified.set(isCurrentAudioDreamy());
-
-        startMusicFileAddedDirectoryWatcher();
 
         if (isWidgetOpen()) {
             if (currentFrameView.get() == FrameView.SEARCH) goBackFromSearchView();
@@ -1072,7 +1065,7 @@ public final class AudioPlayer {
                     ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
                     audioPlayerFrame.notify(new NotificationBuilder
                             ("Saved waveform to your files directory")
-                            .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
+                            .setOnKillAction(() -> ImageViewer.getInstance(saveFile).showGui()));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                     audioPlayerFrame.notify("Could not save waveform at this time");
@@ -2074,8 +2067,6 @@ public final class AudioPlayer {
         }
 
         Console.INSTANCE.revalidateAudioMenuVisibility();
-
-        endAllMusicFileAddedWatchers();
     }
 
     /**
@@ -2697,44 +2688,5 @@ public final class AudioPlayer {
         }
 
         return Optional.empty();
-    }
-
-    /**
-     * The music file added watchers.
-     */
-    private static final ArrayList<DirectoryWatcher> musicFileAddedWatchers = new ArrayList<>();
-
-    /**
-     * Stops all the music file added watchers.
-     */
-    private static void endAllMusicFileAddedWatchers() {
-        musicFileAddedWatchers.forEach(DirectoryWatcher::stopWatching);
-    }
-
-    /**
-     * Starts the directory watcher to compute the millis time of new audio files.
-     */
-    private static void startMusicFileAddedDirectoryWatcher() {
-        DirectoryWatcher musicDirectoryWatcher = new DirectoryWatcher(
-                Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                        Console.INSTANCE.getUuid(),
-                        UserFile.MUSIC.getName()));
-
-        WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
-            @Override
-            public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
-                if (FileUtil.validateExtension(eventFile, Extension.MP3.getExtension())) {
-                    try {
-                        AudioUtil.getMillisJLayer(eventFile);
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }
-            }
-        };
-        subscriber.subscribeTo(WatchDirectoryEvent.FILE_ADDED);
-        musicDirectoryWatcher.addSubscriber(subscriber);
-
-        musicFileAddedWatchers.add(musicDirectoryWatcher);
     }
 }

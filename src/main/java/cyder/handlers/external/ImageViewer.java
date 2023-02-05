@@ -27,24 +27,56 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
  * A widget which displays the images supported by Cyder in a provided directory.
  */
-public class PhotoViewer {
+public class ImageViewer {
+    /**
+     * The next keyword.
+     */
+    private static final String NEXT = "Next";
+
+    /**
+     * The last keyword.
+     */
+    private static final String LAST = "Last";
+
+    /**
+     * The rename keyword.
+     */
+    private static final String RENAME = "Rename";
+
+    /**
+     * The maximum length of the image viewer frame.
+     */
+    private static final int maxFrameLength = 800;
+
+    /**
+     * The maximum dimension of the image viewer frame.
+     */
+    private static final Dimension maxFrameSize = new Dimension(maxFrameLength, maxFrameLength);
+
     /**
      * The list of valid image files in the current directory, not recursive.
      */
-    private final LinkedList<File> validDirectoryImages = new LinkedList<>();
+    private final ArrayList<File> validDirectoryImages = new ArrayList<>();
+
+    /**
+     * The watcher for the image directory.
+     */
+    private final DirectoryWatcher imageDirectoryWatcher;
 
     /**
      * The starting directory/file.
      */
-    private final File photoDirectory;
+    private final File imageDirectory;
 
     /**
      * The current index of the valid directory images list.
@@ -67,79 +99,75 @@ public class PhotoViewer {
     private LeftButton lastButton;
 
     /**
-     * The watcher for the photo directory.
-     */
-    private final DirectoryWatcher photoDirectoryWatcher;
-
-    /**
-     * Returns a new instance of photo viewer with the provided starting directory.
+     * Returns a new instance with the provided starting directory.
      *
-     * @param startDir the starting directory
-     * @return a new instance of the PhotoViewer
+     * @param imageDirectoryOrFile the image directory or an image file.
+     *                             If a file is provided, the file's parent is used as the directory
+     * @return a new instance
      */
-    public static PhotoViewer getInstance(File startDir) {
-        return new PhotoViewer(startDir);
+    public static ImageViewer getInstance(File imageDirectoryOrFile) {
+        return new ImageViewer(imageDirectoryOrFile);
     }
 
     /**
-     * Creates a new photo viewer object.
+     * Creates and returns a new instance.
      *
-     * @param photoDirectory the photo directory of the photo viewer.
-     *                       If a file is provided, the file's parent is
-     *                       used as the photo directory
+     * @param imageDirectoryOrFile the image directory or an image file.
+     *                             If a file is provided, the file's parent is used as the directory
+     * @throws NullPointerException     if the provided file is null
+     * @throws IllegalArgumentException if the provided file does not exist
      */
-    private PhotoViewer(File photoDirectory) {
-        Preconditions.checkNotNull(photoDirectory);
-        Preconditions.checkArgument(photoDirectory.exists());
-        Preconditions.checkArgument(photoDirectory.exists());
+    private ImageViewer(File imageDirectoryOrFile) {
+        Preconditions.checkNotNull(imageDirectoryOrFile);
+        Preconditions.checkArgument(imageDirectoryOrFile.exists());
 
-        this.photoDirectory = photoDirectory;
+        this.imageDirectory = imageDirectoryOrFile;
 
-        File watcherDirectory = photoDirectory;
-        if (photoDirectory.isFile()) {
-            watcherDirectory = photoDirectory.getParentFile();
-        }
-        this.photoDirectoryWatcher = new DirectoryWatcher(watcherDirectory);
+        File watchDirectory = imageDirectoryOrFile.isFile()
+                ? imageDirectoryOrFile.getParentFile() : imageDirectoryOrFile;
+        this.imageDirectoryWatcher = new DirectoryWatcher(watchDirectory);
+
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
-     * Opens the instance of photo viewer.
+     * Opens the instance of.
      *
      * @return whether the gui opened the image successfully
      */
     public Future<Boolean> showGui() {
-        String threadName = "PhotoViewer showGui thread, initial directory: " + photoDirectory;
-
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            Logger.log(LogTag.OBJECT_CREATION, this);
-
+        return Executors.newSingleThreadExecutor(generateThreadFactory()).submit(() -> {
             refreshValidFiles();
 
             File currentImage = validDirectoryImages.get(0);
 
-            if (photoDirectory.isFile()) {
+            if (imageDirectory.isFile()) {
                 for (File validDirectoryImage : validDirectoryImages) {
-                    if (validDirectoryImage.equals(photoDirectory)) {
+                    if (validDirectoryImage.equals(imageDirectory)) {
                         currentImage = validDirectoryImage;
                         break;
                     }
                 }
             }
 
-            ImageIcon newImage;
-            newImage = scaleImageIfNeeded(currentImage);
+            ImageIcon newImage = scaleImageIfNeeded(currentImage);
 
             pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
             pictureFrame.setBackground(Color.BLACK);
             pictureFrame.setTitlePosition(TitlePosition.CENTER);
             revalidateTitle(FileUtil.getFilename(currentImage.getName()));
             pictureFrame.setVisible(true);
-            pictureFrame.addWindowListener(generateWindowAdapter());
+            pictureFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    imageDirectoryWatcher.stopWatching();
+                }
+            });
 
             pictureFrame.finalizeAndShow();
 
             pictureFrame.setMenuEnabled(true);
-            pictureFrame.addMenuItem("Rename", this::rename);
+            pictureFrame.addMenuItem(RENAME, this::rename);
 
             nextButton = new RightButton();
             nextButton.setToolTipText(NEXT);
@@ -159,57 +187,25 @@ public class PhotoViewer {
     }
 
     /**
-     * The next keyword.
-     */
-    private static final String NEXT = "Next";
-
-    /**
-     * The last keyword.
-     */
-    private static final String LAST = "Last";
-
-    /**
-     * Generates and returns the window adapter for this photo viewer.
+     * Generates and returns a new {@link CyderThreadFactory} for the loading {@link Executor}.
      *
-     * @return the window adapter for this photo viewer
+     * @return a new {@link CyderThreadFactory} for the loading {@link Executor}
      */
-    private WindowAdapter generateWindowAdapter() {
-        return new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                photoDirectoryWatcher.stopWatching();
-            }
-        };
+    private CyderThreadFactory generateThreadFactory() {
+        return new CyderThreadFactory("ImageViewer showGui thread, initial directory: " + imageDirectory);
     }
 
     /**
-     * Refreshes the valid files list.
+     * Refreshes the {@link #validDirectoryImages} list.
      */
     private void refreshValidFiles() {
         validDirectoryImages.clear();
 
-        if (photoDirectory.isDirectory()) {
-            File[] files = photoDirectory.listFiles();
-
-            if (files == null || files.length == 0) return;
-
-            for (File f : files) {
-                if (FileUtil.isSupportedImageExtension(f)) {
-                    validDirectoryImages.add(f);
-                }
-            }
-        } else {
-            File parent = photoDirectory.getParentFile();
-            File[] neighbors = parent.listFiles();
-
-            if (neighbors == null || neighbors.length == 0) return;
-
-            for (File f : neighbors) {
-                if (FileUtil.isSupportedImageExtension(f)) {
-                    validDirectoryImages.add(f);
-                }
-            }
-        }
+        File[] neighbors = imageDirectory.isDirectory()
+                ? imageDirectory.listFiles()
+                : imageDirectory.getParentFile().listFiles();
+        if (neighbors == null || neighbors.length == 0) return;
+        Arrays.stream(neighbors).filter(FileUtil::isSupportedImageExtension).forEach(validDirectoryImages::add);
     }
 
     /**
@@ -223,7 +219,6 @@ public class PhotoViewer {
 
         if (validDirectoryImages.size() <= 1) return;
 
-        // change the index
         if (forward) {
             if (currentIndex + 1 < validDirectoryImages.size()) {
                 currentIndex += 1;
@@ -252,16 +247,6 @@ public class PhotoViewer {
     }
 
     /**
-     * The maximum length of the photo viewer frame.
-     */
-    private static final int MAX_LEN = 800;
-
-    /**
-     * The maximum dimension of the photo viewer frame.
-     */
-    private static final Dimension MAX_DIMENSION = new Dimension(MAX_LEN, MAX_LEN);
-
-    /**
      * Returns a scaled image icon for the provided image
      * file if the image is bigger than MAX_LEN x MAX_LEN.
      *
@@ -271,7 +256,7 @@ public class PhotoViewer {
     private ImageIcon scaleImageIfNeeded(File imageFile) {
         try {
             BufferedImage bufferedImage = ImageUtil.read(imageFile);
-            bufferedImage = ImageUtil.ensureFitsInBounds(bufferedImage, MAX_DIMENSION);
+            bufferedImage = ImageUtil.ensureFitsInBounds(bufferedImage, maxFrameSize);
             return ImageUtil.toImageIcon(bufferedImage);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -317,7 +302,7 @@ public class PhotoViewer {
 
                     refreshValidFiles();
 
-                    // update index based on new name
+                    // Update index based on new name
                     for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
                         if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
                             currentIndex = i;
@@ -325,10 +310,6 @@ public class PhotoViewer {
                     }
 
                     revalidateTitle(name);
-
-                    if (onRenameCallback != null) {
-                        onRenameCallback.run();
-                    }
                 } else {
                     pictureFrame.notify("Could not rename at this time");
                 }
@@ -336,22 +317,7 @@ public class PhotoViewer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "PhotoViewer Image Renamer: " + this);
-    }
-
-    /**
-     * The callback to run whenever a photo is renamed.
-     */
-    private Runnable onRenameCallback;
-
-    /**
-     * Invokes the provided runnable whenever a file is renamed via this photo viewer instance.
-     *
-     * @param runnable the runnable to invoke
-     */
-    public void setRenameCallback(Runnable runnable) {
-        Preconditions.checkNotNull(runnable);
-        onRenameCallback = runnable;
+        }, "ImageViewer File Renamer");
     }
 
     /**
@@ -360,11 +326,12 @@ public class PhotoViewer {
      * @param title the title of the frame
      */
     public void revalidateTitle(String title) {
+        title = title.trim();
+
         try {
             BufferedImage bi = ImageUtil.read(validDirectoryImages.get(currentIndex));
-            int w = bi.getWidth();
-            int h = bi.getHeight();
-            pictureFrame.setTitle(title + CyderStrings.openingBracket + w + "x" + h + CyderStrings.closingBracket);
+            pictureFrame.setTitle(title + CyderStrings.space + CyderStrings.openingBracket
+                    + bi.getWidth() + "x" + bi.getHeight() + CyderStrings.closingBracket);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pictureFrame.setTitle(title);
@@ -373,7 +340,7 @@ public class PhotoViewer {
 
     /**
      * Starts the directory watcher to update the visibilities of the
-     * next and last buttons based on the contents of the photo directory.
+     * next and last buttons based on the contents of the image directory.
      */
     private void startDirectoryWatcher() {
         WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
@@ -384,10 +351,9 @@ public class PhotoViewer {
             }
         };
         subscriber.subscribeTo(WatchDirectoryEvent.FILE_ADDED,
-                WatchDirectoryEvent.FILE_DELETED,
-                WatchDirectoryEvent.FILE_MODIFIED);
-        photoDirectoryWatcher.addSubscriber(subscriber);
-        photoDirectoryWatcher.startWatching();
+                WatchDirectoryEvent.FILE_DELETED, WatchDirectoryEvent.FILE_MODIFIED);
+        imageDirectoryWatcher.addSubscriber(subscriber);
+        imageDirectoryWatcher.startWatching();
     }
 
     /**
@@ -395,7 +361,7 @@ public class PhotoViewer {
      */
     private void revalidateNavigationButtonVisibility() {
         refreshValidFiles();
-        setNavigationButtonsVisible(validDirectoryImages.size() > 1);
+        setNavigationButtonsVisibility(validDirectoryImages.size() > 1);
     }
 
     /**
@@ -403,7 +369,7 @@ public class PhotoViewer {
      *
      * @param visible the visibility of the navigation buttons
      */
-    private void setNavigationButtonsVisible(boolean visible) {
+    private void setNavigationButtonsVisibility(boolean visible) {
         nextButton.setVisible(visible);
         lastButton.setVisible(visible);
     }

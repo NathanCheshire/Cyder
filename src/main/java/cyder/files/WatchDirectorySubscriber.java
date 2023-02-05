@@ -239,13 +239,9 @@ public abstract class WatchDirectorySubscriber {
     boolean patternsMatch(File file) {
         Preconditions.checkNotNull(file);
 
-        boolean isDirectory = file.isDirectory();
-        if (isDirectory) {
+        if (file.isDirectory()) {
             return directoryRegex == null || directoryMatches(file);
-        }
-
-        boolean isFile = file.isFile();
-        if (isFile) {
+        } else if (file.isFile()) {
             if (fileNameRegex != null && !filenameMatches(file)) return false;
             if (fileExtensionRegex != null && !fileExtensionMatches(file)) return false;
             if (fileRegex != null && !fileMatches(file)) return false;
