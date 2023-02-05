@@ -468,8 +468,23 @@ public final class AudioPlayer {
                 if (optionalMp3File.isPresent()) return;
             }
 
-            // todo copy to tmp and play?
-            throw new IllegalArgumentException("Could not find any user audio files");
+            try {
+                File audioFile = StaticUtil.getStaticResource("Logic - Cocaine.mp3");
+                File audioDirectory = UserFile.MUSIC.getFilePointer();
+                File newAudioFile =
+                        OsUtil.buildFile(UserFile.MUSIC.getFilePointer().getAbsolutePath(), audioFile.getName());
+
+                File albumArtFile = StaticUtil.getStaticResource("Logic - Cocaine.png");
+                File albumArtDirectory = OsUtil.buildFile(audioDirectory.getAbsolutePath(), UserFile.ALBUM_ART);
+                File newArtFile = OsUtil.buildFile(albumArtDirectory.getAbsolutePath(), albumArtFile.getName());
+
+                Files.copy(audioFile.toPath(), newAudioFile.toPath());
+                Files.copy(albumArtFile.toPath(), newArtFile.toPath());
+
+                showGui(newAudioFile);
+            } catch (Exception ignored) {
+                throw new IllegalArgumentException("Could not find any user audio files");
+            }
         }
     }
 
