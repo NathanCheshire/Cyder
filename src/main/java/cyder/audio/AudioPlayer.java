@@ -301,7 +301,7 @@ public final class AudioPlayer {
     /**
      * The stroke for the audio volume and location sliders.
      */
-    private static final BasicStroke SLIDER_STROKE = new BasicStroke(2.0f);
+    private static final BasicStroke sliderStroke = new BasicStroke(2.0f);
 
     /**
      * The location of a quick single click audio location request.
@@ -559,14 +559,14 @@ public final class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        audioLocationSliderUi.setThumbStroke(SLIDER_STROKE);
+        audioLocationSliderUi.setThumbStroke(sliderStroke);
         audioLocationSliderUi.setThumbShape(ThumbShape.CIRCLE);
         audioLocationSliderUi.setThumbRadius(25);
         audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
         audioLocationSliderUi.setRightThumbColor(trackNewColor);
         audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioLocationSliderUi.setTrackStroke(SLIDER_STROKE);
+        audioLocationSliderUi.setTrackStroke(sliderStroke);
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
 
@@ -671,14 +671,14 @@ public final class AudioPlayer {
         audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
-        audioVolumeSliderUi.setThumbStroke(SLIDER_STROKE);
+        audioVolumeSliderUi.setThumbStroke(sliderStroke);
         audioVolumeSliderUi.setThumbShape(ThumbShape.CIRCLE);
         audioVolumeSliderUi.setThumbRadius(25);
         audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
         audioVolumeSliderUi.setRightThumbColor(trackNewColor);
         audioVolumeSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setTrackStroke(SLIDER_STROKE);
+        audioVolumeSliderUi.setTrackStroke(sliderStroke);
 
         audioVolumePercentLabel.setForeground(CyderColors.vanilla);
         audioVolumePercentLabel.setSize(100, 40);
@@ -1931,8 +1931,6 @@ public final class AudioPlayer {
 
         return currentIndex;
     }
-
-    // todo audio labels say 0ms when they should say 0s instead
 
     /**
      * Whether the current audio should be repeated on conclusion.

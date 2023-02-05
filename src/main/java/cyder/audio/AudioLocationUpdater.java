@@ -216,15 +216,26 @@ public class AudioLocationUpdater {
         }
 
         lastSecondsIn = secondsIn;
-        secondsInLabel.setText(TimeUtil.formatMillis(secondsIn * 1000L));
+        secondsInLabel.setText(formatMillisProxy((int) (secondsIn * 1000L)));
 
         boolean totalLength = UserDataManager.INSTANCE.shouldShowAudioTotalLength();
         if (totalLength) {
             int displayMillis = (int) (Math.round(totalMilliSeconds / TimeUtil.millisInSecond) * 1000);
-            secondsLeftLabel.setText(TimeUtil.formatMillis(displayMillis));
+            secondsLeftLabel.setText(formatMillisProxy(displayMillis));
         } else {
-            secondsLeftLabel.setText(TimeUtil.formatMillis(secondsLeft * 1000L));
+            secondsLeftLabel.setText(formatMillisProxy((int) (secondsLeft * 1000L)));
         }
+    }
+
+    /**
+     * The proxy method to ensure "0s" is shown instead of "0ms" for the progress labels.
+     *
+     * @param millis the milliseconds to format
+     * @return the formatted milliseconds value
+     */
+    private String formatMillisProxy(int millis) {
+        if (millis == 0) return "0s";
+        else return TimeUtil.formatMillis(millis);
     }
 
     /**

@@ -1,8 +1,10 @@
 package cyder.math
 
 import com.google.common.collect.ImmutableList
+import com.google.common.collect.Range
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.util.stream.IntStream
 import kotlin.math.sqrt
 
 /**
@@ -223,6 +225,17 @@ class NumberUtilTest {
         assertDoesNotThrow { NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8, 9) }
         assertThrows(IllegalArgumentException::class.java) {
             NumberUtil.getRandomIndex(5, 10, 5, 6, 7, 8, 9, 10)
+        }
+
+        /*
+        Test inclusive range generation 100x
+         */
+        IntStream.range(0, 99).forEach {
+            assertTrue { Range.closed(5, 10).contains(NumberUtil.getRandomIndex(5, 10)) }
+            assertTrue { Range.closed(6, 10).contains(NumberUtil.getRandomIndex(6, 10)) }
+            assertTrue { Range.closed(7, 10).contains(NumberUtil.getRandomIndex(7, 10)) }
+            assertTrue { Range.closed(8, 10).contains(NumberUtil.getRandomIndex(8, 10)) }
+            assertTrue { Range.closed(9, 10).contains(NumberUtil.getRandomIndex(9, 10)) }
         }
     }
 }

@@ -12,6 +12,11 @@ import javax.swing.*;
  */
 public class AudioProgressBarAnimator {
     /**
+     * The delay between update calls while the animation is in the {@link State#RUNNING} state.
+     */
+    private static final int animationDelay = 2;
+
+    /**
      * The possible states for this animator.
      */
     public enum State {
@@ -21,7 +26,7 @@ public class AudioProgressBarAnimator {
         STOPPED,
 
         /**
-         * Running; the animation is updated after every delay.
+         * Running; the animation is updated every {@link #animationDelay}ms.
          */
         RUNNING,
 
@@ -32,16 +37,6 @@ public class AudioProgressBarAnimator {
     }
 
     /**
-     * The current state of the animator.
-     */
-    private State state = State.STOPPED;
-
-    /**
-     * The delay between update calls while the animation is in the {@link State#RUNNING} state.
-     */
-    private int delay = 2;
-
-    /**
      * The slider this progress bar animator controls.
      */
     private final JSlider slider;
@@ -50,6 +45,11 @@ public class AudioProgressBarAnimator {
      * The ui belonging to the slider.
      */
     private final CyderSliderUi sliderUi;
+
+    /**
+     * The current state of the animator.
+     */
+    private State state = State.STOPPED;
 
     /**
      * Constructs a new AudioProgressBarAnimator object.
@@ -67,17 +67,8 @@ public class AudioProgressBarAnimator {
      *
      * @return the delay between animation updates
      */
-    public int getDelay() {
-        return delay;
-    }
-
-    /**
-     * Sets the delay between animation updates.
-     *
-     * @param delay the delay between animation updates
-     */
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public int getAnimationDelay() {
+        return animationDelay;
     }
 
     /**
@@ -128,13 +119,14 @@ public class AudioProgressBarAnimator {
 
     /**
      * Starts the animation of the controlled slider.
+     * The animation proceeds until {@link #state} is set to a value other than {@link State#RUNNING}.
      */
     private void startAnimation() {
         CyderThreadRunner.submit(() -> {
             while (state == State.RUNNING) {
                 sliderUi.incrementAnimation();
                 slider.repaint();
-                ThreadUtil.sleep(delay);
+                ThreadUtil.sleep(animationDelay);
             }
         }, "Audio Location Slider Animation Updater, slider=" + slider + ", ui" + sliderUi);
     }
