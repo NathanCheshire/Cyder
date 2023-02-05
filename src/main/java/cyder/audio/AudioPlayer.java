@@ -831,8 +831,6 @@ public final class AudioPlayer {
         secondsInLabel.setVisible(visible);
         totalSecondsLabel.setVisible(visible);
 
-        // todo audioVolumePercentLabel.setVisible(visible);
-
         audioVolumeSlider.setVisible(visible);
         audioLocationSlider.setVisible(visible);
     }
@@ -2235,15 +2233,14 @@ public final class AudioPlayer {
      * Constructs the search view where a user can search for and download audio from YouTube.
      */
     private static void constructPhaseTwoView() {
-        if (uiLocked || phaseTwoViewLocked.get()) {
-            return;
-        }
+        if (uiLocked || phaseTwoViewLocked.get()) return;
 
         currentFrameView.set(FrameView.SEARCH);
 
         phaseTwoViewLocked.set(true);
 
         setPhaseOneComponentsVisible(false);
+        audioVolumePercentLabel.setVisible(false);
 
         audioPlayerFrame.hideMenu();
 
