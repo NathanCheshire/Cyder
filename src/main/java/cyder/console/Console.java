@@ -1182,7 +1182,13 @@ public enum Console {
          */
         @Override
         public void windowClosed(WindowEvent e) {
-            System.out.println(CyderFrame.getDominantFrame());
+            if (consoleClosed.get()) return;
+
+            if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
+                UiUtil.minimizeAllFrames();
+            } else {
+                Console.INSTANCE.releaseResourcesAndCloseFrame(true);
+            }
         }
     };
 
@@ -3467,12 +3473,25 @@ public enum Console {
      */
     public void logoutCurrentUserAndShowLoginFrame() {
         Point centerPoint = consoleCyderFrame.getCenterPointOnScreen();
-        UiUtil.disposeAllFrames(true, consoleCyderFrame);
+        UiUtil.disposeAllFrames(true);
         releaseResourcesAndCloseFrame(false);
         logoutCurrentUser();
         LoginHandler.showGui(centerPoint);
     }
 
+    /**
+     * Performs the following actions and then exits the program if instructed to:
+     * <ul>
+     *     <li>Saves the user's screen stat</li>
+     *     <li>Stops all audio</li>
+     *     <li>Deactivates the base input handler</li>
+     *     <li>Closes the console frame if open</li>
+     *     <li>Exits the program if invokeExit is true.
+     *     If the ConsoleFrame is currently open, this occurs after the closing animation completes</li>
+     * </ul>
+     *
+     * @param invokeExit whether to invoke a program exit after the above actions
+     */
     public void releaseResourcesAndCloseFrame(boolean invokeExit) {
         if (consoleClosed.get()) return;
         consoleClosed.set(true);
@@ -3485,8 +3504,14 @@ public enum Console {
             baseInputHandler = null;
         }
 
-        if (invokeExit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
-        consoleCyderFrame.dispose();
+        if (invokeExit) {
+            if (consoleCyderFrame.isDisposed()) {
+                OsUtil.exit(ExitCondition.StandardControlledExit);
+            } else {
+                consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.StandardControlledExit));
+                consoleCyderFrame.dispose();
+            }
+        }
     }
 
     /**
@@ -3502,7 +3527,7 @@ public enum Console {
      * Saves the console's position and window stats to the currently logged-in user's json file.
      */
     public void saveScreenStat() {
-        if (consoleCyderFrame == null) return;
+        if (consoleCyderFrame == null || consoleCyderFrame.isDisposed()) return;
         if (consoleCyderFrame.getState() == UiConstants.FRAME_ICONIFIED) return;
         if (getUuid() == null) return;
 

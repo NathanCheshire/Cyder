@@ -519,7 +519,9 @@ public final class AudioPlayer {
             return;
         }
 
-        // todo right click and close on frame from windows taskbar broken
+        // todo replace videos in readme with static images, have a video's section below
+        //  eventually the video section will link to timestamps of the official demo
+
         // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
 
         currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
@@ -854,13 +856,6 @@ public final class AudioPlayer {
                 minimizeButton.requestFocus();
             }
         });
-
-        CyderThreadRunner.submit(() -> {
-            while (true) {
-                ThreadUtil.sleepSeconds(2);
-                System.out.println(minimizeButton.isFocusOwner());
-            }
-        }, "asdf");
 
         minimizeButton.setFocusPaintable(true);
         changeSizeButton.setFocusPaintable(true);
