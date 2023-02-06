@@ -421,6 +421,13 @@ public final class AudioUtil {
         });
     }
 
+    public static int getMillisFfprobe() {
+        // ffprobe -v quiet -print_format json -show_format -show_streams "file.mp3"
+        // format -> duration cast to float
+
+        return 0;
+    }
+
     /**
      * Returns the milliseconds of the provided file
      *
