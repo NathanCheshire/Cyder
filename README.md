@@ -41,7 +41,6 @@ Some examples of what you can do with Cyder include:
 <details open>
 <summary><b>Audio Widget</b></summary>
 <p>
-<br>
 <img src="https://user-images.githubusercontent.com/60986919/216855315-e26f36d6-4b27-4577-a644-9e8d00ea082d.png" alt="Audio Player" width="600">
 </p>
 </details>
@@ -53,7 +52,6 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Paint Widget</b></summary>
-<br>
 <img src="https://user-images.githubusercontent.com/60986919/190871241-1ef14f0b-50d7-4cec-b484-7c6e1c9f9f43.png" alt="Paint widget" width="600">
 <img src="https://user-images.githubusercontent.com/60986919/190871244-cd183604-3fbe-4f13-94c8-40ce6069f825.png" alt="Paint widget controls" width="600">
 </details>
@@ -61,7 +59,6 @@ Some examples of what you can do with Cyder include:
 <details>
 <summary><b>Pathfinding Visualizer</b></summary>
 <p>
-<br>
 <img src="https://user-images.githubusercontent.com/60986919/216855146-37095dca-7c63-4871-b2c8-6bf5c63619ad.png" alt="Pathfinding Visualizer" width="600">
 </p>
 </details>
@@ -69,7 +66,6 @@ Some examples of what you can do with Cyder include:
 <details>
 <summary><b>Game of Life Widget</b></summary>
 <p>
-<br>
 <img src="https://user-images.githubusercontent.com/60986919/216854956-fdaee5be-6dec-4b1e-8a58-fe36a08439f6.png" alt="Conway's Game of Life" width="600">
 </p>
 </details>
@@ -77,7 +73,6 @@ Some examples of what you can do with Cyder include:
 <details>
 <summary><b>Perlin Terrain Visualizer</b></summary>
 <p>
-<br>
 <img src="https://user-images.githubusercontent.com/60986919/216802241-eb3ee195-1291-42b5-9e4e-dca4adf7735f.png" alt="Perlin widget" width="600">
 </p>
 </details>
