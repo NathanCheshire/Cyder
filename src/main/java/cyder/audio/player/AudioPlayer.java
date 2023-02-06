@@ -1276,7 +1276,7 @@ public final class AudioPlayer {
     }
 
     // todo dreamified files: hide _dreamy from user, append (dreamy) in names and what not
-    // todo dreamified audio length not being returned properly
+    // todo dreamified audio length not being returned properly, problem with ffmpeg coding?
 
     /**
      * The item menu to toggle between dreamify states of an audio file.

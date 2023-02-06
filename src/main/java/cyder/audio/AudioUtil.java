@@ -20,6 +20,7 @@ import javazoom.jl.decoder.BitstreamException;
 import javazoom.jl.decoder.Header;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -28,32 +29,42 @@ import java.util.concurrent.Future;
 import static cyder.strings.CyderStrings.*;
 
 /**
- * Utilities related to audio files, typically mp3 and wav files.
+ * Utilities related to supported audio files.
  */
 public final class AudioUtil {
     /**
      * The resource link to download the ffmpeg binary.
      */
-    public static final String DOWNLOAD_RESOURCE_FFMPEG
-            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffmpeg.zip";
+    private static final String ffmpegResourceDownload =
+            "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffmpeg.zip";
 
     /**
      * The resource link to download the ffplay binary.
      */
-    public static final String DOWNLOAD_RESOURCE_FFPLAY
-            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffplay.zip";
+    private static final String ffplayResourceDownload =
+            "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffplay.zip";
 
     /**
      * The resource link to download the ffprobe binary.
      */
-    public static final String DOWNLOAD_RESOURCE_FFPROBE
-            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
+    private static final String ffprobeResourceDownload =
+            "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
 
     /**
      * The resource link to download the YouTube-dl binary.
      */
-    public static final String DOWNLOAD_RESOURCE_YOUTUBE_DL
-            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
+    private static final String youtubeDlResourceDownload =
+            "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
+
+    /**
+     * The users keyword.
+     */
+    private static final String USERS = "users";
+
+    /**
+     * The music keyword.
+     */
+    private static final String MUSIC = "Music";
 
     /**
      * The ffmpeg input flag.
@@ -68,12 +79,12 @@ public final class AudioUtil {
     /**
      * The highpass value for dreamifying an audio file.
      */
-    private static final int HIGHPASS = 2;
+    private static final int HIGHPASS = 200;
 
     /**
      * The lowpass value for dreamifying an audio file.
      */
-    private static final int LOWPASS = 300;
+    private static final int LOWPASS = 1500;
 
     /**
      * The audio dreamifier thread name prefix.
@@ -105,6 +116,11 @@ public final class AudioUtil {
      * The name of the thread that downloads YouTube-dl if missing and needed.
      */
     private static final String YOUTUBE_DL_DOWNLOADER_THREAD_NAME = "YouTubeDl Downloader";
+
+    /**
+     * A cache of previously computed millisecond times from audio files.
+     */
+    private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
 
     /**
      * Suppress default constructor.
@@ -345,13 +361,13 @@ public final class AudioUtil {
             ImmutableList<PairedFile> downloadZips = ImmutableList.of(
                     new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getFileName(), Program.FFMPEG.getProgramName()
-                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG),
+                                    + Extension.ZIP.getExtension()), ffmpegResourceDownload),
                     new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getFileName(), Program.FFPROBE.getProgramName()
-                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPROBE),
+                                    + Extension.ZIP.getExtension()), ffprobeResourceDownload),
                     new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getFileName(), Program.FFPLAY.getProgramName()
-                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY)
+                                    + Extension.ZIP.getExtension()), ffplayResourceDownload)
             );
 
             for (PairedFile pairedZipFile : downloadZips) {
@@ -392,11 +408,8 @@ public final class AudioUtil {
                     Dynamic.EXES.getFileName(), Program.YOUTUBE_DL.getProgramName()
                             + Extension.ZIP.getExtension());
 
-            NetworkUtil.downloadResource(DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
-
-            while (!downloadZip.exists()) {
-                Thread.onSpinWait();
-            }
+            NetworkUtil.downloadResource(youtubeDlResourceDownload, downloadZip);
+            while (!downloadZip.exists()) Thread.onSpinWait();
 
             File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getFileName());
 
@@ -407,11 +420,6 @@ public final class AudioUtil {
                     Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension()).exists();
         });
     }
-
-    /**
-     * A cache of previously computed millisecond times from audio files.
-     */
-    private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
 
     /**
      * Returns the milliseconds of the provided file
@@ -427,9 +435,7 @@ public final class AudioUtil {
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
-        if (milliTimes.containsKey(audioFile)) {
-            return milliTimes.get(audioFile);
-        }
+        if (milliTimes.containsKey(audioFile)) return milliTimes.get(audioFile);
 
         FileInputStream fis = new FileInputStream(audioFile);
         Bitstream bitstream = new Bitstream(fis);
@@ -462,22 +468,19 @@ public final class AudioUtil {
     /**
      * Returns a reference to the current user's music file with the provided name if found, empty optional else.
      *
-     * @param title the title of the music file to search for
+     * @param filename the name of the music file to search for
      * @return an optional reference to the requested music file
      */
-    public static Optional<File> getCurrentUserMusicFileWithName(String title) {
-        Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
+    public static Optional<File> getCurrentUserMusicFileWithName(String filename) {
+        Preconditions.checkNotNull(filename);
+        Preconditions.checkArgument(!filename.isEmpty());
 
         File[] files = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName()).listFiles();
 
         if (files != null && files.length > 0) {
-            for (File file : files) {
-                if (FileUtil.getFilename(file).equalsIgnoreCase(title)) {
-                    return Optional.of(file);
-                }
-            }
+            return Arrays.stream(files)
+                    .filter(file -> FileUtil.getFilename(file).equalsIgnoreCase(filename)).findFirst();
         }
 
         return Optional.empty();
@@ -491,8 +494,8 @@ public final class AudioUtil {
     public static Optional<File> getFirstMp3FileForWindowsUser() {
         Preconditions.checkState(OsUtil.isWindows());
 
-        File windowsUserMusicDirectory = OsUtil.buildFile(OsUtil.WINDOWS_ROOT + "users",
-                OsUtil.getOsUsername(), "Music");
+        File windowsUserMusicDirectory = OsUtil.buildFile(OsUtil.WINDOWS_ROOT + USERS,
+                OsUtil.getOsUsername(), MUSIC);
         if (windowsUserMusicDirectory.exists()) {
             return FileUtil.getFiles(windowsUserMusicDirectory, true)
                     .stream().filter(file -> FileUtil.validateExtension(file, Extension.MP3.getExtension()))
