@@ -35,22 +35,20 @@ Some examples of what you can do with Cyder include:
 
 <details open>
 <summary><b>Cyder Console</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/213841875-18e68a3e-7fc0-4ad7-9154-a3fef54669be.png" alt="Liminal Cyder Roses" width="800">
+<img src="https://user-images.githubusercontent.com/60986919/213841875-18e68a3e-7fc0-4ad7-9154-a3fef54669be.png" alt="Liminal Cyder" width="800">
+</details>
+
+<details open>
+<summary><b>Audio Widget</b></summary>
+<p>
+<br>
+<img src="https://user-images.githubusercontent.com/60986919/216855315-e26f36d6-4b27-4577-a644-9e8d00ea082d.png" alt="Audio Player" width="600">
+</p>
 </details>
 
 <details>
 <summary><b>Weather Widget</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/211179391-ea49b257-7923-4967-b8b0-ab77f39eb893.png" alt="Weather" width="400">
-</details>
-
-<details>
-<summary><b>Music Widget (audio present)</b></summary>
-<p>
-<br>
-
-https://user-images.githubusercontent.com/60986919/190871970-86091b80-b2ec-4c93-a7c1-c27128a67e8f.mp4
-
-</p>
+<img src="https://user-images.githubusercontent.com/60986919/211179391-ea49b257-7923-4967-b8b0-ab77f39eb893.png" alt="Weather" width="600">
 </details>
 
 <details>
@@ -64,11 +62,7 @@ https://user-images.githubusercontent.com/60986919/190871970-86091b80-b2ec-4c93-
 <summary><b>Pathfinding Visualizer</b></summary>
 <p>
 <br>
-
-
-https://user-images.githubusercontent.com/60986919/190872205-b9ccf6d0-d1b5-41fb-abc8-0ca2a492075b.mp4
-
-
+<img src="https://user-images.githubusercontent.com/60986919/216855146-37095dca-7c63-4871-b2c8-6bf5c63619ad.png" alt="Pathfinding Visualizer" width="600">
 </p>
 </details>
 
@@ -76,11 +70,7 @@ https://user-images.githubusercontent.com/60986919/190872205-b9ccf6d0-d1b5-41fb-
 <summary><b>Game of Life Widget</b></summary>
 <p>
 <br>
-
-
-https://user-images.githubusercontent.com/60986919/190872371-323bb51d-f678-4965-b1f6-3f7fe7976b28.mp4
-
-
+<img src="https://user-images.githubusercontent.com/60986919/216854956-fdaee5be-6dec-4b1e-8a58-fe36a08439f6.png" alt="Conway's Game of Life" width="600">
 </p>
 </details>
 
