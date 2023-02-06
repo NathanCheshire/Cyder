@@ -25,7 +25,7 @@ public class TimeZone {
     private String offset;
 
     /**
-     * Whether or not Daylight Savings have been accounted for.
+     * Whether Daylight Savings have been accounted for.
      */
     private boolean is_dst;
 
@@ -69,9 +69,9 @@ public class TimeZone {
     }
 
     /**
-     * Returns whether or not Daylight Savings have been accounted for.
+     * Returns whether Daylight Savings have been accounted for.
      *
-     * @return whether or not Daylight Savings have been accounted for
+     * @return whether Daylight Savings have been accounted for
      */
     public boolean isIs_dst() {
         return is_dst;
@@ -114,9 +114,9 @@ public class TimeZone {
     }
 
     /**
-     * Sets whether or not Daylight Savings have been accounted for.
+     * Sets whether Daylight Savings have been accounted for.
      *
-     * @param is_dst whether or not Daylight Savings have been accounted for
+     * @param is_dst whether Daylight Savings have been accounted for
      */
     public void setIs_dst(boolean is_dst) {
         this.is_dst = is_dst;

@@ -1252,85 +1252,31 @@ public final class AudioPlayer {
     }
 
     /**
-     * The runnable used to dreamify an audio file.
-     */
-    private static final Runnable dreamifyRunnable = () -> {
-        audioPlayerFrame.notify(new NotificationBuilder("Dreamifying \""
-                + FileUtil.getFilename(currentAudioFile.get()) + CyderStrings.quote).setViewDuration(10000));
-        dreamifierLocked.set(true);
-
-        Future<Optional<File>> dreamifiedAudioFuture = AudioUtil.dreamifyAudio(currentAudioFile.get());
-
-        while (!dreamifiedAudioFuture.isDone()) {
-            Thread.onSpinWait();
-        }
-
-        Optional<File> dreamifiedAudio;
-
-        try {
-            dreamifiedAudio = dreamifiedAudioFuture.get();
-        } catch (Exception ignored) {
-            dreamifyFailed();
-            return;
-        }
-
-        if (dreamifiedAudio.isEmpty()) {
-            dreamifyFailed();
-            return;
-        }
-
-        File dreamifiedFile = dreamifiedAudio.get();
-        File targetFile = Dynamic.buildDynamic(
-                Dynamic.USERS.getFileName(),
-                Console.INSTANCE.getUuid(),
-                UserFile.MUSIC.getName(),
-                dreamifiedFile.getName());
-
-        try {
-            Path source = dreamifiedFile.toPath();
-            Path targetDirectory = targetFile.toPath();
-
-            Files.copy(source, targetDirectory);
-        } catch (Exception ignored) {
-            dreamifyFailed();
-            return;
-        }
-
-        dreamyAudioCallback(targetFile);
-    };
-
-    /**
      * A callback used when dreamifying an audio file finishes.
      *
      * @param dreamyAudio the dreamified audio file to play
      */
     private static void dreamyAudioCallback(File dreamyAudio) {
-        float percentIn = (float) audioLocationSlider.getValue()
-                / audioLocationSlider.getMaximum();
-
+        float percentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
         boolean audioPlaying = isAudioPlaying();
-
-        if (audioPlaying) {
-            pauseAudio();
-        }
+        if (audioPlaying) pauseAudio();
 
         currentAudioFile.set(dreamyAudio);
 
         revalidateAfterAudioFileChange();
 
         innerAudioPlayer = new InnerAudioPlayer(dreamyAudio);
-        innerAudioPlayer.setLocation((long) (percentIn
-                * AudioUtil.getTotalBytes(dreamyAudio)));
+        innerAudioPlayer.setLocation((long) (percentIn * AudioUtil.getTotalBytes(dreamyAudio)));
         audioLocationUpdater.setPercentIn(percentIn);
         audioLocationUpdater.update(false);
 
-        if (audioPlaying) {
-            playAudio();
-        }
-
+        if (audioPlaying) playAudio();
         dreamifierLocked.set(false);
         audioPlayerFrame.notify("Successfully dreamified audio");
     }
+
+    // todo dreamified files: hide _dreamy from user, append (dreamy) in names and what not
+    // todo dreamified audio length not being returned properly
 
     /**
      * The item menu to toggle between dreamify states of an audio file.
@@ -1341,119 +1287,94 @@ public final class AudioPlayer {
 
         String currentAudioFilename = FileUtil.getFilename(currentAudioFile.get());
 
-        // Already dreamified so attempt to find non-dreamy version
         if (currentAudioFilename.endsWith(AudioUtil.DREAMY_SUFFIX)) {
             String nonDreamyName = currentAudioFilename.substring(0,
                     currentAudioFilename.length() - AudioUtil.DREAMY_SUFFIX.length());
 
-            if (attemptFindNonDreamyAudio(nonDreamyName)) {
-                return;
-            }
-
-            audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
+            if (!attemptToFindAndPlayAudioFileWithName(nonDreamyName))
+                audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
             return;
         }
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), Console.INSTANCE.getUuid(),
-                UserFile.MUSIC.getName());
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
+                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName());
 
-        // Not dreamified so attempt to find previously dreamified file if exists
-        if (userMusicDir.exists()) {
-            if (attemptFindDreamyAudio(currentAudioFilename)) {
+        String dreamyAudioFileName = currentAudioFilename + AudioUtil.DREAMY_SUFFIX;
+        if (userMusicDir.exists() && attemptToFindAndPlayAudioFileWithName(dreamyAudioFileName)) return;
+
+        String threadName = "Audio Dreamifier: " + currentAudioFilename;
+        CyderThreadRunner.submit(() -> {
+            audioPlayerFrame.notify(new NotificationBuilder("Dreamifying"
+                    + CyderStrings.space + CyderStrings.quote + FileUtil.getFilename(currentAudioFile.get())
+                    + CyderStrings.quote).setViewDuration(10000));
+            dreamifierLocked.set(true);
+
+            Future<Optional<File>> dreamifiedAudioFuture = AudioUtil.dreamifyAudio(currentAudioFile.get());
+            while (!dreamifiedAudioFuture.isDone()) Thread.onSpinWait();
+            Optional<File> dreamifiedAudio = Optional.empty();
+
+            try {
+                dreamifiedAudio = dreamifiedAudioFuture.get();
+            } catch (Exception ignored) {}
+
+            if (dreamifiedAudio.isEmpty()) {
+                dreamifyFailed();
                 return;
             }
-        }
 
-        CyderThreadRunner.submit(dreamifyRunnable, "Audio Dreamifier: " + currentAudioFilename);
+            File dreamifiedFile = dreamifiedAudio.get();
+            File targetFile = Dynamic.buildDynamic(
+                    Dynamic.USERS.getFileName(),
+                    Console.INSTANCE.getUuid(),
+                    UserFile.MUSIC.getName(),
+                    dreamifiedFile.getName());
+
+            try {
+                Path source = dreamifiedFile.toPath();
+                Path targetDirectory = targetFile.toPath();
+
+                Files.copy(source, targetDirectory);
+            } catch (Exception ignored) {
+                dreamifyFailed();
+                return;
+            }
+
+            dreamyAudioCallback(targetFile);
+        }, threadName);
     }
 
     /**
-     * Attempts to find the non dreamy version of the audio currently
-     * playing and if found, set it as the current audio. This will be played if any
-     * audio was playing when requested.
+     * Attempts to find the audio file in the current directory with the provided name.
+     * If found, and if audio was playing, this audio file is played
      *
-     * @param nonDreamyName the name of the non-dreamy audio file to look for
-     * @return whether the non dreamy audio file was located
+     * @param audioFileName the name of the audio file to look for
+     * @return whether the audio was found and handled
      */
-    private static boolean attemptFindNonDreamyAudio(String nonDreamyName) {
-        for (File validAudioFile : getValidAudioFiles()) {
-            String localFilename = FileUtil.getFilename(validAudioFile);
+    private static boolean attemptToFindAndPlayAudioFileWithName(String audioFileName) {
+        Optional<File> optionalNonDreamyAudioFile = getValidAudioFiles().stream()
+                .filter(validAudioFile -> FileUtil.getFilename(validAudioFile).equals(audioFileName))
+                .findFirst();
+        if (optionalNonDreamyAudioFile.isPresent()) {
+            File nonDreamyAudioFile = optionalNonDreamyAudioFile.get();
 
-            if (localFilename.equals(nonDreamyName)) {
-                float percentIn = (float) audioLocationSlider.getValue()
-                        / audioLocationSlider.getMaximum();
+            float percentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+            boolean audioPlaying = isAudioPlaying();
+            if (audioPlaying) pauseAudio();
 
-                boolean audioPlaying = isAudioPlaying();
+            currentAudioFile.set(nonDreamyAudioFile);
+            revalidateAfterAudioFileChange();
 
-                if (audioPlaying) {
-                    pauseAudio();
-                }
+            innerAudioPlayer = new InnerAudioPlayer(nonDreamyAudioFile);
+            innerAudioPlayer.setLocation((long) (percentIn * AudioUtil.getTotalBytes(nonDreamyAudioFile)));
+            audioLocationUpdater.setPercentIn(percentIn);
+            audioLocationUpdater.update(false);
 
-                currentAudioFile.set(validAudioFile);
-
-                revalidateAfterAudioFileChange();
-
-                innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
-                innerAudioPlayer.setLocation((long) (percentIn
-                        * AudioUtil.getTotalBytes(validAudioFile)));
-                audioLocationUpdater.setPercentIn(percentIn);
-                audioLocationUpdater.update(false);
-
-                if (audioPlaying) {
-                    playAudio();
-                }
-
-                audioDreamified.set(false);
-                audioPlayerFrame.revalidateMenu();
-
-                return true;
-            }
+            if (audioPlaying) playAudio();
+            audioDreamified.set(isCurrentAudioDreamy());
+            audioPlayerFrame.revalidateMenu();
         }
 
-        return false;
-    }
-
-    /**
-     * Attempts to find the non-dreamy audio file corresponding to the current dreamy audio file
-     *
-     * @param currentAudioFilename the name of the current non-dreamy audio file
-     * @return whether the dreamy audio file was found and handled
-     */
-    private static boolean attemptFindDreamyAudio(String currentAudioFilename) {
-        for (File validAudioFile : getValidAudioFiles()) {
-            if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
-                    .equalsIgnoreCase(FileUtil.getFilename(validAudioFile))) {
-                float percentIn = (float) audioLocationSlider.getValue()
-                        / audioLocationSlider.getMaximum();
-
-                boolean audioPlaying = isAudioPlaying();
-
-                if (audioPlaying) {
-                    pauseAudio();
-                }
-
-                currentAudioFile.set(validAudioFile);
-
-                revalidateAfterAudioFileChange();
-
-                innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
-                innerAudioPlayer.setLocation((long) (percentIn
-                        * AudioUtil.getTotalBytes(validAudioFile)));
-                audioLocationUpdater.setPercentIn(percentIn);
-                audioLocationUpdater.update(false);
-
-                if (audioPlaying) {
-                    playAudio();
-                }
-
-                audioDreamified.set(true);
-                audioPlayerFrame.revalidateMenu();
-
-                return true;
-            }
-        }
-
-        return false;
+        return optionalNonDreamyAudioFile.isPresent();
     }
 
     /**

@@ -13,7 +13,6 @@ import cyder.network.NetworkUtil;
 import cyder.process.Program;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.ThreadUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
 import javazoom.jl.decoder.Bitstream;
@@ -91,11 +90,6 @@ public final class AudioUtil {
      */
     private static final String HIGHPASS_LOWPASS_ARGS = quote + "highpass=f="
             + HIGHPASS + comma + space + "lowpass=f=" + LOWPASS + quote;
-
-    /**
-     * The delay between polling milliseconds when dreamifying an audio.
-     */
-    private static final int pollMillisDelay = 500;
 
     /**
      * The thread name for the ffmpeg downloader
@@ -194,10 +188,10 @@ public final class AudioUtil {
             ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                     quote + wavFile.getAbsolutePath() + quote, safePath);
             pb.redirectErrorStream();
-            Process p = pb.start();
+            Process process = pb.start();
 
             // another precaution to ensure process is completed before file is returned
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             while (reader.readLine() != null) {
                 Thread.onSpinWait();
             }
@@ -246,12 +240,11 @@ public final class AudioUtil {
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             Process process = processBuilder.start();
 
-            int originalFileMillis = getMillisJLayer(wavOrMp3File);
+            /*
+            Audio length might change from ffmpeg high and low pass filters.
+             */
             while (!outputFile.exists()) Thread.onSpinWait();
-
-            while (getMillisJLayer(outputFile) != originalFileMillis) {
-                ThreadUtil.sleep(pollMillisDelay);
-            }
+            process.waitFor();
 
             int exitValue = process.exitValue();
             if (exitValue != 0) {
@@ -272,8 +265,7 @@ public final class AudioUtil {
     public static boolean ffmpegInstalled() {
         if (Program.FFMPEG.isInstalled()) return true;
 
-        return OsUtil.isBinaryInExes(Program.FFMPEG.getProgramName()
-                + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.FFMPEG.getProgramName() + Extension.EXE.getExtension());
     }
 
     /**
@@ -286,8 +278,7 @@ public final class AudioUtil {
     public static boolean youTubeDlInstalled() {
         if (Program.YOUTUBE_DL.isInstalled()) return true;
 
-        return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName()
-                + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension());
     }
 
     /**
