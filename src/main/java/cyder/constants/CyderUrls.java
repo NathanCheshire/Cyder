@@ -145,4 +145,14 @@ public final class CyderUrls {
      * The header for individual YouTube videos without their uuid.
      */
     public static final String YOUTUBE_VIDEO_HEADER = "https://www.youtube.com/watch?v=";
+
+    /**
+     * A link for how to install ffmpeg.
+     */
+    public static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
+
+    /**
+     * A link for how to install YouTube-dl.
+     */
+    public static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
 }

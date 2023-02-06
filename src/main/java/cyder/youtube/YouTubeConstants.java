@@ -47,16 +47,6 @@ public final class YouTubeConstants {
     static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
     /**
-     * A link for how to install ffmpeg.
-     */
-    static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
-
-    /**
-     * A link for how to install YouTube-dl.
-     */
-    static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
-
-    /**
      * The maximum number of chars that can be used for a filename from a YouTube video's title.
      */
     static final int MAX_THUMBNAIL_CHARS = 20;

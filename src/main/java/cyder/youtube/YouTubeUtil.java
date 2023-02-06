@@ -155,11 +155,11 @@ public final class YouTubeUtil {
         Console.INSTANCE.getInputHandler().println(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Download FFMPEG");
-        downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(FFMPEG_INSTALLATION));
+        downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Download YouTube-dl");
-        downloadYoutubeDL.addActionListener(e -> NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
+        downloadYoutubeDL.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 

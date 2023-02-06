@@ -12,6 +12,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderUrls;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -25,6 +26,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.math.NumberUtil;
 import cyder.messaging.MessagingUtil;
+import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
@@ -893,19 +895,25 @@ public final class AudioPlayer {
 
                 audioPlayerFrame.notify("Attempting to download FFmpeg and YouTube-dl");
 
-                Future<Boolean> passedPreliminaries = handlePreliminaries();
+                Future<Boolean> passedPreliminaries = attemptToDownloadFfmpegAndYoutubeDl();
                 while (!passedPreliminaries.isDone()) Thread.onSpinWait();
 
                 // wait to start playing if downloading
                 if (!passedPreliminaries.get()) {
                     audioPlayerFrame.revokeAllNotifications();
 
+                    /*
+                    Note to maintainers, cannot cache this because relative to is the frame.
+                     */
                     new InformHandler.Builder("Could not download necessary "
                             + "binaries. Try to install both ffmpeg and YouTube-dl and try again")
                             .setTitle("Network Error")
                             .setRelativeTo(audioPlayerFrame)
-                            // todo open links to install both from here
-                            .setPostCloseAction(AudioPlayer::killAndCloseWidget).inform();
+                            .setPostCloseAction(() -> {
+                                killAndCloseWidget();
+                                NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION);
+                                NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION);
+                            }).inform();
                 } else {
                     audioPlayerFrame.revokeAllNotifications();
                     unlockUi();
@@ -965,37 +973,28 @@ public final class AudioPlayer {
         audioPlayerFrame.setMenuEnabled(true);
     }
 
-    private static Future<Boolean> handlePreliminaries() {
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("AudioPlayer Preliminary Handler")).submit(() -> {
-            boolean binariesInstalled = true;
-
+    /**
+     * Attempts to download ffmpeg and youtube-dl.
+     *
+     * @return whether ffmpeg and youtube-dl were downloaded successfully.
+     */
+    @SuppressWarnings("RedundantIfStatement") /* Readability */
+    private static Future<Boolean> attemptToDownloadFfmpegAndYoutubeDl() {
+        CyderThreadFactory factory = new CyderThreadFactory("AudioPlayer Preliminary Handler");
+        return Executors.newSingleThreadExecutor(factory).submit(() -> {
             if (!AudioUtil.youTubeDlInstalled()) {
                 Future<Boolean> downloadedYoutubeDl = AudioUtil.downloadYoutubeDl();
-
-                while (!downloadedYoutubeDl.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                binariesInstalled = downloadedYoutubeDl.get();
-
-                // if failed, immediately return false
-                if (!binariesInstalled) {
-                    return false;
-                }
+                while (!downloadedYoutubeDl.isDone()) Thread.onSpinWait();
+                if (!downloadedYoutubeDl.get()) return false;
             }
 
             if (!AudioUtil.ffmpegInstalled()) {
                 Future<Boolean> ffmpegDownloaded = AudioUtil.downloadFfmpegStack();
-
-                while (!ffmpegDownloaded.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                binariesInstalled = ffmpegDownloaded.get();
+                while (!ffmpegDownloaded.isDone()) Thread.onSpinWait();
+                if (!ffmpegDownloaded.get()) return false;
             }
 
-            return binariesInstalled;
+            return true;
         });
     }
 
