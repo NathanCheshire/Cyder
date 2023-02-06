@@ -42,7 +42,7 @@ public class UiHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("toast")) {
-            Console.INSTANCE.getConsoleCyderFrame().toast("A toast to you, good sir/madam");
+            Console.INSTANCE.getConsoleCyderFrame().toast("A toast to you, my liege");
         } else if (getInputHandler().commandIs("freeze")) {
             //noinspection StatementWithEmptyBody
             while (true) {}
@@ -68,7 +68,7 @@ public class UiHandler extends InputHandler {
             });
 
             getInputHandler().println(printString.toString().trim());
-        } else if (getInputHandler().commandIs("createuser")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("create user")) {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {

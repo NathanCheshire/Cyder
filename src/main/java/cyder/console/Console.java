@@ -355,14 +355,17 @@ public enum Console {
         long millisSinceLastStart = System.currentTimeMillis() - lastStart;
         if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
             String username = UserDataManager.INSTANCE.getUsername();
-            consoleCyderFrame.notify("Welcome back, " + username + "!");
+            consoleCyderFrame.notify("Welcome back, " + username);
+            Logger.log(LogTag.DEBUG, "Last start by" + space + username
+                    + space + TimeUtil.formatMillis(millisSinceLastStart) + space + "ago");
         }
         UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
 
         if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
             String boldUsername = HtmlUtil.applyBold(UserDataManager.INSTANCE.getUsername());
             String notifyText = "Welcome to Cyder, " + boldUsername + "! Type \"help\" for command assists";
-            titleNotify(HtmlUtil.surroundWithHtmlTags(notifyText), CyderFonts.DEFAULT_FONT_LARGE, 6000);
+            titleNotify(HtmlUtil.surroundWithHtmlTags(notifyText),
+                    CyderFonts.DEFAULT_FONT_LARGE, Duration.ofMillis(6000));
             UserDataManager.INSTANCE.setShownWelcomeMessage(true);
         }
 
@@ -3657,10 +3660,9 @@ public enum Console {
     private final CyderLabel titleNotifyLabel = new CyderLabel();
 
     /**
-     * The exception text for a title notify call with too short if a visible duration.
+     * The minimum acceptable time for a title notify invocation.
      */
-    private static final String TITLE_NOTIFY_LENGTH_TOO_SHORT = "A user probably won't"
-            + " see a message with that short of a duration";
+    private static final int minimumTitleNotifyVisbileTime = 1000;
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
@@ -3670,9 +3672,11 @@ public enum Console {
      * @param labelFont       the font to use for the label
      * @param visibleDuration the duration in ms the notification should be visible for
      */
-    public void titleNotify(String htmlString, Font labelFont, int visibleDuration) {
+    public void titleNotify(String htmlString, Font labelFont, Duration visibleDuration) {
         Preconditions.checkNotNull(htmlString);
-        Preconditions.checkArgument(visibleDuration > 500, TITLE_NOTIFY_LENGTH_TOO_SHORT);
+        Preconditions.checkNotNull(labelFont);
+        Preconditions.checkNotNull(visibleDuration);
+        Preconditions.checkArgument(visibleDuration.toMillis() > minimumTitleNotifyVisbileTime);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -3706,7 +3710,7 @@ public enum Console {
                 consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
 
-                ThreadUtil.sleep(visibleDuration);
+                ThreadUtil.sleep(visibleDuration.toMillis());
 
                 titleNotifyLabel.setVisible(false);
                 consoleCyderFrame.remove(titleNotifyLabel);

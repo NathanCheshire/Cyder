@@ -391,6 +391,11 @@ public final class AudioPlayer {
     private static final String SWITCH_VIEW_MODE = "Switch view mode";
 
     /**
+     * Whether the frame is currently being setup.
+     */
+    private static final AtomicBoolean settingUpFrame = new AtomicBoolean();
+
+    /**
      * The animator object for the audio volume percent.
      * This is set upon the frame appearing and is only killed when the widget is killed.
      */
@@ -492,328 +497,339 @@ public final class AudioPlayer {
     }
 
     /**
-     * Starts playing the provided mp3 file.
+     * Shows the audio player gui starting with the provided mp3 file.
+     * The loading of the widget is performed in a separate thread to avoid freezing the UI thread.
      *
-     * @param startPlaying the audio file to start playing
-     * @throws NullPointerException     if startPlaying is null
-     * @throws IllegalArgumentException if startPlaying does not exist, or is not a supported audio file
+     * @param mp3File the mp3 file to show the audio player frame on
+     * @throws NullPointerException     if mp3File is null
+     * @throws IllegalArgumentException if mp3File does not exist, or is not a supported audio file
      */
-    public static void showGui(File startPlaying) {
-        checkNotNull(startPlaying);
-        checkArgument(startPlaying.exists());
-        checkArgument(FileUtil.isSupportedAudioExtension(startPlaying));
+    public static void showGui(File mp3File) {
+        checkNotNull(mp3File);
+        checkArgument(mp3File.exists());
+        checkArgument(FileUtil.isSupportedAudioExtension(mp3File));
 
-        currentAudioFile.set(startPlaying);
-        audioDreamified.set(isCurrentAudioDreamy());
+        if (settingUpFrame.get()) return;
+        settingUpFrame.compareAndSet(false, true);
 
-        if (isWidgetOpen()) {
-            if (currentView.get() == View.SEARCH) onBackPressedFromSearchView();
-            boolean audioPlaying = isAudioPlaying();
-            if (audioPlaying) pauseAudio();
-            revalidateAfterAudioFileChange();
-            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            innerAudioPlayer.setLocation(0);
-            audioLocationUpdater.setPercentIn(0f);
-            audioLocationUpdater.update(false);
-            if (audioPlaying) playAudio();
-            return;
-        }
+        CyderThreadFactory threadFactory = new CyderThreadFactory("AudioPlayer loader, mp3File: " + mp3File);
+        Executors.newSingleThreadExecutor(threadFactory).submit(() -> {
+            currentAudioFile.set(mp3File);
+            audioDreamified.set(isCurrentAudioDreamy());
 
-        // todo replace videos in readme with static images, have a video's section below
-        //  eventually the video section will link to timestamps of the official demo
-
-        // todo same with loading GUI, copy from ImageViewer logic of loading in separate thread
-
-        currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
-
-        audioPlayerFrame = new CyderFrame(defaultFrameLength, defaultFrameLength, BACKGROUND_COLOR);
-        refreshFrameTitle();
-
-        ChangeSizeButton changeSizeButton = new ChangeSizeButton();
-        changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
-        changeSizeButton.setClickAction(() -> {
-            switch (currentView.get()) {
-                case FULL -> setupAndShowFrameView(View.HIDDEN_ALBUM_ART);
-                case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
-                case MINI -> setupAndShowFrameView(View.FULL);
-                case SEARCH -> onBackPressedFromSearchView();
-            }
-        });
-        audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
-        audioPlayerFrame.setMenuType(MenuType.PANEL);
-        audioPlayerFrame.setMenuEnabled(true);
-        audioPlayerFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                // no other pre/post close window Runnables
-                // should be added or window listeners
-                killAndCloseWidget();
+            if (isWidgetOpen()) {
+                if (currentView.get() == View.SEARCH) onBackPressedFromSearchView();
+                boolean audioPlaying = isAudioPlaying();
+                if (audioPlaying) pauseAudio();
+                revalidateAfterAudioFileChange();
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                innerAudioPlayer.setLocation(0);
+                audioLocationUpdater.setPercentIn(0f);
+                audioLocationUpdater.update(false);
+                if (audioPlaying) playAudio();
+                return;
             }
 
-            @Override
-            public void windowClosed(WindowEvent e) {
-                // no other pre/post close window Runnables
-                // should be added or window listeners
-                killAndCloseWidget();
-            }
-        });
-        installFrameMenuItems();
+            currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
+                    Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
-        /*
-         All components which will ever be on the frame for the audio player are added now and their sizes set.
-         The bounds are set in the view switcher.
-         The sizes are almost never set outside the construction below.
-         */
+            audioPlayerFrame = new CyderFrame(defaultFrameLength, defaultFrameLength, BACKGROUND_COLOR);
+            refreshFrameTitle();
 
-        albumArtLabel.setSize(albumArtSize, albumArtSize);
-        albumArtLabel.setOpaque(true);
-        albumArtLabel.setBackground(BACKGROUND_COLOR);
-        albumArtLabel.setBorder(new LineBorder(Color.BLACK, borderWidth));
-        audioPlayerFrame.getContentPane().add(albumArtLabel);
-
-        albumArtLabel.add(dreamyLabel);
-        dreamyLabel.setSize(albumArtLabel.getSize());
-        dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
-        dreamyLabel.setVisible(false);
-
-        audioTitleLabelContainer.setSize(fullRowWidth, fullRowHeight);
-        audioTitleLabel.setSize(fullRowWidth, fullRowHeight);
-        audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
-        audioTitleLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        audioTitleLabel.setForeground(CyderColors.vanilla);
-
-        audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
-        audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
-
-        shuffleAudioButton.setSize(CONTROL_BUTTON_SIZE);
-        audioPlayerFrame.getContentPane().add(shuffleAudioButton);
-
-        lastAudioButton.setSize(CONTROL_BUTTON_SIZE);
-        audioPlayerFrame.getContentPane().add(lastAudioButton);
-
-        /*
-        Note to maintainers: play pause button is special and is the only one of the primary control buttons
-        initialized here. The others are initialized using CyderIconButtons as class level final members.
-         */
-
-        playPauseButton = new JButton();
-        refreshPlayPauseButtonIcon();
-        playPauseButton.setFocusPainted(false);
-        playPauseButton.setOpaque(false);
-        playPauseButton.setContentAreaFilled(false);
-        playPauseButton.setBorderPainted(false);
-        playPauseButton.setVisible(true);
-        playPauseButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                handlePlayPauseButtonClick();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
-            }
-        });
-        playPauseButton.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
-            }
-        });
-        playPauseButton.setSize(CONTROL_BUTTON_SIZE);
-        audioPlayerFrame.getContentPane().add(playPauseButton);
-
-        setupFocusTraversal();
-
-        nextAudioButton.setSize(CONTROL_BUTTON_SIZE);
-        audioPlayerFrame.getContentPane().add(nextAudioButton);
-
-        repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
-        audioPlayerFrame.getContentPane().add(repeatAudioButton);
-
-        audioLocationSliderUi.setThumbStroke(sliderStroke);
-        audioLocationSliderUi.setThumbShape(ThumbShape.CIRCLE);
-        audioLocationSliderUi.setThumbRadius(25);
-        audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
-        audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
-        audioLocationSliderUi.setRightThumbColor(trackNewColor);
-        audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioLocationSliderUi.setTrackStroke(sliderStroke);
-        audioLocationSliderUi.setAnimationEnabled(true);
-        audioLocationSliderUi.setAnimationLen(75);
-
-        audioLocationSlider.setSize(fullRowWidth, fullRowHeight);
-        audioLocationSlider.setMinorTickSpacing(1);
-        audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);
-        audioLocationSlider.setMinimum(DEFAULT_LOCATION_SLIDER_MIN_VALUE);
-        audioLocationSlider.setMaximum(DEFAULT_LOCATION_SLIDER_MAX_VALUE);
-        audioLocationSlider.setUI(audioLocationSliderUi);
-        audioLocationSlider.setPaintTicks(false);
-        audioLocationSlider.setPaintLabels(false);
-        audioLocationSlider.setVisible(true);
-        audioLocationSlider.addChangeListener(e -> {
-            if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
-                audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
-            }
-
-            if (audioLocationUpdater != null) {
-                audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
-                        / audioLocationSlider.getMaximum());
-
-                audioLocationUpdater.update(true);
-            }
-        });
-        audioLocationSlider.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                audioLocationSliderPressed.set(true);
-
-                audioLocationSliderUi.setThumbRadius(BIG_THUMB_SIZE);
-                audioLocationSlider.repaint();
-
-                possiblePercentRequest.set(e.getX() / (float) audioLocationSlider.getWidth());
-                possiblePercentRequestTime.set(System.currentTimeMillis());
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (audioLocationSliderPressed.get()) {
-                    audioLocationSliderPressed.set(false);
-
-                    boolean wasPlaying = isAudioPlaying();
-
-                    if (wasPlaying) {
-                        float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
-
-                        if (System.currentTimeMillis() - possiblePercentRequestTime.get()
-                                < POSSIBLE_PERCENT_REQUEST_WINDOW) {
-                            newPercentIn = (float) possiblePercentRequest.get();
-                            possiblePercentRequest.set(Long.MAX_VALUE);
-                            possiblePercentRequestTime.set(Long.MAX_VALUE);
-                        }
-
-                        long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
-
-                        audioLocationUpdater.pauseTimer();
-                        pauseAudio();
-
-                        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                        innerAudioPlayer.setLocation(resumeLocation);
-                        audioLocationUpdater.setPercentIn(newPercentIn);
-
-                        playAudio();
-                    } else {
-                        if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
-                            audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
-                        }
-
-                        float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
-                        long resumeLocation = (long) (newPercentIn * audioTotalLength);
-
-                        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                        innerAudioPlayer.setLocation(resumeLocation);
-                        audioLocationUpdater.setPercentIn(newPercentIn);
-                        audioLocationUpdater.update(true);
-                    }
+            ChangeSizeButton changeSizeButton = new ChangeSizeButton();
+            changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
+            changeSizeButton.setClickAction(() -> {
+                switch (currentView.get()) {
+                    case FULL -> setupAndShowFrameView(View.HIDDEN_ALBUM_ART);
+                    case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
+                    case MINI -> setupAndShowFrameView(View.FULL);
+                    case SEARCH -> onBackPressedFromSearchView();
+                }
+            });
+            audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
+            audioPlayerFrame.setMenuType(MenuType.PANEL);
+            audioPlayerFrame.setMenuEnabled(true);
+            audioPlayerFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    onFrameClosingOrClosed();
                 }
 
-                audioLocationSliderUi.setThumbRadius(THUMB_SIZE);
-                audioLocationSlider.repaint();
-            }
-        });
-        audioLocationSlider.setOpaque(false);
-        audioLocationSlider.setFocusable(false);
-        audioLocationSlider.repaint();
-        audioPlayerFrame.getContentPane().add(audioLocationSlider);
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    onFrameClosingOrClosed();
+                }
+            });
+            installFrameMenuItems();
 
-        secondsInLabel.setSize(fullRowWidth / 4, fullRowHeight);
-        secondsInLabel.setText("");
-        secondsInLabel.setHorizontalAlignment(JLabel.LEFT);
-        secondsInLabel.setForeground(CyderColors.vanilla);
-        audioPlayerFrame.getContentPane().add(secondsInLabel);
-        secondsInLabel.setFocusable(false);
+            /*
+             All components which will ever be on the frame for the audio player are added now and their sizes set.
+             The bounds are set in the view switcher.
+             The sizes are almost never set outside the construction below.
+             */
 
-        totalSecondsLabel.setSize(fullRowWidth / 4, fullRowHeight);
-        totalSecondsLabel.setText("");
-        totalSecondsLabel.setHorizontalAlignment(JLabel.RIGHT);
-        totalSecondsLabel.setForeground(CyderColors.vanilla);
-        audioPlayerFrame.getContentPane().add(totalSecondsLabel);
-        totalSecondsLabel.setFocusable(false);
+            albumArtLabel.setSize(albumArtSize, albumArtSize);
+            albumArtLabel.setOpaque(true);
+            albumArtLabel.setBackground(BACKGROUND_COLOR);
+            albumArtLabel.setBorder(new LineBorder(Color.BLACK, borderWidth));
+            audioPlayerFrame.getContentPane().add(albumArtLabel);
 
-        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentView,
-                currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
+            albumArtLabel.add(dreamyLabel);
+            dreamyLabel.setSize(albumArtLabel.getSize());
+            dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
+            dreamyLabel.setVisible(false);
 
-        audioVolumeSliderUi.setThumbStroke(sliderStroke);
-        audioVolumeSliderUi.setThumbShape(ThumbShape.CIRCLE);
-        audioVolumeSliderUi.setThumbRadius(25);
-        audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setRightThumbColor(trackNewColor);
-        audioVolumeSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setTrackStroke(sliderStroke);
+            audioTitleLabelContainer.setSize(fullRowWidth, fullRowHeight);
+            audioTitleLabel.setSize(fullRowWidth, fullRowHeight);
+            audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
+            audioTitleLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+            audioTitleLabel.setForeground(CyderColors.vanilla);
 
-        audioVolumePercentLabel.setForeground(CyderColors.vanilla);
-        audioVolumePercentLabel.setSize(100, 40);
-        audioVolumePercentLabel.setVisible(false);
-        audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
+            audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
+            audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
 
-        if (audioVolumeLabelAnimator != null) audioVolumeLabelAnimator.kill();
-        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
+            shuffleAudioButton.setSize(CONTROL_BUTTON_SIZE);
+            audioPlayerFrame.getContentPane().add(shuffleAudioButton);
 
-        audioVolumeSlider.setSize(fullRowWidth, fullRowHeight);
-        audioPlayerFrame.getContentPane().add(audioVolumeSlider);
-        audioVolumeSlider.setUI(audioVolumeSliderUi);
-        audioVolumeSlider.setMinimum(0);
-        audioVolumeSlider.setMaximum(100);
-        audioVolumeSlider.setPaintTicks(false);
-        audioVolumeSlider.setPaintLabels(false);
-        audioVolumeSlider.setVisible(true);
-        audioVolumeSlider.setValue(DEFAULT_AUDIO_SLIDER_VALUE);
-        audioVolumeSlider.addChangeListener(e -> {
-            if (uiLocked) return;
+            lastAudioButton.setSize(CONTROL_BUTTON_SIZE);
+            audioPlayerFrame.getContentPane().add(lastAudioButton);
 
+            /*
+            Note to maintainers: play pause button is special and is the only one of the primary control buttons
+            initialized here. The others are initialized using CyderIconButtons as class level final members.
+             */
+
+            playPauseButton = new JButton();
+            refreshPlayPauseButtonIcon();
+            playPauseButton.setFocusPainted(false);
+            playPauseButton.setOpaque(false);
+            playPauseButton.setContentAreaFilled(false);
+            playPauseButton.setBorderPainted(false);
+            playPauseButton.setVisible(true);
+            playPauseButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    handlePlayPauseButtonClick();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
+                }
+            });
+            playPauseButton.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
+                }
+            });
+            playPauseButton.setSize(CONTROL_BUTTON_SIZE);
+            audioPlayerFrame.getContentPane().add(playPauseButton);
+
+            setupFocusTraversal();
+
+            nextAudioButton.setSize(CONTROL_BUTTON_SIZE);
+            audioPlayerFrame.getContentPane().add(nextAudioButton);
+
+            repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
+            audioPlayerFrame.getContentPane().add(repeatAudioButton);
+
+            audioLocationSliderUi.setThumbStroke(sliderStroke);
+            audioLocationSliderUi.setThumbShape(ThumbShape.CIRCLE);
+            audioLocationSliderUi.setThumbRadius(25);
+            audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
+            audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
+            audioLocationSliderUi.setRightThumbColor(trackNewColor);
+            audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
+            audioLocationSliderUi.setTrackStroke(sliderStroke);
+            audioLocationSliderUi.setAnimationEnabled(true);
+            audioLocationSliderUi.setAnimationLen(75);
+
+            audioLocationSlider.setSize(fullRowWidth, fullRowHeight);
+            audioLocationSlider.setMinorTickSpacing(1);
+            audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);
+            audioLocationSlider.setMinimum(DEFAULT_LOCATION_SLIDER_MIN_VALUE);
+            audioLocationSlider.setMaximum(DEFAULT_LOCATION_SLIDER_MAX_VALUE);
+            audioLocationSlider.setUI(audioLocationSliderUi);
+            audioLocationSlider.setPaintTicks(false);
+            audioLocationSlider.setPaintLabels(false);
+            audioLocationSlider.setVisible(true);
+            audioLocationSlider.addChangeListener(e -> {
+                if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
+                    audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+                }
+
+                if (audioLocationUpdater != null) {
+                    audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
+                            / audioLocationSlider.getMaximum());
+
+                    audioLocationUpdater.update(true);
+                }
+            });
+            audioLocationSlider.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    audioLocationSliderPressed.set(true);
+
+                    audioLocationSliderUi.setThumbRadius(BIG_THUMB_SIZE);
+                    audioLocationSlider.repaint();
+
+                    possiblePercentRequest.set(e.getX() / (float) audioLocationSlider.getWidth());
+                    possiblePercentRequestTime.set(System.currentTimeMillis());
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (audioLocationSliderPressed.get()) {
+                        audioLocationSliderPressed.set(false);
+
+                        boolean wasPlaying = isAudioPlaying();
+
+                        if (wasPlaying) {
+                            float newPercentIn =
+                                    (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+
+                            if (System.currentTimeMillis() - possiblePercentRequestTime.get()
+                                    < POSSIBLE_PERCENT_REQUEST_WINDOW) {
+                                newPercentIn = (float) possiblePercentRequest.get();
+                                possiblePercentRequest.set(Long.MAX_VALUE);
+                                possiblePercentRequestTime.set(Long.MAX_VALUE);
+                            }
+
+                            long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
+
+                            audioLocationUpdater.pauseTimer();
+                            pauseAudio();
+
+                            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                            innerAudioPlayer.setLocation(resumeLocation);
+                            audioLocationUpdater.setPercentIn(newPercentIn);
+
+                            playAudio();
+                        } else {
+                            if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
+                                audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+                            }
+
+                            float newPercentIn =
+                                    (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+                            long resumeLocation = (long) (newPercentIn * audioTotalLength);
+
+                            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                            innerAudioPlayer.setLocation(resumeLocation);
+                            audioLocationUpdater.setPercentIn(newPercentIn);
+                            audioLocationUpdater.update(true);
+                        }
+                    }
+
+                    audioLocationSliderUi.setThumbRadius(THUMB_SIZE);
+                    audioLocationSlider.repaint();
+                }
+            });
+            audioLocationSlider.setOpaque(false);
+            audioLocationSlider.setFocusable(false);
+            audioLocationSlider.repaint();
+            audioPlayerFrame.getContentPane().add(audioLocationSlider);
+
+            secondsInLabel.setSize(fullRowWidth / 4, fullRowHeight);
+            secondsInLabel.setText("");
+            secondsInLabel.setHorizontalAlignment(JLabel.LEFT);
+            secondsInLabel.setForeground(CyderColors.vanilla);
+            audioPlayerFrame.getContentPane().add(secondsInLabel);
+            secondsInLabel.setFocusable(false);
+
+            totalSecondsLabel.setSize(fullRowWidth / 4, fullRowHeight);
+            totalSecondsLabel.setText("");
+            totalSecondsLabel.setHorizontalAlignment(JLabel.RIGHT);
+            totalSecondsLabel.setForeground(CyderColors.vanilla);
+            audioPlayerFrame.getContentPane().add(totalSecondsLabel);
+            totalSecondsLabel.setFocusable(false);
+
+            audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentView,
+                    currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
+
+            audioVolumeSliderUi.setThumbStroke(sliderStroke);
+            audioVolumeSliderUi.setThumbShape(ThumbShape.CIRCLE);
+            audioVolumeSliderUi.setThumbRadius(25);
+            audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
+            audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
+            audioVolumeSliderUi.setRightThumbColor(trackNewColor);
+            audioVolumeSliderUi.setLeftThumbColor(CyderColors.vanilla);
+            audioVolumeSliderUi.setTrackStroke(sliderStroke);
+
+            audioVolumePercentLabel.setForeground(CyderColors.vanilla);
+            audioVolumePercentLabel.setSize(100, 40);
+            audioVolumePercentLabel.setVisible(false);
+            audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
+
+            if (audioVolumeLabelAnimator != null) audioVolumeLabelAnimator.kill();
+            audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
+
+            audioVolumeSlider.setSize(fullRowWidth, fullRowHeight);
+            audioPlayerFrame.getContentPane().add(audioVolumeSlider);
+            audioVolumeSlider.setUI(audioVolumeSliderUi);
+            audioVolumeSlider.setMinimum(0);
+            audioVolumeSlider.setMaximum(100);
+            audioVolumeSlider.setPaintTicks(false);
+            audioVolumeSlider.setPaintLabels(false);
+            audioVolumeSlider.setVisible(true);
+            audioVolumeSlider.setValue(DEFAULT_AUDIO_SLIDER_VALUE);
+            audioVolumeSlider.addChangeListener(e -> {
+                if (uiLocked) return;
+
+                refreshAudioLine();
+                audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
+                audioVolumeLabelAnimator.onValueChanged();
+            });
+            audioVolumeSlider.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    audioVolumeSliderUi.setThumbRadius(BIG_THUMB_SIZE);
+                    audioVolumeSlider.repaint();
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    audioVolumeSliderUi.setThumbRadius(THUMB_SIZE);
+                    audioVolumeSlider.repaint();
+                }
+            });
+            audioVolumeSlider.setOpaque(false);
+            audioVolumeSlider.setToolTipText("Volume");
+            audioVolumeSlider.setFocusable(false);
+            audioVolumeSlider.repaint();
             refreshAudioLine();
-            audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
-            audioVolumeLabelAnimator.onValueChanged();
-        });
-        audioVolumeSlider.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                audioVolumeSliderUi.setThumbRadius(BIG_THUMB_SIZE);
-                audioVolumeSlider.repaint();
-            }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                audioVolumeSliderUi.setThumbRadius(THUMB_SIZE);
-                audioVolumeSlider.repaint();
+            setAudioPlayerComponentsVisible(false);
+            setupAndShowFrameView(View.FULL);
+            audioPlayerFrame.finalizeAndShow();
+            Console.INSTANCE.revalidateAudioMenuVisibility();
+
+            if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youTubeDlInstalled()) {
+                downloadFfmpegAndYouTubeDl();
+            } else {
+                settingUpFrame.compareAndSet(true, false);
             }
         });
-        audioVolumeSlider.setOpaque(false);
-        audioVolumeSlider.setToolTipText("Volume");
-        audioVolumeSlider.setFocusable(false);
-        audioVolumeSlider.repaint();
-        refreshAudioLine();
+    }
 
-        setAudioPlayerComponentsVisible(false);
-        setupAndShowFrameView(View.FULL);
-        audioPlayerFrame.finalizeAndShow();
-        Console.INSTANCE.revalidateAudioMenuVisibility();
-
-        if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youTubeDlInstalled()) {
-            downloadBinaries();
-        }
+    /**
+     * The actions to invoke when the frame is closing or closed. Caught via the {@link WindowListener}.
+     */
+    private static void onFrameClosingOrClosed() {
+        // no other pre/post close window Runnables
+        // should be added or window listeners
+        killAndCloseWidget();
     }
 
     /**
@@ -865,18 +881,17 @@ public final class AudioPlayer {
         minimizeButton.addFocusLostAction(changeSizeButton::requestFocus);
         changeSizeButton.addFocusLostAction(pinButton::requestFocus);
         pinButton.addFocusLostAction(closeButton::requestFocus);
-        closeButton.addFocusLostAction(shuffleAudioButton::requestFocus);
     }
 
     /**
-     * Attempts to download ffmpeg and YouTube-dl to reference locally for downloading and processing audio files.
+     * Attempts to download FFmpeg and YouTube-dl for downloading and processing audio files.
      */
-    private static void downloadBinaries() {
+    private static void downloadFfmpegAndYouTubeDl() {
         CyderThreadRunner.submit(() -> {
             try {
                 lockUi();
 
-                audioPlayerFrame.notify("Attempting to download ffmpeg or YouTube-dl");
+                audioPlayerFrame.notify("Attempting to download FFmpeg and YouTube-dl");
 
                 Future<Boolean> passedPreliminaries = handlePreliminaries();
                 while (!passedPreliminaries.isDone()) Thread.onSpinWait();
@@ -889,14 +904,17 @@ public final class AudioPlayer {
                             + "binaries. Try to install both ffmpeg and YouTube-dl and try again")
                             .setTitle("Network Error")
                             .setRelativeTo(audioPlayerFrame)
+                            // todo open links to install both from here
                             .setPostCloseAction(AudioPlayer::killAndCloseWidget).inform();
                 } else {
                     audioPlayerFrame.revokeAllNotifications();
                     unlockUi();
                     audioPlayerFrame.notify("Successfully downloaded necessary binaries");
+                    settingUpFrame.compareAndSet(true, false);
                 }
             } catch (Exception e) {
                 unlockUi();
+                settingUpFrame.compareAndSet(true, false);
                 ExceptionHandler.handle(e);
             }
         }, "AudioPlayer Preliminary Handler");
