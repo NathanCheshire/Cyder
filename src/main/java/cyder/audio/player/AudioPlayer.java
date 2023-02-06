@@ -1,5 +1,6 @@
 package cyder.audio.player;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.AtomicDouble;
@@ -398,6 +399,17 @@ public final class AudioPlayer {
     private static final AtomicBoolean settingUpFrame = new AtomicBoolean();
 
     /**
+     * The name of the audio player preliminary handler thread.
+     */
+    private static final String audioPlayerPreliminaryHandlerThreadName = "AudioPlayer Preliminary Handler";
+
+    /**
+     * The getter util instance used to get input from the user
+     * for exporting waveform files and for choosing local audio files.
+     */
+    private static final GetterUtil getterUtil = GetterUtil.getInstance();
+
+    /**
      * The animator object for the audio volume percent.
      * This is set upon the frame appearing and is only killed when the widget is killed.
      */
@@ -537,18 +549,7 @@ public final class AudioPlayer {
 
             audioPlayerFrame = new CyderFrame(defaultFrameLength, defaultFrameLength, BACKGROUND_COLOR);
             refreshFrameTitle();
-
-            ChangeSizeButton changeSizeButton = new ChangeSizeButton();
-            changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
-            changeSizeButton.setClickAction(() -> {
-                switch (currentView.get()) {
-                    case FULL -> setupAndShowFrameView(View.HIDDEN_ALBUM_ART);
-                    case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
-                    case MINI -> setupAndShowFrameView(View.FULL);
-                    case SEARCH -> onBackPressedFromSearchView();
-                }
-            });
-            audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
+            addChangeSizeButtonToTopDragLabel();
             audioPlayerFrame.setMenuType(MenuType.PANEL);
             audioPlayerFrame.setMenuEnabled(true);
             audioPlayerFrame.addWindowListener(new WindowAdapter() {
@@ -604,6 +605,7 @@ public final class AudioPlayer {
             playPauseButton = new JButton();
             refreshPlayPauseButtonIcon();
             playPauseButton.setFocusPainted(false);
+            playPauseButton.setFocusable(true);
             playPauseButton.setOpaque(false);
             playPauseButton.setContentAreaFilled(false);
             playPauseButton.setBorderPainted(false);
@@ -826,6 +828,25 @@ public final class AudioPlayer {
     }
 
     /**
+     * Adds the change size button to the top drag label.
+     */
+    private static void addChangeSizeButtonToTopDragLabel() {
+        Preconditions.checkState(audioPlayerFrame.getTopDragLabel().getRightButtonList().size() == 3);
+
+        ChangeSizeButton changeSizeButton = new ChangeSizeButton();
+        changeSizeButton.setToolTipText(SWITCH_VIEW_MODE);
+        changeSizeButton.setClickAction(() -> {
+            switch (currentView.get()) {
+                case FULL -> setupAndShowFrameView(View.HIDDEN_ALBUM_ART);
+                case HIDDEN_ALBUM_ART -> setupAndShowFrameView(View.MINI);
+                case MINI -> setupAndShowFrameView(View.FULL);
+                case SEARCH -> onBackPressedFromSearchView();
+            }
+        });
+        audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
+    }
+
+    /**
      * The actions to invoke when the frame is closing or closed. Caught via the {@link WindowListener}.
      */
     private static void onFrameClosingOrClosed() {
@@ -925,7 +946,7 @@ public final class AudioPlayer {
                 settingUpFrame.compareAndSet(true, false);
                 ExceptionHandler.handle(e);
             }
-        }, "AudioPlayer Preliminary Handler");
+        }, audioPlayerPreliminaryHandlerThreadName);
     }
 
     /**
@@ -1043,7 +1064,7 @@ public final class AudioPlayer {
         audioPlayerFrame.addMenuItem("Export mp3", AudioPlayer::onExportMp3MenuItemPressed);
         audioPlayerFrame.addMenuItem("Waveform", AudioPlayer::onWaveformExporterMenuItemPressed);
         audioPlayerFrame.addMenuItem("Search", AudioPlayer::onSearchMenuItemPressed, onSearchView);
-        audioPlayerFrame.addMenuItem("Choose File", AudioPlayer::onChooseFileMenuItemPressed);
+        audioPlayerFrame.addMenuItem("Local Audio", AudioPlayer::onLocalAudioFileMenuItemPressed);
         audioPlayerFrame.addMenuItem("Dreamify", AudioPlayer::onDreamifyMenuItemPressed, audioDreamified);
     }
 
@@ -1146,7 +1167,8 @@ public final class AudioPlayer {
         if (waveformExporterLocked.get() || uiLocked) return;
 
         CyderThreadRunner.submit(() -> {
-            Optional<String> optionalSaveName = GetterUtil.getInstance().getInput(
+            getterUtil.closeAllGetInputFrames();
+            Optional<String> optionalSaveName = getterUtil.getInput(
                     new GetInputBuilder("Export Waveform", "Enter a name to export the waveform as")
                             .setRelativeTo(audioPlayerFrame)
                             .setSubmitButtonText("Save to files")
@@ -1172,8 +1194,7 @@ public final class AudioPlayer {
                 waveformExporterLocked.set(false);
 
                 try {
-                    ImageIO.write(waveform.get(),
-                            Extension.PNG.getExtensionWithoutPeriod(),
+                    ImageIO.write(waveform.get(), Extension.PNG.getExtensionWithoutPeriod(),
                             saveFile.getAbsoluteFile());
                     audioPlayerFrame.notify(new NotificationBuilder("Saved waveform to your files directory")
                             .setOnKillAction(() -> ImageViewer.getInstance(saveFile).showGui()));
@@ -1203,16 +1224,14 @@ public final class AudioPlayer {
     /**
      * The menu item for choosing a local audio file.
      */
-    private static void onChooseFileMenuItemPressed() {
-        if (chooseFileLocked.get() || uiLocked) {
-            return;
-        }
+    private static void onLocalAudioFileMenuItemPressed() {
+        if (chooseFileLocked.get() || uiLocked) return;
 
         CyderThreadRunner.submit(() -> {
             chooseFileLocked.set(true);
-            Optional<File> optionalFile = GetterUtil.getInstance().getFile(
-                    new GetFileBuilder("Audio file chooser")
-                            .setRelativeTo(audioPlayerFrame));
+            getterUtil.closeAllGetFileFrames();
+            Optional<File> optionalFile = getterUtil.getFile(new GetFileBuilder("Local audio file chooser")
+                    .setRelativeTo(audioPlayerFrame));
             if (optionalFile.isEmpty()) return;
             File chosenFile = optionalFile.get();
 
@@ -1220,22 +1239,16 @@ public final class AudioPlayer {
 
             if (FileUtil.isSupportedAudioExtension(chosenFile)) {
                 lastAction = LastAction.FileChosen;
-
-                if (currentView.get() == View.SEARCH) {
-                    onBackPressedFromSearchView();
-                }
-
-                pauseAudio();
-
+                if (currentView.get() == View.SEARCH) onBackPressedFromSearchView();
+                boolean audioPlaying = isAudioPlaying();
+                if (audioPlaying) pauseAudio();
                 currentAudioFile.set(chosenFile);
-
                 revalidateAfterAudioFileChange();
-
-                playAudio();
+                if (audioPlaying) playAudio();
             } else {
-                audioPlayerFrame.notify("Invalid file chosen");
+                audioPlayerFrame.notify("File chosen is not of type MP3");
             }
-        }, "AudioPlayer File Chooser");
+        }, "AudioPlayer Local File Chooser");
     }
 
     /**

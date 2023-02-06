@@ -313,11 +313,6 @@ public final class GetterUtil {
     private static final String FILE_GETTER_LOADER = "File Getter Loader";
 
     /**
-     * The initial title for file getter frames.
-     */
-    private static final String INITIAL_DIRECTORY_FRAME_TITLE = "File getter";
-
-    /**
      * The null file.
      */
     private static final File nullFile = new File(NULL);
@@ -450,7 +445,7 @@ public final class GetterUtil {
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          File userChosenFile = GetterUtil.getInstance().getFile(getInputBuilder);
+     *          File userChosenFile = GetterUtil.getInstance().getFile(getFileBuilder);
      *          // Other operations using userChosenFile
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
@@ -478,7 +473,7 @@ public final class GetterUtil {
             }
         });
 
-        String threadName = "getFile waiter thread, title: " + quote + getFileBuilder.getFrameTitle() + quote;
+        String threadName = "GetFile thread, title: " + quote + getFileBuilder.getFrameTitle() + quote;
         CyderThreadRunner.submit(() -> {
             try {
                 resetFileHistory();
@@ -486,7 +481,7 @@ public final class GetterUtil {
                 directoryFrame.setFrameType(FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
                 getFileBuilder.getOnDialogDisposalRunnables().forEach(directoryFrame::addPostCloseAction);
-                directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
+                directoryFrame.setTitle(getFileBuilder.getFrameTitle());
 
                 directoryField = new CyderTextField();
                 directoryField.setBackground(CyderColors.vanilla);
@@ -668,8 +663,6 @@ public final class GetterUtil {
 
             filesList.clear();
             filesNamesList.clear();
-
-            directoryFrame.setTitle(currentDirectory.getName());
 
             File[] currentDirectoryFiles = currentDirectory.listFiles();
             if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
