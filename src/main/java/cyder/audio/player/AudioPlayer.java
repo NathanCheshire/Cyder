@@ -1275,9 +1275,6 @@ public final class AudioPlayer {
         audioPlayerFrame.notify("Successfully dreamified audio");
     }
 
-    // todo dreamified files: hide _dreamy from user, append (dreamy) in names and what not
-    // todo dreamified audio length not being returned properly, problem with ffmpeg coding?
-
     /**
      * The item menu to toggle between dreamify states of an audio file.
      */
@@ -1517,13 +1514,22 @@ public final class AudioPlayer {
      * Refreshes the audio frame title.
      */
     private static void refreshFrameTitle() {
-        String title = DEFAULT_FRAME_TITLE;
+        File audioFile = currentAudioFile.get();
+        audioPlayerFrame.setTitle(audioFile == null ? DEFAULT_FRAME_TITLE : getDisplayNameForAudio(audioFile));
+    }
 
-        if (currentAudioFile.get() != null) {
-            title = StringUtil.capsFirstWord(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile.get())));
-        }
-
-        audioPlayerFrame.setTitle(title);
+    /**
+     * Returns the name for the provided audio file to display to the user
+     * both as the audio frame title and on the scrolling audio label.
+     *
+     * @param audioFile the audio file
+     * @return the display name for the audio file
+     */
+    public static String getDisplayNameForAudio(File audioFile) {
+        String name = isAudioFileDreamy(audioFile)
+                ? getUserReadableNameForDreamyAudio(audioFile)
+                : FileUtil.getFilename(audioFile);
+        return StringUtil.capsFirstWord(StringUtil.getTrimmedText(name));
     }
 
     /**
@@ -1599,7 +1605,39 @@ public final class AudioPlayer {
      * @return whether the current audio file is a dreamy audio file
      */
     private static boolean isCurrentAudioDreamy() {
-        return FileUtil.getFilename(currentAudioFile.get()).endsWith(AudioUtil.DREAMY_SUFFIX);
+        return isAudioFileDreamy(currentAudioFile.get());
+    }
+
+    /**
+     * Returns whether the provided audio file is dreamy.
+     *
+     * @param audioFile the audio file
+     * @return whether the provided audio file is dreamy
+     */
+    private static boolean isAudioFileDreamy(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(audioFile.isFile());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
+
+        return FileUtil.getFilename(audioFile).endsWith(AudioUtil.DREAMY_SUFFIX);
+    }
+
+    /**
+     * Returns the user readable version for the provided dreamy audio file.
+     *
+     * @param audioFile the audio file
+     * @return the user readable version for the provided dreamy audio file
+     */
+    private static String getUserReadableNameForDreamyAudio(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(audioFile.isFile());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
+        Preconditions.checkArgument(isAudioFileDreamy(audioFile));
+
+        String name = FileUtil.getFilename(audioFile);
+        return name.substring(0, name.length() - AudioUtil.DREAMY_SUFFIX.length()) + CyderStrings.space + "(dreamy)";
     }
 
     /**
@@ -1607,15 +1645,12 @@ public final class AudioPlayer {
      * in the title label container and creates a new instance based on the current audio file's title.
      */
     static void refreshAudioTitleLabel() {
-        String text = StringUtil.capsFirstWord(FileUtil.getFilename(currentAudioFile.get().getName()));
+        String text = getDisplayNameForAudio(currentAudioFile.get());
 
         // end old object
         if (scrollingTitleLabel != null) {
             // if the same title then do not update
-            if (scrollingTitleLabel.localTitle().equals(text)) {
-                return;
-            }
-
+            if (scrollingTitleLabel.localTitle().equals(text)) return;
             scrollingTitleLabel.kill();
             scrollingTitleLabel = null;
         }

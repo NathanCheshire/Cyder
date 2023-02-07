@@ -479,6 +479,7 @@ public final class AudioUtil {
      * @throws BitstreamException if a BitStream cannot be made from the FileInputStream
      *                            or if an exception occurs when reading the header/frames
      */
+    @Deprecated /* Prefer using ffprobe, this is correct for most audio files but for dreamified files it breaks */
     public static int getMillisJLayer(File audioFile) throws IOException, BitstreamException {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
