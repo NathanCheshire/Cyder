@@ -38,10 +38,13 @@ Some examples of what you can do with Cyder include:
 <img src="https://user-images.githubusercontent.com/60986919/213841875-18e68a3e-7fc0-4ad7-9154-a3fef54669be.png" alt="Liminal Cyder" width="800">
 </details>
 
-<details open>
+<details>
 <summary><b>Audio Widget</b></summary>
 <p>
 <img src="https://user-images.githubusercontent.com/60986919/216855315-e26f36d6-4b27-4577-a644-9e8d00ea082d.png" alt="Audio Player" width="600">
+</p>
+<p>
+<img src="https://user-images.githubusercontent.com/60986919/217138180-a9a54ded-800c-4765-8575-87df23af34aa.png" alt="Audio Player Search" width="600">
 </p>
 </details>
 
