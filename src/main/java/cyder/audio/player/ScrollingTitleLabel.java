@@ -11,18 +11,13 @@ import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Private inner class for the scrolling audio label.
+ * An animator class to scroll an overflowing title label within a parent container back and forth in the viewport.
  */
 final class ScrollingTitleLabel {
     /**
      * The minimum width of the title label.
      */
     public static final int MIN_WIDTH = 100;
-
-    /**
-     * Whether this scrolling title label object has been killed.
-     */
-    private final AtomicBoolean killed = new AtomicBoolean();
 
     /**
      * The timeout to sleep for before checking for title scroll label being terminated.
@@ -50,6 +45,16 @@ final class ScrollingTitleLabel {
     private final JLabel effectLabel;
 
     /**
+     * The title for the label to contain.
+     */
+    private final String localTitle;
+
+    /**
+     * Whether this scrolling title label object has been killed.
+     */
+    private final AtomicBoolean killed = new AtomicBoolean();
+
+    /**
      * Constructs and begins the scrolling title label animation using the
      * provided label, its parent, and the provided text as the title.
      *
@@ -61,19 +66,16 @@ final class ScrollingTitleLabel {
         Preconditions.checkNotNull(localTitle);
 
         this.effectLabel = effectLabel;
-
-        effectLabel.setText(localTitle);
-
-        setupScrolling(localTitle);
+        this.localTitle = localTitle;
+        this.effectLabel.setText(localTitle);
+        animateIfNecessary();
     }
 
     /**
      * Starts the scrolling animation if necessary.
      * Otherwise, the label is centered in the parent container.
-     *
-     * @param localTitle the title to display
      */
-    private void setupScrolling(String localTitle) {
+    private void animateIfNecessary() {
         try {
             int parentWidth = effectLabel.getParent().getWidth();
             int parentHeight = effectLabel.getParent().getHeight();
@@ -88,8 +90,7 @@ final class ScrollingTitleLabel {
 
                 startScrollingThread(textWidth, parentWidth, localTitle);
             } else {
-                effectLabel.setLocation(
-                        parentWidth / 2 - Math.max(textWidth, MIN_WIDTH) / 2,
+                effectLabel.setLocation(parentWidth / 2 - Math.max(textWidth, MIN_WIDTH) / 2,
                         parentHeight / 2 - textHeight / 2);
             }
         } catch (Exception e) {
@@ -121,6 +122,8 @@ final class ScrollingTitleLabel {
      * @param labelText   the text on the label
      */
     private void startScrollingThread(int textWidth, int parentWidth, String labelText) {
+        String threadName = "Scrolling title label animator" + CyderStrings.space
+                + CyderStrings.openingBracket + labelText + CyderStrings.closingBracket;
         CyderThreadRunner.submit(() -> {
             try {
                 ThreadUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
@@ -129,10 +132,7 @@ final class ScrollingTitleLabel {
                     int translatedDistance = 0;
 
                     while (translatedDistance < textWidth - parentWidth) {
-                        if (killed.get()) {
-                            break;
-                        }
-
+                        if (killed.get()) break;
                         effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
                         ThreadUtil.sleep(MOVEMENT_TIMEOUT);
                         translatedDistance++;
@@ -141,10 +141,7 @@ final class ScrollingTitleLabel {
                     ThreadUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
                     while (translatedDistance > 0) {
-                        if (killed.get()) {
-                            break;
-                        }
-
+                        if (killed.get()) break;
                         effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
                         ThreadUtil.sleep(MOVEMENT_TIMEOUT);
                         translatedDistance--;
@@ -155,6 +152,6 @@ final class ScrollingTitleLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Scrolling title label animator [" + labelText + CyderStrings.closingBracket);
+        }, threadName);
     }
 }

@@ -122,12 +122,13 @@ final class AudioProgressBarAnimator {
      * The animation proceeds until {@link #state} is set to a value other than {@link State#RUNNING}.
      */
     private void startAnimation() {
+        String threadName = "Audio Location Slider Animation Updater, slider=" + slider + ", ui" + sliderUi;
         CyderThreadRunner.submit(() -> {
             while (state == State.RUNNING) {
                 sliderUi.incrementAnimation();
                 slider.repaint();
                 ThreadUtil.sleep(animationDelay);
             }
-        }, "Audio Location Slider Animation Updater, slider=" + slider + ", ui" + sliderUi);
+        }, threadName);
     }
 }

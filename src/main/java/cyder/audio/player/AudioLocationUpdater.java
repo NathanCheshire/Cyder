@@ -24,6 +24,11 @@ final class AudioLocationUpdater {
     private static final String SETUP_PROPS_THREAD_NAME = "AudioLocationUpdater setupProps Thread";
 
     /**
+     * The timeout between progress label and slider updates.
+     */
+    private static final int TIMEOUT = 100;
+
+    /**
      * Whether this AudioLocationUpdater has been killed.
      */
     private boolean killed;
@@ -67,6 +72,21 @@ final class AudioLocationUpdater {
      * The number of milliseconds in to the audio file.
      */
     private long milliSecondsIn;
+
+    /**
+     * Whether the update thread has been started yet.
+     */
+    private boolean started;
+
+    /**
+     * Whether the seconds in value should be updated.
+     */
+    private boolean timerPaused = true;
+
+    /**
+     * The value passed to the updateEffectLabel method last.
+     */
+    private int lastSecondsIn;
 
     /**
      * Constructs a new audio location label to update for the provided progress bar.
@@ -116,24 +136,12 @@ final class AudioLocationUpdater {
     }
 
     /**
-     * Whether the update thread has been started yet.
-     */
-    private boolean started;
-
-    /**
-     * The timeout between progress label and slider updates.
-     */
-    private static final int TIMEOUT = 100;
-
-    /**
      * Starts the thread to update the inner label
      *
      * @throws IllegalStateException if this method has already been invoked
      */
     private void startUpdateThread() {
-        if (started) {
-            throw new IllegalStateException("Update thread already started");
-        }
+        if (started) throw new IllegalStateException("Update thread already started");
 
         started = true;
 
@@ -160,11 +168,6 @@ final class AudioLocationUpdater {
             }
         }, threadName);
     }
-
-    /**
-     * Whether the seconds in value should be updated.
-     */
-    private boolean timerPaused = true;
 
     /**
      * Ends the updation of the label text.
@@ -196,11 +199,6 @@ final class AudioLocationUpdater {
         updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.millisInSecond)), userTriggered);
         updateSlider();
     }
-
-    /**
-     * The value passed to the updateEffectLabel method last.
-     */
-    private int lastSecondsIn;
 
     /**
      * Updates the encapsulated label with the time in to the current audio file.

@@ -15,9 +15,26 @@ import java.io.File;
 import java.io.FileInputStream;
 
 /**
- * An inner class for easily playing a single audio file
+ * An audio playing class which simply plays an audio file and returns the audio location when killed.
  */
 final class InnerAudioPlayer {
+    /**
+     * The amount to offset a pause request by so that a sequential play
+     * request sounds like it was paused at that instant.
+     */
+    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
+
+    /**
+     * The name of the setup thread for getting the milliseconds of the audio file.
+     */
+    private static final String SETUP_THREAD_NAME = "InnerAudioPlayer Setup Thread";
+
+    /**
+     * The maximum number of times an instance of this class can
+     * attempt to play itself after a failure before quitting.
+     */
+    private static final int maxAttemptedSelfStarts = 10;
+
     /**
      * The one and only file this audio player can play.
      */
@@ -44,11 +61,6 @@ final class InnerAudioPlayer {
     private int totalMilliSeconds = 0;
 
     /**
-     * The name of the setup thread for getting the milliseconds of the audio file.
-     */
-    private static final String SETUP_THREAD_NAME = "InnerAudioPlayer Setup Thread";
-
-    /**
      * The audio player used to play audio.
      */
     private Player audioPlayer;
@@ -59,21 +71,10 @@ final class InnerAudioPlayer {
     private FileInputStream fis;
 
     /**
-     * The maximum number of times a replay can be invoked.
-     */
-    private static final int MAX_REPLAYS = 10;
-
-    /**
      * The number of times this audio player has attempted to invoke {@link #play()}
      * from within play after an exception was thrown.
      */
-    private int replays = 0;
-
-    /**
-     * The amount to offset a pause request by so that a sequential play
-     * request sounds like it was paused at that instant.
-     */
-    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
+    private int selfStarts = 0;
 
     /**
      * Constructs a new InnerAudioPlay.
@@ -86,15 +87,14 @@ final class InnerAudioPlayer {
 
         this.audioFile = audioFile;
 
-        setup();
+        AudioPlayer.refreshAudioTitleLabel();
+        initializeMillis();
     }
 
     /**
-     * Performs necessary setup actions such as refreshing the title label.
+     * Initializes the milliseconds of {@link #audioFile}.
      */
-    private void setup() {
-        AudioPlayer.refreshAudioTitleLabel();
-
+    private void initializeMillis() {
         CyderThreadRunner.submit(() -> {
             try {
                 this.totalMilliSeconds = AudioUtil.getMillisFfprobe(audioFile);
@@ -124,6 +124,8 @@ final class InnerAudioPlayer {
 
             audioPlayer = new Player(bis);
 
+            String threadName = "AudioPlayer Play Audio Thread" + CyderStrings.space + CyderStrings.openingBracket
+                    + FileUtil.getFilename(audioFile) + CyderStrings.closingBracket;
             CyderThreadRunner.submit(() -> {
                 try {
                     audioPlayer.play();
@@ -133,20 +135,16 @@ final class InnerAudioPlayer {
                     FileUtil.closeIfNotNull(fis);
                     FileUtil.closeIfNotNull(bis);
                     audioPlayer = null;
-
-                    if (!killed) {
-                        AudioPlayer.playAudioCallback();
-                    }
-                } catch (Exception possibleIgnored) {
-                    if (replays < MAX_REPLAYS) {
-                        replays++;
+                    if (!killed) AudioPlayer.playAudioCallback();
+                } catch (Exception possiblyIgnored) {
+                    if (selfStarts < maxAttemptedSelfStarts) {
+                        selfStarts++;
                         play();
                     } else {
-                        ExceptionHandler.handle(possibleIgnored);
+                        ExceptionHandler.handle(possiblyIgnored);
                     }
                 }
-            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(audioFile)
-                    + CyderStrings.closingBracket);
+            }, threadName);
 
             AudioPlayer.refreshPlayPauseButtonIcon();
         } catch (Exception ignored) {}
@@ -184,18 +182,15 @@ final class InnerAudioPlayer {
      */
     @CanIgnoreReturnValue
     public long kill() {
-        long resumeLocation = 0L;
-
+        long resumeLocation;
         try {
             resumeLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-        } catch (Exception ignored) {}
-
-        this.killed = true;
-
-        if (audioPlayer != null) {
-            audioPlayer.close();
+        } catch (Exception ignored) {
+            resumeLocation = 0L;
         }
 
+        this.killed = true;
+        if (audioPlayer != null) audioPlayer.close();
         fis = null;
 
         return resumeLocation;
@@ -225,11 +220,12 @@ final class InnerAudioPlayer {
      * @return the percent into the current audio this player object is
      */
     public float getPercentIn() {
-        float percentIn = 0f;
-
+        float percentIn;
         try {
             percentIn = (totalAudioLength - fis.available()) / (float) totalAudioLength;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            percentIn = 0f;
+        }
 
         return percentIn;
     }
