@@ -3,6 +3,7 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -10,9 +11,12 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
+import cyder.process.ProcessResult;
+import cyder.process.ProcessUtil;
 import cyder.process.Program;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
+import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
 import javazoom.jl.decoder.Bitstream;
@@ -23,6 +27,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -121,6 +126,11 @@ public final class AudioUtil {
      * A cache of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
+
+    /**
+     * The identifying string to search for in an ffprobe show streams command to pull out the audio duration.
+     */
+    private static final String ffprobeDurationIdentifier = "\"duration\"";
 
     /**
      * Suppress default constructor.
@@ -421,15 +431,47 @@ public final class AudioUtil {
         });
     }
 
-    public static int getMillisFfprobe() {
-        // ffprobe -v quiet -print_format json -show_format -show_streams "file.mp3"
-        // format -> duration cast to float
+    /**
+     * Returns the milliseconds of the provided audio file using FFprobe's -show_format command.
+     * Note, this method is blocking. Callers should surround invocation of this method in a separate thread.
+     *
+     * @param audioFile the audio file
+     * @return the milliseconds of the provided file
+     * @throws ExecutionException   if the future task does not complete properly
+     * @throws FatalException       if the stream fails to find the proper element from the ffprobe output
+     * @throws InterruptedException if the thread was interrupted while waiting
+     */
+    public static int getMillisFfprobe(File audioFile) throws ExecutionException, InterruptedException {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
-        return 0;
+        if (milliTimes.containsKey(audioFile)) return milliTimes.get(audioFile);
+
+        ImmutableList<String> command = ImmutableList.of(
+                getFfprobeCommand(),
+                "-v",
+                "quiet",
+                "-print_format",
+                "json",
+                "-show_streams",
+                CyderStrings.quote + audioFile.getAbsolutePath() + CyderStrings.quote
+        );
+        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+        while (!futureResult.isDone()) Thread.onSpinWait();
+        String millisLine = futureResult.get().getStandardOutput().stream()
+                .filter(line -> line.contains(ffprobeDurationIdentifier)).findFirst()
+                .orElseThrow(() -> new FatalException("Failed to find " + ffprobeDurationIdentifier + " in results"));
+
+        String parsedMillisLine = millisLine.replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
+        double seconds = Double.parseDouble(parsedMillisLine);
+        int millis = (int) (seconds * TimeUtil.millisInSecond);
+        milliTimes.put(audioFile, millis);
+        return millis;
     }
 
     /**
-     * Returns the milliseconds of the provided file
+     * Returns the milliseconds of the provided audio file using JLayer.
      *
      * @param audioFile the MP3 file to return the milliseconds of
      * @return the milliseconds of the provided file

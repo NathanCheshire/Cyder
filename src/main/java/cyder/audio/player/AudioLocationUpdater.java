@@ -106,7 +106,7 @@ final class AudioLocationUpdater {
         CyderThreadRunner.submit(() -> {
             try {
                 File file = currentAudioFile.get();
-                this.totalMilliSeconds = AudioUtil.getMillisJLayer(file);
+                this.totalMilliSeconds = AudioUtil.getMillisFfprobe(file);
                 updateEffectLabel((int) (Math.floor(milliSecondsIn / TimeUtil.millisInSecond)), false);
                 startUpdateThread();
             } catch (Exception e) {

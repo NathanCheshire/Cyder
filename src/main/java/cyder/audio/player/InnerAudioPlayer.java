@@ -97,7 +97,7 @@ final class InnerAudioPlayer {
 
         CyderThreadRunner.submit(() -> {
             try {
-                this.totalMilliSeconds = AudioUtil.getMillisJLayer(audioFile);
+                this.totalMilliSeconds = AudioUtil.getMillisFfprobe(audioFile);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 this.totalMilliSeconds = 0;
