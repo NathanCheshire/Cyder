@@ -463,6 +463,8 @@ public final class AudioUtil {
                 .filter(line -> line.contains(ffprobeDurationIdentifier)).findFirst()
                 .orElseThrow(() -> new FatalException("Failed to find " + ffprobeDurationIdentifier + " in results"));
 
+        // todo new Gson().fromJson(StringUtil.joinParts(futureResult.get().getStandardOutput(), "").replaceAll("\\s{2,}", ""), Stream.class)
+
         String parsedMillisLine = millisLine.replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
         double seconds = Double.parseDouble(parsedMillisLine);
         int millis = (int) (seconds * TimeUtil.millisInSecond);
