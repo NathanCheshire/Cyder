@@ -175,7 +175,17 @@ public enum LogTag {
     /**
      * A warning related to a {@link cyder.annotations.CyderTest} method not constructed properly.
      */
-    CYDER_TEST_WARNING("CyderTest Warning");
+    CYDER_TEST_WARNING("CyderTest Warning"),
+
+    /**
+     * Serialization of an object occurred.
+     */
+    OBJECT_SERIALIZATION("Object Serialization"),
+
+    /**
+     * Deserialization of an object occurred.
+     */
+    OBJECT_DESERIALIZATION("Object Deserialization");
 
     /**
      * The name to be written to the log file when this tag is logged

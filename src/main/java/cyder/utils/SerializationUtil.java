@@ -7,6 +7,8 @@ import com.google.gson.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.user.data.MappedExecutable;
 
@@ -61,7 +63,9 @@ public final class SerializationUtil {
         Preconditions.checkArgument(!json.isEmpty());
         Preconditions.checkNotNull(clazz);
 
-        return gson.fromJson(json, clazz);
+        T ret = gson.fromJson(json, clazz);
+        Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+        return ret;
     }
 
     /**
@@ -78,7 +82,9 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(clazz);
 
         try (Reader reader = new BufferedReader(new FileReader(file))) {
-            return gson.fromJson(reader, clazz);
+            T ret = gson.fromJson(reader, clazz);
+            Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+            return ret;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -98,7 +104,9 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(reader);
         Preconditions.checkNotNull(clazz);
 
-        return gson.fromJson(reader, clazz);
+        T ret = gson.fromJson(reader, clazz);
+        Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+        return ret;
     }
 
     /**
@@ -114,7 +122,9 @@ public final class SerializationUtil {
         Preconditions.checkArgument(!json.isEmpty());
         Preconditions.checkNotNull(type);
 
-        return gson.fromJson(json, type);
+        T ret = gson.fromJson(json, type);
+        Logger.log(LogTag.OBJECT_DESERIALIZATION, type);
+        return ret;
     }
 
     /**
@@ -128,6 +138,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(writer);
 
         gson.toJson(object, writer);
+        Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
     }
 
     /**
@@ -139,7 +150,9 @@ public final class SerializationUtil {
     public static String toJson(Object object) {
         Preconditions.checkNotNull(object);
 
-        return gson.toJson(object);
+        String ret = gson.toJson(object);
+        Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
+        return ret;
     }
 
     /**
@@ -159,6 +172,7 @@ public final class SerializationUtil {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
             toJson(object, writer);
+            Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
         } catch (IOException e) {
             ExceptionHandler.handle(e);
             ret = false;

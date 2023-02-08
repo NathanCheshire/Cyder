@@ -430,7 +430,7 @@ public final class AudioUtil {
 
     // todo persist audio player volume
     // todo add logging for all serialization util objects serialized/deserialized and say bottom level class name
-    // todo have prop to disable certain objects
+    // todo have prop to disable certain objects, need to disable user object
 
     /**
      * Returns the milliseconds of the provided audio file using FFprobe's -show_format command.

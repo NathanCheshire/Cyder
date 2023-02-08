@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -338,6 +339,26 @@ public final class Logger {
                     }
 
                     return;
+                }
+
+                break;
+            case OBJECT_DESERIALIZATION:
+                if (statement instanceof Class<?> clazz) {
+                    tags.add(LogTag.OBJECT_DESERIALIZATION.getLogName());
+                    logBuilder.append("Deserialized").append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
+                } else if (statement instanceof Type type) {
+                    tags.add(LogTag.OBJECT_DESERIALIZATION.getLogName());
+                    logBuilder.append("Deserialized").append(space).append(type.getTypeName());
+                }
+
+                break;
+            case OBJECT_SERIALIZATION:
+                if (statement instanceof Class<?> clazz) {
+                    tags.add(LogTag.OBJECT_SERIALIZATION.getLogName());
+                    logBuilder.append("Serialized").append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
+                } else if (statement instanceof Type type) {
+                    tags.add(LogTag.OBJECT_SERIALIZATION.getLogName());
+                    logBuilder.append("Serialized").append(space).append(type.getTypeName());
                 }
 
                 break;
