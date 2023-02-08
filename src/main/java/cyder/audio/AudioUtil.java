@@ -428,11 +428,6 @@ public final class AudioUtil {
         });
     }
 
-    // todo on initial directory load of audio player, cache all song lengths and
-    //  setup directory watcher to cache new songs added (need to properly kill)
-
-    // todo persist audio player volume
-
     /**
      * Returns the milliseconds of the provided audio file using FFprobe's -show_format command.
      * Note, this method is blocking. Callers should surround invocation of this method in a separate thread.

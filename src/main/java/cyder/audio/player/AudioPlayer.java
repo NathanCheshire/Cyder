@@ -492,10 +492,11 @@ public final class AudioPlayer {
             }
 
             try {
+                // todo extract logic and strings
                 File audioFile = StaticUtil.getStaticResource("Logic - Cocaine.mp3");
                 File audioDirectory = UserFile.MUSIC.getFilePointer();
-                File newAudioFile =
-                        OsUtil.buildFile(UserFile.MUSIC.getFilePointer().getAbsolutePath(), audioFile.getName());
+                File newAudioFile = OsUtil.buildFile(UserFile.MUSIC.getFilePointer()
+                        .getAbsolutePath(), audioFile.getName());
 
                 File albumArtFile = StaticUtil.getStaticResource("Logic - Cocaine.png");
                 File albumArtDirectory = OsUtil.buildFile(audioDirectory.getAbsolutePath(), UserFile.ALBUM_ART);
@@ -544,6 +545,8 @@ public final class AudioPlayer {
                 if (audioPlaying) playAudio();
                 return;
             }
+
+            cacheAudioLengthsOfCurrentDirectory();
 
             currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
@@ -975,6 +978,23 @@ public final class AudioPlayer {
 
         audioVolumeSlider.setVisible(visible);
         audioLocationSlider.setVisible(visible);
+    }
+
+    // todo setup directory watcher to cache new songs added (need to properly kill)
+    // todo should be a future so that if this is started again we can kill that process
+
+    /**
+     * Starts a new thread to cache the length of all audio files returned by {@link #getValidAudioFiles()}.
+     */
+    private static void cacheAudioLengthsOfCurrentDirectory() {
+        String threadName = "AudioPlayer neighboring audio files length calculation cacher";
+        CyderThreadRunner.submit(() -> getValidAudioFiles().forEach(audioFile -> {
+            try {
+                AudioUtil.getMillisFfprobe(audioFile);
+            } catch (Exception ignored) {
+                // Don't care in this scenario.
+            }
+        }), threadName);
     }
 
     /**
