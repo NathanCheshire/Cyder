@@ -2,8 +2,8 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.audio.parsers.ShowStreamOutput;
 import cyder.console.Console;
-import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -15,10 +15,12 @@ import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
 import cyder.process.Program;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
+import cyder.utils.SerializationUtil;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
 import javazoom.jl.decoder.Header;
@@ -126,11 +128,6 @@ public final class AudioUtil {
      * A cache of previously computed millisecond times from audio files.
      */
     private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
-
-    /**
-     * The identifying string to search for in an ffprobe show streams command to pull out the audio duration.
-     */
-    private static final String ffprobeDurationIdentifier = "\"duration\"";
 
     /**
      * Suppress default constructor.
@@ -431,6 +428,8 @@ public final class AudioUtil {
         });
     }
 
+    // todo persist audio player volume
+
     /**
      * Returns the milliseconds of the provided audio file using FFprobe's -show_format command.
      * Note, this method is blocking. Callers should surround invocation of this method in a separate thread.
@@ -438,7 +437,7 @@ public final class AudioUtil {
      * @param audioFile the audio file
      * @return the milliseconds of the provided file
      * @throws ExecutionException   if the future task does not complete properly
-     * @throws FatalException       if the stream fails to find the proper element from the ffprobe output
+     * @throws FatalException       if the process result contains errors
      * @throws InterruptedException if the thread was interrupted while waiting
      */
     public static int getMillisFfprobe(File audioFile) throws ExecutionException, InterruptedException {
@@ -459,14 +458,13 @@ public final class AudioUtil {
         );
         Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
         while (!futureResult.isDone()) Thread.onSpinWait();
-        String millisLine = futureResult.get().getStandardOutput().stream()
-                .filter(line -> line.contains(ffprobeDurationIdentifier)).findFirst()
-                .orElseThrow(() -> new FatalException("Failed to find " + ffprobeDurationIdentifier + " in results"));
-
-        // todo new Gson().fromJson(StringUtil.joinParts(futureResult.get().getStandardOutput(), "").replaceAll("\\s{2,}", ""), Stream.class)
-
-        String parsedMillisLine = millisLine.replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
-        double seconds = Double.parseDouble(parsedMillisLine);
+        ProcessResult result = futureResult.get();
+        if (result.hasErrors()) throw new FatalException("Process result contains errors");
+        String joinedOutput = StringUtil.joinParts(result.getStandardOutput(), "");
+        String trimmedOutput = joinedOutput.replaceAll("\\s{2,}", "");
+        ShowStreamOutput output = SerializationUtil.fromJson(trimmedOutput, ShowStreamOutput.class);
+        String millisPropertyString = output.getStreams().get(0).getDuration();
+        double seconds = Double.parseDouble(millisPropertyString);
         int millis = (int) (seconds * TimeUtil.millisInSecond);
         milliTimes.put(audioFile, millis);
         return millis;
