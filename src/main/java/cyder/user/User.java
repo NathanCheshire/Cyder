@@ -969,7 +969,7 @@ public final class User {
     /**
      * Whether the welcome message has been shown for this user.
      */
-    private boolean shownWelcomeMessage; // todo use me
+    private boolean shownWelcomeMessage;
 
     /**
      * Returns whether the welcome message has been shown for this user.
@@ -1010,6 +1010,29 @@ public final class User {
      */
     public void setAccountCreationTime(long accountCreationTime) {
         this.accountCreationTime = accountCreationTime;
+    }
+
+    /**
+     * The percentage of the maximum volume this user left the audio player on.
+     */
+    private int audioPlayerVolumePercent = 50;
+
+    /**
+     * Returns the percentage of the maximum volume this user left the audio player on.
+     *
+     * @return the percentage of the maximum volume this user left the audio player on
+     */
+    public int getAudioPlayerVolumePercent() {
+        return audioPlayerVolumePercent;
+    }
+
+    /**
+     * Sets the percentage of the maximum volume this user left the audio player on.
+     *
+     * @param audioPlayerVolumePercent the percentage of the maximum volume this user left the audio player on
+     */
+    public void setAudioPlayerVolumePercent(int audioPlayerVolumePercent) {
+        this.audioPlayerVolumePercent = audioPlayerVolumePercent;
     }
 
     /**
@@ -1116,6 +1139,7 @@ public final class User {
                 + ", fillOpacity=" + fillOpacity
                 + ", shownWelcomeMessage=" + shownWelcomeMessage
                 + ", accountCreationTime=" + accountCreationTime
+                + ", audioPlayerVolumePercent=" + audioPlayerVolumePercent
                 + "}";
     }
 }

@@ -428,6 +428,9 @@ public final class AudioUtil {
         });
     }
 
+    // todo on initial directory load of audio player, cache all song lengths and
+    //  setup directory watcher to cache new songs added (need to properly kill)
+
     // todo persist audio player volume
 
     /**

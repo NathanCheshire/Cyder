@@ -74,6 +74,7 @@ public final class UserData<T> {
     public static final String SHOWN_WELCOME_MESSAGE = "shownWelcomeMessage";
     public static final String ACCOUNT_CREATION_TIME = "accountCreationTime";
     public static final String MAPPED_EXECUTABLES = "mappedExecutables";
+    public static final String AUDIO_PLAYER_VOLUME_PERCENT = "audioPlayerVolumePercent";
 
     /**
      * The thickness of the border for the input and output areas if enabled.
@@ -536,6 +537,13 @@ public final class UserData<T> {
             }).build();
 
     /**
+     * The audio player volume percent data piece.
+     */
+    public static final UserData<Integer> audioPlayerVolumePercent = new Builder<>(AUDIO_PLAYER_VOLUME_PERCENT,
+            Integer.class).setDescription("The volume for the audio player")
+            .setDefaultValue(50).build();
+
+    /**
      * The screen stat data piece.
      */
     public static final UserData<ScreenStat> screenStat = new Builder<>(SCREEN_STAT, ScreenStat.class)
@@ -613,7 +621,8 @@ public final class UserData<T> {
             screenStat,
             shownWelcomeMessage,
             accountCreationTime,
-            mappedExecutables
+            mappedExecutables,
+            audioPlayerVolumePercent
     );
 
     /**

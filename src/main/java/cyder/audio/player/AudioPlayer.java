@@ -50,6 +50,7 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
+import cyder.user.UserDataManager;
 import cyder.user.UserFile;
 import cyder.utils.*;
 import cyder.youtube.YouTubeAudioDownload;
@@ -787,12 +788,15 @@ public final class AudioPlayer {
             audioVolumeSlider.setPaintTicks(false);
             audioVolumeSlider.setPaintLabels(false);
             audioVolumeSlider.setVisible(true);
-            audioVolumeSlider.setValue(DEFAULT_AUDIO_SLIDER_VALUE);
+            audioVolumeSlider.setValue(UserDataManager.INSTANCE.getAudioPlayerVolumePercent());
             audioVolumeSlider.addChangeListener(e -> {
                 if (uiLocked) return;
 
+                int percent = audioVolumeSlider.getValue();
+                UserDataManager.INSTANCE.setAudioPlayerVolumePercent(percent);
+
                 refreshAudioLine();
-                audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
+                audioVolumePercentLabel.setText(percent + "%");
                 audioVolumeLabelAnimator.onValueChanged();
             });
             audioVolumeSlider.addMouseListener(new MouseAdapter() {

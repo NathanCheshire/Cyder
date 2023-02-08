@@ -1231,4 +1231,25 @@ public enum UserDataManager {
         Preconditions.checkState(isInitialized());
         user.setAccountCreationTime(accountCreationTime);
     }
+
+    /**
+     * Returns the audio player volume percent.
+     *
+     * @return the audio player volume percent
+     */
+    public synchronized int getAudioPlayerVolumePercent() {
+        getterInvoked(UserData.AUDIO_PLAYER_VOLUME_PERCENT);
+        return user.getAudioPlayerVolumePercent();
+    }
+
+    /**
+     * Sets the audio player volume percent.
+     *
+     * @param audioPlayerVolumePercent the audio player volume percent
+     */
+    public synchronized void setAudioPlayerVolumePercent(int audioPlayerVolumePercent) {
+        Preconditions.checkState(isInitialized());
+        Preconditions.checkArgument(audioPlayerVolumePercent >= 0 && audioPlayerVolumePercent <= 100);
+        user.setAudioPlayerVolumePercent(audioPlayerVolumePercent);
+    }
 }
