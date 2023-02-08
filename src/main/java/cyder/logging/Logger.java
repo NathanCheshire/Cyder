@@ -249,7 +249,7 @@ public final class Logger {
         // Unique tags have a case statement, default ones do not
         switch (tag) {
             case CONSOLE_OUT:
-                tags.add(LogTag.CONSOLE_OUT.getLogName());
+                tags.add(tag.getLogName());
                 switch (statement) {
                     case String string -> {
                         tags.add(ConsoleOutType.STRING.toString());
@@ -278,13 +278,13 @@ public final class Logger {
                 }
                 break;
             case EXCEPTION:
-                tags.add(LogTag.EXCEPTION.getLogName());
+                tags.add(tag.getLogName());
                 logBuilder.append(statement);
 
                 exceptionsCounter.getAndIncrement();
                 break;
             case LINK:
-                tags.add(LogTag.LINK.getLogName());
+                tags.add(tag.getLogName());
 
                 if (statement instanceof File file) {
                     tags.add(FileUtil.getExtension(file));
@@ -295,12 +295,12 @@ public final class Logger {
 
                 break;
             case LOGOUT:
-                tags.add(LogTag.LOGIN_OUTPUT.getLogName());
+                tags.add(tag.getLogName());
                 tags.add(USER);
                 logBuilder.append(statement);
                 break;
             case JVM_ENTRY:
-                tags.add(LogTag.JVM_ENTRY.getLogName());
+                tags.add(tag.getLogName());
                 logBuilder.append(statement);
 
                 logStarted.set(true);
@@ -323,7 +323,7 @@ public final class Logger {
 
                 return;
             case USER_DATA:
-                tags.add(LogTag.USER_DATA.getLogName());
+                tags.add(tag.getLogName());
                 tags.add("Key");
                 logBuilder.append(statement);
                 break;
@@ -342,23 +342,17 @@ public final class Logger {
                 }
 
                 break;
-            case OBJECT_DESERIALIZATION:
-                if (statement instanceof Class<?> clazz) {
-                    tags.add(LogTag.OBJECT_DESERIALIZATION.getLogName());
-                    logBuilder.append("Deserialized").append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
-                } else if (statement instanceof Type type) {
-                    tags.add(LogTag.OBJECT_DESERIALIZATION.getLogName());
-                    logBuilder.append("Deserialized").append(space).append(type.getTypeName());
-                }
+            case OBJECT_DESERIALIZATION, OBJECT_SERIALIZATION:
+                if (shouldIgnoreObjectSerializationOrDeserialization(statement)) return;
 
-                break;
-            case OBJECT_SERIALIZATION:
+                String action = tag == LogTag.OBJECT_SERIALIZATION ? "Serialized" : "Deserialized";
+
                 if (statement instanceof Class<?> clazz) {
-                    tags.add(LogTag.OBJECT_SERIALIZATION.getLogName());
-                    logBuilder.append("Serialized").append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
+                    tags.add(tag.getLogName());
+                    logBuilder.append(action).append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
                 } else if (statement instanceof Type type) {
-                    tags.add(LogTag.OBJECT_SERIALIZATION.getLogName());
-                    logBuilder.append("Serialized").append(space).append(type.getTypeName());
+                    tags.add(tag.getLogName());
+                    logBuilder.append(action).append(space).append(type.getTypeName());
                 }
 
                 break;

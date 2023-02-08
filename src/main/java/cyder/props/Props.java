@@ -28,8 +28,8 @@ public final class Props {
     /**
      * The data stored within a User object which should not be logged on access.
      */
-    public static final Prop<PropValueList> ignoreData =
-            new Prop<>("ignore_data", new PropValueList(ImmutableList.of(
+    public static final Prop<PropValueList> ignoreAccessInvocations =
+            new Prop<>("ignore_accessor_invocations", new PropValueList(ImmutableList.of(
                     UserData.TYPING_ANIMATION,
                     UserData.SHOW_CONSOLE_CLOCK_SECONDS,
                     UserData.ROUNDED_FRAME_BORDERS,
@@ -266,6 +266,14 @@ public final class Props {
      */
     public static final Prop<Integer> maxYouTubeUuidChecksPlayCommand =
             new Prop<>("max_youtube_uuid_checks_play_command", 10, Integer.class);
+
+    /**
+     * The objects to ignore for logging on serialization/deserialization
+     * events from the {@link cyder.utils.SerializationUtil}.
+     */
+    public static final Prop<PropValueList> ignoreSerializationData =
+            new Prop<>("ignore_serialization_data",
+                    new PropValueList(ImmutableList.of("user")), PropValueList.class);
 
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.

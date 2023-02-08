@@ -598,11 +598,12 @@ public final class UserUtil {
     /**
      * Returns whether a getter for the user data with the provided ID should be ignored when logging.
      *
-     * @param dataId the data is
+     * @param dataId the data id
      * @return whether a getter for the user data with the provided ID should be ignored when logging
      */
     public static boolean shouldIgnoreForLogging(String dataId) {
-        ImmutableList<String> ignoreDatas = Props.ignoreData.getValue().getList();
-        return ignoreDatas.contains(ALL) || StringUtil.in(dataId, true, ignoreDatas);
+        ImmutableList<String> ignoreAccessorInvocationIds = Props.ignoreAccessInvocations.getValue().getList();
+        return ignoreAccessorInvocationIds.contains(ALL)
+                || StringUtil.in(dataId, true, ignoreAccessorInvocationIds);
     }
 }
