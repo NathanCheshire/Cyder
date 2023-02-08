@@ -429,6 +429,8 @@ public final class AudioUtil {
     }
 
     // todo persist audio player volume
+    // todo add logging for all serialization util objects serialized/deserialized and say bottom level class name
+    // todo have prop to disable certain objects
 
     /**
      * Returns the milliseconds of the provided audio file using FFprobe's -show_format command.
@@ -451,9 +453,9 @@ public final class AudioUtil {
                 getFfprobeCommand(),
                 "-v",
                 "quiet",
-                "-print_format",
-                "json",
+                "-print_format", "json",
                 "-show_streams",
+                "-show_entries", "stream=duration",
                 CyderStrings.quote + audioFile.getAbsolutePath() + CyderStrings.quote
         );
         Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);

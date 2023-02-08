@@ -4,9 +4,19 @@ import com.google.gson.annotations.SerializedName;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
+/**
+ * A disposition object serializer for a {@link Stream} object.
+ */
 public class Disposition {
+    /**
+     * The default prop.
+     */
     @SerializedName("default")
     private int defaultProp;
+
+    /**
+     * The dub.
+     */
     private int dub;
     private int ordinal;
     private int comment;
@@ -36,10 +46,20 @@ public class Disposition {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
+    /**
+     * Returns the default prop.
+     *
+     * @return the default prop
+     */
     public int getDefaultProp() {
         return defaultProp;
     }
 
+    /**
+     * Sets the default prop.
+     *
+     * @param defaultProp the default prop
+     */
     public void setDefaultProp(int defaultProp) {
         this.defaultProp = defaultProp;
     }
