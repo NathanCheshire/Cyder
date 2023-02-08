@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -980,21 +982,34 @@ public final class AudioPlayer {
         audioLocationSlider.setVisible(visible);
     }
 
-    // todo setup directory watcher to cache new songs added (need to properly kill)
-    // todo should be a future so that if this is started again we can kill that process
+    // todo setup directory watcher to cache millis of new songs added (need to properly kill)
+
+    /**
+     * The thread factory for the {@link #cacheAudioLengthsOfCurrentDirectory()} method.
+     */
+    private static final CyderThreadFactory audioLengthsOfCurrentDirectoryCacherThreadFactory =
+            new CyderThreadFactory("AudioPlayer neighboring audio files length calculation cacher");
+
+    /**
+     * The future task of the {@link #cacheAudioLengthsOfCurrentDirectory()} method.
+     */
+    private static ListenableFuture<Void> audioLengthsOfCurrentDirectoryCacher;
 
     /**
      * Starts a new thread to cache the length of all audio files returned by {@link #getValidAudioFiles()}.
      */
     private static void cacheAudioLengthsOfCurrentDirectory() {
-        String threadName = "AudioPlayer neighboring audio files length calculation cacher";
-        CyderThreadRunner.submit(() -> getValidAudioFiles().forEach(audioFile -> {
+        if (audioLengthsOfCurrentDirectoryCacher != null) audioLengthsOfCurrentDirectoryCacher.cancel(true);
+
+        // todo currently this is sequential, see about invocation of each audio file in their own thread
+        audioLengthsOfCurrentDirectoryCacher = Futures.submit(() -> getValidAudioFiles().forEach(audioFile -> {
             try {
+                // todo time this on our music directory local to windows user just to see
                 AudioUtil.getMillisFfprobe(audioFile);
             } catch (Exception ignored) {
                 // Don't care in this scenario.
             }
-        }), threadName);
+        }), Executors.newSingleThreadExecutor(audioLengthsOfCurrentDirectoryCacherThreadFactory));
     }
 
     /**
