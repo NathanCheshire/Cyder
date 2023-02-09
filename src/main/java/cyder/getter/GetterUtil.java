@@ -302,10 +302,7 @@ public final class GetterUtil {
      */
     private CyderScrollList directoryScrollList;
 
-    /**
-     * The file to return once chosen.
-     */
-    private final AtomicReference<File> setOnFileChosen = new AtomicReference<>();
+
 
     /**
      * The thread name for the file getter threads which load the initial directory's files.
@@ -460,6 +457,8 @@ public final class GetterUtil {
     public Optional<File> getFile(GetFileBuilder getFileBuilder) {
         checkNotNull(getFileBuilder);
 
+        final AtomicReference<File> setOnFileChosen = new AtomicReference<>();
+
         directoryFrame = new CyderFrame(fileChooserFrameWidth, frameHeight);
 
         getFileFrames.add(directoryFrame);
@@ -495,7 +494,7 @@ public final class GetterUtil {
                         forwardDirectories.clear();
                         storeCurrentDirectory();
                         currentDirectory = chosenDir;
-                        refreshFiles();
+                        refreshFiles(setOnFileChosen);
                     } else if (chosenDir.isFile()) {
                         setOnFileChosen.set(chosenDir);
                     }
@@ -511,7 +510,7 @@ public final class GetterUtil {
                     if (!backwardDirectories.isEmpty() && !backwardDirectories.peek().equals(currentDirectory)) {
                         forwardDirectories.push(currentDirectory);
                         currentDirectory = backwardDirectories.pop();
-                        refreshFiles();
+                        refreshFiles(setOnFileChosen);
                     }
                 });
                 lastDirectory.setBounds(getFilePadding, getFileTopComponentY, navButtonSize, navButtonSize);
@@ -525,7 +524,7 @@ public final class GetterUtil {
                         backwardDirectories.push(currentDirectory);
                         storeCurrentDirectory();
                         currentDirectory = forwardDirectories.pop();
-                        refreshFiles();
+                        refreshFiles(setOnFileChosen);
                     }
                 });
                 int nextX = fileChooserFrameWidth - 2 * getFilePadding - navButtonSize;
@@ -555,6 +554,7 @@ public final class GetterUtil {
 
                             if (file.isFile()) {
                                 if (allowFileSubmissions) {
+                                    // todo empty?
                                     ImmutableList<String> extensions = getFileBuilder.getAllowableFileExtensions();
                                     if (!extensions.isEmpty()) {
                                         boolean set = false;
@@ -615,7 +615,7 @@ public final class GetterUtil {
                 directoryFrame.setVisible(true);
 
                 currentDirectory = getFileBuilder.getInitialDirectory();
-                refreshFiles();
+                refreshFiles(setOnFileChosen);
                 String fieldText = getFileBuilder.getInitialFieldText();
                 if (!StringUtil.isNullOrEmpty(fieldText)) directoryField.setText(fieldText);
             } catch (Exception e) {
@@ -653,8 +653,10 @@ public final class GetterUtil {
 
     /**
      * Refreshes the files scroll based off of the {@link #currentDirectory}.
+     *
+     * @param setOnFileChosen the atomic reference to set the chosen file to
      */
-    private void refreshFiles() {
+    private void refreshFiles(AtomicReference<File> setOnFileChosen) {
         CyderThreadRunner.submit(() -> {
             if (directoryScrollLabel != null) directoryFrame.remove(directoryScrollLabel);
             loadingFilesLabel.setVisible(true);
@@ -690,7 +692,7 @@ public final class GetterUtil {
                         forwardDirectories.clear();
                         storeCurrentDirectory();
                         currentDirectory = file;
-                        refreshFiles();
+                        refreshFiles(setOnFileChosen);
                     } else {
                         setOnFileChosen.set(file);
                     }
