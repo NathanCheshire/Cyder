@@ -302,8 +302,6 @@ public final class GetterUtil {
      */
     private CyderScrollList directoryScrollList;
 
-
-
     /**
      * The thread name for the file getter threads which load the initial directory's files.
      */
@@ -547,55 +545,39 @@ public final class GetterUtil {
                     if (optionalSelectedElement.isEmpty()) return;
                     String selectedElement = optionalSelectedElement.get();
 
-                    filesList.forEach(file -> {
-                        if (file.getName().equals(selectedElement)) {
-                            boolean allowFileSubmissions = getFileBuilder.isAllowFileSubmission();
-                            boolean allowFolderSubmissions = getFileBuilder.isAllowFolderSubmission();
+                    for (File file : filesList) {
+                        if (!file.getName().equals(selectedElement)) continue;
+                        boolean allowFileSubmissions = getFileBuilder.isAllowFileSubmission();
+                        boolean allowFolderSubmissions = getFileBuilder.isAllowFolderSubmission();
 
-                            if (file.isFile()) {
-                                if (allowFileSubmissions) {
-                                    // todo empty?
-                                    ImmutableList<String> extensions = getFileBuilder.getAllowableFileExtensions();
-                                    if (!extensions.isEmpty()) {
-                                        boolean set = false;
-
-                                        for (String extension : extensions) {
-                                            if (selectedElement.endsWith(extension)) {
-                                                setOnFileChosen.set(file);
-                                                set = true;
-                                                break;
-                                            }
+                        if (file.isFile()) {
+                            if (allowFileSubmissions) {
+                                ImmutableList<String> extensions = getFileBuilder.getAllowableFileExtensions();
+                                if (!extensions.isEmpty()) {
+                                    for (String extension : extensions) {
+                                        if (selectedElement.endsWith(extension)) {
+                                            setOnFileChosen.set(file);
+                                            return;
                                         }
-
-                                        if (!set) {
-                                            StringBuilder extensionBuilder = new StringBuilder();
-                                            extensionBuilder.append(openingBracket);
-
-                                            for (int i = 0 ; i < extensions.size() ; i++) {
-                                                extensionBuilder.append(extensions.get(i));
-                                                if (i != extensions.size() - 1) extensionBuilder.append(", ");
-                                            }
-
-                                            extensionBuilder.append(closingBracket);
-                                            directoryFrame.toast("File must be one of " + extensionBuilder);
-                                        }
-                                    } else {
-                                        setOnFileChosen.set(file);
                                     }
-                                } else {
-                                    directoryFrame.toast("Cannot submit a file");
-                                }
-                            }
 
-                            if (file.isDirectory()) {
-                                if (allowFolderSubmissions) {
-                                    setOnFileChosen.set(file);
+                                    directoryFrame.toast("File must be one of "
+                                            + StringUtil.joinParts(extensions, ", "));
                                 } else {
-                                    directoryFrame.toast("Cannot submit a folder");
+                                    setOnFileChosen.set(file);
                                 }
+                            } else {
+                                directoryFrame.toast("Cannot submit a file");
+                            }
+                        } else if (file.isDirectory()) {
+                            if (allowFolderSubmissions) {
+                                setOnFileChosen.set(file);
+                            } else {
+                                directoryFrame.toast("Cannot submit a folder");
                             }
                         }
-                    });
+
+                    }
                 });
                 directoryFrame.getContentPane().add(submitFileButton);
 
@@ -626,18 +608,15 @@ public final class GetterUtil {
         try {
             while (setOnFileChosen.get() == null) {
                 Thread.onSpinWait();
+                System.out.println("here");
             }
         } catch (Exception ignored) {} finally {
             directoryFrame.dispose(true);
             resetFileHistory();
         }
 
-        boolean nullFile = setOnFileChosen.get().getName().equals(NULL);
-        if (nullFile) {
-            return Optional.empty();
-        } else {
-            return Optional.of(setOnFileChosen.get());
-        }
+        File ret = setOnFileChosen.get();
+        return Optional.ofNullable(ret.getName().equals(NULL) ? null : ret);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
@@ -994,21 +995,22 @@ public final class AudioPlayer {
      */
     private static ListenableFuture<Void> audioLengthsOfCurrentDirectoryCacher;
 
+    // todo this is NOT the problem, when loading music dir of windows it freezes even without this entire method
+
     /**
      * Starts a new thread to cache the length of all audio files returned by {@link #getValidAudioFiles()}.
      */
     private static void cacheAudioLengthsOfCurrentDirectory() {
-        //        if (audioLengthsOfCurrentDirectoryCacher != null) audioLengthsOfCurrentDirectoryCacher.cancel(true);
-        //
-        //        // todo currently this is sequential, see about invocation of each audio file in their own thread
-        //        audioLengthsOfCurrentDirectoryCacher = Futures.submit(() -> getValidAudioFiles().forEach(audioFile -> {
-        //            try {
-        //                // todo time this on our music directory local to windows user just to see
-        //                AudioUtil.getMillisFfprobe(audioFile);
-        //            } catch (Exception ignored) {
-        //                // Don't care in this scenario.
-        //            }
-        //        }), Executors.newSingleThreadExecutor(audioLengthsOfCurrentDirectoryCacherThreadFactory));
+        if (audioLengthsOfCurrentDirectoryCacher != null) audioLengthsOfCurrentDirectoryCacher.cancel(true);
+
+        // todo currently this is sequential, see about invocation of each audio file in their own thread
+        audioLengthsOfCurrentDirectoryCacher = Futures.submit(() -> getValidAudioFiles().forEach(audioFile -> {
+            try {
+                AudioUtil.getMillisFfprobe(audioFile);
+            } catch (Exception ignored) {
+                // Don't care in this scenario.
+            }
+        }), Executors.newSingleThreadExecutor(audioLengthsOfCurrentDirectoryCacherThreadFactory));
     }
 
     /**
@@ -1278,9 +1280,9 @@ public final class AudioPlayer {
             Optional<File> optionalFile = getterUtil.getFile(builder);
             if (optionalFile.isEmpty()) return;
             File chosenFile = optionalFile.get();
-
+            boolean differentDirectory = !chosenFile.getParentFile().equals(getCurrentAudio().getParentFile());
             chooseFileLocked.set(false);
-
+            if (differentDirectory) cacheAudioLengthsOfCurrentDirectory();
             lastAction = LastAction.FileChosen;
             if (currentView.get() == View.SEARCH) onBackPressedFromSearchView();
             boolean audioPlaying = isAudioPlaying();

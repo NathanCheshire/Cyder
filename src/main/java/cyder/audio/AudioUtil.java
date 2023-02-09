@@ -21,11 +21,11 @@ import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.BitstreamException;
-import javazoom.jl.decoder.Header;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -466,32 +466,6 @@ public final class AudioUtil {
         int millis = (int) (seconds * TimeUtil.millisInSecond);
         milliTimes.put(audioFile, millis);
         return millis;
-    }
-
-    /**
-     * Returns the milliseconds of the provided audio file using JLayer.
-     *
-     * @param audioFile the MP3 file to return the milliseconds of
-     * @return the milliseconds of the provided file
-     * @throws IOException        if a FileInputStream cannot be made from the provided file
-     * @throws BitstreamException if a BitStream cannot be made from the FileInputStream
-     *                            or if an exception occurs when reading the header/frames
-     */
-    @Deprecated /* Prefer using ffprobe, this is correct for most audio files but for dreamified files it breaks */
-    public static int getMillisJLayer(File audioFile) throws IOException, BitstreamException {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
-
-        if (milliTimes.containsKey(audioFile)) return milliTimes.get(audioFile);
-
-        FileInputStream fis = new FileInputStream(audioFile);
-        Bitstream bitstream = new Bitstream(fis);
-        Header header = bitstream.readFrame();
-        long channelSize = fis.getChannel().size();
-        int retMillis = (int) header.total_ms((int) channelSize);
-        milliTimes.put(audioFile, retMillis);
-        return retMillis;
     }
 
     /**

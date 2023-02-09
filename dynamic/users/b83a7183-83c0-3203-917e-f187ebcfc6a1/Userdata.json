@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": false,
   "filterChat": true,
-  "lastSessionStart": 1675910544702,
+  "lastSessionStart": 1675914435800,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -29,7 +29,7 @@
   "youtubeUuid": "aaaaaaaaaaa",
   "capsMode": false,
   "loggedIn": true,
-  "showAudioTotalLength": true,
+  "showAudioTotalLength": false,
   "persistNotifications": false,
   "doAnimations": true,
   "compactTextMode": false,
@@ -52,5 +52,5 @@
   "fillOpacity": 80,
   "shownWelcomeMessage": true,
   "accountCreationTime": 0,
-  "audioPlayerVolumePercent": 44
+  "audioPlayerVolumePercent": 55
 }
