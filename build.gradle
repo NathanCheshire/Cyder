@@ -11,7 +11,7 @@ java {
 }
 
 group 'cyder'
-version '1.0'
+version '0.1.0'
 
 repositories {
     mavenCentral()
@@ -29,14 +29,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/nathancheshire/gravatarjavaclient")
-            credentials {
-                username = 'nathancheshire'
-                password = System.getenv("CYDER_GRAVATAR_JAVA_CLIENT_ACCESS_TOKEN")
-            }
-        }
     }
 }
 
@@ -58,7 +50,6 @@ ext {
     inflectorVersion = '1.3'
     junitVersion = '5.9.1'
     zip4jVersion = '1.2.4'
-    gravatarVersion = '0.1.0'
 }
 
 dependencies {
@@ -75,7 +66,6 @@ dependencies {
     implementation 'org.atteo:evo-inflector:' + inflectorVersion
     implementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     implementation 'net.lingala.zip4j:zip4j:' + zip4jVersion
-    implementation 'com.github.natche.gravatarjavaclient:gravatar-java-client:' + gravatarVersion
 }
 
 compileKotlin {
