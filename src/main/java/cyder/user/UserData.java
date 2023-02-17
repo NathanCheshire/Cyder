@@ -521,7 +521,7 @@ public final class UserData<T> {
      */
     public static final UserData<Integer> fillOpacity = new Builder<>(FILL_OPACITY, Integer.class)
             .setDescription("The opacity of the input and output fills")
-            .setDefaultValue(ColorUtil.maxOpacity)
+            .setDefaultValue(ColorUtil.opacityRange.upperEndpoint())
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, FILL_OPACITY);
 

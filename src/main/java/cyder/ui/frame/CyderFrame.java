@@ -3872,7 +3872,7 @@ public class CyderFrame extends JFrame {
     /**
      * The current menu tooltip opacity.
      */
-    private final AtomicInteger tooltipMenuOpacity = new AtomicInteger(ColorUtil.maxOpacity);
+    private final AtomicInteger tooltipMenuOpacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
 
     /**
      * Whether the mouse has entered the tooltip menu after it was generated.
@@ -4009,7 +4009,7 @@ public class CyderFrame extends JFrame {
 
         mouseHasEnteredTooltipMenu.set(false);
 
-        tooltipMenuOpacity.set(ColorUtil.maxOpacity);
+        tooltipMenuOpacity.set(ColorUtil.opacityRange.upperEndpoint());
 
         JLabel tooltipMenuLabel = new JLabel() {
             @Override
@@ -4271,7 +4271,7 @@ public class CyderFrame extends JFrame {
         CyderThreadRunner.submit(() -> {
             Arrays.stream(tooltipMenuLabel.getComponents()).forEach(component -> component.setVisible(false));
 
-            tooltipMenuOpacity.set(ColorUtil.maxOpacity);
+            tooltipMenuOpacity.set(ColorUtil.opacityRange.upperEndpoint());
 
             while (tooltipMenuOpacity.get() >= tooltipMenuLabelOpacityDecrement) {
                 if (!previousTooltipMenuLabels.contains(tooltipMenuLabel)) return;
@@ -4280,7 +4280,7 @@ public class CyderFrame extends JFrame {
                 ThreadUtil.sleep(tooltipMenuLabelAnimationTimeout);
             }
 
-            tooltipMenuOpacity.set(ColorUtil.minOpacity);
+            tooltipMenuOpacity.set(ColorUtil.opacityRange.lowerEndpoint());
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
             contentLabel.remove(tooltipMenuLabel);

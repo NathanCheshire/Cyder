@@ -608,7 +608,6 @@ public final class GetterUtil {
         try {
             while (setOnFileChosen.get() == null) {
                 Thread.onSpinWait();
-                System.out.println("here");
             }
         } catch (Exception ignored) {} finally {
             directoryFrame.dispose(true);

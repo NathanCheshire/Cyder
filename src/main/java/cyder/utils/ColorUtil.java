@@ -53,17 +53,17 @@ public final class ColorUtil {
     /**
      * The minimum opacity.
      */
-    public static final int minOpacity = 0;
+    private static final int minOpacity = 0;
 
     /**
      * The maximum opacity.
      */
-    public static final int maxOpacity = 255;
+    private static final int maxOpacity = 255;
 
     /**
      * The range for opacity values for Java's {@link Color} objects.
      */
-    private static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
+    public static final Range<Integer> opacityRange = Range.closed(minOpacity, maxOpacity);
 
     /**
      * Suppress default constructor.
@@ -316,7 +316,8 @@ public final class ColorUtil {
      */
     public static Color setColorOpacity(Color color, int opacity) {
         Preconditions.checkNotNull(color);
-        Preconditions.checkArgument(opacityRange.contains(opacity), opacity);
+        if (opacity > maxOpacity) opacity = maxOpacity;
+        if (opacity < minOpacity) opacity = minOpacity;
 
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
     }
