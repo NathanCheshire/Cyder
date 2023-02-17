@@ -29,6 +29,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -66,6 +67,7 @@ dependencies {
     implementation 'org.atteo:evo-inflector:' + inflectorVersion
     implementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     implementation 'net.lingala.zip4j:zip4j:' + zip4jVersion
+    implementation 'com.github.nathancheshire:gravatarjavaclient:b011c6e'
 }
 
 compileKotlin {
