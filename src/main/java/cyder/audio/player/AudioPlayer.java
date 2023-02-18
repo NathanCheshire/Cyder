@@ -6,6 +6,7 @@ import com.google.common.collect.Range;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -19,6 +20,7 @@ import cyder.constants.CyderUrls;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.getter.GetFileBuilder;
@@ -73,6 +75,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
@@ -413,6 +416,11 @@ public final class AudioPlayer {
     private static final GetterUtil getterUtil = GetterUtil.getInstance();
 
     /**
+     * The name of the default audio mp3 file and album art png file.
+     */
+    private static final String defaultAudioFileName = "Logic - Cocaine";
+
+    /**
      * The animator object for the audio volume percent.
      * This is set upon the frame appearing and is only killed when the widget is killed.
      */
@@ -493,24 +501,7 @@ public final class AudioPlayer {
                 if (optionalMp3File.isPresent()) return;
             }
 
-            try {
-                // todo extract logic and strings
-                File audioFile = StaticUtil.getStaticResource("Logic - Cocaine.mp3");
-                File audioDirectory = UserFile.MUSIC.getFilePointer();
-                File newAudioFile = OsUtil.buildFile(UserFile.MUSIC.getFilePointer()
-                        .getAbsolutePath(), audioFile.getName());
-
-                File albumArtFile = StaticUtil.getStaticResource("Logic - Cocaine.png");
-                File albumArtDirectory = OsUtil.buildFile(audioDirectory.getAbsolutePath(), UserFile.ALBUM_ART);
-                File newArtFile = OsUtil.buildFile(albumArtDirectory.getAbsolutePath(), albumArtFile.getName());
-
-                Files.copy(audioFile.toPath(), newAudioFile.toPath());
-                Files.copy(albumArtFile.toPath(), newArtFile.toPath());
-
-                showGui(newAudioFile);
-            } catch (Exception ignored) {
-                throw new IllegalArgumentException("Could not find any user audio files");
-            }
+            showGui(cloneDefaultAudioForCurrentUser());
         }
     }
 
@@ -980,6 +971,33 @@ public final class AudioPlayer {
 
         audioVolumeSlider.setVisible(visible);
         audioLocationSlider.setVisible(visible);
+    }
+
+    /**
+     * Clones the default audio file and album art to the user's music directory.
+     *
+     * @return the copied audio file
+     * @throws FatalException if copying either of the files fails
+     */
+    @CanIgnoreReturnValue
+    private static File cloneDefaultAudioForCurrentUser() {
+        File audioFile = StaticUtil.getStaticResource(defaultAudioFileName + Extension.MP3);
+        File audioDirectory = UserFile.MUSIC.getFilePointer();
+        File newAudioFile = OsUtil.buildFile(UserFile.MUSIC.getFilePointer()
+                .getAbsolutePath(), audioFile.getName());
+
+        File albumArtFile = StaticUtil.getStaticResource(defaultAudioFileName + Extension.PNG);
+        File albumArtDirectory = OsUtil.buildFile(audioDirectory.getAbsolutePath(), UserFile.ALBUM_ART);
+        File newArtFile = OsUtil.buildFile(albumArtDirectory.getAbsolutePath(), albumArtFile.getName());
+
+        try {
+            Files.copy(audioFile.toPath(), newAudioFile.toPath());
+            Files.copy(albumArtFile.toPath(), newArtFile.toPath());
+        } catch (IOException e) {
+            throw new FatalException(e.getMessage());
+        }
+
+        return newAudioFile;
     }
 
     // todo seeing more audio length label glitching, check size?
