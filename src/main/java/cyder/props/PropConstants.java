@@ -1,6 +1,6 @@
 package cyder.props;
 
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 

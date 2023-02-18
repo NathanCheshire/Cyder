@@ -9,7 +9,7 @@ import cyder.annotations.Widget;
 import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;

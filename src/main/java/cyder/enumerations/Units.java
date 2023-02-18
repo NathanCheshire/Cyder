@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 /**
  * Measurement units and their abbreviations.

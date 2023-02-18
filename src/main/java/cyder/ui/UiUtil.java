@@ -6,7 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.HtmlTags;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;

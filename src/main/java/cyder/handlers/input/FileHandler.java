@@ -2,7 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.DosAttribute;
 import cyder.files.FileUtil;

@@ -3,7 +3,7 @@ package cyder.meta;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;

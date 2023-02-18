@@ -1,7 +1,7 @@
 package cyder.console
 
 import com.google.common.collect.ImmutableList
-import cyder.enums.Direction
+import cyder.enumerations.Direction
 import cyder.props.Props
 import cyder.strings.CyderStrings
 import cyder.utils.StaticUtil

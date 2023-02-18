@@ -1,6 +1,6 @@
 package cyder.animation
 
-import cyder.enums.Direction
+import cyder.enumerations.Direction
 import cyder.threads.ThreadUtil
 import cyder.ui.frame.CyderFrame
 import org.junit.jupiter.api.Assertions

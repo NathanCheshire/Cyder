@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 /**
  * Inspections Cyder performs at runtime, specifically, at startup.

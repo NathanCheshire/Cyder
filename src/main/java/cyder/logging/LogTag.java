@@ -1,6 +1,6 @@
 package cyder.logging;
 
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 
 /**
  * Supported tags for log entries.

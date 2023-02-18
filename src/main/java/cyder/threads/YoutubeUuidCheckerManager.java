@@ -2,7 +2,7 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.enums.Units;
+import cyder.enumerations.Units;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;

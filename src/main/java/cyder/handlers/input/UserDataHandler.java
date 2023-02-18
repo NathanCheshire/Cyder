@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.CyderInspection;
+import cyder.enumerations.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.user.UserData;

@@ -1,7 +1,7 @@
 package cyder.animation;
 
 import com.google.common.base.Preconditions;
-import cyder.enums.Direction;
+import cyder.enumerations.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;

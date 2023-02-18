@@ -8,7 +8,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.CyderInspection;
+import cyder.enumerations.CyderInspection;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;

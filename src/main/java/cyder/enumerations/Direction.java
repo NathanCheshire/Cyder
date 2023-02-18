@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 /**
  * A standard cardinal direction.

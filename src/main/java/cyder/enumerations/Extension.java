@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 /**
  * Common extensions used and checked for throughout Cyder.

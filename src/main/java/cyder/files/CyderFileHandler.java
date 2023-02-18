@@ -3,7 +3,7 @@ package cyder.files;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.player.AudioPlayer;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.ImageViewer;
 import cyder.handlers.external.TextViewer;

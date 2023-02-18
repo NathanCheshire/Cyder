@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;

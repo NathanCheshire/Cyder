@@ -3,7 +3,7 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 
 import java.io.File;
 

@@ -4,7 +4,7 @@ import cyder.annotations.GuiTest;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.enums.Direction;
+import cyder.enumerations.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.*;

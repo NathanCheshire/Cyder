@@ -8,7 +8,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.enums.CyderInspection;
+import cyder.enumerations.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;

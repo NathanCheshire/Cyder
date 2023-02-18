@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;

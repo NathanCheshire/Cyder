@@ -1,8 +1,8 @@
 package cyder.messaging
 
 import cyder.constants.CyderColors
-import cyder.enums.Dynamic
-import cyder.enums.Extension
+import cyder.enumerations.Dynamic
+import cyder.enumerations.Extension
 import cyder.utils.ImageUtil
 import cyder.utils.OsUtil
 import cyder.utils.StaticUtil

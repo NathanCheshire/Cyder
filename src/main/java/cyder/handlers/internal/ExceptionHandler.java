@@ -8,7 +8,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.HtmlTags;
-import cyder.enums.ExitCondition;
+import cyder.enumerations.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;

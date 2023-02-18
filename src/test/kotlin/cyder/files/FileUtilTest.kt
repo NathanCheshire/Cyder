@@ -1,7 +1,7 @@
 package cyder.files
 
 import com.google.common.collect.ImmutableList
-import cyder.enums.Extension
+import cyder.enumerations.Extension
 import cyder.utils.OsUtil
 import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions

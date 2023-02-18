@@ -4,7 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.enums.CyderInspection;
+import cyder.enumerations.CyderInspection;
 import cyder.layouts.CyderGridLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;

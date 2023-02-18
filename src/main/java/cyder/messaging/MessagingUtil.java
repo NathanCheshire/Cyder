@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
 import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;

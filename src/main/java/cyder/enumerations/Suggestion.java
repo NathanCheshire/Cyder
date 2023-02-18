@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.enumerations;
 
 /**
  * A suggestion to a user for how to use Cyder.

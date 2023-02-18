@@ -2,8 +2,8 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
-import cyder.enums.Dynamic;
-import cyder.enums.Extension;
+import cyder.enumerations.Dynamic;
+import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;

@@ -1,7 +1,7 @@
 package cyder.user.data;
 
 import com.google.common.base.Preconditions;
-import cyder.enums.Direction;
+import cyder.enumerations.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 

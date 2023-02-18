@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.*;
 import cyder.constants.CyderColors;
-import cyder.enums.CyderInspection;
+import cyder.enumerations.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.strings.CyderStrings;

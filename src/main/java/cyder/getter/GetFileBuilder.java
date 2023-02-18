@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.enums.SystemPropertyKey;
+import cyder.enumerations.SystemPropertyKey;
 import cyder.strings.CyderStrings;
 import cyder.ui.frame.CyderFrame;
 

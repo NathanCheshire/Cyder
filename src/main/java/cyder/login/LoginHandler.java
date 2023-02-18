@@ -6,7 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.enums.ExitCondition;
+import cyder.enumerations.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;

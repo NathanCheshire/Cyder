@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.enums.ExitCondition;
+import cyder.enumerations.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.ui.UiUtil;

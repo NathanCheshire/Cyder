@@ -2,9 +2,9 @@ package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.enums.Dynamic;
-import cyder.enums.ExitCondition;
-import cyder.enums.Extension;
+import cyder.enumerations.Dynamic;
+import cyder.enumerations.ExitCondition;
+import cyder.enumerations.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;

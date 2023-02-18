@@ -2,7 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.constants.CyderRegexPatterns;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;

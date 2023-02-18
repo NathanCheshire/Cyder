@@ -3,7 +3,7 @@ package cyder.ui.frame.notification;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.enums.Direction;
+import cyder.enumerations.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.time.TimeUtil;

@@ -5,7 +5,7 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderUrls;
-import cyder.enums.Dynamic;
+import cyder.enumerations.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.IpDataManager;

@@ -2,7 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.enums.Extension;
+import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
