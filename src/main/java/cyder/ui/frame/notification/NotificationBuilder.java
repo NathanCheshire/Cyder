@@ -20,8 +20,7 @@ public final class NotificationBuilder {
     /**
      * The magic number used to denote a notification should be shown until dismissed.
      */
-    public static final int SHOW_UNTIL_DISMISSED_VIEW_DURATION = -1;
-    // todo restrict but provide static checking method for encapsulation
+    private static final int SHOW_UNTIL_DISMISSED_VIEW_DURATION = -1;
 
     /**
      * The default view duration.
@@ -270,6 +269,18 @@ public final class NotificationBuilder {
     public NotificationBuilder setCalculateViewDuration(boolean calculateViewDuration) {
         this.calculateViewDuration = calculateViewDuration;
         return this;
+    }
+
+    /**
+     * Returns whether the provided duration is indicative of a notification
+     * which should remain visible until dismissed by a user.
+     *
+     * @param duration the duration
+     * @return whether the provided duration is indicative of a notification
+     * which should remain visible until dismissed by a user
+     */
+    public static boolean shouldRemainVisibleUntilDismissed(int duration) {
+        return duration == SHOW_UNTIL_DISMISSED_VIEW_DURATION;
     }
 
     /**

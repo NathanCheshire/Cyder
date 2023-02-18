@@ -1004,6 +1004,8 @@ public class CyderFrame extends JFrame {
         correctTitleLength();
     }
 
+    // todo would be nice to have some kind of handler linked to a CyderFrame to handle a frame's logic elsewhere
+
     // -------------
     // Notifications
     // -------------
@@ -1086,7 +1088,7 @@ public class CyderFrame extends JFrame {
     /**
      * Displays a toast.
      *
-     * @param builder the b builder for the toast
+     * @param builder the builder for the toast
      */
     public void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
@@ -1108,6 +1110,9 @@ public class CyderFrame extends JFrame {
      */
     private final Semaphore notificationConstructionLock = new Semaphore(1);
 
+    /**
+     * The padding between the notification component edges and the text container.
+     */
     private static final int notificationPadding = 5;
 
     /**
@@ -1203,19 +1208,17 @@ public class CyderFrame extends JFrame {
                 appearNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
                 currentNotification = appearNotification;
 
-                while (!currentNotification.isKilled()) {
-                    Thread.onSpinWait();
-                }
-
+                while (!currentNotification.isKilled()) Thread.onSpinWait();
                 notificationConstructionLock.release();
             }
+
             notificationCheckerStarted = false;
         };
     }
 
     @ForReadability
     private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
-        new InformHandler.Builder(text == null ? "NULL" : text)
+        new InformHandler.Builder(text == null ? CyderStrings.NULL : text)
                 .setContainer(container)
                 .setTitle(generateNotificationTooltip(time))
                 .setRelativeTo(this).inform();
@@ -1243,7 +1246,7 @@ public class CyderFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (builder.getOnKillAction() != null) {
-                    notification.kill();
+                    notification.killNotification();
                     builder.getOnKillAction().run();
                 } else {
                     notification.vanish(builder.getNotificationDirection(), getContentPane(), 0);
@@ -1293,7 +1296,7 @@ public class CyderFrame extends JFrame {
             currentNotification.vanish(currentNotification.getBuilder()
                     .getNotificationDirection(), this, 0);
         } else {
-            currentNotification.kill();
+            currentNotification.killNotification();
         }
     }
 
@@ -1328,7 +1331,7 @@ public class CyderFrame extends JFrame {
         }
 
         if (currentNotification != null) {
-            currentNotification.kill();
+            currentNotification.killNotification();
         }
 
         notificationCheckerStarted = false;
@@ -1551,7 +1554,7 @@ public class CyderFrame extends JFrame {
                         + fastClose + ", getTitle=" + getTitle());
 
                 preCloseActions.forEach(Runnable::run);
-                if (currentNotification != null) currentNotification.kill();
+                if (currentNotification != null) currentNotification.killNotification();
 
                 killThreads();
                 disableDragging();

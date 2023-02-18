@@ -497,7 +497,7 @@ public class CyderNotification extends JLabel {
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(viewDuration >= 0
-                || viewDuration == NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION);
+                || NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration));
 
         appearInvoked.set(true);
 
@@ -649,7 +649,8 @@ public class CyderNotification extends JLabel {
                     }
                 }
 
-                if (shouldVanishNotification(viewDuration)) {
+                if (!UserDataManager.INSTANCE.shouldPersistNotifications()
+                        && !NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration)) {
                     vanish(notificationDirection, parent, viewDuration);
                 }
             } catch (Exception e) {
@@ -659,24 +660,13 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * Returns whether the notification should be vanished.
-     *
-     * @param viewDuration the view duration
-     * @return whether the notification should be vanished
-     */
-    private boolean shouldVanishNotification(int viewDuration) {
-        return !UserDataManager.INSTANCE.shouldPersistNotifications()
-                && viewDuration != NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION;
-    }
-
-    /**
      * Kill the notification by stopping all animation threads
      * and setting this visibility to false.
      * <p>
      * Note: you should not make a killed notification
      * visible again via {@link Component#setVisible(boolean)}.
      */
-    public void kill() {
+    public void killNotification() {
         Container parent = getParent();
 
         if (parent != null) {
@@ -784,7 +774,7 @@ public class CyderNotification extends JLabel {
 
                 setVisible(false);
                 repaint();
-                kill();
+                killNotification();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -804,7 +794,6 @@ public class CyderNotification extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("ConstantConditions")  // might not be always true in future
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -815,8 +804,7 @@ public class CyderNotification extends JLabel {
 
         CyderNotification other = (CyderNotification) o;
 
-        return arrowLen == other.arrowLen
-                && killed == other.killed
+        return killed == other.killed
                 && opacity == other.opacity
                 && Objects.equal(builder, other.builder);
     }
@@ -826,8 +814,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int hashCode() {
-        int ret = Integer.hashCode(arrowLen);
-        ret = 31 * ret + Boolean.hashCode(killed);
+        int ret = Boolean.hashCode(killed);
         ret = 31 * ret + Integer.hashCode(opacity);
         ret = 31 * ret + builder.hashCode();
         return ret;
@@ -839,8 +826,7 @@ public class CyderNotification extends JLabel {
     @Override
     public String toString() {
         return "CyderNotification{"
-                + "arrowLen=" + arrowLen
-                + ", killed=" + killed
+                + "killed=" + killed
                 + ", opacity=" + opacity
                 + ", builder=" + builder
                 + "}";
