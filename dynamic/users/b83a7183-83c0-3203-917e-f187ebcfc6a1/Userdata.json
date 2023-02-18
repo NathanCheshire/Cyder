@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": false,
   "filterChat": true,
-  "lastSessionStart": 1676684149192,
+  "lastSessionStart": 1676693024226,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -52,5 +52,5 @@
   "fillOpacity": 80,
   "shownWelcomeMessage": true,
   "accountCreationTime": 0,
-  "audioPlayerVolumePercent": 20
+  "audioPlayerVolumePercent": 19
 }

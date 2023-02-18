@@ -2,19 +2,21 @@ package cyder.process;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.Futures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.strings.CyderStrings;
-import cyder.threads.CyderThreadFactory;
+import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadRunner;
 import cyder.utils.ArrayUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -55,12 +57,7 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        StringBuilder passThroughBuilder = new StringBuilder();
-        for (String commandString : command) {
-            passThroughBuilder.append(commandString).append(CyderStrings.space);
-        }
-
-        return getProcessOutput(passThroughBuilder.toString().trim());
+        return getProcessOutput(StringUtil.joinParts(command, CyderStrings.space));
     }
 
     /**
@@ -74,8 +71,10 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        String threadName = "getProcessOutput thread, command: " + CyderStrings.quote + command + CyderStrings.quote;
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
+        String threadName = "getProcessOutput, command: " + CyderStrings.quote + command + CyderStrings.quote;
+        AtomicReference<ProcessResult> ret = new AtomicReference<>(null);
+
+        CyderThreadRunner.submit(() -> {
             ArrayList<String> standardOutput = new ArrayList<>();
             ArrayList<String> errorOutput = new ArrayList<>();
 
@@ -96,8 +95,12 @@ public final class ProcessUtil {
                 ExceptionHandler.handle(e);
             }
 
-            return new ProcessResult(standardOutput, errorOutput);
-        });
+            ret.set(new ProcessResult(standardOutput, errorOutput));
+        }, threadName);
+
+        while (ret.get() == null) Thread.onSpinWait();
+
+        return Futures.immediateFuture(ret.get());
     }
 
     /**

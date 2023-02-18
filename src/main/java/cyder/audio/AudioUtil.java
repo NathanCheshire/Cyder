@@ -10,7 +10,6 @@ import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
@@ -25,7 +24,6 @@ import cyder.utils.SerializationUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Optional;
@@ -448,14 +446,13 @@ public final class AudioUtil {
 
         ImmutableList<String> command = ImmutableList.of(
                 getFfprobeCommand(),
-                "-v",
-                "quiet",
+                "-v", "quiet",
                 "-print_format", "json",
                 "-show_streams",
                 "-show_entries", "stream=duration",
                 CyderStrings.quote + audioFile.getAbsolutePath() + CyderStrings.quote
         );
-        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(StringUtil.joinParts(command, space));
         while (!futureResult.isDone()) Thread.onSpinWait();
         ProcessResult result = futureResult.get();
         if (result.hasErrors()) throw new FatalException("Process result contains errors");
@@ -467,25 +464,6 @@ public final class AudioUtil {
         int millis = (int) (seconds * TimeUtil.millisInSecond);
         milliTimes.put(audioFile, millis);
         return millis;
-    }
-
-    /**
-     * Returns the total bytes of the file if found. Zero else.
-     *
-     * @param file the file to find the total bytes of
-     * @return the total bytes of the file
-     */
-    public static long getTotalBytes(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-
-        try {
-            return new FileInputStream(file).available();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return 0L;
     }
 
     /**

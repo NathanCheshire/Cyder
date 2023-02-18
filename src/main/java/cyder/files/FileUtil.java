@@ -769,4 +769,23 @@ public final class FileUtil {
 
         return 0L;
     }
+
+    /**
+     * Returns the total bytes of the file if found. Zero else.
+     *
+     * @param file the file to find the total bytes of
+     * @return the total bytes of the file
+     */
+    public static long getTotalBytes(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        try {
+            return new FileInputStream(file).available();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return 0L;
+    }
 }

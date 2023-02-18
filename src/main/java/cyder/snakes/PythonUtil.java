@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
 import cyder.process.Program;
@@ -77,7 +79,13 @@ public final class PythonUtil {
 
                         try {
                             boolean installed = futureInstalled.get();
-                            if (!installed) missingPackages.add(pythonPackage);
+                            if (installed) {
+                                // todo prop for logging version?
+                                Logger.log(LogTag.PYTHON, "Found package "
+                                        + pythonPackage.getPackageName() + " to be installed");
+                            } else {
+                                missingPackages.add(pythonPackage);
+                            }
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
@@ -201,12 +209,10 @@ public final class PythonUtil {
                 + CyderStrings.quote;
 
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
-            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
-                    Program.PIP.getProgramName()
-                            + CyderStrings.space
-                            + SHOW
-                            + CyderStrings.space
-                            + pythonPackage.getPackageName());
+            ImmutableList<String> command = ImmutableList.of(
+                    Program.PIP.getProgramName(), SHOW, pythonPackage.getPackageName()
+            );
+            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
 
             while (!futureResult.isDone()) Thread.onSpinWait();
 

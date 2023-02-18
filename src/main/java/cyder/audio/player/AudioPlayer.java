@@ -676,7 +676,7 @@ public final class AudioPlayer {
             audioLocationSlider.setVisible(true);
             audioLocationSlider.addChangeListener(e -> {
                 if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
-                    audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+                    audioTotalLength = FileUtil.getTotalBytes(currentAudioFile.get());
                 }
 
                 if (audioLocationUpdater != null) {
@@ -728,7 +728,7 @@ public final class AudioPlayer {
                             playAudio();
                         } else {
                             if (audioTotalLength == unknownAudioLength || audioTotalLength == 0) {
-                                audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+                                audioTotalLength = FileUtil.getTotalBytes(currentAudioFile.get());
                             }
 
                             float newPercentIn =
@@ -982,7 +982,7 @@ public final class AudioPlayer {
         audioLocationSlider.setVisible(visible);
     }
 
-    // todo setup directory watcher to cache millis of new songs added (need to properly kill)
+    // todo seeing more audio length label glitching, check size?
 
     /**
      * The thread factory for the {@link #cacheAudioLengthsOfCurrentDirectory()} method.
@@ -995,20 +995,19 @@ public final class AudioPlayer {
      */
     private static ListenableFuture<Void> audioLengthsOfCurrentDirectoryCacher;
 
-    // todo this is NOT the problem, when loading music dir of windows it freezes even without this entire method
-
     /**
      * Starts a new thread to cache the length of all audio files returned by {@link #getValidAudioFiles()}.
      */
     private static void cacheAudioLengthsOfCurrentDirectory() {
-        if (audioLengthsOfCurrentDirectoryCacher != null) audioLengthsOfCurrentDirectoryCacher.cancel(true);
+        if (audioLengthsOfCurrentDirectoryCacher != null) {
+            audioLengthsOfCurrentDirectoryCacher.cancel(true);
+        }
 
-        // todo currently this is sequential, see about invocation of each audio file in their own thread
         audioLengthsOfCurrentDirectoryCacher = Futures.submit(() -> getValidAudioFiles().forEach(audioFile -> {
             try {
                 AudioUtil.getMillisFfprobe(audioFile);
             } catch (Exception ignored) {
-                // Don't care in this scenario.
+                // Don't care in this scenario
             }
         }), Executors.newSingleThreadExecutor(audioLengthsOfCurrentDirectoryCacherThreadFactory));
     }
@@ -1308,7 +1307,7 @@ public final class AudioPlayer {
         revalidateAfterAudioFileChange();
 
         innerAudioPlayer = new InnerAudioPlayer(dreamyAudio);
-        innerAudioPlayer.setLocation((long) (percentIn * AudioUtil.getTotalBytes(dreamyAudio)));
+        innerAudioPlayer.setLocation((long) (percentIn * FileUtil.getTotalBytes(dreamyAudio)));
         audioLocationUpdater.setPercentIn(percentIn);
         audioLocationUpdater.update(false);
 
@@ -1404,7 +1403,7 @@ public final class AudioPlayer {
             revalidateAfterAudioFileChange();
 
             innerAudioPlayer = new InnerAudioPlayer(nonDreamyAudioFile);
-            innerAudioPlayer.setLocation((long) (percentIn * AudioUtil.getTotalBytes(nonDreamyAudioFile)));
+            innerAudioPlayer.setLocation((long) (percentIn * FileUtil.getTotalBytes(nonDreamyAudioFile)));
             audioLocationUpdater.setPercentIn(percentIn);
             audioLocationUpdater.update(false);
 
