@@ -28,7 +28,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.TitlePosition;
+import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;

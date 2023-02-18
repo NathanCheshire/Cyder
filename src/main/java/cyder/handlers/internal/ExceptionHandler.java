@@ -18,8 +18,8 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.FrameType;
-import cyder.ui.frame.ScreenPosition;
+import cyder.ui.frame.enumerations.FrameType;
+import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.user.UserDataManager;
 import cyder.utils.OsUtil;
 

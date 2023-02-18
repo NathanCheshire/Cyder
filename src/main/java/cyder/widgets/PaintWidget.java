@@ -26,7 +26,7 @@ import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.FrameType;
+import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.grid.GridNode;

@@ -12,7 +12,7 @@ import cyder.math.NumberUtil;
 import cyder.strings.CyderStrings;
 import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.FrameType;
+import cyder.ui.frame.enumerations.FrameType;
 
 import javax.swing.*;
 import java.awt.*;

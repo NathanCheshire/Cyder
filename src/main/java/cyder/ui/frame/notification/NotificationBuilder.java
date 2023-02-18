@@ -7,7 +7,6 @@ import cyder.enums.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.time.TimeUtil;
-import cyder.ui.frame.NotificationDirection;
 
 import javax.swing.*;
 

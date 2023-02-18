@@ -1,4 +1,6 @@
-package cyder.ui.frame;
+package cyder.ui.frame.enumerations;
+
+import cyder.ui.frame.CyderFrame;
 
 /**
  * The possible frame types for a {@link CyderFrame}.

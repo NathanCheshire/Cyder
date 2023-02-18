@@ -12,7 +12,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.FrameType;
+import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.HtmlUtil;
 

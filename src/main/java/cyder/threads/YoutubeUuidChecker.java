@@ -11,7 +11,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.TitlePosition;
+import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserDataManager;
 import cyder.utils.ArrayUtil;

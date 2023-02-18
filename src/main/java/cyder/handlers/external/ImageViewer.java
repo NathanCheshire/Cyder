@@ -16,7 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.TitlePosition;
+import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.user.UserDataManager;
 import cyder.utils.ImageUtil;
 

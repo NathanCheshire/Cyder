@@ -1,4 +1,4 @@
-package cyder.ui.frame;
+package cyder.ui.frame.notification;
 
 /**
  * Possible locations for a notification to enter and exit.

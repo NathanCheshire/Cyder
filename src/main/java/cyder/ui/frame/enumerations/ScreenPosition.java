@@ -1,4 +1,6 @@
-package cyder.ui.frame;
+package cyder.ui.frame.enumerations;
+
+import cyder.ui.frame.CyderFrame;
 
 /**
  * The screen positions for a {@link CyderFrame} to be placed at.

@@ -6,7 +6,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.ScreenPosition;
+import cyder.ui.frame.enumerations.ScreenPosition;
 
 import java.awt.*;
 

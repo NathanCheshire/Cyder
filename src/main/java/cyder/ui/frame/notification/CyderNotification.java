@@ -13,7 +13,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
-import cyder.ui.frame.NotificationDirection;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 

@@ -13,7 +13,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.TitlePosition;
+import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.user.UserDataManager;
 import cyder.user.data.MappedExecutable;
 import cyder.utils.StaticUtil;
