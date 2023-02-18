@@ -1000,8 +1000,6 @@ public final class AudioPlayer {
         return newAudioFile;
     }
 
-    // todo seeing more audio length label glitching, check size?
-
     /**
      * The thread factory for the {@link #cacheAudioLengthsOfCurrentDirectory()} method.
      */

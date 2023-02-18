@@ -265,7 +265,8 @@ public final class UserEditor {
         editUserFrame.addPreCloseAction(UserEditor::stopUserFileDirectoryWatchers);
         editUserFrame.addPreCloseAction(() -> currentPage = null);
         installDragLabelButtons();
-        Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
+        String removeHash = Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
+        editUserFrame.setRemoveFromFrameTaskbarExceptionsHash(removeHash);
         editUserFrame.finalizeAndShow();
 
         switchToPage(page);

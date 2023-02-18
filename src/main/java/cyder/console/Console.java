@@ -3,6 +3,7 @@ package cyder.console;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
 import cyder.audio.GeneralAndSystemAudioPlayer;
@@ -80,6 +81,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
@@ -112,9 +114,10 @@ public enum Console {
     }
 
     /**
-     * A list of the frames to ignore when placing a frame in the console taskbar menu.
+     * The hashmap of frame secret ids to the frame object. Any caller passing a valid hash which maps
+     * to a frame taskbar exception has the power to remove it.
      */
-    private final ArrayList<CyderFrame> frameTaskbarExceptions = new ArrayList<>();
+    private final ConcurrentHashMap<String, CyderFrame> frameTaskbarExceptions = new ConcurrentHashMap<>();
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -616,8 +619,11 @@ public enum Console {
             }
         };
 
-        frameTaskbarExceptions.add(consoleCyderFrame);
-        frameTaskbarExceptions.add(CyderSplash.INSTANCE.getSplashFrame());
+        // It is intended that the console and splash never show up in the taskbar
+        String consoleKey = SecurityUtil.generateUuid();
+        String splashKey = SecurityUtil.generateUuid();
+        frameTaskbarExceptions.put(consoleKey, consoleCyderFrame);
+        frameTaskbarExceptions.put(splashKey, CyderSplash.INSTANCE.getSplashFrame());
 
         consoleCyderFrame.setBackground(Color.black);
         consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
@@ -2168,7 +2174,7 @@ public enum Console {
     public void addTaskbarIcon(CyderFrame associatedFrame) {
         Preconditions.checkNotNull(associatedFrame);
 
-        if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) return;
+        if (isClosed() || frameTaskbarExceptions.containsValue(associatedFrame)) return;
 
         if (!currentActiveFrames.contains(associatedFrame)) {
             currentActiveFrames.add(associatedFrame);
@@ -3743,29 +3749,31 @@ public enum Console {
 
     // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
-    // todo could add some logic and separate with a class to return a hash when a frame taskbar exception is added
-    //  that way only the caller can remove itself from the taskbar exceptions list
-
     /**
      * Adds the provided frame to {@link #frameTaskbarExceptions}.
      *
      * @param frame the frame to add as an exception
+     * @return the hash needed to remove the provided frame from the taskbar exceptions map
      */
-    public void addToFrameTaskbarExceptions(CyderFrame frame) {
+    @CanIgnoreReturnValue
+    public String addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
         Preconditions.checkArgument(!frameTaskbarExceptions.contains(frame));
 
-        frameTaskbarExceptions.add(frame);
+        String hash = SecurityUtil.generateUuid();
+        frameTaskbarExceptions.put(hash, frame);
+        return hash;
     }
 
     /**
      * Removes the provided frame from {@link #frameTaskbarExceptions} if it is contained.
      *
-     * @param frame the frame to remove
+     * @param securityHash the hash returned when {@link #addToFrameTaskbarExceptions(CyderFrame)} was called
      */
-    public void removeFrameTaskbarException(CyderFrame frame) {
-        Preconditions.checkNotNull(frame);
+    public void removeFrameTaskbarException(String securityHash) {
+        Preconditions.checkNotNull(securityHash);
+        Preconditions.checkArgument(!securityHash.isEmpty());
 
-        frameTaskbarExceptions.remove(frame);
+        frameTaskbarExceptions.remove(securityHash);
     }
 }

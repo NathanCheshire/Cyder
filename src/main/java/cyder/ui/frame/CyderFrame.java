@@ -1474,6 +1474,32 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * The hash used to remove this frame from the taskbar exceptions if it was added to it.
+     */
+    private String removeFromFrameTaskbarExceptionsHash;
+
+    /**
+     * Returns the hash used to remove this frame from the taskbar exceptions.
+     *
+     * @return the hash used to remove this frame from the taskbar exceptions
+     */
+    public String getRemoveFromFrameTaskbarExceptionsHash() {
+        return removeFromFrameTaskbarExceptionsHash;
+    }
+
+    /**
+     * Sets the hash used to remove this frame from the taskbar exceptions.
+     *
+     * @param removeFromFrameTaskbarExceptionsHash the hash used to remove this frame from the taskbar exceptions
+     */
+    public void setRemoveFromFrameTaskbarExceptionsHash(String removeFromFrameTaskbarExceptionsHash) {
+        Preconditions.checkNotNull(removeFromFrameTaskbarExceptionsHash);
+        Preconditions.checkArgument(!removeFromFrameTaskbarExceptionsHash.isEmpty());
+
+        this.removeFromFrameTaskbarExceptionsHash = removeFromFrameTaskbarExceptionsHash;
+    }
+
+    /**
      * Whether this frame should fast close when the default dispose is invoked.
      */
     private boolean shouldFastClose;
@@ -1549,7 +1575,9 @@ public class CyderFrame extends JFrame {
                 }
 
                 Console.INSTANCE.removeTaskbarIcon(this);
-                Console.INSTANCE.removeFrameTaskbarException(this);
+                if (!StringUtil.isNullOrEmpty(removeFromFrameTaskbarExceptionsHash)) {
+                    Console.INSTANCE.removeFrameTaskbarException(removeFromFrameTaskbarExceptionsHash);
+                }
 
                 super.dispose();
                 postCloseActions.forEach(Runnable::run);
