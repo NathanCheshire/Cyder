@@ -275,6 +275,12 @@ public final class Props {
             new Prop<>("ignore_serialization_data",
                     new PropValueList(ImmutableList.of("user")), PropValueList.class);
 
+    /**
+     * Whether to log the version of a Python package upon initial discovery of its installation.
+     */
+    public static final Prop<Boolean> logPythonPackageVersionsOnInstallationDiscovery =
+            new Prop<>("log_python_package_versions_on_installation_discovery", true, Boolean.class);
+
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.
     // ---------------------------------------------------

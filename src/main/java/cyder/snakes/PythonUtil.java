@@ -11,6 +11,7 @@ import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
 import cyder.process.Program;
 import cyder.process.PythonPackage;
+import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadFactory;
 import cyder.utils.OsUtil;
@@ -80,9 +81,21 @@ public final class PythonUtil {
                         try {
                             boolean installed = futureInstalled.get();
                             if (installed) {
-                                // todo prop for logging version?
                                 Logger.log(LogTag.PYTHON, "Found package "
                                         + pythonPackage.getPackageName() + " to be installed");
+
+                                if (Props.logPythonPackageVersionsOnInstallationDiscovery.getValue()) {
+                                    Future<Optional<String>> futureVersion = pythonPackage.getInstalledVersion();
+                                    while (!futureVersion.isDone()) Thread.onSpinWait();
+                                    Optional<String> optionalVersion = futureVersion.get();
+                                    if (optionalVersion.isPresent()) {
+                                        Logger.log(LogTag.PYTHON, pythonPackage.getPackageName()
+                                                + " version: " + optionalVersion.get());
+                                    } else {
+                                        Logger.log(LogTag.PYTHON, pythonPackage.getPackageName()
+                                                + " could not be found");
+                                    }
+                                }
                             } else {
                                 missingPackages.add(pythonPackage);
                             }
