@@ -1,4 +1,4 @@
-package cyder.ui.pane;
+package cyder.ui.list;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
@@ -9,6 +9,8 @@ import cyder.strings.CyderStrings;
 import cyder.strings.ToStringUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
+import cyder.ui.pane.CyderOutputPane;
+import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserDataManager;
 import org.jsoup.internal.StringUtil;
 
@@ -342,7 +344,7 @@ public class CyderScrollList {
         addElement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                alternateItemClickState(addElement.getText());
+                onElementClicked(addElement.getText(), e);
             }
         });
 
@@ -369,7 +371,7 @@ public class CyderScrollList {
             @Override
             public void mouseClicked(MouseEvent e) {
                 singleClickAction.run();
-                alternateItemClickState(addElement.getText());
+                onElementClicked(addElement.getText(), e);
             }
         });
 
@@ -400,7 +402,7 @@ public class CyderScrollList {
                     doubleClickAction.run();
                     addElement.setForeground(nonSelectedColor);
                 } else {
-                    alternateItemClickState(addElement.getText());
+                    onElementClicked(addElement.getText(), e);
                 }
             }
         });
@@ -436,7 +438,7 @@ public class CyderScrollList {
                     addElement.setForeground(nonSelectedColor);
                 } else {
                     singleClickAction.run();
-                    alternateItemClickState(addElement.getText());
+                    onElementClicked(addElement.getText(), e);
                 }
             }
         });
@@ -485,34 +487,34 @@ public class CyderScrollList {
     }
 
     /**
-     * Alternates the element with the provided text between the states of selected/non-selected.
+     * The action to invoke on a single-click of the element with the provided text.
      *
-     * @param clickedText the text of the element
+     * @param clickedText the text of the singly-clicked element
      */
-    private void alternateItemClickState(String clickedText) {
-        if (selectionPolicy == SelectionPolicy.SINGLE) {
-            elements.forEach(element -> {
-                if (element.getText().equals(clickedText)) {
-                    if (element.getForeground().equals(selectedColor)) {
-                        element.setForeground(nonSelectedColor);
-                    } else {
-                        element.setForeground(selectedColor);
-                    }
+    private void onElementClicked(String clickedText, MouseEvent mouseEvent) {
+        Preconditions.checkNotNull(clickedText);
+        Preconditions.checkNotNull(mouseEvent);
+        Preconditions.checkArgument(!clickedText.isEmpty());
+
+        JLabel element = elements.stream().filter(e -> e.getText().equals(clickedText)).findFirst().orElseThrow();
+        switch (selectionPolicy) {
+            case SINGLE -> {
+                boolean wasSelected = element.getForeground().equals(selectedColor);
+                deselectAllElements();
+                element.setForeground(wasSelected ? nonSelectedColor : selectedColor);
+            }
+            case MULTIPLE -> {
+                boolean wasSelected = element.getForeground().equals(selectedColor);
+                if (!mouseEvent.isControlDown()) {
+                    deselectAllElements();
+                    element.setForeground(selectedColor);
                 } else {
-                    element.setForeground(nonSelectedColor);
+                    element.setForeground(wasSelected ? nonSelectedColor : selectedColor);
                 }
-            });
-        } else {
-            elements.forEach(element -> {
-                if (element.getText().equals(clickedText)) {
-                    if (element.getForeground().equals(selectedColor)) {
-                        element.setForeground(nonSelectedColor);
-                    } else {
-                        element.setForeground(selectedColor);
-                    }
-                }
-            });
+            }
         }
+
+        element.repaint();
     }
 
     /**

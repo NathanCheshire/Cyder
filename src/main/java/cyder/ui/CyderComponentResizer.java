@@ -6,6 +6,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.ToStringUtil;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderPanel;
 
 import javax.swing.*;
 import java.awt.*;

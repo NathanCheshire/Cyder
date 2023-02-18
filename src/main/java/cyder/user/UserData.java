@@ -11,7 +11,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.UiUtil;
 import cyder.ui.field.CyderCaret;
-import cyder.ui.pane.CyderScrollList;
+import cyder.ui.list.CyderScrollList;
 import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
 import cyder.utils.ColorUtil;

@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.strings.ToStringUtil;
-import cyder.ui.CyderPanel;
+import cyder.ui.pane.CyderPanel;
 
 import java.awt.*;
 import java.util.ArrayList;

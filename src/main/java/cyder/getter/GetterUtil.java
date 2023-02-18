@@ -17,7 +17,7 @@ import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.label.CyderLabel;
-import cyder.ui.pane.CyderScrollList;
+import cyder.ui.list.CyderScrollList;
 import cyder.utils.HtmlUtil;
 
 import javax.swing.*;

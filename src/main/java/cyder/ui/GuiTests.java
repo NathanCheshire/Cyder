@@ -23,6 +23,7 @@ import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.label.CyderLabel;
+import cyder.ui.pane.CyderPanel;
 import cyder.ui.progress.AnimationDirection;
 import cyder.ui.progress.CyderProgressUI;
 import cyder.ui.selection.*;

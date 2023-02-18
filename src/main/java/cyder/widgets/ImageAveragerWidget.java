@@ -19,7 +19,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.pane.CyderScrollList;
+import cyder.ui.list.CyderScrollList;
 import cyder.user.UserDataManager;
 import cyder.user.UserFile;
 import cyder.utils.ImageUtil;

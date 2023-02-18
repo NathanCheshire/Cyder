@@ -16,11 +16,11 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderPanel;
 import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderPanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

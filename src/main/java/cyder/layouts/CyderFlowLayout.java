@@ -6,7 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.ToStringUtil;
-import cyder.ui.CyderPanel;
+import cyder.ui.pane.CyderPanel;
 
 import javax.annotation.Nullable;
 import java.awt.*;

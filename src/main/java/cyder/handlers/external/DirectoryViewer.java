@@ -12,7 +12,7 @@ import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.pane.CyderScrollList;
+import cyder.ui.list.CyderScrollList;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;

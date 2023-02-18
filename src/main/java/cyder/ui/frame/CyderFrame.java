@@ -27,7 +27,6 @@ import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
-import cyder.ui.CyderPanel;
 import cyder.ui.UiConstants;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
@@ -42,6 +41,7 @@ import cyder.ui.frame.notification.CyderNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.frame.notification.NotificationType;
 import cyder.ui.pane.CyderOutputPane;
+import cyder.ui.pane.CyderPanel;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
@@ -3904,8 +3904,6 @@ public class CyderFrame extends JFrame {
     // ------------------
     // Tooltip menu logic
     // ------------------
-
-    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
     // todo we need this to be an actual encapsulated class that CyderFrame's can create
     // todo if frame height is too small need to ensure scroll bar appears

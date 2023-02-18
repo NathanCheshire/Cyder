@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
-import cyder.ui.CyderPanel;
+import cyder.ui.pane.CyderPanel;
 
 import javax.swing.*;
 import java.awt.*;
