@@ -3895,7 +3895,10 @@ public class CyderFrame extends JFrame {
     // Tooltip menu logic
     // ------------------
 
+    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
+
     // todo we need this to be an actual encapsulated class that CyderFrame's can create
+    // todo if frame height is too small need to ensure scroll bar appears
 
     /**
      * The current menu tooltip opacity.
@@ -4079,7 +4082,11 @@ public class CyderFrame extends JFrame {
 
             while (previousTooltipMenuLabels.contains(tooltipMenuLabel)) {
                 if (tooltipMenuLabel.getMousePosition() == null) {
-                    fadeOutTooltipMenu(tooltipMenuLabel);
+                    // Grace period in case mouse goes back in
+                    ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
+                    if (tooltipMenuLabel.getMousePosition() == null) {
+                        fadeOutTooltipMenu(tooltipMenuLabel);
+                    }
                 }
 
                 ThreadUtil.sleep(tooltipMouseExitListenerPollDelay);
@@ -4114,7 +4121,9 @@ public class CyderFrame extends JFrame {
                             - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get()));
                     if (sleepTime > 0) ThreadUtil.sleep(sleepTime);
                     ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
-                    fadeOutTooltipMenu(tooltipMenuLabel);
+                    if (tooltipMenuLabel.getMousePosition() == null) {
+                        fadeOutTooltipMenu(tooltipMenuLabel);
+                    }
                 }, tooltipMenuMouseExitedWaiterThreadName);
             }
         });

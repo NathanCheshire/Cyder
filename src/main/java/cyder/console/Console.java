@@ -3668,7 +3668,7 @@ public enum Console {
     /**
      * The minimum acceptable time for a title notify invocation.
      */
-    private static final int minimumTitleNotifyVisbileTime = 1000;
+    private static final int minimumTitleNotifyVisibleTime = 1000;
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
@@ -3682,7 +3682,7 @@ public enum Console {
         Preconditions.checkNotNull(htmlString);
         Preconditions.checkNotNull(labelFont);
         Preconditions.checkNotNull(visibleDuration);
-        Preconditions.checkArgument(visibleDuration.toMillis() > minimumTitleNotifyVisbileTime);
+        Preconditions.checkArgument(visibleDuration.toMillis() > minimumTitleNotifyVisibleTime);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -3746,8 +3746,6 @@ public enum Console {
 
         consoleCyderFrame.repaint();
     }
-
-    // todo make multi-selection in CyderScrollList require ctrl pressed by default, allow disabling
 
     /**
      * Adds the provided frame to {@link #frameTaskbarExceptions}.
