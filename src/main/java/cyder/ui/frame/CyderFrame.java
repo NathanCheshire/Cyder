@@ -34,6 +34,9 @@ import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.DragLabelType;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.drag.button.PinButton;
+import cyder.ui.frame.notification.CyderNotification;
+import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationType;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserDataManager;
@@ -1071,7 +1074,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkArgument(!htmlText.isEmpty());
 
         NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
-        toastBuilder.setNotificationType(CyderNotification.NotificationType.TOAST);
+        toastBuilder.setNotificationType(NotificationType.TOAST);
         notificationList.add(toastBuilder);
 
         if (!notificationCheckerStarted) {
@@ -1090,7 +1093,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(builder.getHtmlText());
         Preconditions.checkArgument(!builder.getHtmlText().isEmpty());
 
-        builder.setNotificationType(CyderNotification.NotificationType.TOAST);
+        builder.setNotificationType(NotificationType.TOAST);
         notificationList.add(builder);
 
         if (!notificationCheckerStarted) {
@@ -2043,7 +2046,7 @@ public class CyderFrame extends JFrame {
             int y = currentNotification.getY();
             int w = currentNotification.getWidth();
 
-            switch (currentNotification.getBuilder().getArrowDir()) {
+            switch (currentNotification.getBuilder().getArrowDirection()) {
                 case TOP, BOTTOM -> currentNotification.setLocation(width / 2 - w / 2, y);
                 case RIGHT -> currentNotification.setLocation(width - w + titleLabelPadding, y);
                 case LEFT -> currentNotification.setLocation(titleLabelPadding, y);

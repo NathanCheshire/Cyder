@@ -48,7 +48,7 @@ import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderModernTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.MenuType;
-import cyder.ui.frame.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;

@@ -1,4 +1,4 @@
-package cyder.ui.frame;
+package cyder.ui.frame.notification;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -8,12 +8,14 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.ToStringUtil;
+import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.frame.NotificationDirection;
 import cyder.user.UserDataManager;
+import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +68,7 @@ public class CyderNotification extends JLabel {
     /**
      * The opacity for the toast animation if the type is a toast.
      */
-    private int opacity = 255;
+    private int opacity = ColorUtil.opacityRange.upperEndpoint();
 
     /**
      * The builder to construct this notification/toast.
@@ -81,13 +83,10 @@ public class CyderNotification extends JLabel {
     /**
      * Constructs a new CyderNotification.
      *
-     * @param builder the notification builder to construct the notification
-     *                when it is pulled from the notification queue for
-     *                the frame it was notified from.
+     * @param builder the notification builder
      */
     public CyderNotification(NotificationBuilder builder) {
-        Preconditions.checkNotNull(builder);
-        this.builder = builder;
+        this.builder = Preconditions.checkNotNull(builder);
 
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
@@ -98,7 +97,7 @@ public class CyderNotification extends JLabel {
      * Suppress default constructor.
      */
     private CyderNotification() {
-        throw new IllegalMethodException("Instantiation not allowed without valid parameters");
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -115,7 +114,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        // ensure criteria met
+        Preconditions.checkNotNull(g);
         Preconditions.checkNotNull(builder);
         Preconditions.checkNotNull(builder.getContainer());
 
@@ -158,11 +157,11 @@ public class CyderNotification extends JLabel {
         int x = 0;
         int y = 0;
 
-        if (builder.getArrowDir() == Direction.LEFT) {
+        if (builder.getArrowDirection() == Direction.LEFT) {
             x = arrowLen;
         }
 
-        if (builder.getArrowDir() == Direction.TOP) {
+        if (builder.getArrowDirection() == Direction.TOP) {
             y = arrowLen;
         }
 
@@ -235,7 +234,7 @@ public class CyderNotification extends JLabel {
             int halfCompWidth = componentWidth / 2;
             int halfCompHeight = componentHeight / 2;
 
-            switch (builder.getArrowDir()) {
+            switch (builder.getArrowDirection()) {
                 case TOP -> {
                     // top so we know that the x needs to be offset by 4 and the height by arrow len
                     outlinePath.moveTo(2 * 2 + halfCompWidth - len, len);
@@ -298,11 +297,11 @@ public class CyderNotification extends JLabel {
         x = 0;
         y = 0;
 
-        if (builder.getArrowDir() == Direction.LEFT) {
+        if (builder.getArrowDirection() == Direction.LEFT) {
             x = arrowLen;
         }
 
-        if (builder.getArrowDir() == Direction.TOP) {
+        if (builder.getArrowDirection() == Direction.TOP) {
             y = arrowLen;
         }
 
@@ -378,7 +377,7 @@ public class CyderNotification extends JLabel {
             int halfCompWidth = componentWidth / 2;
             int halfCompHeight = componentHeight / 2;
 
-            switch (builder.getArrowDir()) {
+            switch (builder.getArrowDirection()) {
                 case TOP -> {
                     // top so we know that the x needs to be offset
                     // by 2 * 2 + border and the height by border + arrow len
@@ -431,8 +430,8 @@ public class CyderNotification extends JLabel {
          */
 
         // label is offset by border plus the arrow if applicable and the curvature
-        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
-        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
+        int labelOffX = (builder.getArrowDirection() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
+        int labelOffY = (builder.getArrowDirection() == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
 
         builder.getContainer().setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
 
@@ -458,7 +457,7 @@ public class CyderNotification extends JLabel {
         // border, container, curvature
         int ret = 2 * borderLen + builder.getContainer().getWidth() + 2 * 2 * 2;
 
-        if (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT) {
+        if (builder.getArrowDirection() == Direction.LEFT || builder.getArrowDirection() == Direction.RIGHT) {
             ret += 2 * arrowLen;
         }
 
@@ -473,7 +472,7 @@ public class CyderNotification extends JLabel {
         // border, container, curvature
         int ret = 2 * borderLen + builder.getContainer().getHeight() + 2 * 2 * 2;
 
-        if (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM) {
+        if (builder.getArrowDirection() == Direction.TOP || builder.getArrowDirection() == Direction.BOTTOM) {
             ret += 2 * arrowLen;
         }
 
@@ -483,7 +482,7 @@ public class CyderNotification extends JLabel {
     /**
      * Whether this notification's {@link #appear(NotificationDirection, Component, int)} method has been invoked.
      */
-    private final AtomicBoolean appeared = new AtomicBoolean();
+    private final AtomicBoolean appearInvoked = new AtomicBoolean();
 
     /**
      * Animates in the notification on the parent container. The component's position is expected to have already
@@ -493,14 +492,14 @@ public class CyderNotification extends JLabel {
      * @param parent                the component to add the notification to
      * @param viewDuration          the duration the notification should be visible for
      */
-    protected void appear(NotificationDirection notificationDirection, Component parent, int viewDuration) {
-        Preconditions.checkState(!appeared.get());
+    public void appear(NotificationDirection notificationDirection, Component parent, int viewDuration) {
+        Preconditions.checkState(!appearInvoked.get());
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(viewDuration >= 0
                 || viewDuration == NotificationBuilder.SHOW_UNTIL_DISMISSED_VIEW_DURATION);
 
-        appeared.set(true);
+        appearInvoked.set(true);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -512,7 +511,7 @@ public class CyderNotification extends JLabel {
                     opacity = 0;
                     setVisible(true);
 
-                    for (int i = 0 ; i < 256 ; i += 2) {
+                    for (int i = 0 ; i < ColorUtil.opacityRange.upperEndpoint() ; i += 2) {
                         if (!UserDataManager.INSTANCE.shouldDoAnimations()) {
                             break;
                         }
@@ -522,7 +521,7 @@ public class CyderNotification extends JLabel {
                         ThreadUtil.sleep(2);
                     }
 
-                    opacity = 255;
+                    opacity = ColorUtil.opacityRange.upperEndpoint();
                     repaint();
                 } else {
                     int bottomOffset = 5;
@@ -707,7 +706,7 @@ public class CyderNotification extends JLabel {
      * @param parent                the component the notification is on. Used for bounds calculations
      * @param visibleTime           the delay before vanish
      */
-    protected void vanish(NotificationDirection notificationDirection, Component parent, int visibleTime) {
+    public void vanish(NotificationDirection notificationDirection, Component parent, int visibleTime) {
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(visibleTime >= 0);
@@ -717,7 +716,7 @@ public class CyderNotification extends JLabel {
                 ThreadUtil.sleep(visibleTime);
 
                 if (builder.getNotificationType() == NotificationType.TOAST) {
-                    for (int i = 255 ; i >= 0 ; i -= 2) {
+                    for (int i = ColorUtil.opacityRange.upperEndpoint() ; i >= 0 ; i -= 2) {
                         if (shouldStopAnimation()) {
                             break;
                         }
@@ -810,15 +809,16 @@ public class CyderNotification extends JLabel {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (o == null || getClass() != o.getClass()) {
+        } else if (!(o instanceof CyderNotification)) {
             return false;
         }
-        CyderNotification that = (CyderNotification) o;
 
-        return arrowLen == that.arrowLen
-                && killed == that.killed
-                && opacity == that.opacity
-                && Objects.equal(builder, that.builder);
+        CyderNotification other = (CyderNotification) o;
+
+        return arrowLen == other.arrowLen
+                && killed == other.killed
+                && opacity == other.opacity
+                && Objects.equal(builder, other.builder);
     }
 
     /**
@@ -838,7 +838,12 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public String toString() {
-        return ToStringUtil.commonUiComponentToString(this);
+        return "CyderNotification{"
+                + "arrowLen=" + arrowLen
+                + ", killed=" + killed
+                + ", opacity=" + opacity
+                + ", builder=" + builder
+                + "}";
     }
 
     /**
@@ -857,19 +862,5 @@ public class CyderNotification extends JLabel {
      */
     public void setHovered(boolean hovered) {
         isHovered = hovered;
-    }
-
-    /**
-     * The possible notification types.
-     */
-    public enum NotificationType {
-        /**
-         * A common notification with an arrow on any cardinal side.
-         */
-        NOTIFICATION,
-        /**
-         * A toast emulating Android's toast.
-         */
-        TOAST
     }
 }

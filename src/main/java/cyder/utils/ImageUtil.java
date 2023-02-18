@@ -58,11 +58,6 @@ public final class ImageUtil {
     private static final String defaultDrawImageIconTitle = "ImageIcon";
 
     /**
-     * The maximum alpha value.
-     */
-    private static final int MAX_ALPHA = 255;
-
-    /**
      * Suppress default constructor.
      */
     private ImageUtil() {
@@ -1006,8 +1001,7 @@ public final class ImageUtil {
      */
     public static BufferedImage setAlphaOfPixels(BufferedImage bi, int alpha) {
         Preconditions.checkNotNull(bi);
-        Preconditions.checkArgument(alpha >= 0);
-        Preconditions.checkArgument(alpha <= MAX_ALPHA);
+        Preconditions.checkArgument(ColorUtil.opacityRange.contains(alpha));
 
         BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB);
 

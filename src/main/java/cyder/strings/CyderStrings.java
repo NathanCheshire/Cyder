@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableList;
  */
 public final class CyderStrings {
     /**
-     * A string to be displayed when an illegal/{@link Deprecated} constructor is invoked.
+     * A string to be displayed when an illegal or {@link Deprecated} constructor is invoked.
      */
     public static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
 

@@ -16,7 +16,11 @@ import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.field.CyderTextField;
-import cyder.ui.frame.*;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.MenuType;
+import cyder.ui.frame.NotificationDirection;
+import cyder.ui.frame.TitlePosition;
+import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.grid.CyderGrid;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.progress.AnimationDirection;
@@ -169,55 +173,55 @@ public final class GuiTests {
         topNotify.setSize(150, 40);
         topNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.TOP)
+                .setArrowDirection(Direction.TOP)
                 .setNotificationDirection(NotificationDirection.TOP)));
 
         CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setSize(150, 40);
         rightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.RIGHT)
+                .setArrowDirection(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.TOP_RIGHT)));
 
         CyderButton bottomNotify = new CyderButton("Bottom");
         bottomNotify.setSize(150, 40);
         bottomNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.BOTTOM)
+                .setArrowDirection(Direction.BOTTOM)
                 .setNotificationDirection(NotificationDirection.BOTTOM)));
 
         CyderButton leftNotify = new CyderButton("Top Left");
         leftNotify.setSize(150, 40);
         leftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.LEFT)
+                .setArrowDirection(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.TOP_LEFT)));
 
         CyderButton centerLeftNotify = new CyderButton("Center Left");
         centerLeftNotify.setSize(150, 40);
         centerLeftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.LEFT)
+                .setArrowDirection(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.LEFT)));
 
         CyderButton centerRightNotify = new CyderButton("Center Right");
         centerRightNotify.setSize(150, 40);
         centerRightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.RIGHT)
+                .setArrowDirection(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.RIGHT)));
 
         CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
         bottomLeftNotify.setSize(150, 40);
         bottomLeftNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.LEFT)
+                .setArrowDirection(Direction.LEFT)
                 .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)));
         CyderButton bottomRightNotify = new CyderButton("Bottom Right");
         bottomRightNotify.setSize(170, 40);
         bottomRightNotify.addActionListener(e -> testFrame.notify(new NotificationBuilder(ctf.getText())
                 .setViewDuration(milliDelay)
-                .setArrowDir(Direction.RIGHT)
+                .setArrowDirection(Direction.RIGHT)
                 .setNotificationDirection(NotificationDirection.BOTTOM_RIGHT)));
 
         layout.addComponent(leftNotify, 0, 0);

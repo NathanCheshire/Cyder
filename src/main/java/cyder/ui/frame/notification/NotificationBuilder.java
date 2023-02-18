@@ -1,4 +1,4 @@
-package cyder.ui.frame;
+package cyder.ui.frame.notification;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -7,6 +7,7 @@ import cyder.enums.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.time.TimeUtil;
+import cyder.ui.frame.NotificationDirection;
 
 import javax.swing.*;
 
@@ -20,6 +21,7 @@ public final class NotificationBuilder {
      * The magic number used to denote a notification should be shown until dismissed.
      */
     public static final int SHOW_UNTIL_DISMISSED_VIEW_DURATION = -1;
+    // todo restrict but provide static checking method for encapsulation
 
     /**
      * The default view duration.
@@ -39,7 +41,7 @@ public final class NotificationBuilder {
     /**
      * The direction to draw the notification arrow.
      */
-    private Direction arrowDir = Direction.TOP;
+    private Direction arrowDirection = Direction.TOP;
 
     /**
      * The runnable to invoke upon the notification being killed by a user.
@@ -54,7 +56,7 @@ public final class NotificationBuilder {
     /**
      * The type of notification, i.e. notification vs toast.
      */
-    private CyderNotification.NotificationType notificationType = CyderNotification.NotificationType.NOTIFICATION;
+    private NotificationType notificationType = NotificationType.NOTIFICATION;
 
     /**
      * The custom container for the notification. If this is not provided a label is generated
@@ -135,19 +137,19 @@ public final class NotificationBuilder {
      *
      * @return the arrow direction for the notification
      */
-    public Direction getArrowDir() {
-        return arrowDir;
+    public Direction getArrowDirection() {
+        return arrowDirection;
     }
 
     /**
      * Sets the arrow direction for the notification.
      *
-     * @param arrowDir the arrow direction for the notification
+     * @param arrowDirection the arrow direction for the notification
      * @return this NotificationBuilder
      */
     @CanIgnoreReturnValue
-    public NotificationBuilder setArrowDir(Direction arrowDir) {
-        this.arrowDir = Preconditions.checkNotNull(arrowDir);
+    public NotificationBuilder setArrowDirection(Direction arrowDirection) {
+        this.arrowDirection = Preconditions.checkNotNull(arrowDirection);
         return this;
     }
 
@@ -233,7 +235,7 @@ public final class NotificationBuilder {
      *
      * @return the notification type of this notification
      */
-    public CyderNotification.NotificationType getNotificationType() {
+    public NotificationType getNotificationType() {
         return notificationType;
     }
 
@@ -244,7 +246,7 @@ public final class NotificationBuilder {
      * @return this NotificationBuilder
      */
     @CanIgnoreReturnValue
-    public NotificationBuilder setNotificationType(CyderNotification.NotificationType notificationType) {
+    public NotificationBuilder setNotificationType(NotificationType notificationType) {
         this.notificationType = Preconditions.checkNotNull(notificationType);
         return this;
     }
@@ -301,7 +303,7 @@ public final class NotificationBuilder {
         int ret = Integer.hashCode(viewDuration);
         ret = 31 * ret + notifyTime.hashCode();
         ret = 31 * ret + htmlText.hashCode();
-        ret = 31 * ret + arrowDir.hashCode();
+        ret = 31 * ret + arrowDirection.hashCode();
         ret = 31 * ret + notificationDirection.hashCode();
         ret = 31 * ret + notificationType.hashCode();
         return ret;
@@ -315,7 +317,7 @@ public final class NotificationBuilder {
         return "NotificationBuilder{"
                 + "htmlText=" + quote + htmlText + quote
                 + ", viewDuration=" + viewDuration
-                + ", arrowDir=" + arrowDir
+                + ", arrowDir=" + arrowDirection
                 + ", onKillAction=" + onKillAction
                 + ", notificationDirection=" + notificationDirection
                 + ", notificationType=" + notificationType

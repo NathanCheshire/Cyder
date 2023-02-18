@@ -1,7 +1,7 @@
 package cyder.ui.frame;
 
 /**
- * Possible locations for a notification to enter the frame from.
+ * Possible locations for a notification to enter and exit.
  */
 public enum NotificationDirection {
     TOP_LEFT, TOP, TOP_RIGHT,

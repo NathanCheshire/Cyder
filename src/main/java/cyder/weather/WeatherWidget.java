@@ -30,7 +30,7 @@ import cyder.time.TimeUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.frame.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.user.UserDataManager;
 import cyder.utils.HtmlUtil;
 import cyder.utils.ImageUtil;

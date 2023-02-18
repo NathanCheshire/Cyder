@@ -1187,7 +1187,7 @@ public enum UserDataManager {
      */
     public synchronized void setFillOpacity(int fillOpacity) {
         Preconditions.checkState(isInitialized());
-        Preconditions.checkArgument(fillOpacity >= 0 && fillOpacity <= 255);
+        Preconditions.checkArgument(ColorUtil.opacityRange.contains(fillOpacity));
 
         user.setFillOpacity(fillOpacity);
     }
