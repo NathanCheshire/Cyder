@@ -74,8 +74,7 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        String threadName = "getProcessOutput thread, command: "
-                + CyderStrings.quote + command + CyderStrings.quote;
+        String threadName = "getProcessOutput thread, command: " + CyderStrings.quote + command + CyderStrings.quote;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
             ArrayList<String> standardOutput = new ArrayList<>();
             ArrayList<String> errorOutput = new ArrayList<>();

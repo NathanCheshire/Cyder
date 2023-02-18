@@ -1,16 +1,19 @@
 package cyder.getter;
 
 import com.google.common.collect.ImmutableList;
+import cyder.audio.AudioUtil;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
@@ -27,6 +30,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
@@ -616,6 +620,20 @@ public final class GetterUtil {
 
         File ret = setOnFileChosen.get();
         return Optional.ofNullable(ret.getName().equals(NULL) ? null : ret);
+    }
+
+    // todo the issue is that this doesn't conclude with process 0
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        File file = new File("C:/users/nathan/music/music/");
+        for (File f : file.listFiles()) {
+            if (FileUtil.isSupportedAudioExtension(f)) {
+                System.out.println("on file: " + f.getName());
+                System.out.println(AudioUtil.getMillisFfprobe(f));
+                break;
+            }
+        }
+        System.out.println("Done");
+        ThreadUtil.getCurrentThreads().forEach(System.out::println);
     }
 
     /**

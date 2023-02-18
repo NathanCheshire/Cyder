@@ -13,10 +13,6 @@ java {
 group 'cyder'
 version '0.1.0'
 
-repositories {
-    mavenCentral()
-}
-
 sourceSets {
     main {
         java {

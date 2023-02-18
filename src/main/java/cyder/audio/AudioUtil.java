@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.audio.parsers.ShowStreamOutput;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
@@ -459,7 +460,7 @@ public final class AudioUtil {
         ProcessResult result = futureResult.get();
         if (result.hasErrors()) throw new FatalException("Process result contains errors");
         String joinedOutput = StringUtil.joinParts(result.getStandardOutput(), "");
-        String trimmedOutput = joinedOutput.replaceAll("\\s{2,}", "");
+        String trimmedOutput = joinedOutput.replaceAll(CyderRegexPatterns.multipleWhiteSpaceRegex, "");
         ShowStreamOutput output = SerializationUtil.fromJson(trimmedOutput, ShowStreamOutput.class);
         String millisPropertyString = output.getStreams().get(0).getDuration();
         double seconds = Double.parseDouble(millisPropertyString);

@@ -28,17 +28,17 @@ public final class ColorUtil {
     /**
      * The length of shorthand hex color strings.
      */
-    public static final int SHORTHAND_HEX_LENGTH = 3;
+    private static final int shorthandHexLength = 3;
 
     /**
      * The regular length of hex color strings.
      */
-    public static final int HEX_LENGTH = 6;
+    private static final int hexLength = 6;
 
     /**
      * The valid lengths a hex color must be.
      */
-    public static final ImmutableList<Integer> VALID_HEX_LENGTHS = ImmutableList.of(SHORTHAND_HEX_LENGTH, HEX_LENGTH);
+    private static final ImmutableList<Integer> validHexLengths = ImmutableList.of(shorthandHexLength, hexLength);
 
     /**
      * The string formatter used to convert a {@link Color} to a hex string.
@@ -47,6 +47,7 @@ public final class ColorUtil {
 
     /**
      * The maximum length the hashmap for the get dominant color method can grow.
+     * This ensures we are only checking the top 100 colors of an image when determining the dominant color.
      */
     private static final int maxDominantColorCounterHashMapLength = 100;
 
@@ -86,14 +87,16 @@ public final class ColorUtil {
         checkArgument(!hex.isEmpty());
 
         hex = hex.replace(CyderStrings.hash, "");
-        Preconditions.checkArgument(VALID_HEX_LENGTHS.contains(hex.length()));
+        Preconditions.checkArgument(validHexLengths.contains(hex.length()));
 
-        if (hex.length() == SHORTHAND_HEX_LENGTH) {
+        if (hex.length() == shorthandHexLength) {
             hex = expandShorthandHexColor(hex);
         }
 
-        return new Color(Integer.valueOf(hex.substring(0, 2), HEX_BASE),
-                Integer.valueOf(hex.substring(2, 4), HEX_BASE), Integer.valueOf(hex.substring(4, 6), HEX_BASE));
+        int r = Integer.valueOf(hex.substring(0, 2), HEX_BASE);
+        int g = Integer.valueOf(hex.substring(2, 4), HEX_BASE);
+        int b = Integer.valueOf(hex.substring(4, 6), HEX_BASE);
+        return new Color(r, g, b);
     }
 
     /**
@@ -103,7 +106,8 @@ public final class ColorUtil {
      * @return the full six digit hex code
      */
     public static String expandShorthandHexColor(String shorthandHex) {
-        checkArgument(shorthandHex.length() == SHORTHAND_HEX_LENGTH);
+        checkNotNull(shorthandHex);
+        checkArgument(shorthandHex.length() == shorthandHexLength);
 
         StringBuilder newHex = new StringBuilder();
         shorthandHex.chars().mapToObj(i -> (char) i)
@@ -119,7 +123,7 @@ public final class ColorUtil {
      * @param color the color to calculate the inverse of
      * @return the inverse of the provided color
      */
-    @SuppressWarnings("ConstantConditions") /* unboxing safe */
+    @SuppressWarnings("ConstantConditions") /* Unboxing is safe in this context */
     public static Color getInverseColor(Color color) {
         checkNotNull(color);
 
@@ -140,7 +144,7 @@ public final class ColorUtil {
         checkNotNull(hex);
 
         hex = hex.replace(CyderStrings.hash, "");
-        if (hex.length() == SHORTHAND_HEX_LENGTH) hex = expandShorthandHexColor(hex);
+        if (hex.length() == shorthandHexLength) hex = expandShorthandHexColor(hex);
 
         return Integer.valueOf(hex.substring(0, 2), HEX_BASE)
                 + CyderStrings.comma + Integer.valueOf(hex.substring(2, 4), HEX_BASE)
