@@ -4063,7 +4063,8 @@ public class CyderFrame extends JFrame {
             }
         };
         installTooltipMenuLabelScroll(tooltipMenuLabel);
-        tooltipMenuLabel.setLocation(calculateTooltipMenuLocation(generatingEvent, generatingLabel, tooltipMenuLabel));
+        tooltipMenuLabel.setLocation(
+                calculateTooltipMenuLocation(generatingEvent.getPoint(), generatingLabel, tooltipMenuLabel, this));
         contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
 
         CyderThreadRunner.submit(() -> {
@@ -4168,6 +4169,7 @@ public class CyderFrame extends JFrame {
                 tooltipMenuWidth - 2 * tooltipMenuBorderLength,
                 tooltipMenuItemLabelHeight * menuItems.size());
         tooltipMenuLabelHeight.set(menuScroll.getHeight() + 2 * tooltipMenuBorderLength);
+
         tooltipMenuLabel.setSize(tooltipMenuWidth, menuScroll.getHeight() + 2 * tooltipMenuBorderLength);
         tooltipMenuLabel.add(menuScroll);
     }
@@ -4224,6 +4226,7 @@ public class CyderFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 clickRunnable.run();
+                // todo add this to the click callable? allow sequential callables?
                 fadeOutTooltipMenu(currentTooltipMenuLabel);
             }
 
@@ -4241,67 +4244,79 @@ public class CyderFrame extends JFrame {
         return ret;
     }
 
+    // todo to handler
+
     /**
      * Calculates the point to place the tooltip menu label at based on the generating event and drag label.
      *
-     * @param generatingEvent  the event which generated the invocation of the menu generation method
+     * @param generatingPoint  the point which caused the invocation of this method
      * @param generatingLabel  the label which generated the generating event
      * @param tooltipMenuLabel the tooltip menu label
+     * @param frame            the frame to use for the calculations
      * @return the point to place the tooltip menu label at on this frame
      */
-    private Point calculateTooltipMenuLocation(MouseEvent generatingEvent,
-                                               CyderDragLabel generatingLabel,
-                                               JLabel tooltipMenuLabel) {
-        Preconditions.checkNotNull(generatingEvent);
+    private static Point calculateTooltipMenuLocation(Point generatingPoint,
+                                                      CyderDragLabel generatingLabel,
+                                                      JLabel tooltipMenuLabel,
+                                                      CyderFrame frame) {
+        Preconditions.checkNotNull(generatingPoint);
         Preconditions.checkNotNull(generatingLabel);
         Preconditions.checkNotNull(tooltipMenuLabel);
+        Preconditions.checkNotNull(frame);
 
         int tooltipMenuHeight = tooltipMenuLabel.getHeight();
 
-        int x;
-        int y;
+        int frameWidth = frame.getWidth();
+        int frameHeight = frame.getHeight();
 
+        CyderDragLabel topDrag = frame.getTopDragLabel();
+        CyderDragLabel bottomDrag = frame.getBottomDragLabel();
+        CyderDragLabel leftDrag = frame.getLeftDragLabel();
+        CyderDragLabel rightDrag = frame.getRightDragLabel();
+
+        double x;
+        double y;
         if (generatingLabel.equals(topDrag)) {
-            x = generatingEvent.getX();
+            x = generatingPoint.getX();
             if (x < leftDrag.getWidth()) {
                 x = leftDrag.getWidth();
-            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > getWidth()) {
-                x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
+            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
             }
 
             y = CyderDragLabel.DEFAULT_HEIGHT;
         } else if (generatingLabel.equals(leftDrag)) {
             x = leftDrag.getWidth();
 
-            y = generatingEvent.getY();
+            y = generatingPoint.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > getHeight()) {
-                y = getHeight() - tooltipMenuHeight - bottomDrag.getHeight();
+            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - bottomDrag.getHeight();
             }
         } else if (generatingLabel.equals(rightDrag)) {
-            x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
+            x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
 
-            y = generatingEvent.getY();
+            y = generatingPoint.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > getHeight()) {
-                y = getHeight() - tooltipMenuHeight - bottomDrag.getHeight();
+            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - bottomDrag.getHeight();
             }
         } else if (generatingLabel.equals(bottomDrag)) {
-            x = generatingEvent.getX();
+            x = generatingPoint.getX();
             if (x < leftDrag.getWidth()) {
                 x = leftDrag.getWidth();
-            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > getWidth()) {
-                x = getWidth() - tooltipMenuWidth - rightDrag.getWidth();
+            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
             }
 
-            y = getHeight() - bottomDrag.getHeight() - tooltipMenuHeight;
+            y = frameHeight - bottomDrag.getHeight() - tooltipMenuHeight;
         } else {
             throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
         }
 
-        return new Point(x, y);
+        return new Point((int) x, (int) y);
     }
 
     /**
