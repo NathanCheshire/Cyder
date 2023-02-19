@@ -1,6 +1,7 @@
 package cyder.ui.frame.tooltip;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -11,6 +12,7 @@ import cyder.getter.GetterUtil;
 import cyder.managers.ProgramModeManager;
 import cyder.props.Props;
 import cyder.strings.StringUtil;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
@@ -20,6 +22,7 @@ import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.utils.ColorUtil;
+import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -31,8 +34,10 @@ import java.awt.event.MouseEvent;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import static cyder.strings.CyderStrings.comma;
@@ -148,6 +153,11 @@ public class TooltipMenuController {
     private final AtomicInteger opacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
 
     /**
+     * The current control key to validate fade-out animation requests.
+     */
+    private final AtomicReference<String> currentFadeOutKey = new AtomicReference<>();
+
+    /**
      * The generated menu label this controller uses for the tooltip menu label.
      */
     private JLabel tooltipMenuLabel;
@@ -211,10 +221,13 @@ public class TooltipMenuController {
         Preconditions.checkArgument(x >= 0 && x <= controlFrame.getWidth());
         Preconditions.checkArgument(y >= 0 && y <= controlFrame.getHeight());
 
-        // todo canceling tasks seems not to work
-        cancelMouseOutOfMenuWaiter();
-        cancelNoInteractionFadeOutWaiter();
-        cancelFadeOutAnimation();
+        String localKey = SecurityUtil.generateUuid();
+        synchronized (controlFrame) {
+            currentFadeOutKey.set(localKey);
+            cancelMouseOutOfMenuWaiter();
+            cancelNoInteractionFadeOutWaiter();
+            cancelFadeOutAnimation();
+        }
 
         mouseHasEnteredTooltipMenu.set(false);
 
@@ -224,8 +237,8 @@ public class TooltipMenuController {
         tooltipMenuLabel.setLocation(calculateLocation(triggerPoint, triggerLabel));
         tooltipMenuLabel.setVisible(true);
 
-        startNewNoInteractionFadeOutWaiter();
-        startNewMouseOutOfMenuWaiter();
+        startNewNoInteractionFadeOutWaiter(localKey);
+        startNewMouseOutOfMenuWaiter(localKey);
     }
 
     /**
@@ -240,16 +253,20 @@ public class TooltipMenuController {
 
     /**
      * Starts a new {@link #noInteractionFadeOutWaiter} task.
+     *
+     * @param controlKey the key necessary to perform a fade out animation
      */
-    private void startNewNoInteractionFadeOutWaiter() {
-        // todo
-        Runnable runnable = () -> {
+    private void startNewNoInteractionFadeOutWaiter(String controlKey) {
+        Preconditions.checkNotNull(controlKey);
+        Preconditions.checkArgument(!controlKey.isEmpty());
+
+        noInteractionFadeOutWaiter = Futures.submit(() -> {
             ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
             if (!mouseHasEnteredTooltipMenu.get()) {
+                if (!controlKey.equals(currentFadeOutKey.get())) return;
                 fadeOut();
             }
-        };
-        CyderThreadRunner.submit(runnable, tooltipMenuFadeoutWaiterThreadName);
+        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(tooltipMenuFadeoutWaiterThreadName)));
     }
 
     /**
@@ -264,14 +281,19 @@ public class TooltipMenuController {
 
     /**
      * Starts a new {@link #mouseOutOfMenuWaiter} task.
+     *
+     * @param controlKey the key necessary to perform a fade out animation
      */
-    private void startNewMouseOutOfMenuWaiter() {
-        // todo
-        Runnable runnable = () -> {
+    private void startNewMouseOutOfMenuWaiter(String controlKey) {
+        Preconditions.checkNotNull(controlKey);
+        Preconditions.checkArgument(!controlKey.isEmpty());
+
+        mouseOutOfMenuWaiter = Futures.submit(() -> {
             while (true) {
                 if (tooltipMenuLabel.getMousePosition() == null) {
                     ThreadUtil.sleep(outOfTooltipMenuBeforeFadeOut.toMillis());
                     if (tooltipMenuLabel.getMousePosition() == null) {
+                        if (!controlKey.equals(currentFadeOutKey.get())) return;
                         fadeOut();
                         return;
                     }
@@ -279,8 +301,7 @@ public class TooltipMenuController {
 
                 ThreadUtil.sleep(outOfTooltipMenuPollDelay.toMillis());
             }
-        };
-        CyderThreadRunner.submit(runnable, mouseOutOfTooltipMenuListenerThreadName);
+        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(mouseOutOfTooltipMenuListenerThreadName)));
     }
 
     /**
@@ -299,10 +320,7 @@ public class TooltipMenuController {
     public void fadeOut() {
         if (fadeOutAnimation != null && !fadeOutAnimation.isCancelled()) return;
 
-        // todo just need actual specific animator classes unfortunately,
-        //  or perhaps a hash to the show call and only vanish if associated with current hash
-        // will need to synchronize a lot of stuff
-        Runnable runnable = () -> {
+        fadeOutAnimation = Futures.submit(() -> {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
             while (opacity.get() >= opacityAnimationDecrement) {
@@ -314,8 +332,7 @@ public class TooltipMenuController {
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
-        };
-        CyderThreadRunner.submit(runnable, animateOutThreadName);
+        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(animateOutThreadName)));
     }
 
     /**
