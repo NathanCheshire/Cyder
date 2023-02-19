@@ -228,13 +228,13 @@ public class CyderDragLabel extends JLabel {
             refreshRightButtons();
         }
         if (type != DragLabelType.FULL) {
-            // This is unnecessarily necessary because JVM said so
-            CyderDragLabel label = this;
+            CyderDragLabel generatingLabel = this;
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     if (e.getButton() != MouseEvent.BUTTON1) {
-                        effectFrame.generateAndShowTooltipMenu(e.getPoint(), label);
+                        Point generatingPoint = e.getPoint();
+                        effectFrame.getTooltipMenuController().show(generatingPoint, generatingLabel);
                     }
                 }
             });

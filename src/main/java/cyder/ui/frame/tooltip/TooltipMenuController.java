@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.HtmlTags;
+import cyder.exceptions.FatalException;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.managers.ProgramModeManager;
@@ -14,6 +15,7 @@ import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.pane.CyderOutputPane;
@@ -21,7 +23,6 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.utils.ColorUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -32,6 +33,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -90,19 +92,37 @@ public class TooltipMenuController {
     private static final String setFrameLocationTooltipMenuWaiterThreadName = "CyderFrame location setter waiter";
 
     /**
+     * The thread name for the tooltip menu fade-out waiter for when the
+     * user does not interact with the tooltip menu label.
+     */
+    private static final String tooltipMenuFadeoutWaiterThreadName = "CyderFrame tooltip"
+            + " menu fade-out if mouse never enters label waiter thread";
+
+    /**
+     * The name of the thread which waits for the mouse to be out of the tooltip menu label
+     * for at least {@link #outOfTooltipMenuBeforeFadeOut}.
+     */
+    private static final String mouseOutOfTooltipMenuListenerThreadName = "Mouse out of tooltip menu listener";
+
+    /**
+     * The timeout before fading out the tooltip menu label if the user never interacts with the label.
+     */
+    private static final Duration noInteractionFadeOutTimeout = Duration.ofSeconds(2);
+
+    /**
+     * The duration a mouse must remain outside of the menu before the fade out animation is invoked.
+     */
+    private static final Duration outOfTooltipMenuBeforeFadeOut = Duration.ofMillis(1400);
+
+    /**
+     * The poll delay between checking the location of the mouse for the out of tooltip listener.
+     */
+    private static final Duration outOfTooltipMenuPollDelay = Duration.ofMillis(250);
+
+    /**
      * The frame this controller has control over.
      */
     private final CyderFrame controlFrame;
-
-    /**
-     * The generated menu label this controller uses for the tooltip menu label.
-     */
-    private JLabel tooltipMenuLabel;
-
-    /**
-     * The scroll pane on the menu label containing the menu items.
-     */
-    private CyderScrollPane menuScroll;
 
     /**
      * The menu items for this tooltip menu controller.
@@ -118,6 +138,42 @@ public class TooltipMenuController {
      * The getter util for getting the frame size input from the user.
      */
     private final GetterUtil tooltipMenuItemFrameSizeGetterUtil = GetterUtil.getInstance();
+
+    /**
+     * Whether the mouse has entered the tooltip menu after it was generated.
+     */
+    private final AtomicBoolean mouseHasEnteredTooltipMenu = new AtomicBoolean();
+
+    /**
+     * The opacity the menu should be painted with.
+     */
+    private final AtomicInteger opacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
+
+    /**
+     * The generated menu label this controller uses for the tooltip menu label.
+     */
+    private JLabel tooltipMenuLabel;
+
+    /**
+     * The scroll pane on the menu label containing the menu items.
+     */
+    private CyderScrollPane menuScroll;
+
+    /**
+     * The fade-out animation.
+     */
+    private ListenableFuture<Void> fadeOutAnimation;
+
+    /**
+     * The no interaction fade out future. If the user triggers the tooltip menu but does not interact
+     * after {@link #noInteractionFadeOutTimeout}, the menu is animated out.
+     */
+    private ListenableFuture<Void> noInteractionFadeOutWaiter;
+
+    /**
+     * The waiter for waiting for a mouse to be out of the menu label.
+     */
+    private ListenableFuture<Void> mouseOutOfMenuWaiter;
 
     /**
      * Constructs a new tooltip menu controller.
@@ -148,31 +204,85 @@ public class TooltipMenuController {
      * trigger point to calculate the point to place the menu.
      *
      * @param triggerPoint the point at which the user clicked to trigger showing the tooltip menu label
+     * @param triggerLabel the drag label which triggered this show event
      */
-    public void show(Point triggerPoint) {
+    public void show(Point triggerPoint, CyderDragLabel triggerLabel) {
         Preconditions.checkNotNull(triggerPoint);
         double x = triggerPoint.getX();
         double y = triggerPoint.getY();
         Preconditions.checkArgument(x >= 0 && x <= controlFrame.getWidth());
         Preconditions.checkArgument(y >= 0 && y <= controlFrame.getHeight());
 
+        // todo canceling tasks seems not to work
+        cancelMouseOutOfMenuWaiter();
+        cancelNoInteractionFadeOutWaiter();
         cancelFadeOutAnimation();
 
-        // todo show
+        mouseHasEnteredTooltipMenu.set(false);
+
+        revalidateLabelAndScrollSize();
+        opacity.set(ColorUtil.opacityRange.upperEndpoint());
+        tooltipMenuLabel.repaint();
+        tooltipMenuLabel.setLocation(calculateLocation(triggerPoint, triggerLabel));
+        tooltipMenuLabel.setVisible(true);
+
+        startNewNoInteractionFadeOutWaiter();
+        startNewMouseOutOfMenuWaiter();
     }
 
     /**
-     * The opacity the menu should be painted with.
+     * Cancels the {@link #noInteractionFadeOutWaiter} if running.
      */
-    private final AtomicInteger opacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
+    private void cancelNoInteractionFadeOutWaiter() {
+        if (noInteractionFadeOutWaiter != null) {
+            noInteractionFadeOutWaiter.cancel(true);
+        }
+    }
 
     /**
-     * The fade-out animation
+     * Starts a new {@link #noInteractionFadeOutWaiter} task.
      */
-    private ListenableFuture<Void> fadeOutAnimation;
+    private void startNewNoInteractionFadeOutWaiter() {
+        noInteractionFadeOutWaiter = Futures.submit(() -> {
+            ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
+            if (!mouseHasEnteredTooltipMenu.get()) {
+                System.out.println("From no interaction");
+                fadeOut();
+            }
+        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(tooltipMenuFadeoutWaiterThreadName)));
+    }
 
     /**
-     * Cancels the fade-out animation if currently running.
+     * Cancels the mouse out of menu waiter if running.
+     */
+    private void cancelMouseOutOfMenuWaiter() {
+        if (mouseOutOfMenuWaiter != null) {
+            mouseOutOfMenuWaiter.cancel(true);
+        }
+    }
+
+    /**
+     * Starts a new {@link #mouseOutOfMenuWaiter} task.
+     */
+    private void startNewMouseOutOfMenuWaiter() {
+        mouseOutOfMenuWaiter = Futures.submit(() -> {
+            while (true) {
+                if (tooltipMenuLabel.getMousePosition() == null) {
+                    ThreadUtil.sleep(outOfTooltipMenuBeforeFadeOut.toMillis());
+                    if (tooltipMenuLabel.getMousePosition() == null) {
+                        System.out.println("From mouse out of menu");
+                        fadeOut();
+                        return;
+                    }
+                }
+
+                ThreadUtil.sleep(outOfTooltipMenuPollDelay.toMillis());
+            }
+        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(mouseOutOfTooltipMenuListenerThreadName)));
+    }
+
+    /**
+     * Cancels the {@link #fadeOutAnimation} if currently running.
      */
     private void cancelFadeOutAnimation() {
         if (fadeOutAnimation != null) {
@@ -184,7 +294,9 @@ public class TooltipMenuController {
     /**
      * Animates out the tooltip menu label via an opacity decrement transition.
      */
-    public void animateOut() {
+    public void fadeOut() {
+        if (fadeOutAnimation != null && !fadeOutAnimation.isDone()) return;
+
         fadeOutAnimation = Futures.submit(() -> {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
@@ -205,17 +317,17 @@ public class TooltipMenuController {
      */
     private void initializeMenuItems() {
         menuItems.add(new TooltipMenuItem("To back")
-                .addMouseClickAction(this::animateOut)
-                //.addMouseClickAction(this::toBack)
+                .addMouseClickAction(this::fadeOut)
+                .addMouseClickAction(controlFrame::toBack)
                 .buildMenuItemLabel());
         menuItems.add(new TooltipMenuItem("Frame location")
-                .addMouseClickAction(this::animateOut)
-                //  .addMouseClickAction(this::onFrameLocationTooltipMenuItemPressed)
+                .addMouseClickAction(this::fadeOut)
+                .addMouseClickAction(this::onFrameLocationTooltipMenuItemPressed)
                 .buildMenuItemLabel());
 
         if (controlFrame.isResizingAllowed()) {
             menuItems.add(new TooltipMenuItem("Frame size")
-                    .addMouseClickAction(this::animateOut)
+                    .addMouseClickAction(this::fadeOut)
                     .addMouseClickAction(this::onFrameSizeTooltipMenuItemPressed)
                     .buildMenuItemLabel());
         }
@@ -235,9 +347,20 @@ public class TooltipMenuController {
      */
     private void constructTooltipMenuLabel() {
         synchronized (controlFrame) {
-            tooltipMenuLabel = new JLabel();
-            tooltipMenuLabel.setBackground(CyderColors.navy);
-            tooltipMenuLabel.setBorder(new LineBorder(borderColor, borderLength));
+            tooltipMenuLabel = new JLabel() {
+                @Override
+                public void paint(Graphics g) {
+                    int w = calculateWidth();
+                    int h = calculateHeight();
+
+                    g.setColor(ColorUtil.setColorOpacity(borderColor, opacity.get()));
+                    g.fillRect(0, 0, w, h);
+                    g.setColor(ColorUtil.setColorOpacity(CyderColors.getGuiThemeColor(), opacity.get()));
+                    g.fillRect(borderLength, borderLength, w - 2 * borderLength, h - 2 * borderLength);
+                    super.paint(g);
+                }
+            };
+            tooltipMenuLabel.setVisible(false);
 
             JTextPane menuPane = UiUtil.generateJTextPaneWithInvisibleHorizontalScrollbar();
             menuPane.setEditable(false);
@@ -246,8 +369,8 @@ public class TooltipMenuController {
             menuPane.setAutoscrolls(false);
             menuPane.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseExited(MouseEvent e) {
-                    onMouseExitedMenuPane();
+                public void mouseEntered(MouseEvent e) {
+                    mouseHasEnteredTooltipMenu.set(true);
                 }
             });
 
@@ -278,6 +401,8 @@ public class TooltipMenuController {
 
             tooltipMenuLabel.add(menuScroll);
             revalidateLabelAndScrollSize();
+
+            controlFrame.getTrueContentPane().add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
         }
     }
 
@@ -289,13 +414,6 @@ public class TooltipMenuController {
         int h = calculateHeight();
         tooltipMenuLabel.setSize(w, h);
         menuScroll.setBounds(borderLength, borderLength, w - 2 * borderLength, h - 2 * borderLength);
-    }
-
-    /**
-     * The actions to invoke when the mouse leaves the menu pane.
-     */
-    private void onMouseExitedMenuPane() {
-        // todo animate out after grace period if mouse still in
     }
 
     /**
@@ -322,6 +440,70 @@ public class TooltipMenuController {
                 - controlFrame.getTopDragLabel().getHeight()
                 - controlFrame.getBottomDragLabel().getHeight();
         return Math.min(necessaryHeight, maxHeightOnParent);
+    }
+
+    /**
+     * Calculates the point to place the tooltip menu label at based on the generating event and drag label.
+     *
+     * @param generatingPoint the point which caused the invocation of this method
+     * @param generatingLabel the label which generated the generating event
+     * @return the point to place the tooltip menu label at on this frame
+     */
+    private Point calculateLocation(Point generatingPoint, CyderDragLabel generatingLabel) {
+        Preconditions.checkNotNull(generatingPoint);
+        Preconditions.checkNotNull(generatingLabel);
+        Preconditions.checkNotNull(tooltipMenuLabel);
+
+        int frameWidth = controlFrame.getWidth();
+        int frameHeight = controlFrame.getHeight();
+        int tooltipMenuWidth = tooltipMenuLabel.getWidth();
+        int tooltipMenuHeight = tooltipMenuLabel.getHeight();
+
+        double x;
+        double y;
+        if (generatingLabel.equals(controlFrame.getTopDragLabel())) {
+            x = generatingPoint.getX();
+
+            if (x < CyderFrame.BORDER_LEN) {
+                x = CyderFrame.BORDER_LEN;
+            } else if (x + tooltipMenuWidth + CyderFrame.BORDER_LEN > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
+            }
+
+            y = CyderDragLabel.DEFAULT_HEIGHT;
+        } else if (generatingLabel.equals(controlFrame.getLeftDragLabel())) {
+            x = CyderFrame.BORDER_LEN;
+
+            y = generatingPoint.getY();
+            if (y < CyderDragLabel.DEFAULT_HEIGHT) {
+                y = CyderDragLabel.DEFAULT_HEIGHT;
+            } else if (y + tooltipMenuHeight + CyderFrame.BORDER_LEN > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - CyderFrame.BORDER_LEN;
+            }
+        } else if (generatingLabel.equals(controlFrame.getRightDragLabel())) {
+            x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
+
+            y = generatingPoint.getY();
+            if (y < CyderDragLabel.DEFAULT_HEIGHT) {
+                y = CyderDragLabel.DEFAULT_HEIGHT;
+            } else if (y + tooltipMenuHeight + CyderFrame.BORDER_LEN > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - CyderFrame.BORDER_LEN;
+            }
+        } else if (generatingLabel.equals(controlFrame.getBottomDragLabel())) {
+            x = generatingPoint.getX();
+
+            if (x < CyderFrame.BORDER_LEN) {
+                x = CyderFrame.BORDER_LEN;
+            } else if (x + tooltipMenuWidth + CyderFrame.BORDER_LEN > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
+            }
+
+            y = frameHeight - CyderFrame.BORDER_LEN - tooltipMenuHeight;
+        } else {
+            throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
+        }
+
+        return new Point((int) x, (int) y);
     }
 
     /**
