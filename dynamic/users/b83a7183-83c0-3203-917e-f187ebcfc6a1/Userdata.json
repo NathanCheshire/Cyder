@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": false,
   "filterChat": true,
-  "lastSessionStart": 1676769619258,
+  "lastSessionStart": 1676781120964,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -38,12 +38,12 @@
   "paintClockWidgetHourLabels": true,
   "showClockWidgetSecondHand": true,
   "screenStat": {
-    "consoleX": 1494,
-    "consoleY": 422,
+    "consoleX": 1504,
+    "consoleY": 406,
     "consoleWidth": 800,
     "consoleHeight": 800,
     "monitor": 0,
-    "consoleOnTop": false,
+    "consoleOnTop": true,
     "consoleDirection": "TOP"
   },
   "mappedExecutables": {

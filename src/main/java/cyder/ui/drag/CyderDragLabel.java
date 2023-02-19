@@ -457,7 +457,6 @@ public class CyderDragLabel extends JLabel {
     public void addRightButton(Component button, int addIndex) {
         Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!rightButtonList.contains(button));
-        Preconditions.checkArgument(addIndex >= 0 && addIndex < rightButtonList.size());
 
         rightButtonList.add(addIndex, button);
         refreshRightButtons();
@@ -473,7 +472,6 @@ public class CyderDragLabel extends JLabel {
     public void addLeftButton(Component button, int addIndex) {
         Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!leftButtonList.contains(button));
-        Preconditions.checkArgument(addIndex >= 0 && addIndex < leftButtonList.size());
 
         leftButtonList.add(addIndex, button);
         refreshLeftButtons();

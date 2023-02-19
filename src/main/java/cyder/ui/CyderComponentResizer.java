@@ -571,10 +571,10 @@ public final class CyderComponentResizer extends MouseAdapter {
     /**
      * Sets whether resizing should be allowed.
      *
-     * @param b whether resizing should be allowed
+     * @param allowed whether resizing should be allowed
      */
-    public void setResizingAllowed(Boolean b) {
-        resizingAllowed = b;
+    public void setResizingAllowed(boolean allowed) {
+        resizingAllowed = allowed;
     }
 
     /**

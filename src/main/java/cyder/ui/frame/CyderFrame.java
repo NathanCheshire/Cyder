@@ -61,6 +61,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -565,13 +566,13 @@ public class CyderFrame extends JFrame {
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
         setContentPane(contentLabel);
 
-        masterDrag = new CyderDragLabel(width, height, this, DragLabelType.FULL);
-        masterDrag.setBackground(background);
-        masterDrag.setBounds(0, 0, width, height);
-        contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
-        masterDrag.setFocusable(false);
+        fullDragLabel = new CyderDragLabel(width, height, this, DragLabelType.FULL);
+        fullDragLabel.setBackground(background);
+        fullDragLabel.setBounds(0, 0, width, height);
+        contentLabel.add(fullDragLabel, JLayeredPane.DRAG_LAYER);
+        fullDragLabel.setFocusable(false);
 
-        contentLabel.add(masterDrag);
+        contentLabel.add(fullDragLabel);
 
         threadsKilled = false;
 
@@ -582,22 +583,18 @@ public class CyderFrame extends JFrame {
     /**
      * The master drag label for borderless frames.
      */
-    private CyderDragLabel masterDrag;
+    private CyderDragLabel fullDragLabel;
 
     /**
-     * Returns the borderless drag label.
+     * Returns the full drag label, only present on borderless frames.
      *
-     * @return the borderless drag label
+     * @return the full drag label
      */
-    public CyderDragLabel getBorderlessDrag() {
+    public CyderDragLabel getFullDragLabel() {
         Preconditions.checkArgument(isBorderlessFrame());
 
-        return masterDrag;
+        return fullDragLabel;
     }
-
-    // ----------------
-    // end constructors
-    // ----------------
 
     /**
      * Returns the content pane of the CyderFrame of which components should be added to.
@@ -2292,6 +2289,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns whether resizing is currently permitted by this frame.
+     *
+     * @return whether resizing is currently permitted by this frame
+     */
+    public boolean isResizingAllowed() {
+        return cyderComponentResizer != null && cyderComponentResizer.isResizingEnabled();
+    }
+
+    /**
      * The current master image icon to use for image resizing on resizing events if allowed.
      */
     private ImageIcon currentMasterIcon;
@@ -3899,7 +3905,7 @@ public class CyderFrame extends JFrame {
     /**
      * The tooltip menu width.
      */
-    private static final int tooltipMenuWidth = 120;
+    private static final int tooltipMenuWidth = 120; // todo should be editable
 
     /**
      * The tooltip menu border length
@@ -3909,7 +3915,7 @@ public class CyderFrame extends JFrame {
     /**
      * The timeout before fading out the tooltip menu label if the user never interacts with the label.
      */
-    private static final int noInteractionFadeOutTimeout = 2000;
+    private static final Duration noInteractionFadeOutTimeout = Duration.ofSeconds(2);
 
     /**
      * The list of previous tooltip menu labels generated that have yet to be removed.
@@ -3920,7 +3926,7 @@ public class CyderFrame extends JFrame {
     /**
      * The minimum amount of time a tooltip menu label may be visible for.
      */
-    private static final int minTooltipMenuVisibleTime = 1200;
+    private static final Duration minTooltipMenuVisibleTime = Duration.ofMillis(1200);
 
     /**
      * The thread name for the tooltip menu fade-out waiter for when the
@@ -3940,7 +3946,7 @@ public class CyderFrame extends JFrame {
      * The additional time after the mouse leaves the tooltip menu and the minimum visible time has passed
      * that the tooltip menu remains visible.
      */
-    private static final int tooltipMenuMouseExitAdditionalVisibleTime = 800;
+    private static final Duration tooltipMenuMouseExitAdditionalVisibleTime = Duration.ofMillis(800);
 
     /**
      * The opacity decrement for the tooltip menu label fade-out animation.
@@ -3999,7 +4005,7 @@ public class CyderFrame extends JFrame {
      * The delay in ms between polls of the current tooltip menu label's mouse position to check for it being
      * null which indicates the mouse is not on the component and the label may be faded away.
      */
-    private static final int tooltipMouseExitListenerPollDelay = 1000;
+    private static final Duration tooltipMouseExitListenerPollDelay = Duration.ofMillis(500);
 
     /**
      * Generates and shows the tooltip menu at the closest valid point to the generating event.
@@ -4041,7 +4047,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(tooltipMenuLabel, JLayeredPane.DRAG_LAYER);
 
         CyderThreadRunner.submit(() -> {
-            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+            ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
             if (!mouseHasEnteredTooltipMenu.get()) {
                 fadeOutTooltipMenu(tooltipMenuLabel);
             }
@@ -4060,18 +4066,18 @@ public class CyderFrame extends JFrame {
      */
     private void startTooltipMenuLabelMouseExitListener(JLabel tooltipMenuLabel) {
         CyderThreadRunner.submit(() -> {
-            ThreadUtil.sleep(noInteractionFadeOutTimeout);
+            ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
 
             while (previousTooltipMenuLabels.contains(tooltipMenuLabel)) {
                 if (tooltipMenuLabel.getMousePosition() == null) {
                     // Grace period in case mouse goes back in
-                    ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
+                    ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime.toMillis());
                     if (tooltipMenuLabel.getMousePosition() == null) {
                         fadeOutTooltipMenu(tooltipMenuLabel);
                     }
                 }
 
-                ThreadUtil.sleep(tooltipMouseExitListenerPollDelay);
+                ThreadUtil.sleep(tooltipMouseExitListenerPollDelay.toMillis());
             }
         }, TOOLTIP_MENU_LABEL_MOUSE_EXIT_LISTENER);
     }
@@ -4141,10 +4147,10 @@ public class CyderFrame extends JFrame {
         enterExitCounter.incrementAndGet();
         if (enterExitCounter.get() != 2) return;
         CyderThreadRunner.submit(() -> {
-            long sleepTime = Math.min(minTooltipMenuVisibleTime, minTooltipMenuVisibleTime
+            long sleepTime = Math.min(minTooltipMenuVisibleTime.toMillis(), minTooltipMenuVisibleTime.toMillis()
                     - (System.currentTimeMillis() - tooltipMenuOriginallyVisibleTime.get()));
             if (sleepTime > 0) ThreadUtil.sleep(sleepTime);
-            ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime);
+            ThreadUtil.sleep(tooltipMenuMouseExitAdditionalVisibleTime.toMillis());
             if (tooltipMenuLabel.getMousePosition() == null) {
                 fadeOutTooltipMenu(tooltipMenuLabel);
             }
@@ -4216,49 +4222,46 @@ public class CyderFrame extends JFrame {
         int frameWidth = frame.getWidth();
         int frameHeight = frame.getHeight();
 
-        CyderDragLabel topDrag = frame.getTopDragLabel();
-        CyderDragLabel bottomDrag = frame.getBottomDragLabel();
-        CyderDragLabel leftDrag = frame.getLeftDragLabel();
-        CyderDragLabel rightDrag = frame.getRightDragLabel();
-
         double x;
         double y;
-        if (generatingLabel.equals(topDrag)) {
+        if (generatingLabel.equals(frame.getTopDragLabel())) {
             x = generatingPoint.getX();
-            if (x < leftDrag.getWidth()) {
-                x = leftDrag.getWidth();
-            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > frameWidth) {
-                x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
+
+            if (x < CyderFrame.BORDER_LEN) {
+                x = CyderFrame.BORDER_LEN;
+            } else if (x + tooltipMenuWidth + CyderFrame.BORDER_LEN > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
             }
 
             y = CyderDragLabel.DEFAULT_HEIGHT;
-        } else if (generatingLabel.equals(leftDrag)) {
-            x = leftDrag.getWidth();
+        } else if (generatingLabel.equals(frame.getLeftDragLabel())) {
+            x = CyderFrame.BORDER_LEN;
 
             y = generatingPoint.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > frameHeight) {
-                y = frameHeight - tooltipMenuHeight - bottomDrag.getHeight();
+            } else if (y + tooltipMenuHeight + CyderFrame.BORDER_LEN > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - CyderFrame.BORDER_LEN;
             }
-        } else if (generatingLabel.equals(rightDrag)) {
-            x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
+        } else if (generatingLabel.equals(frame.getRightDragLabel())) {
+            x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
 
             y = generatingPoint.getY();
             if (y < CyderDragLabel.DEFAULT_HEIGHT) {
                 y = CyderDragLabel.DEFAULT_HEIGHT;
-            } else if (y + tooltipMenuHeight + bottomDrag.getHeight() > frameHeight) {
-                y = frameHeight - tooltipMenuHeight - bottomDrag.getHeight();
+            } else if (y + tooltipMenuHeight + CyderFrame.BORDER_LEN > frameHeight) {
+                y = frameHeight - tooltipMenuHeight - CyderFrame.BORDER_LEN;
             }
-        } else if (generatingLabel.equals(bottomDrag)) {
+        } else if (generatingLabel.equals(frame.getBottomDragLabel())) {
             x = generatingPoint.getX();
-            if (x < leftDrag.getWidth()) {
-                x = leftDrag.getWidth();
-            } else if (x + tooltipMenuWidth + rightDrag.getWidth() > frameWidth) {
-                x = frameWidth - tooltipMenuWidth - rightDrag.getWidth();
+
+            if (x < CyderFrame.BORDER_LEN) {
+                x = CyderFrame.BORDER_LEN;
+            } else if (x + tooltipMenuWidth + CyderFrame.BORDER_LEN > frameWidth) {
+                x = frameWidth - tooltipMenuWidth - CyderFrame.BORDER_LEN;
             }
 
-            y = frameHeight - bottomDrag.getHeight() - tooltipMenuHeight;
+            y = frameHeight - CyderFrame.BORDER_LEN - tooltipMenuHeight;
         } else {
             throw new FatalException("Generating drag label is not one of the border labels: " + generatingLabel);
         }
