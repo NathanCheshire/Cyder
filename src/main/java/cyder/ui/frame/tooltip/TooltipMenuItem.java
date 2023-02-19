@@ -1,6 +1,7 @@
 package cyder.ui.frame.tooltip;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.ui.frame.CyderFrame;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 /**
  * A menu item for a {@link CyderFrame} tooltip menu.
  */
-public class TooltipMenuItem {
+public final class TooltipMenuItem {
     /**
      * The list of actions to invoke upon a mouse click event.
      */
@@ -50,36 +51,45 @@ public class TooltipMenuItem {
      * Adds the provided action to the list of actions to invoke upon a mouse click action.
      *
      * @param action the click action
+     * @return this tooltip menu item
      */
-    public void addMouseClickAction(Runnable action) {
+    @CanIgnoreReturnValue
+    public TooltipMenuItem addMouseClickAction(Runnable action) {
         Preconditions.checkNotNull(action);
         Preconditions.checkArgument(!mouseClickActions.contains(action));
 
         mouseClickActions.add(action);
+        return this;
     }
 
     /**
      * Adds the provided action to the list of actions to invoke upon a mouse enter action.
      *
      * @param action the enter action
+     * @return this tooltip menu item
      */
-    public void addMouseEnterAction(Runnable action) {
+    @CanIgnoreReturnValue
+    public TooltipMenuItem addMouseEnterAction(Runnable action) {
         Preconditions.checkNotNull(action);
         Preconditions.checkArgument(!mouseEnterActions.contains(action));
 
         mouseEnterActions.add(action);
+        return this;
     }
 
     /**
      * Adds the provided action to the list of actions to invoke upon a mouse exit action.
      *
      * @param action the exit action
+     * @return this tooltip menu item
      */
-    public void addMouseExitAction(Runnable action) {
+    @CanIgnoreReturnValue
+    public TooltipMenuItem addMouseExitAction(Runnable action) {
         Preconditions.checkNotNull(action);
         Preconditions.checkArgument(!mouseExitActions.contains(action));
 
         mouseExitActions.add(action);
+        return this;
     }
 
     /**
@@ -88,10 +98,10 @@ public class TooltipMenuItem {
      * @return a label using the set properties for a tooltip menu
      */
     public JLabel buildMenuItemLabel() {
-        JLabel ret = new JLabel(text);
-        ret.setForeground(CyderColors.vanilla);
-        ret.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        ret.addMouseListener(new MouseAdapter() {
+        JLabel menuItemLabel = new JLabel(text);
+        menuItemLabel.setForeground(CyderColors.vanilla);
+        menuItemLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        menuItemLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mouseClickActions.forEach(Runnable::run);
@@ -99,17 +109,17 @@ public class TooltipMenuItem {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ret.setForeground(CyderColors.regularRed);
+                menuItemLabel.setForeground(CyderColors.regularRed);
                 mouseEnterActions.forEach(Runnable::run);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ret.setForeground(CyderColors.vanilla);
+                menuItemLabel.setForeground(CyderColors.vanilla);
                 mouseExitActions.forEach(Runnable::run);
             }
         });
 
-        return ret;
+        return menuItemLabel;
     }
 }

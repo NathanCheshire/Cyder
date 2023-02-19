@@ -29,11 +29,7 @@ public class CyderDragLabel extends JLabel {
      * The default height for drag labels.
      * The Cyder standard is set for top drag labels and is 30px.
      */
-    public static final int DEFAULT_HEIGHT;
-
-    static {
-        DEFAULT_HEIGHT = Props.dragLabelHeight.getValue();
-    }
+    public static final int DEFAULT_HEIGHT = Props.dragLabelHeight.getValue();
 
     /**
      * The width of this DragLabel.
@@ -233,7 +229,7 @@ public class CyderDragLabel extends JLabel {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() != MouseEvent.BUTTON1) {
-                    effectFrame.generateAndShowTooltipMenu(e, sourceDragLabel);
+                    effectFrame.generateAndShowTooltipMenu(e.getPoint(), sourceDragLabel);
                 }
             }
         };
@@ -249,12 +245,9 @@ public class CyderDragLabel extends JLabel {
         return new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-                int restoreX = effectFrame.getRestoreX();
-                int restoreY = effectFrame.getRestoreY();
-
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
-                UiUtil.requestFramePosition(restoreX, restoreY, effectFrame);
+                UiUtil.requestFramePosition(effectFrame.getRestoreX(), effectFrame.getRestoreY(), effectFrame);
             }
 
             @Override
