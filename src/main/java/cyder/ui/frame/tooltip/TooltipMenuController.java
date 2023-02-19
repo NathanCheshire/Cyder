@@ -44,7 +44,7 @@ import static cyder.strings.CyderStrings.comma;
 import static cyder.strings.CyderStrings.quote;
 
 /**
- * A controller for the tooltip menu for a particular {@link CyderFrame}.
+ * A controller for the tooltip menu of a particular {@link CyderFrame}.
  */
 public class TooltipMenuController {
     /**
@@ -116,11 +116,6 @@ public class TooltipMenuController {
      * The duration a mouse must remain outside of the menu before the fade out animation is invoked.
      */
     private static final Duration outOfTooltipMenuBeforeFadeOut = Duration.ofMillis(1400);
-
-    /**
-     * The poll delay between checking the location of the mouse for the out of tooltip listener.
-     */
-    private static final Duration outOfTooltipMenuPollDelay = Duration.ofMillis(250);
 
     /**
      * The frame this controller has control over.
@@ -224,9 +219,7 @@ public class TooltipMenuController {
         String localKey = SecurityUtil.generateUuid();
         synchronized (controlFrame) {
             currentFadeOutKey.set(localKey);
-            cancelMouseOutOfMenuWaiter();
-            cancelNoInteractionFadeOutWaiter();
-            cancelFadeOutAnimation();
+            cancelAllTasks();
         }
 
         mouseHasEnteredTooltipMenu.set(false);
@@ -239,6 +232,20 @@ public class TooltipMenuController {
 
         startNewNoInteractionFadeOutWaiter(localKey);
         startNewMouseOutOfMenuWaiter(localKey);
+    }
+
+    /**
+     * Cancels the following tasks if running:
+     * <ul>
+     *     <li>The mouse out of menu waiter</li>
+     *     <li>The no interaction waiter</li>
+     *     <li>The fade out animation</li>
+     * </ul>
+     */
+    public void cancelAllTasks() {
+        cancelMouseOutOfMenuWaiter();
+        cancelNoInteractionFadeOutWaiter();
+        cancelFadeOutAnimation();
     }
 
     /**
@@ -298,8 +305,6 @@ public class TooltipMenuController {
                         return;
                     }
                 }
-
-                ThreadUtil.sleep(outOfTooltipMenuPollDelay.toMillis());
             }
         }, Executors.newSingleThreadExecutor(new CyderThreadFactory(mouseOutOfTooltipMenuListenerThreadName)));
     }
@@ -317,7 +322,7 @@ public class TooltipMenuController {
     /**
      * Animates out the tooltip menu label via an opacity decrement transition.
      */
-    public void fadeOut() {
+    private void fadeOut() {
         if (fadeOutAnimation != null && !fadeOutAnimation.isCancelled()) return;
 
         fadeOutAnimation = Futures.submit(() -> {
@@ -339,25 +344,25 @@ public class TooltipMenuController {
      * Initializes the menu items the tooltip menu label will show.
      */
     private void initializeMenuItems() {
-        menuItems.add(new TooltipMenuItem("To back")
-                .addMouseClickAction(this::fadeOut)
+        menuItems.add(new TooltipMenuItem(TooltipMenuItemType.TO_BACK.getLabelText())
+                .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                 .addMouseClickAction(controlFrame::toBack)
                 .buildMenuItemLabel());
-        menuItems.add(new TooltipMenuItem("Frame location")
-                .addMouseClickAction(this::fadeOut)
+        menuItems.add(new TooltipMenuItem(TooltipMenuItemType.FRAME_LOCATION.getLabelText())
+                .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                 .addMouseClickAction(this::onFrameLocationTooltipMenuItemPressed)
                 .buildMenuItemLabel());
 
         if (controlFrame.isResizingAllowed()) {
-            menuItems.add(new TooltipMenuItem("Frame size")
-                    .addMouseClickAction(this::fadeOut)
+            menuItems.add(new TooltipMenuItem(TooltipMenuItemType.FRAME_SIZE.getLabelText())
+                    .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                     .addMouseClickAction(this::onFrameSizeTooltipMenuItemPressed)
                     .buildMenuItemLabel());
         }
         if (ProgramModeManager.INSTANCE.getProgramMode().hasDeveloperPriorityLevel()) {
-            menuItems.add(new TooltipMenuItem("Screenshot")
+            menuItems.add(new TooltipMenuItem(TooltipMenuItemType.SCREENSHOT.getLabelText())
+                    .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                     .addMouseClickAction(() -> {
-                        tooltipMenuLabel.setVisible(false);
                         UiUtil.screenshotCyderFrame(controlFrame);
                         controlFrame.notify("Saved screenshot to your user's Files directory");
                     })

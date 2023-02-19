@@ -3897,7 +3897,7 @@ public class CyderFrame extends JFrame {
      * Sets the tooltip menu controller to a new instance.
      */
     public void resetTooltipMenuController() {
-        // todo need a kill all method
+        if (tooltipMenuController != null) tooltipMenuController.cancelAllTasks();
         tooltipMenuController = new TooltipMenuController(this);
     }
 }
