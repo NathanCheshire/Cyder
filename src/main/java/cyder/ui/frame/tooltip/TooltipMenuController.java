@@ -9,6 +9,7 @@ import cyder.exceptions.FatalException;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.managers.ProgramModeManager;
+import cyder.props.Props;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -298,7 +299,9 @@ public class TooltipMenuController {
     public void fadeOut() {
         if (fadeOutAnimation != null && !fadeOutAnimation.isCancelled()) return;
 
-        // todo
+        // todo just need actual specific animator classes unfortunately,
+        //  or perhaps a hash to the show call and only vanish if associated with current hash
+        // will need to synchronize a lot of stuff
         Runnable runnable = () -> {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
@@ -426,9 +429,7 @@ public class TooltipMenuController {
      */
     private int calculateWidth() {
         int necessaryWidth = 2 * borderLength + defaultWidth;
-        int maxWidthOnParent = controlFrame.getWidth()
-                - controlFrame.getLeftDragLabel().getWidth()
-                - controlFrame.getRightDragLabel().getWidth();
+        int maxWidthOnParent = controlFrame.getWidth() - 2 * CyderFrame.BORDER_LEN;
         return Math.min(necessaryWidth, maxWidthOnParent);
     }
 
@@ -439,9 +440,7 @@ public class TooltipMenuController {
      */
     private int calculateHeight() {
         int necessaryHeight = 2 * borderLength + itemLabelHeight * menuItems.size();
-        int maxHeightOnParent = controlFrame.getHeight()
-                - controlFrame.getTopDragLabel().getHeight()
-                - controlFrame.getBottomDragLabel().getHeight();
+        int maxHeightOnParent = controlFrame.getHeight() - Props.dragLabelHeight.getValue() - CyderFrame.BORDER_LEN;
         return Math.min(necessaryHeight, maxHeightOnParent);
     }
 
