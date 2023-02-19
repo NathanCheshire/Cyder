@@ -226,6 +226,7 @@ public final class NotificationBuilder {
      * @return whether the provided duration is indicative of a notification
      * which should remain visible until dismissed by a user
      */
+    // todo remove
     public static boolean shouldRemainVisibleUntilDismissed(long duration) {
         return duration == showUntilDismissed;
     }

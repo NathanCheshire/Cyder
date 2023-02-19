@@ -114,15 +114,12 @@ public class CyderNotification extends JLabel {
         int componentHeight = builder.getContainer().getHeight();
 
         // artificially inflate the width and height to draw the border
-        componentHeight += (borderLen * 2);
-        componentWidth += (borderLen * 2);
+        componentHeight += borderLen * 2;
+        componentWidth += borderLen * 2;
 
         // obtain painting object
         Graphics2D graphics2D = (Graphics2D) g;
 
-        // containers are set to invisible if the opacity is less than half
-        // todo builder.getContainer().setVisible(builder.getNotificationType() != NotificationType.TOAST || opacity >= 128);
-        // todo do this at the end of toast
 
         // some fancy rendering or whatever
         RenderingHints qualityHints =
@@ -165,24 +162,21 @@ public class CyderNotification extends JLabel {
         outlinePath.moveTo(x, y);
 
         // curve up 2 and right 2, twice
-        outlinePath.curveTo(x, y, x + 2, y - 2, x + 4, y - 4);
+        outlinePath.curveTo(x, y, x + curveInc, y - curveInc, x + 2 * curveInc, y - 2 * curveInc);
+        // new x,y we are at after curing
+        x += (2 * curveInc);
+        y -= (2 * curveInc);
 
-        // new x,y we're at
-        x += 4;
-        y -= 4;
-
-        // line right for component width
+        // line from top left point to right for component top
         outlinePath.lineTo(x + componentWidth, y);
-
         // new x
         x += componentWidth;
-
         // curve down 2 and right 2, twice
-        outlinePath.curveTo(x, y, x + 2, y + 2, x + 4, y + 4);
+        outlinePath.curveTo(x, y, x + curveInc, y + curveInc, x + 2 * curveInc, y + 2 * curveInc);
 
         // new x,y we're at
-        x += 4;
-        y += 4;
+        x += (2 * curveInc);
+        y += (2 * curveInc);
 
         // line down for component height
         outlinePath.lineTo(x, y + componentHeight);
@@ -191,11 +185,11 @@ public class CyderNotification extends JLabel {
         y += componentHeight;
 
         // curve down 2 and left 2, twice
-        outlinePath.curveTo(x, y, x - 2, y + 2, x - 4, y + 4);
+        outlinePath.curveTo(x, y, x - curveInc, y + curveInc, x - 2 * curveInc, y + 2 * curveInc);
 
         // new x,y we're at
-        x -= 4;
-        y += 4;
+        x -= (2 * curveInc);
+        y += (2 * curveInc);
 
         // line left for component width
         outlinePath.lineTo(x - componentWidth, y);
@@ -204,17 +198,16 @@ public class CyderNotification extends JLabel {
         x -= componentWidth;
 
         // curve up 2 and left 2, twice
-        outlinePath.curveTo(x, y, x - 2, y - 2, x - 4, y - 4);
+        outlinePath.curveTo(x, y, x - curveInc, y - curveInc, x - 2 * curveInc, y - 2 * curveInc);
 
         // new x,y we're at
-        x -= 4;
-        y -= 4;
+        x -= (2 * curveInc);
+        y -= (2 * curveInc);
 
         // line up for component height
         outlinePath.lineTo(x, y - componentHeight);
 
         // new y
-        //noinspection UnusedAssignment
         y -= componentHeight;
 
         // close and fill
@@ -281,8 +274,7 @@ public class CyderNotification extends JLabel {
             fillColor = fillColor.darker();
         }
 
-        graphics2D.setPaint(new Color(fillColor.getRed(), fillColor.getGreen(),
-                fillColor.getBlue(), opacity));
+        graphics2D.setPaint(new Color(fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue(), opacity));
 
         GeneralPath fillPath = new GeneralPath();
 
@@ -503,25 +495,7 @@ public class CyderNotification extends JLabel {
         CyderThreadRunner.submit(() -> {
             try {
                 if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
-                    // centered on x, y has offset of 10 pixels from bottom
-                    setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                            parent.getHeight() - getHeight() - 10, getWidth(), getHeight());
 
-                    opacity = 0;
-                    setVisible(true);
-
-                    for (int i = 0 ; i < ColorUtil.opacityRange.upperEndpoint() ; i += 2) {
-                        if (!UserDataManager.INSTANCE.shouldDoAnimations()) {
-                            break;
-                        }
-
-                        opacity = i;
-                        repaint();
-                        ThreadUtil.sleep(2);
-                    }
-
-                    opacity = ColorUtil.opacityRange.upperEndpoint();
-                    repaint();
                 } else {
                     int bottomOffset = 5;
 
@@ -705,23 +679,7 @@ public class CyderNotification extends JLabel {
                 ThreadUtil.sleep(visibleTime);
 
                 if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
-                    for (int i = ColorUtil.opacityRange.upperEndpoint() ; i >= 0 ; i -= 2) {
-                        if (shouldStopAnimation()) {
-                            break;
-                        }
 
-                        opacity = i;
-                        repaint();
-                        ThreadUtil.sleep(2);
-                    }
-
-                    Container parentComponent = getParent();
-
-                    if (parentComponent != null) {
-                        parentComponent.remove(this);
-                        setVisible(false);
-                        parentComponent.repaint();
-                    }
                 } else {
                     switch (notificationDirection) {
                         case TOP:
@@ -736,7 +694,7 @@ public class CyderNotification extends JLabel {
                             break;
                         case BOTTOM:
                             for (int i = getY() ; i < parent.getHeight() - 5 ; i += animationIncrement) {
-                                if (killed || shouldStopAnimation()) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
@@ -748,7 +706,7 @@ public class CyderNotification extends JLabel {
                         case LEFT:
                         case BOTTOM_LEFT:
                             for (int i = getX() ; i > -getWidth() + 5 ; i -= animationIncrement) {
-                                if (killed || shouldStopAnimation()) {
+                                if (shouldStopAnimation()) {
                                     break;
                                 }
 
