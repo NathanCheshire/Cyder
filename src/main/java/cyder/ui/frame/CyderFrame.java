@@ -414,7 +414,6 @@ public class CyderFrame extends JFrame {
         leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
-        leftDrag.setRightButtonList(null);
 
         leftDragCover = new JLabel();
         leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
@@ -432,7 +431,6 @@ public class CyderFrame extends JFrame {
         rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
-        rightDrag.setRightButtonList(null);
 
         rightDragCover = new JLabel();
         rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
@@ -449,7 +447,6 @@ public class CyderFrame extends JFrame {
         bottomDrag.setYOffset(height - BORDER_LEN);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
-        bottomDrag.setRightButtonList(null);
 
         bottomDragCover = new JLabel();
         bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
@@ -564,7 +561,6 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         masterDrag = new CyderDragLabel(width, height, this, DragLabelType.FULL);
-        masterDrag.setRightButtonList(null);
         masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);
         contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
@@ -732,21 +728,14 @@ public class CyderFrame extends JFrame {
     public void setTitlePosition(TitlePosition newPosition, boolean animate) {
         Preconditions.checkNotNull(newPosition);
 
-        if (this.titlePosition == null
-                || this.titlePosition == newPosition
-                || isBorderlessFrame()) {
-            return;
-        }
+        if (this.titlePosition == null || this.titlePosition == newPosition || isBorderlessFrame()) return;
 
-        boolean leftButtons = topDrag.getLeftButtonList().size() > 0;
-        boolean rightButtons = topDrag.getRightButtonList().size() > 0;
-
-        if (newPosition == TitlePosition.LEFT && leftButtons) {
+        if (newPosition == TitlePosition.LEFT && topDrag.hasLeftButtons()) {
             throw new IllegalStateException("Cannot place title position to the left"
                     + " as the left button list contains buttons");
         }
 
-        if (newPosition == TitlePosition.RIGHT && rightButtons) {
+        if (newPosition == TitlePosition.RIGHT && topDrag.hasRightButtons()) {
             throw new IllegalStateException("Cannot place title position to the right"
                     + " as the right button list contains buttons");
         }
@@ -1775,14 +1764,8 @@ public class CyderFrame extends JFrame {
     public void revalidateTitlePosition() {
         if (topDrag == null) return;
 
-        int leftButtonSize = topDrag.getLeftButtonList().size();
-        int rightButtonSize = topDrag.getRightButtonList().size();
-
-        if (titlePosition == TitlePosition.LEFT && leftButtonSize > 0) {
-            setTitlePosition(TitlePosition.CENTER);
-        }
-
-        if (titlePosition == TitlePosition.RIGHT && rightButtonSize > 0) {
+        if ((titlePosition == TitlePosition.LEFT && topDrag.hasLeftButtons())
+                || (titlePosition == TitlePosition.RIGHT && topDrag.hasRightButtons())) {
             setTitlePosition(TitlePosition.CENTER);
         }
     }
@@ -2076,8 +2059,8 @@ public class CyderFrame extends JFrame {
             return;
         }
 
-        ArrayList<Component> leftButtons = topDrag.getLeftButtonList();
-        ArrayList<Component> rightButtons = topDrag.getRightButtonList();
+        ImmutableList<Component> leftButtons = topDrag.getLeftButtonList();
+        ImmutableList<Component> rightButtons = topDrag.getRightButtonList();
 
         int leftButtonsStart = Integer.MAX_VALUE;
         int leftButtonsEnd = Integer.MIN_VALUE;
@@ -2108,10 +2091,7 @@ public class CyderFrame extends JFrame {
                     necessaryTitleWidth, necessaryTitleHeight);
         }
 
-        boolean areLeftButtons = leftButtons.size() > 0;
-        boolean areRightButtons = rightButtons.size() > 0;
-
-        if (areLeftButtons && areRightButtons) {
+        if (topDrag.hasLeftButtons() && topDrag.hasRightButtons()) {
             if (titlePosition != TitlePosition.CENTER) {
                 setTitlePosition(TitlePosition.CENTER, false);
             }
@@ -2122,7 +2102,7 @@ public class CyderFrame extends JFrame {
                 int w = 2 * Math.min(leftDeviation, rightDeviation);
                 titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
             }
-        } else if (areLeftButtons) {
+        } else if (topDrag.hasLeftButtons()) {
             if (titlePosition == TitlePosition.CENTER) {
                 if (width / 2 - necessaryTitleWidth / 2 - necessaryGap < leftButtonsEnd) {
                     int w = 2 * (width / 2 - leftButtonsEnd - necessaryGap);
@@ -2134,7 +2114,7 @@ public class CyderFrame extends JFrame {
                     titleLabel.setBounds(width - titleLabelPadding - w, y, w, necessaryTitleHeight);
                 }
             }
-        } else if (areRightButtons) {
+        } else if (topDrag.hasRightButtons()) {
             if (titlePosition == TitlePosition.CENTER) {
                 if (width / 2 + necessaryTitleWidth / 2 + necessaryGap > rightButtonsStart) {
                     int w = 2 * (rightButtonsStart - necessaryGap - width / 2);
@@ -3208,9 +3188,7 @@ public class CyderFrame extends JFrame {
      * Removes the menu button from the drag label
      */
     private void removeMenuButton() {
-        if (!topDrag.getLeftButtonList().isEmpty()) {
-            topDrag.removeLeftButton(menuButton);
-        }
+        if (topDrag.hasLeftButtons()) topDrag.removeLeftButton(menuButton);
     }
 
     /**

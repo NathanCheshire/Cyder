@@ -1,6 +1,7 @@
 package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
@@ -12,7 +13,6 @@ import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,14 +77,12 @@ public class CyderDragLabel extends JLabel {
      */
     private ArrayList<Component> rightButtonList;
 
-    // todo can these be array lists and can we return defensive copies?
-
     /**
      * The list of buttons to paint on the left of the drag label.
      * If any buttons exist in this list then the title label is restricted/moved to
      * the center position.
      */
-    private ArrayList<Component> leftButtonList;
+    private final ArrayList<Component> leftButtonList = new ArrayList<>();
 
     /**
      * The type of drag label this drag label is.
@@ -106,8 +104,6 @@ public class CyderDragLabel extends JLabel {
         this.backgroundColor = CyderColors.getGuiThemeColor();
         this.type = Preconditions.checkNotNull(type);
 
-        leftButtonList = new ArrayList<>();
-
         initializeRightButtonList();
 
         setSize(width, height);
@@ -127,6 +123,11 @@ public class CyderDragLabel extends JLabel {
 
         if (type != DragLabelType.FULL) {
             addMouseListener((createTooltipMenuMouseListener(effectFrame, this)));
+        }
+
+        if (type != DragLabelType.TOP) {
+            removeRightButtons();
+            refreshRightButtons();
         }
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
@@ -636,8 +637,8 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current right button list
      */
-    public ArrayList<Component> getRightButtonList() {
-        return rightButtonList;
+    public ImmutableList<Component> getRightButtonList() {
+        return ImmutableList.copyOf(rightButtonList);
     }
 
     /**
@@ -645,52 +646,48 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current left button list
      */
-    public ArrayList<Component> getLeftButtonList() {
-        return leftButtonList;
+    public ImmutableList<Component> getLeftButtonList() {
+        return ImmutableList.copyOf(leftButtonList);
     }
 
     /**
-     * Sets the right button list to the one provided.
+     * Returns whether the right button list contains buttons.
      *
-     * @param rightButtonList the button list to use for this drag label's right list
+     * @return whether the right button list contains buttons
      */
-    public void setRightButtonList(@Nullable ArrayList<Component> rightButtonList) {
-        removeRightButtons();
-        this.rightButtonList = rightButtonList;
-        refreshRightButtons();
+    public boolean hasRightButtons() {
+        return rightButtonList.size() > 0;
     }
 
     /**
-     * Sets the left button list to the one provided.
+     * Returns whether the left button list contains buttons.
      *
-     * @param leftButtonList the button list to use for this drag label's left list
+     * @return whether the left button list contains buttons
      */
-    public void setLeftButtonList(@Nullable ArrayList<Component> leftButtonList) {
-        removeLeftButtons();
-        this.leftButtonList = leftButtonList;
-        refreshLeftButtons();
+    public boolean hasLeftButtons() {
+        return leftButtonList.size() > 0;
+    }
+
+    public void removeRightButtonsAndRefresh() {
+
     }
 
     /**
-     * Removes all buttons from the right button list from this drag label.
+     * Removes all buttons contained in the right button list from this drag label.
+     * The contents of the right button list remains the same.
      */
     public void removeRightButtons() {
-        if (rightButtonList == null) return;
-
-        for (Component button : rightButtonList) {
-            remove(button);
-        }
+        if (rightButtonList.isEmpty()) return;
+        rightButtonList.forEach(this::remove);
     }
 
     /**
-     * Removes all buttons from the left button list from this drag label.
+     * Removes all buttons contained in the left button list from this drag label.
+     * The contents of the left button list remains the same.
      */
     public void removeLeftButtons() {
-        if (leftButtonList == null) return;
-
-        for (Component button : leftButtonList) {
-            remove(button);
-        }
+        if (leftButtonList.isEmpty()) return;
+        leftButtonList.forEach(this::remove);
     }
 
     /**
@@ -715,8 +712,6 @@ public class CyderDragLabel extends JLabel {
      * Refreshes all right buttons and their positions.
      */
     public void refreshRightButtons() {
-        if (rightButtonList == null) return;
-
         removeRightButtons();
         effectFrame.revalidateTitlePosition();
 
