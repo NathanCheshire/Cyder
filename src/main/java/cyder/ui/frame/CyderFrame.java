@@ -2076,8 +2076,8 @@ public class CyderFrame extends JFrame {
             return;
         }
 
-        LinkedList<Component> leftButtons = topDrag.getLeftButtonList();
-        LinkedList<Component> rightButtons = topDrag.getRightButtonList();
+        ArrayList<Component> leftButtons = topDrag.getLeftButtonList();
+        ArrayList<Component> rightButtons = topDrag.getRightButtonList();
 
         int leftButtonsStart = Integer.MAX_VALUE;
         int leftButtonsEnd = Integer.MIN_VALUE;

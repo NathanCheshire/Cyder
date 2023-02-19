@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -74,7 +75,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The list of buttons to paint on the right of the drag label.
      */
-    private LinkedList<Component> rightButtonList;
+    private ArrayList<Component> rightButtonList;
 
     // todo can these be array lists and can we return defensive copies?
 
@@ -83,7 +84,7 @@ public class CyderDragLabel extends JLabel {
      * If any buttons exist in this list then the title label is restricted/moved to
      * the center position.
      */
-    private LinkedList<Component> leftButtonList;
+    private ArrayList<Component> leftButtonList;
 
     /**
      * The type of drag label this drag label is.
@@ -105,7 +106,7 @@ public class CyderDragLabel extends JLabel {
         this.backgroundColor = CyderColors.getGuiThemeColor();
         this.type = Preconditions.checkNotNull(type);
 
-        leftButtonList = new LinkedList<>();
+        leftButtonList = new ArrayList<>();
 
         initializeRightButtonList();
 
@@ -140,7 +141,7 @@ public class CyderDragLabel extends JLabel {
         if (type == DragLabelType.TOP) {
             rightButtonList = buildRightButtonList();
         } else {
-            rightButtonList = new LinkedList<>();
+            rightButtonList = new ArrayList<>();
         }
     }
 
@@ -409,8 +410,8 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the default right button list
      */
-    private LinkedList<Component> buildRightButtonList() {
-        LinkedList<Component> ret = new LinkedList<>();
+    private ArrayList<Component> buildRightButtonList() {
+        ArrayList<Component> ret = new ArrayList<>();
 
         MinimizeButton minimizeButton = new MinimizeButton(effectFrame);
         ret.add(minimizeButton);
@@ -635,7 +636,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current right button list
      */
-    public LinkedList<Component> getRightButtonList() {
+    public ArrayList<Component> getRightButtonList() {
         return rightButtonList;
     }
 
@@ -644,7 +645,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current left button list
      */
-    public LinkedList<Component> getLeftButtonList() {
+    public ArrayList<Component> getLeftButtonList() {
         return leftButtonList;
     }
 
@@ -653,7 +654,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param rightButtonList the button list to use for this drag label's right list
      */
-    public void setRightButtonList(@Nullable LinkedList<Component> rightButtonList) {
+    public void setRightButtonList(@Nullable ArrayList<Component> rightButtonList) {
         removeRightButtons();
         this.rightButtonList = rightButtonList;
         refreshRightButtons();
@@ -664,7 +665,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param leftButtonList the button list to use for this drag label's left list
      */
-    public void setLeftButtonList(@Nullable LinkedList<Component> leftButtonList) {
+    public void setLeftButtonList(@Nullable ArrayList<Component> leftButtonList) {
         removeLeftButtons();
         this.leftButtonList = leftButtonList;
         refreshLeftButtons();

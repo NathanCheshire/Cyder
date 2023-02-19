@@ -859,7 +859,7 @@ public final class AudioPlayer {
      * Sets up the focus traversal system for the primary control components.
      */
     private static void setupFocusTraversal() {
-        LinkedList<Component> buttons = audioPlayerFrame.getTopDragLabel().getRightButtonList();
+        ArrayList<Component> buttons = audioPlayerFrame.getTopDragLabel().getRightButtonList();
         MinimizeButton minimizeButton = (MinimizeButton) buttons.get(0);
         ChangeSizeButton changeSizeButton = (ChangeSizeButton) buttons.get(1);
         PinButton pinButton = (PinButton) buttons.get(2);
