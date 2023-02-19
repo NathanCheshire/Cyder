@@ -79,28 +79,28 @@ public class CyderFrame extends JFrame {
     /**
      * The minimum allowable width for a CyderFrame.
      */
-    public static final int MINIMUM_WIDTH = 200;
+    public static final int minimumWidth = 200;
 
     /**
      * The maximum allowable height for a CyderFrame.
      */
-    public static final int MINIMUM_HEIGHT = 100;
+    public static final int minimumHeight = 100;
 
     /**
      * The font used for the title label (typically equivalent to agencyFB22).
      */
-    public static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
+    private static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
 
     /**
      * The font used for CyderFrame notifications (typically equivalent to segoe20)
      */
-    public static final Font NOTIFICATION_FONT = new Font("Segoe UI Black", Font.BOLD, 20);
+    private static final Font NOTIFICATION_FONT = new Font("Segoe UI Black", Font.BOLD, 20);
 
     /**
      * The maximum allowable frame dimension to notification dimension before
      * the notification is turned into a popup pane.
      */
-    public static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
+    private static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
 
     /**
      * The value used for {@link #restoreX} and {@link #restoreY} to indicate a drag has not yet occurred.
@@ -312,7 +312,7 @@ public class CyderFrame extends JFrame {
      */
     public CyderFrame(int width, int height, Color color) {
         this(width, height, ImageUtil.imageIconFromColor(color,
-                Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
+                Math.max(minimumWidth, width), Math.max(minimumHeight, height)));
     }
 
     /**
@@ -994,12 +994,8 @@ public class CyderFrame extends JFrame {
      * @param title the painted title text
      */
     public void setCyderFrameTitle(String title) {
-        Preconditions.checkNotNull(title);
-        title = StringUtil.getTrimmedText(title);
-
         if (titleLabel == null) return;
-
-        titleLabel.setText(title);
+        titleLabel.setText(StringUtil.getTrimmedText(Preconditions.checkNotNull(title)));
         correctTitleLength();
     }
 
@@ -1008,6 +1004,11 @@ public class CyderFrame extends JFrame {
     // -------------
     // Notifications
     // -------------
+
+    /**
+     * The name for the notification queue thread.
+     */
+    private static final String NOTIFICATION_QUEUE_THREAD_FOOTER = " Frame Notification Queue";
 
     /**
      * The notification that is currently being displayed.
@@ -1042,11 +1043,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The name for the notification queue thread.
-     */
-    private static final String NOTIFICATION_QUEUE_THREAD_FOOTER = " Frame Notification Queue";
-
-    /**
      * Notifies the user with a custom notification built from the provided builder.
      * See {@link NotificationBuilder} for more information.
      *
@@ -1061,7 +1057,8 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
+            String threadName = getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER;
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), threadName);
         }
     }
 
@@ -1074,14 +1071,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
-        NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
-        toastBuilder.setNotificationType(NotificationType.TOAST);
-        notificationList.add(toastBuilder);
-
-        if (!notificationCheckerStarted) {
-            notificationCheckerStarted = true;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
-        }
+        toast(new NotificationBuilder(htmlText));
     }
 
     /**
@@ -1099,15 +1089,10 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
+            String threadName = getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER;
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), threadName);
         }
     }
-
-    /**
-     * The semaphore used to lock the notification queue
-     * so that only one may ever be present at a time.
-     */
-    private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     /**
      * The padding between the notification component edges and the text container.
@@ -1118,6 +1103,12 @@ public class CyderFrame extends JFrame {
      * The milliseconds per word for a notification if the time calculation is left up to the method.
      */
     private static final int msPerNotificationWord = 300;
+
+    /**
+     * The semaphore used to lock the notification queue
+     * so that only one may ever be present at a time.
+     */
+    private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     /**
      * Returns the notification queue for internal frame notifications/toasts.
@@ -1202,7 +1193,9 @@ public class CyderFrame extends JFrame {
                             Jsoup.clean(bs.getText(), Safelist.none()));
                 }
 
-                Logger.log(LogTag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
+                String logLine = openingBracket + getTitle() + closingBracket + space
+                        + openingBracket + "Notification" + closingBracket + space + quote + brokenText + quote;
+                Logger.log(LogTag.UI_ACTION, logLine);
 
                 appearNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
                 currentNotification = appearNotification;
@@ -1217,16 +1210,16 @@ public class CyderFrame extends JFrame {
 
     @ForReadability
     private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
-        new InformHandler.Builder(text == null ? CyderStrings.NULL : text)
-                .setContainer(container)
-                .setTitle(generateNotificationTooltip(time))
-                .setRelativeTo(this).inform();
-        notificationConstructionLock.release();
-    }
+        if (text == null) text = CyderStrings.NULL;
+        String title = getTitle() + space + "Notification" + space + openingParenthesis + time + closingParenthesis;
 
-    @ForReadability
-    private String generateNotificationTooltip(String time) {
-        return getTitle() + " Notification " + openingParenthesis + time + closingParenthesis;
+        new InformHandler.Builder(text)
+                .setContainer(container)
+                .setTitle(title)
+                .setRelativeTo(this)
+                .inform();
+
+        notificationConstructionLock.release();
     }
 
     /**
@@ -1239,8 +1232,10 @@ public class CyderFrame extends JFrame {
      * @return a disposal mouse listener for a notification
      */
     @ForReadability
-    private MouseAdapter generateNotificationDisposalMouseListener(
-            NotificationBuilder builder, JLabel textLabel, CyderNotification notification, boolean doEnterAndExit) {
+    private MouseAdapter generateNotificationDisposalMouseListener(NotificationBuilder builder,
+                                                                   JLabel textLabel,
+                                                                   CyderNotification notification,
+                                                                   boolean doEnterAndExit) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -1270,10 +1265,6 @@ public class CyderFrame extends JFrame {
                 }
             }
         };
-    }
-
-    private static String constructNotificationLogLine(String title, String text) {
-        return openingBracket + title + closingBracket + space + "[Notification]" + space + quote + text + quote;
     }
 
     /**
@@ -1309,15 +1300,12 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(expectedText);
         Preconditions.checkArgument(!expectedText.isEmpty());
 
-        if (currentNotification == null || currentNotification.getBuilder() == null) {
-            return;
-        }
+        if (currentNotification == null || currentNotification.getBuilder() == null) return;
 
         if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
-            notificationList.removeIf(notificationBuilder
-                    -> notificationBuilder.getHtmlText().equals(expectedText));
+            notificationList.removeIf(builder -> builder.getHtmlText().equals(expectedText));
         }
     }
 
@@ -1336,9 +1324,9 @@ public class CyderFrame extends JFrame {
         notificationCheckerStarted = false;
     }
 
-    // -----------
-    // drag labels
-    // -----------
+    // ----------------
+    // Drag label logic
+    // ----------------
 
     /**
      * Returns the top drag label.
@@ -1392,7 +1380,7 @@ public class CyderFrame extends JFrame {
     }
 
     // ----------
-    // animations
+    // Animations
     // ----------
 
     /**
@@ -1786,16 +1774,16 @@ public class CyderFrame extends JFrame {
     private Dimension validateRequestedSize(int width, int height) {
         String title = getTitle().length() < 1 ? "No title found" : getTitle();
 
-        if (width < MINIMUM_WIDTH) {
+        if (width < minimumWidth) {
             Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid width: " + width);
-            width = MINIMUM_WIDTH;
+            width = minimumWidth;
         }
 
-        if (height < MINIMUM_HEIGHT) {
+        if (height < minimumHeight) {
             Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid height: " + height);
-            height = MINIMUM_HEIGHT;
+            height = minimumHeight;
         }
 
         return new Dimension(width, height);
@@ -1875,7 +1863,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the size of this frame ensuring that the sizing is not below
-     * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
+     * {@link CyderFrame#minimumWidth} by {@link CyderFrame#minimumHeight}
      *
      * @param width  width of frame
      * @param height height of frame
@@ -2016,9 +2004,7 @@ public class CyderFrame extends JFrame {
      * Revalidates and updates the frame's shape, that of being rounded or square.
      */
     private void revalidateFrameShape() {
-        if (!isUndecorated()) {
-            return;
-        }
+        if (!isUndecorated()) return;
 
         Shape shape = null;
 
@@ -2053,16 +2039,14 @@ public class CyderFrame extends JFrame {
     /**
      * The gap to keep between the drag label buttons and the start/end of the title label.
      */
-    private static final int necessaryGap = 10;
+    private static final int titleLabelComponentGap = 10;
 
     /**
      * Revalidates the title label width based to ensure that the
      * most is shown but the title does not overlap any buttons.
      */
     private void correctTitleLength() {
-        if (isBorderlessFrame() || topDrag.getRightButtonList() == null || isBorderlessFrame()) {
-            return;
-        }
+        if (isBorderlessFrame() || topDrag.getRightButtonList() == null || isBorderlessFrame()) return;
 
         ImmutableList<Component> leftButtons = topDrag.getLeftButtonList();
         ImmutableList<Component> rightButtons = topDrag.getRightButtonList();
@@ -2100,34 +2084,34 @@ public class CyderFrame extends JFrame {
             if (titlePosition != TitlePosition.CENTER) {
                 setTitlePosition(TitlePosition.CENTER, false);
             }
-            if (titleLabel.getX() - necessaryGap < leftButtonsEnd
-                    || titleLabel.getX() + titleLabel.getWidth() + necessaryGap > rightButtonsStart) {
-                int leftDeviation = getWidth() / 2 - leftButtonsEnd - necessaryGap;
-                int rightDeviation = rightButtonsStart - getWidth() / 2 - necessaryGap;
+            if (titleLabel.getX() - titleLabelComponentGap < leftButtonsEnd
+                    || titleLabel.getX() + titleLabel.getWidth() + titleLabelComponentGap > rightButtonsStart) {
+                int leftDeviation = getWidth() / 2 - leftButtonsEnd - titleLabelComponentGap;
+                int rightDeviation = rightButtonsStart - getWidth() / 2 - titleLabelComponentGap;
                 int w = 2 * Math.min(leftDeviation, rightDeviation);
                 titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
             }
         } else if (topDrag.hasLeftButtons()) {
             if (titlePosition == TitlePosition.CENTER) {
-                if (width / 2 - necessaryTitleWidth / 2 - necessaryGap < leftButtonsEnd) {
-                    int w = 2 * (width / 2 - leftButtonsEnd - necessaryGap);
+                if (width / 2 - necessaryTitleWidth / 2 - titleLabelComponentGap < leftButtonsEnd) {
+                    int w = 2 * (width / 2 - leftButtonsEnd - titleLabelComponentGap);
                     titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
                 }
             } else {
-                if (width - titleLabelPadding - necessaryTitleWidth - necessaryGap < leftButtonsEnd) {
-                    int w = width - necessaryGap - leftButtonsEnd - titleLabelPadding;
+                if (width - titleLabelPadding - necessaryTitleWidth - titleLabelComponentGap < leftButtonsEnd) {
+                    int w = width - titleLabelComponentGap - leftButtonsEnd - titleLabelPadding;
                     titleLabel.setBounds(width - titleLabelPadding - w, y, w, necessaryTitleHeight);
                 }
             }
         } else if (topDrag.hasRightButtons()) {
             if (titlePosition == TitlePosition.CENTER) {
-                if (width / 2 + necessaryTitleWidth / 2 + necessaryGap > rightButtonsStart) {
-                    int w = 2 * (rightButtonsStart - necessaryGap - width / 2);
+                if (width / 2 + necessaryTitleWidth / 2 + titleLabelComponentGap > rightButtonsStart) {
+                    int w = 2 * (rightButtonsStart - titleLabelComponentGap - width / 2);
                     titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
                 }
             } else {
-                if (titleLabelPadding + necessaryTitleWidth + necessaryGap > rightButtonsStart) {
-                    int w = rightButtonsStart - titleLabelPadding - necessaryGap;
+                if (titleLabelPadding + necessaryTitleWidth + titleLabelComponentGap > rightButtonsStart) {
+                    int w = rightButtonsStart - titleLabelPadding - titleLabelComponentGap;
                     titleLabel.setBounds(titleLabelPadding, y, w, necessaryTitleHeight);
                 }
             }
@@ -2161,17 +2145,22 @@ public class CyderFrame extends JFrame {
     /**
      * The minimum size dimension.
      */
-    private Dimension minimumSize = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+    private Dimension minimumFrameSize = new Dimension(minimumWidth, minimumHeight);
+
+    /**
+     * The default maximum length of a frame.
+     */
+    private static final int defaultMaxFrameLength = 800;
 
     /**
      * The maximum size of a CyderFrame.
      */
-    private Dimension maximumSize = new Dimension(800, 800);
+    private Dimension maximumFrameSize = new Dimension(defaultMaxFrameLength, defaultMaxFrameLength);
 
     /**
      * The increment to snap to on resize events.
      */
-    private Dimension snapSize = new Dimension(1, 1);
+    private Dimension frameSnapSize = new Dimension(1, 1);
 
     /**
      * Sets the minimum window size if resizing is allowed.
@@ -2179,8 +2168,8 @@ public class CyderFrame extends JFrame {
      * @param minSize the Dimension of the minimum allowed size
      */
     public void setMinimumSize(Dimension minSize) {
-        minimumSize = minSize;
-        cyderComponentResizer.setMinimumSize(minimumSize);
+        minimumFrameSize = minSize;
+        cyderComponentResizer.setMinimumSize(minimumFrameSize);
     }
 
     /**
@@ -2199,8 +2188,8 @@ public class CyderFrame extends JFrame {
      * @param maxSize the Dimension of the minimum allowed size
      */
     public void setMaximumSize(Dimension maxSize) {
-        maximumSize = maxSize;
-        cyderComponentResizer.setMaximumSize(maximumSize);
+        maximumFrameSize = maxSize;
+        cyderComponentResizer.setMaximumSize(maximumFrameSize);
     }
 
     /**
@@ -2219,8 +2208,8 @@ public class CyderFrame extends JFrame {
      * @param snap the dimension of the snap size
      */
     public void setSnapSize(Dimension snap) {
-        snapSize = snap;
-        cyderComponentResizer.setSnapSize(snapSize);
+        frameSnapSize = snap;
+        cyderComponentResizer.setSnapSize(frameSnapSize);
     }
 
     /**
@@ -2239,7 +2228,7 @@ public class CyderFrame extends JFrame {
      * @return the minimum window size if resizing is allowed
      */
     public Dimension getMinimumSize() {
-        return minimumSize;
+        return minimumFrameSize;
     }
 
     /**
@@ -2248,7 +2237,7 @@ public class CyderFrame extends JFrame {
      * @return the maximum window size if resizing is allowed
      */
     public Dimension getMaximumSize() {
-        return maximumSize;
+        return maximumFrameSize;
     }
 
     /**
@@ -2257,7 +2246,7 @@ public class CyderFrame extends JFrame {
      * @return the snap size for the window if resizing is allowed
      */
     public Dimension getSnapSize() {
-        return snapSize;
+        return frameSnapSize;
     }
 
     /**
@@ -4432,21 +4421,24 @@ public class CyderFrame extends JFrame {
                 return;
             }
 
-            if (requestedWidth < minimumSize.getWidth()) {
+            if (requestedWidth < minimumFrameSize.getWidth()) {
                 notify("Requested width " + quote + requestedWidth + quote
-                        + " is less than the minimum allowable width: " + quote + minimumSize.getWidth() + quote);
+                        + " is less than the minimum allowable width: " + quote + minimumFrameSize.getWidth() + quote);
                 return;
-            } else if (requestedHeight < minimumSize.getHeight()) {
+            } else if (requestedHeight < minimumFrameSize.getHeight()) {
                 notify("Requested height " + quote + requestedHeight + quote
-                        + " is less than the minimum allowable height: " + quote + minimumSize.getHeight() + quote);
+                        + " is less than the minimum allowable height: " + quote + minimumFrameSize.getHeight() +
+                        quote);
                 return;
-            } else if (requestedWidth > maximumSize.getWidth()) {
+            } else if (requestedWidth > maximumFrameSize.getWidth()) {
                 notify("Requested width " + quote + requestedWidth + quote
-                        + " is greater than the maximum allowable width: " + quote + maximumSize.getWidth() + quote);
+                        + " is greater than the maximum allowable width: " + quote + maximumFrameSize.getWidth() +
+                        quote);
                 return;
-            } else if (requestedHeight > maximumSize.getHeight()) {
+            } else if (requestedHeight > maximumFrameSize.getHeight()) {
                 notify("Requested height " + quote + requestedHeight + quote
-                        + " is greater than the maximum allowable height: " + quote + maximumSize.getHeight() + quote);
+                        + " is greater than the maximum allowable height: " + quote + maximumFrameSize.getHeight() +
+                        quote);
                 return;
             }
 

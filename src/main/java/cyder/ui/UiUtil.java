@@ -82,8 +82,8 @@ public final class UiUtil {
     public static void screenshotCyderFrames() {
         getCyderFrames().stream()
                 .filter(Component::isVisible)
-                .filter(f -> f.getWidth() >= CyderFrame.MINIMUM_WIDTH)
-                .filter(f -> f.getHeight() >= CyderFrame.MINIMUM_HEIGHT)
+                .filter(f -> f.getWidth() >= CyderFrame.minimumWidth)
+                .filter(f -> f.getHeight() >= CyderFrame.minimumHeight)
                 .forEach(UiUtil::screenshotCyderFrame);
     }
 
