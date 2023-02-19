@@ -474,7 +474,7 @@ public class CyderFrame extends JFrame {
 
         revalidateFrameShape();
 
-        tooltipMenuController = new TooltipMenuController(this);
+        resetTooltipMenuController();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -3891,5 +3891,13 @@ public class CyderFrame extends JFrame {
         Preconditions.checkState(!isBorderlessFrame());
 
         return tooltipMenuController;
+    }
+
+    /**
+     * Sets the tooltip menu controller to a new instance.
+     */
+    public void resetTooltipMenuController() {
+        // todo need a kill all method
+        tooltipMenuController = new TooltipMenuController(this);
     }
 }

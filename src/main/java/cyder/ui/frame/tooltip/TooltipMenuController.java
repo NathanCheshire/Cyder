@@ -1,7 +1,6 @@
 package cyder.ui.frame.tooltip;
 
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -11,7 +10,6 @@ import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.managers.ProgramModeManager;
 import cyder.strings.StringUtil;
-import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
@@ -32,7 +30,6 @@ import java.awt.event.MouseEvent;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -236,6 +233,7 @@ public class TooltipMenuController {
     private void cancelNoInteractionFadeOutWaiter() {
         if (noInteractionFadeOutWaiter != null) {
             noInteractionFadeOutWaiter.cancel(true);
+            noInteractionFadeOutWaiter = null;
         }
     }
 
@@ -243,13 +241,14 @@ public class TooltipMenuController {
      * Starts a new {@link #noInteractionFadeOutWaiter} task.
      */
     private void startNewNoInteractionFadeOutWaiter() {
-        noInteractionFadeOutWaiter = Futures.submit(() -> {
+        // todo
+        Runnable runnable = () -> {
             ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
             if (!mouseHasEnteredTooltipMenu.get()) {
-                System.out.println("From no interaction");
                 fadeOut();
             }
-        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(tooltipMenuFadeoutWaiterThreadName)));
+        };
+        CyderThreadRunner.submit(runnable, tooltipMenuFadeoutWaiterThreadName);
     }
 
     /**
@@ -258,6 +257,7 @@ public class TooltipMenuController {
     private void cancelMouseOutOfMenuWaiter() {
         if (mouseOutOfMenuWaiter != null) {
             mouseOutOfMenuWaiter.cancel(true);
+            mouseOutOfMenuWaiter = null;
         }
     }
 
@@ -265,12 +265,12 @@ public class TooltipMenuController {
      * Starts a new {@link #mouseOutOfMenuWaiter} task.
      */
     private void startNewMouseOutOfMenuWaiter() {
-        mouseOutOfMenuWaiter = Futures.submit(() -> {
+        // todo
+        Runnable runnable = () -> {
             while (true) {
                 if (tooltipMenuLabel.getMousePosition() == null) {
                     ThreadUtil.sleep(outOfTooltipMenuBeforeFadeOut.toMillis());
                     if (tooltipMenuLabel.getMousePosition() == null) {
-                        System.out.println("From mouse out of menu");
                         fadeOut();
                         return;
                     }
@@ -278,7 +278,8 @@ public class TooltipMenuController {
 
                 ThreadUtil.sleep(outOfTooltipMenuPollDelay.toMillis());
             }
-        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(mouseOutOfTooltipMenuListenerThreadName)));
+        };
+        CyderThreadRunner.submit(runnable, mouseOutOfTooltipMenuListenerThreadName);
     }
 
     /**
@@ -295,9 +296,10 @@ public class TooltipMenuController {
      * Animates out the tooltip menu label via an opacity decrement transition.
      */
     public void fadeOut() {
-        if (fadeOutAnimation != null && !fadeOutAnimation.isDone()) return;
+        if (fadeOutAnimation != null && !fadeOutAnimation.isCancelled()) return;
 
-        fadeOutAnimation = Futures.submit(() -> {
+        // todo
+        Runnable runnable = () -> {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
             while (opacity.get() >= opacityAnimationDecrement) {
@@ -309,7 +311,8 @@ public class TooltipMenuController {
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
-        }, Executors.newSingleThreadExecutor(new CyderThreadFactory(animateOutThreadName)));
+        };
+        CyderThreadRunner.submit(runnable, animateOutThreadName);
     }
 
     /**

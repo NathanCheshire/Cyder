@@ -1151,6 +1151,7 @@ public enum Console {
         consoleCyderFrame.setSnapSize(SNAP_SIZE);
 
         refreshConsoleMaxSize();
+        consoleCyderFrame.resetTooltipMenuController();
     }
 
     /**
