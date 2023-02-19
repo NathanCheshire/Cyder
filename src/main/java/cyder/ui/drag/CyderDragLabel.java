@@ -33,6 +33,16 @@ public class CyderDragLabel extends JLabel {
     public static final int DEFAULT_HEIGHT = Props.dragLabelHeight.getValue();
 
     /**
+     * The spacing between drag label buttons.
+     */
+    private static final int BUTTON_SPACING = 2;
+
+    /**
+     * The padding between the left and right of the drag label buttons.
+     */
+    private static final int BUTTON_PADDING = 5;
+
+    /**
      * The width of this DragLabel.
      */
     private int width;
@@ -50,22 +60,22 @@ public class CyderDragLabel extends JLabel {
     /**
      * The x offset used for dragging.
      */
-    private final AtomicInteger xOffset;
+    private final AtomicInteger xOffset = new AtomicInteger();
 
     /**
      * The y offset used for dragging.
      */
-    private final AtomicInteger yOffset;
+    private final AtomicInteger yOffset = new AtomicInteger();
 
     /**
      * The background color of this drag label.
      */
-    private Color backgroundColor;
+    private Color backgroundColor = CyderColors.getGuiThemeColor();
 
     /**
      * Whether dragging is currently enabled.
      */
-    private final AtomicBoolean draggingEnabled;
+    private final AtomicBoolean draggingEnabled = new AtomicBoolean(true);
 
     /**
      * The pin button for this drag label.
@@ -98,11 +108,13 @@ public class CyderDragLabel extends JLabel {
      * @param type        the type of drag label this drag label should be
      */
     public CyderDragLabel(int width, int height, CyderFrame effectFrame, DragLabelType type) {
+        Preconditions.checkNotNull(effectFrame);
+        Preconditions.checkNotNull(type);
+
         this.width = width;
         this.height = height;
-        this.effectFrame = Preconditions.checkNotNull(effectFrame);
-        this.backgroundColor = CyderColors.getGuiThemeColor();
-        this.type = Preconditions.checkNotNull(type);
+        this.effectFrame = effectFrame;
+        this.type = type;
 
         initializeRightButtonList();
 
@@ -111,28 +123,122 @@ public class CyderDragLabel extends JLabel {
         setFocusable(false);
         setBackground(backgroundColor);
 
-        xOffset = new AtomicInteger();
-        yOffset = new AtomicInteger();
+        addListeners();
 
-        draggingEnabled = new AtomicBoolean(true);
+        invokeSpecialActionsBasedOnType();
 
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Creates and adds the necessary {@link MouseListener}s,
+     * {@link MouseMotionListener}s, and {@link WindowListener}s.
+     */
+    private void addListeners() {
         AtomicBoolean leftMouseButtonPressed = new AtomicBoolean(false);
-        addMouseMotionListener(createDraggingMouseMotionListener(
-                effectFrame, draggingEnabled, xOffset, yOffset, leftMouseButtonPressed));
-        addMouseListener(createOpacityAnimationMouseListener(effectFrame, leftMouseButtonPressed));
+        AtomicInteger mouseX = new AtomicInteger();
+        AtomicInteger mouseY = new AtomicInteger();
 
-        if (type != DragLabelType.FULL) {
-            addMouseListener((createTooltipMenuMouseListener(effectFrame, this)));
-        }
+        addMouseMotionListener(new MouseMotionListener() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (!leftMouseButtonPressed.get()) return;
 
+                int x = e.getXOnScreen();
+                int y = e.getYOnScreen();
+
+                if (effectFrame.isFocused() && draggingEnabled.get()) {
+                    int setX = x - mouseX.get() - xOffset.get();
+                    int setY = y - mouseY.get() - yOffset.get();
+
+                    effectFrame.setLocation(setX, setY);
+
+                    effectFrame.setRestoreX(setX);
+                    effectFrame.setRestoreY(setY);
+                }
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseX.set(e.getX());
+                mouseY.set(e.getY());
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftMouseButtonPressed.set(true);
+                    effectFrame.startDragEvent();
+                }
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftMouseButtonPressed.set(false);
+                    effectFrame.endDragEvent();
+                }
+            }
+        });
+
+        effectFrame.addWindowListener(new WindowAdapter() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                effectFrame.setVisible(true);
+                effectFrame.requestFocus();
+                UiUtil.requestFramePosition(effectFrame.getRestoreX(), effectFrame.getRestoreY(), effectFrame);
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void windowIconified(WindowEvent e) {
+                if (UiUtil.frameNotYetDragged(effectFrame)) {
+                    effectFrame.setRestoreX(effectFrame.getX());
+                    effectFrame.setRestoreY(effectFrame.getY());
+                }
+            }
+        });
+    }
+
+    /**
+     * Invokes any special setup actions based on the type of this drag label.
+     */
+    private void invokeSpecialActionsBasedOnType() {
         if (type != DragLabelType.TOP) {
             removeRightButtons();
             refreshRightButtons();
         }
-
-        effectFrame.addWindowListener(createWindowListener(effectFrame));
-
-        Logger.log(LogTag.OBJECT_CREATION, this);
+        if (type != DragLabelType.FULL) {
+            // This is unnecessarily necessary because JVM said so
+            CyderDragLabel label = this;
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (e.getButton() != MouseEvent.BUTTON1) {
+                        effectFrame.generateAndShowTooltipMenu(e.getPoint(), label);
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -144,123 +250,6 @@ public class CyderDragLabel extends JLabel {
         } else {
             rightButtonList = new ArrayList<>();
         }
-    }
-
-    /**
-     * Creates a mouse motion listener to allow the provided frame to be dragged.
-     *
-     * @param effectFrame            the frame the motion listener will be applied to
-     * @param draggingEnabled        whether dragging should be allowed
-     * @param xOffset                the current frame x offset
-     * @param yOffset                the current frame y offset
-     * @param leftMouseButtonPressed the atomic boolean determining whether the left mouse button is currently pressed
-     * @return a mouse motion listener to allow the provided frame to be dragged
-     */
-    private static MouseMotionListener createDraggingMouseMotionListener(
-            CyderFrame effectFrame, AtomicBoolean draggingEnabled,
-            AtomicInteger xOffset, AtomicInteger yOffset,
-            AtomicBoolean leftMouseButtonPressed) {
-        AtomicInteger mouseX = new AtomicInteger();
-        AtomicInteger mouseY = new AtomicInteger();
-
-        return new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (!leftMouseButtonPressed.get()) return;
-
-                int x = e.getXOnScreen();
-                int y = e.getYOnScreen();
-
-                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled.get()) {
-                    int setX = x - mouseX.get() - xOffset.get();
-                    int setY = y - mouseY.get() - yOffset.get();
-
-                    effectFrame.setLocation(setX, setY);
-
-                    effectFrame.setRestoreX(setX);
-                    effectFrame.setRestoreY(setY);
-                }
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mouseX.set(e.getX());
-                mouseY.set(e.getY());
-            }
-        };
-    }
-
-    /**
-     * Creates the opacity animation mouse listener for the provided frame.
-     *
-     * @param effectFrame            the frame to be used for the opacity animation
-     * @param leftMouseButtonPressed the atomic boolean to set/reset if the left mouse button is pressed
-     * @return the mouse listener for the opacity animation
-     */
-    private static MouseListener createOpacityAnimationMouseListener(CyderFrame effectFrame,
-                                                                     AtomicBoolean leftMouseButtonPressed) {
-        return new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    leftMouseButtonPressed.set(true);
-                    effectFrame.startDragEvent();
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    leftMouseButtonPressed.set(false);
-                    effectFrame.endDragEvent();
-                }
-            }
-        };
-    }
-
-    /**
-     * Creates the tooltip menu mouse listener for the provided frame.
-     *
-     * @param effectFrame     the frame the tooltip will appear on
-     * @param sourceDragLabel the drag label which generated the mouse event
-     * @return the mouse listener for the tooltip menu
-     */
-    private static MouseListener createTooltipMenuMouseListener(CyderFrame effectFrame,
-                                                                CyderDragLabel sourceDragLabel) {
-        return new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() != MouseEvent.BUTTON1) {
-                    effectFrame.generateAndShowTooltipMenu(e.getPoint(), sourceDragLabel);
-                }
-            }
-        };
-    }
-
-    /**
-     * Create the common window listener for drag labels to handle minimizing and restoring frame positions.
-     *
-     * @param effectFrame the frame  the window listener will be applied to
-     * @return the constructed window listener
-     */
-    private static WindowListener createWindowListener(CyderFrame effectFrame) {
-        return new WindowAdapter() {
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                effectFrame.setVisible(true);
-                effectFrame.requestFocus();
-                UiUtil.requestFramePosition(effectFrame.getRestoreX(), effectFrame.getRestoreY(), effectFrame);
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-                if (effectFrame.getRestoreX() == Integer.MAX_VALUE
-                        || effectFrame.getRestoreY() == Integer.MAX_VALUE) {
-                    effectFrame.setRestoreX(effectFrame.getX());
-                    effectFrame.setRestoreY(effectFrame.getY());
-                }
-            }
-        };
     }
 
     /**
@@ -331,9 +320,7 @@ public class CyderDragLabel extends JLabel {
      * @param color the background color of this drag label
      */
     public void setColor(Color color) {
-        Preconditions.checkNotNull(color);
-
-        backgroundColor = color;
+        backgroundColor = Preconditions.checkNotNull(color);
         repaint();
     }
 
@@ -389,20 +376,6 @@ public class CyderDragLabel extends JLabel {
         ret = 31 * ret + leftButtonList.hashCode();
         ret = 31 * ret + rightButtonList.hashCode();
         return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (!(o instanceof CyderDragLabel)) {
-            return false;
-        }
-
-        return false;
     }
 
     /**
@@ -484,6 +457,7 @@ public class CyderDragLabel extends JLabel {
     public void addRightButton(Component button, int addIndex) {
         Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!rightButtonList.contains(button));
+        Preconditions.checkArgument(addIndex >= 0 && addIndex < rightButtonList.size());
 
         rightButtonList.add(addIndex, button);
         refreshRightButtons();
@@ -499,6 +473,7 @@ public class CyderDragLabel extends JLabel {
     public void addLeftButton(Component button, int addIndex) {
         Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!leftButtonList.contains(button));
+        Preconditions.checkArgument(addIndex >= 0 && addIndex < leftButtonList.size());
 
         leftButtonList.add(addIndex, button);
         refreshLeftButtons();
@@ -564,10 +539,8 @@ public class CyderDragLabel extends JLabel {
      * @param newIndex the index to move the targeted right button to
      */
     public void setRightButtonIndex(int oldIndex, int newIndex) {
-        Preconditions.checkArgument(oldIndex >= 0);
-        Preconditions.checkArgument(oldIndex < rightButtonList.size());
-        Preconditions.checkArgument(newIndex >= 0);
-        Preconditions.checkArgument(newIndex < rightButtonList.size());
+        Preconditions.checkArgument(oldIndex >= 0 && oldIndex < rightButtonList.size());
+        Preconditions.checkArgument(newIndex >= 0 && newIndex < rightButtonList.size());
 
         Component popButton = rightButtonList.remove(oldIndex);
         rightButtonList.add(newIndex, popButton);
@@ -582,10 +555,8 @@ public class CyderDragLabel extends JLabel {
      * @param newIndex the index to move the targeted right button to
      */
     public void setLeftButtonIndex(int oldIndex, int newIndex) {
-        Preconditions.checkArgument(oldIndex >= 0);
-        Preconditions.checkArgument(oldIndex < leftButtonList.size());
-        Preconditions.checkArgument(newIndex >= 0);
-        Preconditions.checkArgument(newIndex < leftButtonList.size());
+        Preconditions.checkArgument(oldIndex >= 0 && oldIndex < leftButtonList.size());
+        Preconditions.checkArgument(newIndex >= 0 && newIndex < leftButtonList.size());
 
         Component popButton = leftButtonList.remove(oldIndex);
         leftButtonList.add(newIndex, popButton);
@@ -668,16 +639,11 @@ public class CyderDragLabel extends JLabel {
         return leftButtonList.size() > 0;
     }
 
-    public void removeRightButtonsAndRefresh() {
-
-    }
-
     /**
      * Removes all buttons contained in the right button list from this drag label.
      * The contents of the right button list remains the same.
      */
     public void removeRightButtons() {
-        if (rightButtonList.isEmpty()) return;
         rightButtonList.forEach(this::remove);
     }
 
@@ -686,7 +652,6 @@ public class CyderDragLabel extends JLabel {
      * The contents of the left button list remains the same.
      */
     public void removeLeftButtons() {
-        if (leftButtonList.isEmpty()) return;
         leftButtonList.forEach(this::remove);
     }
 
@@ -697,16 +662,6 @@ public class CyderDragLabel extends JLabel {
         refreshRightButtons();
         refreshLeftButtons();
     }
-
-    /**
-     * The spacing between drag label buttons.
-     */
-    private static final int BUTTON_SPACING = 2;
-
-    /**
-     * The padding between the left and right of the drag label buttons.
-     */
-    private static final int BUTTON_PADDING = 5;
 
     /**
      * Refreshes all right buttons and their positions.

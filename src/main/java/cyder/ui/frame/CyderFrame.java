@@ -103,6 +103,11 @@ public class CyderFrame extends JFrame {
     public static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
 
     /**
+     * The value used for {@link #restoreX} and {@link #restoreY} to indicate a drag has not yet occurred.
+     */
+    public static final int FRAME_NOT_YET_DRAGGED = Integer.MAX_VALUE;
+
+    /**
      * This CyderFrame's frame type.
      */
     private FrameType frameType = FrameType.DEFAULT;
@@ -177,12 +182,12 @@ public class CyderFrame extends JFrame {
     /**
      * The x position of the frame to set to after frame de-iconification actions.
      */
-    private int restoreX = Integer.MAX_VALUE;
+    private int restoreX = FRAME_NOT_YET_DRAGGED;
 
     /**
      * The y position of the frame to set to after frame de-iconification actions.
      */
-    private int restoreY = Integer.MIN_VALUE;
+    private int restoreY = FRAME_NOT_YET_DRAGGED;
 
     /**
      * The title of the CyderFrame controlled by the position enum.

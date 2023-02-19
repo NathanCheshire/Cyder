@@ -584,4 +584,15 @@ public final class UiUtil {
             default -> throw new FatalException("Invalid drag label button size specified by prop: " + size);
         };
     }
+
+    /**
+     * Returns whether the provided frame has not had a drag event during its lifetime.
+     *
+     * @param frame the frame
+     * @return whether the provided frame has not had a drag event during its lifetime
+     */
+    public static boolean frameNotYetDragged(CyderFrame frame) {
+        return frame.getRestoreX() == CyderFrame.FRAME_NOT_YET_DRAGGED
+                || frame.getRestoreY() == CyderFrame.FRAME_NOT_YET_DRAGGED;
+    }
 }
