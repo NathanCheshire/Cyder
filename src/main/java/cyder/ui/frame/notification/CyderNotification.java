@@ -4,11 +4,9 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
@@ -19,6 +17,7 @@ import cyder.utils.ColorUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -56,13 +55,13 @@ public class CyderNotification extends JLabel {
      * The animation delay for the notification
      * moving through its parent container.
      */
-    private static final int ANIMATION_DELAY = 8;
+    private static final Duration animationDelay = Duration.ofMillis(8);
 
     /**
      * The increment between setLocation calls for the
      * notification during the animation through the parent container.
      */
-    private static final int ANIMATION_INCREMENT = 8;
+    private static final int animationIncrement = 8;
 
     /**
      * The opacity for the toast animation if the type is a toast.
@@ -90,13 +89,6 @@ public class CyderNotification extends JLabel {
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Suppress default constructor.
-     */
-    private CyderNotification() {
-        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -129,7 +121,8 @@ public class CyderNotification extends JLabel {
         Graphics2D graphics2D = (Graphics2D) g;
 
         // containers are set to invisible if the opacity is less than half
-        builder.getContainer().setVisible(builder.getNotificationType() != NotificationType.TOAST || opacity >= 128);
+        // todo builder.getContainer().setVisible(builder.getNotificationType() != NotificationType.TOAST || opacity >= 128);
+        // todo do this at the end of toast
 
         // some fancy rendering or whatever
         RenderingHints qualityHints =
@@ -149,6 +142,8 @@ public class CyderNotification extends JLabel {
 
         GeneralPath outlinePath = new GeneralPath();
 
+        Direction arrowDirection = builder.getNotificationDirection().getArrowDirection();
+
         int curveInc = 2;
 
         // already at 0,0
@@ -156,11 +151,11 @@ public class CyderNotification extends JLabel {
         int x = 0;
         int y = 0;
 
-        if (builder.getArrowDirection() == Direction.LEFT) {
+        if (arrowDirection == Direction.LEFT) {
             x = arrowLen;
         }
 
-        if (builder.getArrowDirection() == Direction.TOP) {
+        if (arrowDirection == Direction.TOP) {
             y = arrowLen;
         }
 
@@ -227,13 +222,13 @@ public class CyderNotification extends JLabel {
         graphics2D.fill(outlinePath);
 
         // draw the border arrow if not a toast
-        if (builder.getNotificationType() != NotificationType.TOAST) {
+        if (true) { // todo (builder.getNotificationType() != NotificationType.TOAST) {
             int len = arrowLen;
 
             int halfCompWidth = componentWidth / 2;
             int halfCompHeight = componentHeight / 2;
 
-            switch (builder.getArrowDirection()) {
+            switch (arrowDirection) {
                 case TOP -> {
                     // top so we know that the x needs to be offset by 4 and the height by arrow len
                     outlinePath.moveTo(2 * 2 + halfCompWidth - len, len);
@@ -296,11 +291,11 @@ public class CyderNotification extends JLabel {
         x = 0;
         y = 0;
 
-        if (builder.getArrowDirection() == Direction.LEFT) {
+        if (arrowDirection == Direction.LEFT) {
             x = arrowLen;
         }
 
-        if (builder.getArrowDirection() == Direction.TOP) {
+        if (arrowDirection == Direction.TOP) {
             y = arrowLen;
         }
 
@@ -370,13 +365,15 @@ public class CyderNotification extends JLabel {
         fillPath.closePath();
         graphics2D.fill(fillPath);
 
+        // todo do everything up by default and in the Notification class call the below after super.paint(g)
+
         // draw the border arrow if not a toast
-        if (builder.getNotificationType() != NotificationType.TOAST) {
+        if (true) { // todo (builder.getNotificationType() != NotificationType.TOAST) {
             int len = arrowLen;
             int halfCompWidth = componentWidth / 2;
             int halfCompHeight = componentHeight / 2;
 
-            switch (builder.getArrowDirection()) {
+            switch (arrowDirection) {
                 case TOP -> {
                     // top so we know that the x needs to be offset
                     // by 2 * 2 + border and the height by border + arrow len
@@ -429,8 +426,8 @@ public class CyderNotification extends JLabel {
          */
 
         // label is offset by border plus the arrow if applicable and the curvature
-        int labelOffX = (builder.getArrowDirection() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
-        int labelOffY = (builder.getArrowDirection() == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
+        int labelOffX = (arrowDirection == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
+        int labelOffY = (arrowDirection == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
 
         builder.getContainer().setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
 
@@ -456,7 +453,9 @@ public class CyderNotification extends JLabel {
         // border, container, curvature
         int ret = 2 * borderLen + builder.getContainer().getWidth() + 2 * 2 * 2;
 
-        if (builder.getArrowDirection() == Direction.LEFT || builder.getArrowDirection() == Direction.RIGHT) {
+        // todo method for horizontal/vertical?
+        Direction arrowDirection = builder.getNotificationDirection().getArrowDirection();
+        if (arrowDirection == Direction.LEFT || arrowDirection == Direction.RIGHT) {
             ret += 2 * arrowLen;
         }
 
@@ -471,7 +470,8 @@ public class CyderNotification extends JLabel {
         // border, container, curvature
         int ret = 2 * borderLen + builder.getContainer().getHeight() + 2 * 2 * 2;
 
-        if (builder.getArrowDirection() == Direction.TOP || builder.getArrowDirection() == Direction.BOTTOM) {
+        Direction arrowDirection = builder.getNotificationDirection().getArrowDirection();
+        if (arrowDirection == Direction.TOP || arrowDirection == Direction.BOTTOM) {
             ret += 2 * arrowLen;
         }
 
@@ -479,7 +479,7 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * Whether this notification's {@link #appear(NotificationDirection, Component, int)} method has been invoked.
+     * Whether this notification's {@link #appear(NotificationDirection, Component, long)} method has been invoked.
      */
     private final AtomicBoolean appearInvoked = new AtomicBoolean();
 
@@ -491,7 +491,7 @@ public class CyderNotification extends JLabel {
      * @param parent                the component to add the notification to
      * @param viewDuration          the duration the notification should be visible for
      */
-    public void appear(NotificationDirection notificationDirection, Component parent, int viewDuration) {
+    public void appear(NotificationDirection notificationDirection, Component parent, long viewDuration) {
         Preconditions.checkState(!appearInvoked.get());
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
@@ -502,7 +502,7 @@ public class CyderNotification extends JLabel {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (builder.getNotificationType() == NotificationType.TOAST) {
+                if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
                     // centered on x, y has offset of 10 pixels from bottom
                     setBounds(parent.getWidth() / 2 - getWidth() / 2,
                             parent.getHeight() - getHeight() - 10, getWidth(), getHeight());
@@ -530,13 +530,13 @@ public class CyderNotification extends JLabel {
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
                                     CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(getX(), i);
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
                         }
@@ -544,26 +544,26 @@ public class CyderNotification extends JLabel {
                             setBounds(parent.getWidth() + getWidth(),
                                     CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(parent.getWidth() - getWidth() + 5, getY());
                         }
                         case TOP_LEFT -> {
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(2, getY());
                         }
@@ -572,13 +572,13 @@ public class CyderNotification extends JLabel {
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2);
@@ -588,13 +588,13 @@ public class CyderNotification extends JLabel {
                             setBounds(parent.getWidth() + getWidth(), CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
@@ -603,13 +603,13 @@ public class CyderNotification extends JLabel {
                             setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
                                     + getHeight(), getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(getX(), i);
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
                                     parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
@@ -618,13 +618,13 @@ public class CyderNotification extends JLabel {
                             setBounds(-getWidth(), parent.getHeight() - getHeight()
                                     - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
                         }
@@ -632,13 +632,13 @@ public class CyderNotification extends JLabel {
                             setBounds(parent.getWidth() + getWidth(), parent.getHeight()
                                     - getHeight() - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setLocation(i, getY());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     parent.getHeight() - getHeight() - bottomOffset);
@@ -695,7 +695,7 @@ public class CyderNotification extends JLabel {
      * @param parent                the component the notification is on. Used for bounds calculations
      * @param visibleTime           the delay before vanish
      */
-    public void vanish(NotificationDirection notificationDirection, Component parent, int visibleTime) {
+    public void vanish(NotificationDirection notificationDirection, Component parent, long visibleTime) {
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(visibleTime >= 0);
@@ -704,7 +704,7 @@ public class CyderNotification extends JLabel {
             try {
                 ThreadUtil.sleep(visibleTime);
 
-                if (builder.getNotificationType() == NotificationType.TOAST) {
+                if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
                     for (int i = ColorUtil.opacityRange.upperEndpoint() ; i >= 0 ; i -= 2) {
                         if (shouldStopAnimation()) {
                             break;
@@ -725,47 +725,47 @@ public class CyderNotification extends JLabel {
                 } else {
                     switch (notificationDirection) {
                         case TOP:
-                            for (int i = getY() ; i > -getHeight() ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i > -getHeight() ; i -= animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             break;
                         case BOTTOM:
-                            for (int i = getY() ; i < parent.getHeight() - 5 ; i += ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i < parent.getHeight() - 5 ; i += animationIncrement) {
                                 if (killed || shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             break;
                         case TOP_LEFT:
                         case LEFT:
                         case BOTTOM_LEFT:
-                            for (int i = getX() ; i > -getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > -getWidth() + 5 ; i -= animationIncrement) {
                                 if (killed || shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             break;
                         case RIGHT:
                         case BOTTOM_RIGHT:
                         case TOP_RIGHT:
-                            for (int i = getX() ; i < parent.getWidth() - 5 ; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < parent.getWidth() - 5 ; i += animationIncrement) {
                                 if (shouldStopAnimation()) {
                                     break;
                                 }
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                ThreadUtil.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(animationDelay.toMillis());
                             }
                             break;
                     }

@@ -36,7 +36,6 @@ import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.CyderNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
-import cyder.ui.frame.notification.NotificationType;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -976,15 +975,9 @@ public class CyderFrame extends JFrame {
             super.setTitle("");
         }
 
-        if (paintCyderFrameTitleOnSuperCall) {
-            setCyderFrameTitle(title);
-        }
-
+        if (paintCyderFrameTitleOnSuperCall) setCyderFrameTitle(title);
         correctTitleLength();
-
-        if (!isConsole() && !Console.INSTANCE.isClosed()) {
-            Console.INSTANCE.revalidateConsoleTaskbarMenu();
-        }
+        if (!isConsole()) Console.INSTANCE.revalidateConsoleTaskbarMenu();
     }
 
     /**
@@ -997,8 +990,6 @@ public class CyderFrame extends JFrame {
         titleLabel.setText(StringUtil.getTrimmedText(Preconditions.checkNotNull(title)));
         correctTitleLength();
     }
-
-    // todo would be nice to have some kind of handler linked to a CyderFrame to handle a frame's logic elsewhere
 
     // -------------
     // Notifications
@@ -1083,7 +1074,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(builder.getHtmlText());
         Preconditions.checkArgument(!builder.getHtmlText().isEmpty());
 
-        builder.setNotificationType(NotificationType.TOAST);
+        // todo se to toast
         notificationList.add(builder);
 
         if (!notificationCheckerStarted) {
@@ -1140,7 +1131,7 @@ public class CyderFrame extends JFrame {
                 if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
                         || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
                     notifyAndReleaseNotificationSemaphore(currentBuilder.getHtmlText(), null,
-                            currentBuilder.getNotifyTime());
+                            currentBuilder.getConstructionTime());
                     continue;
                 }
 
@@ -1153,7 +1144,7 @@ public class CyderFrame extends JFrame {
                     if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
                         notifyAndReleaseNotificationSemaphore(null, currentBuilder.getContainer(),
-                                currentBuilder.getNotifyTime());
+                                currentBuilder.getConstructionTime());
                         continue;
                     }
 
@@ -1161,7 +1152,7 @@ public class CyderFrame extends JFrame {
                     JLabel interactionLabel = new JLabel();
                     interactionLabel.setSize(containerWidth, containerHeight);
                     interactionLabel.setToolTipText(
-                            "Notified at: " + appearNotification.getBuilder().getNotifyTime());
+                            "Notified at: " + appearNotification.getBuilder().getConstructionTime());
                     interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
                             currentBuilder, null, appearNotification, false));
                     currentBuilder.getContainer().add(interactionLabel);
@@ -1175,7 +1166,7 @@ public class CyderFrame extends JFrame {
                     JLabel interactionLabel = new JLabel();
                     interactionLabel.setSize(notificationWidth, notificationHeight);
                     interactionLabel.setToolTipText(
-                            "Notified at: " + appearNotification.getBuilder().getNotifyTime());
+                            "Notified at: " + appearNotification.getBuilder().getConstructionTime());
                     interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
                             currentBuilder, textContainerLabel, appearNotification, true));
 
@@ -1186,9 +1177,10 @@ public class CyderFrame extends JFrame {
                 iconPane.add(appearNotification, JLayeredPane.POPUP_LAYER);
                 getContentPane().repaint();
 
-                int duration = currentBuilder.getViewDuration();
-                if (currentBuilder.isCalculateViewDuration()) {
-                    duration = msPerNotificationWord * StringUtil.countWords(
+                long duration = currentBuilder.getViewDuration();
+                if (currentBuilder.shouldCalculateViewDuration()) {
+                    // todo html util method to count words of styled text
+                    duration = (long) msPerNotificationWord * StringUtil.countWords(
                             Jsoup.clean(bs.getText(), Safelist.none()));
                 }
 
@@ -2027,7 +2019,7 @@ public class CyderFrame extends JFrame {
             int y = currentNotification.getY();
             int w = currentNotification.getWidth();
 
-            switch (currentNotification.getBuilder().getArrowDirection()) {
+            switch (currentNotification.getBuilder().getNotificationDirection().getArrowDirection()) {
                 case TOP, BOTTOM -> currentNotification.setLocation(width / 2 - w / 2, y);
                 case RIGHT -> currentNotification.setLocation(width - w + titleLabelPadding, y);
                 case LEFT -> currentNotification.setLocation(titleLabelPadding, y);
