@@ -309,8 +309,7 @@ public class CyderNotification extends JLabel {
     public void appear(NotificationDirection notificationDirection, Component parent, long viewDuration) {
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
-        Preconditions.checkArgument(viewDuration >= 0
-                || NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration));
+        Preconditions.checkArgument(viewDuration >= 0 || viewDuration == -1);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -442,8 +441,7 @@ public class CyderNotification extends JLabel {
                     }
                 }
 
-                if (!UserDataManager.INSTANCE.shouldPersistNotifications()
-                        && !NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration)) {
+                if (!UserDataManager.INSTANCE.shouldPersistNotifications() && viewDuration != -1) {
                     vanish(notificationDirection, parent, viewDuration);
                 }
             } catch (Exception e) {

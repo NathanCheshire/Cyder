@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.frame.CyderFrame;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -31,6 +32,11 @@ public class NotificationController {
     private final AtomicBoolean queueRunning;
 
     /**
+     * The notification queue to pull from.
+     */
+    private final ArrayList<CyderNotificationAbstract> notificationQueue = new ArrayList<>();
+
+    /**
      * Constructs a new notification controller.
      *
      * @param controlFrame the frame this controller has control over
@@ -55,19 +61,18 @@ public class NotificationController {
         return controlFrame;
     }
 
-    public synchronized void startQueue() {
-        Preconditions.checkState(!queueRunning.get());
+    // todo notify methods accepting string or builder and for each type such as border notification or toast
+    //  builders will be transformed into subclasses of CyderNotificationAbstract
+
+    /**
+     * Starts the notification queue if necessary.
+     */
+    private synchronized void startQueueIfNecessary() {
+        if (queueRunning.get() || notificationQueue.isEmpty()) return;
         queueRunning.set(true);
 
         Futures.submit(() -> {
 
         }, queueExecutor);
-    }
-
-    public synchronized void stopQueue() {
-        Preconditions.checkState(queueRunning.get());
-
-        queueRunning.set(false);
-        // todo revoke any current notifications and clear queue
     }
 }

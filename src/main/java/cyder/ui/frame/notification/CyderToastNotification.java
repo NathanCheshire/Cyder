@@ -2,7 +2,6 @@ package cyder.ui.frame.notification;
 
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.Futures;
-import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
@@ -98,11 +97,6 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private final Direction arrowDirection;
 
     /**
-     * The on kill action to invoke when this toast is manually dismissed.
-     */
-    private final Runnable onKillAction;
-
-    /**
      * The container for this notification.
      */
     private final JLabel container;
@@ -118,7 +112,6 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         this.visibleDuration = Duration.ofMillis(builder.getViewDuration());
         this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
-        this.onKillAction = builder.getOnKillAction();
     }
 
     /**
@@ -185,7 +178,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private void paintOutline(Graphics2D g2d) {
         int componentWidth = container.getWidth();
         int componentHeight = container.getHeight();
-        Color borderColor = CyderColors.notificationBorderColor; // todo
+        Color borderColor = notificationBorderColor;
         if (isHovered.get()) borderColor = borderColor.darker();
         g2d.setPaint(ColorUtil.setColorOpacity(borderColor, opacity.get()));
 
@@ -247,7 +240,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private void paintFill(Graphics2D g2d) {
         int componentWidth = container.getWidth();
         int componentHeight = container.getHeight();
-        Color fillColor = CyderColors.notificationBackgroundColor; // todo
+        Color fillColor = notificationBackgroundColor;
         if (isHovered.get()) fillColor = fillColor.darker();
         g2d.setPaint(ColorUtil.setColorOpacity(fillColor, opacity.get()));
 
