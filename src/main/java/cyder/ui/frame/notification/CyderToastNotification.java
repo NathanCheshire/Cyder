@@ -1,8 +1,10 @@
 package cyder.ui.frame.notification;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.Futures;
 import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
@@ -12,6 +14,8 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,12 +26,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderToastNotification extends CyderNotificationAbstract {
     /**
+     * The delay between animation steps.
+     */
+    private static final int animationDelay = 2;
+
+    /**
+     * The opacity step every {@link #animationDelay}.
+     */
+    private static final int opacityStep = 2;
+
+    /**
      * The length for curves when painting the notification fill and outline.
      */
     private static final int curveLength = 2;
 
     /**
-     * The length of the arrow. todo does this need to be in this class?
+     * The length of the arrow.
      */
     private static final int arrowLength = 8;
 
@@ -35,6 +49,16 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * The length of the border
      */
     private static final int borderLength = 5;
+
+    /**
+     * Whether {@link #appear()} has been invoked on this.
+     */
+    private final AtomicBoolean appearInvoked = new AtomicBoolean();
+
+    /**
+     * Whether {@link #disappear()} has been invoked on this.
+     */
+    private final AtomicBoolean disappearInvoked = new AtomicBoolean();
 
     /**
      * Whether this toast notification has been killed.
@@ -52,6 +76,18 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private final AtomicBoolean isHovered = new AtomicBoolean();
 
     /**
+     * The executor service for performing the disappear animation.
+     */
+    private final ExecutorService appearAnimationService =
+            Executors.newSingleThreadExecutor(new CyderThreadFactory("Notification Appear Animation"));
+
+    /**
+     * The executor service for performing the disappear animation.
+     */
+    private final ExecutorService disappearAnimationService =
+            Executors.newSingleThreadExecutor(new CyderThreadFactory("Notification Disappear Animation"));
+
+    /**
      * The duration this notification should be visible for.
      */
     private final Duration visibleDuration;
@@ -60,6 +96,11 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * The direction the arrow should be painted on.
      */
     private final Direction arrowDirection;
+
+    /**
+     * The on kill action to invoke when this toast is manually dismissed.
+     */
+    private final Runnable onKillAction;
 
     /**
      * The container for this notification.
@@ -77,6 +118,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         this.visibleDuration = Duration.ofMillis(builder.getViewDuration());
         this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
+        this.onKillAction = builder.getOnKillAction();
     }
 
     /**
@@ -85,8 +127,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     @Override
     public int getWidth() {
         int ret = 2 * borderLength + container.getWidth() + 2 * 2 * curveLength;
-        // todo method for horizontal/vertical?
-        if (arrowDirection == Direction.LEFT || arrowDirection == Direction.RIGHT) ret += 2 * arrowLength;
+        if (Direction.isHorizontal(arrowDirection)) ret += 2 * arrowLength;
         return ret;
     }
 
@@ -96,7 +137,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     @Override
     public int getHeight() {
         int ret = 2 * borderLength + container.getHeight() + 2 * 2 * curveLength;
-        if (arrowDirection == Direction.TOP || arrowDirection == Direction.BOTTOM) ret += 2 * arrowLength;
+        if (Direction.isVertical(arrowDirection)) ret += 2 * arrowLength;
         return ret;
     }
 
@@ -204,8 +245,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * @param g2d the 2D graphics object
      */
     private void paintFill(Graphics2D g2d) {
-        int componentHeight = container.getWidth();
-        int componentWidth = container.getHeight();
+        int componentWidth = container.getWidth();
+        int componentHeight = container.getHeight();
         Color fillColor = CyderColors.notificationBackgroundColor; // todo
         if (isHovered.get()) fillColor = fillColor.darker();
         g2d.setPaint(ColorUtil.setColorOpacity(fillColor, opacity.get()));
@@ -263,15 +304,6 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     }
 
     /**
-     * Whether {@link #appear()} has been invoked on this.
-     */
-    private final AtomicBoolean appearInvoked = new AtomicBoolean();
-
-    private static final int animationDelay = 2;
-
-    private static final int animationStep = 2;
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -279,36 +311,35 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         Preconditions.checkState(!appearInvoked.get());
         appearInvoked.set(true);
 
-        Container parent = getParent();
+        Futures.submit(() -> {
+            Container parent = getParent();
 
-        // centered on x, y has offset of 10 pixels from bottom
-        int bottomOffset = 10;
-        setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                parent.getHeight() - getHeight() - bottomOffset,
-                getWidth(), getHeight());
+            // centered on x, y has offset of 10 pixels from bottom
+            int bottomOffset = 10;
+            setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                    parent.getHeight() - getHeight() - bottomOffset,
+                    getWidth(), getHeight());
 
-        opacity.set(0);
-        setVisible(true);
+            opacity.set(0);
+            setVisible(true);
 
-        System.out.println("appearing");
+            for (int i = ColorUtil.opacityRange.lowerEndpoint()
+                 ; i < ColorUtil.opacityRange.upperEndpoint() ; i += opacityStep) {
+                if (shouldStopAnimation()) break;
+                opacity.set(i);
+                repaint();
+                ThreadUtil.sleep(animationDelay);
+            }
 
-        for (int i = ColorUtil.opacityRange.lowerEndpoint()
-             ; i < ColorUtil.opacityRange.upperEndpoint() ; i += animationStep) {
-            if (shouldStopAnimation()) break;
-            opacity.set(i);
+            opacity.set(ColorUtil.opacityRange.upperEndpoint());
             repaint();
-            ThreadUtil.sleep(animationDelay);
-            System.out.println(opacity.get());
-        }
 
-        opacity.set(ColorUtil.opacityRange.upperEndpoint());
-        repaint();
-
-        if (!UserDataManager.INSTANCE.shouldPersistNotifications()
-                && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-            ThreadUtil.sleep(visibleDuration.toMillis());
-            disappear();
-        }
+            if (!UserDataManager.INSTANCE.shouldPersistNotifications()
+                    && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
+                ThreadUtil.sleep(visibleDuration.toMillis());
+                disappear();
+            }
+        }, appearAnimationService);
     }
 
     /**
@@ -316,23 +347,29 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     @Override
     public synchronized void disappear() {
-        for (int i = ColorUtil.opacityRange.upperEndpoint()
-             ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= animationStep) {
-            if (shouldStopAnimation()) break;
-            opacity.set(i);
+        Preconditions.checkState(appearInvoked.get());
+        Preconditions.checkState(!disappearInvoked.get());
+        disappearInvoked.set(true);
+
+        Futures.submit(() -> {
+            for (int i = ColorUtil.opacityRange.upperEndpoint()
+                 ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= opacityStep) {
+                if (shouldStopAnimation()) break;
+                opacity.set(i);
+                repaint();
+                ThreadUtil.sleep(animationDelay);
+            }
+
+            opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             repaint();
-            ThreadUtil.sleep(animationDelay);
-        }
 
-        opacity.set(ColorUtil.opacityRange.lowerEndpoint());
-        repaint();
-
-        Container parent = getParent();
-        if (parent != null) {
-            parent.remove(this);
-            setVisible(false);
-            parent.repaint();
-        }
+            Container parent = getParent();
+            if (parent != null) {
+                parent.remove(this);
+                setVisible(false);
+                parent.repaint();
+            }
+        }, disappearAnimationService);
     }
 
     /**

@@ -1,6 +1,5 @@
 package cyder.ui.frame.notification;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
@@ -12,7 +11,6 @@ import cyder.threads.ThreadUtil;
 import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserDataManager;
-import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,11 +59,6 @@ public class CyderNotification extends JLabel {
      * notification during the animation through the parent container.
      */
     private static final int animationIncrement = 8;
-
-    /**
-     * The opacity for the toast animation if the type is a toast.
-     */
-    private int opacity = ColorUtil.opacityRange.upperEndpoint();
 
     /**
      * The builder to construct this notification/toast.
@@ -119,7 +112,6 @@ public class CyderNotification extends JLabel {
         // obtain painting object
         Graphics2D graphics2D = (Graphics2D) g;
 
-
         // some fancy rendering or whatever
         RenderingHints qualityHints =
                 new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -133,8 +125,7 @@ public class CyderNotification extends JLabel {
             borderColor = borderColor.darker();
         }
 
-        graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
-                borderColor.getBlue(), opacity));
+        graphics2D.setPaint(borderColor);
 
         GeneralPath outlinePath = new GeneralPath();
 
@@ -253,7 +244,6 @@ public class CyderNotification extends JLabel {
             }
         }
 
-
         // todo do everything up by default and in the Notification class call the below after super.paint(g)
         GeneralPath fillPath = new GeneralPath();
 
@@ -321,7 +311,6 @@ public class CyderNotification extends JLabel {
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(viewDuration >= 0
                 || NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration));
-
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -577,47 +566,6 @@ public class CyderNotification extends JLabel {
      */
     private boolean shouldStopAnimation() {
         return killed || !UserDataManager.INSTANCE.shouldDoAnimations();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (!(o instanceof CyderNotification)) {
-            return false;
-        }
-
-        CyderNotification other = (CyderNotification) o;
-
-        return killed == other.killed
-                && opacity == other.opacity
-                && Objects.equal(builder, other.builder);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int ret = Boolean.hashCode(killed);
-        ret = 31 * ret + Integer.hashCode(opacity);
-        ret = 31 * ret + builder.hashCode();
-        return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "CyderNotification{"
-                + "killed=" + killed
-                + ", opacity=" + opacity
-                + ", builder=" + builder
-                + "}";
     }
 
     /**
