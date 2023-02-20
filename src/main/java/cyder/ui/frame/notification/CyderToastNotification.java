@@ -155,6 +155,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         if (arrowDirection == Direction.TOP) y += arrowLength;
 
         container.setBounds(x, y, container.getWidth(), container.getHeight());
+        container.setVisible(true);
         if (!Arrays.asList(getComponents()).contains(container)) add(container);
     }
 
@@ -301,7 +302,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     @Override
     public synchronized void appear() {
-        Preconditions.checkState(!appearInvoked.get());
+        if (appearInvoked.get()) return;
         appearInvoked.set(true);
 
         Futures.submit(() -> {
@@ -329,7 +330,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
 
             if (!UserDataManager.INSTANCE.shouldPersistNotifications()
                     && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-                ThreadUtil.sleep(visibleDuration.toMillis());
+                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration
                 disappear();
             }
         }, appearAnimationService);
@@ -341,7 +342,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     @Override
     public synchronized void disappear() {
         Preconditions.checkState(appearInvoked.get());
-        Preconditions.checkState(!disappearInvoked.get());
+        if (disappearInvoked.get()) return;
         disappearInvoked.set(true);
 
         Futures.submit(() -> {
@@ -362,6 +363,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
                 setVisible(false);
                 parent.repaint();
             }
+
+            killed.set(true);
         }, disappearAnimationService);
     }
 

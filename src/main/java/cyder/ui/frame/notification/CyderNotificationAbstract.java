@@ -31,6 +31,7 @@ public abstract class CyderNotificationAbstract extends JLabel implements ICyder
     @Override
     public void paint(Graphics g) {
         paintLogic(g);
+        super.paint(g);
     }
 
     /**

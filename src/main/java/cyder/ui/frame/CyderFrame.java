@@ -3,7 +3,6 @@ package cyder.ui.frame;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
-import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
@@ -36,9 +35,7 @@ import cyder.ui.frame.enumerations.MenuType;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.CyderNotification;
-import cyder.ui.frame.notification.CyderToastNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
-import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -999,11 +996,6 @@ public class CyderFrame extends JFrame {
     // -------------
 
     /**
-     * The name for the notification queue thread.
-     */
-    private static final String NOTIFICATION_QUEUE_THREAD_FOOTER = " Frame Notification Queue";
-
-    /**
      * The notification that is currently being displayed.
      */
     private CyderNotification currentNotification;
@@ -1046,13 +1038,11 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(notificationBuilder.getHtmlText());
         Preconditions.checkArgument(!notificationBuilder.getHtmlText().isEmpty());
 
-        // todo create it here
         notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            String threadName = getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), threadName);
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), "notification queue");
         }
     }
 
@@ -1076,13 +1066,11 @@ public class CyderFrame extends JFrame {
     public void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        // todo create it here
         notificationList.add(builder);
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            String threadName = getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), threadName);
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), "notification queue");
         }
     }
 
@@ -1101,20 +1089,6 @@ public class CyderFrame extends JFrame {
      * so that only one may ever be present at a time.
      */
     private final Semaphore notificationConstructionLock = new Semaphore(1);
-
-    @CyderTest
-    public static void test() {
-        NotificationBuilder builder = new NotificationBuilder("my special test here")
-                .setNotificationDirection(NotificationDirection.TOP);
-
-        JLabel container = new JLabel();
-        container.setSize(100, 50);
-        builder.setContainer(container);
-
-        CyderToastNotification toast = new CyderToastNotification(builder);
-        Console.INSTANCE.getConsoleCyderFrame().add(toast);
-        toast.appear();
-    }
 
     /**
      * Returns the notification queue for internal frame notifications/toasts.
@@ -1169,8 +1143,8 @@ public class CyderFrame extends JFrame {
                     interactionLabel.setSize(containerWidth, containerHeight);
                     interactionLabel.setToolTipText(
                             "Notified at: " + appearNotification.getBuilder().getConstructionTime());
-                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                            currentBuilder, null, appearNotification, false));
+                    //                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                    //                            currentBuilder, null, appearNotification, false));
                     currentBuilder.getContainer().add(interactionLabel);
                 } else {
                     // Empty container means use htmlText of builder
@@ -1183,8 +1157,8 @@ public class CyderFrame extends JFrame {
                     interactionLabel.setSize(notificationWidth, notificationHeight);
                     interactionLabel.setToolTipText(
                             "Notified at: " + appearNotification.getBuilder().getConstructionTime());
-                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                            currentBuilder, textContainerLabel, appearNotification, true));
+                    //                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                    //                            currentBuilder, textContainerLabel, appearNotification, true));
 
                     textContainerLabel.add(interactionLabel);
                     appearNotification.getBuilder().setContainer(textContainerLabel);
@@ -1227,51 +1201,6 @@ public class CyderFrame extends JFrame {
                 .inform();
 
         notificationConstructionLock.release();
-    }
-
-    /**
-     * Generates the disposal mouse listener for a notification.
-     *
-     * @param builder         the notification builder
-     * @param textLabel       the label the notification's text is placed on
-     * @param notification    the current notification object under construction
-     * @param addEnterAndExit whether to add the mouse entered/exited listeners
-     * @return a disposal mouse listener for a notification
-     */
-    @ForReadability
-    private MouseAdapter generateNotificationDisposalMouseListener(NotificationBuilder builder,
-                                                                   JLabel textLabel,
-                                                                   CyderNotification notification,
-                                                                   boolean addEnterAndExit) {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (builder.getOnKillAction() != null) {
-                    notification.killNotification();
-                    builder.getOnKillAction().run();
-                } else {
-                    notification.vanish(builder.getNotificationDirection(), getContentPane(), 0);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (addEnterAndExit) {
-                    textLabel.setForeground(CyderColors.notificationForegroundColor.darker());
-                    notification.setHovered(true);
-                    notification.repaint();
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (addEnterAndExit) {
-                    textLabel.setForeground(CyderColors.notificationForegroundColor);
-                    notification.setHovered(false);
-                    notification.repaint();
-                }
-            }
-        };
     }
 
     /**
