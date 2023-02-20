@@ -35,4 +35,11 @@ public interface ICyderNotification {
      * @return whether this notification has been killed
      */
     boolean isKilled();
+
+    /**
+     * Sets whether this notification should be painted as hovered.
+     *
+     * @param hovered whether this notification should be painted as hovered
+     */
+    void setHovered(boolean hovered);
 }

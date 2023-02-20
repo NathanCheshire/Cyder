@@ -7,6 +7,7 @@ import java.awt.*;
 
 /**
  * A notification for a {@link CyderFrame}.
+ * todo rename this to CyderNotification and use this and not the interface for accepting methods.
  */
 public abstract class CyderNotificationAbstract extends JLabel implements ICyderNotification {
     /**

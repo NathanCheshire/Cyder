@@ -18,7 +18,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.time.Duration;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A custom notification component used for CyderFrames.
@@ -214,8 +213,8 @@ public class CyderNotification extends JLabel {
         outlinePath.closePath();
         graphics2D.fill(outlinePath);
 
-        // draw the border arrow if not a toast
-        if (true) { // todo (builder.getNotificationType() != NotificationType.TOAST) {
+        // todo arrow border
+        if (true) {
             int len = arrowLen;
 
             int halfCompWidth = componentWidth / 2;
@@ -254,110 +253,9 @@ public class CyderNotification extends JLabel {
             }
         }
 
-        // close and fill
-        outlinePath.closePath();
-        graphics2D.fill(outlinePath);
-
-        // reset component width and height to original
-        componentHeight -= (borderLen * 2);
-        componentWidth -= (borderLen * 2);
-
-        /*
-        There's some duplicate code here you could possibly clean up but it's easier to read this way
-
-        Now draw the inner shape, accounting for the border len offset
-         */
-
-        Color fillColor = CyderColors.notificationBackgroundColor;
-
-        if (isHovered) {
-            fillColor = fillColor.darker();
-        }
-
-        graphics2D.setPaint(new Color(fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue(), opacity));
-
-        GeneralPath fillPath = new GeneralPath();
-
-        // already at 0,0 but need to be reset
-        // move out of way to draw since arrow might be left or right
-        x = 0;
-        y = 0;
-
-        if (arrowDirection == Direction.LEFT) {
-            x = arrowLen;
-        }
-
-        if (arrowDirection == Direction.TOP) {
-            y = arrowLen;
-        }
-
-        // always 4 more down due to curve up 2 and then another 2
-        y += 2 * curveInc;
-
-        // offset inward for fill shape
-        x += borderLen;
-        y += borderLen;
-
-        fillPath.moveTo(x, y);
-
-        // curve up 2 and right 2, twice
-        fillPath.curveTo(x, y, x + 2, y - 2, x + 4, y - 4);
-
-        // new x,y we're at
-        x += 4;
-        y -= 4;
-
-        // line right for component width
-        fillPath.lineTo(x + componentWidth, y);
-
-        // new x
-        x += componentWidth;
-
-        // curve down 2 and right 2, twice
-        fillPath.curveTo(x, y, x + 2, y + 2, x + 4, y + 4);
-
-        // new x,y we're at
-        x += 4;
-        y += 4;
-
-        // line down for component height
-        fillPath.lineTo(x, y + componentHeight);
-
-        // new y
-        y += componentHeight;
-
-        // curve down 2 and left 2, twice
-        fillPath.curveTo(x, y, x - 2, y + 2, x - 4, y + 4);
-
-        // new x,y we're at
-        x -= 4;
-        y += 4;
-
-        // line left for component width
-        fillPath.lineTo(x - componentWidth, y);
-
-        // new x
-        x -= componentWidth;
-
-        // curve up 2 and left 2, twice
-        fillPath.curveTo(x, y, x - 2, y - 2, x - 4, y - 4);
-
-        // new x,y we're at
-        x -= 4;
-        y -= 4;
-
-        // line up for component height
-        fillPath.lineTo(x, y - componentHeight);
-
-        // new y
-        //noinspection UnusedAssignment
-        y -= componentHeight;
-
-        // close and fill
-        fillPath.closePath();
-        graphics2D.fill(fillPath);
 
         // todo do everything up by default and in the Notification class call the below after super.paint(g)
+        GeneralPath fillPath = new GeneralPath();
 
         // draw the border arrow if not a toast
         if (true) { // todo (builder.getNotificationType() != NotificationType.TOAST) {
@@ -408,72 +306,7 @@ public class CyderNotification extends JLabel {
                 }
             }
         }
-
-        // close and fill
-        fillPath.closePath();
-        graphics2D.fill(fillPath);
-
-        /*
-        Done with custom component drawing
-         */
-
-        // label is offset by border plus the arrow if applicable and the curvature
-        int labelOffX = (arrowDirection == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
-        int labelOffY = (arrowDirection == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
-
-        builder.getContainer().setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
-
-        boolean in = false;
-
-        for (Component c : getComponents()) {
-            if (c.equals(builder.getContainer())) {
-                in = true;
-                break;
-            }
-        }
-
-        if (!in) {
-            add(builder.getContainer());
-        }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getWidth() {
-        // border, container, curvature
-        int ret = 2 * borderLen + builder.getContainer().getWidth() + 2 * 2 * 2;
-
-        // todo method for horizontal/vertical?
-        Direction arrowDirection = builder.getNotificationDirection().getArrowDirection();
-        if (arrowDirection == Direction.LEFT || arrowDirection == Direction.RIGHT) {
-            ret += 2 * arrowLen;
-        }
-
-        return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getHeight() {
-        // border, container, curvature
-        int ret = 2 * borderLen + builder.getContainer().getHeight() + 2 * 2 * 2;
-
-        Direction arrowDirection = builder.getNotificationDirection().getArrowDirection();
-        if (arrowDirection == Direction.TOP || arrowDirection == Direction.BOTTOM) {
-            ret += 2 * arrowLen;
-        }
-
-        return ret;
-    }
-
-    /**
-     * Whether this notification's {@link #appear(NotificationDirection, Component, long)} method has been invoked.
-     */
-    private final AtomicBoolean appearInvoked = new AtomicBoolean();
 
     /**
      * Animates in the notification on the parent container. The component's position is expected to have already
@@ -484,18 +317,16 @@ public class CyderNotification extends JLabel {
      * @param viewDuration          the duration the notification should be visible for
      */
     public void appear(NotificationDirection notificationDirection, Component parent, long viewDuration) {
-        Preconditions.checkState(!appearInvoked.get());
         Preconditions.checkNotNull(notificationDirection);
         Preconditions.checkNotNull(parent);
         Preconditions.checkArgument(viewDuration >= 0
                 || NotificationBuilder.shouldRemainVisibleUntilDismissed(viewDuration));
 
-        appearInvoked.set(true);
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
-
+                if (true) {
+                    // todo toast logic
                 } else {
                     int bottomOffset = 5;
 
@@ -787,15 +618,6 @@ public class CyderNotification extends JLabel {
                 + ", opacity=" + opacity
                 + ", builder=" + builder
                 + "}";
-    }
-
-    /**
-     * Returns whether the notification is currently drawn as being hovered.
-     *
-     * @return whether the notification is currently drawn as being hovered
-     */
-    public boolean isHovered() {
-        return isHovered;
     }
 
     /**

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
 import cyder.threads.ThreadUtil;
-import cyder.ui.frame.CyderFrame;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 
@@ -12,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,6 +21,21 @@ import java.util.concurrent.atomic.AtomicInteger;
  * fade-in and fade-out animation at the bottom center of the frame.
  */
 public class CyderToastNotification extends CyderNotificationAbstract {
+    /**
+     * The length for curves when painting the notification fill and outline.
+     */
+    private static final int curveLength = 2;
+
+    /**
+     * The length of the arrow. todo does this need to be in this class?
+     */
+    private static final int arrowLength = 8;
+
+    /**
+     * The length of the border
+     */
+    private static final int borderLength = 5;
+
     /**
      * Whether this toast notification has been killed.
      */
@@ -42,11 +57,6 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private final Duration visibleDuration;
 
     /**
-     * The direction the notification should animate from.
-     */
-    private final NotificationDirection notificationDirection;
-
-    /**
      * The direction the arrow should be painted on.
      */
     private final Direction arrowDirection;
@@ -65,13 +75,30 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         Preconditions.checkNotNull(builder);
 
         this.visibleDuration = Duration.ofMillis(builder.getViewDuration());
-        this.notificationDirection = builder.getNotificationDirection();
-        this.arrowDirection = notificationDirection.getArrowDirection();
+        this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
     }
 
-    private static final int arrowLength = 8;
-    private static final int borderLength = 5;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getWidth() {
+        int ret = 2 * borderLength + container.getWidth() + 2 * 2 * curveLength;
+        // todo method for horizontal/vertical?
+        if (arrowDirection == Direction.LEFT || arrowDirection == Direction.RIGHT) ret += 2 * arrowLength;
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getHeight() {
+        int ret = 2 * borderLength + container.getHeight() + 2 * 2 * curveLength;
+        if (arrowDirection == Direction.TOP || arrowDirection == Direction.BOTTOM) ret += 2 * arrowLength;
+        return ret;
+    }
 
     /**
      * {@inheritDoc}
@@ -83,12 +110,18 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         Graphics2D g2d = (Graphics2D) g;
         addRenderingHints(g2d);
 
-        opacity.set(ColorUtil.opacityRange.lowerEndpoint());
+        opacity.set(opacity.get());
 
         paintOutline(g2d);
         paintFill(g2d);
 
-        // todo label text
+        int x = arrowLength + 2 * curveLength;
+        if (arrowDirection == Direction.LEFT) x += arrowLength;
+        int y = arrowLength + 2 * curveLength;
+        if (arrowDirection == Direction.TOP) y += arrowLength;
+
+        container.setBounds(x, y, container.getWidth(), container.getHeight());
+        if (!Arrays.asList(getComponents()).contains(container)) add(container);
     }
 
     /**
@@ -103,193 +136,150 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         g2d.setRenderingHints(qualityHints);
     }
 
+    /**
+     * Paints the outline (border) on this.
+     *
+     * @param g2d the 2D graphics object
+     */
     private void paintOutline(Graphics2D g2d) {
-        // todo move color to this class or parent perhaps
-        Color borderColor = CyderColors.notificationBorderColor;
+        int componentWidth = container.getWidth();
+        int componentHeight = container.getHeight();
+        Color borderColor = CyderColors.notificationBorderColor; // todo
         if (isHovered.get()) borderColor = borderColor.darker();
         g2d.setPaint(ColorUtil.setColorOpacity(borderColor, opacity.get()));
 
-        // this is the width x height of what we will be surrounding
-        int componentWidth = container.getWidth();
-        int componentHeight = container.getHeight();
+        GeneralPath outlinePath = new GeneralPath();
 
-        // artificially inflate the width and height to draw the border
+        // Artificially inflate to account for border
         componentHeight += (borderLength * 2);
         componentWidth += (borderLength * 2);
 
-        GeneralPath outlinePath = new GeneralPath();
-
-        int curveInc = 2;
-
-        // already at 0,0
-        // move out of way to draw since arrow might be left or right
+        // Starting point is shifted if arrow needs to be painted on a starting side
         int x = 0;
         int y = 0;
-
         if (arrowDirection == Direction.LEFT) {
             x = arrowLength;
-        }
-
-        if (arrowDirection == Direction.TOP) {
+        } else if (arrowDirection == Direction.TOP) {
             y = arrowLength;
         }
 
-        // always 4 more down due to curve up 2 and then another 2
-        y += 2 * curveInc;
+        // Y starts two curves down since we curve up first before going right
+        y += 2 * curveLength;
 
         outlinePath.moveTo(x, y);
-
-        // curve up 2 and right 2, twice
-        outlinePath.curveTo(x, y, x + curveInc, y - curveInc, x + 2 * curveInc, y - 2 * curveInc);
-        // new x,y we are at after curing
-        x += (2 * curveInc);
-        y -= (2 * curveInc);
-
-        // line from top left point to right for component top
+        outlinePath.curveTo(x, y,
+                x + curveLength, y - curveLength,
+                x + 2 * curveLength, y - 2 * curveLength);
+        x += (2 * curveLength);
+        y -= (2 * curveLength);
         outlinePath.lineTo(x + componentWidth, y);
-        // new x
         x += componentWidth;
-        // curve down 2 and right 2, twice
-        outlinePath.curveTo(x, y, x + curveInc, y + curveInc, x + 2 * curveInc, y + 2 * curveInc);
-
-        // new x,y we're at
-        x += (2 * curveInc);
-        y += (2 * curveInc);
-
-        // line down for component height
+        outlinePath.curveTo(x, y,
+                x + curveLength, y + curveLength,
+                x + 2 * curveLength, y + 2 * curveLength);
+        x += (2 * curveLength);
+        y += (2 * curveLength);
         outlinePath.lineTo(x, y + componentHeight);
-
-        // new y
         y += componentHeight;
-
-        // curve down 2 and left 2, twice
-        outlinePath.curveTo(x, y, x - curveInc, y + curveInc, x - 2 * curveInc, y + 2 * curveInc);
-
-        // new x,y we're at
-        x -= (2 * curveInc);
-        y += (2 * curveInc);
-
-        // line left for component width
+        outlinePath.curveTo(x, y,
+                x - curveLength, y + curveLength,
+                x - 2 * curveLength, y + 2 * curveLength);
+        x -= (2 * curveLength);
+        y += (2 * curveLength);
         outlinePath.lineTo(x - componentWidth, y);
-
-        // new x
         x -= componentWidth;
-
-        // curve up 2 and left 2, twice
-        outlinePath.curveTo(x, y, x - curveInc, y - curveInc, x - 2 * curveInc, y - 2 * curveInc);
-
-        // new x,y we're at
-        x -= (2 * curveInc);
-        y -= (2 * curveInc);
-
-        // line up for component height
+        outlinePath.curveTo(x, y, x - curveLength, y - curveLength, x - 2 * curveLength, y - 2 * curveLength);
+        x -= (2 * curveLength);
+        y -= (2 * curveLength);
         outlinePath.lineTo(x, y - componentHeight);
-
-        //noinspection UnusedAssignment - want to ensure (x, y) is always up to date for maintainability
+        //noinspection UnusedAssignment
         y -= componentHeight;
-
-        // close and fill
         outlinePath.closePath();
         g2d.fill(outlinePath);
     }
 
+    /**
+     * Paints the fill on this.
+     *
+     * @param g2d the 2D graphics object
+     */
     private void paintFill(Graphics2D g2d) {
         int componentHeight = container.getWidth();
         int componentWidth = container.getHeight();
-        Color fillColor = CyderColors.notificationBackgroundColor;
+        Color fillColor = CyderColors.notificationBackgroundColor; // todo
         if (isHovered.get()) fillColor = fillColor.darker();
         g2d.setPaint(ColorUtil.setColorOpacity(fillColor, opacity.get()));
 
         GeneralPath fillPath = new GeneralPath();
 
-        // already at 0,0 but need to be reset
-        // move out of way to draw since arrow might be left or right
+        // Starting point is shifted if arrow needs to be painted on a starting side
         int x = 0;
         int y = 0;
-
         if (arrowDirection == Direction.LEFT) {
             x = arrowLength;
-        }
-
-        if (arrowDirection == Direction.TOP) {
+        } else if (arrowDirection == Direction.TOP) {
             y = arrowLength;
         }
 
-        int curveInc = 2;
+        // Y starts two curves down since we curve up first before going right
+        y += 2 * curveLength;
 
-        // always 4 more down due to curve up 2 and then another 2
-        y += 2 * curveInc;
-
-        // offset inward for fill shape
+        // Offset due to border
         x += borderLength;
         y += borderLength;
 
         fillPath.moveTo(x, y);
-
-        // curve up 2 and right 2, twice
-        fillPath.curveTo(x, y, x + curveInc, y - curveInc, x + 2 * curveInc, y - 2 * curveInc);
-
-        // new x,y we're at
-        x += 2 * curveInc;
-        y -= 2 * curveInc;
-
-        // line right for component width
+        fillPath.curveTo(x, y,
+                x + curveLength, y - curveLength,
+                x + 2 * curveLength, y - 2 * curveLength);
+        x += 2 * curveLength;
+        y -= 2 * curveLength;
         fillPath.lineTo(x + componentWidth, y);
-
-        // new x
         x += componentWidth;
-
-        // curve down 2 and right 2, twice
-        fillPath.curveTo(x, y, x + curveInc, y + curveInc, x + 2 * curveInc, y + 2 * curveInc);
-
-        // new x,y we're at
-        x += 2 * curveInc;
-        y += 2 * curveInc;
-
-        // line down for component height
+        fillPath.curveTo(x, y,
+                x + curveLength, y + curveLength,
+                x + 2 * curveLength, y + 2 * curveLength);
+        x += 2 * curveLength;
+        y += 2 * curveLength;
         fillPath.lineTo(x, y + componentHeight);
-
-        // new y
         y += componentHeight;
-
-        // curve down 2 and left 2, twice
-        fillPath.curveTo(x, y, x - curveInc, y + curveInc, x - 2 * curveInc, y + 2 * curveInc);
-
-        // new x,y we're at
-        x -= 2 * curveInc;
-        y += 2 * curveInc;
-
-        // line left for component width
+        fillPath.curveTo(x, y,
+                x - curveLength, y + curveLength,
+                x - 2 * curveLength, y + 2 * curveLength);
+        x -= 2 * curveLength;
+        y += 2 * curveLength;
         fillPath.lineTo(x - componentWidth, y);
-
-        // new x
         x -= componentWidth;
-
-        // curve up 2 and left 2, twice
-        fillPath.curveTo(x, y, x - curveInc, y - curveInc, x - 2 * curveInc, y - 2 * curveInc);
-
-        // new x,y we're at
-        x -= 2 * curveInc;
-        y -= 2 * curveInc;
-
-        // line up for component height
+        fillPath.curveTo(x, y,
+                x - curveLength, y - curveLength,
+                x - 2 * curveLength, y - 2 * curveLength);
+        x -= 2 * curveLength;
+        y -= 2 * curveLength;
         fillPath.lineTo(x, y - componentHeight);
-
-        // new y
         //noinspection UnusedAssignment
         y -= componentHeight;
-
-        // close and fill
         fillPath.closePath();
         g2d.fill(fillPath);
     }
+
+    /**
+     * Whether {@link #appear()} has been invoked on this.
+     */
+    private final AtomicBoolean appearInvoked = new AtomicBoolean();
+
+    private static final int animationDelay = 2;
+
+    private static final int animationStep = 2;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void appear() {
-        CyderFrame parent = (CyderFrame) getParent();
+        Preconditions.checkState(!appearInvoked.get());
+        appearInvoked.set(true);
+
+        Container parent = getParent();
 
         // centered on x, y has offset of 10 pixels from bottom
         int bottomOffset = 10;
@@ -300,17 +290,15 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         opacity.set(0);
         setVisible(true);
 
-        int animationStep = 2;
+        System.out.println("appearing");
+
         for (int i = ColorUtil.opacityRange.lowerEndpoint()
              ; i < ColorUtil.opacityRange.upperEndpoint() ; i += animationStep) {
-            if (!UserDataManager.INSTANCE.shouldDoAnimations()) {
-                break;
-            }
-
+            if (shouldStopAnimation()) break;
             opacity.set(i);
             repaint();
-            int animationDelay = 2;
             ThreadUtil.sleep(animationDelay);
+            System.out.println(opacity.get());
         }
 
         opacity.set(ColorUtil.opacityRange.upperEndpoint());
@@ -318,7 +306,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
 
         if (!UserDataManager.INSTANCE.shouldPersistNotifications()
                 && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-            ThreadUtil.sleepSeconds(visibleDuration.toMillis());
+            ThreadUtil.sleep(visibleDuration.toMillis());
             disappear();
         }
     }
@@ -328,20 +316,18 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     @Override
     public synchronized void disappear() {
-        int animationStep = 2;
         for (int i = ColorUtil.opacityRange.upperEndpoint()
              ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= animationStep) {
             if (shouldStopAnimation()) break;
             opacity.set(i);
             repaint();
-            int animationDelay = 2;
             ThreadUtil.sleep(animationDelay);
         }
 
         opacity.set(ColorUtil.opacityRange.lowerEndpoint());
         repaint();
 
-        CyderFrame parent = (CyderFrame) getParent();
+        Container parent = getParent();
         if (parent != null) {
             parent.remove(this);
             setVisible(false);
@@ -366,10 +352,9 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     }
 
     /**
-     * Sets whether this notification should be painted as hovered.
-     *
-     * @param hovered whether this notification should be painted as hovered
+     * {@inheritDoc}
      */
+    @Override
     public void setHovered(boolean hovered) {
         isHovered.set(hovered);
         repaint();

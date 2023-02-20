@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": false,
   "filterChat": true,
-  "lastSessionStart": 1676824295113,
+  "lastSessionStart": 1676860423856,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -43,7 +43,7 @@
     "consoleWidth": 800,
     "consoleHeight": 800,
     "monitor": 0,
-    "consoleOnTop": false,
+    "consoleOnTop": true,
     "consoleDirection": "TOP"
   },
   "mappedExecutables": {

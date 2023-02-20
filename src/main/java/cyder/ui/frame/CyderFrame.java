@@ -3,6 +3,7 @@ package cyder.ui.frame;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
+import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
@@ -35,7 +36,9 @@ import cyder.ui.frame.enumerations.MenuType;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.CyderNotification;
+import cyder.ui.frame.notification.CyderToastNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -1043,6 +1046,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(notificationBuilder.getHtmlText());
         Preconditions.checkArgument(!notificationBuilder.getHtmlText().isEmpty());
 
+        // todo create it here
         notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
@@ -1071,10 +1075,8 @@ public class CyderFrame extends JFrame {
      */
     public void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
-        Preconditions.checkNotNull(builder.getHtmlText());
-        Preconditions.checkArgument(!builder.getHtmlText().isEmpty());
 
-        // todo se to toast
+        // todo create it here
         notificationList.add(builder);
 
         if (!notificationCheckerStarted) {
@@ -1099,6 +1101,20 @@ public class CyderFrame extends JFrame {
      * so that only one may ever be present at a time.
      */
     private final Semaphore notificationConstructionLock = new Semaphore(1);
+
+    @CyderTest
+    public static void test() {
+        NotificationBuilder builder = new NotificationBuilder("my special test here")
+                .setNotificationDirection(NotificationDirection.TOP);
+
+        JLabel container = new JLabel();
+        container.setSize(100, 50);
+        builder.setContainer(container);
+
+        CyderToastNotification toast = new CyderToastNotification(builder);
+        Console.INSTANCE.getConsoleCyderFrame().add(toast);
+        toast.appear();
+    }
 
     /**
      * Returns the notification queue for internal frame notifications/toasts.
@@ -1216,17 +1232,17 @@ public class CyderFrame extends JFrame {
     /**
      * Generates the disposal mouse listener for a notification.
      *
-     * @param builder        the notification builder
-     * @param textLabel      the label the notification's text is placed on
-     * @param notification   the current notification object under construction
-     * @param doEnterAndExit whether to add the mouse entered/exited listeners
+     * @param builder         the notification builder
+     * @param textLabel       the label the notification's text is placed on
+     * @param notification    the current notification object under construction
+     * @param addEnterAndExit whether to add the mouse entered/exited listeners
      * @return a disposal mouse listener for a notification
      */
     @ForReadability
     private MouseAdapter generateNotificationDisposalMouseListener(NotificationBuilder builder,
                                                                    JLabel textLabel,
                                                                    CyderNotification notification,
-                                                                   boolean doEnterAndExit) {
+                                                                   boolean addEnterAndExit) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -1240,7 +1256,7 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (doEnterAndExit) {
+                if (addEnterAndExit) {
                     textLabel.setForeground(CyderColors.notificationForegroundColor.darker());
                     notification.setHovered(true);
                     notification.repaint();
@@ -1249,7 +1265,7 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (doEnterAndExit) {
+                if (addEnterAndExit) {
                     textLabel.setForeground(CyderColors.notificationForegroundColor);
                     notification.setHovered(false);
                     notification.repaint();
