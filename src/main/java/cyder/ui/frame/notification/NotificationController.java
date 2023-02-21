@@ -29,6 +29,16 @@ import static cyder.strings.CyderStrings.quote;
  */
 public class NotificationController {
     /**
+     * The maximum allowable notification width to frame width ratio.
+     */
+    private static final double maxNotificationToFrameWidthRatio = 0.85;
+
+    /**
+     * The maximum allowable notification height to frame height ratio.
+     */
+    private static final double maxNotificationToFrameHeightRatio = 0.45;
+
+    /**
      * The duration gap between a notification disappearing and the next one appearing.
      */
     private static final Duration timeBetweenNotifications = Duration.ofMillis(800);
@@ -87,11 +97,18 @@ public class NotificationController {
         Preconditions.checkNotNull(controlFrame);
 
         this.controlFrame = controlFrame;
-
-        String threadName = "Notification Controller Queue, frame: " + quote + controlFrame.getTitle() + quote;
-        queueExecutor = Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName));
-
+        queueExecutor = Executors.newSingleThreadExecutor(generateCyderThreadFactory());
         queueRunning = new AtomicBoolean(false);
+    }
+
+    /**
+     * Generates the thread factory for the notification queue executor service.
+     *
+     * @return the thread factory for the notification queue executor service
+     */
+    private CyderThreadFactory generateCyderThreadFactory() {
+        String threadName = "Notification Controller Queue, frame: " + quote + controlFrame.getTitle() + quote;
+        return new CyderThreadFactory(threadName);
     }
 
     /**
@@ -123,8 +140,8 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * 0.85); // todo magic number
-        double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * 0.45); // todo magic number
+        double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * maxNotificationToFrameWidthRatio);
+        double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
         BoundsString bounds = BoundsUtil.widthHeightCalculation(
                 builder.getHtmlText(), notificationFont, (int) maximumAllowableWidth);
         int notificationWidth = bounds.getWidth() + notificationPadding;
@@ -187,8 +204,6 @@ public class NotificationController {
             while (!notificationQueue.isEmpty()) { // todo && !killed for this object
                 currentNotification = notificationQueue.remove(0);
                 controlFrame.getTrueContentPane().add(currentNotification, JLayeredPane.DRAG_LAYER);
-                currentNotification.setVisible(true);
-                controlFrame.getContentPane().repaint();
                 currentNotification.appear();
                 // todo be able to add tags to a log call, [Notification] [Test Frame]:
                 Logger.log(LogTag.UI_ACTION, "Notification invoked");
