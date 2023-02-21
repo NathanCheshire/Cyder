@@ -113,8 +113,9 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     public CyderToastNotification(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
-
-        this.visibleDuration = Duration.ofMillis(builder.getViewDuration());
+        long duration = builder.getViewDuration();
+        Preconditions.checkArgument(duration > 0);
+        this.visibleDuration = Duration.ofMillis(duration);
         this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
     }
@@ -321,7 +322,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
 
         Futures.submit(() -> {
             revalidateBounds();
-            opacity.set(0);
+            opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             setVisible(true);
 
             for (int i = ColorUtil.opacityRange.lowerEndpoint()
@@ -336,11 +337,15 @@ public class CyderToastNotification extends CyderNotificationAbstract {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
             repaint();
 
-            if (!UserDataManager.INSTANCE.shouldPersistNotifications()
-                    && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration?
-                disappear();
-            }
+            /*
+            Note to maintainers: yes, there are two checks here for the user preference of persisting notifications.
+            This is to address the case where the user toggles it while a notification is present.
+             */
+            if (UserDataManager.INSTANCE.shouldPersistNotifications()) return;
+            if (shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) return;
+            ThreadUtil.sleep(visibleDuration.toMillis());
+            if (UserDataManager.INSTANCE.shouldPersistNotifications()) return;
+            disappear();
         }, appearAnimationService);
     }
 
@@ -354,6 +359,9 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         disappearInvoked.set(true);
 
         Futures.submit(() -> {
+            revalidateBounds();
+            opacity.set(ColorUtil.opacityRange.upperEndpoint());
+
             for (int i = ColorUtil.opacityRange.upperEndpoint()
                  ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= opacityStep) {
                 if (shouldStopAnimation()) break;
