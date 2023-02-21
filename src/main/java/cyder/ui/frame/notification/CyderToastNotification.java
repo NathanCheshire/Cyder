@@ -25,6 +25,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderToastNotification extends CyderNotificationAbstract {
     /**
+     * The offset from the bottom of the frame toast notifications are placed.
+     */
+    private static final int bottomOffset = 10;
+
+    /**
      * The delay between animation steps.
      */
     private static final int animationDelay = 2;
@@ -157,6 +162,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         container.setBounds(x, y, container.getWidth(), container.getHeight());
         container.setVisible(true);
         if (!Arrays.asList(getComponents()).contains(container)) add(container);
+        revalidateBounds();
     }
 
     /**
@@ -165,6 +171,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * @param g2d the graphics 2D object
      */
     private void addRenderingHints(Graphics2D g2d) {
+        Preconditions.checkNotNull(g2d);
+
         RenderingHints qualityHints = new RenderingHints(
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -177,6 +185,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * @param g2d the 2D graphics object
      */
     private void paintOutline(Graphics2D g2d) {
+        Preconditions.checkNotNull(g2d);
+
         int componentWidth = container.getWidth();
         int componentHeight = container.getHeight();
         Color borderColor = notificationBorderColor;
@@ -239,6 +249,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * @param g2d the 2D graphics object
      */
     private void paintFill(Graphics2D g2d) {
+        Preconditions.checkNotNull(g2d);
+
         int componentWidth = container.getWidth();
         int componentHeight = container.getHeight();
         Color fillColor = notificationBackgroundColor;
@@ -305,15 +317,10 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         if (appearInvoked.get()) return;
         appearInvoked.set(true);
 
+        revalidateBounds();
+
         Futures.submit(() -> {
-            Container parent = getParent();
-
-            // centered on x, y has offset of 10 pixels from bottom
-            int bottomOffset = 10;
-            setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                    parent.getHeight() - getHeight() - bottomOffset,
-                    getWidth(), getHeight());
-
+            revalidateBounds();
             opacity.set(0);
             setVisible(true);
 
@@ -321,9 +328,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
                  ; i < ColorUtil.opacityRange.upperEndpoint() ; i += opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
-                setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                        parent.getHeight() - getHeight() - bottomOffset,
-                        getWidth(), getHeight()); // todo revalidate location method?
+                revalidateBounds();
                 repaint();
                 ThreadUtil.sleep(animationDelay);
             }
@@ -333,8 +338,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
 
             if (!UserDataManager.INSTANCE.shouldPersistNotifications()
                     && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-                //                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration?
-                //                disappear();
+                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration?
+                disappear();
             }
         }, appearAnimationService);
     }
@@ -404,5 +409,17 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     private boolean shouldStopAnimation() {
         return killed.get() || !UserDataManager.INSTANCE.shouldDoAnimations();
+    }
+
+    /**
+     * Revalidates the bounds of this toast notification.
+     */
+    private void revalidateBounds() {
+        int parentWidth = getParent().getWidth();
+        int parentHeight = getParent().getHeight();
+        int ourWidth = getWidth();
+        int ourHeight = getHeight();
+
+        setBounds(parentWidth / 2 - ourWidth / 2, parentHeight - ourHeight - bottomOffset, ourWidth, ourHeight);
     }
 }

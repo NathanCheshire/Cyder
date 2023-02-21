@@ -178,13 +178,15 @@ public class NotificationController {
         queueRunning.set(true);
 
         Futures.submit(() -> {
-            while (!notificationQueue.isEmpty()) {
+            while (!notificationQueue.isEmpty()) { // todo && !killed for this object
                 currentNotification = notificationQueue.remove(0);
-                currentNotification.setVisible(false);
-                controlFrame.getIconPane().add(currentNotification, notificationLayer);
+                controlFrame.getContentPane().add(currentNotification);
+                // currentNotification.setVisible(true);
                 currentNotification.appear();
+
                 // todo be able to add tags to a log call, [Notification] [Test Frame]:
                 Logger.log(LogTag.UI_ACTION, "Notification invoked");
+
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }

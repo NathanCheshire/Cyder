@@ -322,7 +322,7 @@ public enum Console {
 
         introMusicCheck();
 
-        consoleCyderFrame.test();
+        consoleCyderFrame.test(); // todo remove me
     }
 
     /**

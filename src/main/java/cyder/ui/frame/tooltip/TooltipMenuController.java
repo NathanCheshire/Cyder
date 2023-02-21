@@ -370,6 +370,8 @@ public class TooltipMenuController {
         }
     }
 
+    // todo should think about synchronizing on something other than the control frame
+
     /**
      * Constructs the tooltip menu label for this controller.
      */

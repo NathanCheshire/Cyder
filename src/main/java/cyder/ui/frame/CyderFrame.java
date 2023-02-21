@@ -480,7 +480,7 @@ public class CyderFrame extends JFrame {
     }
 
     public void test() {
-        new NotificationController(this).toast(new NotificationBuilder("Notification"));
+        new NotificationController(this).toast(new NotificationBuilder("hello world"));
     }
 
     // -----------------------------
@@ -536,16 +536,11 @@ public class CyderFrame extends JFrame {
             }
         });
 
+
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                if (index == JLayeredPane.DRAG_LAYER) {
-                    return super.add(comp, index);
-                } else if (index == JLayeredPane.POPUP_LAYER) {
-                    return super.add(comp, index);
-                }
-
-                return super.add(comp, 0);
+                return super.add(comp, allowableContentLabelIndices.contains(index) ? index : 0);
             }
         };
         contentLabel.setFocusable(false);
