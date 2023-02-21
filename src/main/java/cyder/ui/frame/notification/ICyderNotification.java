@@ -1,18 +1,9 @@
 package cyder.ui.frame.notification;
 
-import java.awt.*;
-
 /**
  * An interface for the necessary methods a {@link CyderNotificationAbstract} must implement.
  */
 public interface ICyderNotification {
-    /**
-     * The logic to invoke to paint the custom notification.
-     *
-     * @param g the graphics object for painting
-     */
-    void paintLogic(Graphics g);
-
     /**
      * Causes the notification to appear on the frame.
      */

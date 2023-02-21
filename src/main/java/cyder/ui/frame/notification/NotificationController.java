@@ -5,7 +5,10 @@ import com.google.common.util.concurrent.Futures;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadFactory;
+import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.HtmlUtil;
 
@@ -183,16 +186,14 @@ public class NotificationController {
         Futures.submit(() -> {
             while (!notificationQueue.isEmpty()) { // todo && !killed for this object
                 currentNotification = notificationQueue.remove(0);
-                controlFrame.getContentPane().add(currentNotification);
-
-
-                //                currentNotification.appear();
-                //
-                //                // todo be able to add tags to a log call, [Notification] [Test Frame]:
-                //                Logger.log(LogTag.UI_ACTION, "Notification invoked");
-                //
-                //                while (!currentNotification.isKilled()) Thread.onSpinWait();
-                //                ThreadUtil.sleep(timeBetweenNotifications.toMillis());
+                controlFrame.getTrueContentPane().add(currentNotification, JLayeredPane.DRAG_LAYER);
+                currentNotification.setVisible(true);
+                controlFrame.getContentPane().repaint();
+                currentNotification.appear();
+                // todo be able to add tags to a log call, [Notification] [Test Frame]:
+                Logger.log(LogTag.UI_ACTION, "Notification invoked");
+                while (!currentNotification.isKilled()) Thread.onSpinWait();
+                ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }
         }, queueExecutor);
     }

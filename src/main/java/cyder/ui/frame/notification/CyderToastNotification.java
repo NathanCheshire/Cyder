@@ -144,7 +144,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      * {@inheritDoc}
      */
     @Override
-    public void paintLogic(Graphics g) {
+    public void paint(Graphics g) {
         Preconditions.checkNotNull(g);
 
         Graphics2D g2d = (Graphics2D) g;
@@ -164,6 +164,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         container.setVisible(true);
         if (!Arrays.asList(getComponents()).contains(container)) add(container);
         revalidateBounds();
+        super.paint(g);
     }
 
     /**

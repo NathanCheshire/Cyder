@@ -271,7 +271,7 @@ public class TooltipMenuController {
             ThreadUtil.sleep(noInteractionFadeOutTimeout.toMillis());
             if (!mouseHasEnteredTooltipMenu.get()) {
                 if (!controlKey.equals(currentFadeOutKey.get())) return;
-                fadeOut();
+                fadeOut(controlKey);
             }
         }, Executors.newSingleThreadExecutor(new CyderThreadFactory(tooltipMenuFadeoutWaiterThreadName)));
     }
@@ -301,7 +301,7 @@ public class TooltipMenuController {
                     ThreadUtil.sleep(outOfTooltipMenuBeforeFadeOut.toMillis());
                     if (tooltipMenuLabel.getMousePosition() == null) {
                         if (!controlKey.equals(currentFadeOutKey.get())) return;
-                        fadeOut();
+                        fadeOut(controlKey);
                         return;
                     }
                 }
@@ -319,21 +319,27 @@ public class TooltipMenuController {
         }
     }
 
+    // todo doesn't look like it used to with the labels not disappearing at half opacity
+
     /**
      * Animates out the tooltip menu label via an opacity decrement transition.
+     *
+     * @param controlKey the control key to ensure the animation stops if the label is re-shown
      */
-    private void fadeOut() {
+    private void fadeOut(String controlKey) {
         if (fadeOutAnimation != null && !fadeOutAnimation.isCancelled()) return;
 
         fadeOutAnimation = Futures.submit(() -> {
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
             while (opacity.get() >= opacityAnimationDecrement) {
+                if (!controlKey.equals(currentFadeOutKey.get())) return;
                 opacity.set(opacity.get() - opacityAnimationDecrement);
                 tooltipMenuLabel.repaint();
                 ThreadUtil.sleep(opacityAnimationTimeout.toMillis());
             }
 
+            if (!controlKey.equals(currentFadeOutKey.get())) return;
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             tooltipMenuLabel.repaint();
             tooltipMenuLabel.setVisible(false);
