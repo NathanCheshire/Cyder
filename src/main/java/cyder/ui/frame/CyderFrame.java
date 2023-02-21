@@ -1165,7 +1165,7 @@ public class CyderFrame extends JFrame {
                 }
 
                 iconPane.add(appearNotification, JLayeredPane.POPUP_LAYER);
-                getContentPane().repaint();
+                iconLabel.repaint();
 
                 long duration = currentBuilder.getViewDuration();
                 if (currentBuilder.shouldCalculateViewDuration()) {

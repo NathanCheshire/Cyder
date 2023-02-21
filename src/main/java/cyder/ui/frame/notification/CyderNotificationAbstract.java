@@ -25,14 +25,14 @@ public abstract class CyderNotificationAbstract extends JLabel implements ICyder
      */
     private static final int showUntilDismissed = -1;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void paint(Graphics g) {
-        paintLogic(g);
-        super.paint(g);
-    }
+    //    /**
+    //     * {@inheritDoc}
+    //     */
+    //    @Override
+    //    public void paint(Graphics g) {
+    //        paintLogic(g);
+    //        super.paint(g);
+    //    }
 
     /**
      * Returns whether the provided duration is indicative that a notification

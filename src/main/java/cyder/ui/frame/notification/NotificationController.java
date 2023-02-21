@@ -5,10 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
-import cyder.logging.LogTag;
-import cyder.logging.Logger;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.HtmlUtil;
 
@@ -34,14 +31,24 @@ public class NotificationController {
     private static final Duration timeBetweenNotifications = Duration.ofMillis(800);
 
     /**
-     * The index of the notification layer to place notifications on for {@link CyderFrame}s.
-     */
-    private static final int notificationLayer = JLayeredPane.POPUP_LAYER;
-
-    /**
      * The font used for CyderFrame notifications (typically equivalent to segoe20)
      */
     private static final Font notificationFont = new Font("Segoe UI Black", Font.BOLD, 20);
+
+    /**
+     * The number of milliseconds per word a notification should be visible for.
+     */
+    private static final long msPerWord = 300;
+
+    /**
+     * The padding for notification containers and their painted container objects.
+     */
+    private static final int notificationPadding = 5;
+
+    /**
+     * The prefix for the tooltip on notifications.
+     */
+    private static final String tooltipPrefix = "Notified at: ";
 
     /**
      * The frame this queue is controlling.
@@ -113,10 +120,6 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        long msPerWord = 300;
-        int notificationPadding = 5;
-        String tooltipPrefix = "Notified at: ";
-
         double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * 0.85); // todo magic number
         double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * 0.45); // todo magic number
         BoundsString bounds = BoundsUtil.widthHeightCalculation(
@@ -181,14 +184,15 @@ public class NotificationController {
             while (!notificationQueue.isEmpty()) { // todo && !killed for this object
                 currentNotification = notificationQueue.remove(0);
                 controlFrame.getContentPane().add(currentNotification);
-                // currentNotification.setVisible(true);
-                currentNotification.appear();
 
-                // todo be able to add tags to a log call, [Notification] [Test Frame]:
-                Logger.log(LogTag.UI_ACTION, "Notification invoked");
 
-                while (!currentNotification.isKilled()) Thread.onSpinWait();
-                ThreadUtil.sleep(timeBetweenNotifications.toMillis());
+                //                currentNotification.appear();
+                //
+                //                // todo be able to add tags to a log call, [Notification] [Test Frame]:
+                //                Logger.log(LogTag.UI_ACTION, "Notification invoked");
+                //
+                //                while (!currentNotification.isKilled()) Thread.onSpinWait();
+                //                ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }
         }, queueExecutor);
     }
