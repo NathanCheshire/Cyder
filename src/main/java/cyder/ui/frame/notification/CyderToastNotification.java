@@ -321,6 +321,9 @@ public class CyderToastNotification extends CyderNotificationAbstract {
                  ; i < ColorUtil.opacityRange.upperEndpoint() ; i += opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
+                setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                        parent.getHeight() - getHeight() - bottomOffset,
+                        getWidth(), getHeight()); // todo revalidate location method?
                 repaint();
                 ThreadUtil.sleep(animationDelay);
             }
@@ -330,8 +333,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
 
             if (!UserDataManager.INSTANCE.shouldPersistNotifications()
                     && !shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) {
-                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration
-                disappear();
+                //                ThreadUtil.sleep(visibleDuration.toMillis()); // todo not proper visible duration?
+                //                disappear();
             }
         }, appearAnimationService);
     }

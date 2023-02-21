@@ -5,12 +5,12 @@ import com.google.common.util.concurrent.Futures;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
-import cyder.strings.StringUtil;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
+import cyder.utils.HtmlUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.strings.CyderStrings.quote;
-import static cyder.strings.CyderStrings.space;
 
 /**
  * A controller for the notification queue system of a particular {@link CyderFrame}.
@@ -114,55 +113,59 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
+        long msPerWord = 300;
         int notificationPadding = 5;
+        String tooltipPrefix = "Notified at: ";
 
-        double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * 0.85); // todo
-        double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * 0.45); // todo
+        double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * 0.85); // todo magic number
+        double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * 0.45); // todo magic number
         BoundsString bounds = BoundsUtil.widthHeightCalculation(
                 builder.getHtmlText(), notificationFont, (int) maximumAllowableWidth);
         int notificationWidth = bounds.getWidth() + notificationPadding;
         int notificationHeight = bounds.getHeight() + notificationPadding;
         String notificationText = bounds.getText();
 
-        // todo ensure width and height do not exceed max allowable, if so, we'll want to inform but not yet
+        if (notificationWidth > maximumAllowableWidth || notificationHeight > maximumAllowableHeight) {
+            // todo inform notification into queue
+        }
 
-        String tooltip = "Notified at:" + space + builder.getConstructionTime();
+        String tooltip = tooltipPrefix + builder.getConstructionTime();
 
-        // Null indicates we are intended to generate a label for the html text
-        Container customContainer = builder.getContainer();
-        if (customContainer == null) {
+        boolean shouldGenerateTextContainer = builder.getContainer() == null;
+        JLabel interactionLabel = new JLabel();
+        if (shouldGenerateTextContainer) {
             JLabel textContainerLabel = new JLabel(notificationText);
             textContainerLabel.setSize(notificationWidth, notificationHeight);
             textContainerLabel.setFont(notificationFont);
             textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
-            JLabel interactionLabel = new JLabel();
             interactionLabel.setSize(notificationWidth, notificationHeight);
             interactionLabel.setToolTipText(tooltip);
-            // todo mouse listener to dismiss
-
             textContainerLabel.add(interactionLabel);
             builder.setContainer(textContainerLabel);
         } else {
+            Container customContainer = builder.getContainer();
             int containerWidth = customContainer.getWidth();
             int containerHeight = customContainer.getHeight();
 
             if (containerWidth > maximumAllowableWidth || containerHeight > maximumAllowableHeight) {
-                // todo inform notification
+                // todo inform notification into queue
             }
 
-            JLabel interactionLabel = new JLabel();
             interactionLabel.setSize(containerWidth, containerHeight);
             interactionLabel.setToolTipText(tooltip);
-            // todo mouse listener to dismiss
             customContainer.add(interactionLabel);
         }
 
-        long duration = builder.getViewDuration();
         if (builder.shouldCalculateViewDuration()) {
-            duration = 300L * StringUtil.countWords(Jsoup.clean(notificationText, Safelist.none())); // todo
+            builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
         }
-        builder.setViewDuration(duration);
+
+        CyderToastNotification toastNotification = new CyderToastNotification(builder);
+        MouseAdapter mouseAdapter = generateMouseAdapter(toastNotification, builder, shouldGenerateTextContainer);
+        interactionLabel.addMouseListener(mouseAdapter);
+        notificationQueue.add(toastNotification);
+        startQueueIfNecessary();
     }
 
     // todo bordering notification methods
@@ -180,6 +183,8 @@ public class NotificationController {
                 currentNotification.setVisible(false);
                 controlFrame.getIconPane().add(currentNotification, notificationLayer);
                 currentNotification.appear();
+                // todo be able to add tags to a log call, [Notification] [Test Frame]:
+                Logger.log(LogTag.UI_ACTION, "Notification invoked");
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }

@@ -321,6 +321,8 @@ public enum Console {
         performTimingChecks();
 
         introMusicCheck();
+
+        consoleCyderFrame.test();
     }
 
     /**
@@ -1151,7 +1153,6 @@ public enum Console {
         consoleCyderFrame.setSnapSize(SNAP_SIZE);
 
         refreshConsoleMaxSize();
-        consoleCyderFrame.resetTooltipMenuController();
     }
 
     /**

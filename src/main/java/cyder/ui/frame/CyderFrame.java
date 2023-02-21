@@ -36,6 +36,7 @@ import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.CyderNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationController;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -476,6 +477,10 @@ public class CyderFrame extends JFrame {
         resetTooltipMenuController();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    public void test() {
+        new NotificationController(this).toast(new NotificationBuilder("Notification"));
     }
 
     // -----------------------------
@@ -2242,15 +2247,17 @@ public class CyderFrame extends JFrame {
     private ImageIcon currentMasterIcon;
 
     /**
-     * Whether the frame is resizable.
+     * Sets whether the frame is resizable via the component resizer.
+     * Note, {@link #initializeResizing()} must be called prior to enabling resizing.
      *
-     * @param allow whether the frame is resizable
+     * @param resizable whether the frame should be resizable
      */
     @Override
-    public void setResizable(boolean allow) {
-        if (cyderComponentResizer != null) {
-            cyderComponentResizer.setResizingAllowed(allow);
-        }
+    public void setResizable(boolean resizable) {
+        if (cyderComponentResizer != null) cyderComponentResizer.setResizingAllowed(resizable);
+        if (resizable) resetTooltipMenuController();
+        // todo this is to make the option to resize appear, perhaps
+        //  just a revalidate method instead of new object creation?
     }
 
     /**

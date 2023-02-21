@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.util.regex.Pattern;
@@ -104,5 +107,18 @@ public final class HtmlUtil {
         Preconditions.checkNotNull(htmlText);
 
         return HtmlTags.openingHtml + htmlText + HtmlTags.closingHtml;
+    }
+
+    /**
+     * Returns the number of regular words contained in the styled html text.
+     *
+     * @param htmlStyledText the html styled text
+     * @return the number of words
+     */
+    public static int cleanAndCountWords(String htmlStyledText) {
+        Preconditions.checkNotNull(htmlStyledText);
+        Preconditions.checkArgument(!htmlStyledText.isEmpty());
+
+        return StringUtil.countWords(Jsoup.clean(htmlStyledText, Safelist.none()));
     }
 }

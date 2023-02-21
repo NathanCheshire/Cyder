@@ -313,133 +313,130 @@ public class CyderNotification extends JLabel {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (true) {
-                    // todo toast logic
-                } else {
-                    int bottomOffset = 5;
+                int bottomOffset = 5;
 
-                    switch (notificationDirection) {
-                        case TOP -> {
-                            setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                                    CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(getX(), i);
-                                ThreadUtil.sleep(animationDelay.toMillis());
+                switch (notificationDirection) {
+                    case TOP -> {
+                        setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                                CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
                             }
-                            setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
-                        }
-                        case TOP_RIGHT -> {
-                            setBounds(parent.getWidth() + getWidth(),
-                                    CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
 
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(parent.getWidth() - getWidth() + 5, getY());
+                            setLocation(getX(), i);
+                            ThreadUtil.sleep(animationDelay.toMillis());
                         }
-                        case TOP_LEFT -> {
-                            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(2, getY());
-                        }
-                        case LEFT -> {
-                            // note drag label used here to center on content pane
-                            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
-                                    + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
-                                    + parent.getHeight() / 2 - getHeight() / 2);
-                        }
-                        case RIGHT -> {
-                            // note drag label used here to center on content pane
-                            setBounds(parent.getWidth() + getWidth(), CyderDragLabel.DEFAULT_HEIGHT
-                                    + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(parent.getWidth() - getWidth() + 5,
-                                    CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
-                        }
-                        case BOTTOM -> {
-                            setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
-                                    + getHeight(), getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(getX(), i);
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                                    parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
-                        }
-                        case BOTTOM_LEFT -> {
-                            setBounds(-getWidth(), parent.getHeight() - getHeight()
-                                    - bottomOffset, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i < 5 ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
-                        }
-                        case BOTTOM_RIGHT -> {
-                            setBounds(parent.getWidth() + getWidth(), parent.getHeight()
-                                    - getHeight() - bottomOffset, getWidth(), getHeight());
-                            setVisible(true);
-                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setLocation(i, getY());
-                                ThreadUtil.sleep(animationDelay.toMillis());
-                            }
-                            setLocation(parent.getWidth() - getWidth() + 5,
-                                    parent.getHeight() - getHeight() - bottomOffset);
-                        }
-                        default -> throw new IllegalStateException(
-                                "Illegal Notification Direction: " + notificationDirection);
+                        setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
                     }
+                    case TOP_RIGHT -> {
+                        setBounds(parent.getWidth() + getWidth(),
+                                CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(parent.getWidth() - getWidth() + 5, getY());
+                    }
+                    case TOP_LEFT -> {
+                        setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i < 5 ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(2, getY());
+                    }
+                    case LEFT -> {
+                        // note drag label used here to center on content pane
+                        setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
+                                + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i < 5 ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
+                                + parent.getHeight() / 2 - getHeight() / 2);
+                    }
+                    case RIGHT -> {
+                        // note drag label used here to center on content pane
+                        setBounds(parent.getWidth() + getWidth(), CyderDragLabel.DEFAULT_HEIGHT
+                                + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(parent.getWidth() - getWidth() + 5,
+                                CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
+                    }
+                    case BOTTOM -> {
+                        setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
+                                + getHeight(), getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(getX(), i);
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                                parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
+                    }
+                    case BOTTOM_LEFT -> {
+                        setBounds(-getWidth(), parent.getHeight() - getHeight()
+                                - bottomOffset, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i < 5 ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
+                    }
+                    case BOTTOM_RIGHT -> {
+                        setBounds(parent.getWidth() + getWidth(), parent.getHeight()
+                                - getHeight() - bottomOffset, getWidth(), getHeight());
+                        setVisible(true);
+                        for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
+                            }
+
+                            setLocation(i, getY());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        setLocation(parent.getWidth() - getWidth() + 5,
+                                parent.getHeight() - getHeight() - bottomOffset);
+                    }
+                    default -> throw new IllegalStateException(
+                            "Illegal Notification Direction: " + notificationDirection);
                 }
+
 
                 if (!UserDataManager.INSTANCE.shouldPersistNotifications() && viewDuration != -1) {
                     vanish(notificationDirection, parent, viewDuration);
@@ -496,56 +493,53 @@ public class CyderNotification extends JLabel {
             try {
                 ThreadUtil.sleep(visibleTime);
 
-                if (true) { // todo (builder.getNotificationType() == NotificationType.TOAST) {
-
-                } else {
-                    switch (notificationDirection) {
-                        case TOP:
-                            for (int i = getY() ; i > -getHeight() ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
-
-                                setBounds(getX(), i, getWidth(), getHeight());
-                                ThreadUtil.sleep(animationDelay.toMillis());
+                switch (notificationDirection) {
+                    case TOP:
+                        for (int i = getY() ; i > -getHeight() ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
                             }
-                            break;
-                        case BOTTOM:
-                            for (int i = getY() ; i < parent.getHeight() - 5 ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
 
-                                setBounds(getX(), i, getWidth(), getHeight());
-                                ThreadUtil.sleep(animationDelay.toMillis());
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        break;
+                    case BOTTOM:
+                        for (int i = getY() ; i < parent.getHeight() - 5 ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
                             }
-                            break;
-                        case TOP_LEFT:
-                        case LEFT:
-                        case BOTTOM_LEFT:
-                            for (int i = getX() ; i > -getWidth() + 5 ; i -= animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
 
-                                setBounds(i, getY(), getWidth(), getHeight());
-                                ThreadUtil.sleep(animationDelay.toMillis());
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        break;
+                    case TOP_LEFT:
+                    case LEFT:
+                    case BOTTOM_LEFT:
+                        for (int i = getX() ; i > -getWidth() + 5 ; i -= animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
                             }
-                            break;
-                        case RIGHT:
-                        case BOTTOM_RIGHT:
-                        case TOP_RIGHT:
-                            for (int i = getX() ; i < parent.getWidth() - 5 ; i += animationIncrement) {
-                                if (shouldStopAnimation()) {
-                                    break;
-                                }
 
-                                setBounds(i, getY(), getWidth(), getHeight());
-                                ThreadUtil.sleep(animationDelay.toMillis());
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        break;
+                    case RIGHT:
+                    case BOTTOM_RIGHT:
+                    case TOP_RIGHT:
+                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += animationIncrement) {
+                            if (shouldStopAnimation()) {
+                                break;
                             }
-                            break;
-                    }
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            ThreadUtil.sleep(animationDelay.toMillis());
+                        }
+                        break;
                 }
+
 
                 setVisible(false);
                 repaint();
