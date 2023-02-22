@@ -1,5 +1,7 @@
 package cyder.ui.frame.notification;
 
+import java.util.Optional;
+
 /**
  * An interface for the necessary methods a {@link CyderNotificationAbstract} must implement.
  */
@@ -33,4 +35,12 @@ public interface ICyderNotification {
      * @param hovered whether this notification should be painted as hovered
      */
     void setHovered(boolean hovered);
+
+    /**
+     * Returns the text this notification is displaying text if present.
+     * An empty optional indicates this notification is displaying a custom container.
+     *
+     * @return whether the text this notification is displaying if present
+     */
+    Optional<String> getLabelText();
 }

@@ -83,17 +83,6 @@ public class CyderFrame extends JFrame {
     private static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
 
     /**
-     * The font used for CyderFrame notifications (typically equivalent to segoe20)
-     */
-    private static final Font NOTIFICATION_FONT = new Font("Segoe UI Black", Font.BOLD, 20);
-
-    /**
-     * The maximum allowable frame dimension to notification dimension before
-     * the notification is turned into a popup pane.
-     */
-    private static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
-
-    /**
      * The value used for {@link #restoreX} and {@link #restoreY} to indicate a drag has not yet occurred.
      */
     public static final int FRAME_NOT_YET_DRAGGED = Integer.MAX_VALUE;
@@ -219,11 +208,6 @@ public class CyderFrame extends JFrame {
      * This is the color behind the image if there is one.
      */
     private Color backgroundColor = CyderColors.navy;
-
-    /**
-     * The list of notifications that have yet to be pulled and notified via this frame.
-     */
-    private final ArrayList<NotificationBuilder> notificationList = new ArrayList<>();
 
     /**
      * The tooltip menu controller for this frame.
@@ -992,15 +976,6 @@ public class CyderFrame extends JFrame {
     private CyderNotification currentNotification;
 
     /**
-     * Returns the current notification.
-     *
-     * @return the current notification
-     */
-    public CyderNotification getCurrentNotification() {
-        return currentNotification;
-    }
-
-    /**
      * Simple, quick, and easy way to show a notification on the frame without using
      * a builder.
      *
@@ -1043,7 +1018,7 @@ public class CyderFrame extends JFrame {
      * If more are behind it, the queue will immediately pull and display
      */
     public void revokeCurrentNotification() {
-        revokeCurrentNotification(false);
+
     }
 
     /**
@@ -1053,12 +1028,7 @@ public class CyderFrame extends JFrame {
      *                immediately or to smoothly animate it away first
      */
     public void revokeCurrentNotification(boolean animate) {
-        if (animate) {
-            currentNotification.vanish(currentNotification.getBuilder()
-                    .getNotificationDirection(), this, 0);
-        } else {
-            currentNotification.killNotification();
-        }
+
     }
 
     /**
@@ -1068,29 +1038,14 @@ public class CyderFrame extends JFrame {
      * @param expectedText the text of the notification to revoke
      */
     public void revokeNotification(String expectedText) {
-        Preconditions.checkNotNull(expectedText);
-        Preconditions.checkArgument(!expectedText.isEmpty());
 
-        if (currentNotification == null || currentNotification.getBuilder() == null) return;
-
-        if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
-            revokeCurrentNotification();
-        } else {
-            notificationList.removeIf(builder -> builder.getHtmlText().equals(expectedText));
-        }
     }
 
     /**
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-        if (notificationList != null) {
-            notificationList.clear();
-        }
 
-        if (currentNotification != null) {
-            currentNotification.killNotification();
-        }
     }
 
     // ----------------
@@ -1310,7 +1265,8 @@ public class CyderFrame extends JFrame {
                         + fastClose + ", getTitle=" + getTitle());
 
                 preCloseActions.forEach(Runnable::run);
-                if (currentNotification != null) currentNotification.killNotification();
+                // todo notification controller kill
+                // todo tooltip menu controller kill
 
                 killThreads();
                 disableDragging();
@@ -1667,7 +1623,6 @@ public class CyderFrame extends JFrame {
             menuLabel.setVisible(true);
         }
 
-        revalidateNotificationPosition();
         correctTitleLength();
     }
 
@@ -1704,7 +1659,6 @@ public class CyderFrame extends JFrame {
             menuLabel.setVisible(true);
         }
 
-        revalidateNotificationPosition();
         correctTitleLength();
     }
 
@@ -1786,22 +1740,6 @@ public class CyderFrame extends JFrame {
             }
         } catch (Exception ignored) {} finally {
             setShape(shape);
-        }
-    }
-
-    /**
-     * Revalidates the current notification's position if existent.
-     */
-    private void revalidateNotificationPosition() {
-        if (currentNotification != null) {
-            int y = currentNotification.getY();
-            int w = currentNotification.getWidth();
-
-            switch (currentNotification.getBuilder().getNotificationDirection().getArrowDirection()) {
-                case TOP, BOTTOM -> currentNotification.setLocation(width / 2 - w / 2, y);
-                case RIGHT -> currentNotification.setLocation(width - w + titleLabelPadding, y);
-                case LEFT -> currentNotification.setLocation(titleLabelPadding, y);
-            }
         }
     }
 

@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -84,6 +85,11 @@ public class NotificationController {
     private final AtomicBoolean queueRunning;
 
     /**
+     * Whether this controller has been killed.
+     */
+    private final AtomicBoolean killed;
+
+    /**
      * The notification queue to pull from.
      */
     private final ArrayList<CyderNotificationAbstract> notificationQueue = new ArrayList<>();
@@ -103,7 +109,8 @@ public class NotificationController {
 
         this.controlFrame = controlFrame;
         queueExecutor = Executors.newSingleThreadExecutor(generateCyderThreadFactory());
-        queueRunning = new AtomicBoolean(false);
+        queueRunning = new AtomicBoolean();
+        killed = new AtomicBoolean();
     }
 
     /**
@@ -124,6 +131,8 @@ public class NotificationController {
     public CyderFrame getControlFrame() {
         return controlFrame;
     }
+
+    // todo bordering notification methods
 
     /**
      * Adds a toast notification with the provided text to the queue.
@@ -174,10 +183,63 @@ public class NotificationController {
         }
 
         CyderToastNotification toastNotification = new CyderToastNotification(builder);
-        MouseAdapter mouseAdapter = generateMouseAdapter(toastNotification, builder, shouldGenerateTextContainer);
-        mouseEventLabel.addMouseListener(mouseAdapter);
+        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder, shouldGenerateTextContainer));
         notificationQueue.add(toastNotification);
         startQueueIfNecessary();
+    }
+
+    /**
+     * Kills this notification controller, revoking all notifications currently displaying and clearing the queue.
+     */
+    public void kill() {
+        killed.set(true);
+        notificationQueue.clear();
+        currentNotification.kill();
+    }
+
+    /**
+     * Revokes the current notification from the control frame without performing the disappear animation.
+     */
+    public void revokeCurrentNotification() {
+        revokeCurrentNotification(false);
+    }
+
+    /**
+     * Revokes the current notification from the control frame.
+     *
+     * @param animate whether the notification should be animated away or instantly killed and removed
+     */
+    public void revokeCurrentNotification(boolean animate) {
+        if (animate) {
+            currentNotification.disappear();
+        } else {
+            currentNotification.kill();
+        }
+    }
+
+    /**
+     * Revokes the notification being shown or in the queue with the provided text.
+     *
+     * @param expectedText the expected text for the notification
+     */
+    public synchronized void revokeNotification(String expectedText) {
+        if (currentNotification != null) {
+            Optional<String> optionalText = currentNotification.getLabelText();
+            if (optionalText.isPresent() && optionalText.get().equals(expectedText)) currentNotification.kill();
+        }
+
+        notificationQueue.removeIf(notification -> {
+            Optional<String> optionalText = notification.getLabelText();
+            return optionalText.isPresent() && optionalText.get().equals(expectedText);
+        });
+    }
+
+    /**
+     * Revokes all notifications currently showing and from the queue.
+     */
+    public void revokeAllNotifications() {
+        notificationQueue.clear();
+        if (currentNotification != null) currentNotification.kill();
     }
 
     /**
@@ -199,15 +261,23 @@ public class NotificationController {
         return mouseEventLabel;
     }
 
+    /**
+     * Returns the maximum allowable width for a notification given the current width of the control frame.
+     *
+     * @return the maximum allowable width for a notification given the current width of the control frame
+     */
     private int getMaximumAllowableWidth() {
         return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameWidthRatio);
     }
 
+    /**
+     * Returns the maximum allowable height for a notification given the current height of the control frame.
+     *
+     * @return the maximum allowable height for a notification given the current height of the control frame
+     */
     private int getMaxAllowableHeight() {
         return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
     }
-
-    // todo bordering notification methods
 
     /**
      * Starts the notification queue if necessary.
@@ -217,7 +287,7 @@ public class NotificationController {
         queueRunning.set(true);
 
         Futures.submit(() -> {
-            while (!notificationQueue.isEmpty()) { // todo && !killed for this object
+            while (!notificationQueue.isEmpty() && !killed.get()) {
                 currentNotification = notificationQueue.remove(0);
                 controlFrame.getTrueContentPane().add(currentNotification, JLayeredPane.DRAG_LAYER);
                 currentNotification.appear();

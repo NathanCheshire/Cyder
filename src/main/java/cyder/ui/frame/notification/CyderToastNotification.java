@@ -3,6 +3,7 @@ package cyder.ui.frame.notification;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.Futures;
 import cyder.enumerations.Direction;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserDataManager;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -106,6 +108,8 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     private final JLabel container;
 
+    private final String htmlText;
+
     /**
      * Constructs a new toast notification.
      *
@@ -118,6 +122,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         this.visibleDuration = Duration.ofMillis(duration);
         this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
+        this.htmlText = builder.getHtmlText();
     }
 
     /**
@@ -408,6 +413,15 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     public void setHovered(boolean hovered) {
         isHovered.set(hovered);
         repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<String> getLabelText() {
+        if (StringUtil.isNullOrEmpty(htmlText)) return Optional.empty();
+        return Optional.of(htmlText);
     }
 
     /**
