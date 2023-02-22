@@ -152,9 +152,9 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
+        JLabel mouseEventLabel = generateContainerIfNeededAndGenerateMouseEventLabel(builder);
         CyderToastNotification toastNotification = new CyderToastNotification(builder);
-        generateContainerIfNeededAndGenerateMouseEventLabel(builder)
-                .addMouseListener(generateMouseAdapter(toastNotification, builder));
+        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
         notificationQueue.add(toastNotification);
         startQueueIfNecessary();
     }
@@ -179,6 +179,11 @@ public class NotificationController {
     public synchronized void borderNotify(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
+        JLabel mouseEventLabel = generateContainerIfNeededAndGenerateMouseEventLabel(builder);
+        CyderBorderNotification toastNotification = new CyderBorderNotification(builder);
+        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
+        notificationQueue.add(toastNotification);
+        startQueueIfNecessary();
     }
 
     /**

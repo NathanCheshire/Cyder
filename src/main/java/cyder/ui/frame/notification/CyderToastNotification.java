@@ -49,12 +49,12 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The length of the arrow.
      */
-    private static final int arrowLength = 8;
+    protected static final int arrowLength = 8;
 
     /**
      * The length of the border
      */
-    private static final int borderLength = 5;
+    protected static final int borderLength = 5;
 
     /**
      * Whether {@link #appear()} has been invoked on this.
@@ -74,7 +74,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The opacity this notification should be painted as.
      */
-    private final AtomicInteger opacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
+    protected final AtomicInteger opacity = new AtomicInteger(ColorUtil.opacityRange.upperEndpoint());
 
     /**
      * Whether the mouse is currently hovered over this notification.
@@ -101,12 +101,12 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The direction the arrow should be painted on.
      */
-    private final Direction arrowDirection;
+    protected final Direction arrowDirection;
 
     /**
      * The container for this notification.
      */
-    private final JLabel container;
+    protected final JLabel container;
 
     /**
      * The html-styled text this notification holds if not using a custom container from the builder.

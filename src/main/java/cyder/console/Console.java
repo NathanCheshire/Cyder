@@ -52,6 +52,8 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationController;
+import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
@@ -313,6 +315,9 @@ public enum Console {
         finalizeFrameAndInputOutputBounds();
 
         performSpecialDayChecks();
+
+        new NotificationController(consoleCyderFrame).borderNotify(
+                new NotificationBuilder("Nathan").setNotificationDirection(NotificationDirection.BOTTOM));
 
         if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
 

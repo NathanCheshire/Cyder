@@ -1,7 +1,5 @@
 package cyder.ui.frame.notification;
 
-import com.google.common.base.Preconditions;
-import cyder.enumerations.Direction;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -10,30 +8,12 @@ import cyder.user.UserDataManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.time.Duration;
 
 /**
  * A custom notification component used for CyderFrames.
  */
 public class CyderNotification extends JLabel {
-    /**
-     * The arrow length of this notification.
-     * This supports changing the arrow length in the future if needed.
-     */
-    private final int arrowLen = 8;
-
-    /**
-     * The border length of this notification.
-     * This supports changing the arrow length in the future if needed.
-     */
-    private final int borderLen = 5;
-
-    /**
-     * Whether this notification has been killed.
-     */
-    private boolean killed;
-
     /**
      * The animation delay for the notification
      * moving through its parent container.
@@ -45,119 +25,6 @@ public class CyderNotification extends JLabel {
      * notification during the animation through the parent container.
      */
     private static final int animationIncrement = 8;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        Preconditions.checkNotNull(g);
-
-        // this is the width x height of what we will be surrounding
-        int componentWidth = 0;
-        int componentHeight = 0;
-
-        // artificially inflate the width and height to draw the border
-        componentHeight += borderLen * 2;
-        componentWidth += borderLen * 2;
-
-        // obtain painting object
-        Graphics2D graphics2D = (Graphics2D) g;
-
-        GeneralPath outlinePath = new GeneralPath();
-
-        // Arrow border
-        if (true) {
-            int len = arrowLen;
-
-            int halfCompWidth = componentWidth / 2;
-            int halfCompHeight = componentHeight / 2;
-
-            switch (Direction.BOTTOM) {
-                case TOP -> {
-                    // top so we know that the x needs to be offset by 4 and the height by arrow len
-                    outlinePath.moveTo(2 * 2 + halfCompWidth - len, len);
-                    outlinePath.lineTo(2 * 2 + halfCompWidth, 0);
-                    outlinePath.lineTo(2 * 2 + (halfCompWidth) + len, len);
-                    outlinePath.lineTo(2 * 2 + halfCompWidth - len, len);
-                }
-                case LEFT -> {
-                    // left so we know that the x needs to be offset by arrow len and the height by 4
-                    outlinePath.moveTo(len, 2 * 2 + halfCompHeight - len);
-                    outlinePath.lineTo(0, 2 * 2 + halfCompHeight);
-                    outlinePath.lineTo(len, 2 * 2 + halfCompHeight + len);
-                    outlinePath.moveTo(len, 2 * 2 + halfCompHeight - len);
-                }
-                case RIGHT -> {
-                    // right so we know that the x needs to be offset by 4 * 2 + componentWidth
-                    // and the height by 2 * 2 + componentHeight / 2 - len
-                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight - len);
-                    outlinePath.lineTo(2 * 2 * 2 + componentWidth + len, 2 * 2 + halfCompHeight);
-                    outlinePath.lineTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight + len);
-                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight - len);
-                }
-                case BOTTOM -> {
-                    // bottom so x axis is middle but y is all the way down
-                    outlinePath.moveTo(2 * 2 + halfCompWidth - len, 2 * 2 * 2 + componentHeight);
-                    outlinePath.lineTo(2 * 2 + halfCompWidth, 2 * 2 * 2 + componentHeight + len);
-                    outlinePath.lineTo(2 * 2 + halfCompWidth + len, 2 * 2 * 2 + componentHeight);
-                    outlinePath.lineTo(2 * 2 + halfCompWidth - len, 2 * 2 * 2 + componentHeight);
-                }
-            }
-        }
-
-        GeneralPath fillPath = new GeneralPath();
-
-        // Arrow fill
-        if (true) {
-            int len = arrowLen;
-            int halfCompWidth = componentWidth / 2;
-            int halfCompHeight = componentHeight / 2;
-
-            switch (Direction.BOTTOM) {
-                case TOP -> {
-                    // top so we know that the x needs to be offset
-                    // by 2 * 2 + border and the height by border + arrow len
-                    fillPath.moveTo(2 * 2 + borderLen + halfCompWidth - len, len + borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + halfCompWidth, borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + (halfCompWidth) + len, len + borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen - len, len + borderLen);
-                }
-                case LEFT -> {
-                    // left so we know that the x needs to be offset
-                    // by arrow len + border and the height by 2 * 2 + border
-                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight - len);
-                    fillPath.lineTo(borderLen, 2 * 2 + borderLen + halfCompHeight);
-                    fillPath.lineTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight + len);
-                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight - len);
-                }
-                case RIGHT -> {
-                    // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderLen
-                    // and the height by 2 * 2 + componentHeight / 2 - len + borderLen
-                    fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + halfCompHeight - len + borderLen);
-                    fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth + len,
-                            2 * 2 + halfCompHeight + borderLen);
-                    fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + halfCompHeight + len + borderLen);
-                    fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + halfCompHeight - len + borderLen);
-                }
-                case BOTTOM -> {
-                    // bottom so we know that the x needs to be offset by 2 * 2 + width / 2 + border len
-                    // and y needs to be offset 2 * 2 * 2 + height + border len
-                    fillPath.moveTo(2 * 2 + halfCompWidth - len + borderLen,
-                            2 * 2 * 2 + componentHeight + borderLen);
-                    fillPath.lineTo(2 * 2 + halfCompWidth + borderLen,
-                            2 * 2 * 2 + componentHeight + len + borderLen);
-                    fillPath.lineTo(2 * 2 + halfCompWidth + len + borderLen,
-                            2 * 2 * 2 + componentHeight + borderLen);
-                    fillPath.lineTo(2 * 2 + halfCompWidth - len + borderLen,
-                            2 * 2 * 2 + componentHeight + borderLen);
-                }
-            }
-        }
-    }
 
     public void appear(NotificationDirection notificationDirection, Component parent, long viewDuration) {
         CyderThreadRunner.submit(() -> {
@@ -251,7 +118,7 @@ public class CyderNotification extends JLabel {
                             ThreadUtil.sleep(animationDelay.toMillis());
                         }
                         setBounds(parent.getWidth() / 2 - getWidth() / 2,
-                                parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
+                                parent.getHeight() - getHeight() + 8, getWidth(), getHeight()); // 8 is arrow len
                     }
                     case BOTTOM_LEFT -> {
                         setBounds(-getWidth(), parent.getHeight() - getHeight()
@@ -297,25 +164,6 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * Kill the notification by stopping all animation threads
-     * and setting this visibility to false.
-     * <p>
-     * Note: you should not make a killed notification
-     * visible again via {@link Component#setVisible(boolean)}.
-     */
-    public void killNotification() {
-        Container parent = getParent();
-
-        if (parent != null) {
-            parent.remove(this);
-            parent.repaint();
-        }
-
-        setVisible(false);
-        killed = true;
-    }
-
-    /**
      * This method to be used in combination with an already visible
      * notification to immediately move it off of the parent until it is not visible.
      * Upon completing the animation, the notification is removed from the parent.
@@ -325,10 +173,6 @@ public class CyderNotification extends JLabel {
      * @param visibleTime           the delay before vanish
      */
     public void vanish(NotificationDirection notificationDirection, Component parent, long visibleTime) {
-        Preconditions.checkNotNull(notificationDirection);
-        Preconditions.checkNotNull(parent);
-        Preconditions.checkArgument(visibleTime >= 0);
-
         CyderThreadRunner.submit(() -> {
             try {
                 ThreadUtil.sleep(visibleTime);
@@ -390,13 +234,7 @@ public class CyderNotification extends JLabel {
         }, "Notification Vanish Animator");
     }
 
-    /**
-     * Returns whether a current animation should be stopped depending
-     * on the state of killed and the user's animation preference.
-     *
-     * @return whether a current animation should be stopped
-     */
     private boolean shouldStopAnimation() {
-        return killed || !UserDataManager.INSTANCE.shouldDoAnimations();
+        return false;
     }
 }
