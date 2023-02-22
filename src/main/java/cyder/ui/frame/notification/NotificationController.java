@@ -29,6 +29,11 @@ import static cyder.strings.CyderStrings.quote;
  */
 public class NotificationController {
     /**
+     * The foreground color used for notifications.
+     */
+    private static final Color notificationForegroundColor = CyderColors.regularPurple;
+
+    /**
      * The maximum allowable notification width to frame width ratio.
      */
     private static final double maxNotificationToFrameWidthRatio = 0.85;
@@ -140,55 +145,66 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        double maximumAllowableWidth = Math.ceil(controlFrame.getWidth() * maxNotificationToFrameWidthRatio);
-        double maximumAllowableHeight = Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
-        BoundsString bounds = BoundsUtil.widthHeightCalculation(
-                builder.getHtmlText(), notificationFont, (int) maximumAllowableWidth);
-        int notificationWidth = bounds.getWidth() + notificationPadding;
-        int notificationHeight = bounds.getHeight() + notificationPadding;
-        String notificationText = bounds.getText();
-
-        if (notificationWidth > maximumAllowableWidth || notificationHeight > maximumAllowableHeight) {
-            // todo inform notification into queue
-        }
-
         String tooltip = tooltipPrefix + builder.getConstructionTime();
-
         boolean shouldGenerateTextContainer = builder.getContainer() == null;
-        JLabel interactionLabel = new JLabel();
+
+        JLabel mouseEventLabel;
         if (shouldGenerateTextContainer) {
+            BoundsString bounds = BoundsUtil.widthHeightCalculation(
+                    builder.getHtmlText(), notificationFont, getMaximumAllowableWidth());
+            int notificationWidth = bounds.getWidth() + notificationPadding;
+            int notificationHeight = bounds.getHeight() + notificationPadding;
+            // todo check for being larger than allowable dimension
+            String notificationText = bounds.getText();
+
             JLabel textContainerLabel = new JLabel(notificationText);
             textContainerLabel.setSize(notificationWidth, notificationHeight);
             textContainerLabel.setFont(notificationFont);
-            textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+            textContainerLabel.setForeground(notificationForegroundColor);
 
-            interactionLabel.setSize(notificationWidth, notificationHeight);
-            interactionLabel.setToolTipText(tooltip);
-            textContainerLabel.add(interactionLabel);
+            mouseEventLabel = generateAndAddMouseEventLabel(textContainerLabel, tooltip);
             builder.setContainer(textContainerLabel);
-        } else {
-            Container customContainer = builder.getContainer();
-            int containerWidth = customContainer.getWidth();
-            int containerHeight = customContainer.getHeight();
 
-            if (containerWidth > maximumAllowableWidth || containerHeight > maximumAllowableHeight) {
-                // todo inform notification into queue
+            if (builder.shouldCalculateViewDuration()) {
+                builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
             }
-
-            interactionLabel.setSize(containerWidth, containerHeight);
-            interactionLabel.setToolTipText(tooltip);
-            customContainer.add(interactionLabel);
-        }
-
-        if (builder.shouldCalculateViewDuration()) {
-            builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
+        } else {
+            // todo check for custom container being too big
+            mouseEventLabel = generateAndAddMouseEventLabel(builder.getContainer(), tooltip);
         }
 
         CyderToastNotification toastNotification = new CyderToastNotification(builder);
         MouseAdapter mouseAdapter = generateMouseAdapter(toastNotification, builder, shouldGenerateTextContainer);
-        interactionLabel.addMouseListener(mouseAdapter);
+        mouseEventLabel.addMouseListener(mouseAdapter);
         notificationQueue.add(toastNotification);
         startQueueIfNecessary();
+    }
+
+    /**
+     * Generates and adds a label, placed on the provided container, with the provided tooltip.
+     * The label is set to the same size as the parent container.
+     *
+     * @param parentContainer the container the label will be added on top of
+     * @param tooltip         the tooltip text for the mouse event label
+     * @return the label which was added to the parent container
+     */
+    private JLabel generateAndAddMouseEventLabel(Container parentContainer, String tooltip) {
+        Preconditions.checkNotNull(parentContainer);
+        Preconditions.checkNotNull(tooltip);
+
+        JLabel mouseEventLabel = new JLabel();
+        mouseEventLabel.setBounds(0, 0, parentContainer.getWidth(), parentContainer.getHeight());
+        mouseEventLabel.setToolTipText(tooltip);
+        parentContainer.add(mouseEventLabel);
+        return mouseEventLabel;
+    }
+
+    private int getMaximumAllowableWidth() {
+        return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameWidthRatio);
+    }
+
+    private int getMaxAllowableHeight() {
+        return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
     }
 
     // todo bordering notification methods
@@ -210,6 +226,8 @@ public class NotificationController {
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }
+
+            queueRunning.set(false);
         }, queueExecutor);
     }
 
@@ -224,24 +242,27 @@ public class NotificationController {
     private static MouseAdapter generateMouseAdapter(CyderNotificationAbstract notification,
                                                      NotificationBuilder builder,
                                                      boolean enterExitColorShift) {
+        Preconditions.checkNotNull(notification);
+        Preconditions.checkNotNull(builder);
+
         Runnable onKillAction = builder.getOnKillAction();
         Container container = builder.getContainer();
 
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (onKillAction != null) {
+                if (onKillAction == null) {
+                    notification.disappear();
+                } else {
                     notification.kill();
                     onKillAction.run();
-                } else {
-                    notification.disappear();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (!enterExitColorShift) return;
-                container.setForeground(CyderColors.notificationForegroundColor.darker());
+                container.setForeground(notificationForegroundColor.darker());
                 notification.setHovered(true);
                 notification.repaint();
             }
@@ -249,7 +270,7 @@ public class NotificationController {
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!enterExitColorShift) return;
-                container.setForeground(CyderColors.notificationForegroundColor);
+                container.setForeground(notificationForegroundColor);
                 notification.setHovered(true);
                 notification.repaint();
             }

@@ -4,8 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
-import cyder.bounds.BoundsString;
-import cyder.bounds.BoundsUtil;
 import cyder.console.Console;
 import cyder.constants.*;
 import cyder.getter.GetConfirmationBuilder;
@@ -36,7 +34,6 @@ import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.CyderNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
-import cyder.ui.frame.notification.NotificationController;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -46,8 +43,6 @@ import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StaticUtil;
 import org.jetbrains.annotations.Nullable;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -61,12 +56,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.closingBracket;
+import static cyder.strings.CyderStrings.openingBracket;
 
 /**
  * A custom frame component.
@@ -477,10 +472,6 @@ public class CyderFrame extends JFrame {
         resetTooltipMenuController();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    public void test() {
-        new NotificationController(this).toast(new NotificationBuilder("hello world"));
     }
 
     // -----------------------------
@@ -1001,11 +992,6 @@ public class CyderFrame extends JFrame {
     private CyderNotification currentNotification;
 
     /**
-     * Whether the notification thread has been started for this frame.
-     */
-    private boolean notificationCheckerStarted;
-
-    /**
      * Returns the current notification.
      *
      * @return the current notification
@@ -1021,10 +1007,7 @@ public class CyderFrame extends JFrame {
      * @param htmlText the text containing possibly formatted text to display
      */
     public void notify(String htmlText) {
-        Preconditions.checkNotNull(htmlText);
-        Preconditions.checkArgument(!htmlText.isEmpty());
 
-        notify(new NotificationBuilder(htmlText));
     }
 
     /**
@@ -1034,16 +1017,7 @@ public class CyderFrame extends JFrame {
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        Preconditions.checkNotNull(notificationBuilder);
-        Preconditions.checkNotNull(notificationBuilder.getHtmlText());
-        Preconditions.checkArgument(!notificationBuilder.getHtmlText().isEmpty());
 
-        notificationList.add(notificationBuilder);
-
-        if (!notificationCheckerStarted) {
-            notificationCheckerStarted = true;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), "notification queue");
-        }
     }
 
     /**
@@ -1052,10 +1026,7 @@ public class CyderFrame extends JFrame {
      * @param htmlText the styled text to use for the toast
      */
     public void toast(String htmlText) {
-        Preconditions.checkNotNull(htmlText);
-        Preconditions.checkArgument(!htmlText.isEmpty());
 
-        toast(new NotificationBuilder(htmlText));
     }
 
     /**
@@ -1064,143 +1035,7 @@ public class CyderFrame extends JFrame {
      * @param builder the builder for the toast
      */
     public void toast(NotificationBuilder builder) {
-        Preconditions.checkNotNull(builder);
 
-        notificationList.add(builder);
-
-        if (!notificationCheckerStarted) {
-            notificationCheckerStarted = true;
-            CyderThreadRunner.submit(getNotificationQueueRunnable(), "notification queue");
-        }
-    }
-
-    /**
-     * The padding between the notification component edges and the text container.
-     */
-    private static final int notificationPadding = 5;
-
-    /**
-     * The milliseconds per word for a notification if the time calculation is left up to the method.
-     */
-    private static final int msPerNotificationWord = 300;
-
-    /**
-     * The semaphore used to lock the notification queue
-     * so that only one may ever be present at a time.
-     */
-    private final Semaphore notificationConstructionLock = new Semaphore(1);
-
-    /**
-     * Returns the notification queue for internal frame notifications/toasts.
-     *
-     * @return the notification queue for internal frame notifications/toasts
-     */
-    private final Runnable getNotificationQueueRunnable() {
-        return () -> {
-            while (!threadsKilled && !notificationList.isEmpty()) {
-                try {
-                    notificationConstructionLock.acquire();
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-
-                NotificationBuilder currentBuilder = notificationList.remove(0);
-                CyderNotification appearNotification = new CyderNotification(currentBuilder);
-
-                appearNotification.setVisible(false);
-
-                int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
-                BoundsString bs = BoundsUtil.widthHeightCalculation(
-                        currentBuilder.getHtmlText(),
-                        NOTIFICATION_FONT, maxWidth);
-                int notificationWidth = bs.getWidth() + notificationPadding;
-                int notificationHeight = bs.getHeight() + notificationPadding;
-                String brokenText = bs.getText();
-
-                // Sanity check for overflow
-                if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
-                        || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                    notifyAndReleaseNotificationSemaphore(currentBuilder.getHtmlText(), null,
-                            currentBuilder.getConstructionTime());
-                    continue;
-                }
-
-                // If container specified, ensure it can fit
-                if (currentBuilder.getContainer() != null) {
-                    int containerWidth = currentBuilder.getContainer().getWidth();
-                    int containerHeight = currentBuilder.getContainer().getHeight();
-
-                    // Custom component will not fit
-                    if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
-                            || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                        notifyAndReleaseNotificationSemaphore(null, currentBuilder.getContainer(),
-                                currentBuilder.getConstructionTime());
-                        continue;
-                    }
-
-                    // Custom container will fit so generate and add disposal label
-                    JLabel interactionLabel = new JLabel();
-                    interactionLabel.setSize(containerWidth, containerHeight);
-                    interactionLabel.setToolTipText(
-                            "Notified at: " + appearNotification.getBuilder().getConstructionTime());
-                    //                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                    //                            currentBuilder, null, appearNotification, false));
-                    currentBuilder.getContainer().add(interactionLabel);
-                } else {
-                    // Empty container means use htmlText of builder
-                    JLabel textContainerLabel = new JLabel(brokenText);
-                    textContainerLabel.setSize(notificationWidth, notificationHeight);
-                    textContainerLabel.setFont(NOTIFICATION_FONT);
-                    textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-
-                    JLabel interactionLabel = new JLabel();
-                    interactionLabel.setSize(notificationWidth, notificationHeight);
-                    interactionLabel.setToolTipText(
-                            "Notified at: " + appearNotification.getBuilder().getConstructionTime());
-                    //                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                    //                            currentBuilder, textContainerLabel, appearNotification, true));
-
-                    textContainerLabel.add(interactionLabel);
-                    appearNotification.getBuilder().setContainer(textContainerLabel);
-                }
-
-                iconPane.add(appearNotification, JLayeredPane.POPUP_LAYER);
-                iconLabel.repaint();
-
-                long duration = currentBuilder.getViewDuration();
-                if (currentBuilder.shouldCalculateViewDuration()) {
-                    // todo html util method to count words of styled text
-                    duration = (long) msPerNotificationWord * StringUtil.countWords(
-                            Jsoup.clean(bs.getText(), Safelist.none()));
-                }
-
-                String logLine = openingBracket + getTitle() + closingBracket + space
-                        + openingBracket + "Notification" + closingBracket + space + quote + brokenText + quote;
-                Logger.log(LogTag.UI_ACTION, logLine);
-
-                appearNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
-                currentNotification = appearNotification;
-
-                while (!currentNotification.isKilled()) Thread.onSpinWait();
-                notificationConstructionLock.release();
-            }
-
-            notificationCheckerStarted = false;
-        };
-    }
-
-    @ForReadability
-    private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
-        if (text == null) text = CyderStrings.NULL;
-        String title = getTitle() + space + "Notification" + space + openingParenthesis + time + closingParenthesis;
-
-        new InformHandler.Builder(text)
-                .setContainer(container)
-                .setTitle(title)
-                .setRelativeTo(this)
-                .inform();
-
-        notificationConstructionLock.release();
     }
 
     /**
@@ -1256,8 +1091,6 @@ public class CyderFrame extends JFrame {
         if (currentNotification != null) {
             currentNotification.killNotification();
         }
-
-        notificationCheckerStarted = false;
     }
 
     // ----------------

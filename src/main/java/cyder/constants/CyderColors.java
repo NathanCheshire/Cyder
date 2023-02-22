@@ -78,11 +78,6 @@ public final class CyderColors {
     public static final Color regularPurple = new Color(85, 85, 255);
 
     /**
-     * The foreground color used for notifications.
-     */
-    public static final Color notificationForegroundColor = new Color(85, 85, 255);
-
-    /**
      * The background used for notifications.
      */
     public static final Color notificationBackgroundColor = new Color(0, 0, 0);

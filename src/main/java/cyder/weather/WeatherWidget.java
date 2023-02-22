@@ -631,7 +631,7 @@ public class WeatherWidget {
                 .setSubmitButtonText(CHANGE_LOCATION)
                 .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
                 .setInitialFieldText(currentLocationString)
-                .setSubmitButtonColor(CyderColors.notificationForegroundColor);
+                .setSubmitButtonColor(CyderColors.regularPurple);
 
         DragLabelTextButton locationButton = new DragLabelTextButton.Builder("Change Location")
                 .setClickAction(() -> CyderThreadRunner.submit(() -> {

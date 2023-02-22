@@ -321,8 +321,6 @@ public enum Console {
         performTimingChecks();
 
         introMusicCheck();
-
-        consoleCyderFrame.test(); // todo remove me
     }
 
     /**
