@@ -1,12 +1,14 @@
 package cyder.ui.frame.notification;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
@@ -181,6 +183,7 @@ public class NotificationController {
 
         JLabel mouseEventLabel = generateContainerIfNeededAndGenerateMouseEventLabel(builder);
         CyderBorderNotification toastNotification = new CyderBorderNotification(builder);
+        toastNotification.setVisible(false);
         mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
         notificationQueue.add(toastNotification);
         startQueueIfNecessary();
@@ -328,8 +331,17 @@ public class NotificationController {
                 currentNotification = notificationQueue.remove(0);
                 controlFrame.getTrueContentPane().add(currentNotification, JLayeredPane.DRAG_LAYER);
                 currentNotification.appear();
-                // todo be able to add tags to a log call, [Notification] [Test Frame]:
-                Logger.log(LogTag.UI_ACTION, "Notification invoked");
+
+                // todo method
+                Optional<String> optionalLabelText = currentNotification.getLabelText();
+                ImmutableList.Builder<String> tagsBuilder = new ImmutableList.Builder<String>()
+                        .add(LogTag.UI_ACTION.getLogName())
+                        .add("[" + StringUtil.capsFirstWords(controlFrame.getTitle()) + "]")
+                        .add("[Notification]");
+                if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Container]");
+
+                // todo
+                Logger.log(tagsBuilder.build(), optionalLabelText.orElse("todo get custom container"));
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }

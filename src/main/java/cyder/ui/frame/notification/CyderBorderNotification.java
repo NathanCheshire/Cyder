@@ -1,5 +1,10 @@
 package cyder.ui.frame.notification;
 
+import com.google.common.util.concurrent.Futures;
+import cyder.threads.ThreadUtil;
+import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.frame.CyderFrame;
+import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 
 import java.awt.*;
@@ -141,7 +146,40 @@ public final class CyderBorderNotification extends CyderToastNotification {
      */
     @Override
     public void appear() {
-        super.appear();
+        if (appearInvoked.get()) return;
+        appearInvoked.set(true);
+
+        Futures.submit(() -> {
+            // todo method for set to starting position
+            ThreadUtil.sleepSeconds(2);
+            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT + 5, getWidth(), getHeight());
+
+            switch (notificationDirection) {
+                case TOP_LEFT -> {
+                    setVisible(true);
+
+                    for (int i = getX() ; i < CyderFrame.BORDER_LEN ; i += 8) {
+                        if (shouldStopAnimation()) break;
+                        setLocation(i, getY());
+                        ThreadUtil.sleep(8);
+                    }
+                    setLocation(2, getY());
+                }
+            }
+
+            // todo method for set to ending position
+            repaint();
+
+            /*
+            Note to maintainers: yes, there are two checks here for the user preference of persisting notifications.
+            This is to address the case where the user toggles it while a notification is present.
+             */
+            if (UserDataManager.INSTANCE.shouldPersistNotifications()) return;
+            if (shouldRemainVisibleUntilDismissed(visibleDuration.toMillis())) return;
+            ThreadUtil.sleep(visibleDuration.toMillis());
+            if (UserDataManager.INSTANCE.shouldPersistNotifications()) return;
+            disappear();
+        }, appearAnimationService);
     }
 
     /**
@@ -149,29 +187,6 @@ public final class CyderBorderNotification extends CyderToastNotification {
      */
     @Override
     public void disappear() {
-        super.disappear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void revalidateBounds() {
-        //        int parentWidth = getParent().getWidth();
-        //        int parentHeight = getParent().getHeight();
-        //        int ourWidth = getWidth();
-        //        int ourHeight = getHeight();
-        //
-        //        switch (notificationDirection) {
-        //            case TOP_LEFT -> {}
-        //            case TOP -> {}
-        //            case TOP_RIGHT -> {}
-        //            case LEFT -> {}
-        //            case RIGHT -> {}
-        //            case BOTTOM_LEFT -> {}
-        //            case BOTTOM -> {}
-        //            case BOTTOM_RIGHT -> {}
-        //        }
-        super.revalidateBounds();
+        //super.disappear();
     }
 }

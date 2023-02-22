@@ -43,6 +43,11 @@ import static java.lang.System.out;
  */
 public final class Logger {
     /**
+     * The stack walker instance ot use if a class invokes log without providing a log tag.
+     */
+    private static final StackWalker stackWalker = StackWalker.getInstance();
+
+    /**
      * The counter used to log the number of specific objects created each deltaT seconds.
      */
     private static final ConcurrentHashMap<Class<?>, AtomicInteger> objectCreationCounter = new ConcurrentHashMap<>();
@@ -216,18 +221,25 @@ public final class Logger {
      * @param <T>       the type of the statement
      */
     public static <T> void log(T statement) {
-        log(ReflectionUtil.getBottomLevelClass(StackWalker.getInstance().getCallerClass()), statement);
+        log(ImmutableList.of(ReflectionUtil.getBottomLevelClass(stackWalker.getCallerClass())), statement);
     }
 
     /**
      * Logs the provided statement to the log file.
      *
-     * @param tag       the primary log tag
+     * @param tags      the tags to prefix the statement
      * @param statement the statement to log preceding the tags
      * @param <T>       the type of the statement
      */
-    public static <T> void log(String tag, T statement) {
-        constructLogLinesAndLog(ImmutableList.of(tag), statement.toString());
+    public static <T> void log(List<String> tags, T statement) {
+        Preconditions.checkNotNull(tags);
+        Preconditions.checkArgument(!tags.isEmpty());
+        Preconditions.checkNotNull(statement);
+
+        // todo allow logging of attempted new lines via prop
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) return;
+
+        constructLogLinesAndLog(tags, statement.toString());
     }
 
     /**
@@ -241,6 +253,7 @@ public final class Logger {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(statement);
 
+        // todo allow logging of attempted new lines via prop
         if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) return;
 
         ArrayList<String> tags = new ArrayList<>();

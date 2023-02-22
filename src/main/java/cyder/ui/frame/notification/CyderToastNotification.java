@@ -59,7 +59,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * Whether {@link #appear()} has been invoked on this.
      */
-    private final AtomicBoolean appearInvoked = new AtomicBoolean();
+    protected final AtomicBoolean appearInvoked = new AtomicBoolean();
 
     /**
      * Whether {@link #disappear()} has been invoked on this.
@@ -84,7 +84,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The executor service for performing the disappear animation.
      */
-    private final ExecutorService appearAnimationService =
+    protected final ExecutorService appearAnimationService =
             Executors.newSingleThreadExecutor(new CyderThreadFactory("Notification Appear Animation"));
 
     /**
@@ -96,7 +96,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The duration this notification should be visible for.
      */
-    private final Duration visibleDuration;
+    protected final Duration visibleDuration;
 
     /**
      * The direction the arrow should be painted on.
@@ -171,7 +171,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
         container.setBounds(x, y, container.getWidth(), container.getHeight());
         container.setVisible(true);
         if (!Arrays.asList(getComponents()).contains(container)) add(container);
-        revalidateBounds();
+        // revalidateBounds(); // todo this shouldn't be here, only here for case of frame size changes?
         super.paint(g);
     }
 
@@ -433,7 +433,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      *
      * @return whether a current animation should be stopped
      */
-    private boolean shouldStopAnimation() {
+    protected boolean shouldStopAnimation() {
         return killed.get() || !UserDataManager.INSTANCE.shouldDoAnimations();
     }
 

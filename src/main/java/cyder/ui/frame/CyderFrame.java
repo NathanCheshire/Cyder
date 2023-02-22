@@ -222,11 +222,7 @@ public class CyderFrame extends JFrame {
     /**
      * The size of the border drawn around the frame.
      */
-    public static final int BORDER_LEN;
-
-    static {
-        BORDER_LEN = Props.frameBorderLength.getValue();
-    }
+    public static final int BORDER_LEN = Props.frameBorderLength.getValue();
 
     /**
      * The default length of a frame.

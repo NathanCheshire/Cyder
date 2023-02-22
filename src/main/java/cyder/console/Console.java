@@ -316,8 +316,9 @@ public enum Console {
 
         performSpecialDayChecks();
 
+        // todo
         new NotificationController(consoleCyderFrame).borderNotify(
-                new NotificationBuilder("Nathan").setNotificationDirection(NotificationDirection.BOTTOM));
+                new NotificationBuilder("Nathan").setNotificationDirection(NotificationDirection.TOP_LEFT));
 
         if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
 
