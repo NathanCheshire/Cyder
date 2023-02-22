@@ -32,7 +32,6 @@ import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.frame.enumerations.MenuType;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
-import cyder.ui.frame.notification.CyderNotification;
 import cyder.ui.frame.notification.NotificationBuilder;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
@@ -961,19 +960,12 @@ public class CyderFrame extends JFrame {
      * @param title the painted title text
      */
     public void setCyderFrameTitle(String title) {
+        Preconditions.checkNotNull(title);
+
         if (titleLabel == null) return;
-        titleLabel.setText(StringUtil.getTrimmedText(Preconditions.checkNotNull(title)));
+        titleLabel.setText(StringUtil.getTrimmedText(title));
         correctTitleLength();
     }
-
-    // -------------
-    // Notifications
-    // -------------
-
-    /**
-     * The notification that is currently being displayed.
-     */
-    private CyderNotification currentNotification;
 
     /**
      * Simple, quick, and easy way to show a notification on the frame without using

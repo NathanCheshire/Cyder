@@ -29,7 +29,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The offset from the bottom of the frame toast notifications are placed.
      */
-    private static final int bottomOffset = 10;
+    private static final int toastBottomOffset = 10;
 
     /**
      * The delay between animation steps.
@@ -67,7 +67,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     private final AtomicBoolean disappearInvoked = new AtomicBoolean();
 
     /**
-     * Whether this toast notification has been killed.
+     * Whether this notification has been killed.
      */
     private final AtomicBoolean killed = new AtomicBoolean();
 
@@ -108,6 +108,9 @@ public class CyderToastNotification extends CyderNotificationAbstract {
      */
     private final JLabel container;
 
+    /**
+     * The html-styled text this notification holds if not using a custom container from the builder.
+     */
     private final String htmlText;
 
     /**
@@ -437,12 +440,13 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * Revalidates the bounds of this toast notification.
      */
-    private void revalidateBounds() {
+    protected void revalidateBounds() {
         int parentWidth = getParent().getWidth();
         int parentHeight = getParent().getHeight();
         int ourWidth = getWidth();
         int ourHeight = getHeight();
 
-        setBounds(parentWidth / 2 - ourWidth / 2, parentHeight - ourHeight - bottomOffset, ourWidth, ourHeight);
+        setBounds(parentWidth / 2 - ourWidth / 2,
+                parentHeight - ourHeight - toastBottomOffset, ourWidth, ourHeight);
     }
 }

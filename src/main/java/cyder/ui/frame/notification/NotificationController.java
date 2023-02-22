@@ -132,8 +132,6 @@ public class NotificationController {
         return controlFrame;
     }
 
-    // todo bordering notification methods
-
     /**
      * Adds a toast notification with the provided text to the queue.
      *
@@ -154,17 +152,58 @@ public class NotificationController {
     public synchronized void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
+        CyderToastNotification toastNotification = new CyderToastNotification(builder);
+        generateContainerIfNeededAndGenerateMouseEventLabel(builder)
+                .addMouseListener(generateMouseAdapter(toastNotification, builder));
+        notificationQueue.add(toastNotification);
+        startQueueIfNecessary();
+    }
+
+    /**
+     * Adds a border notification with the provided text to the queue.
+     *
+     * @param htmlText the text to show on the border notification
+     */
+    public synchronized void borderNotify(String htmlText) {
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument(!htmlText.isEmpty());
+
+        borderNotify(new NotificationBuilder(htmlText));
+    }
+
+    /**
+     * Adds a border notification to the queue using the provided builder for properties.
+     *
+     * @param builder the builder
+     */
+    public synchronized void borderNotify(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
+
+    }
+
+    /**
+     * Generates the text container for the notification if a custom container is not specified and creates
+     * the mouse event label for the interaction listener to be added to.
+     *
+     * @param builder the builder
+     * @return the mouse event label for the notification
+     */
+    private JLabel generateContainerIfNeededAndGenerateMouseEventLabel(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
+
         String tooltip = tooltipPrefix + builder.getConstructionTime();
-        boolean shouldGenerateTextContainer = builder.getContainer() == null;
 
         JLabel mouseEventLabel;
-        if (shouldGenerateTextContainer) {
+        if (builder.getContainer() == null) {
             BoundsString bounds = BoundsUtil.widthHeightCalculation(
                     builder.getHtmlText(), notificationFont, getMaximumAllowableWidth());
             int notificationWidth = bounds.getWidth() + notificationPadding;
             int notificationHeight = bounds.getHeight() + notificationPadding;
             // todo check for being larger than allowable dimension
             String notificationText = bounds.getText();
+            if (builder.shouldCalculateViewDuration()) {
+                builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
+            }
 
             JLabel textContainerLabel = new JLabel(notificationText);
             textContainerLabel.setSize(notificationWidth, notificationHeight);
@@ -173,19 +212,12 @@ public class NotificationController {
 
             mouseEventLabel = generateAndAddMouseEventLabel(textContainerLabel, tooltip);
             builder.setContainer(textContainerLabel);
-
-            if (builder.shouldCalculateViewDuration()) {
-                builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
-            }
         } else {
             // todo check for custom container being too big
             mouseEventLabel = generateAndAddMouseEventLabel(builder.getContainer(), tooltip);
         }
 
-        CyderToastNotification toastNotification = new CyderToastNotification(builder);
-        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder, shouldGenerateTextContainer));
-        notificationQueue.add(toastNotification);
-        startQueueIfNecessary();
+        return mouseEventLabel;
     }
 
     /**
@@ -304,14 +336,12 @@ public class NotificationController {
     /**
      * Generates a mouse adapter for a notification container.
      *
-     * @param notification        the notification this mouse adapter will trigger events for
-     * @param builder             the builder used to construct the notification
-     * @param enterExitColorShift whether to darken/un-darken the notification on mouse enter/exit events
+     * @param notification the notification this mouse adapter will trigger events for
+     * @param builder      the builder used to construct the notification
      * @return the mouse adapter
      */
     private static MouseAdapter generateMouseAdapter(CyderNotificationAbstract notification,
-                                                     NotificationBuilder builder,
-                                                     boolean enterExitColorShift) {
+                                                     NotificationBuilder builder) {
         Preconditions.checkNotNull(notification);
         Preconditions.checkNotNull(builder);
 
@@ -331,7 +361,6 @@ public class NotificationController {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (!enterExitColorShift) return;
                 container.setForeground(notificationForegroundColor.darker());
                 notification.setHovered(true);
                 notification.repaint();
@@ -339,7 +368,6 @@ public class NotificationController {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (!enterExitColorShift) return;
                 container.setForeground(notificationForegroundColor);
                 notification.setHovered(true);
                 notification.repaint();
