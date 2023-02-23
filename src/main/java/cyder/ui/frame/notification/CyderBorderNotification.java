@@ -1,5 +1,6 @@
 package cyder.ui.frame.notification;
 
+import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.Futures;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDragLabel;
@@ -150,24 +151,22 @@ public final class CyderBorderNotification extends CyderToastNotification {
         appearInvoked.set(true);
 
         Futures.submit(() -> {
-            // todo method for set to starting position
-            ThreadUtil.sleepSeconds(2);
-            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT + 5, getWidth(), getHeight());
+            setToStartAndEndingPosition();
 
             switch (notificationDirection) {
-                case TOP_LEFT -> {
+                case TOP_LEFT, LEFT, BOTTOM_LEFT -> {
                     setVisible(true);
 
-                    for (int i = getX() ; i < CyderFrame.BORDER_LEN ; i += 8) {
+                    for (int i = getX() ; i < CyderFrame.BORDER_LEN ; i += animationIncrement) {
                         if (shouldStopAnimation()) break;
                         setLocation(i, getY());
-                        ThreadUtil.sleep(8);
+                        ThreadUtil.sleep(animationTimeout);
                     }
-                    setLocation(2, getY());
+                    setLocation(CyderFrame.BORDER_LEN, getY());
                 }
             }
 
-            // todo method for set to ending position
+            setToMidAnimationPosition();
             repaint();
 
             /*
@@ -187,6 +186,63 @@ public final class CyderBorderNotification extends CyderToastNotification {
      */
     @Override
     public void disappear() {
-        //super.disappear();
+        Preconditions.checkState(appearInvoked.get());
+        if (disappearInvoked.get()) return;
+        disappearInvoked.set(true);
+
+        Futures.submit(() -> {
+            setToMidAnimationPosition();
+
+            switch (notificationDirection) {
+                case TOP_LEFT, LEFT, BOTTOM_LEFT -> {
+                    for (int i = getX() ; i > CyderFrame.BORDER_LEN - getWidth() ; i -= animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(i, getY(), getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
+            }
+
+            setToStartAndEndingPosition();
+
+            setVisible(false);
+            Container parent = getParent();
+            if (parent != null) {
+                parent.remove(this);
+                parent.repaint();
+            }
+
+            killed.set(true);
+        }, disappearAnimationService);
+    }
+
+    private static final int topBottomOffset = 5;
+    private static final int animationIncrement = 8;
+    private static final int animationTimeout = 8;
+
+    // todo interface method here
+    // todo call this on resize events
+    private void setToMidAnimationPosition() {
+
+    }
+
+    private void setToStartAndEndingPosition() {
+        int w = getWidth();
+        int h = getHeight();
+        int pw = getParent().getWidth();
+        int ph = getParent().getHeight();
+        int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
+        int sideBorderLen = CyderFrame.BORDER_LEN;
+
+        switch (notificationDirection) {
+            case TOP_LEFT -> setBounds(-w, topDragHeight + topBottomOffset, w, h);
+            case TOP -> {}
+            case TOP_RIGHT -> {}
+            case LEFT -> setBounds(-w, topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2, w, h);
+            case RIGHT -> {}
+            case BOTTOM_LEFT -> setBounds(-w, ph - h - sideBorderLen - topBottomOffset, w, h);
+            case BOTTOM -> {}
+            case BOTTOM_RIGHT -> {}
+        }
     }
 }

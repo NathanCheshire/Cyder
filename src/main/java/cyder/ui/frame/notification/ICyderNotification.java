@@ -3,7 +3,7 @@ package cyder.ui.frame.notification;
 import java.util.Optional;
 
 /**
- * An interface for the necessary methods a {@link CyderNotificationAbstract} must implement.
+ * An interface for the necessary methods a {@link CyderNotification} must implement.
  */
 public interface ICyderNotification {
     /**

@@ -94,12 +94,12 @@ public class NotificationController {
     /**
      * The notification queue to pull from.
      */
-    private final ArrayList<CyderNotificationAbstract> notificationQueue = new ArrayList<>();
+    private final ArrayList<CyderNotification> notificationQueue = new ArrayList<>();
 
     /**
      * The notification currently being shown/animated.
      */
-    private CyderNotificationAbstract currentNotification;
+    private CyderNotification currentNotification;
 
     /**
      * Constructs a new notification controller.
@@ -357,7 +357,7 @@ public class NotificationController {
      * @param builder      the builder used to construct the notification
      * @return the mouse adapter
      */
-    private static MouseAdapter generateMouseAdapter(CyderNotificationAbstract notification,
+    private static MouseAdapter generateMouseAdapter(CyderNotification notification,
                                                      NotificationBuilder builder) {
         Preconditions.checkNotNull(notification);
         Preconditions.checkNotNull(builder);

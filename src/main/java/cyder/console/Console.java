@@ -318,7 +318,7 @@ public enum Console {
 
         // todo
         new NotificationController(consoleCyderFrame).borderNotify(
-                new NotificationBuilder("Nathan").setNotificationDirection(NotificationDirection.TOP_LEFT));
+                new NotificationBuilder("Nathan").setNotificationDirection(NotificationDirection.BOTTOM_LEFT));
 
         if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
 

@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The toast has no direction arrow painted on it and performs an opacity
  * fade-in and fade-out animation at the bottom center of the frame.
  */
-public class CyderToastNotification extends CyderNotificationAbstract {
+public class CyderToastNotification extends CyderNotification {
     /**
      * The offset from the bottom of the frame toast notifications are placed.
      */
@@ -64,12 +64,12 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * Whether {@link #disappear()} has been invoked on this.
      */
-    private final AtomicBoolean disappearInvoked = new AtomicBoolean();
+    protected final AtomicBoolean disappearInvoked = new AtomicBoolean();
 
     /**
      * Whether this notification has been killed.
      */
-    private final AtomicBoolean killed = new AtomicBoolean();
+    protected final AtomicBoolean killed = new AtomicBoolean();
 
     /**
      * The opacity this notification should be painted as.
@@ -90,7 +90,7 @@ public class CyderToastNotification extends CyderNotificationAbstract {
     /**
      * The executor service for performing the disappear animation.
      */
-    private final ExecutorService disappearAnimationService =
+    protected final ExecutorService disappearAnimationService =
             Executors.newSingleThreadExecutor(new CyderThreadFactory("Notification Disappear Animation"));
 
     /**
@@ -382,10 +382,10 @@ public class CyderToastNotification extends CyderNotificationAbstract {
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             repaint();
 
+            setVisible(false);
             Container parent = getParent();
             if (parent != null) {
                 parent.remove(this);
-                setVisible(false);
                 parent.repaint();
             }
 

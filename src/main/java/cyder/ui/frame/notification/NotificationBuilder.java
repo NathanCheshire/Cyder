@@ -13,7 +13,7 @@ import java.time.Duration;
 import static cyder.strings.CyderStrings.quote;
 
 /**
- * A builder for a {@link CyderNotificationAbstract}.
+ * A builder for a {@link CyderNotification}.
  */
 public final class NotificationBuilder {
     /**

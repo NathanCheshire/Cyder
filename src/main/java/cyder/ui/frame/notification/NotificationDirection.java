@@ -3,7 +3,7 @@ package cyder.ui.frame.notification;
 import cyder.enumerations.Direction;
 
 /**
- * The supported locations for {@link CyderNotificationAbstract}s.
+ * The supported locations for {@link CyderNotification}s.
  */
 public enum NotificationDirection {
     /**
