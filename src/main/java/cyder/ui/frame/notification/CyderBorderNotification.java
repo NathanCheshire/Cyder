@@ -152,17 +152,39 @@ public final class CyderBorderNotification extends CyderToastNotification {
 
         Futures.submit(() -> {
             setToStartAndEndingPosition();
+            setVisible(true);
 
             switch (notificationDirection) {
                 case TOP_LEFT, LEFT, BOTTOM_LEFT -> {
-                    setVisible(true);
-
                     for (int i = getX() ; i < CyderFrame.BORDER_LEN ; i += animationIncrement) {
                         if (shouldStopAnimation()) break;
                         setLocation(i, getY());
                         ThreadUtil.sleep(animationTimeout);
                     }
-                    setLocation(CyderFrame.BORDER_LEN, getY());
+                }
+                case TOP -> {
+                    for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT + topBottomOffset
+                            ; i += animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(getX(), i, getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
+                case BOTTOM -> {
+                    for (int i = getY() ; i > getParent().getHeight() - CyderFrame.BORDER_LEN - getHeight()
+                            ; i -= animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(getX(), i, getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
+                case TOP_RIGHT, RIGHT, BOTTOM_RIGHT -> {
+                    for (int i = getX() ; i > getParent().getWidth() - getWidth() - CyderFrame.BORDER_LEN
+                            ; i -= animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setLocation(i, getY());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
                 }
             }
 
@@ -201,6 +223,29 @@ public final class CyderBorderNotification extends CyderToastNotification {
                         ThreadUtil.sleep(animationTimeout);
                     }
                 }
+                case TOP -> {
+                    for (int i = getY() ; i > CyderDragLabel.DEFAULT_HEIGHT - getHeight() ; i -= animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(getX(), i, getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
+                case BOTTOM -> {
+                    for (int i = getY() ; i < getParent().getHeight() - CyderFrame.BORDER_LEN + getHeight()
+                            ; i += animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(getX(), i, getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
+                case TOP_RIGHT, RIGHT, BOTTOM_RIGHT -> {
+                    for (int i = getX() ; i < getParent().getWidth() + getWidth() - CyderFrame.BORDER_LEN
+                            ; i += animationIncrement) {
+                        if (shouldStopAnimation()) break;
+                        setBounds(i, getY(), getWidth(), getHeight());
+                        ThreadUtil.sleep(animationTimeout);
+                    }
+                }
             }
 
             setToStartAndEndingPosition();
@@ -233,16 +278,17 @@ public final class CyderBorderNotification extends CyderToastNotification {
         int ph = getParent().getHeight();
         int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
         int sideBorderLen = CyderFrame.BORDER_LEN;
+        final int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
 
         switch (notificationDirection) {
             case TOP_LEFT -> setBounds(-w, topDragHeight + topBottomOffset, w, h);
-            case TOP -> {}
-            case TOP_RIGHT -> {}
-            case LEFT -> setBounds(-w, topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2, w, h);
-            case RIGHT -> {}
+            case TOP -> setBounds(pw / 2 - w / 2, -h, w, h);
+            case TOP_RIGHT -> setBounds(pw - sideBorderLen, topDragHeight + topBottomOffset, w, h);
+            case LEFT -> setBounds(-w, midContentPane, w, h);
+            case RIGHT -> setBounds(pw - sideBorderLen, midContentPane, w, h);
             case BOTTOM_LEFT -> setBounds(-w, ph - h - sideBorderLen - topBottomOffset, w, h);
-            case BOTTOM -> {}
-            case BOTTOM_RIGHT -> {}
+            case BOTTOM -> setBounds(pw / 2 - w / 2, ph + h - sideBorderLen, w, h);
+            case BOTTOM_RIGHT -> setBounds(pw - sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
         }
     }
 }
