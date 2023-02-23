@@ -134,7 +134,7 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public int getWidth() {
         int ret = 2 * borderLength + container.getWidth() + 2 * 2 * curveLength;
-        if (Direction.isHorizontal(arrowDirection)) ret += 2 * arrowLength;
+        if (Direction.isHorizontal(arrowDirection)) ret += arrowLength;
         return ret;
     }
 
@@ -144,7 +144,7 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public int getHeight() {
         int ret = 2 * borderLength + container.getHeight() + 2 * 2 * curveLength;
-        if (Direction.isVertical(arrowDirection)) ret += 2 * arrowLength;
+        if (Direction.isVertical(arrowDirection)) ret += arrowLength;
         return ret;
     }
 

@@ -13,6 +13,21 @@ import java.awt.geom.GeneralPath;
 
 public final class CyderBorderNotification extends CyderToastNotification {
     /**
+     * The offset from the top and bottom of the frame for border notifications.
+     */
+    private static final int topBottomOffset = 5;
+
+    /**
+     * The pixel increment for border notification animations.
+     */
+    private static final int animationIncrement = 8;
+
+    /**
+     * The millisecond timeout for border notification animations.
+     */
+    private static final int animationTimeout = 8;
+
+    /**
      * The direction this border notification should appear and disappear from.
      */
     private final NotificationDirection notificationDirection;
@@ -163,8 +178,7 @@ public final class CyderBorderNotification extends CyderToastNotification {
                     }
                 }
                 case TOP -> {
-                    for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT + topBottomOffset
-                            ; i += animationIncrement) {
+                    for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += animationIncrement) {
                         if (shouldStopAnimation()) break;
                         setBounds(getX(), i, getWidth(), getHeight());
                         ThreadUtil.sleep(animationTimeout);
@@ -261,16 +275,39 @@ public final class CyderBorderNotification extends CyderToastNotification {
         }, disappearAnimationService);
     }
 
-    private static final int topBottomOffset = 5;
-    private static final int animationIncrement = 8;
-    private static final int animationTimeout = 8;
-
-    // todo interface method here
+    // todo interface method
     // todo call this on resize events
-    private void setToMidAnimationPosition() {
 
+    /**
+     * Sets the location of this animation to the middle point of the animation.
+     * That is, the point where the enter animation is completed and the notification is waiting
+     * to invoke disappear.
+     */
+    private void setToMidAnimationPosition() {
+        int w = getWidth();
+        int h = getHeight();
+        int pw = getParent().getWidth();
+        int ph = getParent().getHeight();
+        int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
+        int sideBorderLen = CyderFrame.BORDER_LEN;
+        int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
+
+        switch (notificationDirection) {
+            case TOP_LEFT -> setBounds(sideBorderLen, topDragHeight + topBottomOffset, w, h);
+            case TOP -> setBounds(pw / 2 - w / 2, topDragHeight, w, h);
+            case TOP_RIGHT -> setBounds(pw - w - sideBorderLen, topDragHeight + topBottomOffset, w, h);
+            case LEFT -> setBounds(sideBorderLen, midContentPane, w, h);
+            case RIGHT -> setBounds(pw - w - sideBorderLen, midContentPane, w, h);
+            case BOTTOM_LEFT -> setBounds(sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
+            case BOTTOM -> setBounds(pw / 2 - w / 2, ph - h - sideBorderLen, w, h);
+            case BOTTOM_RIGHT -> setBounds(pw - w - sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
+            // todo changed width/height calculation in toast notification, might affect stuff we don't want to
+        }
     }
 
+    /**
+     * Sets the position of this notification to the start/end of the animation.
+     */
     private void setToStartAndEndingPosition() {
         int w = getWidth();
         int h = getHeight();
@@ -278,7 +315,7 @@ public final class CyderBorderNotification extends CyderToastNotification {
         int ph = getParent().getHeight();
         int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
         int sideBorderLen = CyderFrame.BORDER_LEN;
-        final int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
+        int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
 
         switch (notificationDirection) {
             case TOP_LEFT -> setBounds(-w, topDragHeight + topBottomOffset, w, h);
