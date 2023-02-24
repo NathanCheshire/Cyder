@@ -52,8 +52,6 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.NotificationBuilder;
-import cyder.ui.frame.notification.NotificationController;
-import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
@@ -319,14 +317,6 @@ public enum Console {
         if (UserDataManager.INSTANCE.shouldShowDebugStats()) showDebugStats();
 
         checkForTestingMode();
-
-        NotificationController controller = new NotificationController(consoleCyderFrame);
-        controller.borderNotify(new NotificationBuilder("Test").setNotificationDirection(NotificationDirection.TOP));
-        controller.borderNotify(
-                new NotificationBuilder("Test").setNotificationDirection(NotificationDirection.TOP_LEFT));
-        controller.borderNotify(
-                new NotificationBuilder("Test").setNotificationDirection(NotificationDirection.BOTTOM_LEFT));
-        controller.borderNotify(new NotificationBuilder("Test").setNotificationDirection(NotificationDirection.LEFT));
 
         performTimingChecks();
 

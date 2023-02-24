@@ -290,18 +290,18 @@ public final class CyderBorderNotification extends CyderToastNotification {
         int ph = getParent().getHeight();
         int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
         int sideBorderLen = CyderFrame.BORDER_LEN;
-        int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
+        int centerXForTopBottom = pw / 2 - w / 2 + arrowLength / 2;
+        int centerYForLeftRight = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
 
         switch (notificationDirection) {
             case TOP_LEFT -> setBounds(sideBorderLen, topDragHeight + topBottomOffset, w, h);
-            case TOP -> setBounds(pw / 2 - w / 2, topDragHeight, w, h);
+            case TOP -> setBounds(centerXForTopBottom, topDragHeight, w, h);
             case TOP_RIGHT -> setBounds(pw - w - sideBorderLen, topDragHeight + topBottomOffset, w, h);
-            case LEFT -> setBounds(sideBorderLen, midContentPane, w, h);
-            case RIGHT -> setBounds(pw - w - sideBorderLen, midContentPane, w, h);
+            case LEFT -> setBounds(sideBorderLen, centerYForLeftRight, w, h);
+            case RIGHT -> setBounds(pw - w - sideBorderLen, centerYForLeftRight, w, h);
             case BOTTOM_LEFT -> setBounds(sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
-            case BOTTOM -> setBounds(pw / 2 - w / 2, ph - h - sideBorderLen, w, h);
+            case BOTTOM -> setBounds(centerXForTopBottom, ph - h - sideBorderLen, w, h);
             case BOTTOM_RIGHT -> setBounds(pw - w - sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
-            // todo changed width/height calculation in toast notification, might affect stuff we don't want to
         }
     }
 
@@ -315,16 +315,17 @@ public final class CyderBorderNotification extends CyderToastNotification {
         int ph = getParent().getHeight();
         int topDragHeight = CyderDragLabel.DEFAULT_HEIGHT;
         int sideBorderLen = CyderFrame.BORDER_LEN;
-        int midContentPane = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
+        int centerXForTopBottom = pw / 2 - w / 2 + arrowLength / 2;
+        int centerYForLeftRight = topDragHeight + topBottomOffset + (ph - topDragHeight) / 2 - h / 2;
 
         switch (notificationDirection) {
             case TOP_LEFT -> setBounds(-w, topDragHeight + topBottomOffset, w, h);
-            case TOP -> setBounds(pw / 2 - w / 2, -h, w, h);
+            case TOP -> setBounds(centerXForTopBottom, -h, w, h);
             case TOP_RIGHT -> setBounds(pw - sideBorderLen, topDragHeight + topBottomOffset, w, h);
-            case LEFT -> setBounds(-w, midContentPane, w, h);
-            case RIGHT -> setBounds(pw - sideBorderLen, midContentPane, w, h);
+            case LEFT -> setBounds(-w, centerYForLeftRight, w, h);
+            case RIGHT -> setBounds(pw - sideBorderLen, centerYForLeftRight, w, h);
             case BOTTOM_LEFT -> setBounds(-w, ph - h - sideBorderLen - topBottomOffset, w, h);
-            case BOTTOM -> setBounds(pw / 2 - w / 2, ph + h - sideBorderLen, w, h);
+            case BOTTOM -> setBounds(centerXForTopBottom, ph + h - sideBorderLen, w, h);
             case BOTTOM_RIGHT -> setBounds(pw - sideBorderLen, ph - h - sideBorderLen - topBottomOffset, w, h);
         }
     }
