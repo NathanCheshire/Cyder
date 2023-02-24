@@ -12,6 +12,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.strings.ToStringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -22,6 +23,7 @@ import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -368,6 +370,13 @@ public final class Logger {
                     logBuilder.append(action).append(space).append(type.getTypeName());
                 }
 
+                break;
+            case UI_ACTION:
+                tags.add(tag.getLogName());
+                if (statement instanceof Component component) {
+                    tags.add(ToStringUtil.getComponentParentFrameRepresentation(component));
+                }
+                logBuilder.append(statement);
                 break;
             default:
                 tags.add(tag.getLogName());

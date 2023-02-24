@@ -696,9 +696,8 @@ public enum Console {
                 + space
                 + CyderVersionManager.INSTANCE.getProgramName()
                 + space
-                + openingBracket
-                + UserDataManager.INSTANCE.getUsername()
-                + closingBracket);
+                + dash
+                + UserDataManager.INSTANCE.getUsername());
     }
 
     /**

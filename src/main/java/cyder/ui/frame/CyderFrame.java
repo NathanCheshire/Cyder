@@ -3,6 +3,7 @@ package cyder.ui.frame;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.*;
@@ -979,6 +980,8 @@ public class CyderFrame extends JFrame {
      */
     public void notify(String htmlText) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(htmlText));
+
+        notify(new NotificationBuilder(htmlText));
     }
 
     /**
@@ -989,6 +992,8 @@ public class CyderFrame extends JFrame {
      */
     public void notify(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
+
+        notificationController.borderNotify(builder);
     }
 
     /**
@@ -998,6 +1003,8 @@ public class CyderFrame extends JFrame {
      */
     public void toast(String htmlText) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(htmlText));
+
+        toast(new NotificationBuilder(htmlText));
     }
 
     /**
@@ -1007,14 +1014,19 @@ public class CyderFrame extends JFrame {
      */
     public void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
+
+        notificationController.borderNotify(builder);
     }
 
     /**
      * Ends the current notification on screen.
      * If more are behind it, the queue will immediately pull and display
+     *
+     * @return whether a notification was revoked
      */
-    public void revokeCurrentNotification() {
-        notificationController.revokeCurrentNotification();
+    @CanIgnoreReturnValue
+    public boolean revokeCurrentNotification() {
+        return notificationController.revokeCurrentNotification();
     }
 
     /**
@@ -1022,9 +1034,11 @@ public class CyderFrame extends JFrame {
      *
      * @param animate whether to kill the notification
      *                immediately or to smoothly animate it away first
+     * @return whether a notification was revoked
      */
-    public void revokeCurrentNotification(boolean animate) {
-
+    @CanIgnoreReturnValue
+    public boolean revokeCurrentNotification(boolean animate) {
+        return notificationController.revokeCurrentNotification(animate);
     }
 
     /**
@@ -1032,18 +1046,20 @@ public class CyderFrame extends JFrame {
      * the queue that matches the provided text.
      *
      * @param expectedText the text of the notification to revoke
+     * @return whether a notification was revoked
      */
-    public void revokeNotification(String expectedText) {
+    @CanIgnoreReturnValue
+    public boolean revokeNotification(String expectedText) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(expectedText));
 
-
+        return notificationController.revokeNotification(expectedText);
     }
 
     /**
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-
+        notificationController.revokeAllNotifications();
     }
 
     // ----------------
@@ -1263,7 +1279,7 @@ public class CyderFrame extends JFrame {
                         + fastClose + ", getTitle=" + getTitle());
 
                 preCloseActions.forEach(Runnable::run);
-                tooltipMenuController.cancelAllTasks();
+                tooltipMenuController.cancelAllTasks(); // todo throws sometimes
                 // todo tooltip menu controller kill
 
                 killThreads();

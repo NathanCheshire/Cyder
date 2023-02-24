@@ -4,8 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.annotations.CyderTest;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -271,19 +273,30 @@ public class NotificationController {
      * Revokes the notification being shown or in the queue with the provided text.
      *
      * @param expectedText the expected text for the notification
+     * @return whether a notification was revoked
      */
-    public synchronized void revokeNotification(String expectedText) {
+    @CanIgnoreReturnValue
+    public synchronized boolean revokeNotification(String expectedText) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(expectedText));
+
+        AtomicBoolean revoked = new AtomicBoolean(false);
 
         if (currentNotification != null) {
             Optional<String> optionalText = currentNotification.getLabelText();
-            if (optionalText.isPresent() && optionalText.get().equals(expectedText)) currentNotification.kill();
+            if (optionalText.isPresent() && optionalText.get().equals(expectedText)) {
+                currentNotification.kill();
+                revoked.set(true);
+            }
         }
 
         notificationQueue.removeIf(notification -> {
             Optional<String> optionalText = notification.getLabelText();
-            return optionalText.isPresent() && optionalText.get().equals(expectedText);
+            boolean ret = optionalText.isPresent() && optionalText.get().equals(expectedText);
+            if (ret) revoked.set(true);
+            return ret;
         });
+
+        return revoked.get();
     }
 
     /**
@@ -331,6 +344,11 @@ public class NotificationController {
         return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
     }
 
+    @CyderTest
+    public static void test() {
+        Console.INSTANCE.getConsoleCyderFrame().notify("This is a test");
+    }
+
     /**
      * Starts the notification queue if necessary.
      */
@@ -343,17 +361,7 @@ public class NotificationController {
                 currentNotification = notificationQueue.remove(0);
                 controlFrame.getTrueContentPane().add(currentNotification, JLayeredPane.DRAG_LAYER);
                 currentNotification.appear();
-
-                // todo method
-                Optional<String> optionalLabelText = currentNotification.getLabelText();
-                ImmutableList.Builder<String> tagsBuilder = new ImmutableList.Builder<String>()
-                        .add(LogTag.UI_ACTION.getLogName())
-                        .add("[" + StringUtil.capsFirstWords(controlFrame.getTitle()) + "]")
-                        .add("[Notification]");
-                if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Container]");
-
-                // todo
-                Logger.log(tagsBuilder.build(), optionalLabelText.orElse("todo get custom container"));
+                logCurrentNotification();
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }
@@ -361,6 +369,20 @@ public class NotificationController {
             queueRunning.set(false);
             currentNotification = null;
         }, queueExecutor);
+    }
+
+    /**
+     * Logs the important details of the current notification using the {@link LogTag#UI_ACTION} tag.
+     */
+    private void logCurrentNotification() {
+        Optional<String> optionalLabelText = currentNotification.getLabelText();
+        ImmutableList.Builder<String> tagsBuilder = new ImmutableList.Builder<String>()
+                .add(LogTag.UI_ACTION.getLogName())
+                .add(StringUtil.capsFirstWords(controlFrame.getTitle()))
+                .add("Notification");
+        if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Container]");
+        // todo
+        Logger.log(tagsBuilder.build(), optionalLabelText.orElse("todo get custom container"));
     }
 
     /**

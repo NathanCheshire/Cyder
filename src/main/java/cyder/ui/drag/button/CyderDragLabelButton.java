@@ -94,7 +94,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(LogTag.UI_ACTION, CyderDragLabelButton.this.toString());
+                Logger.log(LogTag.UI_ACTION, CyderDragLabelButton.this);
             }
         });
     }
