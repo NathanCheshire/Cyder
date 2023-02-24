@@ -110,7 +110,7 @@ public class TooltipMenuController {
     /**
      * The timeout before fading out the tooltip menu label if the user never interacts with the label.
      */
-    private static final Duration noInteractionFadeOutTimeout = Duration.ofSeconds(2);
+    private static final Duration noInteractionFadeOutTimeout = Duration.ofSeconds(3);
 
     /**
      * The duration a mouse must remain outside of the menu before the fade out animation is invoked.
@@ -189,6 +189,7 @@ public class TooltipMenuController {
         Preconditions.checkArgument(!controlFrame.isBorderlessFrame());
 
         this.controlFrame = controlFrame;
+
         initializeMenuItems();
         constructTooltipMenuLabel();
     }
@@ -226,6 +227,7 @@ public class TooltipMenuController {
 
         revalidateLabelAndScrollSize();
         opacity.set(ColorUtil.opacityRange.upperEndpoint());
+        menuScroll.setVisible(true);
         tooltipMenuLabel.repaint();
         tooltipMenuLabel.setLocation(calculateLocation(triggerPoint, triggerLabel));
         tooltipMenuLabel.setVisible(true);
@@ -319,8 +321,6 @@ public class TooltipMenuController {
         }
     }
 
-    // todo doesn't look like it used to with the labels not disappearing at half opacity
-
     /**
      * Animates out the tooltip menu label via an opacity decrement transition.
      *
@@ -334,6 +334,7 @@ public class TooltipMenuController {
 
             while (opacity.get() >= opacityAnimationDecrement) {
                 if (!controlKey.equals(currentFadeOutKey.get())) return;
+                if (opacity.get() < ColorUtil.opacityRange.upperEndpoint() / 2) menuScroll.setVisible(false);
                 opacity.set(opacity.get() - opacityAnimationDecrement);
                 tooltipMenuLabel.repaint();
                 ThreadUtil.sleep(opacityAnimationTimeout.toMillis());

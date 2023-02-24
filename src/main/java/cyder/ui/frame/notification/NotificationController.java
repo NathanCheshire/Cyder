@@ -3,6 +3,7 @@ package cyder.ui.frame.notification;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
@@ -234,27 +235,36 @@ public class NotificationController {
     public void kill() {
         killed.set(true);
         notificationQueue.clear();
-        currentNotification.kill();
+        if (currentNotification != null) currentNotification.kill();
     }
 
     /**
      * Revokes the current notification from the control frame without performing the disappear animation.
+     *
+     * @return whether a notification was revoked
      */
-    public void revokeCurrentNotification() {
-        revokeCurrentNotification(false);
+    @CanIgnoreReturnValue
+    public boolean revokeCurrentNotification() {
+        return revokeCurrentNotification(false);
     }
 
     /**
      * Revokes the current notification from the control frame.
      *
      * @param animate whether the notification should be animated away or instantly killed and removed
+     * @return whether a notification was revoked
      */
-    public void revokeCurrentNotification(boolean animate) {
+    @CanIgnoreReturnValue
+    public boolean revokeCurrentNotification(boolean animate) {
+        if (currentNotification == null) return false;
+
         if (animate) {
             currentNotification.disappear();
         } else {
             currentNotification.kill();
         }
+
+        return true;
     }
 
     /**
@@ -263,6 +273,8 @@ public class NotificationController {
      * @param expectedText the expected text for the notification
      */
     public synchronized void revokeNotification(String expectedText) {
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(expectedText));
+
         if (currentNotification != null) {
             Optional<String> optionalText = currentNotification.getLabelText();
             if (optionalText.isPresent() && optionalText.get().equals(expectedText)) currentNotification.kill();
@@ -347,6 +359,7 @@ public class NotificationController {
             }
 
             queueRunning.set(false);
+            currentNotification = null;
         }, queueExecutor);
     }
 

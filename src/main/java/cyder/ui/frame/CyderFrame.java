@@ -33,6 +33,7 @@ import cyder.ui.frame.enumerations.MenuType;
 import cyder.ui.frame.enumerations.ScreenPosition;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationController;
 import cyder.ui.frame.tooltip.TooltipMenuController;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderPanel;
@@ -214,6 +215,11 @@ public class CyderFrame extends JFrame {
     private TooltipMenuController tooltipMenuController;
 
     /**
+     * The notification controller for this frame.
+     */
+    private NotificationController notificationController;
+
+    /**
      * The area exposed to allow frame resizing. The maximum is 5 since
      * 5 is the border of the frame.
      */
@@ -364,6 +370,7 @@ public class CyderFrame extends JFrame {
         iconPane.setFocusable(false);
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
 
+        // todo magic
         int contentLabelWidth = 3;
         contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), contentLabelWidth, false));
         setContentPane(contentLabel);
@@ -448,7 +455,8 @@ public class CyderFrame extends JFrame {
 
         revalidateFrameShape();
 
-        resetTooltipMenuController();
+        initializeTooltipMenuController();
+        initializeNotificationController();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -970,17 +978,17 @@ public class CyderFrame extends JFrame {
      * @param htmlText the text containing possibly formatted text to display
      */
     public void notify(String htmlText) {
-
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(htmlText));
     }
 
     /**
      * Notifies the user with a custom notification built from the provided builder.
      * See {@link NotificationBuilder} for more information.
      *
-     * @param notificationBuilder the builder used to construct the notification
+     * @param builder the builder used to construct the notification
      */
-    public void notify(NotificationBuilder notificationBuilder) {
-
+    public void notify(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
     }
 
     /**
@@ -989,7 +997,7 @@ public class CyderFrame extends JFrame {
      * @param htmlText the styled text to use for the toast
      */
     public void toast(String htmlText) {
-
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(htmlText));
     }
 
     /**
@@ -998,7 +1006,7 @@ public class CyderFrame extends JFrame {
      * @param builder the builder for the toast
      */
     public void toast(NotificationBuilder builder) {
-
+        Preconditions.checkNotNull(builder);
     }
 
     /**
@@ -1006,7 +1014,7 @@ public class CyderFrame extends JFrame {
      * If more are behind it, the queue will immediately pull and display
      */
     public void revokeCurrentNotification() {
-
+        notificationController.revokeCurrentNotification();
     }
 
     /**
@@ -1026,6 +1034,8 @@ public class CyderFrame extends JFrame {
      * @param expectedText the text of the notification to revoke
      */
     public void revokeNotification(String expectedText) {
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(expectedText));
+
 
     }
 
@@ -1253,7 +1263,7 @@ public class CyderFrame extends JFrame {
                         + fastClose + ", getTitle=" + getTitle());
 
                 preCloseActions.forEach(Runnable::run);
-                // todo notification controller kill
+                tooltipMenuController.cancelAllTasks();
                 // todo tooltip menu controller kill
 
                 killThreads();
@@ -2013,7 +2023,7 @@ public class CyderFrame extends JFrame {
     @Override
     public void setResizable(boolean resizable) {
         if (cyderComponentResizer != null) cyderComponentResizer.setResizingAllowed(resizable);
-        if (resizable) resetTooltipMenuController();
+        if (resizable) initializeTooltipMenuController();
         // todo this is to make the option to resize appear, perhaps
         //  just a revalidate method instead of new object creation?
     }
@@ -2223,11 +2233,10 @@ public class CyderFrame extends JFrame {
 
     /**
      * Disables dragging for this frame.
+     * The effect is ignored if this is a borderless frame.
      */
     public void disableDragging() {
-        if (isBorderlessFrame()) {
-            return;
-        }
+        if (isBorderlessFrame()) return;
 
         topDrag.disableDragging();
         bottomDrag.disableDragging();
@@ -2237,11 +2246,10 @@ public class CyderFrame extends JFrame {
 
     /**
      * Enables dragging for this frame.
+     * The effect is ignored if this is a borderless frame.
      */
     public void enableDragging() {
-        if (isBorderlessFrame()) {
-            return;
-        }
+        if (isBorderlessFrame()) return;
 
         topDrag.enableDragging();
         bottomDrag.enableDragging();
@@ -2322,8 +2330,7 @@ public class CyderFrame extends JFrame {
      * @param message the message to display to the user
      */
     public void setClosingConfirmation(String message) {
-        Preconditions.checkNotNull(message);
-        Preconditions.checkArgument(!message.isEmpty());
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(message));
 
         closingConfirmationMessage = message;
     }
@@ -2336,8 +2343,10 @@ public class CyderFrame extends JFrame {
     }
 
     // -------------
-    // pinning logic
+    // Pinning logic
     // -------------
+
+    // todo perhaps this could be a controller as well
 
     /**
      * Adds any {@link MouseMotionListener}s to the drag labels.
@@ -3596,10 +3605,18 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the tooltip menu controller to a new instance.
+     * Sets the tooltip menu controller to a new instance, ending all tasks of the current one if present.
      */
-    public void resetTooltipMenuController() {
+    public void initializeTooltipMenuController() {
         if (tooltipMenuController != null) tooltipMenuController.cancelAllTasks();
         tooltipMenuController = new TooltipMenuController(this);
+    }
+
+    /**
+     * Sets the notification controller to a new instance, ending all tasks of the current one if present.
+     */
+    public void initializeNotificationController() {
+        // todo end all tasks if current if not null
+        notificationController = new NotificationController(this);
     }
 }
