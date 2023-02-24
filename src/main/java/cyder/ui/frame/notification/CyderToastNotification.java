@@ -67,6 +67,11 @@ public class CyderToastNotification extends CyderNotification {
     protected final AtomicBoolean disappearInvoked = new AtomicBoolean();
 
     /**
+     * Whether this is currently performing an animation.
+     */
+    protected final AtomicBoolean animating = new AtomicBoolean();
+
+    /**
      * Whether this notification has been killed.
      */
     protected final AtomicBoolean killed = new AtomicBoolean();
@@ -171,7 +176,6 @@ public class CyderToastNotification extends CyderNotification {
         container.setBounds(x, y, container.getWidth(), container.getHeight());
         container.setVisible(true);
         if (!Arrays.asList(getComponents()).contains(container)) add(container);
-        // revalidateBounds(); // todo this shouldn't be here, only here for case of frame size changes?
         super.paint(g);
     }
 
@@ -325,12 +329,12 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public synchronized void appear() {
         if (appearInvoked.get()) return;
+        if (animating.get()) return;
         appearInvoked.set(true);
-
-        revalidateBounds();
+        animating.set(true);
 
         Futures.submit(() -> {
-            revalidateBounds();
+            setToStartAndEndingPosition();
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
             setVisible(true);
 
@@ -338,11 +342,12 @@ public class CyderToastNotification extends CyderNotification {
                  ; i < ColorUtil.opacityRange.upperEndpoint() ; i += opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
-                revalidateBounds();
+                setToStartAndEndingPosition();
                 repaint();
                 ThreadUtil.sleep(animationDelay);
             }
 
+            animating.set(false);
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
             repaint();
 
@@ -364,17 +369,20 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public synchronized void disappear() {
         Preconditions.checkState(appearInvoked.get());
+        Preconditions.checkState(!animating.get());
         if (disappearInvoked.get()) return;
         disappearInvoked.set(true);
+        animating.set(true);
 
         Futures.submit(() -> {
-            revalidateBounds();
+            setToStartAndEndingPosition();
             opacity.set(ColorUtil.opacityRange.upperEndpoint());
 
             for (int i = ColorUtil.opacityRange.upperEndpoint()
                  ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
+                setToStartAndEndingPosition();
                 repaint();
                 ThreadUtil.sleep(animationDelay);
             }
@@ -389,7 +397,7 @@ public class CyderToastNotification extends CyderNotification {
                 parent.repaint();
             }
 
-            killed.set(true);
+            kill();
         }, disappearAnimationService);
     }
 
@@ -399,6 +407,7 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public void kill() {
         killed.set(true);
+        animating.set(false);
     }
 
     /**
@@ -434,13 +443,14 @@ public class CyderToastNotification extends CyderNotification {
      * @return whether a current animation should be stopped
      */
     protected boolean shouldStopAnimation() {
-        return killed.get() || !UserDataManager.INSTANCE.shouldDoAnimations();
+        return isKilled() || !UserDataManager.INSTANCE.shouldDoAnimations();
     }
 
     /**
-     * Revalidates the bounds of this toast notification.
+     * {@inheritDoc}
      */
-    protected void revalidateBounds() {
+    @Override
+    public void setToStartAndEndingPosition() {
         int parentWidth = getParent().getWidth();
         int parentHeight = getParent().getHeight();
         int ourWidth = getWidth();
@@ -448,5 +458,13 @@ public class CyderToastNotification extends CyderNotification {
 
         setBounds(parentWidth / 2 - ourWidth / 2,
                 parentHeight - ourHeight - toastBottomOffset, ourWidth, ourHeight);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAnimating() {
+        return animating.get();
     }
 }

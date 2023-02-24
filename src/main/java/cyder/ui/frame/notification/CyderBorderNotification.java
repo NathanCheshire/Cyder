@@ -161,9 +161,11 @@ public final class CyderBorderNotification extends CyderToastNotification {
      * {@inheritDoc}
      */
     @Override
-    public void appear() {
+    public synchronized void appear() {
         if (appearInvoked.get()) return;
+        if (animating.get()) return;
         appearInvoked.set(true);
+        animating.set(true);
 
         Futures.submit(() -> {
             setToStartAndEndingPosition();
@@ -202,6 +204,7 @@ public final class CyderBorderNotification extends CyderToastNotification {
                 }
             }
 
+            animating.set(false);
             setToMidAnimationPosition();
             repaint();
 
@@ -221,10 +224,12 @@ public final class CyderBorderNotification extends CyderToastNotification {
      * {@inheritDoc}
      */
     @Override
-    public void disappear() {
+    public synchronized void disappear() {
         Preconditions.checkState(appearInvoked.get());
+        Preconditions.checkState(!animating.get());
         if (disappearInvoked.get()) return;
         disappearInvoked.set(true);
+        animating.set(true);
 
         Futures.submit(() -> {
             setToMidAnimationPosition();
@@ -271,12 +276,9 @@ public final class CyderBorderNotification extends CyderToastNotification {
                 parent.repaint();
             }
 
-            killed.set(true);
+            kill();
         }, disappearAnimationService);
     }
-
-    // todo interface method
-    // todo call this on resize events
 
     /**
      * Sets the location of this animation to the middle point of the animation.
@@ -308,7 +310,8 @@ public final class CyderBorderNotification extends CyderToastNotification {
     /**
      * Sets the position of this notification to the start/end of the animation.
      */
-    private void setToStartAndEndingPosition() {
+    @Override
+    public void setToStartAndEndingPosition() {
         int w = getWidth();
         int h = getHeight();
         int pw = getParent().getWidth();

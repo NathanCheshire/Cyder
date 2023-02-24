@@ -1612,7 +1612,10 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
+        // todo revalidate current notification if possible
     }
+
+    // todo duplicate code in these methods
 
     /**
      * Sets the bounds of the CyderFrame and refreshes all components on the frame.
@@ -1648,6 +1651,7 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
+        // todo revalidate current notification if possible
     }
 
     /**

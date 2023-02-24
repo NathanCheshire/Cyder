@@ -43,4 +43,16 @@ public interface ICyderNotification {
      * @return whether the text this notification is displaying if present
      */
     Optional<String> getLabelText();
+
+    /**
+     * Sets the position of this notification to the start/end of the animation.
+     */
+    void setToStartAndEndingPosition();
+
+    /**
+     * Returns whether this notification is currently in the middle of an animation.
+     *
+     * @return whether this notification is currently in the middle of an animation
+     */
+    boolean isAnimating();
 }
