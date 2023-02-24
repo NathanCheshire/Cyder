@@ -238,8 +238,13 @@ public final class Logger {
         Preconditions.checkArgument(!tags.isEmpty());
         Preconditions.checkNotNull(statement);
 
-        // todo allow logging of attempted new lines via prop
-        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) return;
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
+            if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
+                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
+            }
+
+            return;
+        }
 
         constructLogLinesAndLog(tags, statement.toString());
     }
@@ -255,8 +260,14 @@ public final class Logger {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(statement);
 
-        // todo allow logging of attempted new lines via prop
-        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) return;
+        // todo duplicate code here
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
+            if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
+                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
+            }
+
+            return;
+        }
 
         ArrayList<String> tags = new ArrayList<>();
         StringBuilder logBuilder = new StringBuilder();

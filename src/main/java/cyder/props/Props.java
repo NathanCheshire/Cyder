@@ -281,6 +281,12 @@ public final class Props {
     public static final Prop<Boolean> logPythonPackageVersionsOnInstallationDiscovery =
             new Prop<>("log_python_package_versions_on_installation_discovery", true, Boolean.class);
 
+    /**
+     * Whether to log any attempted newlines or pure whitespace log calls.
+     */
+    public static final Prop<Boolean> logAttemptedNewlineOrWhitespaceCalls =
+            new Prop<>("log_attempted_newline_or_whitespace_calls", false, Boolean.class);
+
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.
     // ---------------------------------------------------
