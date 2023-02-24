@@ -281,11 +281,10 @@ public final class CyderBorderNotification extends CyderToastNotification {
     }
 
     /**
-     * Sets the location of this animation to the middle point of the animation.
-     * That is, the point where the enter animation is completed and the notification is waiting
-     * to invoke disappear.
+     * {@inheritDoc}
      */
-    private void setToMidAnimationPosition() {
+    @Override
+    public void setToMidAnimationPosition() {
         int w = getWidth();
         int h = getHeight();
         int pw = getParent().getWidth();

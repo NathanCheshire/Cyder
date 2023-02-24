@@ -50,6 +50,13 @@ public interface ICyderNotification {
     void setToStartAndEndingPosition();
 
     /**
+     * Sets the location of this notification to the middle point of the animation.
+     * That is, the point where the enter animation is completed and the notification is waiting
+     * to invoke disappear.
+     */
+    void setToMidAnimationPosition();
+
+    /**
      * Returns whether this notification is currently in the middle of an animation.
      *
      * @return whether this notification is currently in the middle of an animation

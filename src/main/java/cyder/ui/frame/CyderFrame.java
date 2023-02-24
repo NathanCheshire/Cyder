@@ -1637,7 +1637,7 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
-        // todo revalidate current notification if possible
+        notificationController.revalidateCurrentNotificationPosition();
     }
 
     // todo duplicate code in these methods
@@ -1676,7 +1676,7 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
-        // todo revalidate current notification if possible
+        notificationController.revalidateCurrentNotificationPosition();
     }
 
     /**

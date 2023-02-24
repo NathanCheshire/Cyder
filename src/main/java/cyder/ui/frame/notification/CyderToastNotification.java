@@ -479,6 +479,14 @@ public class CyderToastNotification extends CyderNotification {
      * {@inheritDoc}
      */
     @Override
+    public void setToMidAnimationPosition() {
+        setToStartAndEndingPosition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isAnimating() {
         return animating.get();
     }

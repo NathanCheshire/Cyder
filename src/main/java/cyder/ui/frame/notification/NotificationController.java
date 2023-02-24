@@ -35,6 +35,11 @@ import static cyder.strings.CyderStrings.quote;
  */
 public class NotificationController {
     /**
+     * The notification text for log statements.
+     */
+    private static final String NOTIFICATION = "Notification";
+
+    /**
      * The foreground color used for notifications.
      */
     private static final Color notificationForegroundColor = CyderColors.regularPurple;
@@ -308,6 +313,15 @@ public class NotificationController {
     }
 
     /**
+     * Revalidates the position of the current notification if it is not in the middle of an animation.
+     */
+    public void revalidateCurrentNotificationPosition() {
+        if (currentNotification != null && !currentNotification.isAnimating()) {
+            currentNotification.setToMidAnimationPosition();
+        }
+    }
+
+    /**
      * Generates and adds a label, placed on the provided container, with the provided tooltip.
      * The label is set to the same size as the parent container.
      *
@@ -363,11 +377,11 @@ public class NotificationController {
                 currentNotification.appear();
                 logCurrentNotification();
                 while (!currentNotification.isKilled()) Thread.onSpinWait();
+                currentNotification = null;
                 ThreadUtil.sleep(timeBetweenNotifications.toMillis());
             }
 
             queueRunning.set(false);
-            currentNotification = null;
         }, queueExecutor);
     }
 
@@ -379,8 +393,8 @@ public class NotificationController {
         ImmutableList.Builder<String> tagsBuilder = new ImmutableList.Builder<String>()
                 .add(LogTag.UI_ACTION.getLogName())
                 .add(StringUtil.capsFirstWords(controlFrame.getTitle()))
-                .add("Notification");
-        if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Notification Container]");
+                .add(NOTIFICATION);
+        if (optionalLabelText.isEmpty()) tagsBuilder.add("Custom Notification Container");
         Logger.log(tagsBuilder.build(), optionalLabelText.orElse(currentNotification.getContainerToString()));
     }
 
