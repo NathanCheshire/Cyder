@@ -90,6 +90,17 @@ public final class ConsoleBackground {
     }
 
     /**
+     * Generates a scaled image icon.
+     *
+     * @param width  the width of the scaled icon
+     * @param height the height of the scaled icon
+     * @return the scaled image icon
+     */
+    public ImageIcon generateScaledImageIcon(int width, int height) {
+        return new ImageIcon(generateImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+    }
+
+    /**
      * Returns whether the reference file still exists, can be read, and is an image.
      *
      * @return whether the reference file still exists, can be read, and is an image

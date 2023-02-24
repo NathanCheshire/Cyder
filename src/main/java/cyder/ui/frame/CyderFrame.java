@@ -456,9 +456,9 @@ public class CyderFrame extends JFrame {
 
         revalidateFrameShape();
 
-        initializeTooltipMenuController();
-        initializeNotificationController();
-
+        // Calls passing this
+        tooltipMenuController = new TooltipMenuController(this);
+        notificationController = new NotificationController(this);
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
@@ -514,7 +514,6 @@ public class CyderFrame extends JFrame {
                 dispose();
             }
         });
-
 
         contentLabel = new JLayeredPane() {
             @Override
@@ -1015,7 +1014,7 @@ public class CyderFrame extends JFrame {
     public void toast(NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        notificationController.borderNotify(builder);
+        notificationController.toast(builder);
     }
 
     /**
@@ -1279,8 +1278,8 @@ public class CyderFrame extends JFrame {
                         + fastClose + ", getTitle=" + getTitle());
 
                 preCloseActions.forEach(Runnable::run);
-                tooltipMenuController.cancelAllTasks(); // todo throws sometimes
-                // todo tooltip menu controller kill
+                if (!isBorderlessFrame()) tooltipMenuController.cancelAllTasks();
+                if (!isBorderlessFrame()) notificationController.kill();
 
                 killThreads();
                 disableDragging();
@@ -2039,9 +2038,7 @@ public class CyderFrame extends JFrame {
     @Override
     public void setResizable(boolean resizable) {
         if (cyderComponentResizer != null) cyderComponentResizer.setResizingAllowed(resizable);
-        if (resizable) initializeTooltipMenuController();
-        // todo this is to make the option to resize appear, perhaps
-        //  just a revalidate method instead of new object creation?
+        if (tooltipMenuController != null) tooltipMenuController.revalidateMenuItems();
     }
 
     /**
@@ -2049,16 +2046,13 @@ public class CyderFrame extends JFrame {
      */
     public void refreshBackground() {
         try {
-            if (iconLabel == null) {
-                return;
-            }
-
-            // Mainly needed for icon label and pane bounds, layout isn't usually expensive
+            if (iconLabel == null) return;
             revalidateLayout();
 
             if (cyderComponentResizer != null && cyderComponentResizer.backgroundResizingEnabled()) {
-                iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
-                        .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+                Image scaledImage = currentMasterIcon.getImage().getScaledInstance(
+                        iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT);
+                iconLabel.setIcon(new ImageIcon(scaledImage));
             }
 
             revalidate();
@@ -2107,31 +2101,24 @@ public class CyderFrame extends JFrame {
     public void setBackground(ImageIcon icon) {
         Preconditions.checkNotNull(icon);
 
-        try {
-            // Prevent errors before instantiation of ui objects
-            if (iconLabel == null) {
-                return;
-            }
+        if (iconLabel == null) return;
 
-            currentMasterIcon = icon;
-            iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
-                    .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-            iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
-                    height - 2 * FRAME_RESIZING_LEN);
-            iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
-                    height - 2 * FRAME_RESIZING_LEN);
+        currentMasterIcon = icon;
+        iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
+                .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
+                height - 2 * FRAME_RESIZING_LEN);
+        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
+                height - 2 * FRAME_RESIZING_LEN);
 
-            if (cyderComponentResizer != null) {
-                cyderComponentResizer.setMinimumSize(new Dimension(600, 600));
-                cyderComponentResizer.setMaximumSize(
-                        new Dimension(background.getIconWidth(), background.getIconHeight()));
-            }
-
-            revalidate();
-            repaint();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (cyderComponentResizer != null) {
+            cyderComponentResizer.setMinimumSize(new Dimension(600, 600));
+            cyderComponentResizer.setMaximumSize(
+                    new Dimension(background.getIconWidth(), background.getIconHeight()));
         }
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -2185,14 +2172,8 @@ public class CyderFrame extends JFrame {
      * Set the background of {@code this} to the current Console background.
      */
     public void replicateConsoleBackground() {
-        if (Console.INSTANCE.getCurrentBackground() == null) {
-            return;
-        }
-
-        iconLabel.setIcon(new ImageIcon(Console.INSTANCE.getCurrentBackground()
-                .generateImageIcon()
-                .getImage()
-                .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
+        if (Console.INSTANCE.getCurrentBackground() == null) return;
+        iconLabel.setIcon(Console.INSTANCE.getCurrentBackground().generateScaledImageIcon(getWidth(), getHeight()));
     }
 
     /**
@@ -3618,21 +3599,5 @@ public class CyderFrame extends JFrame {
         Preconditions.checkState(!isBorderlessFrame());
 
         return tooltipMenuController;
-    }
-
-    /**
-     * Sets the tooltip menu controller to a new instance, ending all tasks of the current one if present.
-     */
-    public void initializeTooltipMenuController() {
-        if (tooltipMenuController != null) tooltipMenuController.cancelAllTasks();
-        tooltipMenuController = new TooltipMenuController(this);
-    }
-
-    /**
-     * Sets the notification controller to a new instance, ending all tasks of the current one if present.
-     */
-    public void initializeNotificationController() {
-        // todo end all tasks if current if not null
-        notificationController = new NotificationController(this);
     }
 }

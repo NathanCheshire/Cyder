@@ -251,6 +251,15 @@ public class TooltipMenuController {
     }
 
     /**
+     * Revalidates the menu items displayed by this controller.
+     * The changes will be applied next time the label is shown.
+     */
+    public void revalidateMenuItems() {
+        initializeMenuItems();
+        constructTooltipMenuLabel();
+    }
+
+    /**
      * Cancels the {@link #noInteractionFadeOutWaiter} if running.
      */
     private void cancelNoInteractionFadeOutWaiter() {
@@ -351,6 +360,8 @@ public class TooltipMenuController {
      * Initializes the menu items the tooltip menu label will show.
      */
     private void initializeMenuItems() {
+        menuItems.clear();
+
         menuItems.add(new TooltipMenuItem(TooltipMenuItemType.TO_BACK.getLabelText())
                 .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                 .addMouseClickAction(controlFrame::toBack)

@@ -380,9 +380,8 @@ public class NotificationController {
                 .add(LogTag.UI_ACTION.getLogName())
                 .add(StringUtil.capsFirstWords(controlFrame.getTitle()))
                 .add("Notification");
-        if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Container]");
-        // todo
-        Logger.log(tagsBuilder.build(), optionalLabelText.orElse("todo get custom container"));
+        if (optionalLabelText.isEmpty()) tagsBuilder.add("[Custom Notification Container]");
+        Logger.log(tagsBuilder.build(), optionalLabelText.orElse(currentNotification.getContainerToString()));
     }
 
     /**

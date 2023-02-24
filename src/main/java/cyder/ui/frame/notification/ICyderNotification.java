@@ -55,4 +55,11 @@ public interface ICyderNotification {
      * @return whether this notification is currently in the middle of an animation
      */
     boolean isAnimating();
+
+    /**
+     * Returns the result of invoking toString() on the container.
+     *
+     * @return the result of invoking toString() on the container
+     */
+    String getContainerToString();
 }

@@ -695,8 +695,7 @@ public enum Console {
         consoleCyderFrame.setTitle(CyderVersionManager.INSTANCE.getVersion()
                 + space
                 + CyderVersionManager.INSTANCE.getProgramName()
-                + space
-                + dash
+                + space + dash + space
                 + UserDataManager.INSTANCE.getUsername());
     }
 

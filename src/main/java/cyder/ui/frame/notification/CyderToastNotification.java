@@ -27,6 +27,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderToastNotification extends CyderNotification {
     /**
+     * The ratio of current opacity to max opacity at which to hide the container of the toast
+     * if the opacity falls below this ratio.
+     */
+    private static final float hideContainerOnOpacityFallsBelowRatio = 0.75f;
+
+    /**
      * The offset from the bottom of the frame toast notifications are placed.
      */
     private static final int toastBottomOffset = 10;
@@ -336,12 +342,17 @@ public class CyderToastNotification extends CyderNotification {
         Futures.submit(() -> {
             setToStartAndEndingPosition();
             opacity.set(ColorUtil.opacityRange.lowerEndpoint());
+            container.setVisible(false);
             setVisible(true);
 
             for (int i = ColorUtil.opacityRange.lowerEndpoint()
                  ; i < ColorUtil.opacityRange.upperEndpoint() ; i += opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
+                if (i > ColorUtil.opacityRange.upperEndpoint() / 2) {
+                    container.setVisible(true);
+                    container.repaint();
+                }
                 setToStartAndEndingPosition();
                 repaint();
                 ThreadUtil.sleep(animationDelay);
@@ -382,6 +393,10 @@ public class CyderToastNotification extends CyderNotification {
                  ; i >= ColorUtil.opacityRange.lowerEndpoint() ; i -= opacityStep) {
                 if (shouldStopAnimation()) break;
                 opacity.set(i);
+                if (i < ColorUtil.opacityRange.upperEndpoint() * hideContainerOnOpacityFallsBelowRatio) {
+                    container.setVisible(false);
+                    container.repaint();
+                }
                 setToStartAndEndingPosition();
                 repaint();
                 ThreadUtil.sleep(animationDelay);
@@ -466,5 +481,13 @@ public class CyderToastNotification extends CyderNotification {
     @Override
     public boolean isAnimating() {
         return animating.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getContainerToString() {
+        return container.toString();
     }
 }
