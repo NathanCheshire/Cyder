@@ -242,6 +242,11 @@ public class CyderFrame extends JFrame {
     public static final Dimension DEFAULT_DIMENSION = new Dimension(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
     /**
+     * The length of the border for the content label.
+     */
+    private static final int contentLabelBorderLength = 3;
+
+    /**
      * Allowable indices to add components to the contentLabel
      * which is a JLayeredPane and the content pane.
      */
@@ -371,9 +376,8 @@ public class CyderFrame extends JFrame {
         iconPane.setFocusable(false);
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
 
-        // todo magic
-        int contentLabelWidth = 3;
-        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), contentLabelWidth, false));
+        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
+                contentLabelBorderLength, false));
         setContentPane(contentLabel);
 
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
@@ -1609,38 +1613,13 @@ public class CyderFrame extends JFrame {
     @Override
     public void setSize(int width, int height) {
         Dimension dimension = validateRequestedSize(width, height);
+        boolean sameSizes = this.width == dimension.width && this.height == dimension.height;
+        super.setSize(dimension.width, dimension.height);
+        this.width = dimension.width;
+        this.height = dimension.height;
 
-        width = dimension.width;
-        height = dimension.height;
-
-        boolean sameSizes = this.width == width && this.height == height;
-
-        super.setSize(width, height);
-
-        this.width = width;
-        this.height = height;
-
-        revalidateDragLabels();
-
-        revalidateFrameShape();
-
-        if (sameSizes) {
-            return;
-        }
-
-        revalidateLayout();
-
-        if (UiUtil.notNullAndVisible(menuLabel)) {
-            generateMenu();
-            menuLabel.setLocation(menuAnimateToPoint);
-            menuLabel.setVisible(true);
-        }
-
-        correctTitleLength();
-        notificationController.revalidateCurrentNotificationPosition();
+        postSetSizeSetBounds(sameSizes);
     }
-
-    // todo duplicate code in these methods
 
     /**
      * Sets the bounds of the CyderFrame and refreshes all components on the frame.
@@ -1648,25 +1627,23 @@ public class CyderFrame extends JFrame {
     @Override
     public void setBounds(int x, int y, int width, int height) {
         Dimension dimension = validateRequestedSize(width, height);
+        boolean sameSizes = this.width == dimension.width && this.height == dimension.height;
+        super.setBounds(x, y, dimension.width, dimension.height);
+        this.width = dimension.width;
+        this.height = dimension.height;
 
-        width = dimension.width;
-        height = dimension.height;
+        postSetSizeSetBounds(sameSizes);
+    }
 
-        boolean sameSizes = this.width == width && this.height == height;
-
-        super.setBounds(x, y, width, height);
-
-        this.width = width;
-        this.height = height;
-
+    /**
+     * The actions to invoke following a {@link #setSize(int, int)} or {@link #setBounds(int, int, int, int)} call.
+     *
+     * @param sameSize whether the new size is the same as the currently set size
+     */
+    private void postSetSizeSetBounds(boolean sameSize) {
         revalidateDragLabels();
-
         revalidateFrameShape();
-
-        if (sameSizes) {
-            return;
-        }
-
+        if (sameSize) return;
         revalidateLayout();
 
         if (UiUtil.notNullAndVisible(menuLabel)) {
