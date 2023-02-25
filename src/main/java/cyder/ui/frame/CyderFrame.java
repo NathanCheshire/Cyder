@@ -2328,6 +2328,8 @@ public class CyderFrame extends JFrame {
      * @param actionListener the listener to add to the drag labels
      */
     public void addDragListener(MouseMotionListener actionListener) {
+        Preconditions.checkNotNull(actionListener);
+
         topDrag.addMouseMotionListener(actionListener);
         bottomDrag.addMouseMotionListener(actionListener);
         leftDrag.addMouseMotionListener(actionListener);
@@ -2340,6 +2342,8 @@ public class CyderFrame extends JFrame {
      * @param mouseListener the listener to add to the drag labels
      */
     public void addDragLabelMouseListener(MouseListener mouseListener) {
+        Preconditions.checkNotNull(mouseListener);
+
         topDrag.addMouseListener(mouseListener);
         bottomDrag.addMouseListener(mouseListener);
         leftDrag.addMouseListener(mouseListener);
@@ -2412,6 +2416,8 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setIconImage(Image image) {
+        Preconditions.checkNotNull(image);
+
         if (!disposed) {
             super.setIconImage(image);
         }
@@ -2518,7 +2524,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * The image for the debug lines for the console.
-     */
+     */ // todo make this generated
     private static final ImageIcon neffexIcon = StaticUtil.getImageIcon("neffex.png");
 
     /**

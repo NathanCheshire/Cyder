@@ -19,6 +19,8 @@ import cyder.ui.UiUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.FrameType;
+import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.utils.ColorUtil;
@@ -40,8 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
-import static cyder.strings.CyderStrings.comma;
-import static cyder.strings.CyderStrings.quote;
+import static cyder.strings.CyderStrings.*;
 
 /**
  * A controller for the tooltip menu of a particular {@link CyderFrame}.
@@ -557,11 +558,18 @@ public class TooltipMenuController {
         CyderThreadRunner.submit(() -> {
             tooltipMenuItemFrameLocationGetterUtil.closeAllGetFrames();
 
-            GetInputBuilder builder = new GetInputBuilder("Frame location",
+            Rectangle absoluteMonitorBounds = UiUtil.getMergedMonitors();
+            String boundsString = openingBracket + (int) absoluteMonitorBounds.getX() + comma
+                    + (int) absoluteMonitorBounds.getY() + comma
+                    + (int) absoluteMonitorBounds.getWidth() + comma
+                    + (int) absoluteMonitorBounds.getHeight() + closingBracket;
+
+            GetInputBuilder builder = new GetInputBuilder("Frame location setter",
                     "Enter the requested top left frame location in the format: "
-                            + quote + "x,y" + quote + HtmlTags.breakTag
-                            + "Note this is absolute meaning if multiple monitors are being used,"
-                            + " they should be treated as a coalesced singular entity")
+                            + quote + "x,y" + quote
+                            + HtmlTags.breakTag + "Note, this is absolute meaning if multiple monitors are being used,"
+                            + " they should be treated as a singular merged monitor"
+                            + HtmlTags.breakTag + "Valid bounds: " + boundsString)
                     .setRelativeTo(controlFrame)
                     .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
                     .setInitialFieldText(controlFrame.getX() + comma + controlFrame.getY());
@@ -600,8 +608,6 @@ public class TooltipMenuController {
                 return;
             }
 
-            Rectangle absoluteMonitorBounds = UiUtil.getMergedMonitors();
-
             if (requestedX < absoluteMonitorBounds.getX()) {
                 controlFrame.notify("Requested x " + quote + requestedX + quote
                         + " is less than the absolute minimum: " + quote + absoluteMonitorBounds.getX() + quote);
@@ -626,8 +632,10 @@ public class TooltipMenuController {
 
             if (requestedX == controlFrame.getX() && requestedY == controlFrame.getY()) return;
             UiUtil.requestFramePosition(requestedX, requestedY, controlFrame);
-            controlFrame.notify("Set frame location to request: "
-                    + quote + requestedX + comma + requestedY + quote);
+            NotificationBuilder notificationBuilder = new NotificationBuilder("Set frame location to request: "
+                    + quote + requestedX + comma + requestedY + quote)
+                    .setNotificationDirection(NotificationDirection.TOP_LEFT);
+            controlFrame.notify(notificationBuilder);
         }, setFrameLocationTooltipMenuWaiterThreadName);
     }
 
@@ -641,9 +649,18 @@ public class TooltipMenuController {
 
             tooltipMenuItemFrameSizeGetterUtil.closeAllGetFrames();
 
-            GetInputBuilder builder = new GetInputBuilder("Frame size",
+            Dimension minimumFrameSize = controlFrame.getMinimumSize();
+            Dimension maximumFrameSize = controlFrame.getMaximumSize();
+
+            String widthBounds = openingBracket + (int) minimumFrameSize.getWidth()
+                    + comma + space + (int) maximumFrameSize.getWidth() + closingBracket;
+            String heightBounds = openingBracket + (int) minimumFrameSize.getHeight()
+                    + comma + space + (int) maximumFrameSize.getHeight() + closingBracket;
+            GetInputBuilder builder = new GetInputBuilder("Frame size setter",
                     "Enter the requested frame size in the format: "
-                            + quote + "width" + comma + "height" + quote)
+                            + quote + "width" + comma + "height" + quote
+                            + HtmlTags.breakTag + "Width bounds: " + widthBounds
+                            + HtmlTags.breakTag + "Height bounds: " + heightBounds)
                     .setRelativeTo(controlFrame)
                     .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
                     .setInitialFieldText(w + comma + h);
@@ -684,9 +701,6 @@ public class TooltipMenuController {
                 return;
             }
 
-            Dimension minimumFrameSize = controlFrame.getMinimumSize();
-            Dimension maximumFrameSize = controlFrame.getMaximumSize();
-
             if (requestedWidth < minimumFrameSize.getWidth()) {
                 controlFrame.notify("Requested width " + quote + requestedWidth + quote
                         + " is less than the minimum allowable width: "
@@ -715,8 +729,10 @@ public class TooltipMenuController {
             controlFrame.setSize(requestedWidth, requestedHeight);
             controlFrame.setCenterPoint(center);
             controlFrame.refreshBackground();
-            controlFrame.notify("Set frame size to request: "
-                    + quote + requestedWidth + comma + requestedHeight + quote);
+            NotificationBuilder notificationBuilder = new NotificationBuilder("Set frame size to request: "
+                    + quote + requestedWidth + comma + requestedHeight + quote)
+                    .setNotificationDirection(NotificationDirection.TOP_LEFT);
+            controlFrame.notify(notificationBuilder);
         }, setFrameSizeTooltipMenuWaiterThreadName);
     }
 }

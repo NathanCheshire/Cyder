@@ -8,9 +8,12 @@ import cyder.constants.CyderFonts;
 import cyder.strings.StringUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.enumerations.FrameType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,6 +24,11 @@ import static cyder.strings.CyderStrings.*;
  * a different notification exceeded the allowable size.
  */
 public class CyderInformNotification extends CyderNotification {
+    /**
+     * The notification string used for frame titles.
+     */
+    private static final String NOTIFICATION = "Notification";
+
     /**
      * The top, bottom, left, and right padding between the frame and container.
      */
@@ -69,10 +77,12 @@ public class CyderInformNotification extends CyderNotification {
     /**
      * Constructs a new inform notification.
      *
-     * @param builder the builder
+     * @param builder       the builder
+     * @param relativeFrame the frame to set the notification relative to
      */
     public CyderInformNotification(NotificationBuilder builder, CyderFrame relativeFrame) {
         Preconditions.checkNotNull(builder);
+        Preconditions.checkNotNull(relativeFrame);
 
         container = builder.getContainer();
         this.relativeFrame = relativeFrame;
@@ -87,19 +97,20 @@ public class CyderInformNotification extends CyderNotification {
         Preconditions.checkState(!appearInvoked.get());
         appearInvoked.set(true);
 
+        int containerX = CyderFrame.BORDER_LEN + notifyPadding;
+        int containerY = CyderDragLabel.DEFAULT_HEIGHT + notifyPadding;
+
         if (StringUtil.isNullOrEmpty(htmlText)) {
             int width = container.getWidth() + 2 * CyderFrame.BORDER_LEN + 2 * notifyPadding;
-            int height = container.getHeight() + CyderDragLabel.DEFAULT_HEIGHT +
-                    CyderFrame.BORDER_LEN + 2 * notifyPadding;
+            int height = container.getHeight() + CyderDragLabel.DEFAULT_HEIGHT
+                    + CyderFrame.BORDER_LEN + 2 * notifyPadding;
             notificationFrame = new CyderFrame(width, height);
-            container.setLocation(CyderFrame.BORDER_LEN + notifyPadding,
-                    CyderDragLabel.DEFAULT_HEIGHT + notifyPadding);
+            container.setLocation(containerX, containerY);
             notificationFrame.getContentPane().add(container);
         } else {
             BoundsString bs = BoundsUtil.widthHeightCalculation(htmlText, notifyFont);
             JLabel label = new JLabel(bs.getText());
-            label.setBounds(CyderFrame.BORDER_LEN + notifyPadding,
-                    CyderDragLabel.DEFAULT_HEIGHT + notifyPadding, bs.getWidth(), bs.getHeight());
+            label.setBounds(containerX, containerY, bs.getWidth(), bs.getHeight());
             label.setForeground(CyderColors.navy);
             label.setFont(notifyFont);
             int width = bs.getWidth() + 2 * CyderFrame.BORDER_LEN + 2 * notifyPadding;
@@ -108,9 +119,15 @@ public class CyderInformNotification extends CyderNotification {
             notificationFrame.getContentPane().add(label);
         }
 
-        String frameTitle = relativeFrame == null ? "Notification" : relativeFrame.getTitle()
-                + space + openingParenthesis + "Notification" + closingParenthesis;
+        String frameTitle = relativeFrame.getTitle() + space + openingParenthesis + NOTIFICATION + closingParenthesis;
         notificationFrame.setTitle(frameTitle);
+        notificationFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                disappear();
+            }
+        });
+        notificationFrame.setFrameType(FrameType.POPUP);
         notificationFrame.finalizeAndShow(relativeFrame);
     }
 
@@ -126,6 +143,8 @@ public class CyderInformNotification extends CyderNotification {
         if (notificationFrame != null && !notificationFrame.isDisposed()) {
             notificationFrame.dispose();
         }
+
+        kill();
     }
 
     /**
