@@ -333,7 +333,6 @@ public enum Console {
 
         revalidateInputAndOutputBounds(true);
 
-        inputField.requestFocus();
         setInputFieldCaretPositionToEnd();
     }
 
@@ -1196,6 +1195,14 @@ public enum Console {
             } else {
                 Console.INSTANCE.releaseResourcesAndCloseFrame(true);
             }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void windowOpened(WindowEvent e) {
+            inputField.requestFocus();
         }
     };
 
