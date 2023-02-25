@@ -42,7 +42,6 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.StaticUtil;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -2523,14 +2522,37 @@ public class CyderFrame extends JFrame {
     private JLabel debugImageLabel;
 
     /**
-     * The image for the debug lines for the console.
-     */ // todo make this generated
-    private static final ImageIcon neffexIcon = StaticUtil.getImageIcon("neffex.png");
-
-    /**
      * The minor axis length of a debug line.
      */
-    private static final int debugLineLen = 4;
+    private static final int debugLineLength = 4;
+
+    public static JLabel generateNeffexLabel(int len, Color color, int strokeWidth) {
+        JLabel label = new JLabel() {
+            @Override
+            public void paint(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(color);
+                g2d.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+                // Top left triangle
+                g2d.drawLine(len / 4, 0, len / 2, len / 2);
+                g2d.drawLine(len / 2, len / 2, 0, len / 2);
+                g2d.drawLine(0, len / 2, len / 4, 0);
+
+                // Top right triangle
+                g2d.drawLine(len / 2, len / 2, len * 3 / 4, 0);
+                g2d.drawLine(len * 3 / 4, 0, len, len / 2);
+                g2d.drawLine(len, len / 2, len / 2, len / 2);
+
+                // Bottom primary triangle
+                g2d.drawLine(len / 8, len / 4, len * 7 / 8, len / 4);
+                g2d.drawLine(len * 7 / 8, len / 4, len / 2, len);
+                g2d.drawLine(len / 2, len, len / 8, len / 4);
+            }
+        };
+        label.setSize(len, len);
+        return label;
+    }
 
     /**
      * Sets whether debug lines should be drawn for this frame.
@@ -2541,28 +2563,27 @@ public class CyderFrame extends JFrame {
         drawDebugLines = draw;
 
         if (draw) {
-            Color lineColor = ColorUtil.getInverseColor(backgroundColor);
+            Color lineColor = background == null
+                    ? ColorUtil.getInverseColor(backgroundColor)
+                    : ColorUtil.getDominantColorInverse(background);
 
-            if (background != null) {
-                lineColor = ColorUtil.getDominantColorInverse(background);
-            }
-
-            debugImageLabel = new JLabel();
-            debugImageLabel.setIcon(neffexIcon);
-            debugImageLabel.setBounds(
-                    getWidth() / 2 - neffexIcon.getIconWidth() / 2,
-                    getHeight() / 2 - neffexIcon.getIconHeight() / 2,
-                    neffexIcon.getIconWidth(), neffexIcon.getIconHeight());
+            // todo method for generating this
+            // todo have prop for this defaulted to true
+            int debugIconLength = 175;
+            int debugIconStrokeWidth = 10;
+            debugImageLabel = generateNeffexLabel(debugIconLength, CyderColors.navy, debugIconStrokeWidth);
+            debugImageLabel.setLocation(getWidth() / 2 - debugIconLength / 2,
+                    getHeight() / 2 - debugIconLength / 2);
             add(debugImageLabel);
 
             debugXLabel = new JLabel();
-            debugXLabel.setBounds(getWidth() / 2 - debugLineLen / 2, 0, debugLineLen, getHeight());
+            debugXLabel.setBounds(getWidth() / 2 - debugLineLength / 2, 0, debugLineLength, getHeight());
             debugXLabel.setOpaque(true);
             debugXLabel.setBackground(lineColor);
             add(debugXLabel);
 
             debugYLabel = new JLabel();
-            debugYLabel.setBounds(0, getHeight() / 2 - debugLineLen / 2, getWidth(), debugLineLen);
+            debugYLabel.setBounds(0, getHeight() / 2 - debugLineLength / 2, getWidth(), debugLineLength);
             debugYLabel.setOpaque(true);
             debugYLabel.setBackground(lineColor);
             add(debugYLabel);

@@ -1475,6 +1475,7 @@ public enum Console {
         @Override
         public void actionPerformed(ActionEvent e) {
             debugLines = !debugLines;
+            getInputHandler().println((debugLines ? "Drawing" : "Hiding") + " debug lines");
             UiUtil.getCyderFrames().forEach(frame -> frame.drawDebugLines(debugLines));
         }
     };
