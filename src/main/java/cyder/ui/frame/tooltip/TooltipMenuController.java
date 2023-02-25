@@ -47,7 +47,7 @@ import static cyder.strings.CyderStrings.*;
 /**
  * A controller for the tooltip menu of a particular {@link CyderFrame}.
  */
-public class TooltipMenuController {
+public final class TooltipMenuController {
     /**
      * The tooltip menu component border color.
      */
@@ -559,17 +559,16 @@ public class TooltipMenuController {
             tooltipMenuItemFrameLocationGetterUtil.closeAllGetFrames();
 
             Rectangle absoluteMonitorBounds = UiUtil.getMergedMonitors();
-            String boundsString = openingBracket + (int) absoluteMonitorBounds.getX() + comma
-                    + (int) absoluteMonitorBounds.getY() + comma
-                    + (int) absoluteMonitorBounds.getWidth() + comma
+            String boundsString = openingBracket + (int) absoluteMonitorBounds.getX() + comma + space
+                    + (int) absoluteMonitorBounds.getY() + comma + space
+                    + (int) absoluteMonitorBounds.getWidth() + comma + space
                     + (int) absoluteMonitorBounds.getHeight() + closingBracket;
 
+            String prefix = UiUtil.areMultipleMonitors() ? "Merged monitor bounds: " : "Monitor bounds: ";
             GetInputBuilder builder = new GetInputBuilder("Frame location setter",
                     "Enter the requested top left frame location in the format: "
                             + quote + "x,y" + quote
-                            + HtmlTags.breakTag + "Note, this is absolute meaning if multiple monitors are being used,"
-                            + " they should be treated as a singular merged monitor"
-                            + HtmlTags.breakTag + "Valid bounds: " + boundsString)
+                            + HtmlTags.breakTag + prefix + boundsString)
                     .setRelativeTo(controlFrame)
                     .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
                     .setInitialFieldText(controlFrame.getX() + comma + controlFrame.getY());

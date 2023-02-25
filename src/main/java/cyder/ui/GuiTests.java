@@ -167,6 +167,7 @@ public final class GuiTests {
         CyderGridLayout layout = new CyderGridLayout(3, 3);
 
         CyderTextField ctf = new CyderTextField();
+        ctf.setText(CyderStrings.QUICK_BROWN_FOX + CyderStrings.space);
         ctf.setSize(150, 40);
 
         CyderButton topNotify = new CyderButton("Top");

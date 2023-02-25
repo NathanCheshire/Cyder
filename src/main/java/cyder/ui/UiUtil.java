@@ -595,4 +595,13 @@ public final class UiUtil {
         return frame.getRestoreX() == CyderFrame.FRAME_NOT_YET_DRAGGED
                 || frame.getRestoreY() == CyderFrame.FRAME_NOT_YET_DRAGGED;
     }
+
+    /**
+     * Returns whether there are multiple monitors attached to this device currently.
+     *
+     * @return whether there are multiple monitors attached to this device currently
+     */
+    public static boolean areMultipleMonitors() {
+        return getGraphicsDevices().size() > 1;
+    }
 }

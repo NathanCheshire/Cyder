@@ -1,6 +1,7 @@
 package cyder.ui.frame.notification;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.DoNotCall;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
@@ -12,8 +13,7 @@ import cyder.ui.frame.enumerations.FrameType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,7 +23,7 @@ import static cyder.strings.CyderStrings.*;
  * A notification expressed through a secondary pane if the content of
  * a different notification exceeded the allowable size.
  */
-public class CyderInformNotification extends CyderNotification {
+public final class CyderInformNotification extends CyderNotification {
     /**
      * The notification string used for frame titles.
      */
@@ -73,6 +73,11 @@ public class CyderInformNotification extends CyderNotification {
      * The html text for this notification if a custom container is not specified.
      */
     private final String htmlText;
+
+    /**
+     * The listener used to reposition the notification frame relative to the relative frame.
+     */
+    private ComponentListener repositionNotificationFrameListener;
 
     /**
      * Constructs a new inform notification.
@@ -127,6 +132,13 @@ public class CyderInformNotification extends CyderNotification {
                 disappear();
             }
         });
+        repositionNotificationFrameListener = new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                setToMidAnimationPosition();
+            }
+        };
+        relativeFrame.addComponentListener(repositionNotificationFrameListener);
         notificationFrame.setFrameType(FrameType.POPUP);
         notificationFrame.finalizeAndShow(relativeFrame);
     }
@@ -152,6 +164,7 @@ public class CyderInformNotification extends CyderNotification {
      */
     @Override
     public void kill() {
+        relativeFrame.removeComponentListener(repositionNotificationFrameListener);
         killed.set(true);
     }
 
@@ -164,12 +177,13 @@ public class CyderInformNotification extends CyderNotification {
     }
 
     /**
-     * {@inheritDoc}
+     * Has no effect on {@link CyderInformNotification}s. Do not invoke this method.
+     *
+     * @param ignored the boolean to completely ignore
      */
     @Override
-    public void setHovered(boolean ignored) {
-        // Do nothing
-    }
+    @DoNotCall
+    public void setHovered(boolean ignored) {}
 
     /**
      * {@inheritDoc}
@@ -188,7 +202,7 @@ public class CyderInformNotification extends CyderNotification {
      */
     @Override
     public void setToStartAndEndingPosition() {
-        // Do nothing
+        if (notificationFrame != null) notificationFrame.setLocationRelativeTo(relativeFrame);
     }
 
     /**
@@ -196,7 +210,7 @@ public class CyderInformNotification extends CyderNotification {
      */
     @Override
     public void setToMidAnimationPosition() {
-        // Do nothing
+        if (notificationFrame != null) notificationFrame.setLocationRelativeTo(relativeFrame);
     }
 
     /**

@@ -31,7 +31,7 @@ import static cyder.strings.CyderStrings.quote;
 /**
  * A controller for the notification queue system of a particular {@link CyderFrame}.
  */
-public class NotificationController {
+public final class NotificationController {
     /**
      * The notification text for log statements.
      */
