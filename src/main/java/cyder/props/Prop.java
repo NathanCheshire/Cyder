@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.Immutable;
 import cyder.exceptions.FatalException;
 
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,6 +36,11 @@ public final class Prop<T> {
      * The cache of the prop value specified in a local prop file after being cast to T.
      */
     private T cachedCastedPropSpecifiedValue = null;
+
+    /**
+     * The instant at which this prop specified value was last attempted to be cached from the ini props.
+     */
+    private Instant lastAttemptedCacheTime = Instant.ofEpochMilli(0);
 
     /**
      * Constructs a new prop.
@@ -102,7 +108,7 @@ public final class Prop<T> {
      * @return the prop value
      */
     public T getValue() {
-        if (cachedCastedPropSpecifiedValue == null) {
+        if (oldCache()) {
             attemptToSetCachedCastedPropSpecifiedValue();
         }
 
@@ -111,6 +117,16 @@ public final class Prop<T> {
         }
 
         return type.cast(defaultValue);
+    }
+
+    /**
+     * Returns whether this prop last attempted to cache its custom value from
+     * an old load of the ini props.
+     *
+     * @return whether the custom cache should be attempted to be set
+     */
+    private boolean oldCache() {
+        return lastAttemptedCacheTime.isBefore(PropLoader.getLoadedInstant());
     }
 
     /**
@@ -149,6 +165,8 @@ public final class Prop<T> {
                 throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }
         }
+
+        lastAttemptedCacheTime = Instant.now();
     }
 
     /**

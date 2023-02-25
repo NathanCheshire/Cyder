@@ -2526,40 +2526,27 @@ public class CyderFrame extends JFrame {
      */
     private static final int debugLineLength = 4;
 
-    public static JLabel generateNeffexLabel(int len, Color color, int strokeWidth) {
-        JLabel label = new JLabel() {
-            @Override
-            public void paint(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(color);
-                g2d.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+    /**
+     * The length of the debug icon.
+     */
+    private static final int debugIconLength = 175;
 
-                // Top left triangle
-                g2d.drawLine(len / 4, 0, len / 2, len / 2);
-                g2d.drawLine(len / 2, len / 2, 0, len / 2);
-                g2d.drawLine(0, len / 2, len / 4, 0);
+    /**
+     * The stroke width for the debug icon.
+     */
+    private static final int debugIconStrokeWidth = 10;
 
-                // Top right triangle
-                g2d.drawLine(len / 2, len / 2, len * 3 / 4, 0);
-                g2d.drawLine(len * 3 / 4, 0, len, len / 2);
-                g2d.drawLine(len, len / 2, len / 2, len / 2);
-
-                // Bottom primary triangle
-                g2d.drawLine(len / 8, len / 4, len * 7 / 8, len / 4);
-                g2d.drawLine(len * 7 / 8, len / 4, len / 2, len);
-                g2d.drawLine(len / 2, len, len / 8, len / 4);
-            }
-        };
-        label.setSize(len, len);
-        return label;
-    }
+    /**
+     * The color to use for the debug icon.
+     */
+    private static final Color debugIconColor = CyderColors.navy;
 
     /**
      * Sets whether debug lines should be drawn for this frame.
      *
      * @param draw whether debug lines should be drawn for this frame
      */
-    public void drawDebugLines(boolean draw) {
+    public void toggleDebugLines(boolean draw) {
         drawDebugLines = draw;
 
         if (draw) {
@@ -2567,38 +2554,31 @@ public class CyderFrame extends JFrame {
                     ? ColorUtil.getInverseColor(backgroundColor)
                     : ColorUtil.getDominantColorInverse(background);
 
-            // todo method for generating this
-            // todo have prop for this defaulted to true
-            int debugIconLength = 175;
-            int debugIconStrokeWidth = 10;
-            debugImageLabel = generateNeffexLabel(debugIconLength, CyderColors.navy, debugIconStrokeWidth);
-            debugImageLabel.setLocation(getWidth() / 2 - debugIconLength / 2,
-                    getHeight() / 2 - debugIconLength / 2);
-            add(debugImageLabel);
+            int centerX = getWidth() / 2 - debugLineLength / 2;
+            int centerY = (getHeight() - BORDER_LEN - CyderDragLabel.DEFAULT_HEIGHT) / 2
+                    + CyderDragLabel.DEFAULT_HEIGHT - debugLineLength / 2;
+
+            if (Props.drawDebugIcon.getValue()) {
+                debugImageLabel = UiUtil.generateNeffexLabel(debugIconLength, debugIconColor, debugIconStrokeWidth);
+                debugImageLabel.setLocation(centerX - debugIconLength / 2, centerY - debugIconLength / 2);
+                add(debugImageLabel);
+            }
 
             debugXLabel = new JLabel();
-            debugXLabel.setBounds(getWidth() / 2 - debugLineLength / 2, 0, debugLineLength, getHeight());
+            debugXLabel.setBounds(centerX, 0, debugLineLength, getHeight());
             debugXLabel.setOpaque(true);
             debugXLabel.setBackground(lineColor);
             add(debugXLabel);
 
             debugYLabel = new JLabel();
-            debugYLabel.setBounds(0, getHeight() / 2 - debugLineLength / 2, getWidth(), debugLineLength);
+            debugYLabel.setBounds(0, centerY, getWidth(), debugLineLength);
             debugYLabel.setOpaque(true);
             debugYLabel.setBackground(lineColor);
             add(debugYLabel);
         } else {
-            if (this.equals(SwingUtilities.getRoot(debugXLabel))) {
-                remove(debugXLabel);
-            }
-
-            if (this.equals(SwingUtilities.getRoot(debugYLabel))) {
-                remove(debugYLabel);
-            }
-
-            if (this.equals(SwingUtilities.getRoot(debugImageLabel))) {
-                remove(debugImageLabel);
-            }
+            if (this.equals(SwingUtilities.getRoot(debugXLabel))) remove(debugXLabel);
+            if (this.equals(SwingUtilities.getRoot(debugYLabel))) remove(debugYLabel);
+            if (this.equals(SwingUtilities.getRoot(debugImageLabel))) remove(debugImageLabel);
         }
 
         revalidate();

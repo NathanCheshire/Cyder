@@ -604,4 +604,40 @@ public final class UiUtil {
     public static boolean areMultipleMonitors() {
         return getGraphicsDevices().size() > 1;
     }
+
+    /**
+     * Generates a neffex label used for the center of debug lines if enabled.
+     *
+     * @param length      the length of the label
+     * @param color       the color of the label
+     * @param strokeWidth the stroke width of the lines
+     * @return the generated neffex label
+     */
+    public static JLabel generateNeffexLabel(int length, Color color, int strokeWidth) {
+        JLabel label = new JLabel() {
+            @Override
+            public void paint(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(color);
+                g2d.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+                // Top left triangle
+                g2d.drawLine(length / 4, 0, length / 2, length / 2);
+                g2d.drawLine(length / 2, length / 2, 0, length / 2);
+                g2d.drawLine(0, length / 2, length / 4, 0);
+
+                // Top right triangle
+                g2d.drawLine(length / 2, length / 2, length * 3 / 4, 0);
+                g2d.drawLine(length * 3 / 4, 0, length, length / 2);
+                g2d.drawLine(length, length / 2, length / 2, length / 2);
+
+                // Bottom primary triangle
+                g2d.drawLine(length / 8, length / 4, length * 7 / 8, length / 4);
+                g2d.drawLine(length * 7 / 8, length / 4, length / 2, length);
+                g2d.drawLine(length / 2, length, length / 8, length / 4);
+            }
+        };
+        label.setSize(length, length);
+        return label;
+    }
 }

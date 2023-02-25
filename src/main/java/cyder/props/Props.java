@@ -287,6 +287,12 @@ public final class Props {
     public static final Prop<Boolean> logAttemptedNewlineOrWhitespaceCalls =
             new Prop<>("log_attempted_newline_or_whitespace_calls", false, Boolean.class);
 
+    /**
+     * Whether to draw the debug icon centered at the intersection of the debug lines when debug lines are present.
+     */
+    public static final Prop<Boolean> drawDebugIcon =
+            new Prop<>("draw_debug_icon", true, Boolean.class);
+
     // ---------------------------------------------------
     // Props which should not be logged or tracked by VCS.
     // ---------------------------------------------------

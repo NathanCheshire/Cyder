@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -32,6 +33,11 @@ public final class PropLoader {
      * The props map of keys to the string values which require casting.
      */
     private static ImmutableMap<String, String> props = ImmutableMap.of();
+
+    /**
+     * The instant at which the props were last loaded/reloaded.
+     */
+    private static Instant loadedInstant = Instant.now();
 
     /**
      * Whether the props have been loaded.
@@ -52,8 +58,10 @@ public final class PropLoader {
      */
     public static void reloadProps() {
         propsLoaded = false;
+
         props = ImmutableMap.of();
         loadProps();
+        loadedInstant = Instant.now();
     }
 
     /**
@@ -63,6 +71,15 @@ public final class PropLoader {
      */
     public static int getPropsSize() {
         return props.size();
+    }
+
+    /**
+     * Returns the instant at which the props were last loaded.
+     *
+     * @return the instant at which the props were last loaded
+     */
+    public static Instant getLoadedInstant() {
+        return loadedInstant;
     }
 
     /**

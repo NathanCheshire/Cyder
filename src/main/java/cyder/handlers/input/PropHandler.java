@@ -7,6 +7,7 @@ import cyder.logging.Logger;
 import cyder.props.PropLoader;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
 /**
  * A handler for utilities related to props.
@@ -31,7 +32,9 @@ public class PropHandler extends InputHandler {
                 Logger.log(LogTag.PROPS_ACTION, "Reloading props");
                 PropLoader.reloadProps();
                 Logger.log(LogTag.PROPS_ACTION, "Props reloaded");
-                getInputHandler().println("Reloaded props. Props loaded: " + PropLoader.getPropsSize());
+                int size = PropLoader.getPropsSize();
+                getInputHandler().println("Reloaded " + size + " "
+                        + StringUtil.getWordFormBasedOnNumber(size, "prop"));
             }
         } else ret = false;
 
