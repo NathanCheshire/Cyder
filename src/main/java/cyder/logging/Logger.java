@@ -238,13 +238,7 @@ public final class Logger {
         Preconditions.checkArgument(!tags.isEmpty());
         Preconditions.checkNotNull(statement);
 
-        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
-            if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
-                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
-            }
-
-            return;
-        }
+        if (checkForAttemptedWhitespaceLogCall(statement)) return;
 
         constructLogLinesAndLog(tags, statement.toString());
     }
@@ -260,14 +254,7 @@ public final class Logger {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(statement);
 
-        // todo duplicate code here
-        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
-            if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
-                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
-            }
-
-            return;
-        }
+        if (checkForAttemptedWhitespaceLogCall(statement)) return;
 
         ArrayList<String> tags = new ArrayList<>();
         StringBuilder logBuilder = new StringBuilder();
@@ -396,6 +383,26 @@ public final class Logger {
         }
 
         constructLogLinesAndLog(tags, logBuilder.toString());
+    }
+
+    /**
+     * Checks for whether the provided statement was null or pure whitespace and if so, logs the attempted
+     * invalid log call if specified in the props.
+     *
+     * @param statement the statement to test for being null or empty
+     * @param <T>       the type of statement
+     * @return whether the statement was null or empty
+     */
+    private static <T> boolean checkForAttemptedWhitespaceLogCall(T statement) {
+        if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
+            if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
+                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
