@@ -2319,7 +2319,7 @@ public class CyderFrame extends JFrame {
     // Pinning logic
     // -------------
 
-    // todo perhaps this could be a controller as well
+    // todo make controller for console pinning: ConsolePinningController.INSTANCE
 
     /**
      * Adds any {@link MouseMotionListener}s to the drag labels.
@@ -2470,24 +2470,15 @@ public class CyderFrame extends JFrame {
         super.setVisible(visible);
 
         if (visible) {
-            addToTaskbar();
-            determineInitialPinState();
+            Console.INSTANCE.addTaskbarIcon(this);
+            initializePinState();
         }
     }
 
     /**
-     * Adds this frame to the console taskbar.
+     * Initializes the state of the pin button based on the Console's value.
      */
-    @ForReadability
-    private void addToTaskbar() {
-        Console.INSTANCE.addTaskbarIcon(this);
-    }
-
-    /**
-     * Determines whether the drag label pin button should be enabled based on the console's pinned state.
-     */
-    @ForReadability
-    private void determineInitialPinState() {
+    private void initializePinState() {
         if (isBorderlessFrame()) return;
         CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
         if (console == null) return;
@@ -2590,7 +2581,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether debug lines should be drawn for this frame
      */
-    public boolean isDrawDebugLines() {
+    public boolean areDebugLinesDrawn() {
         return drawDebugLines;
     }
 
@@ -2680,16 +2671,11 @@ public class CyderFrame extends JFrame {
      * Sets the opacity of the frame to {@link CyderFrame#DRAG_OPACITY}.
      */
     public void startDragEvent() {
-        if (!shouldAnimateOpacity) {
-            return;
-        }
+        if (!shouldAnimateOpacity) return;
 
         CyderThreadRunner.submit(() -> {
             for (float i = DEFAULT_OPACITY ; i >= DRAG_OPACITY ; i -= OPACITY_DELTA) {
-                if (animatingOut) {
-                    break;
-                }
-
+                if (animatingOut) break;
                 setOpacity(i);
                 repaint();
 
@@ -2736,9 +2722,7 @@ public class CyderFrame extends JFrame {
      * Executes all callbacks registered in {@link #endDragEventCallbacks}.
      */
     private void executeEndDragEventCallbacks() {
-        for (Runnable runnable : endDragEventCallbacks) {
-            runnable.run();
-        }
+        endDragEventCallbacks.forEach(Runnable::run);
     }
 
     /**
@@ -2784,7 +2768,7 @@ public class CyderFrame extends JFrame {
     }
 
     // ----------------
-    // frame menu logic
+    // Frame menu logic
     // ----------------
 
     /**
@@ -2799,18 +2783,8 @@ public class CyderFrame extends JFrame {
      */
     public void setMenuType(MenuType currentMenuType) {
         if (currentMenuType == this.menuType) return;
-
         this.menuType = currentMenuType;
-
-        if (menuEnabled) {
-            boolean wasVisible = UiUtil.notNullAndVisible(menuLabel);
-
-            generateMenu();
-
-            if (wasVisible) {
-                showMenu();
-            }
-        }
+        revalidateMenu();
     }
 
     /**
@@ -2820,10 +2794,7 @@ public class CyderFrame extends JFrame {
         if (menuEnabled) {
             boolean wasVisible = UiUtil.notNullAndVisible(menuLabel);
             generateMenu();
-
-            if (wasVisible) {
-                showMenu();
-            }
+            if (wasVisible) showMenu();
         }
     }
 
@@ -2831,9 +2802,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the menu and shows it only if it was visible.
      */
     public void revalidateMenuIfVisible() {
-        if (UiUtil.notNullAndVisible(menuLabel)) {
-            revalidateMenu();
-        }
+        if (UiUtil.notNullAndVisible(menuLabel)) revalidateMenu();
     }
 
     /**
@@ -2851,7 +2820,7 @@ public class CyderFrame extends JFrame {
     public void lockMenuOut() {
         generateMenu();
         showMenu();
-        setMenuEnabled(false);
+        setMenuEnabled(false); // todo poorly named method?
     }
 
     /**
@@ -2874,7 +2843,17 @@ public class CyderFrame extends JFrame {
         if (menuButton != null) return;
 
         menuButton = new MenuButton();
-        menuButton.addClickAction(menuLabelClickListener);
+        menuButton.addClickAction(() -> {
+            if (menuEnabled) {
+                if (menuLabel == null) generateMenu();
+
+                if (menuLabel.isVisible()) {
+                    animateMenuOut();
+                } else {
+                    animateMenuIn();
+                }
+            }
+        });
         topDrag.addLeftButton(menuButton, 0);
     }
 
@@ -2903,44 +2882,16 @@ public class CyderFrame extends JFrame {
         @Override
         public boolean add(MenuItem menuItem) {
             boolean ret = false;
-
-            if (!menuItems.contains(menuItem)) {
-                ret = super.add(menuItem);
-            }
-
-            if (menuItems.size() == 1) {
-                addMenuButton();
-            }
-
+            if (!menuItems.contains(menuItem)) ret = super.add(menuItem);
+            if (menuItems.size() == 1) addMenuButton();
             return ret;
         }
 
         @Override
         public boolean remove(Object o) {
             boolean ret = super.remove(o);
-
-            if (menuItems.isEmpty()) {
-                removeMenuButton();
-            }
-
+            if (menuItems.isEmpty()) removeMenuButton();
             return ret;
-        }
-    };
-
-    /**
-     * The mouse listener for the menu if enabled and menu items are present.
-     */
-    private final Runnable menuLabelClickListener = () -> {
-        if (menuEnabled) {
-            if (menuLabel == null) {
-                generateMenu();
-            }
-
-            if (menuLabel.isVisible()) {
-                animateMenuOut();
-            } else {
-                animateMenuIn();
-            }
         }
     };
 
@@ -2968,12 +2919,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(text);
         Preconditions.checkArgument(!text.isEmpty());
 
-        for (int i = 0 ; i < menuItems.size() ; i++) {
-            if (menuItems.get(i).label().getText().equals(text)) {
-                removeMenuItem(i);
-                return;
-            }
-        }
+        menuItems.removeIf(menuItem -> menuItem.label().getText().equals(text));
     }
 
     /**
@@ -2982,8 +2928,6 @@ public class CyderFrame extends JFrame {
      * @param index the index of the menu item to remove
      */
     public void removeMenuItem(int index) {
-        checkNotNull(menuItems);
-        checkArgument(!menuItems.isEmpty());
         checkArgument(index >= 0);
         checkArgument(index < menuItems.size());
 
@@ -3130,10 +3074,9 @@ public class CyderFrame extends JFrame {
      * Animates the menu label in.
      */
     private void animateMenuIn() {
-        if (!menuLabel.isVisible()) {
-            generateMenu();
-        }
+        if (!menuLabel.isVisible()) generateMenu();
 
+        String threadName = getTitle() + " menu label animator";
         CyderThreadRunner.submit(() -> {
             try {
                 if (menuType == MenuType.PANEL) {
@@ -3158,7 +3101,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getTitle() + " Menu Label Animator");
+        }, threadName);
     }
 
     /**
@@ -3167,10 +3110,10 @@ public class CyderFrame extends JFrame {
     private void animateMenuOut() {
         checkNotNull(menuLabel);
 
-        if (menuLabel.getX() + menuLabel.getWidth() < 0 && menuLabel.getY() + menuLabel.getHeight() < 0) {
-            return;
-        }
+        if (menuLabel.getX() + menuLabel.getWidth() < 0
+                && menuLabel.getY() + menuLabel.getHeight() < 0) return;
 
+        String threadName = getTitle() + " menu label animator";
         CyderThreadRunner.submit(() -> {
             try {
                 if (menuType == MenuType.PANEL) {
@@ -3191,7 +3134,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getTitle() + " menu label animator");
+        }, threadName);
     }
 
     /**
@@ -3228,12 +3171,10 @@ public class CyderFrame extends JFrame {
 
     /**
      * Generates the menu based off of the current menu components
-     * and sets the location to the starting point for inward animation.
+     * and sets the location to the starting point in preparation for an {@link #animateMenuIn()} invocation.
      */
     private void generateMenu() {
-        if (menuLabel != null) {
-            menuLabel.setVisible(false);
-        }
+        if (menuLabel != null) menuLabel.setVisible(false);
 
         menuLabel = new JLabel();
         menuLabel.setOpaque(true);
@@ -3298,8 +3239,7 @@ public class CyderFrame extends JFrame {
         for (MenuItem menuItem : menuItems) {
             if (menuItem.state() != null) {
                 menuItem.label().setForeground(menuItem.state().get()
-                        ? CyderColors.regularRed
-                        : CyderColors.vanilla);
+                        ? CyderColors.regularRed : CyderColors.vanilla);
             }
         }
 

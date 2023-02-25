@@ -33,9 +33,14 @@ public final class Prop<T> {
     private final Class<T> type;
 
     /**
-     * The cache of the prop value specified in a local prop file after being cast to T.
+     * The cache of the default value after casting to the specified {@link #type}.
      */
-    private T cachedCastedPropSpecifiedValue = null;
+    private final T cachedDefaultValue;
+
+    /**
+     * The cache of the prop value specified in a local prop file after being cast to the type specified by T.
+     */
+    private T cachedCustomSpecifiedValue = null;
 
     /**
      * The instant at which this prop specified value was last attempted to be cached from the ini props.
@@ -59,6 +64,7 @@ public final class Prop<T> {
         this.key = key;
         this.defaultValue = defaultValue;
         this.type = type;
+        this.cachedDefaultValue = type.cast(defaultValue);
     }
 
     /**
@@ -94,29 +100,21 @@ public final class Prop<T> {
      * @return whether a value, that of the default one or a user-configured one, is present
      */
     public boolean valuePresent() {
-        if (type == String.class) {
-            return !getValue().toString().isEmpty();
-        } else {
-            return true;
-        }
+        if (type == String.class) return !getValue().toString().isEmpty();
+        return true;
     }
 
     /**
      * Returns the value of this prop by first checking the prop files for the
      * prop and if not present, returning the default value.
      *
-     * @return the prop value
+     * @return the value for this prop
      */
     public T getValue() {
-        if (oldCache()) {
-            attemptToSetCachedCastedPropSpecifiedValue();
-        }
+        if (oldCache()) attemptToSetCachedCustomSpecifiedValue();
+        if (cachedCustomSpecifiedValue != null) return cachedCustomSpecifiedValue;
 
-        if (cachedCastedPropSpecifiedValue != null) {
-            return cachedCastedPropSpecifiedValue;
-        }
-
-        return type.cast(defaultValue);
+        return cachedDefaultValue;
     }
 
     /**
@@ -130,37 +128,37 @@ public final class Prop<T> {
     }
 
     /**
-     * Attempts to set the cached casted prop specified value by invoking
-     * {@link PropLoader#getPropValueStringFromFile(String)} and providing {@link #key}.
+     * Attempts to set the cached custom prop specified value by invoking
+     * {@link PropLoader#getPropValueStringFromFile(String)} and providing this {@link #key}.
      * The result is then attempted to be casted to T and stored for future reference.
      */
-    private void attemptToSetCachedCastedPropSpecifiedValue() {
+    private void attemptToSetCachedCustomSpecifiedValue() {
         Optional<String> optionalStringValue = PropLoader.getPropValueStringFromFile(getKey());
 
         if (optionalStringValue.isPresent()) {
             String stringValue = optionalStringValue.get();
 
             if (type == PropValueList.class) {
-                cachedCastedPropSpecifiedValue = type.cast(new PropValueList(
+                cachedCustomSpecifiedValue = type.cast(new PropValueList(
                         ImmutableList.copyOf(stringValue.split(PropConstants.splitListsAtChar))));
             } else if (type == String.class) {
-                cachedCastedPropSpecifiedValue = type.cast(stringValue);
+                cachedCustomSpecifiedValue = type.cast(stringValue);
             } else if (type == Boolean.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Boolean.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Boolean.valueOf(stringValue));
             } else if (type == Integer.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Integer.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Integer.valueOf(stringValue));
             } else if (type == Double.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Double.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Double.valueOf(stringValue));
             } else if (type == Float.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Float.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Float.valueOf(stringValue));
             } else if (type == Byte.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Byte.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Byte.valueOf(stringValue));
             } else if (type == Short.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Short.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Short.valueOf(stringValue));
             } else if (type == Long.class) {
-                cachedCastedPropSpecifiedValue = type.cast(Long.valueOf(stringValue));
+                cachedCustomSpecifiedValue = type.cast(Long.valueOf(stringValue));
             } else if (type == Character.class) {
-                cachedCastedPropSpecifiedValue = type.cast(stringValue.charAt(0));
+                cachedCustomSpecifiedValue = type.cast(stringValue.charAt(0));
             } else {
                 throw new FatalException("Case for type not handled. Type: " + type + ", stringValue: " + stringValue);
             }
@@ -185,7 +183,8 @@ public final class Prop<T> {
                 && getValue().equals(other.getValue())
                 && getType().equals(other.getType())
                 && defaultValue.equals(other.getDefaultValue())
-                && Objects.equals(cachedCastedPropSpecifiedValue, other.cachedCastedPropSpecifiedValue);
+                && Objects.equals(cachedCustomSpecifiedValue, other.cachedCustomSpecifiedValue)
+                && lastAttemptedCacheTime.equals(other.lastAttemptedCacheTime);
     }
 
     /**
@@ -197,7 +196,8 @@ public final class Prop<T> {
         ret = 31 * ret + getValue().hashCode();
         ret = 31 * ret + type.hashCode();
         ret = 31 * ret + defaultValue.hashCode();
-        if (cachedCastedPropSpecifiedValue != null) ret = 31 * ret + cachedCastedPropSpecifiedValue.hashCode();
+        ret = 31 * ret + Objects.hashCode(cachedCustomSpecifiedValue);
+        ret = 31 * ret + Objects.hashCode(lastAttemptedCacheTime);
         return ret;
     }
 
@@ -211,7 +211,8 @@ public final class Prop<T> {
                 + ", value=" + getValue()
                 + ", type=" + type
                 + ", defaultValue=" + defaultValue
-                + ", cachedCastedPropSpecifiedValue=" + cachedCastedPropSpecifiedValue
+                + ", cachedCustomSpecifiedValue=" + cachedCustomSpecifiedValue
+                + ", lastAttemptedCacheTime=" + lastAttemptedCacheTime
                 + "}";
     }
 }
