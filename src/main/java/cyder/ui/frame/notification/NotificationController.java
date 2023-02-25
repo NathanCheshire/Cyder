@@ -4,10 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.annotations.CyderTest;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
-import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -163,9 +161,15 @@ public class NotificationController {
         Preconditions.checkNotNull(builder);
 
         JLabel mouseEventLabel = generateContainerIfNeededAndGenerateMouseEventLabel(builder);
-        CyderToastNotification toastNotification = new CyderToastNotification(builder);
-        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
-        notificationQueue.add(toastNotification);
+        if (setContainerBoundsExceedsCurrentLimit(builder)) {
+            CyderInformNotification informNotification = new CyderInformNotification(builder, controlFrame);
+            notificationQueue.add(informNotification);
+        } else {
+            CyderToastNotification toastNotification = new CyderToastNotification(builder);
+            mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
+            notificationQueue.add(toastNotification);
+        }
+
         startQueueIfNecessary();
     }
 
@@ -190,16 +194,24 @@ public class NotificationController {
         Preconditions.checkNotNull(builder);
 
         JLabel mouseEventLabel = generateContainerIfNeededAndGenerateMouseEventLabel(builder);
-        CyderBorderNotification toastNotification = new CyderBorderNotification(builder);
-        toastNotification.setVisible(false);
-        mouseEventLabel.addMouseListener(generateMouseAdapter(toastNotification, builder));
-        notificationQueue.add(toastNotification);
+        if (setContainerBoundsExceedsCurrentLimit(builder)) {
+            CyderInformNotification informNotification = new CyderInformNotification(builder, controlFrame);
+            notificationQueue.add(informNotification);
+        } else {
+            CyderBorderNotification borderNotification = new CyderBorderNotification(builder);
+            mouseEventLabel.addMouseListener(generateMouseAdapter(borderNotification, builder));
+            notificationQueue.add(borderNotification);
+        }
+
         startQueueIfNecessary();
     }
 
     /**
      * Generates the text container for the notification if a custom container is not specified and creates
      * the mouse event label for the interaction listener to be added to.
+     * <p>
+     * Note: the builder's container should be checked for being too large before using
+     * the returned generated mouse event label for a notification.
      *
      * @param builder the builder
      * @return the mouse event label for the notification
@@ -215,7 +227,6 @@ public class NotificationController {
                     builder.getHtmlText(), notificationFont, getMaximumAllowableWidth());
             int notificationWidth = bounds.getWidth() + notificationPadding;
             int notificationHeight = bounds.getHeight() + notificationPadding;
-            // todo check for being larger than allowable dimension
             String notificationText = bounds.getText();
             if (builder.shouldCalculateViewDuration()) {
                 builder.setViewDuration(msPerWord * HtmlUtil.cleanAndCountWords(notificationText));
@@ -229,11 +240,24 @@ public class NotificationController {
             mouseEventLabel = generateAndAddMouseEventLabel(textContainerLabel, tooltip);
             builder.setContainer(textContainerLabel);
         } else {
-            // todo check for custom container being too big
-            mouseEventLabel = generateAndAddMouseEventLabel(builder.getContainer(), tooltip);
+            Container container = builder.getContainer();
+            mouseEventLabel = generateAndAddMouseEventLabel(container, tooltip);
         }
 
         return mouseEventLabel;
+    }
+
+    /**
+     * Returns whether the provided calculated size for a notification exceeds the current limit for the control frame.
+     *
+     * @param builder the notification builder to validate the size of
+     * @return whether the size is in excess of the allowed size
+     */
+    public boolean setContainerBoundsExceedsCurrentLimit(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
+
+        return builder.getContainer().getWidth() > getMaximumAllowableWidth()
+                || builder.getContainer().getHeight() > getMaxAllowableHeight();
     }
 
     /**
@@ -356,11 +380,6 @@ public class NotificationController {
      */
     private int getMaxAllowableHeight() {
         return (int) Math.ceil(controlFrame.getWidth() * maxNotificationToFrameHeightRatio);
-    }
-
-    @CyderTest
-    public static void test() {
-        Console.INSTANCE.getConsoleCyderFrame().notify("This is a test");
     }
 
     /**

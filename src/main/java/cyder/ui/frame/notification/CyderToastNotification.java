@@ -137,6 +137,8 @@ public class CyderToastNotification extends CyderNotification {
         this.arrowDirection = builder.getNotificationDirection().getArrowDirection();
         this.container = builder.getContainer();
         this.htmlText = builder.getHtmlText();
+
+        setVisible(false);
     }
 
     /**
