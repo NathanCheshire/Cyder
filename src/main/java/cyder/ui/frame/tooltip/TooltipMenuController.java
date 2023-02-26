@@ -27,9 +27,6 @@ import cyder.utils.ColorUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -191,7 +188,7 @@ public final class TooltipMenuController {
 
         this.controlFrame = controlFrame;
 
-        initializeMenuItems();
+        resetMenuItems();
         constructTooltipMenuLabel();
     }
 
@@ -256,7 +253,7 @@ public final class TooltipMenuController {
      * The changes will be applied next time the label is shown.
      */
     public void revalidateMenuItems() {
-        initializeMenuItems();
+        resetMenuItems();
         constructTooltipMenuLabel();
     }
 
@@ -358,9 +355,10 @@ public final class TooltipMenuController {
     }
 
     /**
-     * Initializes the menu items the tooltip menu label will show.
+     * Resets the menu items the tooltip menu label will show to the
+     * default set, based on the current state of the control frame.
      */
-    private void initializeMenuItems() {
+    private void resetMenuItems() {
         menuItems.clear();
 
         menuItems.add(new TooltipMenuItem(TooltipMenuItemType.TO_BACK.getLabelText())
@@ -421,10 +419,7 @@ public final class TooltipMenuController {
                 }
             });
 
-            StyledDocument doc = menuPane.getStyledDocument();
-            SimpleAttributeSet alignment = new SimpleAttributeSet();
-            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
-            doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+            UiUtil.setJTextPaneDocumentAlignment(menuPane, UiUtil.JTextPaneAlignment.CENTER);
 
             menuScroll = new CyderScrollPane(menuPane);
             menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

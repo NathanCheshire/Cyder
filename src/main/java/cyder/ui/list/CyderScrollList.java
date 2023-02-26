@@ -7,6 +7,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.ToStringUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderOutputPane;
@@ -18,8 +19,6 @@ import javax.annotation.Nullable;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -82,11 +81,6 @@ public class CyderScrollList {
      * The inner JTextPane object to hold our printed components.
      */
     private JTextPane listPane;
-
-    /**
-     * The alignment property to give to the list pane.
-     */
-    private int itemAlignment = StyleConstants.ALIGN_LEFT;
 
     /**
      * The list of elements of for this scroll list.
@@ -174,15 +168,6 @@ public class CyderScrollList {
                 : CyderColors.navy, 5, false);
 
         Logger.log(LogTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Sets the item alignment of this scroll list.
-     *
-     * @param itemAlignment the item alignment to set
-     */
-    public void setItemAlignment(int itemAlignment) {
-        this.itemAlignment = itemAlignment;
     }
 
     /**
@@ -277,9 +262,7 @@ public class CyderScrollList {
         listPane.setOpaque(false);
         listPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
 
-        SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
-        StyleConstants.setAlignment(simpleAttributeSet, itemAlignment);
-        listPane.setParagraphAttributes(simpleAttributeSet, true);
+        UiUtil.setJTextPaneDocumentAlignment(listPane, UiUtil.JTextPaneAlignment.LEFT);
 
         refreshList();
         scrollLists.add(this);

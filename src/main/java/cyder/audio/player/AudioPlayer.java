@@ -37,6 +37,7 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
@@ -69,7 +70,8 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.*;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -2379,12 +2381,12 @@ public final class AudioPlayer {
         searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        // todo disable focus traversal to drag label buttons if on search view
+
         DefaultCaret searchResultsPaneCaret = (DefaultCaret) searchResultsPane.getCaret();
         searchResultsPaneCaret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
-        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
-        StyledDocument doc = searchResultsPane.getStyledDocument();
-        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+        UiUtil.setJTextPaneDocumentAlignment(searchResultsPane, UiUtil.JTextPaneAlignment.CENTER);
 
         searchResultsScroll = new CyderScrollPane(searchResultsPane);
         searchResultsScroll.getViewport().setAutoscrolls(false);
@@ -2480,11 +2482,6 @@ public final class AudioPlayer {
                                               String description,
                                               String channel,
                                               BufferedImage bi) {}
-
-    /**
-     * The alignment object used for menu alignment.
-     */
-    private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     /**
      * The string used for the information label when a YouTube query is triggered.

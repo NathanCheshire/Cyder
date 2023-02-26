@@ -58,9 +58,6 @@ import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -1010,7 +1007,6 @@ public final class UserEditor {
     static {
         CyderScrollList scrollList = new CyderScrollList(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT,
                 CyderScrollList.SelectionPolicy.SINGLE);
-        scrollList.setItemAlignment(StyleConstants.ALIGN_LEFT);
         fontScrollReference.set(scrollList);
     }
 
@@ -1912,10 +1908,7 @@ public final class UserEditor {
         removeMapPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(removeMapPanel);
 
-        StyledDocument doc = fieldInputsPane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        UiUtil.setJTextPaneDocumentAlignment(fieldInputsPane, UiUtil.JTextPaneAlignment.CENTER);
         fieldInputsPane.setCaretPosition(0);
 
         CyderPartitionedLayout fieldsPartitionedInput = new CyderPartitionedLayout();

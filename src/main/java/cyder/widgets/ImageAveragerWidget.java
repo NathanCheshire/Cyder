@@ -27,7 +27,6 @@ import cyder.utils.ImageUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -235,7 +234,6 @@ public final class ImageAveragerWidget {
             imagesScroll.addElementWithDoubleClickAction(filename, openFileRunnable);
         });
 
-        imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);
         imagesScrollLabel = imagesScroll.generateScrollList();
         imagesScrollLabel.setBounds(10, 10, imagesScrollLen, imagesScrollLen);
         imageScrollLabelHolder.setBackground(CyderColors.vanilla);

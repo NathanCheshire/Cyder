@@ -22,6 +22,9 @@ import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -646,5 +649,34 @@ public final class UiUtil {
                 runnable.run();
             }
         };
+    }
+
+    /**
+     * The alignment for a {@link JTextPane}s {@link javax.swing.text.StyledDocument}.
+     */
+    public enum JTextPaneAlignment {
+        LEFT, CENTER, RIGHT
+    }
+
+    /**
+     * Sets the alignment of the provided text pane's document to the provided alignment.
+     *
+     * @param jTextPane the text pane
+     * @param alignment the desired alignment
+     */
+    public static void setJTextPaneDocumentAlignment(JTextPane jTextPane, JTextPaneAlignment alignment) {
+        Preconditions.checkNotNull(jTextPane);
+        Preconditions.checkNotNull(alignment);
+
+        int alignmentConstant = switch (alignment) {
+            case LEFT -> StyleConstants.ALIGN_LEFT;
+            case CENTER -> StyleConstants.ALIGN_CENTER;
+            case RIGHT -> StyleConstants.ALIGN_RIGHT;
+        };
+
+        StyledDocument document = jTextPane.getStyledDocument();
+        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+        StyleConstants.setAlignment(attributeSet, alignmentConstant);
+        document.setParagraphAttributes(0, document.getLength(), attributeSet, false);
     }
 }

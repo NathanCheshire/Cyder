@@ -46,9 +46,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
@@ -3229,10 +3226,7 @@ public class CyderFrame extends JFrame {
 
         menuLabel.add(menuScroll);
 
-        StyledDocument doc = menuPane.getStyledDocument();
-        SimpleAttributeSet alignment = new SimpleAttributeSet();
-        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
-        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+        UiUtil.setJTextPaneDocumentAlignment(menuPane, UiUtil.JTextPaneAlignment.LEFT);
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");

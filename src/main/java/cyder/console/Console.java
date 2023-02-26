@@ -65,8 +65,6 @@ import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
@@ -1647,11 +1645,6 @@ public enum Console {
     private final LinkedList<CyderFrame> currentActiveFrames = new LinkedList<>();
 
     /**
-     * The alignment object used for menu alignment.
-     */
-    private final SimpleAttributeSet alignment = new SimpleAttributeSet();
-
-    /**
      * The current taskbar menu frame items.
      */
     private ImmutableList<TaskbarIcon> currentFrameMenuItems = ImmutableList.of();
@@ -1674,11 +1667,8 @@ public enum Console {
 
         boolean compactMode = UserDataManager.INSTANCE.compactTextMode();
 
-        StyleConstants.setAlignment(alignment, compactMode
-                ? StyleConstants.ALIGN_LEFT : StyleConstants.ALIGN_CENTER);
-
-        StyledDocument doc = menuPane.getStyledDocument();
-        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+        UiUtil.setJTextPaneDocumentAlignment(menuPane, compactMode
+                ? UiUtil.JTextPaneAlignment.LEFT : UiUtil.JTextPaneAlignment.CENTER);
 
         ImmutableList<TaskbarIcon> frameMenuItems = getCurrentFrameTaskbarIcons(compactMode);
         ImmutableList<TaskbarIcon> mappedExeItems = getMappedExeTaskbarIcons(compactMode);
