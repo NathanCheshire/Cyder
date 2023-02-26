@@ -3397,6 +3397,7 @@ public enum Console {
         UserDataManager.INSTANCE.setLoggedIn(false);
         UserDataManager.INSTANCE.removeManagement();
         NetworkUtil.terminateHighPingChecker();
+        uuid = null;
     }
 
     /**

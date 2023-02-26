@@ -28,6 +28,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.login.LoginHandler;
 import cyder.network.NetworkUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -41,6 +42,8 @@ import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.frame.notification.NotificationBuilder;
+import cyder.ui.frame.notification.NotificationDirection;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.list.CyderScrollList;
 import cyder.ui.pane.CyderOutputPane;
@@ -2003,7 +2006,9 @@ public final class UserEditor {
             String doubleHash = SecurityUtil.toHexString(SecurityUtil.getSha256(
                     SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray()));
             UserDataManager.INSTANCE.setPassword(doubleHash);
-            editUserFrame.notify("Password successfully changed");
+            UserData.password.getOnChangeRunnable().ifPresent(Runnable::run);
+            LoginHandler.getLoginFrame().notify(new NotificationBuilder("Password successfully updated")
+                    .setNotificationDirection(NotificationDirection.TOP_RIGHT));
         } else {
             editUserFrame.notify(passwordValid.getMessage());
         }

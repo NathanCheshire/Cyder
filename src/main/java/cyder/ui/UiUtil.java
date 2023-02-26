@@ -109,7 +109,7 @@ public final class UiUtil {
     public static final int MAX_FRAME_TITLE_FILE_LENGTH = 15;
 
     /**
-     * Saves a screenshot of the CyderFrame with the provided name to the user's Files/ directory.
+     * Saves a screenshot of the CyderFrame with the provided name to the current user's Files/ directory.
      *
      * @param cyderFrame the CyderFrame to screenshot
      */

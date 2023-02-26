@@ -69,7 +69,6 @@ public final class UserData<T> {
     public static final String PAINT_CLOCK_WIDGET_HOUR_LABELS = "paintClockWidgetHourLabels";
     public static final String SHOW_CLOCK_WIDGET_SECOND_HAND = "showClockWidgetSecondHand";
     public static final String SCREEN_STAT = "screenStat";
-    public static final String FILL_OPACITY = "fillOpacity";
     public static final String SHOWN_WELCOME_MESSAGE = "shownWelcomeMessage";
     public static final String ACCOUNT_CREATION_TIME = "accountCreationTime";
     public static final String MAPPED_EXECUTABLES = "mappedExecutables";
@@ -96,7 +95,7 @@ public final class UserData<T> {
     public static final UserData<String> password = new Builder<>(PASSWORD, String.class)
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, PASSWORD);
-                // todo log out user and show login screen?
+                Console.INSTANCE.logoutCurrentUserAndShowLoginFrame();
             }).build();
 
     /**
@@ -452,10 +451,7 @@ public final class UserData<T> {
     public static final UserData<Boolean> shouldPersistNotifications =
             new Builder<>(SHOULD_PERSIST_NOTIFICATIONS, Boolean.class)
                     .setDescription("Whether notifications should be persited until manually dismissed")
-                    .setOnChangeFunction(() -> {
-                        Logger.log(LogTag.USER_DATA, SHOULD_PERSIST_NOTIFICATIONS);
-                        // todo hook to remove persisting notifications
-                    }).build();
+                    .setOnChangeFunction(() -> Logger.log(LogTag.USER_DATA, SHOULD_PERSIST_NOTIFICATIONS)).build();
 
     /**
      * The do animations data piece.

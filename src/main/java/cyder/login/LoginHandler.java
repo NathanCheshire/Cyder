@@ -424,7 +424,6 @@ public final class LoginHandler {
      *
      * @param event the key event
      */
-    @ForReadability
     private static void loginFieldEnterAction(KeyEvent event) {
         char keyChar = event.getKeyChar();
         if (checkForBackspaceIntoBashString(keyChar)) {
@@ -619,7 +618,7 @@ public final class LoginHandler {
         switch (validateUsernamePassword(name, hashedPass)) {
             case FAILED -> {
                 printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
-                loginField.requestFocusInWindow();
+                if (!autoCypherAttempt) loginField.requestFocusInWindow();
                 return false;
             }
             case UNKNOWN_USER -> {
