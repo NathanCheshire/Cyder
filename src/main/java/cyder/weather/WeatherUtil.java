@@ -77,10 +77,7 @@ public final class WeatherUtil {
         Preconditions.checkState(Props.weatherKey.valuePresent());
 
         String weatherKey = Props.weatherKey.getValue();
-
-        if (weatherKey.isEmpty()) {
-            return Optional.empty();
-        }
+        if (weatherKey.isEmpty()) return Optional.empty();
 
         String OpenString = CyderUrls.OPEN_WEATHER_BASE + locationString + APP_ID
                 + weatherKey + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();

@@ -54,7 +54,7 @@ public final class InformHandler {
      * @return a reference to the shown inform frame
      * @throws IllegalArgumentException if the provided text is null
      */
-    @CanIgnoreReturnValue /* calls don't always need the reference */
+    @CanIgnoreReturnValue /* Calls don't always need the reference */
     public static CyderFrame inform(String text) {
         Preconditions.checkNotNull(text);
 
@@ -68,7 +68,7 @@ public final class InformHandler {
      * @return a reference to the shown inform frame
      * @throws IllegalArgumentException if the provided builder is null
      */
-    @CanIgnoreReturnValue /* calls don't usually need the reference  */
+    @CanIgnoreReturnValue /* Calls don't usually need the reference  */
     public static CyderFrame inform(Builder builder) {
         Preconditions.checkNotNull(builder);
 

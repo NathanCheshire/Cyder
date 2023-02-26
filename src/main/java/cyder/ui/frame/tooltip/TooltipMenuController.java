@@ -219,7 +219,7 @@ public final class TooltipMenuController {
         Preconditions.checkArgument(y >= 0 && y <= controlFrame.getHeight());
 
         String localKey = SecurityUtil.generateUuid();
-        synchronized (controlFrame) {
+        synchronized (this) {
             currentFadeOutKey.set(localKey);
             cancelAllTasks();
         }
@@ -389,13 +389,11 @@ public final class TooltipMenuController {
         }
     }
 
-    // todo should think about synchronizing on something other than the control frame
-
     /**
      * Constructs the tooltip menu label for this controller.
      */
     private void constructTooltipMenuLabel() {
-        synchronized (controlFrame) {
+        synchronized (this) {
             tooltipMenuLabel = new JLabel() {
                 @Override
                 public void paint(Graphics g) {

@@ -1047,15 +1047,7 @@ public enum Console {
         changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setFocusPaintable(true);
         changeSizeButton.setToolTipText(ALTERNATE_BACKGROUND);
-        changeSizeButton.setClickAction(() -> {
-            reloadBackgrounds();
-
-            if (canSwitchBackground()) {
-                switchBackground();
-            } else if (reloadAndGetBackgrounds().size() == 1) {
-                consoleCyderFrame.notify(onlyOneBackgroundNotificationBuilder);
-            }
-        });
+        changeSizeButton.setClickAction(this::attemptToSwitchBackground);
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
         toggleAudioControls = new MenuButton();
@@ -2590,8 +2582,12 @@ public enum Console {
      * whatever size it was at before a background switch was requested.
      */
     @SuppressWarnings("UnnecessaryDefault")
-    private void switchBackground() {
+    private void attemptToSwitchBackground() {
         if (backgroundSwitchingLocked.get()) return;
+        if (backgrounds.size() == 1) {
+            consoleCyderFrame.notify(onlyOneBackgroundNotificationBuilder);
+            return;
+        }
         backgroundSwitchingLocked.set(true);
 
         ImageIcon nextBackground = (backgroundIndex + 1 == backgrounds.size()
@@ -2797,15 +2793,6 @@ public enum Console {
     @ForReadability
     private boolean isFullscreen() {
         return UserDataManager.INSTANCE.isFullscreen();
-    }
-
-    /**
-     * Returns whether background switch is allowable and possible.
-     *
-     * @return whether a background switch is allowable and possible
-     */
-    private boolean canSwitchBackground() {
-        return backgrounds.size() > 1;
     }
 
     /**
@@ -3564,15 +3551,16 @@ public enum Console {
      */
     public void originalChams() {
         try {
-            CyderFrame ref = getConsoleCyderFrame();
-            Rectangle monitorBounds = ref.getMonitorBounds();
+            CyderFrame frame = getConsoleCyderFrame();
+            Rectangle monitorBounds = frame.getMonitorBounds();
 
             consoleCyderFrame.setVisible(false);
             BufferedImage capture = RobotManager.INSTANCE.getRobot().createScreenCapture(monitorBounds);
             consoleCyderFrame.setVisible(true);
 
-            capture = ImageUtil.cropImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
-                    (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
+            int x = (int) (Math.abs(monitorBounds.getX()) + frame.getX());
+            int y = (int) (Math.abs(monitorBounds.getY()) + frame.getY());
+            capture = ImageUtil.cropImage(capture, x, y, frame.getWidth(), frame.getHeight());
 
             setBackground(ImageUtil.toImageIcon(capture));
             chamsActive.set(true);

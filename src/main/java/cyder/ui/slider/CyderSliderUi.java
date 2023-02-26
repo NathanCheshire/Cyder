@@ -496,9 +496,7 @@ public class CyderSliderUi extends BasicSliderUI {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (!slider.isEnabled()) {
-                return;
-            }
+            if (!slider.isEnabled()) return;
             currentMouseX -= thumbRect.width / 2;
             moveUpperThumb();
         }
@@ -508,9 +506,7 @@ public class CyderSliderUi extends BasicSliderUI {
          */
         @Override
         public void mousePressed(MouseEvent e) {
-            if (!slider.isEnabled()) {
-                return;
-            }
+            if (!slider.isEnabled()) return;
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
@@ -547,9 +543,7 @@ public class CyderSliderUi extends BasicSliderUI {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (!slider.isEnabled()) {
-                return;
-            }
+            if (!slider.isEnabled()) return;
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
@@ -557,7 +551,6 @@ public class CyderSliderUi extends BasicSliderUI {
             if (upperDragging) {
                 slider.setValueIsAdjusting(true);
                 moveUpperThumb();
-
             }
         }
 

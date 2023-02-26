@@ -292,8 +292,7 @@ public final class ImageAveragerWidget {
                 width.set(Math.max(currentImage.getWidth(), width.get()));
                 height.set(Math.max(currentImage.getHeight(), height.get()));
             } catch (Exception e) {
-                averagerFrame.inform("IO Failure", "Failed to read image file: "
-                        + file.getAbsolutePath());
+                averagerFrame.notify("Failed to read image file: " + file.getAbsolutePath());
             }
         });
 

@@ -76,10 +76,10 @@ public class UiHandler extends InputHandler {
             } else {
                 OsUtil.exit(ExitCondition.StandardControlledExit);
             }
-        } else if (getInputHandler().commandIs("quit") ||
-                getInputHandler().commandIs("exit") ||
-                getInputHandler().commandIs("leave") ||
-                getInputHandler().commandIs("close")) {
+        } else if (getInputHandler().commandIs("quit")
+                || getInputHandler().commandIs("exit")
+                || getInputHandler().commandIs("leave")
+                || getInputHandler().commandIs("close")) {
             if (UserDataManager.INSTANCE.shouldMinimizeOnClose()) {
                 UiUtil.minimizeAllFrames();
             } else {
@@ -132,8 +132,8 @@ public class UiHandler extends InputHandler {
         opacitySlider.setValue((int) (Console.INSTANCE.getConsoleCyderFrame().getOpacity()
                 * opacitySlider.getMaximum()));
         opacitySlider.addChangeListener(e -> {
-            Console.INSTANCE.getConsoleCyderFrame().setOpacity(opacitySlider.getValue()
-                    / (float) opacitySlider.getMaximum());
+            float opacity = opacitySlider.getValue() / (float) opacitySlider.getMaximum();
+            Console.INSTANCE.getConsoleCyderFrame().setOpacity(opacity);
             opacitySlider.repaint();
         });
         opacitySlider.setOpaque(false);

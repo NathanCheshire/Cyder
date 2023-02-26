@@ -97,10 +97,7 @@ public final class ToStringUtil {
         Preconditions.checkNotNull(component);
 
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(component);
-
-        if (topFrame != null) {
-            return topFrame.getTitle();
-        }
+        if (topFrame != null) return topFrame.getTitle();
 
         if (component instanceof CyderFrame) {
             return "Component itself is a CyderFrame";
@@ -123,8 +120,7 @@ public final class ToStringUtil {
         try {
             for (Method method : component.getClass().getMethods()) {
                 for (GetterMethodResult getterMethod : getterMethods) {
-                    if (method.getName().startsWith(getterMethod.startsWith)
-                            && method.getParameterCount() == 0) {
+                    if (method.getName().startsWith(getterMethod.startsWith) && method.getParameterCount() == 0) {
                         Object localInvokeResult = method.invoke(component);
 
                         if (localInvokeResult instanceof String localInvokeResultString) {
