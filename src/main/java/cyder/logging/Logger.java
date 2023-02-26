@@ -141,7 +141,6 @@ public final class Logger {
         zipPastLogs();
     }
 
-
     // todo use me on start from boostrap
     // todo how to convey that a specific log should not be concluded? if it's the arg passed in
     public static void initializeFromBoostrap(File previousSessionLogFile) {
@@ -154,16 +153,37 @@ public final class Logger {
                 Dynamic.buildDynamic(Dynamic.LOGS.getFileName()).getAbsolutePath()));
 
         loggerInitialized.set(true);
+        currentLog = previousSessionLogFile;
 
-        // todo don't delete provided
         if (Props.wipeLogsOnStart.getValue()) {
-            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getFileName()));
+            wipeLogsAsideFromCurrentLog();
         }
 
-        currentLog = previousSessionLogFile;
-        writeCyderAsciiArtToFile(currentLog); // todo write boostrap
+        writeBoostrapAsciiArtToFile(currentLog);
         log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
         startObjectCreationLogger();
+    }
+
+    /**
+     * Wipes all the log files aside from the current log file.
+     */
+    private static void wipeLogsAsideFromCurrentLog() {
+        File logsTopLevelDirectory = Dynamic.buildDynamic(Dynamic.LOGS.getFileName());
+        if (!logsTopLevelDirectory.exists()) return;
+
+        File[] subLogDirs = logsTopLevelDirectory.listFiles();
+        if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
+
+        Arrays.stream(subLogDirs).forEach(subLogDir -> {
+            if (subLogDir.equals(currentLog.getParentFile())) {
+                File[] logFiles = subLogDir.listFiles();
+                if (!ArrayUtil.nullOrEmpty(logFiles)) {
+                    Arrays.stream(logFiles).filter(logFile -> !logFile.equals(currentLog)).forEach(OsUtil::deleteFile);
+                }
+            } else {
+                OsUtil.deleteFile(subLogDir, true);
+            }
+        });
     }
 
     /**

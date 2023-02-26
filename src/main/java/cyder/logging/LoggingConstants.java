@@ -18,6 +18,11 @@ public final class LoggingConstants {
     static final int numNewLinesAfterCyderAsciiArt = 2;
 
     /**
+     * The number of new lines to write before and after the boostrap ascii art.
+     */
+    static final int numNewLinesBeforeAndAfterBoostrapArt = 2;
+
+    /**
      * The rate in ms at which to log the amount of objects created.
      */
     static final int objectCreationLogFrequency = 5000;
@@ -111,6 +116,13 @@ public final class LoggingConstants {
      */
     static final ImmutableList<String> cyderSignatureLines = ImmutableList.copyOf(
             FileUtil.getFileLines(StaticUtil.getStaticResource("cyder.txt"))
+    );
+
+    /**
+     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
+     */
+    static final ImmutableList<String> boostrapLines = ImmutableList.copyOf(
+            FileUtil.getFileLines(StaticUtil.getStaticResource("bootstrap.txt"))
     );
 
     /**

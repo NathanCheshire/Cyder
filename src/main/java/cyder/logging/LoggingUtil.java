@@ -337,6 +337,34 @@ public final class LoggingUtil {
     }
 
     /**
+     * Writes the bootstrap Ascii art to the provided file.
+     *
+     * @param file the file to write the boostrap Ascii art to
+     */
+    static void writeBoostrapAsciiArtToFile(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(file.isFile());
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) {
+                writer.newLine();
+            }
+
+            for (String line : boostrapLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+
+            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) {
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
      * Counts the number of objects created during the provided log.
      *
      * @param logFile the log file
