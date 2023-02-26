@@ -1120,7 +1120,8 @@ public enum Console {
         inputField.addFocusListener(inputFieldFocusAdapter);
 
         AtomicBoolean debugLinesShown = new AtomicBoolean(false);
-        KeyStroke debugKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+        KeyStroke debugKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+                InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK);
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(debugKeystroke, DEBUG_LINES);
         inputField.getActionMap().put(DEBUG_LINES, UiUtil.generateAbstractAction(() -> {
             debugLinesShown.set(!debugLinesShown.get());
