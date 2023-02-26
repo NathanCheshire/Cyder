@@ -65,7 +65,7 @@ final class MetaConstants {
     /**
      * The background used for tooltips
      */
-    static final Color tooltipBackgroundColor = new Color(0, 0, 0);
+    static final Color tooltipBackgroundColor = Color.black;
 
     /**
      * The foreground used for tooltips

@@ -1389,7 +1389,7 @@ public enum Console {
         ArrayList<File> musicList = new ArrayList<>();
 
         File userMusicDir = Dynamic.buildDynamic(
-                Dynamic.USERS.getFileName(), getUuid(), UserFile.MUSIC.getName());
+                Dynamic.USERS.getFileName(), uuid, UserFile.MUSIC.getName());
 
         File[] files = userMusicDir.listFiles();
         if (files != null && files.length > 0) {
@@ -2385,7 +2385,7 @@ public enum Console {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
             File[] backgroundFilesArr = Dynamic.buildDynamic(
-                    Dynamic.USERS.getFileName(), getUuid(),
+                    Dynamic.USERS.getFileName(), uuid,
                     UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 Arrays.stream(backgroundFilesArr)
@@ -3462,7 +3462,7 @@ public enum Console {
     public void saveScreenStat() {
         if (consoleCyderFrame == null || consoleCyderFrame.isDisposed()) return;
         if (consoleCyderFrame.getState() == UiConstants.FRAME_ICONIFIED) return;
-        if (getUuid() == null) return;
+        if (uuid == null) return;
 
         ScreenStat screenStat = UserDataManager.INSTANCE.getScreenStat();
         screenStat.setConsoleWidth(consoleCyderFrame.getWidth());

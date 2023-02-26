@@ -7,6 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.HtmlTags;
 import cyder.exceptions.FatalException;
+import cyder.files.FileUtil;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.managers.ProgramModeManager;
@@ -30,6 +31,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -380,8 +382,13 @@ public final class TooltipMenuController {
             menuItems.add(new TooltipMenuItem(TooltipMenuItemType.SCREENSHOT.getLabelText())
                     .addMouseClickAction(() -> tooltipMenuLabel.setVisible(false))
                     .addMouseClickAction(() -> {
-                        UiUtil.screenshotCyderFrame(controlFrame);
-                        controlFrame.notify("Saved screenshot to your user's Files directory");
+                        File saveFile = UiUtil.screenshotCyderFrame(controlFrame);
+                        if (saveFile == null) {
+                            controlFrame.notify("Failed to save screenshot");
+                        } else {
+                            controlFrame.notify("Saved screenshot as " + quote
+                                    + FileUtil.getFilename(saveFile) + quote);
+                        }
                     })
                     .buildMenuItemLabel());
         }

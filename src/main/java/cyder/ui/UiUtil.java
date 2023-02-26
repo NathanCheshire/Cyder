@@ -2,10 +2,13 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.HtmlTags;
+import cyder.enumerations.Dynamic;
 import cyder.enumerations.Extension;
 import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.FatalException;
@@ -19,6 +22,7 @@ import cyder.ui.drag.DragLabelButtonSize;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -94,9 +98,9 @@ public final class UiUtil {
      * @return whether the screenshot was successfully saved
      */
     public static boolean screenshotCyderFrame(String cyderFrameName) {
-        for (CyderFrame frame : getCyderFrames()) {
-            if (frame.getTitle().equalsIgnoreCase(cyderFrameName)) {
-                return screenshotCyderFrame(frame, generateScreenshotSaveFile(frame));
+        for (CyderFrame cyderFrame : getCyderFrames()) {
+            if (cyderFrame.getTitle().equalsIgnoreCase(cyderFrameName)) {
+                return screenshotCyderFrame(cyderFrame, generateScreenshotSaveFile(cyderFrame));
             }
         }
 
@@ -112,20 +116,42 @@ public final class UiUtil {
      * Saves a screenshot of the CyderFrame with the provided name to the current user's Files/ directory.
      *
      * @param cyderFrame the CyderFrame to screenshot
+     * @return the file reference the screenshot was saved to. Null indicates the save filed
      */
-    public static void screenshotCyderFrame(CyderFrame cyderFrame) {
+    @CanIgnoreReturnValue
+    public static File screenshotCyderFrame(CyderFrame cyderFrame) {
         Preconditions.checkNotNull(cyderFrame);
 
-        screenshotCyderFrame(cyderFrame, generateScreenshotSaveFile(cyderFrame));
+        File saveFile = generateScreenshotSaveFile(cyderFrame);
+        if (screenshotCyderFrame(cyderFrame, saveFile)) {
+            return saveFile;
+        }
+        return null;
     }
 
+    /**
+     * Generates the file to save the screenshot of the provided frame to.
+     *
+     * @param cyderFrame the frame
+     * @return the file to save the screenshot of the provided frame to
+     */
     @ForReadability
     private static File generateScreenshotSaveFile(CyderFrame cyderFrame) {
         String saveName = cyderFrame.getTitle()
                 .substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length())).trim();
         String timestampSuffix = TimeUtil.screenshotTime();
-        return UserUtil.createFileInUserSpace(saveName
-                + CyderStrings.underscore + timestampSuffix + Extension.PNG.getExtension());
+        String filename = saveName + CyderStrings.underscore + timestampSuffix + Extension.PNG.getExtension();
+
+        if (Console.INSTANCE.getUuid() != null) {
+            return UserUtil.createFileInUserSpace(filename);
+        } else {
+            File saveDir = Dynamic.buildDynamic(Dynamic.TEMP.getFileName());
+            File createFile = new File(saveDir, filename);
+            if (!OsUtil.createFile(createFile, true)) {
+                throw new FatalException("Failed to create file: " + createFile);
+            }
+            return createFile;
+        }
     }
 
     /**
