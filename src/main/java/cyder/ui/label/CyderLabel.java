@@ -80,7 +80,7 @@ public class CyderLabel extends JLabel {
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
 
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }

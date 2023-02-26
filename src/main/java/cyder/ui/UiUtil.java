@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
@@ -42,6 +43,17 @@ import java.util.stream.IntStream;
  * Utilities to control, update, modify, and create CyderFrames and ui components.
  */
 public final class UiUtil {
+    /**
+     * The map of supported prop configurable drag label button sizes to button size objects.
+     */
+    private static final ImmutableMap<String, DragLabelButtonSize> dragLabelButtonRepresentations =
+            new ImmutableMap.Builder<String, DragLabelButtonSize>()
+                    .put("small", DragLabelButtonSize.SMALL)
+                    .put("medium", DragLabelButtonSize.MEDIUM)
+                    .put("large", DragLabelButtonSize.LARGE)
+                    .put("full_drag_label", DragLabelButtonSize.FULL_DRAG_LABEL)
+                    .build();
+
     /**
      * Suppress default constructor.
      */
@@ -418,7 +430,7 @@ public final class UiUtil {
      *
      * @return the common mouse adapter linked to all cyder ui components to log when they are clicked
      */
-    public static MouseAdapter generateCommonUiLogMouseAdapter() {
+    public static MouseAdapter generateUiActionLoggingMouseAdapter() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -536,11 +548,9 @@ public final class UiUtil {
      * @return a list of all display modes for all connected graphics devices
      */
     public static ImmutableList<DisplayMode> getMonitorDisplayModes() {
-        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] devices = graphicsEnvironment.getScreenDevices();
-
         ArrayList<DisplayMode> ret = new ArrayList<>();
-        Arrays.stream(devices).forEach(device -> ret.add(device.getDisplayMode()));
+        Arrays.stream(GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices())
+                .forEach(device -> ret.add(device.getDisplayMode()));
 
         return ImmutableList.copyOf(ret);
     }
@@ -595,13 +605,7 @@ public final class UiUtil {
         Preconditions.checkNotNull(size);
         Preconditions.checkArgument(!size.isEmpty());
 
-        return switch (size) {
-            case "small" -> DragLabelButtonSize.SMALL;
-            case "medium" -> DragLabelButtonSize.MEDIUM;
-            case "large" -> DragLabelButtonSize.LARGE;
-            case "full_drag_label" -> DragLabelButtonSize.FULL_DRAG_LABEL;
-            default -> throw new FatalException("Invalid drag label button size specified by prop: " + size);
-        };
+        return dragLabelButtonRepresentations.get(size);
     }
 
     /**

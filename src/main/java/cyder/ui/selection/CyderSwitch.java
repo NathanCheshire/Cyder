@@ -165,7 +165,7 @@ public class CyderSwitch extends JLabel {
 
         setState(startingState);
 
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }

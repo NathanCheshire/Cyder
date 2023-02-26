@@ -154,7 +154,7 @@ public class CyderTextField extends JTextField {
         addHintTextFocusListener();
         addHintTextKeyListener();
         addAutoCapitalizationKeyListener();
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);

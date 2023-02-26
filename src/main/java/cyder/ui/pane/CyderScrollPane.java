@@ -66,7 +66,7 @@ public class CyderScrollPane extends JScrollPane {
         setBackground(CyderColors.empty);
         getViewport().setBackground(CyderColors.empty);
 
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -88,7 +88,7 @@ public class CyderScrollPane extends JScrollPane {
         setBackground(CyderColors.empty);
         getViewport().setBackground(CyderColors.empty);
 
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }

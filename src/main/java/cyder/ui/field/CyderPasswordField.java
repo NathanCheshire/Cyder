@@ -71,7 +71,7 @@ public class CyderPasswordField extends JPasswordField {
         setCaret(new CyderCaret(CyderColors.navy));
         setCaretColor(CyderColors.navy);
 
-        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addMouseListener(UiUtil.generateUiActionLoggingMouseAdapter());
         addSecurityFocusAdapter();
 
         shiftShowsPassword = new AtomicBoolean(true);
