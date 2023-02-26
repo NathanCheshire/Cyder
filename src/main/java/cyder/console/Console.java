@@ -350,6 +350,7 @@ public enum Console {
      * has been a while. The console load time is also printed to the output area.
      */
     private void performTimingChecks() {
+        // Session start logic
         long lastStart = UserDataManager.INSTANCE.getLastSessionStart();
         long millisSinceLastStart = System.currentTimeMillis() - lastStart;
         if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
@@ -360,6 +361,7 @@ public enum Console {
         }
         UserDataManager.INSTANCE.setLastSessionStart(System.currentTimeMillis());
 
+        // Welcome message logic
         if (!UserDataManager.INSTANCE.hasShownWelcomeMessage()) {
             String boldUsername = HtmlUtil.applyBold(UserDataManager.INSTANCE.getUsername());
             String notifyText = "Welcome to Cyder, " + boldUsername + "! Type \"help\" for command assists";
@@ -368,12 +370,21 @@ public enum Console {
             UserDataManager.INSTANCE.setShownWelcomeMessage(true);
         }
 
+        // Year anniversary logic
+        long accountActiveTime = System.currentTimeMillis() - UserDataManager.INSTANCE.getAccountCreationTime();
+        int days = (int) Math.floor(TimeUtil.millisToDays(accountActiveTime));
+        if (days % (int) TimeUtil.daysInYear == 0) {
+            int years = (int) (days / TimeUtil.daysInYear);
+            titleNotify("You've been using Cyder for " + years + " years! That's a long time, thank you.",
+                    CyderFonts.DEFAULT_FONT_LARGE, Duration.ofMillis(4000));
+        }
+
+        // Load time logic
         long loadTime = Instant.now().minusMillis(consoleLoadStartTime.toEpochMilli()).toEpochMilli();
         if (initialConsoleLoad) {
             loadTime = JvmUtil.getRuntime();
             initialConsoleLoad = false;
         }
-
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 

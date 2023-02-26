@@ -1200,8 +1200,6 @@ public enum UserDataManager {
         return user.getAccountCreationTime();
     }
 
-    // todo use account creation time maybe for year anniversary?
-
     /**
      * Sets the time at which this account was created.
      *
