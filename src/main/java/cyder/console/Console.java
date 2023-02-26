@@ -717,8 +717,8 @@ public enum Console {
                             && frame.getRelativeX() != FRAME_NOT_PINNED
                             && frame.getRelativeY() != FRAME_NOT_PINNED)
                     .forEach(frame -> UiUtil.requestFramePosition(
-                            consoleCyderFrame.getX() + frame.getRelativeX(),
-                            consoleCyderFrame.getY() + frame.getRelativeY(), frame
+                            new Point(consoleCyderFrame.getX() + frame.getRelativeX(),
+                                    consoleCyderFrame.getY() + frame.getRelativeY()), frame
                     ));
         }
     };
@@ -973,7 +973,7 @@ public enum Console {
             requestedConsoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
         }
         // This is more so to push the frame into bounds if any part was out of bounds on the requested monitor.
-        UiUtil.requestFramePosition(requestedConsoleX, requestedConsoleY, consoleCyderFrame);
+        UiUtil.requestFramePosition(new Point(requestedConsoleX, requestedConsoleY), consoleCyderFrame);
     }
 
     /**
@@ -2627,8 +2627,8 @@ public enum Console {
         consoleCyderFrame.setSize(width, height);
 
         // Bump frame into bounds if new size pushed part out of bounds
-        UiUtil.requestFramePosition((int) originalCenter.getX() - width / 2,
-                (int) originalCenter.getY() - height / 2, consoleCyderFrame);
+        UiUtil.requestFramePosition(new Point((int) originalCenter.getX() - width / 2,
+                (int) originalCenter.getY() - height / 2), consoleCyderFrame);
 
         ImageIcon combinedIcon = switch (lastSlideDirection) {
             case LEFT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.BOTTOM);
@@ -2957,7 +2957,7 @@ public enum Console {
 
         int topLeftX = (int) originalCenter.getX() - w / 2;
         int topLeftY = (int) originalCenter.getY() - h / 2;
-        UiUtil.requestFramePosition(topLeftX, topLeftY, consoleCyderFrame);
+        UiUtil.requestFramePosition(new Point(topLeftX, topLeftY), consoleCyderFrame);
 
         revalidateInputAndOutputBounds();
 
@@ -3333,8 +3333,8 @@ public enum Console {
         consoleCyderFrame.setLocationOnScreen(screenPosition);
 
         getPinnedFrames().forEach(relativeFrame -> UiUtil.requestFramePosition(
-                relativeFrame.xOffset() + consoleCyderFrame.getX(),
-                relativeFrame.yOffset() + consoleCyderFrame.getY(),
+                new Point(relativeFrame.xOffset() + consoleCyderFrame.getX(),
+                        relativeFrame.yOffset() + consoleCyderFrame.getY()),
                 relativeFrame.frame()));
     }
 

@@ -148,28 +148,18 @@ public final class UiUtil {
     }
 
     /**
-     * Attempts to set the provided frame to the monitor specified,
-     * if valid, with the provided starting location.
+     * Attempts to set the provided frame to the requested position.
+     * Note this position is relative meaning absolute positioning should be used
+     * if multiple monitors are being used on the host OS.
+     * <p>
+     * This method also ensures that no part of the frame goes out of bounds of the monitor(s) meaning
+     * the requested position might not be the position the frame is set to.
      *
-     * @param requestPoint the point to position the frame's top left at
+     * @param requestPoint the point to set the frame to if valid
      * @param frame        the frame to set the location/size of
      */
     public static void requestFramePosition(Point requestPoint, CyderFrame frame) {
         Preconditions.checkNotNull(requestPoint);
-        Preconditions.checkNotNull(frame);
-
-        requestFramePosition(requestPoint.x, requestPoint.y, frame);
-    }
-
-    /**
-     * Attempts to set the provided frame to the monitor specified,
-     * if valid, with the provided starting location.
-     *
-     * @param requestedX the x value to set the frame to
-     * @param requestedY the y value to set the frame to
-     * @param frame      the frame to set the location/size of
-     */
-    public static void requestFramePosition(int requestedX, int requestedY, CyderFrame frame) {
         Preconditions.checkNotNull(frame);
 
         Rectangle mergedMonitors = getMergedMonitors();
@@ -178,6 +168,9 @@ public final class UiUtil {
         int absoluteMinY = mergedMonitors.y;
         int totalWidth = mergedMonitors.width;
         int totalHeight = mergedMonitors.height;
+
+        int requestedX = (int) requestPoint.getX();
+        int requestedY = (int) requestPoint.getY();
 
         // Correct complete horizontal over/underflow
         if (requestedX + frame.getWidth() > absoluteMinX + totalWidth) {

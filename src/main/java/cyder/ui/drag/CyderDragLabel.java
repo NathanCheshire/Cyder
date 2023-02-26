@@ -203,7 +203,8 @@ public class CyderDragLabel extends JLabel {
             public void windowDeiconified(WindowEvent e) {
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
-                UiUtil.requestFramePosition(effectFrame.getRestoreX(), effectFrame.getRestoreY(), effectFrame);
+                UiUtil.requestFramePosition(new Point(effectFrame.getRestoreX(),
+                        effectFrame.getRestoreY()), effectFrame);
             }
 
             /**

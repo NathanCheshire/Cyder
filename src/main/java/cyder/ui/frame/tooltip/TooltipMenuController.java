@@ -230,7 +230,7 @@ public final class TooltipMenuController {
         opacity.set(ColorUtil.opacityRange.upperEndpoint());
         menuScroll.setVisible(true);
         tooltipMenuLabel.repaint();
-        tooltipMenuLabel.setLocation(calculateLocation(triggerPoint, triggerLabel));
+        tooltipMenuLabel.setLocation(calculatePlacementPoint(triggerPoint, triggerLabel));
         tooltipMenuLabel.setVisible(true);
 
         startNewNoInteractionFadeOutWaiter(localKey);
@@ -492,7 +492,7 @@ public final class TooltipMenuController {
      * @param generatingLabel the label which generated the generating event
      * @return the point to place the tooltip menu label at on this frame
      */
-    private Point calculateLocation(Point generatingPoint, CyderDragLabel generatingLabel) {
+    private Point calculatePlacementPoint(Point generatingPoint, CyderDragLabel generatingLabel) {
         Preconditions.checkNotNull(generatingPoint);
         Preconditions.checkNotNull(generatingLabel);
         Preconditions.checkNotNull(tooltipMenuLabel);
@@ -562,6 +562,7 @@ public final class TooltipMenuController {
                     + (int) absoluteMonitorBounds.getWidth() + comma + space
                     + (int) absoluteMonitorBounds.getHeight() + closingBracket;
 
+            String initialFieldText = controlFrame.getX() + comma + controlFrame.getY();
             String prefix = UiUtil.areMultipleMonitors() ? "Merged monitor bounds: " : "Monitor bounds: ";
             GetInputBuilder builder = new GetInputBuilder("Frame location setter",
                     "Enter the requested top left frame location in the format: "
@@ -569,12 +570,13 @@ public final class TooltipMenuController {
                             + HtmlTags.breakTag + prefix + boundsString)
                     .setRelativeTo(controlFrame)
                     .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
-                    .setInitialFieldText(controlFrame.getX() + comma + controlFrame.getY());
+                    .setInitialFieldText(initialFieldText);
 
             Optional<String> optionalLocation = tooltipMenuItemFrameLocationGetterUtil.getInput(builder);
             if (optionalLocation.isEmpty()) return;
 
-            String location = optionalLocation.get();
+            String location = optionalLocation.get().trim();
+            if (location.equals(initialFieldText)) return;
             if (!location.contains(comma)) {
                 controlFrame.notify("Could not parse location" + " from input: " + quote + location + quote);
                 return;
@@ -628,7 +630,7 @@ public final class TooltipMenuController {
             }
 
             if (requestedX == controlFrame.getX() && requestedY == controlFrame.getY()) return;
-            UiUtil.requestFramePosition(requestedX, requestedY, controlFrame);
+            UiUtil.requestFramePosition(new Point(requestedX, requestedY), controlFrame);
             NotificationBuilder notificationBuilder = new NotificationBuilder("Set frame location to request: "
                     + quote + requestedX + comma + requestedY + quote)
                     .setNotificationDirection(NotificationDirection.TOP_LEFT);
@@ -641,8 +643,8 @@ public final class TooltipMenuController {
      */
     private void onFrameSizeTooltipMenuItemPressed() {
         CyderThreadRunner.submit(() -> {
-            int w = controlFrame.getWidth();
-            int h = controlFrame.getHeight();
+            int frameWidth = controlFrame.getWidth();
+            int frameHeight = controlFrame.getHeight();
 
             tooltipMenuItemFrameSizeGetterUtil.closeAllGetFrames();
 
@@ -653,19 +655,21 @@ public final class TooltipMenuController {
                     + comma + space + (int) maximumFrameSize.getWidth() + closingBracket;
             String heightBounds = openingBracket + (int) minimumFrameSize.getHeight()
                     + comma + space + (int) maximumFrameSize.getHeight() + closingBracket;
-            GetInputBuilder builder = new GetInputBuilder("Frame size setter",
+            String initialFieldText = frameWidth + comma + frameHeight;
+            GetInputBuilder getBuilder = new GetInputBuilder("Frame size setter",
                     "Enter the requested frame size in the format: "
                             + quote + "width" + comma + "height" + quote
                             + HtmlTags.breakTag + "Width bounds: " + widthBounds
                             + HtmlTags.breakTag + "Height bounds: " + heightBounds)
                     .setRelativeTo(controlFrame)
                     .setLabelFont(CyderFonts.DEFAULT_FONT_SMALL)
-                    .setInitialFieldText(w + comma + h);
+                    .setInitialFieldText(initialFieldText);
 
-            Optional<String> optionalWidthHeight = tooltipMenuItemFrameSizeGetterUtil.getInput(builder);
+            Optional<String> optionalWidthHeight = tooltipMenuItemFrameSizeGetterUtil.getInput(getBuilder);
             if (optionalWidthHeight.isEmpty()) return;
 
-            String widthHeight = optionalWidthHeight.get();
+            String widthHeight = optionalWidthHeight.get().trim();
+            if (widthHeight.equals(initialFieldText)) return;
             if (!widthHeight.contains(comma)) {
                 controlFrame.notify("Could not parse width and height"
                         + " from input: " + quote + widthHeight + quote);
@@ -720,7 +724,7 @@ public final class TooltipMenuController {
                 return;
             }
 
-            if (requestedWidth == w && requestedHeight == h) return;
+            if (requestedWidth == frameWidth && requestedHeight == frameHeight) return;
 
             Point center = controlFrame.getCenterPointOnScreen();
             controlFrame.setSize(requestedWidth, requestedHeight);

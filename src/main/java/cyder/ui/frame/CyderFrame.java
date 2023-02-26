@@ -2161,6 +2161,8 @@ public class CyderFrame extends JFrame {
         return restoreX;
     }
 
+    // todo get restore point method
+
     /**
      * Returns the restore y value.
      *
