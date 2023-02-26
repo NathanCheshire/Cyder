@@ -27,6 +27,7 @@ import cyder.ui.progress.AnimationDirection;
 import cyder.ui.progress.CyderProgressBar;
 import cyder.ui.progress.CyderProgressUI;
 import cyder.user.UserFile;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 
@@ -908,7 +909,7 @@ public class YouTubeAudioDownload {
         Preconditions.checkArgument(!nameWithoutExtension.isEmpty());
 
         File[] children = parentDirectory.listFiles();
-        if (children == null || children.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(children)) return;
 
         for (File child : children) {
             if (!FileUtil.getFilename(child).startsWith(nameWithoutExtension)) continue;

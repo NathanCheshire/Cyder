@@ -12,6 +12,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
+import cyder.utils.ArrayUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -125,7 +126,7 @@ public final class PropLoader {
 
         File[] files = directory.listFiles();
 
-        if (files == null || files.length == 0) {
+        if (ArrayUtil.nullOrEmpty(files)) {
             return ImmutableList.of();
         }
 

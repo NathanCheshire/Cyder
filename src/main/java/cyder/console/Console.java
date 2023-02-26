@@ -1113,26 +1113,35 @@ public enum Console {
     private void installInputFieldListeners() {
         inputField.addKeyListener(inputFieldKeyAdapter);
         inputField.addKeyListener(commandScrolling);
-
         inputField.addMouseWheelListener(fontSizerListener);
         inputField.addActionListener(inputFieldActionListener);
-
         inputField.addFocusListener(inputFieldFocusAdapter);
 
-        AtomicBoolean debugLinesShown = new AtomicBoolean(false);
         KeyStroke debugKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
                 InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK);
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(debugKeystroke, DEBUG_LINES);
         inputField.getActionMap().put(DEBUG_LINES, UiUtil.generateAbstractAction(() -> {
             debugLinesShown.set(!debugLinesShown.get());
-            getInputHandler().println((debugLinesShown.get() ? "Drawing" : "Erasing") + " debug lines");
-            UiUtil.getCyderFrames().forEach(frame -> frame.toggleDebugLines(debugLinesShown.get()));
+            refreshDebugLines();
         }));
 
         KeyStroke exitKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK);
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(exitKeystroke, FORCED_EXIT);
-        inputField.getActionMap().put(FORCED_EXIT,
-                UiUtil.generateAbstractAction(() -> OsUtil.exit(ExitCondition.ForcedImmediateExit)));
+        inputField.getActionMap().put(FORCED_EXIT, UiUtil.generateAbstractAction(
+                () -> OsUtil.exit(ExitCondition.ForcedImmediateExit)));
+    }
+
+    /**
+     * The state of debug lines.
+     */
+    private final AtomicBoolean debugLinesShown = new AtomicBoolean(false);
+
+    /**
+     * Refreshes the state of the debug lines depending on {@link #debugLinesShown}.
+     */
+    private void refreshDebugLines() {
+        getInputHandler().println((debugLinesShown.get() ? "Drawing" : "Erasing") + " debug lines");
+        UiUtil.getCyderFrames().forEach(frame -> frame.toggleDebugLines(debugLinesShown.get()));
     }
 
     /**

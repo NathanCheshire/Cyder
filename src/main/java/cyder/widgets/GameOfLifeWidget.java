@@ -34,6 +34,7 @@ import cyder.ui.selection.CyderSwitchState;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
 import cyder.user.UserUtil;
+import cyder.utils.ArrayUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.utils.StaticUtil;
@@ -816,7 +817,7 @@ public final class GameOfLifeWidget {
         if (statesDir.exists()) {
             File[] statesDirFiles = statesDir.listFiles();
 
-            if (statesDirFiles == null || statesDirFiles.length == 0) {
+            if (ArrayUtil.nullOrEmpty(statesDirFiles)) {
                 presetComboBox.getIterationButton().setEnabled(false);
                 return;
             }

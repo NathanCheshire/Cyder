@@ -22,6 +22,7 @@ import cyder.ui.UiUtil;
 import cyder.user.creation.InputValidation;
 import cyder.user.data.MappedExecutable;
 import cyder.user.data.MappedExecutables;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
@@ -262,7 +263,7 @@ public final class UserUtil {
         Preconditions.checkArgument(backgroundsDir.getName().equals(UserFile.BACKGROUNDS.getName()));
 
         File[] backgroundFiles = backgroundsDir.listFiles();
-        if (backgroundFiles == null || backgroundFiles.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(backgroundFiles)) return;
 
         ArrayList<File> validBackgroundFiles = new ArrayList<>();
         Arrays.stream(backgroundFiles)

@@ -17,10 +17,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.utils.ColorUtil;
-import cyder.utils.JvmUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +26,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -143,45 +141,29 @@ public final class Logger {
         zipPastLogs();
     }
 
-    /**
-     * Initializes the logger for logging by invoking the following actions:
-     *
-     * <ul>
-     *     <li>Wiping past logs if enabled</li>
-     *     <li>Validating the provided log file</li>
-     *     <li>Writing the Cyder Ascii art to the generated log file</li>
-     *     <li>Logging the JVM entry with the OS username</li>
-     *     <li>Starting the object creation logger</li>
-     *     <li>Concluding past logs which may have ended abruptly</li>
-     *     <li>Consolidating past log lines</li>
-     *     <li>Zipping past logs directories</li>
-     * </ul>
-     *
-     * @param logFile the log file to use
-     */
+
     // todo use me on start from boostrap
-    public static void initializeWithLogFile(File logFile) {
+    // todo how to convey that a specific log should not be concluded? if it's the arg passed in
+    public static void initializeFromBoostrap(File previousSessionLogFile) {
         Preconditions.checkState(!loggerInitialized.get());
-        Preconditions.checkNotNull(logFile);
-        Preconditions.checkArgument(logFile.exists());
-        Preconditions.checkArgument(logFile.isFile());
-        Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
-        Preconditions.checkArgument(logFile.getParentFile().getParentFile().getAbsolutePath().equals(
+        Preconditions.checkNotNull(previousSessionLogFile);
+        Preconditions.checkArgument(previousSessionLogFile.exists());
+        Preconditions.checkArgument(previousSessionLogFile.isFile());
+        Preconditions.checkArgument(FileUtil.validateExtension(previousSessionLogFile, Extension.LOG.getExtension()));
+        Preconditions.checkArgument(previousSessionLogFile.getParentFile().getParentFile().getAbsolutePath().equals(
                 Dynamic.buildDynamic(Dynamic.LOGS.getFileName()).getAbsolutePath()));
 
         loggerInitialized.set(true);
 
+        // todo don't delete provided
         if (Props.wipeLogsOnStart.getValue()) {
             OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getFileName()));
         }
 
-        currentLog = logFile;
-        writeCyderAsciiArtToFile(currentLog);
+        currentLog = previousSessionLogFile;
+        writeCyderAsciiArtToFile(currentLog); // todo write boostrap
         log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
         startObjectCreationLogger();
-        concludeLogs();
-        consolidateLogLines();
-        zipPastLogs();
     }
 
     /**
@@ -504,7 +486,7 @@ public final class Logger {
         }
 
         File[] subLogDirs = topLevelLogsDir.listFiles();
-        if (subLogDirs == null || subLogDirs.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
 
         for (File subLogDir : subLogDirs) {
             // Skip current log parent directory
@@ -534,14 +516,14 @@ public final class Logger {
 
         File[] subLogDirs = logsDir.listFiles();
 
-        if (subLogDirs == null || subLogDirs.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
 
         for (File subLogDir : subLogDirs) {
             if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) continue;
 
             File[] logFiles = subLogDir.listFiles();
 
-            if (logFiles == null || logFiles.length == 0) continue;
+            if (ArrayUtil.nullOrEmpty(logFiles)) continue;
 
             for (File logFile : logFiles) {
                 log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
@@ -608,31 +590,29 @@ public final class Logger {
         if (!logDir.exists()) return;
 
         File[] subLogDirs = logDir.listFiles();
-        if (subLogDirs == null || subLogDirs.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
 
-        for (File subLogDir : subLogDirs) {
-            if (!subLogDir.isDirectory()) continue;
-
-            File[] logFiles = subLogDir.listFiles();
-            if (logFiles == null || logFiles.length == 0) continue;
-
-            for (File logFile : logFiles) {
-                if (logFile.equals(getCurrentLogFile())) continue;
-
-                if (countTags(logFile, EOL) < 1) {
-                    try {
-                        concludeLog(logFile,
-                                ExitCondition.TrueExternalStop,
-                                getRuntimeFromLog(logFile),
-                                countExceptions(logFile),
-                                countObjectsCreatedFromLog(logFile),
-                                countThreadsRan(logFile));
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }
-            }
-        }
+        Arrays.stream(subLogDirs)
+                .filter(File::isDirectory)
+                .filter(subLogDir -> ArrayUtil.nullOrEmpty(subLogDir.listFiles()))
+                .forEach(subLogDir -> {
+                    //noinspection ConstantConditions, safe due to filtering
+                    Arrays.stream(subLogDir.listFiles())
+                            .filter(logFile -> !logFile.equals(currentLog))
+                            .filter(logFile -> countTags(logFile, EOL) < 1)
+                            .forEach(logFile -> {
+                                try {
+                                    concludeLog(logFile,
+                                            ExitCondition.TrueExternalStop,
+                                            getRuntimeFromLog(logFile),
+                                            countExceptions(logFile),
+                                            countObjectsCreatedFromLog(logFile),
+                                            countThreadsRan(logFile));
+                                } catch (Exception e) {
+                                    ExceptionHandler.handle(e);
+                                }
+                            });
+                });
     }
 
     /**

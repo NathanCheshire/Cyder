@@ -333,4 +333,15 @@ public final class ArrayUtil {
         return collection.stream().skip((int) (collection.size() * Math.random())).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Failed to get random element of collection"));
     }
+
+    /**
+     * Returns whether the provided array is null or empty.
+     *
+     * @param array the array
+     * @param <T>   the type contained in the array
+     * @return whether the provided array is null or empty
+     */
+    public static <T> boolean nullOrEmpty(T[] array) {
+        return array == null || array.length == 0;
+    }
 }

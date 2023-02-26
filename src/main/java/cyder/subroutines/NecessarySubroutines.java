@@ -111,7 +111,7 @@ public final class NecessarySubroutines {
             new Subroutine(() -> {
                 File[] fontFiles = StaticUtil.getStaticDirectory(fonts).listFiles();
 
-                if (fontFiles == null || fontFiles.length == 0) return false;
+                if (ArrayUtil.nullOrEmpty(fontFiles)) return false;
 
                 for (File fontFile : fontFiles) {
                     if (FileUtil.isSupportedFontExtension(fontFile)) {

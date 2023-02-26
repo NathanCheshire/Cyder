@@ -18,6 +18,7 @@ import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.TitlePosition;
 import cyder.user.UserDataManager;
+import cyder.utils.ArrayUtil;
 import cyder.utils.ImageUtil;
 
 import javax.swing.*;
@@ -217,7 +218,7 @@ public class ImageViewer {
         File[] neighbors = imageDirectory.isDirectory()
                 ? imageDirectory.listFiles()
                 : imageDirectory.getParentFile().listFiles();
-        if (neighbors == null || neighbors.length == 0) return;
+        if (ArrayUtil.nullOrEmpty(neighbors)) return;
         Arrays.stream(neighbors).filter(FileUtil::isSupportedImageExtension).forEach(validDirectoryImages::add);
     }
 

@@ -6,22 +6,21 @@ import cyder.utils.OsUtil;
  * Cyder exit codes and their corresponding meanings.
  */
 public enum ExitCondition {
-    RemoteShutdownFailure(-16, "Remote Shutdown Failure"),
-    SufficientSubroutineExit(-15, "A sufficient subroutine failed"),
-    WatchdogBootstrapFail(-14, "A UI freeze was detected by watchdog"
+    RemoteShutdownFailure(-15, "Remote Shutdown Failure"),
+    SufficientSubroutineExit(-14, "A sufficient subroutine failed"),
+    WatchdogBootstrapFail(-13, "A UI freeze was detected by watchdog"
             + " and the bootstrap attempt failed"),
-    WatchdogTimeout(-13, "Watchdog Timeout"),
-    NotReleased(-12, "Cyder Not Released"),
-    NecessarySubroutineExit(-11, "A necessary subroutine failed"),
-    MultipleInstancesExit(-10, "Multiple Instances Exit"),
-    ExternalStop(-9, "External Stop"),
-    JsonParsingException(-8, "JSON Parsing Exception"),
-    FatalTimeout(-7, "Fatal Timeout"),
-    CorruptedSystemFiles(-6, "Corrupted System Files"),
-    ImproperOS(-5, "Unsupported OS"),
-    CorruptedUser(-4, "Corrupted User"),
-    UserDeleted(-3, "User Deleted"),
-    ForcedImmediateExit(-2, "Forced Immediate Exit"),
+    WatchdogTimeout(-12, "Watchdog Timeout"),
+    NotReleased(-11, "Cyder Not Released"),
+    NecessarySubroutineExit(-10, "A necessary subroutine failed"),
+    MultipleInstancesExit(-9, "Multiple Instances Exit"),
+    ExternalStop(-8, "External Stop"),
+    JsonParsingException(-7, "JSON Parsing Exception"),
+    FatalTimeout(-6, "Fatal Timeout"),
+    CorruptedSystemFiles(-5, "Corrupted System Files"),
+    ImproperOS(-4, "Unsupported OS"),
+    CorruptedUser(-3, "Corrupted User"),
+    UserDeleted(-2, "User Deleted"),
 
     /**
      * The program was stopped in a way other than by Cyder.
@@ -41,7 +40,12 @@ public enum ExitCondition {
     /**
      * A remote shutdown was requested by a new instance of Cyder.
      */
-    RemoteShutdown(2, "Remote Shutdown");
+    RemoteShutdown(2, "Remote Shutdown"),
+
+    /**
+     * A forced immediate exit of Cyder with no animations.
+     */
+    ForcedImmediateExit(3, "Forced Immediate Exit");
 
     /**
      * The code associated with this ExitCondition.

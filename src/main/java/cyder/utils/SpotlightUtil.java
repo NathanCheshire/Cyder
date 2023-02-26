@@ -137,7 +137,7 @@ public final class SpotlightUtil {
         try {
             File[] files = getSpotlightsDirectory().listFiles();
 
-            if (files == null || files.length == 0) return;
+            if (ArrayUtil.nullOrEmpty(files)) return;
 
             int spotlightIndex = 0;
 
