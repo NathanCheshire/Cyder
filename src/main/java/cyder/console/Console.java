@@ -71,7 +71,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -1119,13 +1118,19 @@ public enum Console {
 
         inputField.addFocusListener(inputFieldFocusAdapter);
 
+        AtomicBoolean debugLinesShown = new AtomicBoolean(false);
         KeyStroke debugKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(debugKeystroke, DEBUG_LINES);
-        inputField.getActionMap().put(DEBUG_LINES, debugLinesAbstractAction);
+        inputField.getActionMap().put(DEBUG_LINES, UiUtil.generateAbstractAction(() -> {
+            debugLinesShown.set(!debugLinesShown.get());
+            getInputHandler().println((debugLinesShown.get() ? "Drawing" : "Erasing") + " debug lines");
+            UiUtil.getCyderFrames().forEach(frame -> frame.toggleDebugLines(debugLinesShown.get()));
+        }));
 
         KeyStroke exitKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK);
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(exitKeystroke, FORCED_EXIT);
-        inputField.getActionMap().put(FORCED_EXIT, forcedExitAbstractAction);
+        inputField.getActionMap().put(FORCED_EXIT,
+                UiUtil.generateAbstractAction(() -> OsUtil.exit(ExitCondition.ForcedImmediateExit)));
     }
 
     /**
@@ -1207,7 +1212,7 @@ public enum Console {
     };
 
     /**
-     * The chime mp3 file.
+     * The chime audio file.
      */
     private final File chimeFile = StaticUtil.getStaticResource("chime.mp3");
 
@@ -1250,14 +1255,15 @@ public enum Console {
             try {
                 while (true) {
                     if (!isClosed()) {
-                        int min = LocalDateTime.now().getMinute();
-                        int sec = LocalDateTime.now().getSecond();
+                        LocalDateTime now = LocalDateTime.now();
+                        int min = now.getMinute();
+                        int sec = now.getSecond();
+                        int hour = now.getHour();
 
-                        if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
-                            boolean chime = UserDataManager.INSTANCE.shouldPlayHourlyChimes();
-                            if (chime) {
+                        if (min == 0 && sec == 0 && lastChimeHour.get() != hour) {
+                            if (UserDataManager.INSTANCE.shouldPlayHourlyChimes()) {
                                 GeneralAndSystemAudioPlayer.playSystemAudio(chimeFile);
-                                lastChimeHour.set(LocalDateTime.now().getHour());
+                                lastChimeHour.set(hour);
                             }
                         }
 
@@ -1275,7 +1281,9 @@ public enum Console {
                     try {
                         refreshClockText();
                         ThreadUtil.sleepWithChecks(CLOCK_REFRESH_SLEEP_TIME, CLOCK_CHECK_FREQUENCY, consoleClosed);
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                        // Don't care
+                    }
                 }
             }
         }, IgnoreThread.ConsoleClockUpdater.getName());
@@ -1285,29 +1293,7 @@ public enum Console {
                 while (true) {
                     boolean busyIcon = UserDataManager.INSTANCE.shouldShowBusyAnimation();
                     if (!isClosed() && busyIcon) {
-                        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                        int threadCount = threadGroup.activeCount();
-                        Thread[] printThreads = new Thread[threadCount];
-                        threadGroup.enumerate(printThreads);
-
-                        int busyThreads = 0;
-
-                        for (int i = 0 ; i < threadCount ; i++) {
-                            boolean contains = false;
-
-                            for (IgnoreThread ignoreThread : IgnoreThread.values()) {
-                                if (ignoreThread.getName().equalsIgnoreCase(printThreads[i].getName())) {
-                                    contains = true;
-                                    break;
-                                }
-                            }
-
-                            if (!printThreads[i].isDaemon() && !contains) {
-                                busyThreads++;
-                            }
-                        }
-
-                        if (busyThreads == 0) {
+                        if (ThreadUtil.threadsIndicateCyderBusy()) {
                             shouldShowBusyAnimation.set(false);
                         } else if (!shouldShowBusyAnimation.get()) {
                             showBusyAnimation();
@@ -1403,8 +1389,8 @@ public enum Console {
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
 
-        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
-                getUuid(), UserFile.MUSIC.getName());
+        File userMusicDir = Dynamic.buildDynamic(
+                Dynamic.USERS.getFileName(), getUuid(), UserFile.MUSIC.getName());
 
         File[] files = userMusicDir.listFiles();
         if (files != null && files.length > 0) {
@@ -1429,73 +1415,18 @@ public enum Console {
     @ForReadability
     private void grayscaleImageCheck() {
         CyderThreadRunner.submit(() -> {
-            Image icon = null;
-
             try {
-                icon = new ImageIcon(ImageUtil.read(getCurrentBackground().getReferenceFile())).getImage();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            if (icon == null) return;
-
-            int w = icon.getWidth(null);
-            int h = icon.getHeight(null);
-
-            int[] pixels = new int[w * h];
-            PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
-
-            try {
-                pg.grabPixels();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            boolean grayscale = true;
-            for (int pixel : pixels) {
-                Color color = new Color(pixel);
-                if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                    grayscale = false;
-                    break;
+                if (ImageUtil.isGrayscale(ImageUtil.read(getCurrentBackground().getReferenceFile()))) {
+                    int grayscaleAudioRandomIndex = NumberUtil.generateRandomInt(GRAYSCALE_AUDIO_PATHS.size() - 1);
+                    GeneralAndSystemAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+                } else {
+                    GeneralAndSystemAudioPlayer.playGeneralAudio(introTheme);
                 }
-            }
-
-            if (grayscale) {
-                int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
-                int grayscaleAudioRandomIndex = NumberUtil.generateRandomInt(upperBound);
-                GeneralAndSystemAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
-            } else {
-                GeneralAndSystemAudioPlayer.playGeneralAudio(introTheme);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
         }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
-
-    /**
-     * Whether debug lines should be drawn.
-     */
-    private boolean debugLines = false;
-
-    /**
-     * The action to allow debug lines to be drawn across all frames via the console.
-     */
-    private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            debugLines = !debugLines;
-            getInputHandler().println((debugLines ? "Drawing" : "Hiding") + " debug lines");
-            UiUtil.getCyderFrames().forEach(frame -> frame.toggleDebugLines(debugLines));
-        }
-    };
-
-    /**
-     * The action to allow Cyder to close when alt + F4 are pressed in combination.
-     */
-    private final AbstractAction forcedExitAbstractAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            OsUtil.exit(ExitCondition.ForcedImmediateExit);
-        }
-    };
 
     /**
      * The focus adapter for the output area field.

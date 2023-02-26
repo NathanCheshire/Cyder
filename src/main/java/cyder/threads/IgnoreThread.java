@@ -1,5 +1,10 @@
 package cyder.threads;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Thread names to ignore when determining if Cyder should be classified as busy.
  */
@@ -57,5 +62,16 @@ public enum IgnoreThread {
      */
     public boolean isCyderThread() {
         return isCyderThread;
+    }
+
+    /**
+     * Returns a list of the names of all ignore threads.
+     *
+     * @return a list of the names of all ignore threads
+     */
+    public static ImmutableList<String> getNames() {
+        ArrayList<String> ret = new ArrayList<>();
+        Arrays.stream(values()).forEach(value -> ret.add(value.getName()));
+        return ImmutableList.copyOf(ret);
     }
 }

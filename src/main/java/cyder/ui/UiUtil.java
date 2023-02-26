@@ -23,10 +23,7 @@ import cyder.utils.ImageUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -639,5 +636,22 @@ public final class UiUtil {
         };
         label.setSize(length, length);
         return label;
+    }
+
+    /**
+     * Generates and returns a new abstract action which invokes the provided runnable.
+     *
+     * @param runnable the runnable
+     * @return a new abstract action which invokes the provided runnable
+     */
+    public static AbstractAction generateAbstractAction(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runnable.run();
+            }
+        };
     }
 }

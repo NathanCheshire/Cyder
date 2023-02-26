@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -83,6 +85,19 @@ public final class ThreadUtil {
 
         return ImmutableList.copyOf(Arrays.stream(currentThreads)
                 .filter(thread -> thread != null).collect(Collectors.toList()));
+    }
+
+    /**
+     * Returns whether the number of active threads indicate that Cyder is busy.
+     *
+     * @return whether the number of active threads indicate that Cyder is busy
+     */
+    public static boolean threadsIndicateCyderBusy() {
+        ArrayList<Thread> nonDaemonThreads = getCurrentThreads().stream()
+                .filter(thread -> !thread.isDaemon())
+                .collect(Collectors.toCollection(ArrayList::new));
+        return nonDaemonThreads.stream().anyMatch(nonDaemonThread
+                -> !StringUtil.in(nonDaemonThread.getName(), true, IgnoreThread.getNames()));
     }
 
     /**
