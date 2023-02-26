@@ -1171,28 +1171,6 @@ public enum UserDataManager {
     }
 
     /**
-     * Returns the fill opacity.
-     *
-     * @return the fill opacity
-     */
-    public synchronized int getFillOpacity() {
-        getterInvoked(UserData.FILL_OPACITY);
-        return user.getFillOpacity();
-    }
-
-    /**
-     * Sets the the fill opacity.
-     *
-     * @param fillOpacity the fill opacity
-     */
-    public synchronized void setFillOpacity(int fillOpacity) {
-        Preconditions.checkState(isInitialized());
-        Preconditions.checkArgument(ColorUtil.opacityRange.contains(fillOpacity));
-
-        user.setFillOpacity(fillOpacity);
-    }
-
-    /**
      * Returns whether the welcome message has been shown.
      *
      * @return whether the welcome message has been shown
@@ -1221,6 +1199,8 @@ public enum UserDataManager {
         getterInvoked(UserData.ACCOUNT_CREATION_TIME);
         return user.getAccountCreationTime();
     }
+
+    // todo use account creation time maybe for year anniversary?
 
     /**
      * Sets the time at which this account was created.

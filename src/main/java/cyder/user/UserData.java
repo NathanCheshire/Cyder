@@ -14,7 +14,6 @@ import cyder.ui.field.CyderCaret;
 import cyder.ui.list.CyderScrollList;
 import cyder.user.data.MappedExecutables;
 import cyder.user.data.ScreenStat;
-import cyder.utils.ColorUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
 
@@ -517,26 +516,6 @@ public final class UserData<T> {
                     }).build();
 
     /**
-     * The fill opacity data piece.
-     */
-    public static final UserData<Integer> fillOpacity = new Builder<>(FILL_OPACITY, Integer.class)
-            .setDescription("The opacity of the input and output fills")
-            .setDefaultValue(ColorUtil.opacityRange.upperEndpoint())
-            .setOnChangeFunction(() -> {
-                Logger.log(LogTag.USER_DATA, FILL_OPACITY);
-
-                if (UserDataManager.INSTANCE.shouldDrawInputFill()) {
-                    JTextField inputField = Console.INSTANCE.getInputField();
-                    inputField.setOpaque(true);
-                    inputField.setBackground(ColorUtil.setColorOpacity(
-                            UserDataManager.INSTANCE.getBackgroundColor(),
-                            UserDataManager.INSTANCE.getFillOpacity()));
-                    inputField.revalidate();
-                    inputField.repaint();
-                }
-            }).build();
-
-    /**
      * The audio player volume percent data piece.
      */
     public static final UserData<Integer> audioPlayerVolumePercent = new Builder<>(AUDIO_PLAYER_VOLUME_PERCENT,
@@ -617,7 +596,6 @@ public final class UserData<T> {
             drawWeatherMap,
             paintclockWidgetHourLabels,
             showClockWidgetSecondHand,
-            fillOpacity,
             screenStat,
             shownWelcomeMessage,
             accountCreationTime,

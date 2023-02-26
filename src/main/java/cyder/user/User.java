@@ -944,29 +944,6 @@ public final class User {
     }
 
     /**
-     * The opacity of the input and output fills.
-     */
-    private int fillOpacity; // todo use me
-
-    /**
-     * Returns the opacity of the input and output fills.
-     *
-     * @return the opacity of the input and output fills
-     */
-    public int getFillOpacity() {
-        return fillOpacity;
-    }
-
-    /**
-     * Sets the opacity of the input and output fills.
-     *
-     * @param fillOpacity the opacity of the input and output fills
-     */
-    public void setFillOpacity(int fillOpacity) {
-        this.fillOpacity = fillOpacity;
-    }
-
-    /**
      * Whether the welcome message has been shown for this user.
      */
     private boolean shownWelcomeMessage;
@@ -992,7 +969,7 @@ public final class User {
     /**
      * The time at which this user was created.
      */
-    private long accountCreationTime; // todo use me
+    private long accountCreationTime;
 
     /**
      * Returns the time at which this user was created.
@@ -1136,7 +1113,6 @@ public final class User {
                 + ", showClockWidgetSecondHand=" + showClockWidgetSecondHand
                 + ", screenStat=" + screenStat
                 + ", mappedExecutables=" + mappedExecutables
-                + ", fillOpacity=" + fillOpacity
                 + ", shownWelcomeMessage=" + shownWelcomeMessage
                 + ", accountCreationTime=" + accountCreationTime
                 + ", audioPlayerVolumePercent=" + audioPlayerVolumePercent
