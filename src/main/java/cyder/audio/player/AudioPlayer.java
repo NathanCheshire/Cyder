@@ -870,31 +870,31 @@ public final class AudioPlayer {
         shuffleAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                lastAudioButton.requestFocus();
+                if (currentView.get() != View.SEARCH) lastAudioButton.requestFocus();
             }
         });
         lastAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                playPauseButton.requestFocus();
+                if (currentView.get() != View.SEARCH) playPauseButton.requestFocus();
             }
         });
         playPauseButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                nextAudioButton.requestFocus();
+                if (currentView.get() != View.SEARCH) nextAudioButton.requestFocus();
             }
         });
         nextAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                repeatAudioButton.requestFocus();
+                if (currentView.get() != View.SEARCH) repeatAudioButton.requestFocus();
             }
         });
         repeatAudioButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                minimizeButton.requestFocus();
+                if (currentView.get() != View.SEARCH) minimizeButton.requestFocus();
             }
         });
 
@@ -903,9 +903,15 @@ public final class AudioPlayer {
         pinButton.setFocusPaintable(true);
         closeButton.setFocusPaintable(true);
 
-        minimizeButton.addFocusLostAction(changeSizeButton::requestFocus);
-        changeSizeButton.addFocusLostAction(pinButton::requestFocus);
-        pinButton.addFocusLostAction(closeButton::requestFocus);
+        minimizeButton.addFocusLostAction(() -> {
+            if (currentView.get() != View.SEARCH) changeSizeButton.requestFocus();
+        });
+        changeSizeButton.addFocusLostAction(() -> {
+            if (currentView.get() != View.SEARCH) pinButton.requestFocus();
+        });
+        pinButton.addFocusLostAction(() -> {
+            if (currentView.get() != View.SEARCH) closeButton.requestFocus();
+        });
     }
 
     /**
@@ -2381,8 +2387,6 @@ public final class AudioPlayer {
         searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        // todo disable focus traversal to drag label buttons if on search view
-
         DefaultCaret searchResultsPaneCaret = (DefaultCaret) searchResultsPane.getCaret();
         searchResultsPaneCaret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
@@ -2433,6 +2437,22 @@ public final class AudioPlayer {
         searchResultsPrintingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
 
         searchYouTubeViewLocked.set(false);
+
+        searchField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (currentView.get() == View.SEARCH) searchResultsScroll.requestFocus();
+            }
+        });
+        MinimizeButton minimizeButton = (MinimizeButton) audioPlayerFrame.getTopDragLabel().getRightButton(0);
+        searchResultsScroll.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (currentView.get() == View.SEARCH) minimizeButton.requestFocus();
+            }
+        });
+
+        searchField.requestFocus();
     }
 
     /**

@@ -175,9 +175,10 @@ public class ImageViewer {
             lastButton.setClickAction(this::transitionBackward);
             pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
 
-            pictureFrame.finalizeAndShow();
             revalidateNavigationButtonVisibility();
             startDirectoryWatcher();
+
+            pictureFrame.finalizeAndShow();
 
             return true;
         });
