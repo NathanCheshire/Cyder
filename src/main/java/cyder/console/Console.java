@@ -944,7 +944,7 @@ public enum Console {
 
         double consoleIconWidth = consoleIcon.dimension().getWidth();
         double consoleIconHeight = consoleIcon.dimension().getHeight();
-        if (consoleDirection == Direction.LEFT || consoleDirection == Direction.RIGHT) {
+        if (Direction.isHorizontal(consoleDirection)) {
             double tmp = consoleIconHeight;
             consoleIconHeight = consoleIconWidth;
             consoleIconWidth = tmp;
@@ -1144,7 +1144,6 @@ public enum Console {
     /**
      * Sets up resizing for the console.
      */
-    @ForReadability
     private void installConsoleResizing() {
         consoleCyderFrame.initializeResizing();
         consoleCyderFrame.setResizable(true);
@@ -1164,8 +1163,7 @@ public enum Console {
             int w = currentIcon.getIconWidth();
             int h = currentIcon.getIconHeight();
 
-            if (getConsoleDirection() == Direction.RIGHT || getConsoleDirection() == Direction.LEFT) {
-                // Not suspicious, intentional due to left/right
+            if (Direction.isHorizontal(getConsoleDirection())) {
                 consoleCyderFrame.setMaximumSize(new Dimension(h, w));
             } else {
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
@@ -2947,7 +2945,7 @@ public enum Console {
             switch (consoleDir) {
                 case TOP: // Fallthrough
                 case BOTTOM:
-                    if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
+                    if (Direction.isHorizontal(lastConsoleDir)) {
                         background = ImageUtil.resizeImage(background, height, width);
                     } else {
                         background = ImageUtil.resizeImage(background, width, height);
@@ -2955,7 +2953,7 @@ public enum Console {
                     break;
                 case LEFT: // Fallthrough
                 case RIGHT:
-                    if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
+                    if (Direction.isHorizontal(lastConsoleDir)) {
                         background = ImageUtil.resizeImage(background, width, height);
                     } else {
                         background = ImageUtil.resizeImage(background, height, width);
