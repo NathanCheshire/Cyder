@@ -134,7 +134,7 @@ public final class Logger {
 
         generateAndSetLogFile();
         writeCyderAsciiArtToFile(currentLog);
-        log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
+        log(LogTag.JVM_ENTRY, OsUtil.getOsUsername()); // todo should probably be called Logger initialized
         startObjectCreationLogger();
         concludeLogs();
         consolidateLogLines();

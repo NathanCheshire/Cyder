@@ -217,7 +217,7 @@ public final class Props {
             new Prop<>("auto_comply_to_localhost_shutdown_requests", false, Boolean.class);
 
     /**
-     * The password foreign instances must provide in order to shutdown this version of Cyder.
+     * The password foreign instances must provide in order to shutdown a running instance of Cyder.
      */
     public static final Prop<String> localhostShutdownRequestPassword =
             new Prop<>("localhost_shutdown_request_password", "Vexento", String.class);

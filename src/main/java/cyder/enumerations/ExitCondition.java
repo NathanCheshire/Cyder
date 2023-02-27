@@ -7,12 +7,11 @@ import cyder.utils.OsUtil;
  */
 public enum ExitCondition {
     RemoteShutdownFailure(-15, "Remote Shutdown Failure"),
-    SufficientSubroutineExit(-14, "A sufficient subroutine failed"),
-    WatchdogBootstrapFail(-13, "A UI freeze was detected by watchdog"
-            + " and the bootstrap attempt failed"),
+    SufficientSubroutineExit(-14, "Sufficient Subroutine failed"),
+    WatchdogBootstrapFail(-13, "Boostrap Fail"),
     WatchdogTimeout(-12, "Watchdog Timeout"),
     NotReleased(-11, "Cyder Not Released"),
-    NecessarySubroutineExit(-10, "A necessary subroutine failed"),
+    NecessarySubroutineExit(-10, "Necessary Subroutine failed"),
     MultipleInstancesExit(-9, "Multiple Instances Exit"),
     ExternalStop(-8, "External Stop"),
     JsonParsingException(-7, "JSON Parsing Exception"),

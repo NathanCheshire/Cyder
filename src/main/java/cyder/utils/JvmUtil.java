@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import cyder.enumerations.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -75,6 +76,11 @@ public final class JvmUtil {
     private static ImmutableList<String> jvmMainMethodArgs;
 
     /**
+     * The arguments parsed from {@link #jvmMainMethodArgs}.
+     */
+    private static ImmutableMap<String, String> parsedArgs = ImmutableMap.of();
+
+    /**
      * Suppress default constructor.
      */
     private JvmUtil() {
@@ -82,15 +88,78 @@ public final class JvmUtil {
     }
 
     /**
-     * Sets the main method JVM args.
+     * Sets the main method JVM args and parses them into a map.
      *
      * @param jvmMainMethodArgs the main method JVM args
      */
-    public static void setJvmMainMethodArgs(ImmutableList<String> jvmMainMethodArgs) {
+    public static void setAndParseJvmMainMethodArgs(ImmutableList<String> jvmMainMethodArgs) {
         Preconditions.checkNotNull(jvmMainMethodArgs);
         Preconditions.checkState(JvmUtil.jvmMainMethodArgs == null);
 
         JvmUtil.jvmMainMethodArgs = ImmutableList.copyOf(jvmMainMethodArgs);
+
+        parseArgsMapFromArgs();
+    }
+
+    /**
+     * Parses the {@link #parsedArgs} from the {@link #jvmMainMethodArgs}.
+     */
+    private static void parseArgsMapFromArgs() {
+        ImmutableMap.Builder<String, String> args = new ImmutableMap.Builder<>();
+
+        String currentArgument = null;
+        for (String argument : jvmMainMethodArgs) {
+            if (isArgument(argument)) {
+                if (currentArgument != null) throw new FatalException("Failed to parse at argument: " + argument);
+                currentArgument = removeLeadingDashes(argument);
+                continue;
+            }
+
+            if (currentArgument == null) throw new FatalException("Failed to parse at argument: " + argument);
+            args.put(currentArgument, argument);
+            currentArgument = null;
+        }
+
+        parsedArgs = args.build();
+    }
+
+    /**
+     * Returns whether the provided string is an argument as opposed to a parameter.
+     *
+     * @param string the string
+     * @return whether the provided string is an argument as opposed to a parameter
+     */
+    private static boolean isArgument(String string) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        return string.startsWith("--") || string.startsWith("-");
+    }
+
+    /**
+     * Removes all leading dashes from the provided string.
+     *
+     * @param string the string
+     * @return the string with all leading dashes removed
+     */
+    private static String removeLeadingDashes(String string) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        return string.replaceAll("^-+", "");
+    }
+
+    /**
+     * Returns the parameter corresponding to the provided argument.
+     *
+     * @param argument the argument
+     * @return the parameter corresponding to the provided argument
+     */
+    public static String getArgumentParam(String argument) {
+        Preconditions.checkNotNull(argument);
+        Preconditions.checkArgument(!argument.isEmpty());
+
+        return parsedArgs.get(argument);
     }
 
     /**

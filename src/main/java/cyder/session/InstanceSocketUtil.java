@@ -34,14 +34,6 @@ public final class InstanceSocketUtil {
      */
     private static final int instanceSocketPort = Props.instanceSocketPort.getValue();
 
-    static {
-        if (!NetworkUtil.localPortAvailable(instanceSocketPort)) {
-            throw new FatalException("Instance socket port of " + instanceSocketPort
-                    + " not available on " + OsUtil.getComputerName()
-                    + ". Utilize a prop file to change it to a free port");
-        }
-    }
-
     /**
      * The number of clients which can be waiting for the instance socket to free up and connect.
      */
@@ -336,8 +328,8 @@ public final class InstanceSocketUtil {
         responseWriter.println(sendHash);
     }
 
-    // todo use me
     public static void main(String[] args) throws Exception {
+        // Cyder setup...
         int port = Props.instanceSocketPort.getDefaultValue();
         String password = Props.localhostShutdownRequestPassword.getValue();
         Future<CyderCommunicationMessage> futureResponse =
@@ -347,6 +339,6 @@ public final class InstanceSocketUtil {
         System.out.println(response);
 
         while (!NetworkUtil.localPortAvailable(port)) Thread.onSpinWait();
-        // port is free and now may bind current instance
+        // port is free, proceed setting up new Cyder instance
     }
 }

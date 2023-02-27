@@ -27,7 +27,7 @@ import static cyder.logging.LoggingConstants.*;
 import static cyder.strings.CyderStrings.*;
 
 /**
- * Utilities necessary for the Cyder logger.
+ * Utilities necessary for the Cyder {@link Logger}.
  */
 public final class LoggingUtil {
     /**
@@ -328,9 +328,7 @@ public final class LoggingUtil {
                 writer.newLine();
             }
 
-            for (int i = 0 ; i < numNewLinesAfterCyderAsciiArt ; i++) {
-                writer.newLine();
-            }
+            for (int i = 0 ; i < numNewLinesAfterCyderAsciiArt ; i++) writer.newLine();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -347,18 +345,14 @@ public final class LoggingUtil {
         Preconditions.checkArgument(file.isFile());
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) {
-                writer.newLine();
-            }
+            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) writer.newLine();
 
             for (String line : boostrapLines) {
                 writer.write(line);
                 writer.newLine();
             }
 
-            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) {
-                writer.newLine();
-            }
+            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) writer.newLine();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -383,7 +377,7 @@ public final class LoggingUtil {
         for (String objectCreationLine : objectCreationLines) {
             Matcher matcher = objectsCreatedSinceLastDeltaPattern.matcher(objectCreationLine);
             if (matcher.matches()) {
-                String objectsGroup = matcher.group(3);
+                String objectsGroup = matcher.group(3); // todo magic number
 
                 int lineObjects = 0;
                 try {

@@ -36,7 +36,7 @@ public final class Cyder {
     public static void main(String[] arguments) {
         SessionManager.INSTANCE.initializeSessionId();
 
-        JvmUtil.setJvmMainMethodArgs(ImmutableList.copyOf(arguments));
+        JvmUtil.setAndParseJvmMainMethodArgs(ImmutableList.copyOf(arguments));
 
         PropLoader.reloadProps();
 

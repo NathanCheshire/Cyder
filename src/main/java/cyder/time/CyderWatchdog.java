@@ -3,12 +3,12 @@ package cyder.time;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.annotations.ForReadability;
 import cyder.enumerations.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.meta.CyderArguments;
 import cyder.meta.ProgramState;
 import cyder.meta.ProgramStateManager;
 import cyder.props.Props;
@@ -224,12 +224,6 @@ public final class CyderWatchdog {
         return false;
     }
 
-    // todo need handling of this, Logger needs to be re-done
-    /**
-     * The log file argument when starting an instance of Cyder.
-     */
-    private static final String LOG_FILE_ARGUMENT = "--log-file";
-
     /**
      * Invokes a boostrap attempt. This will request this instance of
      * Cyder to shutdown after the new instance starts.
@@ -237,7 +231,7 @@ public final class CyderWatchdog {
     private static void bootstrap() {
         ImmutableList<String> command = ImmutableList.of(
                 JvmUtil.getFullJvmInvocationCommand(),
-                LOG_FILE_ARGUMENT,
+                CyderArguments.LOG_FILE.constructFullParameter(),
                 Logger.getCurrentLogFile().getAbsolutePath()
         );
 
@@ -250,14 +244,12 @@ public final class CyderWatchdog {
         //            ExceptionHandler.handle(e);
         //        }
 
-        // todo extract bootstrap methods out of Watchdog and move to Bootstrapper.java
+        // todo extract bootstrap methods out of Watchdog and move to BoostrapUtil class
+
+        onFailedBoostrap("No branches taken");
     }
 
-    // todo start writing to resume log file if present, insert bootstrap into it and then a debug call
-    //  or actually bootstrap log tag and say bootstrap successful, if log file couldn't be used log that too
-
-    // todo need to validate key props on start too? sufficient subroutine for that with a key validator util?
-    // todo key util with validation and getter methods?
+    // todo need to handle case an attempted log resume fails
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits
@@ -265,7 +257,6 @@ public final class CyderWatchdog {
      *
      * @param reason the reason the bootstrap  failed
      */
-    @ForReadability
     private static void onFailedBoostrap(String reason) {
         Preconditions.checkNotNull(reason);
         Preconditions.checkArgument(!reason.isEmpty());
