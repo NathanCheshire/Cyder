@@ -162,7 +162,6 @@ public final class InstanceSocketUtil {
                 inputBuilder.append(line);
             }
 
-            // todo here we could try and figure out type and return it, then instance of would work from caller
             return CyderCommunicationMessage.fromJson(inputBuilder.toString());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -184,7 +183,6 @@ public final class InstanceSocketUtil {
 
         String messageType = message.getMessage();
 
-        // todo will be instanceof ideally if we can figure it out, from working base
         if (messageType.equals(CyderRemoteShutdownMessage.MESSAGE)) {
             onInstanceSocketCyderRemoteShutdownMessageReceived(message, responseWriter);
         } else {

@@ -1,10 +1,14 @@
 package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
+import cyder.enumerations.ExitCondition;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
+import cyder.session.InstanceSocketUtil;
 import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.subroutines.NecessarySubroutines;
@@ -44,13 +48,26 @@ public final class Cyder {
 
         addExitHooks();
 
-        Logger.initialize();
+        Logger.determineInitializationSequence();
 
         initUiAndSystemProps();
 
         CyderWatchdog.initializeWatchDog();
 
         NecessarySubroutines.executeSubroutines();
+
+
+        CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
+        if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
+            // todo attempt to boostrap here, say what instance was shutdown
+            // todo should there be a session ID argument so that instances on different ports are not affected?
+            ExceptionHandler.exceptionExit("Multiple instances of Cyder not allowed",
+                    ExitCondition.MultipleInstancesExit, "Multiple Instances");
+            throw new FatalException("Multiple instances of Cyder are not allowed");
+        }
+
+        InstanceSocketUtil.startListening();
+
 
         CyderSplash.INSTANCE.showSplash();
 

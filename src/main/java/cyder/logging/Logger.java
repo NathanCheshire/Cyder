@@ -9,6 +9,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.meta.CyderArguments;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -28,6 +29,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -111,6 +113,31 @@ public final class Logger {
     }
 
     /**
+     * Determines the initialization for the logger, depending on whether
+     * this instance was started normally or via a boostrap attempt.
+     */
+    public static void determineInitializationSequence() {
+        Optional<String> optionalLogFile = JvmUtil.getArgumentParam(CyderArguments.LOG_FILE.name());
+        if (optionalLogFile.isPresent()) {
+            File logFile = new File(optionalLogFile.get());
+            if (logFile.exists()) {
+                try {
+                    initializeFromBoostrap(logFile);
+                    return;
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    Logger.log(LogTag.DEBUG, "Failed to initialize from boostrap: " + e.getMessage());
+                }
+            }
+
+            Logger.log(LogTag.DEBUG, "Failed to resume log using file: " + logFile.getAbsolutePath());
+
+        }
+
+        initializeStandard();
+    }
+
+    /**
      * Initializes the logger for logging by invoking the following actions:
      *
      * <ul>
@@ -124,7 +151,7 @@ public final class Logger {
      *     <li>Zipping past logs directories</li>
      * </ul>
      */
-    public static void initialize() {
+    private static void initializeStandard() {
         Preconditions.checkState(!loggerInitialized.get());
         loggerInitialized.set(true);
 
@@ -134,16 +161,19 @@ public final class Logger {
 
         generateAndSetLogFile();
         writeCyderAsciiArtToFile(currentLog);
-        log(LogTag.JVM_ENTRY, OsUtil.getOsUsername()); // todo should probably be called Logger initialized
+        log(LogTag.LOGGER_INITIALIZATION, OsUtil.getOsUsername());
         startObjectCreationLogger();
         concludeLogs();
         consolidateLogLines();
         zipPastLogs();
     }
 
-    // todo use me on start from boostrap
-    // todo how to convey that a specific log should not be concluded? if it's the arg passed in
-    public static void initializeFromBoostrap(File previousSessionLogFile) {
+    /**
+     * Initializes the logger following a boostrap.
+     *
+     * @param previousSessionLogFile the log file from the previous session which requested the boostrap
+     */
+    private static void initializeFromBoostrap(File previousSessionLogFile) {
         Preconditions.checkState(!loggerInitialized.get());
         Preconditions.checkNotNull(previousSessionLogFile);
         Preconditions.checkArgument(previousSessionLogFile.exists());
@@ -160,7 +190,7 @@ public final class Logger {
         }
 
         writeBoostrapAsciiArtToFile(currentLog);
-        log(LogTag.JVM_ENTRY, OsUtil.getOsUsername());
+        log(LogTag.LOGGER_INITIALIZATION, OsUtil.getOsUsername());
         startObjectCreationLogger();
     }
 
@@ -314,7 +344,7 @@ public final class Logger {
                 tags.add(USER);
                 logBuilder.append(statement);
                 break;
-            case JVM_ENTRY:
+            case LOGGER_INITIALIZATION:
                 tags.add(tag.getLogName());
                 logBuilder.append(statement);
 

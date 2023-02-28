@@ -20,6 +20,7 @@ import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -235,21 +236,17 @@ public final class CyderWatchdog {
                 Logger.getCurrentLogFile().getAbsolutePath()
         );
 
-        //        try {
-        //            // todo remove when ready to test
-        //            OsUtil.executeShellCommand(command);
-        //
-        //            // todo send and be done, new client should request to end this session and we should comply
-        //        } catch (IOException e) {
-        //            ExceptionHandler.handle(e);
-        //        }
-
-        // todo extract bootstrap methods out of Watchdog and move to BoostrapUtil class
-
-        onFailedBoostrap("No branches taken");
+        try {
+            OsUtil.executeShellCommand(command);
+            // New client will request to kill this session
+        } catch (IOException e) {
+            onFailedBoostrap("Boostrap failed: " + e.getMessage());
+        }
     }
 
-    // todo need to handle case an attempted log resume fails
+    // todo say session ID of bootstrap requester when starting new session
+
+    // todo extract bootstrap methods out of Watchdog and move to BoostrapUtil class
 
     /**
      * Logs a watchdog tagged log message with the provided reason and exits

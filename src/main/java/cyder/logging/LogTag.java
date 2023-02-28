@@ -68,9 +68,9 @@ public enum LogTag {
     JVM_ARGS("JVM"),
 
     /**
-     * JVM program entry.
+     * Logger initialization.
      */
-    JVM_ENTRY("JVM Entry"),
+    LOGGER_INITIALIZATION("Logger Initialization"),
 
     /**
      * Program controlled exit, right before EOL tags.

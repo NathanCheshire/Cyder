@@ -16,7 +16,6 @@ import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.meta.CyderSplash;
-import cyder.session.InstanceSocketUtil;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.UserUtil;
@@ -87,21 +86,12 @@ public final class NecessarySubroutines {
     public static void executeSubroutines() {
         for (Subroutine subroutine : subroutines) {
             CyderSplash.INSTANCE.setLoadingMessage(subroutine.getThreadName());
-            Boolean ret = subroutine.getRoutine().get();
+            Boolean result = subroutine.getRoutine().get();
 
-            if (ret == null || !ret) {
+            if (result == null || !result) {
                 throw new FatalException(subroutine.getOnFailureMessage());
             }
         }
-
-        CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
-        if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
-            ExceptionHandler.exceptionExit("Multiple instances of Cyder not allowed",
-                    ExitCondition.MultipleInstancesExit, "Instances");
-            throw new FatalException("Multiple instances of Cyder are not allowed");
-        }
-
-        InstanceSocketUtil.startListening();
     }
 
     /**

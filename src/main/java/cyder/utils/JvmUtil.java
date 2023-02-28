@@ -18,6 +18,7 @@ import cyder.threads.CyderThreadRunner;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.util.Optional;
 
 import static cyder.strings.CyderStrings.*;
 
@@ -150,16 +151,20 @@ public final class JvmUtil {
     }
 
     /**
-     * Returns the parameter corresponding to the provided argument.
+     * Returns the parameter corresponding to the provided argument if present. Empty optional else.
      *
      * @param argument the argument
-     * @return the parameter corresponding to the provided argument
+     * @return the parameter corresponding to the provided argument if present. Empty optional else
      */
-    public static String getArgumentParam(String argument) {
+    public static Optional<String> getArgumentParam(String argument) {
         Preconditions.checkNotNull(argument);
         Preconditions.checkArgument(!argument.isEmpty());
 
-        return parsedArgs.get(argument);
+        if (parsedArgs.containsKey(argument)) {
+            return Optional.ofNullable(parsedArgs.get(argument));
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
