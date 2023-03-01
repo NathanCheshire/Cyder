@@ -1,13 +1,13 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import cyder.enumerations.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.meta.CyderSplash;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
@@ -15,6 +15,7 @@ import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
+import cyder.threads.ThreadUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
@@ -23,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.Duration;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -47,6 +50,21 @@ public final class InstanceSocketUtil {
     private static final AtomicBoolean instanceSocketBindAttempted = new AtomicBoolean(false);
 
     /**
+     * The host for attempting remote shutdown requests.
+     */
+    private static final String LOCAL_HOST = "localhost";
+
+    /**
+     * The maximum amount of time to wait for the instance socket to free up after a remote shutdown request succeeds.
+     */
+    private static final Duration maximumWaitForInstancePortToFree = Duration.ofSeconds(5);
+
+    /**
+     * The timeout between instance socket polls for incoming messages.
+     */
+    private static final Duration instanceSocketPollTimeout = Duration.ofMillis(100);
+
+    /**
      * The instance socket.
      */
     private static ServerSocket instanceSocket;
@@ -56,6 +74,66 @@ public final class InstanceSocketUtil {
      */
     private InstanceSocketUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Attempts to bind to the set instance socket. If unavailable, and localhost remote shutdown requests
+     * are enabled, a communication message is sent through the socket in an attempt to shutdown another
+     * instance of Cyder already bound to the instance port.
+     */
+    public static void bindToInstanceSocket() {
+        CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
+        Logger.log(LogTag.NETWORK, "Attempting to bind to instance socket port: "
+                + Props.instanceSocketPort.getValue());
+        SocketBindAttemptResult result = attemptToBindToInstanceSocked();
+        Logger.log(LogTag.NETWORK, "Instance socket bind attempt result: " + result.getMessage());
+        if (result.isSuccessful()) {
+            InstanceSocketUtil.startListening();
+        } else {
+            throw new FatalException("Failed to bind to socket instance; " + result.getMessage());
+        }
+    }
+
+    /**
+     * Attempts to bind to the set instance socket. If unavailable, and localhost remote shutdown requests
+     * are enabled, a communication message is sent through the socket in an attempt to shutdown another
+     * instance of Cyder already bound to the instance port.
+     *
+     * @return the result of attempting to bind to the instance socket
+     */
+    private static SocketBindAttemptResult attemptToBindToInstanceSocked() {
+        if (InstanceSocketUtil.instanceSocketPortAvailable()) return SocketBindAttemptResult.PORT_AVAILABLE;
+        boolean shutdownRequestsEnabled = Props.localhostShutdownRequestsEnabled.getValue();
+        if (!shutdownRequestsEnabled) return SocketBindAttemptResult.REMOTE_SHUTDOWN_REQUESTS_DISABLED;
+        int port = Props.instanceSocketPort.getValue();
+        if (!NetworkUtil.portRange.contains(port)) return SocketBindAttemptResult.INVALID_PORT;
+        String password = Props.localhostShutdownRequestPassword.getValue();
+        if (StringUtil.isNullOrEmpty(password)) return SocketBindAttemptResult.PASSWORD_NOT_SET;
+
+        try {
+            Future<CyderCommunicationMessage> futureMessage =
+                    InstanceSocketUtil.sendRemoteShutdownRequest(LOCAL_HOST, port, password);
+            while (!futureMessage.isDone()) Thread.onSpinWait();
+            CyderCommunicationMessage message = futureMessage.get();
+            String content = message.getContent();
+            RemoteShutdownRequestResult result =
+                    RemoteShutdownRequestResult.fromMessage(content);
+            if (!result.isShouldComply()) return SocketBindAttemptResult.REMOTE_SHUTDOWN_REQUEST_DENIED;
+            long startedWaitingTime = System.currentTimeMillis();
+            while (!NetworkUtil.localPortAvailable(port)) {
+                if (System.currentTimeMillis() - startedWaitingTime >= maximumWaitForInstancePortToFree.toMillis()) {
+                    return SocketBindAttemptResult.TIMED_OUT_AFTER_SUCCESSFUL_REMOTE_SHUTDOWN;
+                }
+                Thread.onSpinWait();
+            }
+            return SocketBindAttemptResult.SUCCESS_AFTER_REMOTE_SHUTDOWN;
+        } catch (InterruptedException | ExecutionException e) {
+            ExceptionHandler.handle(e);
+            return SocketBindAttemptResult.FAILURE_WHILE_ATTEMPTING_REMOTE_SHUTDOWN;
+        } catch (FatalException e) {
+            ExceptionHandler.handle(e);
+            return SocketBindAttemptResult.PORT_UNAVAILABLE;
+        }
     }
 
     /**
@@ -102,6 +180,8 @@ public final class InstanceSocketUtil {
                         onInstanceSocketMessageReceived(receivedMessage, responseWriter);
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
+                    } finally {
+                        ThreadUtil.sleep(instanceSocketPollTimeout.toMillis());
                     }
                 }
             } catch (Exception e) {
@@ -189,95 +269,6 @@ public final class InstanceSocketUtil {
             onInstanceSocketCyderRemoteShutdownMessageReceived(message, responseWriter);
         } else {
             throw new FatalException("Unknown CyderCommunicationMessage: " + messageType);
-        }
-    }
-
-    /**
-     * Results after determining whether a remote shutdown request should be denied or complied to.
-     */
-    public enum RemoteShutdownRequestResult {
-        /**
-         * The password was not found.
-         */
-        PASSWORD_NOT_FOUND(false, "Shutdown request denied, password prop not specified"),
-
-        /**
-         * The password was incorrect.
-         */
-        PASSWORD_INCORRECT(false, "Shutdown request denied, password incorrect"),
-
-        /**
-         * The password was correct.
-         */
-        PASSWORD_CORRECT(true, "Shutdown request accepted, password correct"),
-
-        /**
-         * The auto compliance prop for remote shutdown requests is enabled.
-         */
-        AUTO_COMPLIANCE_ENABLED(true, "Shutdown request accepted, auto comply is enabled");
-
-        /**
-         * Whether this result indicates compliance.
-         */
-        private final boolean shouldComply;
-
-        /**
-         * The message for the result.
-         */
-        private final String message;
-
-        RemoteShutdownRequestResult(boolean shouldComply, String message) {
-            this.shouldComply = shouldComply;
-            this.message = message;
-        }
-
-        /**
-         * Returns whether this result is indicative of a compliance.
-         *
-         * @return whether this result is indicative of a compliance
-         */
-        public boolean isShouldComply() {
-            return shouldComply;
-        }
-
-        /**
-         * Returns the message for the result.
-         *
-         * @return the message for the result
-         */
-        public String getMessage() {
-            return message;
-        }
-
-        /**
-         * Returns whether the provided text is indicative of a compliance result.
-         *
-         * @param text the text
-         * @return whether the provided text is indicative of a compliance result
-         */
-        public static boolean indicativeOfComplianceResult(String text) {
-            Preconditions.checkArgument(!StringUtil.isNullOrEmpty(text));
-
-            return StringUtil.in(text, true,
-                    ImmutableList.of(PASSWORD_CORRECT.message, AUTO_COMPLIANCE_ENABLED.message));
-        }
-
-        /**
-         * Returns the remote shutdown request result which contains the provided message.
-         *
-         * @param message the message
-         * @return the remote shutdown request result which contains the provided message
-         */
-        public static RemoteShutdownRequestResult fromMessage(String message) {
-            Preconditions.checkArgument(!StringUtil.isNullOrEmpty(message));
-
-            for (RemoteShutdownRequestResult value : values()) {
-                if (message.equalsIgnoreCase(value.getMessage())) {
-                    return value;
-                }
-            }
-
-            throw new FatalException("Failed to find result from message: " + message);
         }
     }
 
