@@ -10,8 +10,8 @@ import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.subroutines.NecessarySubroutines;
 import cyder.subroutines.SufficientSubroutines;
-import cyder.time.CyderWatchdog;
 import cyder.utils.JvmUtil;
+import cyder.watchdog.CyderWatchdog;
 
 import javax.swing.*;
 

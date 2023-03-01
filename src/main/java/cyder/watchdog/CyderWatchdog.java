@@ -1,27 +1,21 @@
-package cyder.time;
+package cyder.watchdog;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.enumerations.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.meta.CyderArguments;
 import cyder.meta.ProgramState;
 import cyder.meta.ProgramStateManager;
 import cyder.props.Props;
-import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 import cyder.utils.JvmUtil;
-import cyder.utils.OsUtil;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -181,7 +175,7 @@ public final class CyderWatchdog {
      */
     private static void onUiHaltDetected() {
         Logger.log(LogTag.WATCHDOG, "UI halt detected by watchdog; checking if bootstrap is possible");
-        invokeBoostrapIfConditionsMet();
+        BoostrapUtil.invokeBoostrapIfConditionsMet();
     }
 
     /**
@@ -190,74 +184,5 @@ public final class CyderWatchdog {
      */
     private static void attemptWatchdogReset() {
         SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
-    }
-
-    /**
-     * Checks for whether a boostrap can be attempted and if possible, attempts to bootstrap.
-     * The following conditions must be met in order for a boostrap to be attempted:
-     *
-     * <ul>
-     *     <li>The operating system is {@link cyder.utils.OsUtil.OperatingSystem#WINDOWS}</li>
-     *     <li>The attempt_boostrap prop is true if present</li>
-     *     <li>The current JVM instance was not launched with JDWP args (debug mode)</li>
-     * </ul>
-     *
-     * @return whether a bootstrap was possible and invoked
-     */
-    @CanIgnoreReturnValue
-    private static boolean invokeBoostrapIfConditionsMet() {
-        try {
-            if (!OsUtil.isWindows()) {
-                onFailedBoostrap("Invalid operating system: " + OsUtil.OPERATING_SYSTEM);
-            } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
-                onFailedBoostrap("Current JVM was launched with JDWP args");
-            } else if (!Props.attemptBootstrap.getValue()) {
-                onFailedBoostrap("attempt_boostrap prop set to false");
-            } else {
-                Logger.log(LogTag.WATCHDOG, "Boostrap conditions met, attempting bootstrap");
-                bootstrap();
-                return true;
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            onFailedBoostrap(e.getMessage());
-        }
-
-        return false;
-    }
-
-    /**
-     * Invokes a boostrap attempt. This will request this instance of
-     * Cyder to shutdown after the new instance starts.
-     */
-    private static void bootstrap() {
-        ImmutableList<String> command = ImmutableList.of(
-                JvmUtil.getFullJvmInvocationCommand(),
-                CyderArguments.SESSION_ID.constructFullParameter(),
-                SessionManager.INSTANCE.getSessionId(),
-                CyderArguments.BOOSTRAP.constructFullParameter()
-        );
-
-        try {
-            OsUtil.executeShellCommand(command);
-        } catch (IOException e) {
-            onFailedBoostrap("Boostrap failed: " + e.getMessage());
-        }
-    }
-
-    // todo extract bootstrap methods out of Watchdog and move to BoostrapUtil class
-
-    /**
-     * Logs a watchdog tagged log message with the provided reason and exits
-     * with the exit condition of {@link ExitCondition#WatchdogBootstrapFail}.
-     *
-     * @param reason the reason the bootstrap  failed
-     */
-    private static void onFailedBoostrap(String reason) {
-        Preconditions.checkNotNull(reason);
-        Preconditions.checkArgument(!reason.isEmpty());
-
-        Logger.log(LogTag.WATCHDOG, "Failed to boostrap: " + reason);
-        OsUtil.exit(ExitCondition.WatchdogBootstrapFail);
     }
 }
