@@ -64,6 +64,9 @@ public final class Cyder {
      * instance of Cyder already bound to the instance port.
      */
     private static void bindToInstanceSocket() {
+        // todo let's not reuse same log file, just when we freeze and need to boostrap
+        //  that way add bootstrap to the top of the log file after cyder ascii art
+
         CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
         if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
             if (Props.localhostShutdownRequestsEnabled.getValue()) {
@@ -89,6 +92,8 @@ public final class Cyder {
                     ExceptionHandler.handle(e);
                 }
             }
+
+            // todo even if hiding jvm args, say length when logging
 
             // todo concerns about log calls from both instances for a small period of time?
 

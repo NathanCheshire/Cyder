@@ -244,8 +244,6 @@ public final class CyderWatchdog {
         }
     }
 
-    // todo say session ID of bootstrap requester when starting new session
-
     // todo extract bootstrap methods out of Watchdog and move to BoostrapUtil class
 
     /**

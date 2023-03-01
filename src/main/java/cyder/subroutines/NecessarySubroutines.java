@@ -103,10 +103,10 @@ public final class NecessarySubroutines {
 
                 if (ArrayUtil.nullOrEmpty(fontFiles)) return false;
 
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
                 for (File fontFile : fontFiles) {
                     if (FileUtil.isSupportedFontExtension(fontFile)) {
-                        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
                         try {
                             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
                             Logger.log(LogTag.FONT_LOADED, FileUtil.getFilename(fontFile));

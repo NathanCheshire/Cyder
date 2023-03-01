@@ -325,18 +325,4 @@ public final class InstanceSocketUtil {
         responseWriter.println(responseShutdownMessage);
         responseWriter.println(sendHash);
     }
-
-    public static void main(String[] args) throws Exception {
-        // Cyder setup...
-        int port = Props.instanceSocketPort.getDefaultValue();
-        String password = Props.localhostShutdownRequestPassword.getValue();
-        Future<CyderCommunicationMessage> futureResponse =
-                sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, password);
-        while (!futureResponse.isDone()) Thread.onSpinWait();
-        CyderCommunicationMessage response = futureResponse.get();
-        System.out.println(response);
-
-        while (!NetworkUtil.localPortAvailable(port)) Thread.onSpinWait();
-        // port is free, proceed setting up new Cyder instance
-    }
 }

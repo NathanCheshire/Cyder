@@ -234,7 +234,7 @@ public final class UserUtil {
     }
 
     /**
-     * Checks and removes any invalid user mapped executables
+     * Checks and removes any invalid user mapped executables.
      */
     private static void removeInvalidUserMappedExecutables() {
         CyderSplash.INSTANCE.setLoadingMessage("Removing invalid mapped executables");

@@ -161,7 +161,7 @@ public final class Logger {
 
         generateAndSetLogFile();
         writeCyderAsciiArtToFile(currentLog);
-        log(LogTag.LOGGER_INITIALIZATION, OsUtil.getOsUsername());
+        log(LogTag.LOGGER_INITIALIZATION, "Os username: " + OsUtil.getOsUsername());
         startObjectCreationLogger();
         concludeLogs();
         consolidateLogLines();
@@ -190,7 +190,7 @@ public final class Logger {
         }
 
         writeBoostrapAsciiArtToFile(currentLog);
-        log(LogTag.LOGGER_INITIALIZATION, OsUtil.getOsUsername());
+        log(LogTag.LOGGER_INITIALIZATION, "Os username: " + OsUtil.getOsUsername());
         startObjectCreationLogger();
     }
 

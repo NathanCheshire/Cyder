@@ -1325,7 +1325,7 @@ public enum Console {
     /**
      * The number of days without Cyder use which can pass without a welcome back notification.
      */
-    private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
+    private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 2;
 
     /**
      * Checks today against all the values of {@link SpecialDay}.
