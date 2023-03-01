@@ -1,7 +1,6 @@
 package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
-import cyder.enumerations.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -15,12 +14,14 @@ import cyder.session.CyderCommunicationMessage;
 import cyder.session.InstanceSocketUtil;
 import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.subroutines.NecessarySubroutines;
 import cyder.subroutines.SufficientSubroutines;
 import cyder.time.CyderWatchdog;
 import cyder.utils.JvmUtil;
 
 import javax.swing.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import static cyder.meta.MetaConstants.*;
@@ -48,14 +49,96 @@ public final class Cyder {
         PropLoader.reloadProps();
         JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
         addExitHooks();
-        Logger.determineInitializationSequence();
+        Logger.initialize();
         initUiAndSystemProps();
         CyderWatchdog.initializeWatchDog();
         NecessarySubroutines.executeSubroutines();
-        bindToInstanceSocket();
+        attemptToBindToInstanceSocket();
         CyderSplash.INSTANCE.showSplash();
         SufficientSubroutines.executeSubroutines();
         LoginHandler.showProperStartupFrame();
+    }
+
+    private enum SocketBindAttemptResult {
+        PORT_AVAILABLE(true, "Port available"),
+        REMOTE_SHUTDOWN_REQUESTS_DISABLED(false, "Remote shutdown requests are disabled"),
+        INVALID_PORT(false, "The instance socket port is invalid"),
+        PASSWORD_NOT_SET(false, "The remote shutdown request password is not set"),
+        REMOTE_SHUTDOWN_REQUEST_DENIED(false, "The remote shutdown request was denied"),
+        FAILURE_WHILE_ATTEMPTING_REMOTE_SHUTDOWN(false,
+                "An exception occurred while attempting to shutdown a remote instance"),
+        TIMED_OUT_AFTER_SUCCESSFUL_REMOTE_SHUTDOWN(false,
+                "A remote shutdown was successful but the instance port failed to free"),
+        SUCCESS_AFTER_REMOTE_SHUTDOWN(true, "A remote shutdown request was successful and the port freed up"),
+        PORT_UNAVAILABLE(false, "The port was unavailable and non-responsive to a remote shutdown request");
+
+        /**
+         * Whether this socket bind attempt result is a success.
+         */
+        private final boolean successful;
+
+        /**
+         * The message for this result.
+         */
+        private final String message;
+
+        SocketBindAttemptResult(boolean successful, String message) {
+            this.successful = successful;
+            this.message = message;
+        }
+
+        /**
+         * Returns whether this bind attempt result is a success.
+         *
+         * @return whether this bind attempt result is a success
+         */
+        public boolean isSuccessful() {
+            return successful;
+        }
+
+        /**
+         * Returns the message for this result.
+         *
+         * @return the message for this result
+         */
+        public String getMessage() {
+            return message;
+        }
+    }
+
+    private static SocketBindAttemptResult getSocketBindAttemptResult() {
+        if (InstanceSocketUtil.instanceSocketPortAvailable()) return SocketBindAttemptResult.PORT_AVAILABLE;
+        boolean shutdownRequestsEnabled = Props.localhostShutdownRequestsEnabled.getValue();
+        if (!shutdownRequestsEnabled) return SocketBindAttemptResult.REMOTE_SHUTDOWN_REQUESTS_DISABLED;
+        int port = Props.instanceSocketPort.getValue();
+        if (!NetworkUtil.portRange.contains(port)) return SocketBindAttemptResult.INVALID_PORT;
+        String password = Props.localhostShutdownRequestPassword.getValue();
+        if (StringUtil.isNullOrEmpty(password)) return SocketBindAttemptResult.PASSWORD_NOT_SET;
+
+        try {
+            Future<CyderCommunicationMessage> futureMessage =
+                    InstanceSocketUtil.sendRemoteShutdownRequest("localhost", port, password);
+            while (!futureMessage.isDone()) Thread.onSpinWait();
+            CyderCommunicationMessage message = futureMessage.get();
+            String content = message.getContent();
+            InstanceSocketUtil.RemoteShutdownRequestResult result =
+                    InstanceSocketUtil.RemoteShutdownRequestResult.fromMessage(content);
+            if (!result.isShouldComply()) return SocketBindAttemptResult.REMOTE_SHUTDOWN_REQUEST_DENIED;
+            long startedWaitingTime = System.currentTimeMillis();
+            while (!NetworkUtil.localPortAvailable(port)) {
+                if (System.currentTimeMillis() - startedWaitingTime >= 5000) {
+                    return SocketBindAttemptResult.TIMED_OUT_AFTER_SUCCESSFUL_REMOTE_SHUTDOWN;
+                }
+                Thread.onSpinWait();
+            }
+            return SocketBindAttemptResult.SUCCESS_AFTER_REMOTE_SHUTDOWN;
+        } catch (InterruptedException | ExecutionException e) {
+            ExceptionHandler.handle(e);
+            return SocketBindAttemptResult.FAILURE_WHILE_ATTEMPTING_REMOTE_SHUTDOWN;
+        } catch (FatalException e) {
+            ExceptionHandler.handle(e);
+            return SocketBindAttemptResult.PORT_UNAVAILABLE;
+        }
     }
 
     /**
@@ -63,49 +146,17 @@ public final class Cyder {
      * are enabled, a communication message is sent through the socket in an attempt to shutdown another
      * instance of Cyder already bound to the instance port.
      */
-    private static void bindToInstanceSocket() {
-        // todo let's not reuse same log file, just when we freeze and need to boostrap
-        //  that way add bootstrap to the top of the log file after cyder ascii art
-
+    private static void attemptToBindToInstanceSocket() {
         CyderSplash.INSTANCE.setLoadingMessage("Ensuring singular instance");
-        if (!InstanceSocketUtil.instanceSocketPortAvailable()) {
-            if (Props.localhostShutdownRequestsEnabled.getValue()) {
-                try {
-                    int port = Props.instanceSocketPort.getValue();
-                    String password = Props.localhostShutdownRequestPassword.getValue();
-                    Future<CyderCommunicationMessage> futureMessage =
-                            InstanceSocketUtil.sendRemoteShutdownRequest("localhost", port, password);
-                    while (!futureMessage.isDone()) Thread.onSpinWait();
-                    CyderCommunicationMessage message = futureMessage.get();
-                    Logger.log(LogTag.DEBUG, "Received shutdown response message from session "
-                            + message.getSessionId() + ", content: " + message.getContent());
-                    long startedWaitingTime = System.currentTimeMillis();
-                    while (!NetworkUtil.localPortAvailable(port)) {
-                        if (System.currentTimeMillis() - startedWaitingTime >= 5000) {
-                            throw new FatalException("Failed to bind to instance port");
-                        }
-                        Thread.onSpinWait();
-                    }
-
-                    return;
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }
-
-            // todo even if hiding jvm args, say length when logging
-
-            // todo concerns about log calls from both instances for a small period of time?
-
-            // todo should there be a session ID argument so that instances on different ports are not affected?
-
-            // todo figure this out below here for what to throw and what to say to user
-            ExceptionHandler.exceptionExit("Multiple instances of Cyder not allowed",
-                    ExitCondition.MultipleInstancesExit, "Multiple Instances");
-            throw new FatalException("Instance port unavailable; change the socket port config or"
-                    + " terminate the program using the instance port");
+        Logger.log(LogTag.NETWORK, "Attempting to bind to instance socket port: "
+                + Props.instanceSocketPort.getValue());
+        SocketBindAttemptResult result = getSocketBindAttemptResult();
+        Logger.log(LogTag.NETWORK, "Instance socket bind attempt result: " + result.getMessage());
+        if (result.isSuccessful()) {
+            InstanceSocketUtil.startListening();
+        } else {
+            throw new FatalException("Failed to bind to socket instance; " + result.getMessage());
         }
-        InstanceSocketUtil.startListening();
     }
 
     /**

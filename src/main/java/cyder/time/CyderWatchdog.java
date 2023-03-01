@@ -12,6 +12,7 @@ import cyder.meta.CyderArguments;
 import cyder.meta.ProgramState;
 import cyder.meta.ProgramStateManager;
 import cyder.props.Props;
+import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
@@ -232,13 +233,13 @@ public final class CyderWatchdog {
     private static void bootstrap() {
         ImmutableList<String> command = ImmutableList.of(
                 JvmUtil.getFullJvmInvocationCommand(),
-                CyderArguments.LOG_FILE.constructFullParameter(),
-                Logger.getCurrentLogFile().getAbsolutePath()
+                CyderArguments.SESSION_ID.constructFullParameter(),
+                SessionManager.INSTANCE.getSessionId(),
+                CyderArguments.BOOSTRAP.constructFullParameter()
         );
 
         try {
             OsUtil.executeShellCommand(command);
-            // New client will request to kill this session
         } catch (IOException e) {
             onFailedBoostrap("Boostrap failed: " + e.getMessage());
         }

@@ -29,7 +29,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,8 +39,7 @@ import static cyder.strings.CyderStrings.*;
 import static java.lang.System.out;
 
 /**
- * Logger class used to log useful information about any Cyder instance from beginning at
- * runtime to exit at JVM termination.
+ * A logging class used to log useful information about the Cyder instance throughout the JVM runtime.
  */
 public final class Logger {
     /**
@@ -113,31 +111,6 @@ public final class Logger {
     }
 
     /**
-     * Determines the initialization for the logger, depending on whether
-     * this instance was started normally or via a boostrap attempt.
-     */
-    public static void determineInitializationSequence() {
-        Optional<String> optionalLogFile = JvmUtil.getArgumentParam(CyderArguments.LOG_FILE.name());
-        if (optionalLogFile.isPresent()) {
-            File logFile = new File(optionalLogFile.get());
-            if (logFile.exists()) {
-                try {
-                    initializeFromBoostrap(logFile);
-                    return;
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                    Logger.log(LogTag.DEBUG, "Failed to initialize from boostrap: " + e.getMessage());
-                }
-            }
-
-            Logger.log(LogTag.DEBUG, "Failed to resume log using file: " + logFile.getAbsolutePath());
-
-        }
-
-        initializeStandard();
-    }
-
-    /**
      * Initializes the logger for logging by invoking the following actions:
      *
      * <ul>
@@ -151,16 +124,13 @@ public final class Logger {
      *     <li>Zipping past logs directories</li>
      * </ul>
      */
-    private static void initializeStandard() {
+    public static void initialize() {
         Preconditions.checkState(!loggerInitialized.get());
         loggerInitialized.set(true);
 
-        if (Props.wipeLogsOnStart.getValue()) {
-            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getFileName()));
-        }
-
+        if (Props.wipeLogsOnStart.getValue()) Dynamic.LOGS.delete();
         generateAndSetLogFile();
-        writeCyderAsciiArtToFile(currentLog);
+        setupLogFileWithAsciiArt();
         log(LogTag.LOGGER_INITIALIZATION, "Os username: " + OsUtil.getOsUsername());
         startObjectCreationLogger();
         concludeLogs();
@@ -169,51 +139,15 @@ public final class Logger {
     }
 
     /**
-     * Initializes the logger following a boostrap.
-     *
-     * @param previousSessionLogFile the log file from the previous session which requested the boostrap
+     * The actions to invoke when a log file has been generated and set to write Ascii art to the file as the header.
+     * The Cyder Ascii art is always written. The boostrap Ascii art is written if this instance was started from
+     * a bootstrap attempt.
      */
-    private static void initializeFromBoostrap(File previousSessionLogFile) {
-        Preconditions.checkState(!loggerInitialized.get());
-        Preconditions.checkNotNull(previousSessionLogFile);
-        Preconditions.checkArgument(previousSessionLogFile.exists());
-        Preconditions.checkArgument(previousSessionLogFile.isFile());
-        Preconditions.checkArgument(FileUtil.validateExtension(previousSessionLogFile, Extension.LOG.getExtension()));
-        Preconditions.checkArgument(previousSessionLogFile.getParentFile().getParentFile().getAbsolutePath().equals(
-                Dynamic.buildDynamic(Dynamic.LOGS.getFileName()).getAbsolutePath()));
-
-        loggerInitialized.set(true);
-        currentLog = previousSessionLogFile;
-
-        if (Props.wipeLogsOnStart.getValue()) {
-            wipeLogsAsideFromCurrentLog();
+    private static void setupLogFileWithAsciiArt() {
+        writeCyderAsciiArtToFile(currentLog);
+        if (JvmUtil.getArgumentParam(CyderArguments.BOOSTRAP.name()).isPresent()) {
+            writeBoostrapAsciiArtToFile(currentLog);
         }
-
-        writeBoostrapAsciiArtToFile(currentLog);
-        log(LogTag.LOGGER_INITIALIZATION, "Os username: " + OsUtil.getOsUsername());
-        startObjectCreationLogger();
-    }
-
-    /**
-     * Wipes all the log files aside from the current log file.
-     */
-    private static void wipeLogsAsideFromCurrentLog() {
-        File logsTopLevelDirectory = Dynamic.buildDynamic(Dynamic.LOGS.getFileName());
-        if (!logsTopLevelDirectory.exists()) return;
-
-        File[] subLogDirs = logsTopLevelDirectory.listFiles();
-        if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
-
-        Arrays.stream(subLogDirs).forEach(subLogDir -> {
-            if (subLogDir.equals(currentLog.getParentFile())) {
-                File[] logFiles = subLogDir.listFiles();
-                if (!ArrayUtil.nullOrEmpty(logFiles)) {
-                    Arrays.stream(logFiles).filter(logFile -> !logFile.equals(currentLog)).forEach(OsUtil::deleteFile);
-                }
-            } else {
-                OsUtil.deleteFile(subLogDir, true);
-            }
-        });
     }
 
     /**

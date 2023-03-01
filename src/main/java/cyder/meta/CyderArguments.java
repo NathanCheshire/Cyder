@@ -4,7 +4,15 @@ package cyder.meta;
  * Arguments recognized by the main entry point of Cyder.
  */
 public enum CyderArguments {
-    LOG_FILE("log-file");
+    /**
+     * The session id argument.
+     */
+    SESSION_ID("session-id"),
+
+    /**
+     * The argument to indicate an instance was started via a boostrap.
+     */
+    BOOSTRAP("boostrap");
 
     /**
      * A double dash for full parameter construction.

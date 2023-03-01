@@ -1,6 +1,7 @@
 package cyder.session;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.enumerations.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -10,6 +11,7 @@ import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
@@ -193,11 +195,11 @@ public final class InstanceSocketUtil {
     /**
      * Results after determining whether a remote shutdown request should be denied or complied to.
      */
-    private enum RemoteShutdownRequestResult {
+    public enum RemoteShutdownRequestResult {
         /**
          * The password was not found.
          */
-        PASSWORD_NOT_FOUND(false, "Shutdown request denied, password not found"),
+        PASSWORD_NOT_FOUND(false, "Shutdown request denied, password prop not specified"),
 
         /**
          * The password was incorrect.
@@ -246,6 +248,37 @@ public final class InstanceSocketUtil {
         public String getMessage() {
             return message;
         }
+
+        /**
+         * Returns whether the provided text is indicative of a compliance result.
+         *
+         * @param text the text
+         * @return whether the provided text is indicative of a compliance result
+         */
+        public static boolean indicativeOfComplianceResult(String text) {
+            Preconditions.checkArgument(!StringUtil.isNullOrEmpty(text));
+
+            return StringUtil.in(text, true,
+                    ImmutableList.of(PASSWORD_CORRECT.message, AUTO_COMPLIANCE_ENABLED.message));
+        }
+
+        /**
+         * Returns the remote shutdown request result which contains the provided message.
+         *
+         * @param message the message
+         * @return the remote shutdown request result which contains the provided message
+         */
+        public static RemoteShutdownRequestResult fromMessage(String message) {
+            Preconditions.checkArgument(!StringUtil.isNullOrEmpty(message));
+
+            for (RemoteShutdownRequestResult value : values()) {
+                if (message.equalsIgnoreCase(value.getMessage())) {
+                    return value;
+                }
+            }
+
+            throw new FatalException("Failed to find result from message: " + message);
+        }
     }
 
     /**
@@ -292,10 +325,11 @@ public final class InstanceSocketUtil {
         RemoteShutdownRequestResult result = determineRemoteShutdownRequestResult(message.getContent());
         Logger.log(LogTag.DEBUG, result.getMessage());
 
+        sendCommunicationMessage("Remote shutdown response", result.getMessage(), responseWriter);
+
         if (result.isShouldComply()) {
             try {
                 instanceSocket.close();
-                sendCommunicationMessage("Remote shutdown response", "Shutting down", responseWriter);
                 responseWriter.close();
             } catch (Exception ignored) {} finally {
                 OsUtil.exit(ExitCondition.RemoteShutdown);

@@ -1,5 +1,6 @@
 package cyder.enumerations;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.logging.Logger;
 import cyder.utils.OsUtil;
 
@@ -68,6 +69,16 @@ public enum Dynamic {
      */
     public File getPointerFile() {
         return buildDynamic(fileName);
+    }
+
+    /**
+     * Deletes this dynamic directory.
+     *
+     * @return whether this dynamic was deleted
+     */
+    @CanIgnoreReturnValue
+    public boolean delete() {
+        return OsUtil.deleteFile(Dynamic.buildDynamic(fileName));
     }
 
     /**

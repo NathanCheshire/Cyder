@@ -48,11 +48,6 @@ public final class JvmUtil {
     private static final String JAVA = "java.exe";
 
     /**
-     * The obfuscation message for when {@link Props#autocypher} is true.
-     */
-    private static final String OBFUSCATION_MESSAGE = "JVM main method args obfuscated due to AutoCypher";
-
-    /**
      * The string to look for when analyzing the runtime mx bean for whether the current JVM
      * has been launched in "debug mode" and may be suspended. This is identifiable by looking
      * for the agent lib command line argument referencing the Java Debug Wire Protocol.
@@ -369,7 +364,8 @@ public final class JvmUtil {
         Preconditions.checkNotNull(cyderArgs);
 
         if (Props.autocypher.getValue()) {
-            Logger.log(LogTag.JVM_ARGS, OBFUSCATION_MESSAGE);
+            Logger.log(LogTag.JVM_ARGS, "JVM main method args obfuscated due"
+                    + " to AutoCypher, args length: " + cyderArgs.size());
             return;
         }
 
