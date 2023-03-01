@@ -16,6 +16,7 @@ import cyder.time.TimeUtil;
 import cyder.utils.JvmUtil;
 
 import javax.swing.*;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,7 +32,7 @@ public final class CyderWatchdog {
     /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
      */
-    public static final int POLL_TIMEOUT = Props.watchdogPollTimeout.getValue();
+    public static final Duration POLL_TIMEOUT = Duration.ofMillis(Props.watchdogPollTimeout.getValue());
 
     /**
      * The watchdog counter to detect a halt if it is not reset by the time
@@ -137,7 +138,7 @@ public final class CyderWatchdog {
 
         CyderThreadRunner.submit(() -> {
             while (true) {
-                ThreadUtil.sleep(POLL_TIMEOUT);
+                ThreadUtil.sleep(POLL_TIMEOUT.toMillis());
 
                 attemptWatchdogReset();
 
@@ -147,7 +148,7 @@ public final class CyderWatchdog {
 
                 if (currentCyderState.isShouldIncrementWatchdog()) {
                     if (shouldIncrementWatchdogForThreadState(currentAwtEventQueueThreadState)) {
-                        watchdogCounter.getAndAdd(POLL_TIMEOUT);
+                        watchdogCounter.getAndAdd((int) POLL_TIMEOUT.toMillis());
                     }
                 } else {
                     Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as"

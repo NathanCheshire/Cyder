@@ -145,7 +145,7 @@ public final class Logger {
      */
     private static void setupLogFileWithAsciiArt() {
         writeCyderAsciiArtToFile(currentLog);
-        if (JvmUtil.getArgumentParam(CyderArguments.BOOSTRAP.name()).isPresent()) {
+        if (JvmUtil.mainMethodArgumentPresent(CyderArguments.BOOSTRAP.getName())) {
             writeBoostrapAsciiArtToFile(currentLog);
         }
     }
@@ -502,18 +502,19 @@ public final class Logger {
 
         if (ArrayUtil.nullOrEmpty(subLogDirs)) return;
 
-        for (File subLogDir : subLogDirs) {
-            if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) continue;
+        Arrays.stream(subLogDirs)
+                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension()))
+                .forEach(subLogDir -> {
+                    File[] logFiles = subLogDir.listFiles();
 
-            File[] logFiles = subLogDir.listFiles();
-
-            if (ArrayUtil.nullOrEmpty(logFiles)) continue;
-
-            for (File logFile : logFiles) {
-                log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
-                consolidateLines(logFile);
-            }
-        }
+                    if (!ArrayUtil.nullOrEmpty(logFiles)) {
+                        Arrays.stream(logFiles).filter(logFile -> !logFile.equals(Logger.getCurrentLogFile()))
+                                .forEach(logFile -> {
+                                    log(LogTag.DEBUG, "Consolidating lines of file: " + logFile.getName());
+                                    consolidateLines(logFile);
+                                });
+                    }
+                });
     }
 
     /**
@@ -562,7 +563,7 @@ public final class Logger {
             writeLines.add(currentLine);
         }
 
-        writeCyderAsciiArtToFile(logFile);
+        writeCyderAsciiArtToFile(logFile); // todo bode fix me
         FileUtil.writeLinesToFile(logFile, writeLines, true);
     }
 

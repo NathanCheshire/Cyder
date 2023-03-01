@@ -84,7 +84,7 @@ public enum RemoteShutdownRequestResult {
     public static RemoteShutdownRequestResult fromMessage(String message) {
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(message));
 
-        for (RemoteShutdownRequestResult value : .values()){
+        for (RemoteShutdownRequestResult value : values()) {
             if (message.equalsIgnoreCase(value.getMessage())) {
                 return value;
             }

@@ -18,9 +18,9 @@ public final class LoggingConstants {
     static final int numNewLinesAfterCyderAsciiArt = 2;
 
     /**
-     * The number of new lines to write before and after the boostrap ascii art.
+     * The number of new lines to write before the boostrap ascii art.
      */
-    static final int numNewLinesBeforeAndAfterBoostrapArt = 2;
+    static final int numNewLinesBeforeBoostrapAsciiArt = 2;
 
     /**
      * The rate in ms at which to log the amount of objects created.

@@ -106,7 +106,7 @@ public final class JvmUtil {
         String currentArgument = null;
         for (String argument : jvmMainMethodArgs) {
             if (isArgument(argument)) {
-                if (currentArgument != null) throw new FatalException("Failed to parse at argument: " + argument);
+                if (currentArgument != null) args.put(currentArgument, "");
                 currentArgument = removeLeadingDashes(argument);
                 continue;
             }
@@ -116,6 +116,7 @@ public final class JvmUtil {
             currentArgument = null;
         }
 
+        if (currentArgument != null) args.put(currentArgument, "");
         parsedArgs = args.build();
     }
 
@@ -160,6 +161,19 @@ public final class JvmUtil {
         } else {
             return Optional.empty();
         }
+    }
+
+    /**
+     * Returns whether the parsed arguments contained the provided argument.
+     *
+     * @param argument the argument
+     * @return whether the parsed arguments contained the provided argument
+     */
+    public static boolean mainMethodArgumentPresent(String argument) {
+        Preconditions.checkNotNull(argument);
+        Preconditions.checkArgument(!argument.isEmpty());
+
+        return parsedArgs.containsKey(argument);
     }
 
     /**

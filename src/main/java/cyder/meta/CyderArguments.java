@@ -20,7 +20,7 @@ public enum CyderArguments {
     private static final String dashDash = "--";
 
     /**
-     * The name of this argument
+     * The name of this argument.
      */
     private final String name;
 
@@ -35,5 +35,14 @@ public enum CyderArguments {
      */
     public String constructFullParameter() {
         return dashDash + name;
+    }
+
+    /**
+     * Returns the name of this argument.
+     *
+     * @return the name of this argument
+     */
+    public String getName() {
+        return name;
     }
 }

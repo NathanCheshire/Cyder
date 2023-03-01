@@ -344,15 +344,13 @@ public final class LoggingUtil {
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) writer.newLine();
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             for (String line : boostrapLines) {
                 writer.write(line);
                 writer.newLine();
             }
 
-            for (int i = 0 ; i < numNewLinesBeforeAndAfterBoostrapArt ; i++) writer.newLine();
+            for (int i = 0 ; i < numNewLinesBeforeBoostrapAsciiArt ; i++) writer.newLine();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
