@@ -419,13 +419,13 @@ class LoggingUtilTest {
     fun testGetLogLinesFromLog() {
         val numPrelinesToWrite = 8
 
-        assertThrows(NullPointerException::class.java) { LoggingUtil.getLogLinesFromLog(null) }
-        assertThrows(IllegalArgumentException::class.java) { LoggingUtil.getLogLinesFromLog(File(".")) }
+        assertThrows(NullPointerException::class.java) { LoggingUtil.getStandardLogLinesFromLogFile(null) }
+        assertThrows(IllegalArgumentException::class.java) { LoggingUtil.getStandardLogLinesFromLogFile(File(".")) }
         assertThrows(IllegalArgumentException::class.java) {
-            LoggingUtil.getLogLinesFromLog(File(".gitignore"))
+            LoggingUtil.getStandardLogLinesFromLogFile(File(".gitignore"))
         }
         assertThrows(IllegalArgumentException::class.java) {
-            LoggingUtil.getLogLinesFromLog(File("file_that_does_not_exist.txt"))
+            LoggingUtil.getStandardLogLinesFromLogFile(File("file_that_does_not_exist.txt"))
         }
 
         val tmpDir = File("tmp")
@@ -453,7 +453,7 @@ class LoggingUtilTest {
             }
         }
 
-        assertEquals(logLines, LoggingUtil.getLogLinesFromLog(tmpFile))
+        assertEquals(logLines, LoggingUtil.getStandardLogLinesFromLogFile(tmpFile))
         assertTrue(OsUtil.deleteFile(tmpDir, false))
     }
 }

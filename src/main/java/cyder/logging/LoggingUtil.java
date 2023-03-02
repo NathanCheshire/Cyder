@@ -315,14 +315,15 @@ public final class LoggingUtil {
     /**
      * Writes the Cyder Ascii art from {@link LoggingConstants#cyderSignatureLines} to the provided file.
      *
-     * @param file the file to write the ascii art to
+     * @param file   the file to write the ascii art to
+     * @param append whether to append the signature or overwrite the file contents
      */
-    static void writeCyderAsciiArtToFile(File file) {
+    static void writeCyderAsciiArtToFile(File file, boolean append) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
             for (String line : cyderSignatureLines) {
                 writer.write(line);
                 writer.newLine();
@@ -337,14 +338,15 @@ public final class LoggingUtil {
     /**
      * Writes the bootstrap Ascii art to the provided file.
      *
-     * @param file the file to write the boostrap Ascii art to
+     * @param file   the file to write the boostrap Ascii art to
+     * @param append whether to append the boostrap signature or overwrite the file contents
      */
-    static void writeBoostrapAsciiArtToFile(File file) {
+    static void writeBoostrapAsciiArtToFile(File file, boolean append) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
             for (String line : boostrapLines) {
                 writer.write(line);
                 writer.newLine();
@@ -439,7 +441,7 @@ public final class LoggingUtil {
      * @param logFile the log file
      * @return the lines of the log file excluding any empty lines/Cyder Ascii art lines
      */
-    static ImmutableList<String> getLogLinesFromLog(File logFile) {
+    static ImmutableList<String> getStandardLogLinesFromLogFile(File logFile) {
         Preconditions.checkNotNull(logFile);
         Preconditions.checkArgument(logFile.exists());
         Preconditions.checkArgument(logFile.isFile());

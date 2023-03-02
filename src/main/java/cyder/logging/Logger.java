@@ -144,9 +144,9 @@ public final class Logger {
      * a bootstrap attempt.
      */
     private static void setupLogFileWithAsciiArt() {
-        writeCyderAsciiArtToFile(currentLog);
+        writeCyderAsciiArtToFile(currentLog, false);
         if (JvmUtil.mainMethodArgumentPresent(CyderArguments.BOOSTRAP.getName())) {
-            writeBoostrapAsciiArtToFile(currentLog);
+            writeBoostrapAsciiArtToFile(currentLog, true);
         }
     }
 
@@ -528,7 +528,14 @@ public final class Logger {
         Preconditions.checkArgument(logFile.isFile());
         Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
 
-        ImmutableList<String> logLines = getLogLinesFromLog(logFile);
+        ImmutableList<String> fileLines = FileUtil.getFileLines(logFile);
+        ArrayList<String> logLines = new ArrayList<>();
+
+        boolean firstLogLineFound = false;
+        for (String fileLine : fileLines) {
+            if (!firstLogLineFound && LoggingUtil.matchesStandardLogLine(fileLine)) firstLogLineFound = true;
+            if (firstLogLineFound) logLines.add(fileLine);
+        }
 
         // If there's only one line, consolidating doesn't make sense now does it?
         if (logLines.size() < 2) return;
@@ -563,7 +570,7 @@ public final class Logger {
             writeLines.add(currentLine);
         }
 
-        writeCyderAsciiArtToFile(logFile); // todo bode fix me
+        // todo write pre-lines
         FileUtil.writeLinesToFile(logFile, writeLines, true);
     }
 
@@ -724,7 +731,7 @@ public final class Logger {
      */
     private static void onLogFileDeletedMidRuntime() {
         generateAndSetLogFile();
-        writeCyderAsciiArtToFile(currentLog);
+        writeCyderAsciiArtToFile(currentLog, false);
         awaitingLogCalls.addAll(checkLogLineLength(getLogRecoveryDebugLine()));
     }
 }
