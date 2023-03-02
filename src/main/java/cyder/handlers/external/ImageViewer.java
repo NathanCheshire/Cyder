@@ -163,7 +163,7 @@ public class ImageViewer {
                 }
             });
 
-            pictureFrame.setMenuEnabled(true);
+            pictureFrame.setMenuButtonShown(true);
             pictureFrame.addMenuItem(RENAME, this::onRenameButtonClicked);
 
             nextButton = new RightButton();

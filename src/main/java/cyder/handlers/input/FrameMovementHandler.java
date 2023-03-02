@@ -61,8 +61,7 @@ public class FrameMovementHandler extends InputHandler {
                                 - f.getWidth();
                         int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY();
 
-                        f.setRestoreX(anchorX);
-                        f.setRestoreY(anchorY);
+                        f.setRestorePoint(new Point(anchorX, anchorY));
                         f.setLocation(anchorX, anchorY);
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
@@ -79,8 +78,7 @@ public class FrameMovementHandler extends InputHandler {
                                 + Console.INSTANCE.getConsoleCyderFrame().getHeight()
                                 - f.getHeight();
 
-                        f.setRestoreX(anchorX);
-                        f.setRestoreY(anchorY);
+                        f.setRestorePoint(new Point(anchorX, anchorY));
                         f.setLocation(anchorX, anchorY);
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
@@ -95,8 +93,7 @@ public class FrameMovementHandler extends InputHandler {
                                 + Console.INSTANCE.getConsoleCyderFrame().getHeight()
                                 - f.getHeight();
 
-                        f.setRestoreX(anchorX);
-                        f.setRestoreY(anchorY);
+                        f.setRestorePoint(new Point(anchorX, anchorY));
                         f.setLocation(anchorX, anchorY);
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("top")
@@ -109,8 +106,7 @@ public class FrameMovementHandler extends InputHandler {
                         int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX();
                         int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY();
 
-                        f.setRestoreX(anchorX);
-                        f.setRestoreY(anchorY);
+                        f.setRestorePoint(new Point(anchorX, anchorY));
                         f.setLocation(anchorX, anchorY);
                     }
                 } else {
@@ -135,8 +131,7 @@ public class FrameMovementHandler extends InputHandler {
                     int anchorX = x - f.getWidth() / 2;
                     int anchorY = y - f.getHeight() / 2;
 
-                    f.setRestoreX(anchorX);
-                    f.setRestoreY(anchorY);
+                    f.setRestorePoint(new Point(anchorX, anchorY));
                     f.setLocation(anchorX, anchorY);
                 }
             } else {

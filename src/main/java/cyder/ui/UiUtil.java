@@ -615,8 +615,9 @@ public final class UiUtil {
      * @return whether the provided frame has not had a drag event during its lifetime
      */
     public static boolean frameNotYetDragged(CyderFrame frame) {
-        return frame.getRestoreX() == CyderFrame.FRAME_NOT_YET_DRAGGED
-                || frame.getRestoreY() == CyderFrame.FRAME_NOT_YET_DRAGGED;
+        Point restorePoint = frame.getRestorePoint();
+        return restorePoint.getX() == CyderFrame.FRAME_NOT_YET_DRAGGED
+                || restorePoint.getY() == CyderFrame.FRAME_NOT_YET_DRAGGED;
     }
 
     /**

@@ -156,8 +156,7 @@ public class CyderDragLabel extends JLabel {
 
                     effectFrame.setLocation(setX, setY);
 
-                    effectFrame.setRestoreX(setX);
-                    effectFrame.setRestoreY(setY);
+                    effectFrame.setRestorePoint(new Point(setX, setY));
                 }
             }
 
@@ -203,19 +202,7 @@ public class CyderDragLabel extends JLabel {
             public void windowDeiconified(WindowEvent e) {
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
-                UiUtil.requestFramePosition(new Point(effectFrame.getRestoreX(),
-                        effectFrame.getRestoreY()), effectFrame);
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void windowIconified(WindowEvent e) {
-                if (UiUtil.frameNotYetDragged(effectFrame)) {
-                    effectFrame.setRestoreX(effectFrame.getX());
-                    effectFrame.setRestoreY(effectFrame.getY());
-                }
+                UiUtil.requestFramePosition(effectFrame.getRestorePoint(), effectFrame);
             }
         });
     }
@@ -228,6 +215,7 @@ public class CyderDragLabel extends JLabel {
             removeRightButtons();
             refreshRightButtons();
         }
+
         if (type != DragLabelType.FULL) {
             CyderDragLabel generatingLabel = this;
             addMouseListener(new MouseAdapter() {

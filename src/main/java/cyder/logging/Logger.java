@@ -570,7 +570,6 @@ public final class Logger {
             writeLines.add(currentLine);
         }
 
-        // todo write pre-lines
         FileUtil.writeLinesToFile(logFile, writeLines, true);
     }
 

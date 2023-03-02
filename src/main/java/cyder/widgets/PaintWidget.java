@@ -128,7 +128,7 @@ public final class PaintWidget {
         cyderGrid.setDrawWidth(DEFAULT_BRUSH_WIDTH);
         cyderGrid.setNodeColor(currentPaintColor);
 
-        paintFrame.setMenuEnabled(true);
+        paintFrame.setMenuButtonShown(true);
         paintFrame.addMenuItem("Export PNG", () -> CyderThreadRunner.submit(() -> {
             if (cyderGrid.getGridNodes().isEmpty()) {
                 paintFrame.notify("Please place at least one node before saving");
@@ -209,43 +209,7 @@ public final class PaintWidget {
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
                 if (pixelSize == 1) return;
-
-                BufferedImage image = new BufferedImage(
-                        cyderGrid.getNodeDimensionLength(),
-                        cyderGrid.getNodeDimensionLength(),
-                        BufferedImage.TYPE_INT_ARGB);
-
-                Graphics2D g2d = (Graphics2D) image.getGraphics();
-
-                for (GridNode node : cyderGrid.getGridNodes()) {
-                    g2d.setColor(node.getColor());
-                    g2d.fillRect(node.getX(), node.getY(), 1, 1);
-                }
-
-                BufferedImage newStateImage = ImageUtil.pixelateImage(image, pixelSize);
-
-                LinkedList<GridNode> newState = new LinkedList<>();
-
-                for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
-                    for (int y = 0 ; y < newStateImage.getHeight() ; y++) {
-                        int color = newStateImage.getRGB(x, y);
-
-                        Color newColor = new Color(
-                                (color >> 16) & 0xFF,
-                                (color >> 8) & 0xFF,
-                                color & 0xFF);
-
-                        // todo this doesn't work
-                        // so you don't have to account for this
-                        if (newColor.equals(Color.BLACK))
-                            continue;
-
-                        newState.add(new GridNode(newColor, x, y));
-                    }
-                }
-
-                // set new state
-                cyderGrid.setGridState(newState);
+                // todo
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not pixelate image at this time");

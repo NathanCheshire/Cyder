@@ -122,7 +122,8 @@ public class PlayAudioHandler extends InputHandler {
             String url = getInputHandler().argsToString();
 
             if (YouTubeUtil.isPlaylistUrl(url)) {
-                // todo
+                // todo we can either extract all uuids and download individually or simply let youtube-ld
+                //  handle downloading them all
             } else if (YouTubeUtil.isVideoUrl(url)) {
                 YouTubeUtil.downloadYouTubeAudio(url, Console.INSTANCE.getInputHandler());
             } else {

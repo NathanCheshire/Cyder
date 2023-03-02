@@ -122,7 +122,7 @@ public final class TttGame {
             }
         }, "Board Size Changer"));
         tttFrame.addMenuItem("Reset Board", TttGame::resetBoard);
-        tttFrame.setMenuEnabled(true);
+        tttFrame.setMenuButtonShown(true);
 
         infoLabel = new JLabel();
         infoLabel.setHorizontalAlignment(JLabel.CENTER);

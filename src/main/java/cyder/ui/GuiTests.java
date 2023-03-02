@@ -630,7 +630,7 @@ public final class GuiTests {
         CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Menu Test");
 
-        testFrame.setMenuEnabled(true);
+        testFrame.setMenuButtonShown(true);
         testFrame.setMenuType(MenuType.RIBBON);
 
         testFrame.initializeResizing();

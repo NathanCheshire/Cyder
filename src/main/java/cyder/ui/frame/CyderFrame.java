@@ -1136,8 +1136,7 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAndIconify() {
         try {
-            setRestoreX(getX());
-            setRestoreY(getY());
+            setRestorePoint(new Point(getX(), getY()));
 
             if (UserDataManager.INSTANCE.shouldDoAnimations()) {
                 setDisableContentRepainting(true);
@@ -2150,41 +2149,26 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns the restore x value.
+     * Returns the restore point for this frame.
+     * See {@link UiUtil#frameNotYetDragged(CyderFrame)} to determine if this point
+     * is indicative of the frame never being dragged throughout its life-cycle
      *
-     * @return the restore x value
+     * @return the restore point for this frame
      */
-    public int getRestoreX() {
-        return restoreX;
-    }
-
-    // todo get restore point method
-
-    /**
-     * Returns the restore y value.
-     *
-     * @return the restore y value
-     */
-    public int getRestoreY() {
-        return restoreY;
+    public Point getRestorePoint() {
+        return new Point(restoreX, restoreY);
     }
 
     /**
-     * Sets the restore x value.
+     * Sets the restore point to the provided point.
      *
-     * @param x the restore x value
+     * @param point the restore point to the provided point
      */
-    public void setRestoreX(int x) {
-        restoreX = x;
-    }
+    public void setRestorePoint(Point point) {
+        Preconditions.checkNotNull(point);
 
-    /**
-     * Sets the restore y value.
-     *
-     * @param y the restore y value
-     */
-    public void setRestoreY(int y) {
-        restoreY = y;
+        this.restoreX = (int) point.getX();
+        this.restoreY = (int) point.getY();
     }
 
     /**
@@ -2193,9 +2177,7 @@ public class CyderFrame extends JFrame {
      * @return whether dragging is permitted for this frame
      */
     public boolean isDraggingEnabled() {
-        if (isBorderlessFrame()) {
-            return false;
-        }
+        if (isBorderlessFrame()) return false;
 
         return topDrag.isDraggingEnabled()
                 && bottomDrag.isDraggingEnabled()
@@ -2318,7 +2300,7 @@ public class CyderFrame extends JFrame {
     // Pinning logic
     // -------------
 
-    // todo make controller for console pinning: ConsolePinningController.INSTANCE
+    // todo make controller for console pinning, probably a singleton in the console package
 
     /**
      * Adds any {@link MouseMotionListener}s to the drag labels.
@@ -2819,7 +2801,7 @@ public class CyderFrame extends JFrame {
     public void lockMenuOut() {
         generateMenu();
         showMenu();
-        setMenuEnabled(false); // todo poorly named method?
+        setMenuButtonShown(false);
     }
 
     /**
@@ -2827,7 +2809,7 @@ public class CyderFrame extends JFrame {
      */
     public void lockMenuIn() {
         hideMenu();
-        setMenuEnabled(false);
+        setMenuButtonShown(false);
     }
 
     /**
@@ -3024,14 +3006,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets whether the menu should be enabled.
+     * Sets whether the menu button should be shown.
      *
-     * @param menuEnabled whether the menu should be enabled
+     * @param showMenuButton whether the menu button should be shown
      */
-    public void setMenuEnabled(boolean menuEnabled) {
-        this.menuEnabled = menuEnabled;
+    public void setMenuButtonShown(boolean showMenuButton) {
+        this.menuEnabled = showMenuButton;
 
-        if (menuEnabled) {
+        if (showMenuButton) {
             addMenuButton();
         } else {
             removeMenuButton();
@@ -3042,10 +3024,7 @@ public class CyderFrame extends JFrame {
      * Shows the menu in the currently set location as defined by {@link MenuType}.
      */
     public void showMenu() {
-        if (menuLabel == null) {
-            generateMenu();
-        }
-
+        if (menuLabel == null) generateMenu();
         menuLabel.setLocation(menuAnimateToPoint);
         menuLabel.setVisible(true);
     }

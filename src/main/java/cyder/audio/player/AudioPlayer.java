@@ -550,7 +550,7 @@ public final class AudioPlayer {
             refreshFrameTitle();
             addChangeSizeButtonToTopDragLabel();
             audioPlayerFrame.setMenuType(MenuType.PANEL);
-            audioPlayerFrame.setMenuEnabled(true);
+            audioPlayerFrame.setMenuButtonShown(true);
             audioPlayerFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -1046,7 +1046,7 @@ public final class AudioPlayer {
      */
     public static void lockUi() {
         uiLocked = true;
-        audioPlayerFrame.setMenuEnabled(false);
+        audioPlayerFrame.setMenuButtonShown(false);
     }
 
     /**
@@ -1054,7 +1054,7 @@ public final class AudioPlayer {
      */
     public static void unlockUi() {
         uiLocked = false;
-        audioPlayerFrame.setMenuEnabled(true);
+        audioPlayerFrame.setMenuButtonShown(true);
     }
 
     /**
