@@ -43,7 +43,7 @@ class PropTest {
         val prop = Prop("key", "value", String::class.java)
 
         assertEquals("Prop{key=key, value=value, type=class java.lang.String, defaultValue=value,"
-                + " cachedCastedPropSpecifiedValue=null}", prop.toString())
+                + " cachedCustomSpecifiedValue=null}", prop.toString())
     }
 
     /**
@@ -53,7 +53,7 @@ class PropTest {
     fun testHashCode() {
         val prop = Prop("key", "value", String::class.java)
 
-        assertEquals(-382268370, prop.hashCode())
+        assertEquals(1034582418, prop.hashCode())
     }
 
     /**

@@ -87,14 +87,14 @@ class DirectoryWatcherTest {
     @Test
     fun testDirectoryWatchEventPublishing() {
         // The currently set list values takes around a minute to complete
-        val pollDelays = ImmutableList.of(10, 50, 75, 100, 200, 500)
+        val pollDelays = ImmutableList.of(10L, 50L, 75L, 100L, 200L, 500L)
         pollDelays.stream().forEach { innerTestDirectoryWatchEventPublishing(it) }
     }
 
     /**
      * Tests for each [WatchDirectoryEvent] a [DirectoryWatcher] can push to subscribers.
      */
-    private fun innerTestDirectoryWatchEventPublishing(pollTimeout: Int = 8) {
+    private fun innerTestDirectoryWatchEventPublishing(pollTimeout: Long = 8) {
         println("Testing directory watch event publishing, pollTimeout: $pollTimeout")
 
         val pollMagnitudeTestingDelays = 8
@@ -116,7 +116,7 @@ class DirectoryWatcherTest {
         directoryWatcher.addSubscriber(fileAddedSubscriber)
         val tmpFile = File("tmp/temp.txt")
         assertTrue(tmpFile.createNewFile())
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(fileAddedEventHandled.get())
 
         val fileDeletedEventHandled = AtomicBoolean()
@@ -128,7 +128,7 @@ class DirectoryWatcherTest {
         fileDeletedSubscriber.subscribeTo(WatchDirectoryEvent.FILE_DELETED)
         directoryWatcher.addSubscriber(fileDeletedSubscriber)
         assertTrue(tmpFile.delete())
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(fileDeletedEventHandled.get())
 
         val directoryAddedEventHandled = AtomicBoolean()
@@ -141,7 +141,7 @@ class DirectoryWatcherTest {
         directoryWatcher.addSubscriber(directoryAddedSubscriber)
         val innerTempDirectory = File("tmp/temp_directory")
         assertTrue(innerTempDirectory.mkdir())
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(directoryAddedEventHandled.get())
 
         val directoryRemovedEventHandled = AtomicBoolean()
@@ -153,7 +153,7 @@ class DirectoryWatcherTest {
         directoryRemovedSubscriber.subscribeTo(WatchDirectoryEvent.DIRECTORY_DELETED)
         directoryWatcher.addSubscriber(directoryRemovedSubscriber)
         assertTrue(innerTempDirectory.delete())
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(directoryRemovedEventHandled.get())
 
         val fileToModify = File("tmp/file_to_modify.txt")
@@ -166,12 +166,12 @@ class DirectoryWatcherTest {
         }
         fileModifiedSubscriber.subscribeTo(WatchDirectoryEvent.FILE_MODIFIED)
         directoryWatcher.addSubscriber(fileModifiedSubscriber)
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         BufferedWriter(FileWriter(fileToModify)).use {
             it.write("Text")
             it.newLine()
         }
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(fileModifyEventHandled.get())
 
         val createSubDir = File("tmp/temp_directory")
@@ -184,10 +184,10 @@ class DirectoryWatcherTest {
         }
         directoryModifiedSubscriber.subscribeTo(WatchDirectoryEvent.DIRECTORY_MODIFIED)
         directoryWatcher.addSubscriber(directoryModifiedSubscriber)
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         val fileToAdd = File("tmp/temp_directory/add_file.txt")
         assertTrue(fileToAdd.createNewFile())
-        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout.toLong())
+        ThreadUtil.sleep(pollMagnitudeTestingDelays * pollTimeout)
         assertTrue(directoryModifyEventHandled.get())
 
         assertDoesNotThrow { directoryWatcher.stopWatching() }

@@ -304,12 +304,12 @@ class LoggingUtilTest {
      */
     @Test
     fun testWriteCyderAsciiArtToFile() {
-        assertThrows(NullPointerException::class.java) { LoggingUtil.writeCyderAsciiArtToFile(null) }
+        assertThrows(NullPointerException::class.java) { LoggingUtil.writeCyderAsciiArtToFile(null, false) }
         assertThrows(IllegalArgumentException::class.java) {
-            LoggingUtil.writeCyderAsciiArtToFile(File("file_that_does_not_exist"))
+            LoggingUtil.writeCyderAsciiArtToFile(File("file_that_does_not_exist"), false)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            LoggingUtil.writeCyderAsciiArtToFile(File("src"))
+            LoggingUtil.writeCyderAsciiArtToFile(File("src"), false)
         }
 
         val tmpDir = File("tmp")
@@ -320,7 +320,7 @@ class LoggingUtilTest {
         tmpFile.createNewFile()
         assertTrue(tmpFile.exists())
 
-        assertDoesNotThrow { LoggingUtil.writeCyderAsciiArtToFile(tmpFile) }
+        assertDoesNotThrow { LoggingUtil.writeCyderAsciiArtToFile(tmpFile, false) }
 
         val writtenFileLines: ImmutableList<String> = FileUtil.getFileLines(tmpFile)
         var truthLines: ImmutableList<String> = FileUtil.getFileLines(StaticUtil.getStaticResource("cyder.txt"))

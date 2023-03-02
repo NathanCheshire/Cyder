@@ -18,7 +18,7 @@ public enum ProgramModeManager {
     /**
      * The program mode for this session of Cyder.
      */
-    private static ProgramMode sessionProgramMode;
+    private static ProgramMode sessionProgramMode = ProgramMode.NORMAL;
 
     /**
      * Refreshes the current program mode.

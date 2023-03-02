@@ -183,8 +183,7 @@ public final class Prop<T> {
                 && getValue().equals(other.getValue())
                 && getType().equals(other.getType())
                 && defaultValue.equals(other.getDefaultValue())
-                && Objects.equals(cachedCustomSpecifiedValue, other.cachedCustomSpecifiedValue)
-                && lastAttemptedCacheTime.equals(other.lastAttemptedCacheTime);
+                && Objects.equals(cachedCustomSpecifiedValue, other.cachedCustomSpecifiedValue);
     }
 
     /**
@@ -197,7 +196,6 @@ public final class Prop<T> {
         ret = 31 * ret + type.hashCode();
         ret = 31 * ret + defaultValue.hashCode();
         ret = 31 * ret + Objects.hashCode(cachedCustomSpecifiedValue);
-        ret = 31 * ret + Objects.hashCode(lastAttemptedCacheTime);
         return ret;
     }
 
@@ -212,7 +210,6 @@ public final class Prop<T> {
                 + ", type=" + type
                 + ", defaultValue=" + defaultValue
                 + ", cachedCustomSpecifiedValue=" + cachedCustomSpecifiedValue
-                + ", lastAttemptedCacheTime=" + lastAttemptedCacheTime
                 + "}";
     }
 }

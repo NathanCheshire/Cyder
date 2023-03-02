@@ -7,6 +7,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,12 +45,12 @@ public class DirectoryWatcher {
     /**
      * The default poll timeout.
      */
-    private static final int DEFAULT_POLL_TIMEOUT = 100;
+    private static final Duration DEFAULT_POLL_TIMEOUT = Duration.ofMillis(100);
 
     /**
      * The timeout between checking the watch directory.
      */
-    private int pollTimeout;
+    private long pollTimeout;
 
     /**
      * The map of file paths to byte sizes last cached by this directory watcher.
@@ -67,7 +68,7 @@ public class DirectoryWatcher {
      * @param watchDirectory the directory to watch
      */
     public DirectoryWatcher(File watchDirectory) {
-        this(watchDirectory, DEFAULT_POLL_TIMEOUT);
+        this(watchDirectory, DEFAULT_POLL_TIMEOUT.toMillis());
     }
 
     /**
@@ -77,7 +78,7 @@ public class DirectoryWatcher {
      * @param watchDirectory the directory to watch
      * @param pollTimeout    the timeout between checking the directory
      */
-    public DirectoryWatcher(File watchDirectory, int pollTimeout) {
+    public DirectoryWatcher(File watchDirectory, long pollTimeout) {
         Preconditions.checkNotNull(watchDirectory);
         Preconditions.checkArgument(watchDirectory.exists());
         Preconditions.checkArgument(watchDirectory.isDirectory());
@@ -101,7 +102,7 @@ public class DirectoryWatcher {
      *
      * @return the timeout between directory content polls
      */
-    public int getPollTimeout() {
+    public long getPollTimeout() {
         return pollTimeout;
     }
 
