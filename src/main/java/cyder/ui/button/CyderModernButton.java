@@ -15,7 +15,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -339,7 +339,7 @@ public class CyderModernButton extends JLabel {
     /**
      * The runnables to invoke when the button is clicked.
      */
-    private final LinkedList<Runnable> clickRunnables = new LinkedList<>();
+    private final ArrayList<Runnable> clickRunnables = new ArrayList<>();
 
     /**
      * Adds the runnable to the list of runnables to invoke when the button is clicked.

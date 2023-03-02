@@ -21,8 +21,10 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
@@ -538,7 +540,7 @@ public final class FileUtil {
         Preconditions.checkArgument(topLevelDirectory.exists());
         Preconditions.checkArgument(topLevelDirectory.isDirectory());
 
-        LinkedList<File> ret = new LinkedList<>();
+        ArrayList<File> ret = new ArrayList<>();
 
         File[] topLevelFiles = topLevelDirectory.listFiles();
 

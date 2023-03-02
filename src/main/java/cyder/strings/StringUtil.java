@@ -569,7 +569,7 @@ public final class StringUtil {
     private static final ImmutableList<String> BLOCKED_WORDS;
 
     static {
-        LinkedList<String> blockedWords = new LinkedList<>();
+        ArrayList<String> blockedWords = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(
                 StaticUtil.getStaticResource("blocked.txt")))) {

@@ -40,7 +40,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -118,12 +117,12 @@ public final class LoginHandler {
     /**
      * The regular non-priority printing list for the login frame.
      */
-    private static final LinkedList<String> printingList = new LinkedList<>();
+    private static final ArrayList<String> printingList = new ArrayList<>();
 
     /**
      * The priority printing list for the login frame.
      */
-    private static final LinkedList<String> priorityPrintingList = new LinkedList<>();
+    private static final ArrayList<String> priorityPrintingList = new ArrayList<>();
 
     /**
      * The font for the login field.
@@ -237,7 +236,7 @@ public final class LoginHandler {
                             throw new FatalException("Failed to acquire output pane lock");
                         }
 
-                        String line = priorityPrintingList.removeFirst();
+                        String line = priorityPrintingList.remove(0);
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         ArrayUtil.toList(line.toCharArray()).forEach(charizard -> {
@@ -251,7 +250,7 @@ public final class LoginHandler {
                             throw new FatalException("Failed to acquire output pane lock");
                         }
 
-                        String line = printingList.removeFirst();
+                        String line = printingList.remove(0);
                         Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         ArrayUtil.toList(line.toCharArray()).forEach(charizard -> {

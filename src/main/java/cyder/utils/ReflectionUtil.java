@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 import static cyder.strings.CyderStrings.*;
 
@@ -84,7 +83,7 @@ public final class ReflectionUtil {
     public static ImmutableList<String> getGetterNames(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 
-        LinkedList<String> ret = new LinkedList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         for (Method m : clazz.getMethods()) {
             if (m.getName().startsWith(GET) && m.getParameterTypes().length == 0) {
@@ -114,7 +113,7 @@ public final class ReflectionUtil {
     public static ImmutableList<String> getSetterNames(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 
-        LinkedList<String> ret = new LinkedList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         for (Method m : clazz.getMethods()) {
             if (m.getName().startsWith(SET) && m.getParameterTypes().length == 1) {

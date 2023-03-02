@@ -25,7 +25,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 
 /**
@@ -446,7 +445,7 @@ public final class PizzaWidget {
         String size = optionalSize.get() + HtmlTags.breakTag;
 
         String crust;
-        LinkedList<String> selectedElements = crustTypeScroll.getSelectedElements();
+        ImmutableList<String> selectedElements = crustTypeScroll.getSelectedElements();
         if (selectedElements.isEmpty()) {
             crust = THIN;
         } else {
@@ -454,7 +453,7 @@ public final class PizzaWidget {
         }
 
         StringBuilder toppingsChosen = new StringBuilder();
-        LinkedList<String> selectedToppings = pizzaToppingsScroll.getSelectedElements();
+        ImmutableList<String> selectedToppings = pizzaToppingsScroll.getSelectedElements();
         if (selectedToppings.isEmpty()) {
             toppingsChosen.append(PLAIN);
         } else {

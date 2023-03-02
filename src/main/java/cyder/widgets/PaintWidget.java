@@ -52,7 +52,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 
 /**
@@ -248,7 +247,7 @@ public final class PaintWidget {
 
                     cyderGrid.setNodeDimensionLength(len);
 
-                    LinkedList<GridNode> newState = new LinkedList<>();
+                    ArrayList<GridNode> newState = new ArrayList<>();
 
                     for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
                         for (int y = 0 ; y < newStateImage.getHeight() ; y++) {

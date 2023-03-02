@@ -26,9 +26,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -80,7 +80,7 @@ public final class StatUtil {
      * @return an immutable list detailing the java system properties of the current JVM
      */
     public static ImmutableList<String> getSystemProperties() {
-        LinkedList<String> ret = new LinkedList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         Arrays.stream(SystemPropertyKey.values()).forEach(systemPropertyKey ->
                 ret.add(systemPropertyKey.getDescription() + ", key: " + systemPropertyKey.getKey()
@@ -98,7 +98,7 @@ public final class StatUtil {
      * @return an immutable list detailing the found computer properties
      */
     public static ImmutableList<String> getComputerMemorySpaces() {
-        LinkedList<String> ret = new LinkedList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         ret.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
         ret.add("Free memory: " + OsUtil.formatBytes(Runtime.getRuntime().freeMemory()));
@@ -408,16 +408,16 @@ public final class StatUtil {
             throw new IllegalMethodException("Method not allowed when in Jar mode");
         }
 
-        LinkedList<FileSize> prints = innerFileSizes(new File("src"));
+        ArrayList<FileSize> prints = innerFileSizes(new File("src"));
         prints.sort(new FileComparator());
         return ImmutableList.copyOf(prints);
     }
 
-    private static LinkedList<FileSize> innerFileSizes(File startDir) {
+    private static ArrayList<FileSize> innerFileSizes(File startDir) {
         Preconditions.checkNotNull(startDir);
         Preconditions.checkArgument(startDir.exists());
 
-        LinkedList<FileSize> ret = new LinkedList<>();
+        ArrayList<FileSize> ret = new ArrayList<>();
 
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();

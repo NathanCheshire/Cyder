@@ -26,7 +26,10 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
@@ -270,12 +273,12 @@ public final class GetterUtil {
     /**
      * The list of strings to display for the current files.
      */
-    private final LinkedList<String> filesNamesList = new LinkedList<>();
+    private final ArrayList<String> filesNamesList = new ArrayList<>();
 
     /**
      * The files which correspond to the current files.
      */
-    private final LinkedList<File> filesList = new LinkedList<>();
+    private final ArrayList<File> filesList = new ArrayList<>();
 
     /**
      * The backward stack.

@@ -11,7 +11,6 @@ import cyder.strings.StringUtil;
 import cyder.ui.pane.CyderOutputPane;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
@@ -68,7 +67,7 @@ public enum BletchyAnimationManager {
     private final ImmutableList<Character> CARD_SUITS;
 
     {
-        LinkedList<Character> ret = new LinkedList<>();
+        ArrayList<Character> ret = new ArrayList<>();
 
         for (int i = minCardSuiteIndex ; i <= maxCardSuiteIndex ; i++) {
             ret.add((char) i);
@@ -95,7 +94,7 @@ public enum BletchyAnimationManager {
     private final int usableUnicodeEndIndex = 1023;
 
     {
-        LinkedList<Character> ret = new LinkedList<>();
+        ArrayList<Character> ret = new ArrayList<>();
 
         for (int index = usableUnicodeCharsStartIndex ; index <= usableUnicodeEndIndex ; index++) {
             ret.add((char) index);

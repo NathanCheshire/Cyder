@@ -21,7 +21,6 @@ import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Convex hull widget that solve a convex hull problem using a CyderGrid as the drawing label.
@@ -186,7 +185,7 @@ public final class ConvexHullWidget {
      * The actions to invoke when the solve button is pressed.
      */
     private static void solveButtonAction() {
-        gridComponent.setGridNodes(new LinkedList<>(gridComponent.getNodesOfColor(PLACED_NODE_COLOR)));
+        gridComponent.setGridNodes(new ArrayList<>(gridComponent.getNodesOfColor(PLACED_NODE_COLOR)));
 
         if (gridComponent.getNodeCount() < MIN_POLYGON_POINTS) {
             hullFrame.notify(MIN_POLYGON_POINTS + " points are required to create a polygon in 2D space");

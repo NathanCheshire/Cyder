@@ -341,7 +341,7 @@ public class WeatherWidget {
     /**
      * The instances of weather widget for this Cyder session.
      */
-    private static final LinkedList<WeatherWidget> instances = new LinkedList<>();
+    private static final ArrayList<WeatherWidget> instances = new ArrayList<>();
 
     /**
      * The gmt keyword.

@@ -23,7 +23,6 @@ import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.LinkedList;
 
 /**
  * A label styled for Cyder.
@@ -219,7 +218,7 @@ public class CyderLabel extends JLabel {
                 ImmutableList<StringContainer> taggedStrings = StringUtil.splitToHtmlTagsAndContent(originalText);
 
                 //init ripple iterations list
-                LinkedList<String> rippleTextIterations = new LinkedList<>();
+                ArrayList<String> rippleTextIterations = new ArrayList<>();
 
                 //find ripple steps: this takes < 1ms usually
 

@@ -25,7 +25,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -268,7 +268,7 @@ public enum CyderSplash {
     /**
      * The list of harmonic rectangles.
      */
-    private final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
+    private final ArrayList<HarmonicRectangle> harmonicRectangles = new ArrayList<>();
 
     /**
      * The semaphore for adding or removing harmonic rectangles.

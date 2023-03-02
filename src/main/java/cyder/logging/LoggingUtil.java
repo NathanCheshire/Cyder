@@ -19,7 +19,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -88,7 +87,7 @@ public final class LoggingUtil {
     static ImmutableList<String> checkLogLineLength(String line) {
         Preconditions.checkNotNull(line);
 
-        LinkedList<String> lines = new LinkedList<>();
+        ArrayList<String> lines = new ArrayList<>();
 
         while (line.length() > maxLogLineLength) {
             boolean breakInserted = false;

@@ -1,6 +1,7 @@
 package cyder.ui.list;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
@@ -23,7 +24,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 
 /**
@@ -85,7 +85,7 @@ public class CyderScrollList {
     /**
      * The list of elements of for this scroll list.
      */
-    private final LinkedList<JLabel> elements;
+    private final ArrayList<JLabel> elements;
 
     /**
      * The selection policies for the scroll list.
@@ -157,7 +157,7 @@ public class CyderScrollList {
         this.selectionPolicy = Preconditions.checkNotNull(selectionPolicy);
         this.darkMode = darkMode;
 
-        elements = new LinkedList<>();
+        elements = new ArrayList<>();
 
         if (darkMode) {
             nonSelectedColor = CyderColors.defaultDarkModeTextColor;
@@ -505,8 +505,8 @@ public class CyderScrollList {
      *
      * @return a list of all currently selected elements
      */
-    public LinkedList<String> getSelectedElements() {
-        LinkedList<String> ret = new LinkedList<>();
+    public ImmutableList<String> getSelectedElements() {
+        ArrayList<String> ret = new ArrayList<>();
 
         elements.forEach(element -> {
             if (element.getForeground().equals(selectedColor)) {
@@ -514,7 +514,7 @@ public class CyderScrollList {
             }
         });
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**

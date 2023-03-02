@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.File;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -45,7 +44,7 @@ public final class DirectoryViewer {
     /**
      * The current files.
      */
-    private static final LinkedList<File> currentFiles = new LinkedList<>();
+    private static final ArrayList<File> currentFiles = new ArrayList<>();
 
     /**
      * Stack to traverse backwards through history of viewed directories.

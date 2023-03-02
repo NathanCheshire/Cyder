@@ -12,7 +12,6 @@ import cyder.utils.ArrayUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -135,7 +134,7 @@ public final class NumberUtil {
         Preconditions.checkArgument(a >= 0);
         Preconditions.checkArgument(b >= 0);
 
-        LinkedList<Long> ret = new LinkedList<>();
+        ArrayList<Long> ret = new ArrayList<>();
         ret.add(a);
 
         for (int i = 1 ; i < numbers ; i++) {

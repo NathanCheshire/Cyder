@@ -3,7 +3,7 @@ package cyder.youtube.parsers;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * The master containing object for containing serialized data from a YouTube search list query.
@@ -38,7 +38,7 @@ public class YouTubeSearchResultPage {
     /**
      * The list of YouTube videos matching the search query.
      */
-    private LinkedList<YouTubeVideo> items;
+    private ArrayList<YouTubeVideo> items;
 
     /**
      * Constructs a new YouTube search results page.
@@ -142,7 +142,7 @@ public class YouTubeSearchResultPage {
      *
      * @return the list of YouTube videos matching the search query
      */
-    public LinkedList<YouTubeVideo> getItems() {
+    public ArrayList<YouTubeVideo> getItems() {
         return items;
     }
 
@@ -151,7 +151,7 @@ public class YouTubeSearchResultPage {
      *
      * @param items the list of YouTube videos matching the search query
      */
-    public void setItems(LinkedList<YouTubeVideo> items) {
+    public void setItems(ArrayList<YouTubeVideo> items) {
         this.items = items;
     }
 

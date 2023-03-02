@@ -46,7 +46,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Conway's game of life visualizer.
@@ -164,12 +167,12 @@ public final class GameOfLifeWidget {
     /**
      * The state the grid was in before the user last pressed start.
      */
-    private static LinkedList<GridNode> beforeStartingState;
+    private static ArrayList<GridNode> beforeStartingState;
 
     /**
      * The last state of the grid.
      */
-    private static LinkedList<GridNode> lastState = new LinkedList<>();
+    private static ArrayList<GridNode> lastState = new ArrayList<>();
 
     /**
      * The conway states loaded from static JSON conway directory.
@@ -466,7 +469,7 @@ public final class GameOfLifeWidget {
 
         for (int i = 0 ; i < comboItems.size() ; i++) {
             if (comboItems.get(i).equals(nextState)) {
-                beforeStartingState = new LinkedList<>();
+                beforeStartingState = new ArrayList<>();
 
                 correspondingConwayStates.get(i).getNodes().forEach(point ->
                         beforeStartingState.add(new GridNode((int) point.getX(), (int) point.getY())));
@@ -602,12 +605,12 @@ public final class GameOfLifeWidget {
      * Starts the simulation.
      */
     private static void start() {
-        beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
+        beforeStartingState = new ArrayList<>(conwayGrid.getGridNodes());
 
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
-                    LinkedList<GridNode> nextState = new LinkedList<>();
+                    ArrayList<GridNode> nextState = new ArrayList<>();
 
                     int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
                     for (int i = 0 ; i < nextGen.length ; i++) {
@@ -638,7 +641,7 @@ public final class GameOfLifeWidget {
                     }
 
                     // advance last state
-                    lastState = new LinkedList<>(conwayGrid.getGridNodes());
+                    lastState = new ArrayList<>(conwayGrid.getGridNodes());
 
                     // set new state
                     conwayGrid.setGridNodes(nextState);
@@ -686,7 +689,7 @@ public final class GameOfLifeWidget {
                     new GridNode((int) point.getX(), (int) point.getY())));
 
             conwayFrame.notify("Loaded state: " + loadState.getName());
-            beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
+            beforeStartingState = new ArrayList<>(conwayGrid.getGridNodes());
 
             resetStats();
             population = loadState.getNodes().size();
@@ -725,7 +728,7 @@ public final class GameOfLifeWidget {
             if (OsUtil.isValidFilename(filename)) {
                 File saveFile = UserUtil.createFileInUserSpace(filename);
 
-                LinkedList<Point> points = new LinkedList<>();
+                ArrayList<Point> points = new ArrayList<>();
 
                 conwayGrid.getGridNodes().forEach(node -> points.add(new Point(node.getX(), node.getY())));
                 ConwayState state = new ConwayState(saveName, conwayGrid.getNodeDimensionLength(), points);
@@ -859,7 +862,7 @@ public final class GameOfLifeWidget {
         /**
          * The list of nodes for the saves state.
          */
-        private final LinkedList<Point> nodes;
+        private final ArrayList<Point> nodes;
 
         /**
          * Constructs a new conway state.
@@ -868,7 +871,7 @@ public final class GameOfLifeWidget {
          * @param gridSize the size of the nxn grid
          * @param nodes    the nodes to place for the state
          */
-        public ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
+        public ConwayState(String name, int gridSize, ArrayList<Point> nodes) {
             this.name = Preconditions.checkNotNull(name);
             this.gridSize = gridSize;
             this.nodes = Preconditions.checkNotNull(nodes);
@@ -897,7 +900,7 @@ public final class GameOfLifeWidget {
          *
          * @return the list of points for this conway state
          */
-        public LinkedList<Point> getNodes() {
+        public ArrayList<Point> getNodes() {
             return nodes;
         }
     }

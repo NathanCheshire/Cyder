@@ -52,7 +52,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -2697,7 +2696,7 @@ public class CyderFrame extends JFrame {
     /**
      * The list of callbacks to invoke when {@link #endDragEvent()} is invoked.
      */
-    private final LinkedList<Runnable> endDragEventCallbacks = new LinkedList<>();
+    private final ArrayList<Runnable> endDragEventCallbacks = new ArrayList<>();
 
     /**
      * Executes all callbacks registered in {@link #endDragEventCallbacks}.
@@ -2859,7 +2858,7 @@ public class CyderFrame extends JFrame {
      * The list of menu items. The listener to show/hide the menu
      * is added/removed depending on the length of this list.
      */
-    private final LinkedList<MenuItem> menuItems = new LinkedList<>() {
+    private final ArrayList<MenuItem> menuItems = new ArrayList<>() {
         @Override
         public boolean add(MenuItem menuItem) {
             boolean ret = false;

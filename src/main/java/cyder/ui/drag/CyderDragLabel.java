@@ -18,7 +18,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -657,7 +656,7 @@ public class CyderDragLabel extends JLabel {
         removeRightButtons();
         effectFrame.revalidateTitlePosition();
 
-        LinkedList<Component> reversedRightButtons = new LinkedList<>();
+        ArrayList<Component> reversedRightButtons = new ArrayList<>();
         for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
             reversedRightButtons.add(rightButtonList.get(i));
         }

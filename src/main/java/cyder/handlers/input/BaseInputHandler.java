@@ -36,7 +36,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -546,7 +549,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private Process createAndStartWrapShellProcess() throws IOException {
-        LinkedList<String> processArgs = new LinkedList<>(args);
+        ArrayList<String> processArgs = new ArrayList<>(args);
         processArgs.add(0, command);
         ProcessBuilder builder = new ProcessBuilder(processArgs);
         builder.redirectErrorStream(true);
@@ -617,7 +620,7 @@ public class BaseInputHandler {
      * The printing list for non-important outputs.
      * DO NOT ADD DIRECTLY TO THIS LIST UNLESS YOU ARE A PRINT METHOD.
      */
-    private final LinkedList<Object> consolePrintingList = new LinkedList<>() {
+    private final ArrayList<Object> consolePrintingList = new ArrayList<>() {
         @Override
         public boolean add(Object e) {
             lockAddingToLists();
@@ -637,7 +640,7 @@ public class BaseInputHandler {
      * The priority printing list for important outputs.
      * DO NOT ADD DIRECTLY TO THIS LIST UNLESS YOU ARE A PRINT METHOD.
      */
-    private final LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
+    private final ArrayList<Object> consolePriorityPrintingList = new ArrayList<>() {
         @Override
         public boolean add(Object e) {
             lockAddingToLists();
@@ -774,11 +777,11 @@ public class BaseInputHandler {
      * @param list the list to perform the operations on
      * @return the object removed from the list
      */
-    private Object removeAndLog(LinkedList<Object> list) {
+    private Object removeAndLog(ArrayList<Object> list) {
         Preconditions.checkNotNull(list);
         Preconditions.checkArgument(!list.isEmpty());
 
-        Object ret = list.removeFirst();
+        Object ret = list.remove(0);
         Logger.log(LogTag.CONSOLE_OUT, ret);
         return ret;
     }

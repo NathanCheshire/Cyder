@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.*;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
@@ -33,7 +34,6 @@ import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -211,7 +211,7 @@ public final class ImageAveragerWidget {
      */
     @ForReadability
     private static void removeSelectedImagesButtonAction() {
-        LinkedList<String> selectedElements = imagesScroll.getSelectedElements();
+        ImmutableList<String> selectedElements = imagesScroll.getSelectedElements();
         for (String selectedElement : selectedElements) {
             currentFiles.remove(selectedElement);
         }

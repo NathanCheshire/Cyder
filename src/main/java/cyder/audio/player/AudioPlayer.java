@@ -85,7 +85,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -2241,7 +2240,7 @@ public final class AudioPlayer {
     /**
      * The list of search results previously found.
      */
-    private static final LinkedList<YoutubeSearchResult> searchResults = new LinkedList<>();
+    private static final ArrayList<YoutubeSearchResult> searchResults = new ArrayList<>();
 
     /**
      * The length of the thumbnails printed to the search view {@link #searchResultsPane}.

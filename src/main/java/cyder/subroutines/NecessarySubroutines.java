@@ -28,7 +28,6 @@ import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.strings.CyderStrings.*;
@@ -70,7 +69,7 @@ public final class NecessarySubroutines {
     /**
      * A list of the discovered triggers from handle annotations.
      */
-    private static final LinkedList<String> handleTriggers = new LinkedList<>();
+    private static final ArrayList<String> handleTriggers = new ArrayList<>();
 
     /**
      * Suppress default constructor.

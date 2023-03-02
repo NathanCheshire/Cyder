@@ -24,7 +24,10 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.concurrent.Future;
 
 /**
@@ -244,7 +247,7 @@ public class StatHandler extends InputHandler {
      * @return a list of triggers for gui tests
      */
     private static ImmutableList<String> getGuiTestTriggers() {
-        LinkedList<String> ret = new LinkedList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();

@@ -77,7 +77,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -1663,7 +1662,7 @@ public enum Console {
     /**
      * The current active frames to generate TaskbarIcons for the console's menu.
      */
-    private final LinkedList<CyderFrame> currentActiveFrames = new LinkedList<>();
+    private final ArrayList<CyderFrame> currentActiveFrames = new ArrayList<>();
 
     /**
      * The current taskbar menu frame items.
@@ -1738,7 +1737,7 @@ public enum Console {
      * @return the current frame taskbar icon items
      */
     private synchronized ImmutableList<TaskbarIcon> getCurrentFrameTaskbarIcons(boolean compactMode) {
-        LinkedList<TaskbarIcon> ret = new LinkedList<>();
+        ArrayList<TaskbarIcon> ret = new ArrayList<>();
 
         if (!currentActiveFrames.isEmpty()) {
             Lists.reverse(currentActiveFrames).forEach(currentFrame -> {
@@ -3515,7 +3514,7 @@ public enum Console {
      * Invokes dance in a synchronous way on all CyderFrame instances.
      */
     public void dance() {
-        LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();
+        ArrayList<RestoreFrame> restoreFrames = new ArrayList<>();
         UiUtil.getCyderFrames().forEach(frame -> {
             restoreFrames.add(new RestoreFrame(frame, frame.getX(), frame.getY(), frame.isDraggingEnabled()));
             frame.disableDragging();

@@ -30,7 +30,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -263,7 +266,7 @@ public final class PathFinderWidget {
     /**
      * The nodes which may be pathed through on the current grid state.
      */
-    private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
+    private static final ArrayList<PathNode> pathableNodes = new ArrayList<>();
 
     /**
      * The nodes which are in the queue to be pathed through.
@@ -715,7 +718,7 @@ public final class PathFinderWidget {
                 return;
             }
 
-            LinkedList<PathNode> neighbors = new LinkedList<>();
+            ArrayList<PathNode> neighbors = new ArrayList<>();
             for (PathNode possibleNeighbor : pathableNodes) {
                 if (areOrthogonalNeighbors(possibleNeighbor, min)
                         || (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isChecked())) {

@@ -498,7 +498,7 @@ public final class UserEditor {
      * The action to open a file when the open file button is clicked.
      */
     private static void openFile() {
-        LinkedList<String> selectedScrollElements = filesScrollListReference.get().getSelectedElements();
+        ImmutableList<String> selectedScrollElements = filesScrollListReference.get().getSelectedElements();
 
         for (String selectedScrollElement : selectedScrollElements) {
             for (String fileName : filesNameList) {
@@ -525,7 +525,7 @@ public final class UserEditor {
      */
     private static final ActionListener renameFileButtonActionListener = e -> {
         try {
-            LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
+            ImmutableList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
 
             if (selectedElements.isEmpty()) return;
 
@@ -648,11 +648,8 @@ public final class UserEditor {
      * The action listener for the delete file button.
      */
     private static final ActionListener deleteFileButtonActionListener = e -> {
-        LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
-
-        if (selectedElements.isEmpty()) {
-            return;
-        }
+        ImmutableList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
+        if (selectedElements.isEmpty()) return;
 
         for (String selectedElement : selectedElements) {
             File selectedFile = getFile(selectedElement);
