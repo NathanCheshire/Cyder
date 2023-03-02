@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * A builder for a get input getter method.
  */
-public final class GetInputBuilder extends GetBuilder {
+public final class GetInputBuilder implements GetBuilder {
     /**
      * The title of the frame.
      */

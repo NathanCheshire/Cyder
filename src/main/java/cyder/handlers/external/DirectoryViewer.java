@@ -19,6 +19,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 

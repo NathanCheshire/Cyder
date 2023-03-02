@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * A builder for a get confirmation getter method.
  */
-public final class GetConfirmationBuilder extends GetBuilder {
+public final class GetConfirmationBuilder implements GetBuilder {
     /**
      * The frame title.
      */

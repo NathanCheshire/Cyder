@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * A builder for a get file getter method.
  */
-public final class GetFileBuilder extends GetBuilder {
+public final class GetFileBuilder implements GetBuilder {
     /**
      * The frame title.
      */

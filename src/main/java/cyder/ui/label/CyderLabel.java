@@ -23,6 +23,7 @@ import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * A label styled for Cyder.
