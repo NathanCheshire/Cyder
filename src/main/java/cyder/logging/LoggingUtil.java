@@ -337,15 +337,14 @@ public final class LoggingUtil {
     /**
      * Writes the bootstrap Ascii art to the provided file.
      *
-     * @param file   the file to write the boostrap Ascii art to
-     * @param append whether to append the boostrap signature or overwrite the file contents
+     * @param file the file to write the boostrap Ascii art to
      */
-    static void writeBoostrapAsciiArtToFile(File file, boolean append) {
+    static void writeBoostrapAsciiArtToFile(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             for (String line : boostrapLines) {
                 writer.write(line);
                 writer.newLine();
@@ -376,7 +375,7 @@ public final class LoggingUtil {
         for (String objectCreationLine : objectCreationLines) {
             Matcher matcher = objectsCreatedSinceLastDeltaPattern.matcher(objectCreationLine);
             if (matcher.matches()) {
-                String objectsGroup = matcher.group(3); // todo magic number
+                String objectsGroup = matcher.group(objectsCreatedGroupInLine);
 
                 int lineObjects = 0;
                 try {

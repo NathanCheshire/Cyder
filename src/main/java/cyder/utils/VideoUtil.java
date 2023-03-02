@@ -78,6 +78,6 @@ public final class VideoUtil {
         Preconditions.checkNotNull(mp4File);
         Preconditions.checkArgument(mp4File.exists());
 
-        // todo
+        // todo need to figure out how to properly play an mp4 with standard controls
     }
 }

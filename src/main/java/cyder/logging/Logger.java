@@ -146,7 +146,7 @@ public final class Logger {
     private static void setupLogFileWithAsciiArt() {
         writeCyderAsciiArtToFile(currentLog, false);
         if (JvmUtil.mainMethodArgumentPresent(CyderArguments.BOOSTRAP.getName())) {
-            writeBoostrapAsciiArtToFile(currentLog, true);
+            writeBoostrapAsciiArtToFile(currentLog);
         }
     }
 

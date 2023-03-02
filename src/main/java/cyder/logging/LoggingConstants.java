@@ -126,6 +126,12 @@ public final class LoggingConstants {
     );
 
     /**
+     * The group to extract from the {@link #objectsCreatedSinceLastDeltaPattern}
+     * to determine the number of objects created logged.
+     */
+    static final int objectsCreatedGroupInLine = 3;
+
+    /**
      * Suppress default constructor.
      */
     private LoggingConstants() {

@@ -186,7 +186,7 @@ public final class PaintWidget {
                 File chosenImage = optionalFile.get();
 
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
-                    // todo
+                    // todo layer image logic
                 } else {
                     paintFrame.notify("Image type not supported");
                 }
@@ -208,7 +208,7 @@ public final class PaintWidget {
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
                 if (pixelSize == 1) return;
-                // todo
+                // todo pixelate image
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not pixelate image at this time");

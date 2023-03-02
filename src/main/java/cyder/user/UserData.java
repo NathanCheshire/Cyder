@@ -252,7 +252,7 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, SILENCE_ERRORS);
                 // todo if error panes are present, remove
-                // todo this implies we need some kind of a manager, should also have errors stck up the side
+                //  this implies we need some kind of a manager, should also have errors stck up the side
                 //  with padding and if more than like half of screen height, just say like "2 more..."
             }).build();
 
@@ -426,7 +426,7 @@ public final class UserData<T> {
             .setOnChangeFunction(() -> {
                 Logger.log(LogTag.USER_DATA, CAPS_MODE);
                 // todo make all text in console capital letters? how would this be undone?
-                // todo would have to maintain two styled text documents basically
+                //  would have to maintain two styled text documents basically
             }).build();
 
     /**
