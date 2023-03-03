@@ -183,6 +183,13 @@ public final class FileUtil {
         return true;
     }
 
+    /**
+     * Returns the first n number of bytes from the provided file.
+     *
+     * @param file     the file to return n bytes from
+     * @param numBytes the number of bytes to return
+     * @return the requested number of bytes
+     */
     public static ImmutableList<Integer> getBytes(File file, int numBytes) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
@@ -191,29 +198,16 @@ public final class FileUtil {
 
         ArrayList<Integer> ret = new ArrayList<>(numBytes);
 
-        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
-
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+            for (int i = 0 ; i < numBytes ; i++) {
+                int b = bis.read();
+                ret.add(b);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        for (int i = 0 ; i < numBytes ; i++) {
-
-        }
-    }
-
-    public static void main(String[] args) {
-        File file = new File("C:\\Users\\Nathan\\Documents\\IntelliJava\\cyder\\dynamic\\users\\"
-                + "b83a7183-83c0-3203-917e-f187ebcfc6a1\\Backgrounds\\Moodswings_blurred_5.png");
-
-        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
-            for (int i = 0 ; i < 10 ; i++) {
-                int data = inputStream.read();
-                System.out.println(data);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        return ImmutableList.copyOf(ret);
     }
 
     /**
