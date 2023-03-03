@@ -136,10 +136,16 @@ public class CyderFrame extends JFrame {
     private static final int contentLabelBorderLength = 3;
 
     /**
+     * The default index for adding things to the content pane.
+     */
+    private static final int defaultContentLabelAddingIndex = 0;
+
+    /**
      * Allowable indices to add components to the contentLabel
      * which is a {@link JLayeredPane} and the content pane for CyderFrames.
      */
     public static final ImmutableList<Integer> allowableContentLabelIndices = ImmutableList.of(
+            defaultContentLabelAddingIndex, /* Default */
             JLayeredPane.DRAG_LAYER, /* Drag labels */
             JLayeredPane.POPUP_LAYER /* Notifications */
     );
@@ -372,9 +378,14 @@ public class CyderFrame extends JFrame {
                 requestFocus();
                 if (getOpacity() > minimizeAnimationMax / 2.0f) return;
                 CyderThreadRunner.submit(() -> {
+                    /*
+                    Note to maintainers: the following three lines exists to avoid the bug of seeing the
+                    old Windows XP/95 style frame icons when restoring a frame from iconification.
+                     */
                     ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
                     setOpacity(minimizeAnimationMin);
                     ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+
                     for (float i = getOpacity() ; i <= minimizeAnimationMax ; i += minimizeAnimationDelta) {
                         setOpacity(i);
                         ThreadUtil.sleep(minimizeAnimationDelay);
@@ -389,9 +400,9 @@ public class CyderFrame extends JFrame {
             @Override
             public Component add(Component comp, int index) {
                 Preconditions.checkNotNull(comp);
-                Preconditions.checkArgument(index >= 0);
-                // todo add default content pane adding index?
-                index = allowableContentLabelIndices.contains(index) ? index : 0;
+                Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
+
+                index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
                 return super.add(comp, index);
             }
         };
@@ -414,9 +425,9 @@ public class CyderFrame extends JFrame {
 
         iconPane = new JLayeredPane();
         iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
-        iconPane.add(iconLabel, JLayeredPane.DEFAULT_LAYER);
+        iconPane.add(iconLabel, defaultContentLabelAddingIndex);
         iconPane.setFocusable(false);
-        contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
+        contentLabel.add(iconPane, defaultContentLabelAddingIndex);
 
         contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
                 contentLabelBorderLength, false));
@@ -564,7 +575,11 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                return super.add(comp, allowableContentLabelIndices.contains(index) ? index : 0);
+                Preconditions.checkNotNull(comp);
+                Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
+
+                index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
+                return super.add(comp, index);
             }
         };
         contentLabel.setFocusable(false);
@@ -586,9 +601,9 @@ public class CyderFrame extends JFrame {
         iconPane = new JLayeredPane();
         iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
                 width - 2 * FRAME_RESIZING_LEN, height - 2 * FRAME_RESIZING_LEN);
-        iconPane.add(iconLabel, JLayeredPane.DEFAULT_LAYER);
+        iconPane.add(iconLabel, defaultContentLabelAddingIndex);
         iconPane.setFocusable(false);
-        contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
+        contentLabel.add(iconPane, defaultContentLabelAddingIndex);
         setContentPane(contentLabel);
 
         fullDragLabel = new CyderDragLabel(width, height, this, DragLabelType.FULL);

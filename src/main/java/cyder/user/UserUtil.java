@@ -114,9 +114,7 @@ public final class UserUtil {
                         valid = false;
                     }
 
-                    if (!valid) {
-                        OsUtil.deleteFile(backgroundFile);
-                    }
+                    if (!valid) OsUtil.deleteFile(backgroundFile);
                 }
             }
         } catch (Exception e) {

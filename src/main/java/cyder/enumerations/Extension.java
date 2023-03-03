@@ -1,5 +1,10 @@
 package cyder.enumerations;
 
+import com.google.common.base.Preconditions;
+import cyder.files.FileUtil;
+
+import java.io.File;
+
 /**
  * Common extensions used and checked for throughout Cyder.
  */
@@ -46,6 +51,19 @@ public enum Extension {
      */
     public String getExtensionWithoutPeriod() {
         return extension.substring(1);
+    }
+
+    /**
+     * Returns whether the provided file is using this extension.
+     *
+     * @param file this file
+     * @return whether the provided file is using this extension
+     */
+    public boolean validateExtension(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        return FileUtil.getExtension(file).equals(extension);
     }
 
     /**
