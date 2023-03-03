@@ -183,6 +183,39 @@ public final class FileUtil {
         return true;
     }
 
+    public static ImmutableList<Integer> getBytes(File file, int numBytes) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(!file.isDirectory());
+        Preconditions.checkArgument(numBytes > 0);
+
+        ArrayList<Integer> ret = new ArrayList<>(numBytes);
+
+        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        for (int i = 0 ; i < numBytes ; i++) {
+
+        }
+    }
+
+    public static void main(String[] args) {
+        File file = new File("C:\\Users\\Nathan\\Documents\\IntelliJava\\cyder\\dynamic\\users\\"
+                + "b83a7183-83c0-3203-917e-f187ebcfc6a1\\Backgrounds\\Moodswings_blurred_5.png");
+
+        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            for (int i = 0 ; i < 10 ; i++) {
+                int data = inputStream.read();
+                System.out.println(data);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Uses a regex to get the file name of the provided file, does not return the period.
      *

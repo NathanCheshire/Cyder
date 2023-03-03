@@ -185,6 +185,7 @@ public final class UserUtil {
      *     <li>Deleting non audio files from the Music/ directory</li>
      *     <li>Removing album art not linked to an audio file</li>
      *     <li>Removing any invalid mapped executables</li>
+     *     <li>Correcting any JPG or PNG files</li>
      * </ul>
      */
     public static void cleanUsers() {
@@ -231,6 +232,7 @@ public final class UserUtil {
         }
 
         removeInvalidUserMappedExecutables();
+        correctJpgAndPngFiles();
     }
 
     /**
@@ -248,6 +250,37 @@ public final class UserUtil {
 
             user.setMappedExecutables(MappedExecutables.from(validMappedExecutables));
             writeUserToFile(userJson, user);
+        });
+    }
+
+    /**
+     * Checks user directories recursively for PNG and JPG files. Any file which is named
+     * inappropriately is renamed to the correct extension. For example, if a PNG is named JPG but the file
+     * signature shows it is a PNG, it will be renamed to the PNG extension.
+     */
+    private static void correctJpgAndPngFiles() {
+        getUserUuids().forEach(uuid -> {
+            File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid);
+
+            ArrayList<File> incorrectNamedPngs = new ArrayList<>();
+            ArrayList<File> incorrectlyNamedJpgs = new ArrayList<>();
+
+            ImmutableList<File> userFiles = FileUtil.getFiles(userDirectory, true);
+            userFiles.forEach(file -> {
+                if (FileUtil.getExtension(file).equals(Extension.PNG.getExtension())) {
+                    System.out.println("Png extension : " + file);
+                    if (FileUtil.fileMatchesSignature(file, FileUtil.JPG_SIGNATURE)) {
+                        incorrectlyNamedJpgs.add(file);
+                    }
+                } else if (FileUtil.getExtension(file).equals(Extension.JPEG.getExtension())
+                        || FileUtil.getExtension(file).equals(Extension.JPG.getExtension())) {
+                    System.out.println("jpg extension : " + file);
+                    FileUtil.fileMatchesSignature(file, FileUtil.JPG_SIGNATURE);
+                    if (FileUtil.fileMatchesSignature(file, FileUtil.PNG_SIGNATURE)) {
+                        incorrectNamedPngs.add(file);
+                    }
+                }
+            });
         });
     }
 
