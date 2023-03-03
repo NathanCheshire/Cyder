@@ -551,18 +551,24 @@ public final class Logger {
         Preconditions.checkArgument(FileUtil.validateExtension(logFile, Extension.LOG.getExtension()));
 
         ImmutableList<String> fileLines = FileUtil.getFileLines(logFile);
+        ArrayList<String> preLogLines = new ArrayList<>();
         ArrayList<String> logLines = new ArrayList<>();
 
         boolean firstLogLineFound = false;
         for (String fileLine : fileLines) {
-            if (!firstLogLineFound && LoggingUtil.matchesStandardLogLine(fileLine)) firstLogLineFound = true;
+            if (!firstLogLineFound) {
+                if (LoggingUtil.matchesStandardLogLine(fileLine)) {
+                    firstLogLineFound = true;
+                } else {
+                    preLogLines.add(fileLine);
+                }
+            }
             if (firstLogLineFound) logLines.add(fileLine);
         }
 
-        // If there's only one line, consolidating doesn't make sense now does it?
         if (logLines.size() < 2) return;
 
-        ArrayList<String> writeLines = new ArrayList<>();
+        ArrayList<String> writeLines = new ArrayList<>(preLogLines);
 
         String lastLine;
         String currentLine = "";
@@ -592,7 +598,7 @@ public final class Logger {
             writeLines.add(currentLine);
         }
 
-        FileUtil.writeLinesToFile(logFile, writeLines, true);
+        FileUtil.writeLinesToFile(logFile, writeLines, false);
     }
 
     /**

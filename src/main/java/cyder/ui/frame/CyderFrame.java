@@ -1139,22 +1139,21 @@ public class CyderFrame extends JFrame {
 
             if (UserDataManager.INSTANCE.shouldDoAnimations()) {
                 setDisableContentRepainting(true);
+                disableDragging();
 
-                int monitorHeight = UiUtil.getMonitorHeight(this);
-                int animationInc = (int) ((double) (monitorHeight - getY()) / ANIMATION_FRAMES);
+                float minimizeAnimationDelta = 0.05f;
+                for (float i = DEFAULT_OPACITY ; i >= 0.0f ; i -= minimizeAnimationDelta) {
+                    if (animatingOut) break;
+                    setOpacity(i);
+                    repaint();
 
-                for (int i = getY() ; i <= monitorHeight + getHeight() ; i += animationInc) {
-                    ThreadUtil.sleep(MOVEMENT_ANIMATION_DELAY);
-                    setLocation(getX(), i);
-
-                    if (i >= monitorHeight) {
-                        setVisible(false);
-                    }
+                    ThreadUtil.sleep(5);
                 }
+
+                enableDragging();
             }
 
-            setVisible(true);
-            setState(Frame.ICONIFIED);
+            setState(UiConstants.FRAME_ICONIFIED);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

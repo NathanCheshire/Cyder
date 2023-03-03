@@ -5,44 +5,11 @@ import cyder.threads.ThreadUtil
 import cyder.ui.frame.CyderFrame
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.awt.Frame
-import javax.swing.JFrame
 
 /**
  * Tests for the [AnimationUtil] methods.
  */
 class AnimationUtilTest {
-    /**
-     * Tests for the close animation method.
-     */
-    @Test
-    fun testCloseAnimation() {
-        val frame = Frame()
-        Assertions.assertDoesNotThrow { AnimationUtil.closeAnimation(frame) }
-
-        val jFrame = JFrame()
-        Assertions.assertDoesNotThrow { AnimationUtil.closeAnimation(jFrame) }
-
-        val cyderFrame = CyderFrame()
-        Assertions.assertDoesNotThrow { AnimationUtil.closeAnimation(cyderFrame) }
-    }
-
-    /**
-     * Tests for the minimize animation method.
-     */
-    @Test
-    fun testMinimizeAnimation() {
-        val jFrame = JFrame()
-        jFrame.isVisible = true
-        Assertions.assertDoesNotThrow { AnimationUtil.minimizeAnimation(jFrame) }
-        Assertions.assertEquals(JFrame.ICONIFIED, jFrame.state)
-
-        val cyderFrame = CyderFrame()
-        cyderFrame.isVisible = true
-        Assertions.assertDoesNotThrow { AnimationUtil.minimizeAnimation(cyderFrame) }
-        Assertions.assertEquals(JFrame.ICONIFIED, jFrame.state)
-    }
-
     /**
      * Tests for animating a component moving in a cardinal direction.
      */
