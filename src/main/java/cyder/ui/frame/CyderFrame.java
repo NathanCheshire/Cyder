@@ -64,6 +64,27 @@ import static cyder.strings.CyderStrings.openingBracket;
  */
 public class CyderFrame extends JFrame {
     /**
+     * The area exposed to allow frame resizing. The maximum is 5 since
+     * 5 is the border of the frame.
+     */
+    public static final int FRAME_RESIZING_LEN = 2;
+
+    /**
+     * The size of the border drawn around the frame.
+     */
+    public static final int BORDER_LEN = Props.frameBorderLength.getValue();
+
+    /**
+     * The default length of a frame.
+     */
+    public static final int DEFAULT_FRAME_LEN = 400;
+
+    /**
+     * The default CyderFrame dimension.
+     */
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
+
+    /**
      * The minimum allowable width for a CyderFrame.
      */
     public static final int minimumWidth = 200;
@@ -74,14 +95,54 @@ public class CyderFrame extends JFrame {
     public static final int minimumHeight = 100;
 
     /**
+     * The value used for {@link #restoreX} and {@link #restoreY} to indicate a drag has not yet occurred.
+     */
+    public static final int FRAME_NOT_YET_DRAGGED = Integer.MAX_VALUE;
+
+    /**
+     * The increment for minimize opacity animations.
+     */
+    private static final float minimizeAnimationDelta = 0.05f;
+
+    /**
+     * The delay between minimize animation frames.
+     */
+    private static final int minimizeAnimationDelay = 5;
+
+    /**
+     * The maximum opacity the frame can be set to for minimize in/out animations.
+     */
+    private static final float minimizeAnimationMax = 1.0f;
+
+    /**
+     * The minimum opacity the frame can be set to for minimize in/out animations.
+     */
+    private static final float minimizeAnimationMin = 0.0f;
+
+    /**
+     * The delay surrounding the initial opacity correction set call when
+     * animating in a frame after an opacity minimize out animation.
+     */
+    private static final int restoreAfterMinimizeAnimationDelay = 25;
+
+    /**
      * The font used for the title label (typically equivalent to agencyFB22).
      */
     private static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
 
     /**
-     * The value used for {@link #restoreX} and {@link #restoreY} to indicate a drag has not yet occurred.
+     * The length of the border for the content label.
      */
-    public static final int FRAME_NOT_YET_DRAGGED = Integer.MAX_VALUE;
+    private static final int contentLabelBorderLength = 3;
+
+    /**
+     * Allowable indices to add components to the contentLabel
+     * which is a {@link JLayeredPane} and the content pane for CyderFrames.
+     */
+    public static final ImmutableList<Integer> allowableContentLabelIndices = ImmutableList.of(
+            JLayeredPane.DRAG_LAYER, /* Drag labels */
+            JLayeredPane.POPUP_LAYER /* Notifications */
+    );
 
     /**
      * This CyderFrame's frame type.
@@ -216,41 +277,6 @@ public class CyderFrame extends JFrame {
     private NotificationController notificationController;
 
     /**
-     * The area exposed to allow frame resizing. The maximum is 5 since
-     * 5 is the border of the frame.
-     */
-    public static final int FRAME_RESIZING_LEN = 2;
-
-    /**
-     * The size of the border drawn around the frame.
-     */
-    public static final int BORDER_LEN = Props.frameBorderLength.getValue();
-
-    /**
-     * The default length of a frame.
-     */
-    public static final int DEFAULT_FRAME_LEN = 400;
-
-    /**
-     * The default CyderFrame dimension.
-     */
-    public static final Dimension DEFAULT_DIMENSION = new Dimension(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
-
-    /**
-     * The length of the border for the content label.
-     */
-    private static final int contentLabelBorderLength = 3;
-
-    /**
-     * Allowable indices to add components to the contentLabel
-     * which is a JLayeredPane and the content pane.
-     */
-    public static final ImmutableList<Integer> allowableContentLabelIndices = ImmutableList.of(
-            JLayeredPane.DRAG_LAYER, /* Drag labels */
-            JLayeredPane.POPUP_LAYER /* Notifications */
-    );
-
-    /**
      * Constructs a new CyderFrame object with default dimensions.
      */
     public CyderFrame() {
@@ -340,17 +366,38 @@ public class CyderFrame extends JFrame {
                 dispose(true);
             }
         });
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                requestFocus();
+                if (getOpacity() > minimizeAnimationMax / 2.0f) return;
+                CyderThreadRunner.submit(() -> {
+                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                    setOpacity(minimizeAnimationMin);
+                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                    for (float i = getOpacity() ; i <= minimizeAnimationMax ; i += minimizeAnimationDelta) {
+                        setOpacity(i);
+                        ThreadUtil.sleep(minimizeAnimationDelay);
+                    }
+                    setOpacity(minimizeAnimationMax);
+                }, "Deiconify Animation");
+            }
+        });
 
         // True content pane
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                return super.add(comp, allowableContentLabelIndices.contains(index) ? index : 0);
+                Preconditions.checkNotNull(comp);
+                Preconditions.checkArgument(index >= 0);
+                // todo add default content pane adding index?
+                index = allowableContentLabelIndices.contains(index) ? index : 0;
+                return super.add(comp, index);
             }
         };
         contentLabel.setFocusable(false);
 
-        // getContentPane() result
+        // The returned value for getContentPane
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
@@ -1141,15 +1188,15 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
                 disableDragging();
 
-                float minimizeAnimationDelta = 0.05f;
-                for (float i = DEFAULT_OPACITY ; i >= 0.0f ; i -= minimizeAnimationDelta) {
+                for (float i = minimizeAnimationMax ; i >= minimizeAnimationMin ; i -= minimizeAnimationDelta) {
                     if (animatingOut) break;
                     setOpacity(i);
                     repaint();
 
-                    ThreadUtil.sleep(5);
+                    ThreadUtil.sleep(minimizeAnimationDelay);
                 }
 
+                setOpacity(minimizeAnimationMin);
                 enableDragging();
             }
 

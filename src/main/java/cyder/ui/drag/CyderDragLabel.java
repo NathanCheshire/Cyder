@@ -8,7 +8,6 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.Props;
 import cyder.strings.ToStringUtil;
-import cyder.ui.UiUtil;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
@@ -190,19 +189,6 @@ public class CyderDragLabel extends JLabel {
                     leftMouseButtonPressed.set(false);
                     effectFrame.endDragEvent();
                 }
-            }
-        });
-
-        effectFrame.addWindowListener(new WindowAdapter() {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                System.out.println("here");
-
-                effectFrame.requestFocus();
-                UiUtil.requestFramePosition(effectFrame.getRestorePoint(), effectFrame);
             }
         });
     }
