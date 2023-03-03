@@ -148,8 +148,7 @@ public final class UserUtil {
         Preconditions.checkArgument(!dataName.isEmpty());
 
         for (Method method : user.getClass().getMethods()) {
-            if (method.getParameterCount() == 1
-                    && method.getName().toLowerCase().contains(dataName.toLowerCase())) {
+            if (method.getParameterCount() == 1 && StringUtil.containsIgnoreCase(method.getName(), dataName)) {
                 return Optional.of(method);
             }
         }
@@ -166,8 +165,7 @@ public final class UserUtil {
      */
     public static Optional<Method> getGetterMethodForDataWithName(String dataName, User user) {
         for (Method method : user.getClass().getMethods()) {
-            if (method.getParameterCount() == 0
-                    && method.getName().toLowerCase().contains(dataName.toLowerCase())) {
+            if (method.getParameterCount() == 0 && StringUtil.containsIgnoreCase(method.getName(), dataName)) {
                 return Optional.of(method);
             }
         }

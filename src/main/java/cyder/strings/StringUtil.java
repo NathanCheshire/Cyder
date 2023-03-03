@@ -1114,4 +1114,18 @@ public final class StringUtil {
 
         return string.substring(0, string.length() - 1);
     }
+
+    /**
+     * Returns whether the provided alpha string contains the provided beta string ignoring case.
+     *
+     * @param alpha the first string
+     * @param beta  the second string
+     * @return whether the provided alpha string contains the provided beta string ignoring case
+     */
+    public static boolean containsIgnoreCase(String alpha, String beta) {
+        Preconditions.checkNotNull(alpha);
+        Preconditions.checkNotNull(beta);
+
+        return alpha.toLowerCase().contains(beta.toLowerCase());
+    }
 }
