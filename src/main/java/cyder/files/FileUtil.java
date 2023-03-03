@@ -1,6 +1,5 @@
 package cyder.files;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.enumerations.Extension;
@@ -152,7 +151,7 @@ public final class FileUtil {
     /**
      * Returns whether the given file matches the provided signature.
      * Example: passing a png image and an integer array of "89 50 4E 47 0D 0A 1A 0A"
-     * should return true
+     * would return true.
      *
      * @param file              the file to validate
      * @param expectedSignature the expected file signature bytes
@@ -164,16 +163,10 @@ public final class FileUtil {
         checkNotNull(expectedSignature);
         checkArgument(!expectedSignature.isEmpty());
 
-        try {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-            int[] headerBytes = new int[expectedSignature.size()];
-
-            for (int i = 0 ; i < expectedSignature.size() ; i++) {
-                headerBytes[i] = inputStream.read();
-
-                if (headerBytes[i] != expectedSignature.get(i)) {
-                    return false;
-                }
+        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            for (int n = 0 ; n < expectedSignature.size() ; n++) {
+                int nthByte = inputStream.read();
+                if (nthByte != expectedSignature.get(n)) return false;
             }
         } catch (IOException ex) {
             ExceptionHandler.handle(ex);
@@ -191,10 +184,10 @@ public final class FileUtil {
      * @return the requested number of bytes
      */
     public static ImmutableList<Integer> getBytes(File file, int numBytes) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(!file.isDirectory());
-        Preconditions.checkArgument(numBytes > 0);
+        checkNotNull(file);
+        checkArgument(file.exists());
+        checkArgument(!file.isDirectory());
+        checkArgument(numBytes > 0);
 
         ArrayList<Integer> ret = new ArrayList<>(numBytes);
 
@@ -463,10 +456,10 @@ public final class FileUtil {
      * the original file name
      */
     public static String constructUniqueName(File file, File directory) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkNotNull(directory);
-        Preconditions.checkArgument(directory.exists());
-        Preconditions.checkArgument(directory.isDirectory());
+        checkNotNull(file);
+        checkNotNull(directory);
+        checkArgument(directory.exists());
+        checkArgument(directory.isDirectory());
 
         File[] files = directory.listFiles();
         if (files == null || ArrayUtil.isEmpty(files)) return file.getName();
@@ -520,10 +513,10 @@ public final class FileUtil {
      * @return an immutable list of files found within the provided directory
      */
     public static ImmutableList<File> getFiles(File topLevelDirectory, boolean recursive, String extensionRegex) {
-        Preconditions.checkNotNull(topLevelDirectory);
-        Preconditions.checkArgument(topLevelDirectory.exists());
-        Preconditions.checkArgument(topLevelDirectory.isDirectory());
-        Preconditions.checkNotNull(extensionRegex);
+        checkNotNull(topLevelDirectory);
+        checkArgument(topLevelDirectory.exists());
+        checkArgument(topLevelDirectory.isDirectory());
+        checkNotNull(extensionRegex);
 
         File[] topLevelFiles = topLevelDirectory.listFiles();
         if (topLevelFiles == null || ArrayUtil.isEmpty(topLevelFiles)) return ImmutableList.of();
@@ -563,9 +556,9 @@ public final class FileUtil {
      * @return a list of folders found within the provided directory
      */
     public static ImmutableList<File> getFolders(File topLevelDirectory, boolean recursive) {
-        Preconditions.checkNotNull(topLevelDirectory);
-        Preconditions.checkArgument(topLevelDirectory.exists());
-        Preconditions.checkArgument(topLevelDirectory.isDirectory());
+        checkNotNull(topLevelDirectory);
+        checkArgument(topLevelDirectory.exists());
+        checkArgument(topLevelDirectory.isDirectory());
 
         ArrayList<File> ret = new ArrayList<>();
 
@@ -594,8 +587,8 @@ public final class FileUtil {
      * @throws IOException if reading the file fails
      */
     public static String readFileContents(File file) throws IOException {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
+        checkNotNull(file);
+        checkArgument(file.exists());
 
         return Files.readString(Path.of(file.getAbsolutePath()));
     }
@@ -607,9 +600,9 @@ public final class FileUtil {
      * @return the String of hex data from the file
      */
     public static String getHexString(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
+        checkNotNull(file);
+        checkArgument(file.exists());
+        checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -636,9 +629,9 @@ public final class FileUtil {
      * @return the String of binary data from the file
      */
     public static String getBinaryString(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
+        checkNotNull(file);
+        checkArgument(file.exists());
+        checkArgument(FileUtil.validateExtension(file, Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -661,8 +654,8 @@ public final class FileUtil {
      */
     @CanIgnoreReturnValue
     public static Future<Boolean> openResource(String resource, boolean allowCyderHandlers) {
-        Preconditions.checkNotNull(resource);
-        Preconditions.checkArgument(!resource.isEmpty());
+        checkNotNull(resource);
+        checkArgument(!resource.isEmpty());
 
         String threadName = "Resource opener: " + resource;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(threadName)).submit(() -> {
@@ -694,8 +687,8 @@ public final class FileUtil {
      */
     @CanIgnoreReturnValue
     public static boolean openResourceUsingNativeProgram(String resource) {
-        Preconditions.checkNotNull(resource);
-        Preconditions.checkArgument(!resource.isEmpty());
+        checkNotNull(resource);
+        checkArgument(!resource.isEmpty());
 
         try {
             File filePointer = new File(resource);
@@ -722,9 +715,9 @@ public final class FileUtil {
      * @return a list of lines from the provided file
      */
     public static ImmutableList<String> getFileLines(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(file.isFile());
+        checkNotNull(file);
+        checkArgument(file.exists());
+        checkArgument(file.isFile());
 
         ArrayList<String> ret = new ArrayList<>();
 
@@ -748,11 +741,11 @@ public final class FileUtil {
      * @param append whether to append the lines or overwrite the existing content, if any, with the new content
      */
     public static void writeLinesToFile(File file, List<String> lines, boolean append) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(file.isFile());
-        Preconditions.checkNotNull(lines);
-        Preconditions.checkArgument(!lines.isEmpty());
+        checkNotNull(file);
+        checkArgument(file.exists());
+        checkArgument(file.isFile());
+        checkNotNull(lines);
+        checkArgument(!lines.isEmpty());
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
             for (String line : lines) {
@@ -773,7 +766,7 @@ public final class FileUtil {
      * @return the size of the file in bytes
      */
     public static long size(File file) {
-        Preconditions.checkNotNull(file);
+        checkNotNull(file);
 
         if (file.exists()) {
             if (file.isFile()) {
@@ -806,8 +799,8 @@ public final class FileUtil {
      * @return the total bytes of the file
      */
     public static long getTotalBytes(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
+        checkNotNull(file);
+        checkArgument(file.exists());
 
         try {
             return new FileInputStream(file).available();

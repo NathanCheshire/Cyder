@@ -262,26 +262,35 @@ public final class UserUtil {
         getUserUuids().forEach(uuid -> {
             File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid);
 
-            ArrayList<File> incorrectNamedPngs = new ArrayList<>();
             ArrayList<File> incorrectlyNamedJpgs = new ArrayList<>();
+            ArrayList<File> incorrectlyNamedPngs = new ArrayList<>();
 
             ImmutableList<File> userFiles = FileUtil.getFiles(userDirectory, true);
             userFiles.forEach(file -> {
                 if (FileUtil.getExtension(file).equals(Extension.PNG.getExtension())) {
-                    System.out.println("Png extension : " + file);
-                    if (FileUtil.fileMatchesSignature(file, FileUtil.JPG_SIGNATURE)) {
+                    if (!FileUtil.fileMatchesSignature(file, FileUtil.PNG_SIGNATURE)) {
                         incorrectlyNamedJpgs.add(file);
                     }
                 } else if (FileUtil.getExtension(file).equals(Extension.JPEG.getExtension())
                         || FileUtil.getExtension(file).equals(Extension.JPG.getExtension())) {
-                    System.out.println("jpg extension : " + file);
-                    FileUtil.fileMatchesSignature(file, FileUtil.JPG_SIGNATURE);
-                    if (FileUtil.fileMatchesSignature(file, FileUtil.PNG_SIGNATURE)) {
-                        incorrectNamedPngs.add(file);
+                    if (!FileUtil.fileMatchesSignature(file, FileUtil.JPG_SIGNATURE)) {
+                        incorrectlyNamedPngs.add(file);
                     }
                 }
             });
+
+            for (File file : incorrectlyNamedJpgs) {
+                String name = FileUtil.getFilename(file);
+                File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
+                        name + Extension.JPG.getExtension());
+                boolean renamed = file.renameTo(renameTo);
+                if (!renamed) System.out.println("Failed to rename " + file);
+            }
         });
+    }
+
+    public static void main(String[] args) {
+        correctJpgAndPngFiles();
     }
 
     /**
