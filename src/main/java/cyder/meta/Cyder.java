@@ -37,11 +37,9 @@ public final class Cyder {
      * @param arguments the command line arguments passed in
      */
     public static void main(String[] arguments) {
-        StaticUtil.loadStaticResources();
-        // todo put first
-        Logger.log(LogTag.JVM_ENTRY, "Jvm started, temurin 17 from main method cyder.meta.Cyder");
+        Logger.log(LogTag.JVM_ENTRY, "Jvm " + JvmUtil.getJvmName() + " started from main method cyder.meta.Cyder");
         SessionManager.INSTANCE.initializeSessionId();
-
+        StaticUtil.loadStaticResources();
         JvmUtil.setAndParseJvmMainMethodArgs(ImmutableList.copyOf(arguments));
         PropLoader.reloadProps();
         JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());

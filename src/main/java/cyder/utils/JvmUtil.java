@@ -252,6 +252,17 @@ public final class JvmUtil {
     }
 
     /**
+     * Returns the jvm name, such as "temurin-17.0.3".
+     *
+     * @return the jvm name
+     */
+    public static String getJvmName() {
+        ImmutableList<String> javaExePathParts = ImmutableList.copyOf(
+                JvmUtil.getCurrentJavaExe().getAbsolutePath().split("\\\\"));
+        return javaExePathParts.get(javaExePathParts.size() - 3);
+    }
+
+    /**
      * Returns a file reference to the java home bin of the JVM which is running the current instance of Cyder.
      *
      * @return a file reference to the java home bin of the JVM which is running the current instance of Cyder

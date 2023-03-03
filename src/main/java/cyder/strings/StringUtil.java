@@ -566,9 +566,9 @@ public final class StringUtil {
     /**
      * The list of blocked words as found from the static file "blocked.txt".
      */
-    private static final ImmutableList<String> BLOCKED_WORDS;
+    private static ImmutableList<String> blockedWords;
 
-    static {
+    private static void loadBlockedWords() {
         ArrayList<String> blockedWords = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(
@@ -582,7 +582,7 @@ public final class StringUtil {
             ExceptionHandler.handle(e);
         }
 
-        BLOCKED_WORDS = ImmutableList.copyOf(blockedWords);
+        StringUtil.blockedWords = ImmutableList.copyOf(blockedWords);
     }
 
     /**
@@ -601,11 +601,10 @@ public final class StringUtil {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(!input.isEmpty());
 
-        if (filterLeet) {
-            input = filterLeet(input.toLowerCase());
-        }
+        if (blockedWords == null) loadBlockedWords();
+        if (filterLeet) input = filterLeet(input.toLowerCase());
 
-        for (String blockedWord : BLOCKED_WORDS) {
+        for (String blockedWord : blockedWords) {
             if (hasWord(input, blockedWord, true)) {
                 return new BlockedWordResult(true, blockedWord);
             }

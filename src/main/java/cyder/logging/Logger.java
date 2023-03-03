@@ -362,14 +362,35 @@ public final class Logger {
     private static <T> boolean checkForAttemptedWhitespaceLogCall(T statement) {
         if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
-                // todo count newlines, carriage returns, tabs, spaces, etc.
-                log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
+                long numSpaces = countOccurrences(string, ' ');
+                long numTabs = countOccurrences(string, '\t');
+                long numNewLines = countOccurrences(string, '\n');
+                long numCarriageReturns = countOccurrences(string, '\r');
+
+                log(LogTag.DEBUG, "Null or purely whitespace log statement"
+                        + ", length: " + string.length()
+                        + ", spaces: " + numSpaces
+                        + ", tabs : " + numTabs
+                        + ", new lines: " + numNewLines
+                        + ", carriage returns: " + numCarriageReturns);
             }
 
             return true;
         }
 
         return false;
+    }
+
+    public static int countOccurrences(String string, char lookFor) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        int ret = 0;
+        for (char c : string.toCharArray()) {
+            if (c == lookFor) ret++;
+        }
+
+        return ret;
     }
 
     /**
