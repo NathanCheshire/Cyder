@@ -27,6 +27,11 @@ import static cyder.strings.CyderStrings.*;
  */
 public final class JvmUtil {
     /**
+     * The expected main method which Cyder should be launched from.
+     */
+    public static final String EXPECTED_MAIN_METHOD = "cyder.meta.Cyder";
+
+    /**
      * The bin string.
      */
     private static final String BIN = "bin";
@@ -216,22 +221,14 @@ public final class JvmUtil {
      * @throws FatalException if the located file is not a JAR or a file or
      *                        if Cyder's protected domain code source location cannot be converted to a URI
      */
-    public static File getCyderJarReference() {
-        Preconditions.checkState(OsUtil.JAR_MODE);
-
-        File jarFile;
+    public static Optional<File> getCyderJarReference() {
+        File jarFile = null;
         try {
             jarFile = new File(Cyder.class.getProtectionDomain()
                     .getCodeSource().getLocation().toURI()).getAbsoluteFile();
-        } catch (Exception e) {
-            throw new FatalException(e);
-        }
+        } catch (Exception ignored) {}
 
-        if (!jarFile.isFile()) {
-            throw new FatalException("Jar file could not be found, path returned: " + jarFile.getAbsolutePath());
-        }
-
-        return jarFile;
+        return Optional.ofNullable(jarFile);
     }
 
     /**
@@ -356,7 +353,7 @@ public final class JvmUtil {
 
         String executablePath = StringUtil.escapeQuotes(getCurrentJavaExe().getAbsolutePath());
         String classpath = StringUtil.escapeQuotes(getClassPath());
-        String sunJavaCommand = StringUtil.escapeQuotes(SystemPropertyKey.SUN_JAVA_COMMAND.getProperty());
+        String sunJavaCommand = StringUtil.escapeQuotes(getMainMethodClass());
 
         return quote + executablePath + quote + CyderStrings.space
                 + safeInputArguments + CyderStrings.space
@@ -364,6 +361,26 @@ public final class JvmUtil {
                 + quote + classpath + quote + CyderStrings.space
                 + quote + sunJavaCommand + quote + CyderStrings.space
                 + mainMethodArgs;
+    }
+
+    /**
+     * Returns the class responsible for starting Cyder.
+     * Typically for Cyder this is "cyder.meta.Cyder".
+     *
+     * @return the class responsible for starting Cyder
+     */
+    public static String getMainMethodClass() {
+        return SystemPropertyKey.SUN_JAVA_COMMAND.getProperty();
+    }
+
+    /**
+     * Returns whether Cyder was started from the expected main method,
+     * that of the one located in "cyder.meta.Cyder.java".
+     *
+     * @return whether Cyder was started from the expected main method
+     */
+    public static boolean cyderStartedFromExpectedMainMethod() {
+        return getMainMethodClass().equals(EXPECTED_MAIN_METHOD);
     }
 
     /**

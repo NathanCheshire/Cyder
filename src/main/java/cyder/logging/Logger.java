@@ -362,6 +362,7 @@ public final class Logger {
     private static <T> boolean checkForAttemptedWhitespaceLogCall(T statement) {
         if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
+                // todo count newlines, carriage returns, tabs, spaces, etc.
                 log(LogTag.DEBUG, "Null or purely whitespace log statement, length " + string.length());
             }
 

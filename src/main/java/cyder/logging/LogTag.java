@@ -185,7 +185,12 @@ public enum LogTag {
     /**
      * Deserialization of an object occurred.
      */
-    OBJECT_DESERIALIZATION("Object Deserialization");
+    OBJECT_DESERIALIZATION("Object Deserialization"),
+
+    /**
+     * The JVM was first started.
+     */
+    JVM_ENTRY("Jvm Entry");
 
     /**
      * The name to be written to the log file when this tag is logged

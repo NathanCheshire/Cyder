@@ -25,26 +25,29 @@ public final class StaticUtil {
     /**
      * The map of static files located.
      */
-    private static final ImmutableMap<String, File> staticFiles;
+    private static ImmutableMap<String, File> staticFiles;
 
     /**
      * The map of static folders located.
      */
-    private static final ImmutableMap<String, File> staticFolders;
-
-    static {
-        staticFiles = getStaticFiles();
-        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFiles.size() + " static files");
-
-        staticFolders = getStaticFolders();
-        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFolders.size() + " static folders");
-    }
+    private static ImmutableMap<String, File> staticFolders;
 
     /**
      * Suppress default constructor.
      */
     private StaticUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Loads all the static resources found within the static directory.
+     */
+    public static void loadStaticResources() {
+        staticFiles = getStaticFiles();
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFiles.size() + " static files");
+
+        staticFolders = getStaticFolders();
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + staticFolders.size() + " static folders");
     }
 
     /**

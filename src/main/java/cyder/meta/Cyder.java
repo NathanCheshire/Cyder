@@ -2,6 +2,7 @@ package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
@@ -11,6 +12,7 @@ import cyder.strings.CyderStrings;
 import cyder.subroutines.NecessarySubroutines;
 import cyder.subroutines.SufficientSubroutines;
 import cyder.utils.JvmUtil;
+import cyder.utils.StaticUtil;
 import cyder.watchdog.CyderWatchdog;
 
 import javax.swing.*;
@@ -35,7 +37,11 @@ public final class Cyder {
      * @param arguments the command line arguments passed in
      */
     public static void main(String[] arguments) {
+        StaticUtil.loadStaticResources();
+        // todo put first
+        Logger.log(LogTag.JVM_ENTRY, "Jvm started, temurin 17 from main method cyder.meta.Cyder");
         SessionManager.INSTANCE.initializeSessionId();
+
         JvmUtil.setAndParseJvmMainMethodArgs(ImmutableList.copyOf(arguments));
         PropLoader.reloadProps();
         JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());

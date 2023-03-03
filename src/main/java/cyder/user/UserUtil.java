@@ -185,7 +185,7 @@ public final class UserUtil {
      *     <li>Deleting non audio files from the Music/ directory</li>
      *     <li>Removing album art not linked to an audio file</li>
      *     <li>Removing any invalid mapped executables</li>
-     *     <li>Correcting any JPG or PNG files</li>
+     *     <li>Correcting JPG and PNG file extensions</li>
      * </ul>
      */
     public static void cleanUsers() {
@@ -232,7 +232,7 @@ public final class UserUtil {
         }
 
         removeInvalidUserMappedExecutables();
-        correctJpgAndPngFiles();
+        correctJpgAndPngFileExtensions();
     }
 
     /**
@@ -243,6 +243,7 @@ public final class UserUtil {
 
         getUserJsons().forEach(userJson -> {
             User user = extractUser(userJson);
+            Logger.log(LogTag.SYSTEM_IO, "Removing invalid mapped executables of user " + user.getUsername());
             ArrayList<MappedExecutable> validMappedExecutables =
                     user.getMappedExecutables().getExecutables().stream()
                             .filter(exe -> UserEditor.isValidMapPath(exe.getFilepath()))
@@ -258,9 +259,10 @@ public final class UserUtil {
      * inappropriately is renamed to the correct extension. For example, if a PNG is named JPG but the file
      * signature shows it is a PNG, it will be renamed to the PNG extension.
      */
-    private static void correctJpgAndPngFiles() {
+    private static void correctJpgAndPngFileExtensions() {
         getUserUuids().forEach(uuid -> {
             File userDirectory = Dynamic.buildDynamic(Dynamic.USERS.getFileName(), uuid);
+            Logger.log(LogTag.SYSTEM_IO, "Correcting image extensions of user " + uuid);
 
             ArrayList<File> incorrectlyNamedJpgs = new ArrayList<>();
             ArrayList<File> incorrectlyNamedPngs = new ArrayList<>();
@@ -279,18 +281,24 @@ public final class UserUtil {
                 }
             });
 
-            for (File file : incorrectlyNamedJpgs) {
+            incorrectlyNamedJpgs.forEach(file -> {
                 String name = FileUtil.getFilename(file);
                 File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
                         name + Extension.JPG.getExtension());
                 boolean renamed = file.renameTo(renameTo);
-                if (!renamed) System.out.println("Failed to rename " + file);
-            }
+                Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename")
+                        + file.getName() + " to " + renameTo.getName());
+            });
+            // todo duplicate code
+            incorrectlyNamedPngs.forEach(file -> {
+                String name = FileUtil.getFilename(file);
+                File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
+                        name + Extension.PNG.getExtension());
+                boolean renamed = file.renameTo(renameTo);
+                Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename")
+                        + file.getName() + " to " + renameTo.getName());
+            });
         });
-    }
-
-    public static void main(String[] args) {
-        correctJpgAndPngFiles();
     }
 
     /**
