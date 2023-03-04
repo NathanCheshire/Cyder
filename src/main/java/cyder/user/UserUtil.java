@@ -300,7 +300,7 @@ public final class UserUtil {
         File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
                 name + extension.getExtension());
         boolean renamed = file.renameTo(renameTo);
-        Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename ")
+        Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed " : "Failed to rename ")
                 + file.getName() + " to " + renameTo.getName());
         return renamed;
     }

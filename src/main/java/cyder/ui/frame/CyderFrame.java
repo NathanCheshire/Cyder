@@ -102,22 +102,22 @@ public class CyderFrame extends JFrame {
     /**
      * The increment for minimize opacity animations.
      */
-    private static final float minimizeAnimationDelta = 0.05f;
+    private static final float opacityAnimationDelta = 0.05f;
 
     /**
      * The delay between minimize animation frames.
      */
-    private static final int minimizeAnimationDelay = 5;
+    private static final int opacityAnimationDelay = 5;
 
     /**
      * The maximum opacity the frame can be set to for minimize in/out animations.
      */
-    private static final float minimizeAnimationMax = 1.0f;
+    private static final float opacityAnimationMax = 1.0f;
 
     /**
      * The minimum opacity the frame can be set to for minimize in/out animations.
      */
-    private static final float minimizeAnimationMin = 0.0f;
+    private static final float opacityAnimationMin = 0.0f;
 
     /**
      * The delay surrounding the initial opacity correction set call when
@@ -376,21 +376,21 @@ public class CyderFrame extends JFrame {
             @Override
             public void windowDeiconified(WindowEvent e) {
                 requestFocus();
-                if (getOpacity() > minimizeAnimationMax / 2.0f) return;
+                if (getOpacity() > opacityAnimationMax / 2.0f) return;
                 CyderThreadRunner.submit(() -> {
                     /*
                     Note to maintainers: the following three lines exists to avoid the bug of seeing the
                     old Windows XP/95 style frame icons when restoring a frame from iconification.
                      */
                     ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
-                    setOpacity(minimizeAnimationMin);
+                    setOpacity(opacityAnimationMin);
                     ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
 
-                    for (float i = getOpacity() ; i <= minimizeAnimationMax ; i += minimizeAnimationDelta) {
+                    for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
                         setOpacity(i);
-                        ThreadUtil.sleep(minimizeAnimationDelay);
+                        ThreadUtil.sleep(opacityAnimationDelay);
                     }
-                    setOpacity(minimizeAnimationMax);
+                    setOpacity(opacityAnimationMax);
                 }, "Deiconify Animation");
             }
         });
@@ -1182,16 +1182,6 @@ public class CyderFrame extends JFrame {
     // ----------
 
     /**
-     * The number of frames to use for animations.
-     */
-    private static final int ANIMATION_FRAMES = 15;
-
-    /**
-     * The animation delay for minimize and close animations.
-     */
-    private static final int MOVEMENT_ANIMATION_DELAY = 5;
-
-    /**
      * Animates away this frame by moving it down until it is offscreen at which point the frame
      * is set to {@link Frame#ICONIFIED}.
      */
@@ -1203,15 +1193,15 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
                 disableDragging();
 
-                for (float i = minimizeAnimationMax ; i >= minimizeAnimationMin ; i -= minimizeAnimationDelta) {
+                for (float i = opacityAnimationMax ; i >= opacityAnimationMin ; i -= opacityAnimationDelta) {
                     if (animatingOut) break;
                     setOpacity(i);
                     repaint();
 
-                    ThreadUtil.sleep(minimizeAnimationDelay);
+                    ThreadUtil.sleep(opacityAnimationDelay);
                 }
 
-                setOpacity(minimizeAnimationMin);
+                setOpacity(opacityAnimationMin);
                 enableDragging();
             }
 
@@ -1317,7 +1307,7 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        String threadName = openingBracket + getTitle() + closingBracket + " Dispose Animation Thread";
+        String threadName = openingBracket + getTitle() + closingBracket + " Dispose Thread";
         CyderThreadRunner.submit(() -> {
             try {
                 if (disposed) return;
@@ -1346,21 +1336,9 @@ public class CyderFrame extends JFrame {
 
                 boolean closingAnimation = UserDataManager.INSTANCE.shouldDoAnimations();
                 if (isVisible() && (!fastClose && !shouldFastClose) && closingAnimation) {
-                    Point point = getLocationOnScreen();
-                    int x = (int) point.getX();
-                    int y = (int) point.getY();
-
-                    int distanceToTravel = Math.abs(y) + Math.abs(getHeight());
-                    int animationInc = (int) ((double) distanceToTravel / ANIMATION_FRAMES);
-
-                    disableDragging();
-
-                    int startY = getY();
-                    int height = getHeight();
-
-                    for (int i = startY ; i >= -height ; i -= animationInc) {
-                        ThreadUtil.sleep(MOVEMENT_ANIMATION_DELAY);
-                        setLocation(x, i);
+                    for (float i = getOpacity() ; i >= opacityAnimationMin ; i -= opacityAnimationDelta) {
+                        setOpacity(i);
+                        ThreadUtil.sleep(opacityAnimationDelay);
                     }
                 }
 
