@@ -293,9 +293,15 @@ public final class Props {
     public static final Prop<Boolean> drawDebugIcon =
             new Prop<>("draw_debug_icon", true, Boolean.class);
 
-    // ---------------------------------------------------
-    // Props which should not be logged or tracked by VCS.
-    // ---------------------------------------------------
+    /**
+     * Whether to automatically upsize initial frame sizes which are invalid for {@link cyder.ui.frame.CyderFrame}s.
+     */
+    public static final Prop<Boolean> autoCorrectInvalidFrameSizes =
+            new Prop<>("auto_correct_invalid_frame_sizes", true, Boolean.class);
+
+    // --------------------------------------------------
+    // Props which should not be logged or tracked by VCS
+    // --------------------------------------------------
 
     /**
      * The key used to access the Open Weather Map API.

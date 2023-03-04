@@ -592,6 +592,7 @@ public class CyderFrame extends JFrame {
          * @return this builder
          */
         public Builder setHeight(int height) {
+            height = attemptInitialHeightCorrectionIfEnabled(height);
             Preconditions.checkArgument(height >= minimumHeight);
             this.height = height;
             return this;
@@ -604,6 +605,7 @@ public class CyderFrame extends JFrame {
          * @return this builder
          */
         public Builder setWidth(int width) {
+            width = CyderFrame.attemptInitialWidthCorrectionIfEnabled(width);
             Preconditions.checkArgument(width >= minimumWidth);
             this.width = width;
             return this;
@@ -616,10 +618,12 @@ public class CyderFrame extends JFrame {
          * @return this builder
          */
         public Builder setSize(Dimension size) {
-            Preconditions.checkNotNull(size);
-            int width = (int) size.getWidth();
+            int width = (int) Preconditions.checkNotNull(size).getWidth();
+            width = attemptInitialWidthCorrectionIfEnabled(width);
             Preconditions.checkArgument(width >= minimumWidth);
-            int height = (int) size.getHeight();
+
+            int height = (int) Preconditions.checkNotNull(size).getHeight();
+            height = attemptInitialHeightCorrectionIfEnabled(height);
             Preconditions.checkArgument(height >= minimumHeight);
 
             this.width = width;
@@ -747,8 +751,6 @@ public class CyderFrame extends JFrame {
                     && Objects.equals(type, other.type)
                     && borderless == other.borderless;
         }
-
-        // todo prop for auto fixing frame sizes of too small size is requested?
     }
 
     /**
@@ -1736,6 +1738,9 @@ public class CyderFrame extends JFrame {
         Preconditions.checkArgument(width >= minimumWidth);
         Preconditions.checkArgument(height >= minimumHeight);
 
+        width = attemptInitialWidthCorrectionIfEnabled(width);
+        height = attemptInitialHeightCorrectionIfEnabled(height);
+
         boolean sameSizes = this.width == width && this.height == height;
         super.setSize(width, height);
         this.width = width;
@@ -1752,12 +1757,39 @@ public class CyderFrame extends JFrame {
         Preconditions.checkArgument(width >= minimumWidth);
         Preconditions.checkArgument(height >= minimumHeight);
 
+        width = attemptInitialWidthCorrectionIfEnabled(width);
+        height = attemptInitialHeightCorrectionIfEnabled(height);
+
         boolean sameSizes = this.width == width && this.height == height;
         super.setBounds(x, y, width, height);
         this.width = width;
         this.height = height;
 
         postSetSizeSetBounds(sameSizes);
+    }
+
+    /**
+     * Validates the provided width if {@link Props#autoCorrectInvalidFrameSizes} is enabled.
+     *
+     * @param width the provided width
+     * @return the width value to use, possibly the same as the one provided
+     */
+    private static int attemptInitialWidthCorrectionIfEnabled(int width) {
+        if (!Props.autoTriggerSimilarCommands.getValue()) return width;
+
+        return Math.max(width, minimumWidth);
+    }
+
+    /**
+     * Validates the provided height if {@link Props#autoCorrectInvalidFrameSizes} is enabled.
+     *
+     * @param height the provided height
+     * @return the height value to use, possibly the same as the one provided
+     */
+    private static int attemptInitialHeightCorrectionIfEnabled(int height) {
+        if (!Props.autoTriggerSimilarCommands.getValue()) return height;
+
+        return Math.max(height, minimumHeight);
     }
 
     /**
