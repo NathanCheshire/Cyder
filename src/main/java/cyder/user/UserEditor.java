@@ -130,7 +130,10 @@ public final class UserEditor {
     /**
      * The user editor frame.
      */
-    private static CyderFrame editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
+    private static CyderFrame editUserFrame = new CyderFrame.Builder()
+            .setWidth(FRAME_WIDTH)
+            .setHeight(FRAME_HEIGHT)
+            .build();
 
     /**
      * The names of the files for the files list.
@@ -258,7 +261,11 @@ public final class UserEditor {
 
         UiUtil.closeIfOpen(editUserFrame);
 
-        editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
+        editUserFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setBackgroundIconFromColor(CyderColors.vanilla)
+                .build();
         editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle(FRAME_TITLE);
         editUserFrame.addPreCloseAction(UserEditor::closeGetterFrames);

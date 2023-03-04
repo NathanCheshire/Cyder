@@ -107,8 +107,10 @@ public final class InformHandler {
 
             builder.setContainer(textLabel);
 
-            informFrame = new CyderFrame(containerWidth + frameXPadding * 2,
-                    containerHeight + frameYOffset + 2 * frameYPadding, CyderColors.regularBackgroundColor);
+            informFrame = new CyderFrame.Builder()
+                    .setWidth(containerWidth + frameXPadding * 2)
+                    .setHeight(containerHeight + frameYOffset + 2 * frameYPadding)
+                    .build();
             informFrame.setTitle(builder.getTitle());
 
             int containerX = informFrame.getWidth() / 2 - containerWidth / 2;

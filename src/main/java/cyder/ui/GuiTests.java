@@ -890,9 +890,8 @@ public final class GuiTests {
      */
     @GuiTest("modern button test")
     public static void modernButtonTest() {
-        CyderFrame testFrame = new CyderFrame();
+        CyderFrame testFrame = new CyderFrame(500, 200);
         testFrame.setTitle("Modern button test");
-        testFrame.setSize(500, 200);
 
         CyderGridLayout layout = new CyderGridLayout(4, 1);
 
@@ -941,7 +940,7 @@ public final class GuiTests {
      */
     @GuiTest("hint text test")
     public static void textFieldHintTextTest() {
-        CyderFrame frame = new CyderFrame();
+        CyderFrame frame = new CyderFrame(400, 400);
         frame.setTitle("Test");
 
         CyderFlowLayout flow = new CyderFlowLayout();
@@ -965,7 +964,7 @@ public final class GuiTests {
      */
     @GuiTest("field icons test")
     public static void textFieldIconsTest() {
-        CyderFrame frame = new CyderFrame();
+        CyderFrame frame = new CyderFrame(400, 400);
         frame.setTitle("Test");
 
         CyderFlowLayout flowLayout = new CyderFlowLayout();

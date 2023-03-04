@@ -545,7 +545,11 @@ public final class AudioPlayer {
             currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                     Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
-            audioPlayerFrame = new CyderFrame(defaultFrameLength, defaultFrameLength, BACKGROUND_COLOR);
+            audioPlayerFrame = new CyderFrame.Builder()
+                    .setTitle(DEFAULT_FRAME_TITLE)
+                    .setSize(new Dimension(defaultFrameLength, defaultFrameLength))
+                    .setBackgroundColor(BACKGROUND_COLOR)
+                    .build();
             refreshFrameTitle();
             addChangeSizeButtonToTopDragLabel();
             audioPlayerFrame.setMenuType(MenuType.PANEL);

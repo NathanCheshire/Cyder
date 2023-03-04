@@ -75,16 +75,6 @@ public class CyderFrame extends JFrame {
     public static final int BORDER_LEN = Props.frameBorderLength.getValue();
 
     /**
-     * The default length of a frame.
-     */
-    public static final int DEFAULT_FRAME_LEN = 400;
-
-    /**
-     * The default CyderFrame dimension.
-     */
-    public static final Dimension DEFAULT_DIMENSION = new Dimension(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
-
-    /**
      * The minimum allowable width for a CyderFrame.
      */
     public static final int minimumWidth = 200;
@@ -283,50 +273,378 @@ public class CyderFrame extends JFrame {
     private NotificationController notificationController;
 
     /**
-     * Constructs a new CyderFrame object with default dimensions.
+     * Constructs a new CyderFrame using the provided builder.
+     *
+     * @param builder the builder to construct the frame with
      */
-    public CyderFrame() {
-        this(DEFAULT_DIMENSION);
+    public CyderFrame(Builder builder) {
+        Preconditions.checkNotNull(builder);
+
+        if (builder.borderless) {
+            // todo setup borderless frame method
+            return;
+        }
+
+        setTitle(builder.title);
+
+        this.width = builder.width;
+        this.height = builder.height;
+        this.background = builder.background;
+        if (width != background.getIconWidth() || height != background.getIconHeight()) {
+            this.background = ImageUtil.resizeImage(background, width, height);
+        }
+        currentMasterIcon = background;
+
+        taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
+
+        setSize(new Dimension(width, height));
+        setResizable(false);
+        setUndecorated(true);
+        setBackground(builder.backgroundColor);
+        setIconImage(CyderIcons.CYDER_ICON.getImage());
+
+        // Ensure dispose actions are always invoked
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose(true);
+            }
+        });
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                requestFocus();
+                if (getOpacity() > opacityAnimationMax / 2.0f) return;
+                CyderThreadRunner.submit(() -> {
+                    /*
+                    Note to maintainers: the following three lines exists to avoid the bug of seeing the
+                    old Windows XP/95 style frame icons when restoring a frame from iconification.
+                     */
+                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                    setOpacity(opacityAnimationMin);
+                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+
+                    for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
+                        setOpacity(i);
+                        ThreadUtil.sleep(opacityAnimationDelay);
+                    }
+                    setOpacity(opacityAnimationMax);
+                }, "Deiconify Animation");
+            }
+        });
+
+        // True content pane
+        contentLabel = new JLayeredPane() {
+            @Override
+            public Component add(Component comp, int index) {
+                Preconditions.checkNotNull(comp);
+                Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
+
+                index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
+                return super.add(comp, index);
+            }
+        };
+        contentLabel.setFocusable(false);
+
+        // The returned value for getContentPane
+        iconLabel = new JLabel() {
+            @Override
+            public void repaint() {
+                if (!disableContentRepainting) {
+                    super.repaint();
+                }
+            }
+        };
+        int iconLabelWidth = width - 2 * FRAME_RESIZING_LEN;
+        int iconLabelHeight = height - 2 * FRAME_RESIZING_LEN;
+        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
+        iconLabel.setIcon(background);
+        iconLabel.setFocusable(false);
+
+        iconPane = new JLayeredPane();
+        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
+        iconPane.add(iconLabel, defaultContentLabelAddingIndex);
+        iconPane.setFocusable(false);
+        contentLabel.add(iconPane, defaultContentLabelAddingIndex);
+
+        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
+                contentLabelBorderLength, false));
+        setContentPane(contentLabel);
+
+        topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
+                CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
+                this, DragLabelType.TOP);
+        topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
+                iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+        topDrag.setXOffset(FRAME_RESIZING_LEN);
+        topDrag.setYOffset(FRAME_RESIZING_LEN);
+        contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
+        topDrag.setFocusable(false);
+
+        topDragCover = new JLabel();
+        topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
+        topDragCover.setBackground(CyderColors.getGuiThemeColor());
+        topDragCover.setOpaque(true);
+        contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
+
+        leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
+                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                this, DragLabelType.LEFT);
+        leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+        leftDrag.setXOffset(FRAME_RESIZING_LEN);
+        leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
+        leftDrag.setFocusable(false);
+
+        leftDragCover = new JLabel();
+        leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
+        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+        leftDragCover.setOpaque(true);
+        contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
+
+        rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
+                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                this, DragLabelType.RIGHT);
+        rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+        rightDrag.setXOffset(width - BORDER_LEN);
+        rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
+        rightDrag.setFocusable(false);
+
+        rightDragCover = new JLabel();
+        rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
+        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+        rightDragCover.setOpaque(true);
+        contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
+
+        bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                this, DragLabelType.BOTTOM);
+        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
+                width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
+        bottomDrag.setXOffset(FRAME_RESIZING_LEN);
+        bottomDrag.setYOffset(height - BORDER_LEN);
+        contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
+        bottomDrag.setFocusable(false);
+
+        bottomDragCover = new JLabel();
+        bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
+        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+        bottomDragCover.setOpaque(true);
+        contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
+
+        titleLabel = new JLabel();
+        titleLabel.setFont(titleLabelFont);
+        titleLabel.setForeground(titleLabelColor);
+        titleLabel.setOpaque(false);
+        titleLabel.setFocusable(false);
+        titleLabel.setVisible(true);
+        topDrag.add(titleLabel);
+
+        threadsKilled = false;
+
+        setFrameType(builder.type);
+
+        revalidateFrameShape();
+
+        // Calls passing this
+        tooltipMenuController = new TooltipMenuController(this);
+        notificationController = new NotificationController(this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
-     * Constructs a new CyderFrame with the provided size.
-     * Note that if the width or height falls below the minimum size, the returned
-     * frame object will have the minimum width and/or height, not the width and
-     * height provided.
-     *
-     * @param size the size of the CyderFrame
+     * A builder for a {@link CyderFrame}.
      */
-    public CyderFrame(Dimension size) {
-        this(size.width, size.height);
+    public static final class Builder {
+        /**
+         * The default length of a frame.
+         */
+        private static final int defaultFrameLength = 400;
+
+        /**
+         * The default title of a frame.
+         */
+        private static final String defaultFrameTitle = "CyderFrame";
+
+        /**
+         * The title for the frame.
+         */
+        private String title = defaultFrameTitle;
+
+        /**
+         * The height for the frame.
+         */
+        private int height = defaultFrameLength;
+
+        /**
+         * The width for the frame.
+         */
+        private int width = defaultFrameLength;
+
+        /**
+         * The background for the frame.
+         */
+        private ImageIcon background = CyderIcons.defaultBackground;
+
+        /**
+         * The background color for the frame.
+         */
+        private Color backgroundColor = CyderColors.vanilla;
+
+        /**
+         * The type of frame.
+         */
+        private FrameType type = FrameType.DEFAULT;
+
+        /**
+         * Whether the frame should be borderless.
+         */
+        private boolean borderless = false;
+
+        /**
+         * Constructs a new builder.
+         */
+        public Builder() {
+            Logger.log(LogTag.OBJECT_CREATION, this);
+        }
+
+        /**
+         * Sets the frame title.
+         *
+         * @param title the frame title
+         * @return this builder
+         */
+        public Builder setTitle(String title) {
+            Preconditions.checkNotNull(title);
+            Preconditions.checkArgument(!title.isEmpty());
+            this.title = title;
+            return this;
+        }
+
+        /**
+         * Sets the height for this frame.
+         *
+         * @param height the height for this frame
+         * @return this builder
+         */
+        public Builder setHeight(int height) {
+            Preconditions.checkArgument(height >= minimumHeight);
+            Preconditions.checkArgument(height <= defaultMaxFrameLength);
+            this.height = height;
+            return this;
+        }
+
+        /**
+         * Sets the width for this frame.
+         *
+         * @param width the width for this frame
+         * @return this builder
+         */
+        public Builder setWidth(int width) {
+            Preconditions.checkArgument(width >= minimumWidth);
+            Preconditions.checkArgument(width <= defaultMaxFrameLength);
+            this.width = width;
+            return this;
+        }
+
+        /**
+         * Sets the size for the frame.
+         *
+         * @param size the size for the frame
+         * @return this builder
+         */
+        public Builder setSize(Dimension size) {
+            Preconditions.checkNotNull(size);
+            int width = (int) size.getWidth();
+            Preconditions.checkArgument(width >= minimumWidth);
+            Preconditions.checkArgument(width <= defaultMaxFrameLength);
+            int height = (int) size.getHeight();
+            Preconditions.checkArgument(height >= minimumHeight);
+            Preconditions.checkArgument(height <= defaultMaxFrameLength);
+
+            this.width = width;
+            this.height = height;
+
+            return this;
+        }
+
+        /**
+         * Sets the background icon for this frame.
+         *
+         * @param background the background icon for this frame
+         * @return this builder
+         */
+        public Builder setBackgroundIcon(ImageIcon background) {
+            Preconditions.checkNotNull(background);
+            this.background = background;
+            return this;
+        }
+
+        /**
+         * Sets the background icon to one of the provided color and of the current size.
+         *
+         * @param color the color
+         * @return this builder
+         */
+        public Builder setBackgroundIconFromColor(Color color) {
+            Preconditions.checkNotNull(color);
+            this.background = ImageUtil.imageIconFromColor(color, width, height);
+            return this;
+        }
+
+        /**
+         * Sets the background color for this frame.
+         *
+         * @param backgroundColor the background color for this frame
+         * @return this builder
+         */
+        public Builder setBackgroundColor(Color backgroundColor) {
+            Preconditions.checkNotNull(backgroundColor);
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        /**
+         * Sets the type of this frame.
+         *
+         * @param type the type of this frame
+         * @return this builder
+         */
+        public Builder setType(FrameType type) {
+            Preconditions.checkNotNull(type);
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * Sets whether this frame is borderless.
+         *
+         * @param borderless whether this frame is borderless
+         * @return this builder
+         */
+        public Builder setBorderless(boolean borderless) {
+            this.borderless = borderless;
+            return this;
+        }
+
+        /**
+         * Builds and returns a new cyder frame using this builder.
+         *
+         * @return a new cyder frame
+         */
+        public CyderFrame build() {
+            return new CyderFrame(this);
+        }
     }
 
-    /**
-     * Constructs a new CyderFrame object with the specified width and height.
-     * Note that if the width or height falls below the minimum size, the returned
-     * frame object will have the minimum width and/or height, not the width and
-     * height provided.
-     *
-     * @param width  the specified width of the CyderFrame
-     * @param height the specified height of the CyderFrame
-     */
+    // todo deprecated
     public CyderFrame(int width, int height) {
-        this(width, height, CyderIcons.defaultBackground);
-    }
-
-    /**
-     * Constructs a new CyderFrame object with the specified width and height.
-     * Note that if the width or height falls below the minimum size, the returned
-     * frame object will have the minimum width and/or height, not the width and
-     * height provided.
-     *
-     * @param width  the width of the CyderFrame
-     * @param height the height of the CyderFrame
-     * @param color  the color of the content pane background
-     */
-    public CyderFrame(int width, int height, Color color) {
-        this(width, height, ImageUtil.imageIconFromColor(color,
-                Math.max(minimumWidth, width), Math.max(minimumHeight, height)));
+        this(new Builder().setWidth(width).setHeight(height));
     }
 
     /**
@@ -340,6 +658,7 @@ public class CyderFrame extends JFrame {
      * @param background the specified background image (you may
      *                   enable rescaling of this background on frame resize events should you choose)
      */
+    // todo deprecated
     public CyderFrame(int width, int height, ImageIcon background) {
         checkNotNull(background);
 
@@ -534,18 +853,6 @@ public class CyderFrame extends JFrame {
      */
     public static CyderFrame generateBorderlessFrame(int width, int height, Color backgroundColor) {
         return new CyderFrame(new Dimension(width, height), backgroundColor);
-    }
-
-    /**
-     * Generates and returns a borderless CyderFrame.
-     * A drag listener is already attached to this but
-     * the caller needs to handle how the frame will be disposed.
-     *
-     * @param dimension the dimension of the frame to construct
-     * @return the borderless frame
-     */
-    public static CyderFrame generateBorderlessFrame(Dimension dimension, Color backgroundColor) {
-        return new CyderFrame(dimension, backgroundColor);
     }
 
     /**

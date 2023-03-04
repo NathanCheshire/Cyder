@@ -17,7 +17,7 @@ class AnimationUtilTest {
     fun testAnimateComponentMovement() {
         Assertions.assertThrows(NullPointerException::class.java) {
             AnimationUtil.animateComponentMovement(null,
-                    0, 0, 0, 0, CyderFrame())
+                    0, 0, 0, 0, CyderFrame(400, 400))
         }
 
         Assertions.assertThrows(NullPointerException::class.java) {
@@ -27,12 +27,12 @@ class AnimationUtilTest {
 
         Assertions.assertThrows(IllegalArgumentException::class.java) {
             AnimationUtil.animateComponentMovement(Direction.LEFT,
-                    0, 0, 0, 0, CyderFrame())
+                    0, 0, 0, 0, CyderFrame(400, 400))
         }
 
         val increment = 2
         val delay = 2
-        val upFrame = CyderFrame()
+        val upFrame = CyderFrame(400, 400)
         upFrame.setLocation(0, 100)
         Assertions.assertDoesNotThrow {
             AnimationUtil.animateComponentMovement(Direction.TOP,
@@ -41,7 +41,7 @@ class AnimationUtilTest {
         ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(0, upFrame.y)
 
-        val downFrame = CyderFrame()
+        val downFrame = CyderFrame(400, 400)
         downFrame.setLocation(0, 0)
         Assertions.assertDoesNotThrow {
             AnimationUtil.animateComponentMovement(Direction.BOTTOM,
@@ -50,7 +50,7 @@ class AnimationUtilTest {
         ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(100, downFrame.y)
 
-        val leftFrame = CyderFrame()
+        val leftFrame = CyderFrame(400, 400)
         leftFrame.setLocation(100, 0)
         Assertions.assertDoesNotThrow {
             AnimationUtil.animateComponentMovement(Direction.LEFT,
@@ -59,7 +59,7 @@ class AnimationUtilTest {
         ThreadUtil.sleep((delay * 200).toLong())
         Assertions.assertEquals(0, leftFrame.x)
 
-        val rightFrame = CyderFrame()
+        val rightFrame = CyderFrame(400, 400)
         rightFrame.setLocation(0, 0)
         Assertions.assertDoesNotThrow {
             AnimationUtil.animateComponentMovement(Direction.RIGHT,

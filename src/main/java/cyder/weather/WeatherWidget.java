@@ -526,13 +526,12 @@ public class WeatherWidget {
         repullWeatherStats();
 
         UiUtil.closeIfOpen(weatherFrame);
-        weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.regularBlue) {
-            @Override
-            public void dispose() {
-                onWeatherFrameDisposed();
-                super.dispose();
-            }
-        };
+        weatherFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setBackgroundIconFromColor(CyderColors.regularBlue)
+                .build();
+        weatherFrame.addPreCloseAction(this::onWeatherFrameDisposed);
         weatherFrame.setBackground(defaultBackground);
         weatherFrame.setTitle(DEFAULT_TITLE);
 

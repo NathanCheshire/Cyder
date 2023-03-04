@@ -167,7 +167,11 @@ public final class DirectoryViewer {
 
         UiUtil.closeIfOpen(directoryFrame);
 
-        directoryFrame = new CyderFrame(frameWidth, frameHeight, CyderColors.regularBackgroundColor);
+        directoryFrame = new CyderFrame.Builder()
+                .setWidth(frameWidth)
+                .setHeight(frameHeight)
+                .setBackgroundIconFromColor(CyderColors.regularBackgroundColor)
+                .build();
         directoryFrame.setTitle(getTitleForCurrentDirectory());
 
         directoryField = new CyderTextField();
