@@ -413,7 +413,7 @@ public enum CyderSplash {
         splashFrame = new CyderFrame.Builder()
                 .setWidth(FRAME_LEN)
                 .setHeight(FRAME_LEN)
-                .setBackgroundColor(CyderColors.navy)
+                .setBackgroundIconFromColor(CyderColors.navy)
                 .setTitle(FRAME_TITLE)
                 .setType(FrameType.POPUP)
                 .setBorderless(true)

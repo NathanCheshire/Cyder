@@ -236,19 +236,19 @@ public class CyderFrame extends JFrame {
      * The "content pane" of the CyderFrame. This is what is returned
      * when a getContentPane() call is invoked and is what components are added to.
      */
-    private final JLabel iconLabel;
+    private JLabel iconLabel;
 
     /**
      * The true content pane of the CyderFrame. This is necessary so we can do layering
      * between the components, the background, the background image, notifications,
      * drag labels, etc.
      */
-    private final JLayeredPane contentLabel;
+    private JLayeredPane contentLabel;
 
     /**
      * Another layered pane that the content label is added to for layering purposes.
      */
-    private final JLayeredPane iconPane;
+    private JLayeredPane iconPane;
 
     /**
      * Speeds up performance by not repainting anything on the
@@ -280,6 +280,8 @@ public class CyderFrame extends JFrame {
     public CyderFrame(Builder builder) {
         Preconditions.checkNotNull(builder);
 
+        boolean borderless = builder.borderless;
+
         this.width = builder.width;
         this.height = builder.height;
         setSize(new Dimension(width, height));
@@ -287,131 +289,32 @@ public class CyderFrame extends JFrame {
         setUndecorated(true);
         setBackground(builder.backgroundColor);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
+        addListeners(builder.borderless);
+        setupFrameBackground(builder);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose(!builder.borderless);
-            }
-        });
+        setupContentLabel(borderless);
+        setupIconLabel();
+        setupIconPane();
+        contentLabel.add(iconPane, defaultContentLabelAddingIndex);
+        setContentPane(contentLabel);
 
-        if (builder.borderless) {
-            contentLabel = new JLayeredPane() {
-                @Override
-                public Component add(Component comp, int index) {
-                    Preconditions.checkNotNull(comp);
-                    Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
-
-                    index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
-                    return super.add(comp, index);
-                }
-            };
-            contentLabel.setFocusable(false);
-
-            // this.getContentPane() return
-            iconLabel = new JLabel() {
-                @Override
-                public void repaint() {
-                    if (!disableContentRepainting) {
-                        super.repaint();
-                    }
-                }
-            };
-            iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                    width - 2 * FRAME_RESIZING_LEN,
-                    height - 2 * FRAME_RESIZING_LEN);
-            iconLabel.setFocusable(false);
-
-            iconPane = new JLayeredPane();
-            iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                    width - 2 * FRAME_RESIZING_LEN, height - 2 * FRAME_RESIZING_LEN);
-            iconPane.add(iconLabel, defaultContentLabelAddingIndex);
-            iconPane.setFocusable(false);
-            contentLabel.add(iconPane, defaultContentLabelAddingIndex);
-            setContentPane(contentLabel);
-
+        if (borderless) {
+            // todo setup drag labels
             fullDragLabel = new CyderDragLabel(width, height, this, DragLabelType.FULL);
             fullDragLabel.setBackground(builder.backgroundColor);
             fullDragLabel.setBounds(0, 0, width, height);
             contentLabel.add(fullDragLabel, JLayeredPane.DRAG_LAYER);
             fullDragLabel.setFocusable(false);
-
             contentLabel.add(fullDragLabel);
         } else {
-            this.background = builder.background;
-            if (width != background.getIconWidth() || height != background.getIconHeight()) {
-                this.background = ImageUtil.resizeImage(background, width, height);
-            }
-            currentMasterIcon = background;
-
             taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
 
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowDeiconified(WindowEvent e) {
-                    requestFocus();
-                    if (getOpacity() > opacityAnimationMax / 2.0f) return;
-                    CyderThreadRunner.submit(() -> {
-                        /*
-                        Note to maintainers: the following three lines exists to avoid the bug of seeing the
-                        old Windows XP/95 style frame icons when restoring a frame from iconification.
-                         */
-                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
-                        setOpacity(opacityAnimationMin);
-                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
-
-                        for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
-                            setOpacity(i);
-                            ThreadUtil.sleep(opacityAnimationDelay);
-                        }
-                        setOpacity(opacityAnimationMax);
-                    }, "Deiconify Animation");
-                }
-            });
-
-            // True content pane
-            contentLabel = new JLayeredPane() {
-                @Override
-                public Component add(Component comp, int index) {
-                    Preconditions.checkNotNull(comp);
-                    Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
-
-                    index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
-                    return super.add(comp, index);
-                }
-            };
-            contentLabel.setFocusable(false);
-
-            // The returned value for getContentPane
-            iconLabel = new JLabel() {
-                @Override
-                public void repaint() {
-                    if (!disableContentRepainting) {
-                        super.repaint();
-                    }
-                }
-            };
-            int iconLabelWidth = width - 2 * FRAME_RESIZING_LEN;
-            int iconLabelHeight = height - 2 * FRAME_RESIZING_LEN;
-            iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
-            iconLabel.setIcon(background);
-            iconLabel.setFocusable(false);
-
-            iconPane = new JLayeredPane();
-            iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
-            iconPane.add(iconLabel, defaultContentLabelAddingIndex);
-            iconPane.setFocusable(false);
-            contentLabel.add(iconPane, defaultContentLabelAddingIndex);
-
-            contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
-                    contentLabelBorderLength, false));
-            setContentPane(contentLabel);
-
+            // todo setup drag labels
             topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
                     CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
                     this, DragLabelType.TOP);
             topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                    iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+                    height - 2 * FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
             topDrag.setXOffset(FRAME_RESIZING_LEN);
             topDrag.setYOffset(FRAME_RESIZING_LEN);
             contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
@@ -474,7 +377,6 @@ public class CyderFrame extends JFrame {
             contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
             setupTitleLabel();
-
             initializeControllers();
         }
 
@@ -484,6 +386,113 @@ public class CyderFrame extends JFrame {
 
         threadsKilled.set(false);
         Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Initializes and set up the icon pane.
+     */
+    private void setupIconPane() {
+        iconPane = new JLayeredPane();
+        int w = width - 2 * FRAME_RESIZING_LEN;
+        int h = height - 2 * FRAME_RESIZING_LEN;
+        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, w, h);
+        iconPane.add(iconLabel, defaultContentLabelAddingIndex);
+        iconPane.setFocusable(false);
+    }
+
+    /**
+     * Adds the necessary listeners to this frame.
+     *
+     * @param borderless whether the frame is borderless
+     */
+    private void addListeners(boolean borderless) {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose(!borderless);
+            }
+        });
+
+        if (borderless) {
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+                    requestFocus();
+                    if (getOpacity() > opacityAnimationMax / 2.0f) return;
+                    CyderThreadRunner.submit(() -> {
+                        /*
+                        Note to maintainers: the following three lines exists to avoid the bug of seeing the
+                        old Windows XP/95 style frame icons when restoring a frame from iconification.
+                         */
+                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                        setOpacity(opacityAnimationMin);
+                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+
+                        for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
+                            setOpacity(i);
+                            ThreadUtil.sleep(opacityAnimationDelay);
+                        }
+                        setOpacity(opacityAnimationMax);
+                    }, "Deiconify Animation");
+                }
+            });
+        }
+    }
+
+    /**
+     * Sets up the background for the frame.
+     *
+     * @param builder the builder
+     */
+    private void setupFrameBackground(Builder builder) {
+        this.background = builder.background;
+        if (width != background.getIconWidth() || height != background.getIconHeight()) {
+            this.background = ImageUtil.resizeImage(background, width, height);
+        }
+        currentMasterIcon = background;
+    }
+
+    /**
+     * Sets up the {@link #contentLabel} for this frame.
+     *
+     * @param borderless whether the frame is borderless
+     */
+    private void setupContentLabel(boolean borderless) {
+        contentLabel = new JLayeredPane() {
+            @Override
+            public Component add(Component comp, int index) {
+                Preconditions.checkNotNull(comp);
+                Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
+
+                index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
+                return super.add(comp, index);
+            }
+        };
+        contentLabel.setFocusable(false);
+
+        if (!borderless) {
+            contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
+                    contentLabelBorderLength, false));
+        }
+    }
+
+    /**
+     * Sets up the {@link #iconLabel} for this frame.
+     */
+    private void setupIconLabel() {
+        iconLabel = new JLabel() {
+            @Override
+            public void repaint() {
+                if (!disableContentRepainting) {
+                    super.repaint();
+                }
+            }
+        };
+        int w = width - 2 * FRAME_RESIZING_LEN;
+        int h = height - 2 * FRAME_RESIZING_LEN;
+        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, w, h);
+        iconLabel.setIcon(background);
+        iconLabel.setFocusable(false);
     }
 
     /**
@@ -651,6 +660,7 @@ public class CyderFrame extends JFrame {
         public Builder setBackgroundIconFromColor(Color color) {
             Preconditions.checkNotNull(color);
             this.background = ImageUtil.imageIconFromColor(color, width, height);
+            this.backgroundColor = color;
             return this;
         }
 
