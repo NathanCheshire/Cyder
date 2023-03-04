@@ -2,6 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderUrls;
@@ -277,24 +278,31 @@ public final class UserUtil {
                 }
             });
 
-            incorrectlyNamedJpgs.forEach(file -> {
-                String name = FileUtil.getFilename(file);
-                File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
-                        name + Extension.JPG.getExtension());
-                boolean renamed = file.renameTo(renameTo);
-                Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename")
-                        + file.getName() + " to " + renameTo.getName());
-            });
-            // todo duplicate code
-            incorrectlyNamedPngs.forEach(file -> {
-                String name = FileUtil.getFilename(file);
-                File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
-                        name + Extension.PNG.getExtension());
-                boolean renamed = file.renameTo(renameTo);
-                Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename")
-                        + file.getName() + " to " + renameTo.getName());
-            });
+            incorrectlyNamedJpgs.forEach(file -> attemptToRenameToUseExtension(file, Extension.JPG));
+            incorrectlyNamedPngs.forEach(file -> attemptToRenameToUseExtension(file, Extension.PNG));
         });
+    }
+
+    /**
+     * Attempts to rename the provided file to use the provided extension.
+     *
+     * @param file      the file
+     * @param extension the extension
+     * @return whether the rename was successful
+     */
+    @CanIgnoreReturnValue
+    private static boolean attemptToRenameToUseExtension(File file, Extension extension) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkNotNull(extension);
+
+        String name = FileUtil.getFilename(file);
+        File renameTo = OsUtil.buildFile(file.getParentFile().getAbsolutePath(),
+                name + extension.getExtension());
+        boolean renamed = file.renameTo(renameTo);
+        Logger.log(LogTag.SYSTEM_IO, (renamed ? "Renamed" : "Failed to rename ")
+                + file.getName() + " to " + renameTo.getName());
+        return renamed;
     }
 
     /**
