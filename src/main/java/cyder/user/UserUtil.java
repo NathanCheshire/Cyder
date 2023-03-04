@@ -329,20 +329,25 @@ public final class UserUtil {
         for (File backgroundFile : validBackgroundFiles) {
             String filename = FileUtil.getFilename(backgroundFile);
 
-            BufferedImage image = null;
+            BufferedImage image;
             try {
                 CyderSplash.INSTANCE.setLoadingMessage("Reading background: " + filename);
                 image = ImageUtil.read(backgroundFile);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
+                continue;
             }
 
-            if (image == null) continue;
             CyderSplash.INSTANCE.setLoadingMessage("Checking if resize needed for background: " + filename);
-            image = ImageUtil.ensureFitsInBounds(image, maximumDimension);
+
+            int imageWidth = image.getWidth();
+            int imageHeight = image.getHeight();
+
+            if (imageWidth <= maximumDimension.getWidth() && imageHeight <= maximumDimension.getHeight()) continue;
 
             try {
-                if (!ImageIO.write(image, FileUtil.getExtensionWithoutPeriod(backgroundFile), backgroundFile)) {
+                if (!ImageIO.write(ImageUtil.ensureFitsInBounds(image, maximumDimension),
+                        FileUtil.getExtensionWithoutPeriod(backgroundFile), backgroundFile)) {
                     throw new FatalException("Failed to downscale image: " + backgroundFile.getAbsolutePath());
                 }
             } catch (Exception e) {
