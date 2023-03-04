@@ -344,8 +344,6 @@ public class CyderFrame extends JFrame {
             revalidateFrameShape();
             Logger.log(LogTag.OBJECT_CREATION, this);
         } else {
-            setTitle(builder.title);
-
             this.width = builder.width;
             this.height = builder.height;
             this.background = builder.background;
@@ -503,6 +501,7 @@ public class CyderFrame extends JFrame {
             titleLabel.setFocusable(false);
             titleLabel.setVisible(true);
             topDrag.add(titleLabel);
+            setTitle(builder.title);
 
             threadsKilled = false;
 
@@ -755,11 +754,6 @@ public class CyderFrame extends JFrame {
     // todo deprecated
     public CyderFrame(int width, int height) {
         this(new Builder().setWidth(width).setHeight(height));
-    }
-
-    // todo deprecated
-    public CyderFrame(int width, int height, ImageIcon background) {
-        this(new Builder().setWidth(width).setHeight(height).setBackgroundIcon(background));
     }
 
     /**

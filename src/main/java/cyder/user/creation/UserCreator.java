@@ -116,8 +116,11 @@ public final class UserCreator {
 
         newUserBackgroundFile = null;
 
-        createUserFrame = new CyderFrame(350, 500, CyderIcons.defaultBackground);
-        createUserFrame.setTitle("Create User");
+        createUserFrame = new CyderFrame.Builder()
+                .setWidth(350)
+                .setHeight(500)
+                .setTitle("Create User")
+                .build();
 
         JLabel nameLabel = new JLabel("Username", SwingConstants.CENTER);
         nameLabel.setFont(CyderFonts.SEGOE_20);

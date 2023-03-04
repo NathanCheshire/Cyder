@@ -7,7 +7,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.UiUtil;
@@ -176,8 +175,11 @@ public final class TemperatureWidget {
     private void innerShowGUI() {
         UiUtil.closeIfOpen(temperatureFrame);
 
-        temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
-        temperatureFrame.setTitle("Temperature Converter");
+        temperatureFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(340)
+                .setTitle("Temperature Converter")
+                .build();
 
         JLabel valueLabel = new JLabel(MEASUREMENT);
         valueLabel.setFont(CyderFonts.SEGOE_20);

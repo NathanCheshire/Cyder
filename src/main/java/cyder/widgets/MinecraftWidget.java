@@ -160,7 +160,11 @@ public final class MinecraftWidget {
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGui() {
         UiUtil.closeIfOpen(minecraftFrame);
-        minecraftFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, background);
+        minecraftFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setBackgroundIcon(background)
+                .build();
         minecraftFrame.setTitlePosition(TitlePosition.CENTER);
         minecraftFrame.setTitle(FRAME_TITLE);
 

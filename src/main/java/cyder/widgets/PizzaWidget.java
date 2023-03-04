@@ -7,7 +7,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.constants.HtmlTags;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
@@ -256,8 +255,11 @@ public final class PizzaWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(pizzaFrame);
 
-        pizzaFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
-        pizzaFrame.setTitle(FRAME_TITLE);
+        pizzaFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(FRAME_TITLE)
+                .build();
 
         JLabel nameLabel = new JLabel(NAME);
         nameLabel.setFont(CyderFonts.SEGOE_20);

@@ -226,10 +226,11 @@ public class YoutubeUuidChecker {
      * @param thumbnail the thumbnail image
      */
     private void showThumbnailFrame(BufferedImage thumbnail) {
-        CyderFrame thumbnailFrame = new CyderFrame(
-                thumbnail.getWidth(),
-                thumbnail.getHeight(),
-                new ImageIcon(thumbnail));
+        CyderFrame thumbnailFrame = new CyderFrame.Builder()
+                .setWidth(thumbnail.getWidth())
+                .setHeight(thumbnail.getHeight())
+                .setBackgroundIcon(new ImageIcon(thumbnail))
+                .build();
         thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
         thumbnailFrame.setTitle(currentUuid);
 

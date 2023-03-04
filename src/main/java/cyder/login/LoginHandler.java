@@ -27,7 +27,6 @@ import cyder.user.User;
 import cyder.user.UserUtil;
 import cyder.user.creation.UserCreator;
 import cyder.utils.ArrayUtil;
-import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
@@ -292,11 +291,13 @@ public final class LoginHandler {
             loginFrame.dispose(true);
         }
 
-        loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
-                ImageUtil.imageIconFromColor(backgroundColor));
-        String title = titlePrefix + openingBracket + CyderVersionManager.INSTANCE.getVersion()
-                + space + "Build" + closingBracket;
-        loginFrame.setTitle(title);
+        loginFrame = new CyderFrame.Builder()
+                .setWidth(LOGIN_FRAME_WIDTH)
+                .setHeight(LOGIN_FRAME_HEIGHT)
+                .setBackgroundIconFromColor(backgroundColor)
+                .setTitle(titlePrefix + openingBracket + CyderVersionManager.INSTANCE.getVersion()
+                        + space + "Build" + closingBracket)
+                .build();
         loginFrame.setBackground(backgroundColor);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override

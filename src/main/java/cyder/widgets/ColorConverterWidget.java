@@ -6,7 +6,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enumerations.CyderInspection;
 import cyder.layouts.CyderPartitionedLayout;
@@ -157,7 +156,10 @@ public class ColorConverterWidget {
      * @param relativeTo the component to set the widget relative to
      */
     public void innerShowGui(Component relativeTo) {
-        CyderFrame colorFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
+        CyderFrame colorFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .build();
         colorFrame.setTitle(TITLE);
 
         colorFrame.initializeResizing();

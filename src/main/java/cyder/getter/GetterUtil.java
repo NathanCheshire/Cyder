@@ -5,7 +5,6 @@ import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -173,7 +172,10 @@ public final class GetterUtil {
             int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + textHeight
                     + 2 * getInputFieldAndButtonHeight + 4 * getInputComponentYPadding;
 
-            CyderFrame inputFrame = new CyderFrame(textWidth, frameHeight, CyderIcons.defaultBackground);
+            CyderFrame inputFrame = new CyderFrame.Builder()
+                    .setWidth(textWidth)
+                    .setHeight(frameHeight)
+                    .build();
             getInputFrames.add(inputFrame);
             inputFrame.addPreCloseAction(() -> getInputFrames.remove(inputFrame));
             inputFrame.setFrameType(FrameType.INPUT_GETTER);
@@ -829,14 +831,16 @@ public final class GetterUtil {
                         - 2 * confirmationButtonXPadding) / numConfirmationButtons;
                 int noButtonX = confirmationButtonXPadding + confirmationButtonWidth + yesNoButtonPadding;
 
-                CyderFrame confirmationFrame = new CyderFrame(
-                        confirmationFrameWidth, confirmationFrameHeight, CyderIcons.defaultBackgroundLarge);
+                CyderFrame confirmationFrame = new CyderFrame.Builder()
+                        .setWidth(confirmationFrameWidth)
+                        .setHeight(confirmationFrameHeight)
+                        .setTitle(getConfirmationBuilder.getFrameTitle())
+                        .setType(FrameType.INPUT_GETTER)
+                        .build();
                 getConfirmationFrames.add(confirmationFrame);
                 frameReference.set(confirmationFrame);
                 getConfirmationBuilder.getOnDialogDisposalRunnables().forEach(confirmationFrame::addPostCloseAction);
 
-                confirmationFrame.setFrameType(FrameType.INPUT_GETTER);
-                confirmationFrame.setTitle(getConfirmationBuilder.getFrameTitle());
                 confirmationFrame.addPreCloseAction(() -> {
                     if (ret.get() != Boolean.TRUE) {
                         ret.set(Boolean.FALSE);

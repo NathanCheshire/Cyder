@@ -93,8 +93,11 @@ public final class GuiTests {
      */
     @GuiTest("drag label button test")
     public static void dragLabelButtonTest() {
-        CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
-        testFrame.setTitle("Drag label test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .setTitle("Drag label test")
+                .build();
 
         CyderButton addLeftButton = new CyderButton("Add left");
         addLeftButton.addActionListener(e -> testFrame.getTopDragLabel().addLeftButton(new MenuButton(), 0));
@@ -159,7 +162,10 @@ public final class GuiTests {
      */
     @GuiTest("notification test")
     public static void notificationTest() {
-        CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .build();
         testFrame.setTitle("Notification Test");
 
         int milliDelay = 3000;
@@ -239,8 +245,11 @@ public final class GuiTests {
 
     @GuiTest("askew test")
     public static void askewTest() {
-        CyderFrame testFrame = new CyderFrame(350, 300, CyderIcons.defaultBackground);
-        testFrame.setTitle("Askew Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(350)
+                .setHeight(300)
+                .setTitle("Askew Test")
+                .build();
 
         CyderTextField ctf = new CyderTextField();
         ctf.setBounds(100, 100, 150, 40);
@@ -262,8 +271,12 @@ public final class GuiTests {
         ImageIcon theImage = new ImageIcon(ImageUtil.getImageGradient(600, 1200,
                 CyderColors.regularPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
-        CyderFrame testFrame = new CyderFrame(600, 600, theImage);
-        testFrame.setTitle("Sliding test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .setBackgroundIcon(theImage)
+                .setTitle("Sliding Test")
+                .build();
         testFrame.initializeResizing();
         testFrame.setResizable(true);
 
@@ -334,8 +347,11 @@ public final class GuiTests {
      */
     @GuiTest("checkbox test")
     public static void checkboxTest() {
-        CyderFrame testFrame = new CyderFrame(400, 400, CyderIcons.defaultBackground);
-        testFrame.setTitle("Checkbox Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Checkbox Test")
+                .build();
 
         CyderCheckbox cb = new CyderCheckbox();
         cb.setBounds(175, 150, 50, 50);

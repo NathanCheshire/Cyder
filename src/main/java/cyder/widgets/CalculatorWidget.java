@@ -6,7 +6,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.ui.button.CyderModernButton;
@@ -88,7 +87,11 @@ public final class CalculatorWidget {
 
     @Widget(triggers = {"calculator", "calc", "math"}, description = description)
     public static void showGui() {
-        CyderFrame calculatorFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
+        CyderFrame calculatorFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle("Calculator")
+                .build();
         calculatorFrame.setTitle("Calculator");
 
         resultField = new CyderTextField();

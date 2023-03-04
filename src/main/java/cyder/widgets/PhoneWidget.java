@@ -9,7 +9,6 @@ import cyder.annotations.Widget;
 import cyder.audio.GeneralAndSystemAudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
@@ -81,6 +80,7 @@ public final class PhoneWidget {
      */
     private static final String TWO_TWO_THREES = "223";
 
+    // todo be able to kill these if still playing when frame is disposed
     /**
      * The map of special numbers to runnables.
      */
@@ -116,8 +116,11 @@ public final class PhoneWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(phoneFrame);
 
-        phoneFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
-        phoneFrame.setTitle(TITLE);
+        phoneFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(TITLE)
+                .build();
 
         numberField = new CyderTextField();
         numberField.setText(hash);

@@ -151,8 +151,12 @@ public class ImageViewer {
             File currentImage = getCurrentImageFile();
 
             ImageIcon newImage = scaleImageIfNeeded(currentImage);
-            pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
-            pictureFrame.setBackground(Color.BLACK);
+            pictureFrame = new CyderFrame.Builder()
+                    .setWidth(newImage.getIconWidth())
+                    .setHeight(newImage.getIconHeight())
+                    .setBackgroundIcon(newImage)
+                    .setBackgroundColor(Color.BLACK)
+                    .build();
             pictureFrame.setTitlePosition(TitlePosition.CENTER);
             revalidateTitle(FileUtil.getFilename(currentImage.getName()));
             pictureFrame.setVisible(true);

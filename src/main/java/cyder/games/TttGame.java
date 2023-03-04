@@ -7,7 +7,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.enumerations.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.getter.GetInputBuilder;
@@ -91,8 +90,11 @@ public final class TttGame {
         int labelOffset = 60;
         int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2) + labelOffset;
 
-        tttFrame = new CyderFrame(frameLen, frameLen, CyderIcons.defaultBackground);
-        tttFrame.setTitle("TicTacToe");
+        tttFrame = new CyderFrame.Builder()
+                .setWidth(frameLen)
+                .setHeight(frameLen)
+                .setTitle("TicTacToe")
+                .build();
         tttFrame.addMenuItem("Board Size", () -> CyderThreadRunner.submit(() -> {
             try {
                 Optional<String> optionalSizeString = GetterUtil.getInstance().getInput(

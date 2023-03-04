@@ -196,7 +196,11 @@ public final class FileSignatureWidget {
 
     @Widget(triggers = {"file signature", "signature"}, description = description)
     public static void showGui() {
-        signatureFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
+        signatureFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setBackgroundIcon(CyderIcons.defaultBackground)
+                .build();
         signatureFrame.setTitle(TITLE);
 
         signatureField = new CyderTextField();

@@ -301,7 +301,11 @@ public final class ImageAveragerWidget {
         File outputFile = Dynamic.buildDynamic(Dynamic.USERS.getFileName(),
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
-        CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(), previewImage.getIconHeight(), previewImage);
+        CyderFrame drawFrame = new CyderFrame.Builder()
+                .setWidth(previewImage.getIconWidth())
+                .setHeight(previewImage.getIconHeight())
+                .setBackgroundIcon(previewImage)
+                .build();
         DragLabelTextButton saveButton = new DragLabelTextButton.Builder(SAVE)
                 .setTooltip(SAVE_IMAGE)
                 .setClickAction(() -> {
