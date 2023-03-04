@@ -164,7 +164,7 @@ public class CyderFrame extends JFrame {
      * Whether threads that were spawned by this instance of CyderFrame have been killed yet.
      * Examples include notifications and dancing.
      */
-    private boolean threadsKilled;
+    private final AtomicBoolean threadsKilled = new AtomicBoolean();
 
     /**
      * The background image for this CyderFrame.
@@ -280,23 +280,22 @@ public class CyderFrame extends JFrame {
     public CyderFrame(Builder builder) {
         Preconditions.checkNotNull(builder);
 
+        this.width = builder.width;
+        this.height = builder.height;
+        setSize(new Dimension(width, height));
+        setResizable(false);
+        setUndecorated(true);
+        setBackground(builder.backgroundColor);
+        setIconImage(CyderIcons.CYDER_ICON.getImage());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose(!builder.borderless);
+            }
+        });
+
         if (builder.borderless) {
-            this.width = builder.width;
-            this.height = builder.height;
-
-            setSize(new Dimension(width, height));
-            setResizable(false);
-            setUndecorated(true);
-            setBackground(builder.backgroundColor);
-            setIconImage(CyderIcons.CYDER_ICON.getImage());
-
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    dispose();
-                }
-            });
-
             contentLabel = new JLayeredPane() {
                 @Override
                 public Component add(Component comp, int index) {
@@ -338,14 +337,7 @@ public class CyderFrame extends JFrame {
             fullDragLabel.setFocusable(false);
 
             contentLabel.add(fullDragLabel);
-
-            threadsKilled = false;
-
-            revalidateFrameShape();
-            Logger.log(LogTag.OBJECT_CREATION, this);
         } else {
-            this.width = builder.width;
-            this.height = builder.height;
             this.background = builder.background;
             if (width != background.getIconWidth() || height != background.getIconHeight()) {
                 this.background = ImageUtil.resizeImage(background, width, height);
@@ -354,29 +346,16 @@ public class CyderFrame extends JFrame {
 
             taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
 
-            setSize(new Dimension(width, height));
-            setResizable(false);
-            setUndecorated(true);
-            setBackground(builder.backgroundColor);
-            setIconImage(CyderIcons.CYDER_ICON.getImage());
-
-            // Ensure dispose actions are always invoked
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    dispose(true);
-                }
-            });
             addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     requestFocus();
                     if (getOpacity() > opacityAnimationMax / 2.0f) return;
                     CyderThreadRunner.submit(() -> {
-                    /*
-                    Note to maintainers: the following three lines exists to avoid the bug of seeing the
-                    old Windows XP/95 style frame icons when restoring a frame from iconification.
-                     */
+                        /*
+                        Note to maintainers: the following three lines exists to avoid the bug of seeing the
+                        old Windows XP/95 style frame icons when restoring a frame from iconification.
+                         */
                         ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
                         setOpacity(opacityAnimationMin);
                         ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
@@ -494,26 +473,45 @@ public class CyderFrame extends JFrame {
             bottomDragCover.setOpaque(true);
             contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
-            titleLabel = new JLabel();
-            titleLabel.setFont(titleLabelFont);
-            titleLabel.setForeground(titleLabelColor);
-            titleLabel.setOpaque(false);
-            titleLabel.setFocusable(false);
-            titleLabel.setVisible(true);
-            topDrag.add(titleLabel);
-            setTitle(builder.title);
+            setupTitleLabel();
 
-            threadsKilled = false;
-
-            setFrameType(builder.type);
-
-            revalidateFrameShape();
-
-            // Calls passing this
-            tooltipMenuController = new TooltipMenuController(this);
-            notificationController = new NotificationController(this);
-            Logger.log(LogTag.OBJECT_CREATION, this);
+            initializeControllers();
         }
+
+        setFrameType(builder.type);
+        revalidateFrameShape();
+        setTitle(builder.title);
+
+        threadsKilled.set(false);
+        Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Sets up the title label and adds it to the top drag label.
+     */
+    @ForReadability
+    private void setupTitleLabel() {
+        titleLabel = new JLabel();
+        titleLabel.setFont(titleLabelFont);
+        titleLabel.setForeground(titleLabelColor);
+        titleLabel.setOpaque(false);
+        titleLabel.setFocusable(false);
+        titleLabel.setVisible(true);
+        topDrag.add(titleLabel);
+    }
+
+    /**
+     * Initializes the controllers for this frame:
+     *
+     * <ul>
+     *     <li>The tooltip menu controller</li>
+     *     <li>The notification controller</li>
+     * </ul>
+     */
+    @ForReadability
+    private void initializeControllers() {
+        tooltipMenuController = new TooltipMenuController(this);
+        notificationController = new NotificationController(this);
     }
 
     /**
@@ -2290,7 +2288,7 @@ public class CyderFrame extends JFrame {
      * Features should not be expected to function properly after this method is invoked.
      */
     private void killThreads() {
-        threadsKilled = true;
+        threadsKilled.set(true);
     }
 
     /**
@@ -2299,7 +2297,7 @@ public class CyderFrame extends JFrame {
      * @return whether threads have been killed
      */
     public boolean threadsKilled() {
-        return threadsKilled;
+        return threadsKilled.get();
     }
 
     /**
