@@ -340,7 +340,7 @@ public final class UiUtil {
             if (frame instanceof CyderFrame cyderFrame) {
                 cyderFrame.minimizeAndIconify();
             } else {
-                frame.setState(Frame.ICONIFIED);
+                frame.setState(UiConstants.FRAME_ICONIFIED);
             }
         });
     }
@@ -355,10 +355,10 @@ public final class UiUtil {
         Preconditions.checkNotNull(frame);
 
         return () -> {
-            if (frame.getState() == Frame.NORMAL) {
+            if (frame.getState() == UiConstants.FRAME_NORMAL) {
                 frame.minimizeAndIconify();
             } else {
-                frame.setState(Frame.NORMAL);
+                frame.setState(UiConstants.FRAME_NORMAL);
             }
         };
     }

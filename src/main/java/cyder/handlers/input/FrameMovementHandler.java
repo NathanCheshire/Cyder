@@ -4,6 +4,7 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
+import cyder.ui.UiConstants;
 import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.ScreenPosition;
@@ -52,8 +53,8 @@ public class FrameMovementHandler extends InputHandler {
                 if (getInputHandler().getArg(1).equalsIgnoreCase("top")
                         && getInputHandler().getArg(2).equalsIgnoreCase("right")) {
                     for (CyderFrame f : UiUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
+                        if (f.getState() == UiConstants.FRAME_ICONIFIED) {
+                            f.setState(UiConstants.FRAME_NORMAL);
                         }
 
                         int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX()
@@ -67,8 +68,8 @@ public class FrameMovementHandler extends InputHandler {
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
                         && getInputHandler().getArg(2).equalsIgnoreCase("right")) {
                     for (CyderFrame f : UiUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
+                        if (f.getState() == UiConstants.FRAME_ICONIFIED) {
+                            f.setState(UiConstants.FRAME_NORMAL);
                         }
 
                         int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX()
@@ -84,8 +85,8 @@ public class FrameMovementHandler extends InputHandler {
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
                         && getInputHandler().getArg(2).equalsIgnoreCase("left")) {
                     for (CyderFrame f : UiUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
+                        if (f.getState() == UiConstants.FRAME_ICONIFIED) {
+                            f.setState(UiConstants.FRAME_NORMAL);
                         }
 
                         int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX();
@@ -99,8 +100,8 @@ public class FrameMovementHandler extends InputHandler {
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("top")
                         && getInputHandler().getArg(2).equalsIgnoreCase("left")) {
                     for (CyderFrame f : UiUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
+                        if (f.getState() == UiConstants.FRAME_ICONIFIED) {
+                            f.setState(UiConstants.FRAME_NORMAL);
                         }
 
                         int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX();
@@ -124,8 +125,8 @@ public class FrameMovementHandler extends InputHandler {
                         continue;
                     }
 
-                    if (f.getState() == Frame.ICONIFIED) {
-                        f.setState(Frame.NORMAL);
+                    if (f.getState() == UiConstants.FRAME_ICONIFIED) {
+                        f.setState(UiConstants.FRAME_NORMAL);
                     }
 
                     int anchorX = x - f.getWidth() / 2;

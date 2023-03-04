@@ -1319,9 +1319,33 @@ public class CyderFrame extends JFrame {
         new InformHandler.Builder(text).setTitle(title).setRelativeTo(this).inform();
     }
 
-    // ----------
-    // Animations
-    // ----------
+    /**
+     * The actions to invoke prior to a minimize and iconify invocation.
+     */
+    private final ArrayList<Runnable> preMinimizeAndIconifyActions = new ArrayList<>();
+
+    /**
+     * Adds the provided runnable to be invoked before a minimize and iconify invocation.
+     *
+     * @param runnable the runnable
+     */
+    public void addPreMinimizeAndIconifyAction(Runnable runnable) {
+        preMinimizeAndIconifyActions.add(Preconditions.checkNotNull(runnable));
+    }
+
+    /**
+     * The actions to invoke after a minimize and iconify invocation.
+     */
+    private final ArrayList<Runnable> postMinimizeAndIconifyActions = new ArrayList<>();
+
+    /**
+     * Adds the provided runnable to be invoked after a minimize and iconify invocation.
+     *
+     * @param runnable the runnable
+     */
+    public void addPostMinimizeAndIconifyAction(Runnable runnable) {
+        postMinimizeAndIconifyActions.add(Preconditions.checkNotNull(runnable));
+    }
 
     /**
      * Animates away this frame by moving it down until it is offscreen at which point the frame
@@ -1329,6 +1353,7 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAndIconify() {
         try {
+            preMinimizeAndIconifyActions.forEach(Runnable::run);
             setRestorePoint(new Point(getX(), getY()));
 
             if (UserDataManager.INSTANCE.shouldDoAnimations()) {
@@ -1348,6 +1373,7 @@ public class CyderFrame extends JFrame {
             }
 
             setState(UiConstants.FRAME_ICONIFIED);
+            postMinimizeAndIconifyActions.forEach(Runnable::run);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

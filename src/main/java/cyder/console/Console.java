@@ -566,30 +566,13 @@ public enum Console {
                 revalidateMenu();
                 revalidateTitleNotify();
             }
-
-            /**
-             * Disposes the console and ensures focus borders for
-             * fields do not appear during the possible close animation.
-             */
-            @Override
-            public void dispose() {
-                outputArea.setFocusable(false);
-                outputScroll.setFocusable(false);
-
-                UiUtil.disposeAllFrames(true, consoleCyderFrame);
-                super.dispose(isFullscreen());
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void minimizeAndIconify() {
-                // todo architecture for pre and pose minimize and iconify actions?
-                saveScreenStat();
-                super.minimizeAndIconify();
-            }
         };
+        consoleCyderFrame.addPreMinimizeAndIconifyAction(this::saveScreenStat);
+        consoleCyderFrame.addPreCloseAction(() -> {
+            outputArea.setFocusable(false);
+            outputScroll.setFocusable(false);
+            UiUtil.disposeAllFrames(true, consoleCyderFrame);
+        });
 
         // It is intended that the console and splash never show up in the taskbar
         String consoleKey = SecurityUtil.generateUuid();
