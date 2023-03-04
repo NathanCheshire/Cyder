@@ -1,10 +1,13 @@
 package cyder.files;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.constants.CyderRegexPatterns;
 import cyder.enumerations.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.exceptions.UnsupportedOsException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -12,6 +15,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.utils.ArrayUtil;
+import cyder.utils.OsUtil;
 import net.lingala.zip4j.core.ZipFile;
 
 import java.awt.*;
@@ -36,6 +40,52 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Static utilities having to do with files, their names, properties, and attributes.
  */
 public final class FileUtil {
+    /**
+     * The invalid Com names which files may not contains on Windows.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> invalidWindowsComNames = ImmutableList.of(
+            "COM1", "COM2", "COM3",
+            "COM4", "COM5", "COM6",
+            "COM7", "COM8", "COM9"
+    );
+
+    /**
+     * The invalid LPT (Line Printer Terminal) names which files may not contains on Windows.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> invalidWindowsLptNames = ImmutableList.of(
+            "LPT1", "LPT2", "LPT3",
+            "LPT4", "LPT5", "LPT6",
+            "LPT7", "LPT8", "LPT9"
+    );
+
+    /**
+     * The additional invalid windows filenames aside from
+     * {@link #invalidWindowsComNames} and {@link #invalidWindowsLptNames}.
+     * These exist in Windows for backwards compatibility.
+     */
+    public static final ImmutableList<String> otherInvalidWindowsNames = ImmutableList.of(
+            "CON", "PRN", "AUX", "NUL"
+    );
+
+    /**
+     * A list of the restricted windows filenames due to backwards
+     * compatibility and the nature of "APIs are forever".
+     */
+    public static final ImmutableList<String> invalidWindowsFilenames = new ImmutableList.Builder<String>()
+            .addAll(invalidWindowsComNames)
+            .addAll(invalidWindowsLptNames)
+            .addAll(otherInvalidWindowsNames)
+            .build();
+
+    /**
+     * The list of invalid characters for a file name on unix based systems.
+     */
+    public static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
+            CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
+    );
+
     /**
      * The metadata signature for a png file.
      */
@@ -809,5 +859,59 @@ public final class FileUtil {
         }
 
         return 0L;
+    }
+
+    /**
+     * Returns whether the provided filename is valid for the operating system
+     * Cyder is currently running on.
+     *
+     * @param filename the desired filename
+     * @return whether the provided filename is valid for the operating system
+     * Cyder is currently running on
+     */
+    public static boolean isValidFilename(String filename) {
+        Preconditions.checkNotNull(filename);
+        Preconditions.checkArgument(!filename.isEmpty());
+
+        filename = filename.trim();
+
+        switch (OsUtil.OPERATING_SYSTEM) {
+            case OSX:
+                return !filename.contains(CyderStrings.forwardSlash) && !filename.contains(CyderStrings.nullChar);
+            case WINDOWS:
+                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern())) {
+                    return false;
+                }
+
+                for (String invalidName : invalidWindowsFilenames) {
+                    if (filename.equalsIgnoreCase(invalidName)) {
+                        return false;
+                    }
+                }
+
+                if (filename.contains(".")) {
+                    String[] parts = filename.split("\\.");
+
+                    for (String part : parts) {
+                        for (String invalidName : invalidWindowsFilenames) {
+                            if (part.equalsIgnoreCase(invalidName)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                return !filename.endsWith(".");
+            case UNIX:
+                for (String invalidChar : invalidUnixFilenameChars) {
+                    if (filename.contains(invalidChar)) return false;
+                }
+
+                break;
+            case UNKNOWN:
+                throw new UnsupportedOsException("Unknown operating system: " + OsUtil.OPERATING_SYSTEM_NAME);
+        }
+
+        return true;
     }
 }

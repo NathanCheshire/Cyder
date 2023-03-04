@@ -35,7 +35,6 @@ import cyder.ui.slider.CyderSliderUi;
 import cyder.ui.slider.ThumbShape;
 import cyder.user.UserUtil;
 import cyder.utils.ArrayUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.SerializationUtil;
 import cyder.utils.StaticUtil;
 
@@ -725,7 +724,7 @@ public final class GameOfLifeWidget {
 
             String filename = saveName + Extension.JSON.getExtension();
 
-            if (OsUtil.isValidFilename(filename)) {
+            if (FileUtil.isValidFilename(filename)) {
                 File saveFile = UserUtil.createFileInUserSpace(filename);
 
                 ArrayList<Point> points = new ArrayList<>();

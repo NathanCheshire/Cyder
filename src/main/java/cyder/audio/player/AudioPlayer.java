@@ -1238,7 +1238,7 @@ public final class AudioPlayer {
             if (optionalSaveName.isEmpty()) return;
             String saveName = optionalSaveName.get();
 
-            if (OsUtil.isValidFilename(saveName)) {
+            if (FileUtil.isValidFilename(saveName)) {
                 File saveFile = Dynamic.buildDynamic(
                         Dynamic.USERS.getFileName(),
                         Console.INSTANCE.getUuid(),

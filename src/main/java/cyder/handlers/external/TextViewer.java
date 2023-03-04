@@ -200,7 +200,7 @@ public class TextViewer {
 
         String requestedName = nameContents + Extension.TXT.getExtension();
 
-        if (!OsUtil.isValidFilename(requestedName)) {
+        if (!FileUtil.isValidFilename(requestedName)) {
             textFrame.notify("Invalid filename");
             return;
         }

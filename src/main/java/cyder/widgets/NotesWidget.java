@@ -472,7 +472,7 @@ public final class NotesWidget {
 
         String requestedName = noteName + Extension.TXT.getExtension();
 
-        if (!OsUtil.isValidFilename(requestedName)) {
+        if (!FileUtil.isValidFilename(requestedName)) {
             noteFrame.notify("Invalid filename");
             return;
         }
@@ -641,7 +641,7 @@ public final class NotesWidget {
         }
 
         String newFilename = noteNameFieldText + Extension.TXT.getExtension();
-        if (!OsUtil.isValidFilename(newFilename)) {
+        if (!FileUtil.isValidFilename(newFilename)) {
             noteFrame.notify("Invalid filename: " + CyderStrings.quote + newFilename + CyderStrings.quote);
             return;
         }

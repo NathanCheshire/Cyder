@@ -150,7 +150,7 @@ public final class PaintWidget {
                 filename += Extension.PNG.getExtension();
             }
 
-            if (OsUtil.isValidFilename(filename)) {
+            if (FileUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
                         cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
 

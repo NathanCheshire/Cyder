@@ -566,7 +566,7 @@ public final class UserEditor {
 
                 String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
 
-                if (!OsUtil.isValidFilename(newFilenameAndExtension)) {
+                if (!FileUtil.isValidFilename(newFilenameAndExtension)) {
                     editUserFrame.notify("Invalid filename; file not renamed");
                     return;
                 }
@@ -601,7 +601,7 @@ public final class UserEditor {
         Preconditions.checkArgument(referenceFile.exists());
         Preconditions.checkNotNull(proposedName);
         Preconditions.checkArgument(!proposedName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isValidFilename(proposedName));
+        Preconditions.checkArgument(FileUtil.isValidFilename(proposedName));
 
         String oldAlbumArtName = FileUtil.getFilename(referenceFile);
         File newReferenceFile = OsUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(), proposedName);

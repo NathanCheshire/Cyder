@@ -267,7 +267,7 @@ public class YouTubeAudioDownload {
     public void setAudioDownloadName(String audioDownloadName) {
         Preconditions.checkNotNull(audioDownloadName);
         Preconditions.checkArgument(!audioDownloadName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isValidFilename(audioDownloadName));
+        Preconditions.checkArgument(FileUtil.isValidFilename(audioDownloadName));
 
         this.audioDownloadName = audioDownloadName;
     }
@@ -280,7 +280,7 @@ public class YouTubeAudioDownload {
     public void setThumbnailDownloadName(String thumbnailDownloadName) {
         Preconditions.checkNotNull(thumbnailDownloadName);
         Preconditions.checkArgument(!thumbnailDownloadName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isValidFilename(thumbnailDownloadName));
+        Preconditions.checkArgument(FileUtil.isValidFilename(thumbnailDownloadName));
 
         this.thumbnailDownloadName = thumbnailDownloadName;
     }

@@ -12,6 +12,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.enumerations.Dynamic;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -377,7 +378,7 @@ public class BaseInputHandler {
 
         String requestedFilename = args.get(args.size() - 1);
 
-        if (!OsUtil.isValidFilename(requestedFilename)) {
+        if (!FileUtil.isValidFilename(requestedFilename)) {
             onFailedRedirect("Provided filename is not valid: \"" + requestedFilename + "\"");
             return;
         }
