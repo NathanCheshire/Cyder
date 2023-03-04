@@ -2,7 +2,6 @@ package cyder.meta;
 
 import com.google.common.base.Preconditions;
 import cyder.animation.HarmonicRectangle;
-import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.enumerations.Direction;
 import cyder.enumerations.ExitCondition;
@@ -410,13 +409,17 @@ public enum CyderSplash {
     /**
      * Constructs the splash frame.
      */
-    @ForReadability
     private void constructFrame() {
-        splashFrame = CyderFrame.generateBorderlessFrame(FRAME_LEN, FRAME_LEN, CyderColors.navy);
+        splashFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_LEN)
+                .setHeight(FRAME_LEN)
+                .setBackgroundColor(CyderColors.navy)
+                .setTitle(FRAME_TITLE)
+                .setType(FrameType.POPUP)
+                .setBorderless(true)
+                .build();
         splashFrame.addWindowListener(splashFrameWindowAdapter);
-        splashFrame.setTitle(FRAME_TITLE);
         splashFrame.addEndDragEventCallback(dragEventCallback);
-        splashFrame.setFrameType(FrameType.POPUP);
     }
 
     /**
@@ -621,7 +624,6 @@ public enum CyderSplash {
      * @param direction the direction the border is for
      * @return the animation border side
      */
-    @ForReadability
     private JLabel generateAnimationBorderSide(Direction direction) {
         Preconditions.checkNotNull(direction);
 

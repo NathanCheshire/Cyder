@@ -575,47 +575,6 @@ public enum Console {
             }
 
             /**
-             * The increment in degrees for a barrel roll.
-             */
-            private static final int DEGREE_INCREMENT = 2;
-
-            /**
-             * The delay between barrel roll increments.
-             */
-            private static final int BARREL_ROLL_DELAY = 2;
-
-            /**
-             * Whether a barrel roll is currently underway
-             */
-            private static boolean consoleBarrelRollLocked = false;
-
-            /**
-             * The thread name for the barrel roll animator.
-             */
-            private static final String BARREL_ROLL_THREAD_NAME = "Console Barrel Roll Thread";
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void barrelRoll() {
-                if (consoleBarrelRollLocked) return;
-                consoleBarrelRollLocked = true;
-
-                CyderThreadRunner.submit(() -> {
-                    BufferedImage masterImage = getCurrentBackground().generateBufferedImage();
-                    for (int i = 0 ; i <= AngleUtil.THREE_SIXTY_DEGREES ; i += DEGREE_INCREMENT) {
-                        BufferedImage rotated = ImageUtil.rotateImage(masterImage, i);
-                        getConsoleCyderFrameContentPane().setIcon(new ImageIcon(rotated));
-                        ThreadUtil.sleep(BARREL_ROLL_DELAY);
-                    }
-
-                    getConsoleCyderFrameContentPane().setIcon(getCurrentBackground().generateImageIcon());
-                    consoleBarrelRollLocked = false;
-                }, BARREL_ROLL_THREAD_NAME);
-            }
-
-            /**
              * {@inheritDoc}
              */
             @Override
@@ -1961,6 +1920,46 @@ public enum Console {
     private void resetInputField() {
         inputField.setText(consoleBashString);
         inputField.setCaretPosition(consoleBashString.length());
+    }
+
+    /**
+     * The increment in degrees for a barrel roll.
+     */
+    private static final int DEGREE_INCREMENT = 2;
+
+    /**
+     * The delay between barrel roll increments.
+     */
+    private static final int BARREL_ROLL_DELAY = 2;
+
+    /**
+     * The thread name for the barrel roll animator.
+     */
+    private static final String BARREL_ROLL_THREAD_NAME = "Console Barrel Roll Thread";
+
+    /**
+     * The object to synchronize on when performing a console barrel roll.
+     */
+    private static final Object barrelRollLockingObject = new Object();
+
+    /**
+     * Performs a barrel roll on the console frame.
+     */
+    public void barrelRoll() {
+        synchronized (barrelRollLockingObject) {
+            CyderThreadRunner.submit(() -> {
+                BufferedImage currentBi = getCurrentBackground().generateBufferedImage();
+                BufferedImage masterImage = ImageUtil.resizeImage(currentBi, currentBi.getType(),
+                        consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
+                for (int i = 0 ; i <= AngleUtil.THREE_SIXTY_DEGREES ; i += DEGREE_INCREMENT) {
+                    BufferedImage rotated = ImageUtil.rotateImage(masterImage, i);
+                    getConsoleCyderFrameContentPane().setIcon(new ImageIcon(rotated));
+                    ThreadUtil.sleep(BARREL_ROLL_DELAY);
+                }
+
+                getConsoleCyderFrameContentPane().setIcon(ImageUtil.toImageIcon(masterImage));
+            }, BARREL_ROLL_THREAD_NAME);
+        }
     }
 
     /**

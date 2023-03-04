@@ -174,11 +174,14 @@ public final class ExceptionHandler {
         }
         builder.append(HtmlTags.closingHtml);
 
-        int frameWidth = labelWidth + 2 * offset;
-        int frameHeight = labelHeight + 2 * offset;
-        CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(frameWidth, frameHeight, exceptionRed);
-        borderlessFrame.setTitle(exceptionMessage);
-        borderlessFrame.setFrameType(FrameType.POPUP);
+        CyderFrame borderlessFrame = new CyderFrame.Builder()
+                .setWidth(labelWidth + 2 * offset)
+                .setHeight(labelHeight + 2 * offset)
+                .setBackgroundIconFromColor(exceptionRed)
+                .setTitle(exceptionMessage)
+                .setType(FrameType.POPUP)
+                .setBorderless(true)
+                .build();
 
         String labelText = builder.toString();
         JLabel label = generatePopupLabel(labelText, escapeOpacityThread, borderlessFrame);

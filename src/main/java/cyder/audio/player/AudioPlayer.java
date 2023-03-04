@@ -549,6 +549,7 @@ public final class AudioPlayer {
                     .setTitle(DEFAULT_FRAME_TITLE)
                     .setSize(new Dimension(defaultFrameLength, defaultFrameLength))
                     .setBackgroundColor(BACKGROUND_COLOR)
+                    .setBackgroundIconFromColor(BACKGROUND_COLOR)
                     .build();
             refreshFrameTitle();
             addChangeSizeButtonToTopDragLabel();

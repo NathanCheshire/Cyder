@@ -27,7 +27,7 @@ public class FrameMovementHandler extends InputHandler {
     private static final int ASKEW_DEGREE = 5;
 
     @Handle({"top left", "top right", "bottom left", "bottom right",
-            "consolidate windows", "dance", "hide", "askew", "barrelroll", "middle", "center"})
+            "consolidate windows", "dance", "hide", "askew", "barrel roll", "middle", "center"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -142,7 +142,7 @@ public class FrameMovementHandler extends InputHandler {
         } else if (getInputHandler().commandIs("hide")) {
             Console.INSTANCE.getConsoleCyderFrame().minimizeAndIconify();
         } else if (getInputHandler().inputIgnoringSpacesMatches("barrelroll")) {
-            Console.INSTANCE.getConsoleCyderFrame().barrelRoll();
+            Console.INSTANCE.barrelRoll();
         } else if (getInputHandler().commandIs("askew")) {
             Console.INSTANCE.getConsoleCyderFrame().rotateBackground(ASKEW_DEGREE);
         } else {
