@@ -51,6 +51,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -229,7 +230,7 @@ public class CyderFrame extends JFrame {
     /**
      * The text displayed on the title label.
      */
-    private String title = "CyderFrame";
+    private String title;
 
     /**
      * The "content pane" of the CyderFrame. This is what is returned
@@ -342,181 +343,178 @@ public class CyderFrame extends JFrame {
 
             revalidateFrameShape();
             Logger.log(LogTag.OBJECT_CREATION, this);
+        } else {
+            setTitle(builder.title);
 
-
-            return;
-        }
-
-        setTitle(builder.title);
-
-        this.width = builder.width;
-        this.height = builder.height;
-        this.background = builder.background;
-        if (width != background.getIconWidth() || height != background.getIconHeight()) {
-            this.background = ImageUtil.resizeImage(background, width, height);
-        }
-        currentMasterIcon = background;
-
-        taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
-
-        setSize(new Dimension(width, height));
-        setResizable(false);
-        setUndecorated(true);
-        setBackground(builder.backgroundColor);
-        setIconImage(CyderIcons.CYDER_ICON.getImage());
-
-        // Ensure dispose actions are always invoked
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose(true);
+            this.width = builder.width;
+            this.height = builder.height;
+            this.background = builder.background;
+            if (width != background.getIconWidth() || height != background.getIconHeight()) {
+                this.background = ImageUtil.resizeImage(background, width, height);
             }
-        });
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                requestFocus();
-                if (getOpacity() > opacityAnimationMax / 2.0f) return;
-                CyderThreadRunner.submit(() -> {
+            currentMasterIcon = background;
+
+            taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
+
+            setSize(new Dimension(width, height));
+            setResizable(false);
+            setUndecorated(true);
+            setBackground(builder.backgroundColor);
+            setIconImage(CyderIcons.CYDER_ICON.getImage());
+
+            // Ensure dispose actions are always invoked
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    dispose(true);
+                }
+            });
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+                    requestFocus();
+                    if (getOpacity() > opacityAnimationMax / 2.0f) return;
+                    CyderThreadRunner.submit(() -> {
                     /*
                     Note to maintainers: the following three lines exists to avoid the bug of seeing the
                     old Windows XP/95 style frame icons when restoring a frame from iconification.
                      */
-                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
-                    setOpacity(opacityAnimationMin);
-                    ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
+                        setOpacity(opacityAnimationMin);
+                        ThreadUtil.sleep(restoreAfterMinimizeAnimationDelay);
 
-                    for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
-                        setOpacity(i);
-                        ThreadUtil.sleep(opacityAnimationDelay);
-                    }
-                    setOpacity(opacityAnimationMax);
-                }, "Deiconify Animation");
-            }
-        });
-
-        // True content pane
-        contentLabel = new JLayeredPane() {
-            @Override
-            public Component add(Component comp, int index) {
-                Preconditions.checkNotNull(comp);
-                Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
-
-                index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
-                return super.add(comp, index);
-            }
-        };
-        contentLabel.setFocusable(false);
-
-        // The returned value for getContentPane
-        iconLabel = new JLabel() {
-            @Override
-            public void repaint() {
-                if (!disableContentRepainting) {
-                    super.repaint();
+                        for (float i = getOpacity() ; i <= opacityAnimationMax ; i += opacityAnimationDelta) {
+                            setOpacity(i);
+                            ThreadUtil.sleep(opacityAnimationDelay);
+                        }
+                        setOpacity(opacityAnimationMax);
+                    }, "Deiconify Animation");
                 }
-            }
-        };
-        int iconLabelWidth = width - 2 * FRAME_RESIZING_LEN;
-        int iconLabelHeight = height - 2 * FRAME_RESIZING_LEN;
-        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
-        iconLabel.setIcon(background);
-        iconLabel.setFocusable(false);
+            });
 
-        iconPane = new JLayeredPane();
-        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
-        iconPane.add(iconLabel, defaultContentLabelAddingIndex);
-        iconPane.setFocusable(false);
-        contentLabel.add(iconPane, defaultContentLabelAddingIndex);
+            // True content pane
+            contentLabel = new JLayeredPane() {
+                @Override
+                public Component add(Component comp, int index) {
+                    Preconditions.checkNotNull(comp);
+                    Preconditions.checkArgument(index >= defaultContentLabelAddingIndex);
 
-        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
-                contentLabelBorderLength, false));
-        setContentPane(contentLabel);
+                    index = allowableContentLabelIndices.contains(index) ? index : defaultContentLabelAddingIndex;
+                    return super.add(comp, index);
+                }
+            };
+            contentLabel.setFocusable(false);
 
-        topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
-                CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
-                this, DragLabelType.TOP);
-        topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        topDrag.setXOffset(FRAME_RESIZING_LEN);
-        topDrag.setYOffset(FRAME_RESIZING_LEN);
-        contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
-        topDrag.setFocusable(false);
+            // The returned value for getContentPane
+            iconLabel = new JLabel() {
+                @Override
+                public void repaint() {
+                    if (!disableContentRepainting) {
+                        super.repaint();
+                    }
+                }
+            };
+            int iconLabelWidth = width - 2 * FRAME_RESIZING_LEN;
+            int iconLabelHeight = height - 2 * FRAME_RESIZING_LEN;
+            iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
+            iconLabel.setIcon(background);
+            iconLabel.setFocusable(false);
 
-        topDragCover = new JLabel();
-        topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
-        topDragCover.setBackground(CyderColors.getGuiThemeColor());
-        topDragCover.setOpaque(true);
-        contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
+            iconPane = new JLayeredPane();
+            iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
+            iconPane.add(iconLabel, defaultContentLabelAddingIndex);
+            iconPane.setFocusable(false);
+            contentLabel.add(iconPane, defaultContentLabelAddingIndex);
 
-        leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                this, DragLabelType.LEFT);
-        leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
-                BORDER_LEN - FRAME_RESIZING_LEN,
-                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        leftDrag.setXOffset(FRAME_RESIZING_LEN);
-        leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
-        leftDrag.setFocusable(false);
+            contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
+                    contentLabelBorderLength, false));
+            setContentPane(contentLabel);
 
-        leftDragCover = new JLabel();
-        leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
-        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-        leftDragCover.setOpaque(true);
-        contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
+            topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
+                    CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
+                    this, DragLabelType.TOP);
+            topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
+                    iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+            topDrag.setXOffset(FRAME_RESIZING_LEN);
+            topDrag.setYOffset(FRAME_RESIZING_LEN);
+            contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
+            topDrag.setFocusable(false);
 
-        rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                this, DragLabelType.RIGHT);
-        rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
-                BORDER_LEN - FRAME_RESIZING_LEN,
-                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        rightDrag.setXOffset(width - BORDER_LEN);
-        rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-        contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
-        rightDrag.setFocusable(false);
+            topDragCover = new JLabel();
+            topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
+            topDragCover.setBackground(CyderColors.getGuiThemeColor());
+            topDragCover.setOpaque(true);
+            contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
-        rightDragCover = new JLabel();
-        rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
-        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
-        rightDragCover.setOpaque(true);
-        contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
+            leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
+                    height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                    this, DragLabelType.LEFT);
+            leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                    BORDER_LEN - FRAME_RESIZING_LEN,
+                    height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+            leftDrag.setXOffset(FRAME_RESIZING_LEN);
+            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+            contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
+            leftDrag.setFocusable(false);
 
-        bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
-                BORDER_LEN - FRAME_RESIZING_LEN,
-                this, DragLabelType.BOTTOM);
-        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
-                width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
-        bottomDrag.setXOffset(FRAME_RESIZING_LEN);
-        bottomDrag.setYOffset(height - BORDER_LEN);
-        contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
-        bottomDrag.setFocusable(false);
+            leftDragCover = new JLabel();
+            leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
+            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+            leftDragCover.setOpaque(true);
+            contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
-        bottomDragCover = new JLabel();
-        bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
-        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-        bottomDragCover.setOpaque(true);
-        contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
+            rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
+                    height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                    this, DragLabelType.RIGHT);
+            rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                    BORDER_LEN - FRAME_RESIZING_LEN,
+                    height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+            rightDrag.setXOffset(width - BORDER_LEN);
+            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+            contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
+            rightDrag.setFocusable(false);
 
-        titleLabel = new JLabel();
-        titleLabel.setFont(titleLabelFont);
-        titleLabel.setForeground(titleLabelColor);
-        titleLabel.setOpaque(false);
-        titleLabel.setFocusable(false);
-        titleLabel.setVisible(true);
-        topDrag.add(titleLabel);
+            rightDragCover = new JLabel();
+            rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
+            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+            rightDragCover.setOpaque(true);
+            contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
-        threadsKilled = false;
+            bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
+                    BORDER_LEN - FRAME_RESIZING_LEN,
+                    this, DragLabelType.BOTTOM);
+            bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
+                    width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
+            bottomDrag.setXOffset(FRAME_RESIZING_LEN);
+            bottomDrag.setYOffset(height - BORDER_LEN);
+            contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
+            bottomDrag.setFocusable(false);
 
-        setFrameType(builder.type);
+            bottomDragCover = new JLabel();
+            bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
+            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+            bottomDragCover.setOpaque(true);
+            contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
-        revalidateFrameShape();
+            titleLabel = new JLabel();
+            titleLabel.setFont(titleLabelFont);
+            titleLabel.setForeground(titleLabelColor);
+            titleLabel.setOpaque(false);
+            titleLabel.setFocusable(false);
+            titleLabel.setVisible(true);
+            topDrag.add(titleLabel);
 
-        // Calls passing this
-        tooltipMenuController = new TooltipMenuController(this);
-        notificationController = new NotificationController(this);
-        Logger.log(LogTag.OBJECT_CREATION, this);
+            threadsKilled = false;
+
+            setFrameType(builder.type);
+
+            revalidateFrameShape();
+
+            // Calls passing this
+            tooltipMenuController = new TooltipMenuController(this);
+            notificationController = new NotificationController(this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
+        }
     }
 
     /**
@@ -698,6 +696,60 @@ public class CyderFrame extends JFrame {
         public CyderFrame build() {
             return new CyderFrame(this);
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "Builder{"
+                    + "title=\"" + title + "\""
+                    + ", height=" + height
+                    + ", width=" + width
+                    + ", background=" + background
+                    + ", backgroundColor=" + backgroundColor
+                    + ", type=" + type
+                    + ", borderless=" + borderless
+                    + "}";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            int ret = Objects.hashCode(title);
+            ret = 31 * ret + Objects.hashCode(width);
+            ret = 31 * ret + Objects.hashCode(height);
+            ret = 31 * ret + Objects.hashCode(background);
+            ret = 31 * ret + Objects.hashCode(backgroundColor);
+            ret = 31 * ret + Objects.hashCode(type);
+            ret = 31 * ret + Boolean.hashCode(borderless);
+            return ret;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            } else if (!(o instanceof Builder)) {
+                return false;
+            }
+
+            Builder other = (Builder) o;
+            return Objects.equals(title, other.title)
+                    && width == other.width
+                    && height == other.height
+                    && Objects.equals(background, other.background)
+                    && Objects.equals(backgroundColor, other.backgroundColor)
+                    && Objects.equals(type, other.type)
+                    && borderless == other.borderless;
+        }
+
+        // todo prop for auto fixing frame sizes of too small size is requested?
     }
 
     // todo deprecated
@@ -756,7 +808,7 @@ public class CyderFrame extends JFrame {
     }
 
     // -------------
-    // frame layouts
+    // Frame layouts
     // -------------
 
     /**
@@ -1586,36 +1638,9 @@ public class CyderFrame extends JFrame {
     public void revalidateTitlePosition() {
         if (topDrag == null) return;
 
-        if ((titlePosition == TitlePosition.LEFT && topDrag.hasLeftButtons())
-                || (titlePosition == TitlePosition.RIGHT && topDrag.hasRightButtons())) {
-            setTitlePosition(TitlePosition.CENTER);
-        }
-    }
-
-    /**
-     * Validates the provided width and height to ensure it meets the minimum criteria and returns
-     * the validated dimension.
-     *
-     * @param width  the requested width
-     * @param height the requested height
-     * @return the width and height to use for the frame
-     */
-    private Dimension validateRequestedSize(int width, int height) {
-        String title = getTitle().length() < 1 ? "No title found" : getTitle();
-
-        if (width < minimumWidth) {
-            Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
-                    + "\" was attempted to be set to invalid width: " + width);
-            width = minimumWidth;
-        }
-
-        if (height < minimumHeight) {
-            Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
-                    + "\" was attempted to be set to invalid height: " + height);
-            height = minimumHeight;
-        }
-
-        return new Dimension(width, height);
+        boolean leftTitleAndLeftButtons = titlePosition == TitlePosition.LEFT && topDrag.hasLeftButtons();
+        boolean rightTitleAndRightButtons = titlePosition == TitlePosition.RIGHT && topDrag.hasRightButtons();
+        if (leftTitleAndLeftButtons || rightTitleAndRightButtons) setTitlePosition(TitlePosition.CENTER);
     }
 
     /**
@@ -1693,11 +1718,13 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setSize(int width, int height) {
-        Dimension dimension = validateRequestedSize(width, height);
-        boolean sameSizes = this.width == dimension.width && this.height == dimension.height;
-        super.setSize(dimension.width, dimension.height);
-        this.width = dimension.width;
-        this.height = dimension.height;
+        Preconditions.checkArgument(width >= minimumWidth);
+        Preconditions.checkArgument(height >= minimumHeight);
+
+        boolean sameSizes = this.width == width && this.height == height;
+        super.setSize(width, height);
+        this.width = width;
+        this.height = height;
 
         postSetSizeSetBounds(sameSizes);
     }
@@ -1707,11 +1734,13 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        Dimension dimension = validateRequestedSize(width, height);
-        boolean sameSizes = this.width == dimension.width && this.height == dimension.height;
-        super.setBounds(x, y, dimension.width, dimension.height);
-        this.width = dimension.width;
-        this.height = dimension.height;
+        Preconditions.checkArgument(width >= minimumWidth);
+        Preconditions.checkArgument(height >= minimumHeight);
+
+        boolean sameSizes = this.width == width && this.height == height;
+        super.setBounds(x, y, width, height);
+        this.width = width;
+        this.height = height;
 
         postSetSizeSetBounds(sameSizes);
     }

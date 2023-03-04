@@ -541,14 +541,20 @@ public enum Console {
      *
      * @param consoleIcon the console icon record to use for the direct props
      */
-    @ForReadability
     private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
-        int w = (int) consoleIcon.dimension().getWidth();
-        int h = (int) consoleIcon.dimension().getHeight();
+        CyderFrame.Builder builder = new CyderFrame.Builder()
+                .setWidth((int) consoleIcon.dimension().getWidth())
+                .setHeight((int) consoleIcon.dimension().getHeight())
+                .setBackgroundIcon(consoleIcon.background());
 
-        consoleCyderFrame = new CyderFrame(w, h, consoleIcon.background()) {
+        consoleCyderFrame = new CyderFrame(builder) {
             /**
-             * {@inheritDoc}
+             * Sets the bounds of the console frame and performs the following revalidation calls:
+             * <ul>
+             *     <li>Revalidating field bounds, both input and output</li>
+             *     <li>Revalidating menu bounds, both audio and taskbar</li>
+             *     <li>Revalidating a possible title notify</li>
+             * </ul>
              */
             @Override
             public void setBounds(int x, int y, int width, int height) {
@@ -562,8 +568,8 @@ public enum Console {
             }
 
             /**
-             * Disposes the console and ensures focus borders do not appear during
-             * the possible close animation.
+             * Disposes the console and ensures focus borders for
+             * fields do not appear during the possible close animation.
              */
             @Override
             public void dispose() {
@@ -579,6 +585,7 @@ public enum Console {
              */
             @Override
             public void minimizeAndIconify() {
+                // todo architecture for pre and pose minimize and iconify actions?
                 saveScreenStat();
                 super.minimizeAndIconify();
             }
