@@ -375,14 +375,17 @@ public final class ClockWidget {
             currentLocation = commaJoiner.join(data.getCity(), data.getRegion(), data.getCountry_name());
             currentGmtOffset = getGmtFromUserLocation();
 
-            clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
+            CyderFrame.Builder builder = new CyderFrame.Builder()
+                    .setWidth(FRAME_WIDTH)
+                    .setHeight(FRAME_HEIGHT)
+                    .setTitle(CLOCK);
+            clockFrame = new CyderFrame(builder) {
                 @Override
                 public void dispose() {
                     shouldUpdateWidget.set(false);
                     super.dispose();
                 }
             };
-            clockFrame.setTitle(CLOCK);
 
             digitalTimeAndDateLabel = new CyderLabel(getCurrentTimeAccountingForOffset(currentGmtOffset));
             digitalTimeAndDateLabel.setFont(clockFont);
@@ -681,14 +684,17 @@ public final class ClockWidget {
     private static void spawnMiniClock() {
         AtomicBoolean updateMiniClock = new AtomicBoolean(true);
 
-        CyderFrame miniFrame = new CyderFrame(miniFrameWidth, miniFrameHeight) {
+        CyderFrame.Builder builder = new CyderFrame.Builder()
+                .setWidth(miniFrameWidth)
+                .setHeight(miniFrameHeight)
+                .setTitle(TIMEZONE + space + openingParenthesis + GMT + currentGmtOffset + closingParenthesis);
+        CyderFrame miniFrame = new CyderFrame(builder) {
             @Override
             public void dispose() {
                 updateMiniClock.set(false);
                 super.dispose();
             }
         };
-        miniFrame.setTitle(TIMEZONE + space + openingParenthesis + GMT + currentGmtOffset + closingParenthesis);
         miniFrame.setTitlePosition(TitlePosition.CENTER);
 
         JLabel currentTimeLabel =

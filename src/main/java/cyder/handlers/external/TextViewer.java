@@ -118,7 +118,10 @@ public class TextViewer {
      */
     @CanIgnoreReturnValue
     public boolean showGui() {
-        textFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
+        textFrame = new CyderFrame.Builder()
+                .setWidth(defaultFrameWidth)
+                .setHeight(defaultFrameHeight)
+                .build();
 
         nameField = new CyderTextField();
         nameField.setFont(nameFieldFont);

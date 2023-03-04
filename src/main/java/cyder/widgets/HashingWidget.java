@@ -125,8 +125,11 @@ public class HashingWidget {
      * Shows the gui for this instance of the hashing widget.
      */
     public void innerShowGui() {
-        CyderFrame hashFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        hashFrame.setTitle(TITLE);
+        CyderFrame hashFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(TITLE)
+                .build();
 
         CyderLabel Instructions = new CyderLabel("Enter input to be hashed");
         Instructions.setFont(CyderFonts.SEGOE_20);

@@ -172,8 +172,11 @@ public final class HangmanGame {
     public static void showGui() {
         UiUtil.closeIfOpen(hangmanFrame);
 
-        hangmanFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        hangmanFrame.setTitle(HANGMAN);
+        hangmanFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(HANGMAN)
+                .build();
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
 

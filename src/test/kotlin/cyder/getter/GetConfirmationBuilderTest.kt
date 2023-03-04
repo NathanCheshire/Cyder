@@ -55,13 +55,16 @@ class GetConfirmationBuilderTest {
         assertDoesNotThrow { builder.setNoButtonColor(CyderColors.regularPink) }
         assertEquals(CyderColors.regularPink, builder.noButtonColor)
 
-        val relativeTo = CyderFrame(411, 611)
+        val relativeTo = CyderFrame.Builder()
+                .setWidth(411)
+                .setHeight(611)
+                .setBackgroundIconFromColor(CyderColors.vanilla)
+                .build()
         assertDoesNotThrow { builder.setRelativeTo(relativeTo) }
         assertEquals(relativeTo, builder.relativeTo)
 
         val runnable: () -> Unit = { println() }
         assertDoesNotThrow { builder.addOnDialogDisposalRunnable(runnable) }
-        // assertEquals(runnable, builder.onDialogDisposalRunnables[0])
 
         assertDoesNotThrow { builder.setDisableRelativeTo(true) }
         assertEquals(true, builder.isDisableRelativeTo)

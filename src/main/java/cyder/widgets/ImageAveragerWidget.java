@@ -167,8 +167,11 @@ public final class ImageAveragerWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(averagerFrame);
 
-        averagerFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        averagerFrame.setTitle(FRAME_TITLE);
+        averagerFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(FRAME_TITLE)
+                .build();
 
         imagesScroll = new CyderScrollList(imagesScrollLen, imagesScrollLen, CyderScrollList.SelectionPolicy.MULTIPLE);
         imagesScroll.setBorder(null);

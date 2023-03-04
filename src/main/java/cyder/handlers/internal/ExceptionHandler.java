@@ -178,6 +178,7 @@ public final class ExceptionHandler {
                 .setWidth(labelWidth + 2 * offset)
                 .setHeight(labelHeight + 2 * offset)
                 .setBackgroundIconFromColor(exceptionRed)
+                .setBackgroundColor(exceptionRed)
                 .setTitle(exceptionMessage)
                 .setType(FrameType.POPUP)
                 .setBorderless(true)

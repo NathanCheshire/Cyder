@@ -181,8 +181,11 @@ public final class ImagePixelatorWidget {
     public static void showGui(File imageFile) {
         UiUtil.closeIfOpen(pixelFrame);
 
-        pixelFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        pixelFrame.setTitle(IMAGE_PIXELATOR);
+        pixelFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(IMAGE_PIXELATOR)
+                .build();
 
         float remainingPartition = CyderPartitionedLayout.MAX_PARTITION - 4 * componentPartition;
 

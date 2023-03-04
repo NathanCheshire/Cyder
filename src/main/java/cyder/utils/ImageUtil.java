@@ -470,10 +470,12 @@ public final class ImageUtil {
         int iconWidth = icon.getIconWidth();
         int iconHeight = icon.getIconHeight();
 
-        CyderFrame frame = new CyderFrame(iconWidth + 2 * CyderFrame.BORDER_LEN,
-                icon.getIconHeight() + CyderFrame.BORDER_LEN + CyderDragLabel.DEFAULT_HEIGHT);
-        frame.setTitle(CyderStrings.openingBracket + icon.getIconWidth() + CyderStrings.X + icon.getIconHeight()
-                + CyderStrings.closingBracket + space + frameTitle);
+        CyderFrame frame = new CyderFrame.Builder()
+                .setWidth(iconWidth + 2 * CyderFrame.BORDER_LEN)
+                .setHeight(icon.getIconHeight() + CyderFrame.BORDER_LEN + CyderDragLabel.DEFAULT_HEIGHT)
+                .setTitle(CyderStrings.openingBracket + icon.getIconWidth() + CyderStrings.X + icon.getIconHeight()
+                        + CyderStrings.closingBracket + space + frameTitle)
+                .build();
 
         JLabel label = new JLabel(icon);
         label.setBounds(CyderFrame.BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT, iconWidth, iconHeight);

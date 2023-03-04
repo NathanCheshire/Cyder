@@ -751,11 +751,6 @@ public class CyderFrame extends JFrame {
         // todo prop for auto fixing frame sizes of too small size is requested?
     }
 
-    // todo deprecated
-    public CyderFrame(int width, int height) {
-        this(new Builder().setWidth(width).setHeight(height));
-    }
-
     /**
      * The master drag label for borderless frames.
      */

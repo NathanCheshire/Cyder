@@ -462,7 +462,10 @@ public final class GetterUtil {
 
         final AtomicReference<File> setOnFileChosen = new AtomicReference<>();
 
-        directoryFrame = new CyderFrame(fileChooserFrameWidth, frameHeight);
+        directoryFrame = new CyderFrame.Builder()
+                .setWidth(fileChooserFrameWidth)
+                .setHeight(frameHeight)
+                .build();
 
         getFileFrames.add(directoryFrame);
         directoryFrame.addWindowListener(new WindowAdapter() {

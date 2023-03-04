@@ -83,9 +83,11 @@ public final class InformHandler {
             int yTopPadding = CyderDragLabel.DEFAULT_HEIGHT - 4;
             int yBottomPadding = 2;
 
-            informFrame = new CyderFrame(containerWidth + 2 * xPadding,
-                    containerHeight + yTopPadding + yBottomPadding);
-            informFrame.setTitle(builder.getTitle());
+            informFrame = new CyderFrame.Builder()
+                    .setWidth(containerWidth + 2 * xPadding)
+                    .setHeight(containerHeight + yTopPadding + yBottomPadding)
+                    .setTitle(builder.getTitle())
+                    .build();
 
             JLabel container = builder.getContainer();
             container.setBounds(xPadding, yTopPadding,

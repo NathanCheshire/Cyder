@@ -301,8 +301,11 @@ public final class GameOfLifeWidget {
 
         loadConwayStates();
 
-        conwayFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        conwayFrame.setTitle(TITLE);
+        conwayFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(TITLE)
+                .build();
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
 

@@ -283,7 +283,10 @@ public final class NotesWidget {
     public static void showGui() {
         Preconditions.checkNotNull(Console.INSTANCE.getUuid());
         UiUtil.closeIfOpen(noteFrame);
-        noteFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
+        noteFrame = new CyderFrame.Builder()
+                .setWidth(defaultFrameWidth)
+                .setHeight(defaultFrameHeight)
+                .build();
         setupView(View.LIST);
         noteFrame.finalizeAndShow();
     }

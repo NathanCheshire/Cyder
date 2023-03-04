@@ -133,8 +133,11 @@ public final class ConvexHullWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(hullFrame);
 
-        hullFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        hullFrame.setTitle(FRAME_TITLE);
+        hullFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(FRAME_TITLE)
+                .build();
 
         JLabel gridComponentParent = new JLabel();
         gridComponentParent.setSize(GRID_PARENT_LEN, GRID_PARENT_LEN);

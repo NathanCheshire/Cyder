@@ -342,7 +342,7 @@ public final class PerlinWidget {
 
         timer = new Timer(speedSliderMaxValue - speedSliderValue, animationAction);
 
-        perlinFrame = new CyderFrame(frameWidth, frameHeight) {
+        perlinFrame = new CyderFrame(new CyderFrame.Builder().setWidth(frameWidth).setHeight(frameHeight)) {
             @Override
             public void repaint() {
                 if (twoDimensionalMode()) {

@@ -67,11 +67,14 @@ public final class ClickWidget {
         try {
             UiUtil.closeIfOpen(clickMeFrame);
 
-            clickMeFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+            clickMeFrame = new CyderFrame.Builder()
+                    .setWidth(FRAME_WIDTH)
+                    .setHeight(FRAME_HEIGHT)
+                    .setTitle(CLICK_ME)
+                    .setBackgroundColor(CyderColors.vanilla)
+                    .setType(FrameType.POPUP)
+                    .build();
             clickMeFrame.setAutoFastClose(true);
-            clickMeFrame.setTitle(CLICK_ME);
-            clickMeFrame.setFrameType(FrameType.POPUP);
-            clickMeFrame.setBackground(CyderColors.vanilla);
 
             JLabel clickMeLabel = new JLabel(CLICK_ME);
             clickMeLabel.setHorizontalAlignment(JLabel.CENTER);

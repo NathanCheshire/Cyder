@@ -109,7 +109,10 @@ public final class CyderInformNotification extends CyderNotification {
             int width = container.getWidth() + 2 * CyderFrame.BORDER_LEN + 2 * notifyPadding;
             int height = container.getHeight() + CyderDragLabel.DEFAULT_HEIGHT
                     + CyderFrame.BORDER_LEN + 2 * notifyPadding;
-            notificationFrame = new CyderFrame(width, height);
+            notificationFrame = new CyderFrame.Builder()
+                    .setWidth(width)
+                    .setHeight(height)
+                    .build();
             container.setLocation(containerX, containerY);
             notificationFrame.getContentPane().add(container);
         } else {
@@ -120,7 +123,10 @@ public final class CyderInformNotification extends CyderNotification {
             label.setFont(notifyFont);
             int width = bs.getWidth() + 2 * CyderFrame.BORDER_LEN + 2 * notifyPadding;
             int height = bs.getHeight() + CyderDragLabel.DEFAULT_HEIGHT + CyderFrame.BORDER_LEN + 2 * notifyPadding;
-            notificationFrame = new CyderFrame(width, height);
+            notificationFrame = new CyderFrame.Builder()
+                    .setWidth(width)
+                    .setHeight(height)
+                    .build();
             notificationFrame.getContentPane().add(label);
         }
 

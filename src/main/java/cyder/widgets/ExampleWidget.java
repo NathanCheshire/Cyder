@@ -45,8 +45,11 @@ public final class ExampleWidget {
      * Shows the widget.
      */
     private void innerShowGui() {
-        CyderFrame cyderFrame = new CyderFrame(600, 600);
-        cyderFrame.setTitle("Example Widget");
+        CyderFrame cyderFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .setTitle("Example Widget")
+                .build();
 
         CyderButton cyderButton = new CyderButton("Button");
         cyderButton.setSize(200, 40);

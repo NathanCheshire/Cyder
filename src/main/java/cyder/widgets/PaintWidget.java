@@ -99,9 +99,11 @@ public final class PaintWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(paintFrame);
 
-        paintFrame = new CyderFrame(frameLength,
-                frameLength + CyderDragLabel.DEFAULT_HEIGHT);
-        paintFrame.setTitle("Paint");
+        paintFrame = new CyderFrame.Builder()
+                .setWidth(frameLength)
+                .setHeight(frameLength)
+                .setTitle("Paint")
+                .build();
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
         paintFrame.addPreCloseAction(() -> UiUtil.closeIfOpen(paintControlsFrame));
         paintFrame.addWindowListener(new WindowAdapter() {
@@ -325,8 +327,11 @@ public final class PaintWidget {
 
         recentColors = new ArrayList<>();
 
-        paintControlsFrame = new CyderFrame(frameLength, 230);
-        paintControlsFrame.setTitle("Paint Controls");
+        paintControlsFrame = new CyderFrame.Builder()
+                .setWidth(frameLength)
+                .setHeight(230)
+                .setTitle("Paint Controls")
+                .build();
         paintControlsFrame.setResizable(true);
         paintControlsFrame.setShouldFastClose(true);
 

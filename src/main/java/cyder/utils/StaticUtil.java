@@ -25,12 +25,12 @@ public final class StaticUtil {
     /**
      * The map of static files located.
      */
-    private static ImmutableMap<String, File> staticFiles;
+    private static ImmutableMap<String, File> staticFiles = ImmutableMap.of();
 
     /**
      * The map of static folders located.
      */
-    private static ImmutableMap<String, File> staticFolders;
+    private static ImmutableMap<String, File> staticFolders = ImmutableMap.of();
 
     /**
      * Suppress default constructor.
@@ -40,7 +40,7 @@ public final class StaticUtil {
     }
 
     /**
-     * Loads all the static resources found within the static directory.
+     * Loads/reloads all the static resources found within the static directory.
      */
     public static void loadStaticResources() {
         staticFiles = getStaticFiles();

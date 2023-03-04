@@ -50,8 +50,11 @@ public final class GuiTests {
      */
     @GuiTest("switcher test")
     public static void cyderSwitcherTest() {
-        CyderFrame testFrame = new CyderFrame(280, 120);
-        testFrame.setTitle("Switcher test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(280)
+                .setHeight(120)
+                .setTitle("Switcher test")
+                .build();
 
         ArrayList<CyderComboBoxState> states = new ArrayList<>();
         states.add(new CyderComboBoxState("One", "Mapped one"));
@@ -74,8 +77,11 @@ public final class GuiTests {
      */
     @GuiTest("grid test")
     public static void cyderGridTest() {
-        CyderFrame cf = new CyderFrame(1000, 1000);
-        cf.setTitle("Cyder Grid");
+        CyderFrame cf = new CyderFrame.Builder()
+                .setWidth(1000)
+                .setHeight(1000)
+                .setTitle("Cyder Grid")
+                .build();
 
         CyderGrid cg = new CyderGrid(200, 800);
         cg.setBounds(100, 100, 800, 800);
@@ -372,8 +378,11 @@ public final class GuiTests {
      */
     @GuiTest("progress bar test")
     public static void progressBarTest() {
-        CyderFrame cf = new CyderFrame(400, 100);
-        cf.setTitle("ProgressBar Test");
+        CyderFrame cf = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(100)
+                .setTitle("Progress Bar test")
+                .build();
 
         JProgressBar jpb = new JProgressBar(0, 500);
         jpb.setBounds(40, 40, 320, 20);
@@ -404,8 +413,11 @@ public final class GuiTests {
      */
     @GuiTest("slider test")
     public static void cyderSliderTest() {
-        CyderFrame testFrame = new CyderFrame(400, 400);
-        testFrame.setTitle("Cyder Slider Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Cyder Slider Test")
+                .build();
 
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
         CyderSliderUi UI = new CyderSliderUi(audioVolumeSlider);
@@ -438,8 +450,11 @@ public final class GuiTests {
      */
     @GuiTest("frame title length test")
     public static void frameTitleLengthTest() {
-        CyderFrame cf = new CyderFrame(600, 200);
-        cf.setTitle("Title Length Test");
+        CyderFrame cf = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(200)
+                .setTitle("Title Length Test")
+                .build();
         cf.setTitlePosition(TitlePosition.LEFT);
 
         CyderTextField ctf = new CyderTextField();
@@ -460,8 +475,11 @@ public final class GuiTests {
      */
     @GuiTest("switch test")
     public static void switchTest() {
-        CyderFrame testFrame = new CyderFrame(500, 500);
-        testFrame.setTitle("CyderSwitch test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(500)
+                .setHeight(500)
+                .setTitle("Cyder Switch Test")
+                .build();
 
         CyderSwitch cs = new CyderSwitch(300, 100);
         cs.setBounds(100, 100, 300, 100);
@@ -476,8 +494,11 @@ public final class GuiTests {
      */
     @GuiTest("ripple label test")
     public static void rippleLabelTest() {
-        CyderFrame rippleTestFrame = new CyderFrame(600, 600);
-        rippleTestFrame.setTitle("Ripple Test");
+        CyderFrame rippleTestFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .setTitle("Ripple Test")
+                .build();
 
         CyderLabel ripplingLabel = new CyderLabel("<html>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
                 CyderStrings.QUICK_BROWN_FOX + "<br/><br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
@@ -505,8 +526,11 @@ public final class GuiTests {
      */
     @GuiTest("checkbox group test")
     public static void checkboxGroupTest() {
-        CyderFrame testFrame = new CyderFrame(400, 110);
-        testFrame.setTitle("Checkbox group test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(110)
+                .setTitle("Checkbox Group Test")
+                .build();
 
         CyderCheckboxGroup cbg = new CyderCheckboxGroup();
 
@@ -530,8 +554,11 @@ public final class GuiTests {
     @GuiTest("grid layout test")
     public static void cyderGridLayoutTest() {
         //regular frame calls
-        CyderFrame gridTestFrame = new CyderFrame(800, 800);
-        gridTestFrame.setTitle("Grid Layout Test");
+        CyderFrame gridTestFrame = new CyderFrame.Builder()
+                .setWidth(800)
+                .setHeight(800)
+                .setTitle("Grid Layout Test")
+                .build();
 
         //init the main panel layout
         CyderGridLayout layout = new CyderGridLayout(2, 2);
@@ -585,8 +612,11 @@ public final class GuiTests {
      */
     @GuiTest("flow layout test")
     public static void flowLayoutTest() {
-        CyderFrame testFrame = new CyderFrame(600, 600);
-        testFrame.setTitle("Flow Layout Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(600)
+                .setHeight(600)
+                .setTitle("Flow Layout test")
+                .build();
 
         // make layout
         CyderFlowLayout layout = new CyderFlowLayout(HorizontalAlignment.CENTER,
@@ -621,8 +651,11 @@ public final class GuiTests {
      */
     @GuiTest("inform test")
     public static void popupTest() {
-        CyderFrame testFrame = new CyderFrame(400, 120);
-        testFrame.setTitle("Inform Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(120)
+                .setTitle("Inform test")
+                .build();
 
         CyderTextField ctf = new CyderTextField();
         ctf.setBounds(40, 40, 320, 40);
@@ -643,8 +676,11 @@ public final class GuiTests {
      */
     @GuiTest("menu test")
     public static void frameMenuTest() {
-        CyderFrame testFrame = new CyderFrame(400, 400);
-        testFrame.setTitle("Menu Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Menu Test")
+                .build();
 
         testFrame.setMenuButtonShown(true);
         testFrame.setMenuType(MenuType.RIBBON);
@@ -703,8 +739,11 @@ public final class GuiTests {
      */
     @GuiTest("notify container test")
     public static void notifyAndInformCustomContainerTest() {
-        CyderFrame testFrame = new CyderFrame(400, 400);
-        testFrame.setTitle("Notify Container Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Notify Container test")
+                .build();
 
         JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
                 SwingConstants.CENTER);
@@ -738,8 +777,11 @@ public final class GuiTests {
      */
     @GuiTest("disable relative to test")
     public static void informDisableRelativeToTest() {
-        CyderFrame testFrame = new CyderFrame(400, 400);
-        testFrame.setTitle("Disable RelativeTo test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Disable RelativeTo Test")
+                .build();
 
         testFrame.finalizeAndShow();
 
@@ -753,8 +795,11 @@ public final class GuiTests {
      */
     @GuiTest("checkbox check")
     public static void checkboxCheckTest() {
-        CyderFrame checkboxFrame = new CyderFrame(220, 350);
-        checkboxFrame.setTitle("Checkbox Test");
+        CyderFrame checkboxFrame = new CyderFrame.Builder()
+                .setWidth(220)
+                .setHeight(350)
+                .setTitle("Checkbox Test")
+                .build();
 
         CyderCheckbox squareRegular = new CyderCheckbox();
         squareRegular.setLocation(50, 50);
@@ -810,8 +855,11 @@ public final class GuiTests {
      */
     @GuiTest("partitioned layout test")
     public static void partitionedLayoutTest() {
-        CyderFrame horizontalFrame = new CyderFrame(200, 500);
-        horizontalFrame.setTitle("Partitioned layout");
+        CyderFrame horizontalFrame = new CyderFrame.Builder()
+                .setWidth(200)
+                .setHeight(500)
+                .setTitle("Partitioned Layout Test")
+                .build();
 
         CyderPartitionedLayout layout = new CyderPartitionedLayout();
         layout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.COLUMN);
@@ -850,8 +898,11 @@ public final class GuiTests {
      */
     @GuiTest("drag label text button test")
     public static void dragLabelTextButtonTest() {
-        CyderFrame testFrame = new CyderFrame(800, 800);
-        testFrame.setTitle("Drag Label Text Button Test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(800)
+                .setHeight(800)
+                .setTitle("Drag label Text Button Test")
+                .build();
 
         CyderGridLayout cyderGridLayout = new CyderGridLayout(1, 4);
 
@@ -906,8 +957,11 @@ public final class GuiTests {
      */
     @GuiTest("modern button test")
     public static void modernButtonTest() {
-        CyderFrame testFrame = new CyderFrame(500, 200);
-        testFrame.setTitle("Modern button test");
+        CyderFrame testFrame = new CyderFrame.Builder()
+                .setWidth(500)
+                .setHeight(200)
+                .setTitle("Modern Button Test")
+                .build();
 
         CyderGridLayout layout = new CyderGridLayout(4, 1);
 
@@ -956,8 +1010,11 @@ public final class GuiTests {
      */
     @GuiTest("hint text test")
     public static void textFieldHintTextTest() {
-        CyderFrame frame = new CyderFrame(400, 400);
-        frame.setTitle("Test");
+        CyderFrame frame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Hint Text Test")
+                .build();
 
         CyderFlowLayout flow = new CyderFlowLayout();
 
@@ -980,8 +1037,11 @@ public final class GuiTests {
      */
     @GuiTest("field icons test")
     public static void textFieldIconsTest() {
-        CyderFrame frame = new CyderFrame(400, 400);
-        frame.setTitle("Test");
+        CyderFrame frame = new CyderFrame.Builder()
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Field Icon Test")
+                .build();
 
         CyderFlowLayout flowLayout = new CyderFlowLayout();
         CyderTextField ctf = new CyderTextField();

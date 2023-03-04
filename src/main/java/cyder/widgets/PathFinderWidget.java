@@ -353,8 +353,11 @@ public final class PathFinderWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(pathFindingFrame);
 
-        pathFindingFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
-        pathFindingFrame.setTitle(TITLE);
+        pathFindingFrame = new CyderFrame.Builder()
+                .setWidth(FRAME_WIDTH)
+                .setHeight(FRAME_HEIGHT)
+                .setTitle(TITLE)
+                .build();
 
         pathfindingGrid = new CyderGrid(DEFAULT_NODES, gridComponentLength);
         pathfindingGrid.setBounds(100, 80, gridComponentLength, gridComponentLength);

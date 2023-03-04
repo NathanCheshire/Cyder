@@ -36,8 +36,11 @@ public final class VideoUtil {
 
         int width = 960;
         int height = 720;
-        CyderFrame cyderFrame = new CyderFrame(width, height);
-        cyderFrame.setTitle("Bad Apple");
+        CyderFrame cyderFrame = new CyderFrame.Builder()
+                .setWidth(width)
+                .setHeight(height)
+                .setTitle("Bad Apple")
+                .build();
         cyderFrame.finalizeAndShow();
 
         GeneralAndSystemAudioPlayer.playGeneralAudio(audioFile);
