@@ -460,26 +460,11 @@ public final class CyderComponentResizer extends MouseAdapter {
      * @param maximum             the maximum of the dimensionalLength
      * @return the bounded drag after accounting for the outlined conditions
      */
-    private int getBoundedDragLength(int dragDistance,
-                                     int dimensionalSnapSize,
+    private int getBoundedDragLength(int dragDistance, int dimensionalSnapSize,
                                      int dimensionalLength,
-                                     int minimum,
-                                     int maximum) {
-        // add snap size to distance until their sum is is greater than or equal to min
-        while (dimensionalLength + dragDistance < minimum) {
-            dragDistance += dimensionalSnapSize;
-        }
-
-        //        // how many times can we add dimensional snap size to drag distance before going over minimum?
-        //        int upperBound = minimum - dimensionalLength;
-        //        // now add dimensional snap size to drag distance until it exceeds upper bound
-        //        dragDistance = (int) Math.ceil(upperBound / (float) dimensionalSnapSize);
-
-
-        // subtract snap size from distance until their sum is less than or equal to max
-        while (dimensionalLength + dragDistance > maximum) {
-            dragDistance -= dimensionalSnapSize;
-        }
+                                     int minimum, int maximum) {
+        while (dimensionalLength + dragDistance < minimum) dragDistance += dimensionalSnapSize;
+        while (dimensionalLength + dragDistance > maximum) dragDistance -= dimensionalSnapSize;
 
         return dragDistance;
     }

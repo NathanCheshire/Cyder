@@ -17,7 +17,7 @@ internal class ConsoleConstants private constructor() {
          * The absolute minimum size allowable for the Console.
          */
         @JvmField
-        val MINIMUM_SIZE = Dimension(600, 600)
+        val MINIMUM_SIZE = Dimension(400, 400)
 
         /**
          * The console snap size.
