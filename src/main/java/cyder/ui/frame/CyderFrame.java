@@ -6,7 +6,6 @@ import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
-import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetterUtil;
@@ -539,7 +538,7 @@ public class CyderFrame extends JFrame {
         if (width != background.getIconWidth() || height != background.getIconHeight()) {
             this.background = ImageUtil.resizeImage(background, width, height);
         }
-        currentMasterIcon = background;
+        unalteredBackgroundIcon = background;
     }
 
     /**
@@ -1726,7 +1725,7 @@ public class CyderFrame extends JFrame {
      * @param degrees the degrees to be rotated by (360deg <==> 0deg)
      */
     public void rotateBackground(int degrees) {
-        ImageIcon masterIcon = currentMasterIcon;
+        ImageIcon masterIcon = unalteredBackgroundIcon;
         BufferedImage master = ImageUtil.toBufferedImage(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImage(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
@@ -1962,6 +1961,7 @@ public class CyderFrame extends JFrame {
      * Revalidates and updates the frame's shape, that of being rounded or square.
      */
     private void revalidateFrameShape() {
+        if (!isUndecorated()) return;
         Shape shape = null;
 
         try {
@@ -2216,8 +2216,8 @@ public class CyderFrame extends JFrame {
         cyderComponentResizer = new CyderComponentResizer();
         cyderComponentResizer.registerComponent(this);
         cyderComponentResizer.setResizingAllowed(true);
-        cyderComponentResizer.setMinimumSize(getMinimumSize());
-        cyderComponentResizer.setMaximumSize(getMaximumSize());
+        cyderComponentResizer.setMinimumSize(minimumFrameSize);
+        cyderComponentResizer.setMaximumSize(maximumFrameSize);
         cyderComponentResizer.setSnapSize(getSnapSize());
 
         setShape(null);
@@ -2242,9 +2242,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The current master image icon to use for image resizing on resizing events if allowed.
+     * The background icon for the frame. The image shown on the frame background is not
+     * this exact image as this is the image which is copied and resized on frame resize events.
      */
-    private ImageIcon currentMasterIcon;
+    private ImageIcon unalteredBackgroundIcon;
 
     /**
      * Sets whether the frame is resizable via the component resizer.
@@ -2267,7 +2268,7 @@ public class CyderFrame extends JFrame {
             revalidateLayout();
 
             if (cyderComponentResizer != null && cyderComponentResizer.backgroundResizingEnabled()) {
-                Image scaledImage = currentMasterIcon.getImage().getScaledInstance(
+                Image scaledImage = unalteredBackgroundIcon.getImage().getScaledInstance(
                         iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT);
                 iconLabel.setIcon(new ImageIcon(scaledImage));
             }
@@ -2314,22 +2315,18 @@ public class CyderFrame extends JFrame {
      */
     public void setBackground(ImageIcon icon) {
         Preconditions.checkNotNull(icon);
-
         if (iconLabel == null) return;
 
-        currentMasterIcon = icon;
-        iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
-                .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
-                height - 2 * FRAME_RESIZING_LEN);
-        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
-                height - 2 * FRAME_RESIZING_LEN);
-
-        if (cyderComponentResizer != null) {
-            // todo bad place
-            cyderComponentResizer.setMinimumSize(ConsoleConstants.MINIMUM_SIZE);
-            cyderComponentResizer.setMaximumSize(new Dimension(background.getIconWidth(), background.getIconHeight()));
-        }
+        unalteredBackgroundIcon = icon;
+        Image scaledImage = unalteredBackgroundIcon.getImage()
+                .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT);
+        iconLabel.setIcon(new ImageIcon(scaledImage));
+        int x = FRAME_RESIZING_LEN;
+        int y = FRAME_RESIZING_LEN;
+        int w = width - 2 * FRAME_RESIZING_LEN;
+        int h = height - 2 * FRAME_RESIZING_LEN;
+        iconLabel.setBounds(x, y, w, h);
+        iconPane.setBounds(x, y, w, h);
 
         revalidate();
         repaint();
