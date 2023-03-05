@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -97,13 +98,12 @@ public final class NetworkUtil {
     /**
      * The timeout between checking for high ping.
      */
-    private static final int HIGH_PING_TIMEOUT = (int) (TimeUtil.millisInSecond
-            * TimeUtil.secondsInMinute * 2.0f);
+    private static final Duration HIGH_PING_TIMEOUT = Duration.ofMinutes(2);
 
     /**
      * The timeout between checking for the high ping checker's exit condition.
      */
-    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.millisInSecond * 2.0f);
+    private static final Duration HIGH_PING_EXIT_CHECK = Duration.ofSeconds(10);
 
     /**
      * Starts the high ping checker.
@@ -118,8 +118,8 @@ public final class NetworkUtil {
                 while (highPingCheckerRunning.get()) {
                     setHighLatency(!LatencyManager.INSTANCE.currentConnectionHasDecentPing());
 
-                    ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK,
-                            shouldExitHighPingCheckerThread);
+                    ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT.toMillis(),
+                            HIGH_PING_EXIT_CHECK.toMillis(), shouldExitHighPingCheckerThread);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

@@ -52,6 +52,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -2524,12 +2525,10 @@ public class CyderFrame extends JFrame {
     // Pinning logic
     // -------------
 
-    // todo make controller for console pinning, probably a singleton in the console package
-
     /**
-     * Adds any {@link MouseMotionListener}s to the drag labels.
+     * Adds the provided {@link MouseMotionListener} to the top, bottom, left, and right drag labels.
      *
-     * @param actionListener the listener to add to the drag labels
+     * @param actionListener the listener to add to the top, bottom, left, and right drag labels
      */
     public void addDragListener(MouseMotionListener actionListener) {
         Preconditions.checkNotNull(actionListener);
@@ -2555,11 +2554,12 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns whether the frame should be pinned to the console.
+     * Returns whether the frame should be pinned to the console meaning
+     * the top drop label's pin button state is equal to {@link PinButton.PinState#PINNED_TO_CONSOLE}.
      *
-     * @return whether the frame should be pinned to the console
+     * @return whether the frame's pin state if equal to {@link PinButton.PinState#PINNED_TO_CONSOLE}
      */
-    public boolean isConsolePinned() {
+    public boolean isPinnedToConsole() {
         CyderDragLabel dragLabel = getTopDragLabel();
         if (dragLabel == null) return false;
         return dragLabel.getPinButton().getCurrentState() == PinButton.PinState.PINNED_TO_CONSOLE;
@@ -2613,18 +2613,14 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the taskbar image of the CyderFrame to the provided image.
-     * If the frame's dispose() method has been invoked, this will
-     * prevent the image from being set for optimization purposes.
+     * If {@link #dispose()} has been invoked, this call will have no effect.
      *
      * @param image the image to use for the taskbar
      */
     @Override
     public void setIconImage(Image image) {
-        Preconditions.checkNotNull(image);
-
-        if (!disposed.get()) {
-            super.setIconImage(image);
-        }
+        if (disposed.get()) return;
+        super.setIconImage(Preconditions.checkNotNull(image));
     }
 
     /**
@@ -2637,7 +2633,7 @@ public class CyderFrame extends JFrame {
      *
      * @return the taskbar border color for this cyder frame
      */
-    public Color getTaskbarIconBorderColor() {
+    public synchronized Color getTaskbarIconBorderColor() {
         if (taskbarIconBorderColor == null) taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
         return taskbarIconBorderColor;
     }
@@ -2652,8 +2648,8 @@ public class CyderFrame extends JFrame {
      *
      * @return the custom taskbar icon for this frame's taskbar icon
      */
-    public ImageIcon getCustomTaskbarIcon() {
-        return customTaskbarIcon;
+    public Optional<ImageIcon> getCustomTaskbarIcon() {
+        return Optional.ofNullable(customTaskbarIcon);
     }
 
     /**
@@ -2661,7 +2657,7 @@ public class CyderFrame extends JFrame {
      *
      * @param customTaskbarIcon the taskbar image icon to use
      */
-    public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
+    public void setCustomTaskbarIcon(@Nullable ImageIcon customTaskbarIcon) {
         this.customTaskbarIcon = customTaskbarIcon;
     }
 
@@ -3470,6 +3466,13 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Invokes {@link #finalizeAndShow(Point)} using {@link #getLocation()} as the point.
+     */
+    public void finalizeAndShowCurrentLocation() {
+        finalizeAndShow(new Point(getX() + getWidth() / 2, getY() + getHeight() / 2));
+    }
+
+    /**
      * Sets the frame's location relative to the provided component,
      * the visibility to true, and fades in the frame.
      *
@@ -3477,26 +3480,7 @@ public class CyderFrame extends JFrame {
      */
     public void finalizeAndShow(Component component) {
         setLocationRelativeTo(component);
-
-        setOpacity(opacityAnimationMin);
-        setVisible(true);
-        toFront();
-
-        CyderThreadRunner.submit(() -> {
-            for (float i = opacityAnimationMin ; i < opacityAnimationMax ; i += opacityAnimationDelta) {
-                setOpacity(i);
-                ThreadUtil.sleep(opacityAnimationDelay);
-            }
-
-            setOpacity(opacityAnimationMax);
-        }, FADE_IN_ANIMATION_THREAD_NAME);
-    }
-
-    /**
-     * Sets the frame's visibility to true and fades in the frame.
-     */
-    public void finalizeAndShowCurrentPoint() {
-        finalizeAndShow(new Point(getX() + getWidth() / 2, getY() + getHeight() / 2));
+        innerFinalizeAndShow();
     }
 
     /**
@@ -3508,16 +3492,23 @@ public class CyderFrame extends JFrame {
     public void finalizeAndShow(Point centerPoint) {
         Preconditions.checkNotNull(centerPoint);
         setCenterPoint(centerPoint);
+        innerFinalizeAndShow();
+    }
 
+    /**
+     * The actions to invoke after other necessary calls of different finalize and show invocations.
+     */
+    private void innerFinalizeAndShow() {
         setOpacity(opacityAnimationMin);
-        setVisible(true);
         toFront();
+        setVisible(true);
 
         CyderThreadRunner.submit(() -> {
             for (float i = opacityAnimationMin ; i < opacityAnimationMax ; i += opacityAnimationDelta) {
                 setOpacity(i);
                 ThreadUtil.sleep(opacityAnimationDelay);
             }
+
             setOpacity(opacityAnimationMax);
         }, FADE_IN_ANIMATION_THREAD_NAME);
     }
@@ -3536,9 +3527,9 @@ public class CyderFrame extends JFrame {
                 && LoginHandler.getLoginFrame() != null
                 && LoginHandler.getLoginFrame().isVisible()) {
             return LoginHandler.getLoginFrame();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

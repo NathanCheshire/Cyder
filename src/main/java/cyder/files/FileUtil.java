@@ -914,4 +914,19 @@ public final class FileUtil {
 
         return true;
     }
+
+    /**
+     * Closes the provided closable if non-null.
+     *
+     * @param closeable the closeable
+     */
+    @SuppressWarnings("UnusedAssignment") /* Optimizations */
+    public void closeIfOpen(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException ignored) {}
+        }
+        closeable = null;
+    }
 }

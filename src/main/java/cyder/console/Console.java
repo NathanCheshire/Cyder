@@ -324,7 +324,7 @@ public enum Console {
      * ownership of the input and output fields.
      */
     private void finalizeFrameAndInputOutputBounds() {
-        consoleCyderFrame.finalizeAndShowCurrentPoint();
+        consoleCyderFrame.finalizeAndShowCurrentLocation();
         consoleCyderFrame.toFront();
 
         revalidateInputAndOutputBounds(true);
@@ -668,7 +668,7 @@ public enum Console {
                     || !consoleCyderFrame.isFocusable()
                     || !consoleCyderFrame.isDraggingEnabled()) return;
 
-            UiUtil.getCyderFrames().stream().filter(frame -> frame.isConsolePinned()
+            UiUtil.getCyderFrames().stream().filter(frame -> frame.isPinnedToConsole()
                             && !frame.isConsole()
                             && frame.getRelativeX() != FRAME_NOT_PINNED
                             && frame.getRelativeY() != FRAME_NOT_PINNED)
@@ -689,7 +689,7 @@ public enum Console {
                     || !consoleCyderFrame.isDraggingEnabled()) return;
 
             UiUtil.getCyderFrames().stream()
-                    .filter(frame -> frame.isConsolePinned() && !frame.isConsole())
+                    .filter(frame -> frame.isPinnedToConsole() && !frame.isConsole())
                     .forEach(frame -> {
                         if (GeometryUtil.rectanglesOverlap(
                                 consoleCyderFrame.getBounds(), frame.getBounds())) {
@@ -1695,10 +1695,7 @@ public enum Console {
                         .setBorderColor(currentFrame.getTaskbarIconBorderColor())
                         .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame));
 
-                if (currentFrame.getCustomTaskbarIcon() != null) {
-                    builder.setCustomIcon(currentFrame.getCustomTaskbarIcon());
-                }
-
+                currentFrame.getCustomTaskbarIcon().ifPresent(builder::setCustomIcon);
                 ret.add(builder.build());
             });
         }

@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enumerations.Dynamic;
@@ -8,7 +9,6 @@ import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.logging.LoggingUtil;
 import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.LevenshteinUtil;
@@ -39,11 +39,6 @@ public enum UserDataManager {
      * The user data manager instance.
      */
     INSTANCE;
-
-    /**
-     * The tag for json writes.
-     */
-    private final String jsonTag = LoggingUtil.surroundWithBrackets("JSON Write");
 
     /**
      * A default user object.
@@ -144,13 +139,16 @@ public enum UserDataManager {
             SerializationUtil.toJson(user, userFile);
 
             if (currentLevenshteinDistance > 0) {
-                String representation = jsonTag + CyderStrings.space + CyderStrings.openingBracket
-                        + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
-                        + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
+                String representation = "User" + CyderStrings.space + CyderStrings.quote
                         + getUsername() + CyderStrings.quote + CyderStrings.space
                         + "was written to file" + CyderStrings.colon + CyderStrings.space
                         + userFile.getParentFile().getName() + OsUtil.FILE_SEP + userFile.getName();
-                Logger.log(LogTag.SYSTEM_IO, representation);
+                ImmutableList<String> additionalTags = ImmutableList.of(
+                        LogTag.SYSTEM_IO.getLogName(),
+                        "JSON Write",
+                        "Levenshtein: " + currentLevenshteinDistance
+                );
+                Logger.log(additionalTags, representation);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

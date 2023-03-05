@@ -50,11 +50,6 @@ public final class InstanceSocketUtil {
     private static final AtomicBoolean instanceSocketBindAttempted = new AtomicBoolean(false);
 
     /**
-     * The host for attempting remote shutdown requests.
-     */
-    private static final String LOCAL_HOST = "localhost";
-
-    /**
      * The maximum amount of time to wait for the instance socket to free up after a remote shutdown request succeeds.
      */
     private static final Duration maximumWaitForInstancePortToFree = Duration.ofSeconds(5);
@@ -112,7 +107,7 @@ public final class InstanceSocketUtil {
 
         try {
             Future<CyderCommunicationMessage> futureMessage =
-                    InstanceSocketUtil.sendRemoteShutdownRequest(LOCAL_HOST, port, password);
+                    InstanceSocketUtil.sendRemoteShutdownRequest(NetworkUtil.LOCALHOST, port, password);
             while (!futureMessage.isDone()) Thread.onSpinWait();
             CyderCommunicationMessage message = futureMessage.get();
             String content = message.getContent();

@@ -1,7 +1,10 @@
 package cyder.network;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableList;
 import cyder.exceptions.FatalException;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -83,6 +86,11 @@ public enum LatencyManager {
      */
     private String latencyHostName;
 
+    /**
+     * The log tags used when logging the result of a latency result.
+     */
+    private ImmutableList<String> latencyLoggingTags;
+
     LatencyManager() {
         Logger.log(LogTag.OBJECT_CREATION, "LatencyManager instance constructed");
         initializeLatencyIpPortName();
@@ -94,36 +102,26 @@ public enum LatencyManager {
      * @param timeout the time in ms to wait before timing out
      * @return the latency in ms between the host system and the latency ip
      */
-    public int getLatency(int timeout) {
+    public long getLatency(int timeout) {
         Preconditions.checkArgument(timeout > 0);
 
         Socket socket = new Socket();
         SocketAddress address = new InetSocketAddress(latencyIp, latencyPort);
-        long start = System.currentTimeMillis();
+
+        long latency = -1;
 
         try {
+            Stopwatch stopwatch = Stopwatch.createStarted();
             socket.connect(address, timeout);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            return Integer.MAX_VALUE;
-        }
-
-        long stop = System.currentTimeMillis();
-        int latency = (int) (stop - start);
-
-        try {
-            socket.close();
+            latency = stopwatch.elapsed().toMillis();
+            stopwatch.stop();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(LogTag.NETWORK, "Latency of"
-                + CyderStrings.space + latencyIp
-                + CyderStrings.colon + latencyPort
-                + CyderStrings.space + CyderStrings.openingParenthesis
-                + latencyHostName
-                + CyderStrings.closingParenthesis + CyderStrings.space
-                + "found to be " + TimeUtil.formatMillis(latency));
+        FileUtil.closeIfNotNull(socket);
+
+        Logger.log(latencyLoggingTags, "Latency found to be " + TimeUtil.formatMillis(latency));
 
         return latency;
     }
@@ -133,7 +131,7 @@ public enum LatencyManager {
      *
      * @return the latency of the local internet connection to the latency ip
      */
-    public int getLatency() {
+    public long getLatency() {
         return getLatency(DEFAULT_LATENCY_TIMEOUT);
     }
 
@@ -150,9 +148,9 @@ public enum LatencyManager {
      * Initializes the set latency ip, port, and name from the props/default values.
      */
     private void initializeLatencyIpPortName() {
-        boolean customLatencyIpPresent = Props.latencyIp.valuePresent();
-        boolean customLatencyPortPreset = Props.latencyPort.valuePresent();
-        boolean customLatencyNamePresent = Props.latencyName.valuePresent();
+        boolean customLatencyIpPresent = Props.latencyIp.customValuePresent();
+        boolean customLatencyPortPreset = Props.latencyPort.customValuePresent();
+        boolean customLatencyNamePresent = Props.latencyName.customValuePresent();
 
         if (customLatencyIpPresent) {
             latencyIp = Props.latencyIp.getValue();
@@ -197,5 +195,11 @@ public enum LatencyManager {
             latencyPort = defaultLatencyPort;
             latencyHostName = defaultLatencyName;
         }
+
+        latencyLoggingTags = ImmutableList.of(
+                LogTag.NETWORK.getLogName(),
+                latencyIp + CyderStrings.colon + latencyPort,
+                latencyHostName
+        );
     }
 }

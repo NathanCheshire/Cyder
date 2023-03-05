@@ -105,6 +105,16 @@ public final class Prop<T> {
     }
 
     /**
+     * Returns whether a custom value is configured for this prop.
+     *
+     * @return whether a custom value is configured for this prop
+     */
+    public boolean customValuePresent() {
+        if (oldCache()) attemptToSetCachedCustomSpecifiedValue();
+        return cachedCustomSpecifiedValue != null;
+    }
+
+    /**
      * Returns the value of this prop by first checking the prop files for the
      * prop and if not present, returning the default value.
      *
