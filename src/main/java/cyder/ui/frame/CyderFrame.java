@@ -907,13 +907,12 @@ public class CyderFrame extends JFrame {
     private CyderPanel cyderPanel;
 
     /**
-     * Returns whether the frame is using a layout for it's content
-     * pane as opposed to the default absolute layout.
+     * Returns whether the frame is using a {@link CyderLayout} as
+     * it's content pane to manage the placement of components.
      *
-     * @return whether the frame is using a layout for it's content
-     * pane as opposed to the default absolute layout
+     * @return whether the frame's content pane is managed by a {@link CyderLayout}
      */
-    public boolean isUsingCyderLayout() {
+    public boolean isManagedUsingCyderLayout() {
         return cyderPanel != null;
     }
 

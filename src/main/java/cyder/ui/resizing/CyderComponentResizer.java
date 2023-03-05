@@ -181,12 +181,14 @@ public final class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Sets the current maximum size.
+     * Sets the maximum size.
      *
-     * @param maximumSize the current maximum size
+     * @param maximumSize the maximum size
      */
     public void setMaximumSize(Dimension maximumSize) {
-        this.maximumSize = Preconditions.checkNotNull(maximumSize);
+        Preconditions.checkNotNull(maximumSize);
+
+        this.maximumSize = new Dimension(maximumSize.width, maximumSize.height);
     }
 
     /**
@@ -199,12 +201,16 @@ public final class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Sets the current minimum size.
+     * Sets the minimum size.
      *
-     * @param minimumSize the current minimum size
+     * @param minimumSize the minimum size
      */
     public void setMinimumSize(Dimension minimumSize) {
-        this.minimumSize = Preconditions.checkNotNull(minimumSize);
+        Preconditions.checkNotNull(minimumSize);
+        Preconditions.checkArgument(minimumSize.width > 0);
+        Preconditions.checkArgument(minimumSize.height > 0);
+
+        this.minimumSize = new Dimension(minimumSize.width, minimumSize.height);
     }
 
     /**
@@ -220,21 +226,23 @@ public final class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Returns the current snap size.
+     * Returns the snap size.
      *
-     * @return the current snap size
+     * @return the snap size
      */
     public Dimension getSnapSize() {
         return snapSize;
     }
 
     /**
-     * Sets the current snap size.
+     * Sets the snap size.
      *
-     * @param snapSize the current snap size
+     * @param snapSize the snap size
      */
     public void setSnapSize(Dimension snapSize) {
-        this.snapSize = Preconditions.checkNotNull(snapSize);
+        Preconditions.checkNotNull(snapSize);
+
+        this.snapSize = new Dimension(snapSize.width, snapSize.height);
     }
 
     /**
@@ -298,7 +306,6 @@ public final class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("ConstantConditions") // condition might not always be true
     @Override
     public void mousePressed(MouseEvent e) {
         if (dragDirection == DragDirection.NO_DRAG.getDragOrdinal()) return;
@@ -310,65 +317,54 @@ public final class CyderComponentResizer extends MouseAdapter {
         SwingUtilities.convertPointToScreen(pressedPoint, source);
         currentBounds = source.getBounds();
 
-        // if source uses a layout
-        if (source instanceof CyderFrame frame && frame.isUsingCyderLayout()) {
-            // wipe past components and original focus owner
+        if (source instanceof CyderFrame frame && frame.isManagedUsingCyderLayout()) {
             focusableComponents.clear();
             originalFocusOwner = null;
 
-            // save focusable state of components and disable focusing
-            for (Component component : frame.getLayoutComponents()) {
-                // if a layout is the component, recursively find components
-                if (component instanceof CyderPanel) {
-                    for (Component realComponent : recursivelyFindComponents((CyderPanel) component)) {
-                        foundComponentSubroutine(realComponent);
-                    }
+            frame.getLayoutComponents().forEach(component -> {
+                if (component instanceof CyderPanel panel) {
+                    findPanelComponents(panel).forEach(this::storeFocusableStateAndSetNotFocusable);
                 } else {
-                    foundComponentSubroutine(component);
+                    storeFocusableStateAndSetNotFocusable(component);
                 }
-            }
+            });
         }
 
-        // todo pretty sure if source is a JComponent it cannot be a CyderFrame
-        if (source instanceof JComponent jComponent && !(source instanceof CyderFrame)) {
+        if (source instanceof JComponent jComponent) {
             componentIsAutoscroll = jComponent.getAutoscrolls();
             jComponent.setAutoscrolls(false);
         }
     }
 
     /**
-     * Subroutine for method above
+     * Checks the focusable state of the provided component and saves the state
+     * to {@link #focusableComponents}. The component's focus state is then set to false.
      *
-     * @param component the component to perform calls and checks on
+     * @param component the component
      */
-    private void foundComponentSubroutine(Component component) {
+    private void storeFocusableStateAndSetNotFocusable(Component component) {
         Preconditions.checkNotNull(component);
-
         focusableComponents.add(new FocusWrappedComponent(component, component.isFocusable()));
-
-        if (component.isFocusOwner() && originalFocusOwner == null) {
-            originalFocusOwner = component;
-        }
-
+        if (originalFocusOwner == null && component.isFocusOwner()) originalFocusOwner = component;
         component.setFocusable(false);
     }
 
     /**
-     * Generates a list of all components on the provided layout.
-     * If a component is a layout itself, the components of that
-     * layout are returned as well.
+     * Finds all layout components of the provided {@link CyderPanel}.
+     * If one component is another panel itself (nested layouts) those components
+     * are also found and added to the returned list.
      *
-     * @param parentLayout the top-level panel that holds a layout
-     * @return a list of all components recursively found if one child happens to be a layout itself
+     * @param panel the top-level panel which holds the layout managing the frame
+     * @return a list of all components/sub-components found within {@link CyderPanel}s on the frame
      */
-    private static ArrayList<Component> recursivelyFindComponents(CyderPanel parentLayout) {
-        Preconditions.checkNotNull(parentLayout);
+    private static ArrayList<Component> findPanelComponents(CyderPanel panel) {
+        Preconditions.checkNotNull(panel);
 
         ArrayList<Component> ret = new ArrayList<>();
 
-        parentLayout.getLayoutComponents().forEach(child -> {
+        panel.getLayoutComponents().forEach(child -> {
             if (child instanceof CyderPanel childPanel) {
-                ret.addAll(recursivelyFindComponents(childPanel));
+                ret.addAll(findPanelComponents(childPanel));
             }
 
             ret.add(child);
@@ -377,7 +373,14 @@ public final class CyderComponentResizer extends MouseAdapter {
         return ret;
     }
 
+    /**
+     * The original focus owner of the frame prior to a resize event.
+     */
     private Component originalFocusOwner;
+
+    /**
+     * A list of the focusable states of all components on the frame prior to a resize event.
+     */
     private final ArrayList<FocusWrappedComponent> focusableComponents = new ArrayList<>();
 
     /**
