@@ -57,10 +57,20 @@ enum DragDirection {
      * @return the drag direction with the provided ordinal if found
      * @throws IllegalArgumentException if a drag direction with the provided ordinal cannot be found
      */
-    public static DragDirection get(int dragOrdinal) {
+    public static DragDirection getFromDragOrdinal(int dragOrdinal) {
         return Arrays.stream(values())
                 .filter(dragDirection -> dragDirection.getDragOrdinal() == dragOrdinal)
                 .findFirst().orElseThrow(() -> new IllegalArgumentException(
                         "Could not find DragDirection with ordinal: " + dragOrdinal));
+    }
+
+    /**
+     * Returns the cursor for this drag direction.
+     *
+     * @return the cursor for this drag direction
+     */
+    @SuppressWarnings("MagicConstant") /* Safe cursor types */
+    public Cursor getPredefinedCursor() {
+        return Cursor.getPredefinedCursor(DragDirection.getFromDragOrdinal(dragOrdinal).getCursorOrdinal());
     }
 }
