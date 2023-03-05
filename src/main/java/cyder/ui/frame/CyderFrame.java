@@ -274,108 +274,34 @@ public class CyderFrame extends JFrame {
 
     /**
      * Constructs a new CyderFrame using the provided builder.
+     * Note: use of this constructor is only accessible for overriding
+     * methods/extending them in an anonymous-inner fashion. If this is not
+     * needed for an instance, use {@link Builder#build()} for construction
+     * of a CyderFrame instance.
      *
      * @param builder the builder to construct the frame with
      */
     public CyderFrame(Builder builder) {
         Preconditions.checkNotNull(builder);
 
-        boolean borderless = builder.borderless;
-
         this.width = builder.width;
         this.height = builder.height;
-        setSize(new Dimension(width, height));
+        setSize(width, height);
         setResizable(false);
         setUndecorated(true);
         setBackground(builder.backgroundColor);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
         addListeners(builder.borderless);
         setupFrameBackground(builder);
-
-        setupContentLabel(borderless);
+        setupContentLabel(builder.borderless);
         setupIconLabel();
         setupIconPane();
         contentLabel.add(iconPane, defaultContentLabelAddingIndex);
         setContentPane(contentLabel);
+        setupDragLabels(builder);
 
-        if (borderless) {
-            // todo setup drag labels
-            fullDragLabel = new CyderDragLabel(width, height, this, DragLabelType.FULL);
-            fullDragLabel.setBackground(builder.backgroundColor);
-            fullDragLabel.setBounds(0, 0, width, height);
-            contentLabel.add(fullDragLabel, JLayeredPane.DRAG_LAYER);
-            fullDragLabel.setFocusable(false);
-            contentLabel.add(fullDragLabel);
-        } else {
+        if (!builder.borderless) {
             taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
-
-            // todo setup drag labels
-            topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
-                    CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
-                    this, DragLabelType.TOP);
-            topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                    height - 2 * FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-            topDrag.setXOffset(FRAME_RESIZING_LEN);
-            topDrag.setYOffset(FRAME_RESIZING_LEN);
-            contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
-            topDrag.setFocusable(false);
-
-            topDragCover = new JLabel();
-            topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
-            topDragCover.setBackground(CyderColors.getGuiThemeColor());
-            topDragCover.setOpaque(true);
-            contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
-
-            leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                    height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                    this, DragLabelType.LEFT);
-            leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
-                    BORDER_LEN - FRAME_RESIZING_LEN,
-                    height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-            leftDrag.setXOffset(FRAME_RESIZING_LEN);
-            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-            contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
-            leftDrag.setFocusable(false);
-
-            leftDragCover = new JLabel();
-            leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
-            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-            leftDragCover.setOpaque(true);
-            contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
-
-            rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                    height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
-                    this, DragLabelType.RIGHT);
-            rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
-                    BORDER_LEN - FRAME_RESIZING_LEN,
-                    height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-            rightDrag.setXOffset(width - BORDER_LEN);
-            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-            contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
-            rightDrag.setFocusable(false);
-
-            rightDragCover = new JLabel();
-            rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
-            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
-            rightDragCover.setOpaque(true);
-            contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
-
-            bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
-                    BORDER_LEN - FRAME_RESIZING_LEN,
-                    this, DragLabelType.BOTTOM);
-            bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
-                    width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
-            bottomDrag.setXOffset(FRAME_RESIZING_LEN);
-            bottomDrag.setYOffset(height - BORDER_LEN);
-            contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
-            bottomDrag.setFocusable(false);
-
-            bottomDragCover = new JLabel();
-            bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
-            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-            bottomDragCover.setOpaque(true);
-            contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
-
             setupTitleLabel();
             initializeControllers();
         }
@@ -386,6 +312,124 @@ public class CyderFrame extends JFrame {
 
         threadsKilled.set(false);
         Logger.log(LogTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Sets up the drag labels depending on the state of {@link Builder#borderless}.
+     *
+     * @param builder the builder
+     */
+    private void setupDragLabels(Builder builder) {
+        if (builder.borderless) {
+            setupFullDragLabel(builder);
+        } else {
+            setupTopDragLabel();
+            setupLeftDragLabel();
+            setupRightDragLabel();
+            setupBottomDragLabel();
+        }
+    }
+
+    /**
+     * Sets up the bottom drag label.
+     */
+    private void setupBottomDragLabel() {
+        int w = width - 2 * FRAME_RESIZING_LEN;
+        int h = BORDER_LEN - FRAME_RESIZING_LEN;
+        bottomDrag = new CyderDragLabel(w, h, this, DragLabelType.BOTTOM);
+        int x = FRAME_RESIZING_LEN;
+        int y = height - BORDER_LEN;
+        bottomDrag.setBounds(x, y, w, h);
+        bottomDrag.setXOffset(x);
+        bottomDrag.setYOffset(y);
+        bottomDrag.setFocusable(false);
+        contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
+
+        bottomDragCover = new JLabel();
+        bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
+        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+        bottomDragCover.setOpaque(true);
+        contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
+    }
+
+    /**
+     * Sets up the right drag label.
+     */
+    private void setupRightDragLabel() {
+        int w = BORDER_LEN - FRAME_RESIZING_LEN;
+        int h = height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN;
+        rightDrag = new CyderDragLabel(w, h, this, DragLabelType.RIGHT);
+        int x = width - BORDER_LEN;
+        int y = CyderDragLabel.DEFAULT_HEIGHT;
+        rightDrag.setBounds(x, y, w, h);
+        rightDrag.setXOffset(x);
+        rightDrag.setYOffset(y);
+        rightDrag.setFocusable(false);
+        contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
+
+        rightDragCover = new JLabel();
+        rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
+        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+        rightDragCover.setOpaque(true);
+        contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
+    }
+
+    /**
+     * Sets up the left drag label.
+     */
+    private void setupLeftDragLabel() {
+        int w = BORDER_LEN - FRAME_RESIZING_LEN;
+        int h = height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN;
+        leftDrag = new CyderDragLabel(w, h, this, DragLabelType.LEFT);
+        int x = FRAME_RESIZING_LEN;
+        int y = CyderDragLabel.DEFAULT_HEIGHT;
+        leftDrag.setBounds(x, y, w, h);
+        leftDrag.setXOffset(x);
+        leftDrag.setYOffset(y);
+        leftDrag.setFocusable(false);
+        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
+
+        leftDragCover = new JLabel();
+        leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
+        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+        leftDragCover.setOpaque(true);
+        contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
+    }
+
+    /**
+     * Sets up the top drag label.
+     */
+    private void setupTopDragLabel() {
+        int w = width - 2 * FRAME_RESIZING_LEN;
+        int h = CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN;
+        topDrag = new CyderDragLabel(w, h, this, DragLabelType.TOP);
+        int x = FRAME_RESIZING_LEN;
+        int y = FRAME_RESIZING_LEN;
+        topDrag.setBounds(x, y, w, h);
+        topDrag.setXOffset(x);
+        topDrag.setYOffset(y);
+        topDrag.setFocusable(false);
+        contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
+
+        topDragCover = new JLabel();
+        topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
+        topDragCover.setBackground(CyderColors.getGuiThemeColor());
+        topDragCover.setOpaque(true);
+        contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
+    }
+
+    /**
+     * Sets up a full drag label for this frame.
+     *
+     * @param builder the builder
+     */
+    private void setupFullDragLabel(Builder builder) {
+        fullDragLabel = new CyderDragLabel(width, height, this, DragLabelType.FULL);
+        fullDragLabel.setBackground(builder.backgroundColor);
+        fullDragLabel.setBounds(0, 0, width, height);
+        contentLabel.add(fullDragLabel, JLayeredPane.DRAG_LAYER);
+        fullDragLabel.setFocusable(false);
+        contentLabel.add(fullDragLabel);
     }
 
     /**
