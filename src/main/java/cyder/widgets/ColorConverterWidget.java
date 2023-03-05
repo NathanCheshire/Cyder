@@ -19,6 +19,8 @@ import cyder.utils.ColorUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -259,6 +261,19 @@ public class ColorConverterWidget {
         layout.spacer(spacerPartitionLength);
 
         colorFrame.setCyderLayout(layout);
+
+        rgbField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                hexField.requestFocus();
+            }
+        });
+        hexField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                rgbField.requestFocus();
+            }
+        });
 
         colorFrame.finalizeAndShow(relativeTo);
     }
