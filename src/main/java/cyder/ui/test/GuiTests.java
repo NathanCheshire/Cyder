@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.test;
 
 import cyder.annotations.GuiTest;
 import cyder.constants.CyderColors;
