@@ -39,6 +39,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static cyder.ui.UiConstants.*;
+
 /**
  * Utilities to control, update, modify, and create CyderFrames and ui components.
  */
@@ -96,11 +98,7 @@ public final class UiUtil {
      * Saves a screenshot of all CyderFrames to the user's Files/ directory.
      */
     public static void screenshotCyderFrames() {
-        getCyderFrames().stream()
-                .filter(Component::isVisible)
-                .filter(f -> f.getWidth() >= CyderFrame.minimumWidth)
-                .filter(f -> f.getHeight() >= CyderFrame.minimumHeight)
-                .forEach(UiUtil::screenshotCyderFrame);
+        getCyderFrames().stream().filter(Component::isVisible).forEach(UiUtil::screenshotCyderFrame);
     }
 
     /**
@@ -709,5 +707,23 @@ public final class UiUtil {
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(attributeSet, alignmentConstant);
         document.setParagraphAttributes(0, document.getLength(), attributeSet, false);
+    }
+
+    /**
+     * Initializes all ui-manager look and feel key-value props.
+     */
+    public static void initializeUiAndSystemProps() {
+        initializeUiManagerTooltipProps();
+        UIManager.put(SLIDER_ONLY_LEFT_MOUSE_DRAG, Boolean.TRUE);
+    }
+
+    /**
+     * Initializes UIManager tooltip key-value props.
+     */
+    private static void initializeUiManagerTooltipProps() {
+        UIManager.put(TOOLTIP_BACKGROUND, TOOLTIP_BACKGROUND_COLOR);
+        UIManager.put(TOOLTIP_BORDER, TOOLTIP_BORDER_RESOURCE);
+        UIManager.put(TOOLTIP_FONT_KEY, TOOLTIP_FONT);
+        UIManager.put(TOOLTIP_FOREGROUND, TOOLTIP_FOREGROUND_COLOR);
     }
 }

@@ -578,7 +578,7 @@ public final class MapUtil {
         public String toString() {
             String keyRep = "HIDDEN";
             if (key != null && key.length() > 5) {
-                keyRep = key.substring(0, 6) + "...";
+                keyRep = key.substring(0, 6) + CyderStrings.dots;
             }
 
             return "Builder{"

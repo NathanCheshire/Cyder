@@ -144,7 +144,7 @@ public final class Logger {
      * a bootstrap attempt.
      */
     private static void setupLogFileWithAsciiArt() {
-        writeCyderAsciiArtToFile(currentLog, false);
+        writeCyderAsciiArtToFile(currentLog);
         if (JvmUtil.mainMethodArgumentPresent(CyderArguments.BOOSTRAP.getName())) {
             writeBoostrapAsciiArtToFile(currentLog);
         }
@@ -362,10 +362,10 @@ public final class Logger {
     private static <T> boolean checkForAttemptedWhitespaceLogCall(T statement) {
         if (statement instanceof String string && StringUtil.isNullOrEmpty(string)) {
             if (Props.logAttemptedNewlineOrWhitespaceCalls.getValue()) {
-                long numSpaces = countOccurrences(string, ' ');
-                long numTabs = countOccurrences(string, '\t');
-                long numNewLines = countOccurrences(string, '\n');
-                long numCarriageReturns = countOccurrences(string, '\r');
+                long numSpaces = StringUtil.countOccurrences(string, ' ');
+                long numTabs = StringUtil.countOccurrences(string, '\t');
+                long numNewLines = StringUtil.countOccurrences(string, '\n');
+                long numCarriageReturns = StringUtil.countOccurrences(string, '\r');
 
                 log(LogTag.DEBUG, "Null or purely whitespace log statement"
                         + ", length: " + string.length()
@@ -381,16 +381,12 @@ public final class Logger {
         return false;
     }
 
-    public static int countOccurrences(String string, char lookFor) {
-        Preconditions.checkNotNull(string);
-        Preconditions.checkArgument(!string.isEmpty());
-
-        int ret = 0;
-        for (char c : string.toCharArray()) {
-            if (c == lookFor) ret++;
-        }
-
-        return ret;
+    /**
+     * Logs the JVM entry call.
+     */
+    public static void onInitialJvmEntry() {
+        Logger.log(LogTag.JVM_ENTRY, "Jvm" + space + JvmUtil.getJvmName()
+                + space + "started from main method" + space + JvmUtil.getMainMethodClass());
     }
 
     /**
@@ -758,7 +754,7 @@ public final class Logger {
      */
     private static void onLogFileDeletedMidRuntime() {
         generateAndSetLogFile();
-        writeCyderAsciiArtToFile(currentLog, false);
+        writeCyderAsciiArtToFile(currentLog);
         awaitingLogCalls.addAll(checkLogLineLength(getLogRecoveryDebugLine()));
     }
 }

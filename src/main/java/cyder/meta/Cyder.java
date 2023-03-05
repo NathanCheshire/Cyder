@@ -2,7 +2,6 @@ package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
-import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
@@ -11,17 +10,14 @@ import cyder.session.SessionManager;
 import cyder.strings.CyderStrings;
 import cyder.subroutines.NecessarySubroutines;
 import cyder.subroutines.SufficientSubroutines;
+import cyder.ui.UiUtil;
 import cyder.utils.JvmUtil;
 import cyder.utils.StaticUtil;
 import cyder.watchdog.CyderWatchdog;
 
-import javax.swing.*;
-
-import static cyder.meta.MetaConstants.*;
-
 /**
- * The main Cyder entry point that performs checks on data and
- * environment variables to ensure a successful start can happen.
+ * The main Cyder entry point that performs checks, subroutines, validations, and
+ * other operations to ensure Cyder can properly start on this operating system.
  */
 public final class Cyder {
     /**
@@ -37,47 +33,20 @@ public final class Cyder {
      * @param arguments the command line arguments passed in
      */
     public static void main(String[] arguments) {
-        Logger.log(LogTag.JVM_ENTRY, "Jvm " + JvmUtil.getJvmName()
-                + " started from main method cyder.meta.Cyder");
+        Logger.onInitialJvmEntry();
         SessionManager.INSTANCE.initializeSessionId();
         StaticUtil.loadStaticResources();
         JvmUtil.setAndParseJvmMainMethodArgs(ImmutableList.copyOf(arguments));
         PropLoader.reloadProps();
         JvmUtil.logMainMethodArgs(JvmUtil.getJvmMainMethodArgs());
-        addExitHooks();
+        JvmUtil.addExitHooks();
         Logger.initialize();
-        initUiAndSystemProps();
+        UiUtil.initializeUiAndSystemProps();
         CyderWatchdog.initializeWatchDog();
         NecessarySubroutines.executeSubroutines();
         InstanceSocketUtil.bindToInstanceSocket();
         CyderSplash.INSTANCE.showSplash();
         SufficientSubroutines.executeSubroutines();
         LoginHandler.showProperStartupFrame();
-    }
-
-    /**
-     * Initializes all ui-manager look and feel key-value props.
-     */
-    private static void initUiAndSystemProps() {
-        initUiManagerTooltipProps();
-
-        UIManager.put(SLIDER_ONLY_LEFT_MOUSE_DRAG, Boolean.TRUE);
-    }
-
-    /**
-     * Initializes UIManager tooltip key-value props.
-     */
-    private static void initUiManagerTooltipProps() {
-        UIManager.put(TOOLTIP_BACKGROUND, tooltipBackgroundColor);
-        UIManager.put(TOOLTIP_BORDER, TOOLTIP_BORDER_RESOURCE);
-        UIManager.put(TOOLTIP_FONT_KEY, TOOLTIP_FONT);
-        UIManager.put(TOOLTIP_FOREGROUND, tooltipForegroundColor);
-    }
-
-    /**
-     * Adds the exit hooks to the JVM.
-     */
-    private static void addExitHooks() {
-        shutdownHooks.forEach(hook -> Runtime.getRuntime().addShutdownHook(hook));
     }
 }

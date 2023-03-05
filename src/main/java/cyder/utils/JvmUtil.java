@@ -3,6 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import cyder.enumerations.Dynamic;
 import cyder.enumerations.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -70,6 +71,20 @@ public final class JvmUtil {
      */
     private static final boolean JVM_LAUNCHED_IN_DEBUG_MODE = ManagementFactory.getRuntimeMXBean()
             .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
+
+    /**
+     * The name to use for the temporary directory cleaning exit hook.
+     */
+    private static final String REMOVE_TEMP_DIRECTORY_HOOK_NAME = "cyder-temporary-directory-cleaner-exit-hook";
+
+    /**
+     * The list of shutdown hooks to be added to this instance of Cyder.
+     */
+    private static final ImmutableList<Thread> shutdownHooks = ImmutableList.of(
+            CyderThreadRunner.createThread(() ->
+                            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.TEMP.getFileName()), false),
+                    REMOVE_TEMP_DIRECTORY_HOOK_NAME)
+    );
 
     /**
      * The JVM args passed to the main method.
@@ -444,5 +459,12 @@ public final class JvmUtil {
      */
     public static long getRuntime() {
         return ManagementFactory.getRuntimeMXBean().getUptime();
+    }
+
+    /**
+     * Adds the exit hooks to this JVM.
+     */
+    public static void addExitHooks() {
+        shutdownHooks.forEach(hook -> Runtime.getRuntime().addShutdownHook(hook));
     }
 }

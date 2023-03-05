@@ -313,16 +313,13 @@ public final class LoggingUtil {
 
     /**
      * Writes the Cyder Ascii art from {@link LoggingConstants#cyderSignatureLines} to the provided file.
-     *
-     * @param file   the file to write the ascii art to
-     * @param append whether to append the signature or overwrite the file contents
      */
-    static void writeCyderAsciiArtToFile(File file, boolean append) {
+    static void writeCyderAsciiArtToFile(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(file.isFile());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
             for (String line : cyderSignatureLines) {
                 writer.write(line);
                 writer.newLine();

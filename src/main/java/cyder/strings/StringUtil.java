@@ -1128,4 +1128,23 @@ public final class StringUtil {
 
         return alpha.toLowerCase().contains(beta.toLowerCase());
     }
+
+    /**
+     * Counts the number of occurrences of the provided char within the provided string.
+     *
+     * @param string  the string to look through
+     * @param lookFor the char to look for
+     * @return the number of occurrences of the provided char within the provided string
+     */
+    public static int countOccurrences(String string, char lookFor) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        int ret = 0;
+        for (char c : string.toCharArray()) {
+            if (c == lookFor) ret++;
+        }
+
+        return ret;
+    }
 }

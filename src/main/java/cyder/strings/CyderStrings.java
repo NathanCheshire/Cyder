@@ -167,6 +167,11 @@ public final class CyderStrings {
     public static final String underscore = "_";
 
     /**
+     * The dots for a title or menu item that is cut off due to being too long.
+     */
+    public static final String dots = "...";
+
+    /**
      * Suppress default constructor.
      */
     private CyderStrings() {
