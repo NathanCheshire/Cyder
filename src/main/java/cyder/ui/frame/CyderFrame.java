@@ -2203,7 +2203,7 @@ public class CyderFrame extends JFrame {
      * @param allowed whether to allow background resizing on CyderFrame resize events
      */
     public void setBackgroundResizing(Boolean allowed) {
-        cyderComponentResizer.setBackgroundResizing(allowed);
+        cyderComponentResizer.setShouldRefreshBackgroundOnResize(allowed);
     }
 
     /**
@@ -2267,7 +2267,7 @@ public class CyderFrame extends JFrame {
             if (iconLabel == null) return;
             revalidateLayout();
 
-            if (cyderComponentResizer != null && cyderComponentResizer.backgroundResizingEnabled()) {
+            if (cyderComponentResizer != null && cyderComponentResizer.shouldRefreshBackgroundOnResize()) {
                 Image scaledImage = unalteredBackgroundIcon.getImage().getScaledInstance(
                         iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT);
                 iconLabel.setIcon(new ImageIcon(scaledImage));

@@ -1,7 +1,6 @@
 package cyder.ui.resizing;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
@@ -12,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A listener to allow custom, undecorated frames (typically {@link CyderFrame}s) to be resizable.
@@ -38,18 +38,9 @@ public final class CyderComponentResizer extends MouseAdapter {
     private static final int DEFAULT_INSET = 5;
 
     /**
-     * The map of cursors to use for border cursors to indicate that the component is resizable.
+     * A list of the focusable states of all components on the frame prior to the current resize event.
      */
-    private final ImmutableMap<Integer, Integer> cursors = ImmutableMap.of(
-            DragDirection.NORTH.getDragOrdinal(), Cursor.N_RESIZE_CURSOR,
-            DragDirection.WEST.getDragOrdinal(), Cursor.W_RESIZE_CURSOR,
-            DragDirection.SOUTH.getDragOrdinal(), Cursor.S_RESIZE_CURSOR,
-            DragDirection.EAST.getDragOrdinal(), Cursor.E_RESIZE_CURSOR,
-            DragDirection.NORTH_WEST.getDragOrdinal(), Cursor.NW_RESIZE_CURSOR,
-            DragDirection.NORTH_EAST.getDragOrdinal(), Cursor.NE_RESIZE_CURSOR,
-            DragDirection.SOUTH_WEST.getDragOrdinal(), Cursor.SW_RESIZE_CURSOR,
-            DragDirection.SOUTH_EAST.getDragOrdinal(), Cursor.SE_RESIZE_CURSOR
-    );
+    private final ArrayList<FocusWrappedComponent> focusWrappedComponents = new ArrayList<>();
 
     /**
      * The drag insets to apply to the applied component.
@@ -65,28 +56,6 @@ public final class CyderComponentResizer extends MouseAdapter {
      * The direction of the current drag.
      */
     private int dragDirection;
-
-    private enum DragDirection {
-        NO_DRAG(0),
-        NORTH(1),
-        WEST(2),
-        NORTH_WEST(3),
-        SOUTH(4),
-        SOUTH_WEST(6),
-        EAST(8),
-        NORTH_EAST(9),
-        SOUTH_EAST(12);
-
-        private final int dragOrdinal;
-
-        DragDirection(int dragOrdinal) {
-            this.dragOrdinal = dragOrdinal;
-        }
-
-        public int getDragOrdinal() {
-            return dragOrdinal;
-        }
-    }
 
     /**
      * The source cursor from the dragging component.
@@ -123,6 +92,16 @@ public final class CyderComponentResizer extends MouseAdapter {
      * The current maximum size for the resizable component.
      */
     private Dimension maximumSize = defaultMaxSize;
+
+    /**
+     * The original focus owner of the frame prior to a resize event.
+     */
+    private Component originalFocusOwner;
+
+    /**
+     * Whether background resizing is currently allowed.
+     */
+    private boolean refreshBackgroundOnResize;
 
     /**
      * Constructs a new resizable component
@@ -249,7 +228,7 @@ public final class CyderComponentResizer extends MouseAdapter {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings({"MagicConstant", "ConstantConditions"}) /* Cursor types are safe */
+    @SuppressWarnings("MagicConstant") /* Cursor types are safe */
     public void mouseMoved(MouseEvent e) {
         Component source = e.getComponent();
         Point location = e.getPoint();
@@ -275,7 +254,7 @@ public final class CyderComponentResizer extends MouseAdapter {
         if (dragDirection == 0) {
             source.setCursor(sourceCursor);
         } else {
-            int cursorType = cursors.get(dragDirection);
+            int cursorType = DragDirection.get(dragDirection).getCursorOrdinal();
             Cursor cursor = Cursor.getPredefinedCursor(cursorType);
             source.setCursor(cursor);
         }
@@ -286,10 +265,9 @@ public final class CyderComponentResizer extends MouseAdapter {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (!currentlyResizing) {
-            Component source = e.getComponent();
-            sourceCursor = source.getCursor();
-        }
+        if (currentlyResizing) return;
+        Component source = e.getComponent();
+        sourceCursor = source.getCursor();
     }
 
     /**
@@ -297,10 +275,9 @@ public final class CyderComponentResizer extends MouseAdapter {
      */
     @Override
     public void mouseExited(MouseEvent e) {
-        if (!currentlyResizing) {
-            Component source = e.getComponent();
-            source.setCursor(sourceCursor);
-        }
+        if (currentlyResizing) return;
+        Component source = e.getComponent();
+        source.setCursor(sourceCursor);
     }
 
     /**
@@ -311,40 +288,43 @@ public final class CyderComponentResizer extends MouseAdapter {
         if (dragDirection == DragDirection.NO_DRAG.getDragOrdinal()) return;
 
         currentlyResizing = true;
-
         Component source = e.getComponent();
         pressedPoint = e.getPoint();
         SwingUtilities.convertPointToScreen(pressedPoint, source);
         currentBounds = source.getBounds();
 
-        if (source instanceof CyderFrame frame && frame.isManagedUsingCyderLayout()) {
-            focusableComponents.clear();
-            originalFocusOwner = null;
+        switch (source) {
+            case CyderFrame frame -> {
+                if (frame.isManagedUsingCyderLayout()) {
+                    focusWrappedComponents.clear();
+                    originalFocusOwner = null;
 
-            frame.getLayoutComponents().forEach(component -> {
-                if (component instanceof CyderPanel panel) {
-                    findPanelComponents(panel).forEach(this::storeFocusableStateAndSetNotFocusable);
-                } else {
-                    storeFocusableStateAndSetNotFocusable(component);
+                    frame.getLayoutComponents().forEach(component -> {
+                        if (component instanceof CyderPanel panel) {
+                            findPanelComponents(panel).forEach(this::storeFocusableStateAndSetNotFocusable);
+                        } else {
+                            storeFocusableStateAndSetNotFocusable(component);
+                        }
+                    });
                 }
-            });
-        }
-
-        if (source instanceof JComponent jComponent) {
-            componentIsAutoscroll = jComponent.getAutoscrolls();
-            jComponent.setAutoscrolls(false);
+            }
+            case JComponent jComponent -> {
+                componentIsAutoscroll = jComponent.getAutoscrolls();
+                jComponent.setAutoscrolls(false);
+            }
+            default -> {}
         }
     }
 
     /**
      * Checks the focusable state of the provided component and saves the state
-     * to {@link #focusableComponents}. The component's focus state is then set to false.
+     * to {@link #focusWrappedComponents}. The component's focus state is then set to false.
      *
      * @param component the component
      */
     private void storeFocusableStateAndSetNotFocusable(Component component) {
         Preconditions.checkNotNull(component);
-        focusableComponents.add(new FocusWrappedComponent(component, component.isFocusable()));
+        focusWrappedComponents.add(new FocusWrappedComponent(component, component.isFocusable()));
         if (originalFocusOwner == null && component.isFocusOwner()) originalFocusOwner = component;
         component.setFocusable(false);
     }
@@ -357,16 +337,13 @@ public final class CyderComponentResizer extends MouseAdapter {
      * @param panel the top-level panel which holds the layout managing the frame
      * @return a list of all components/sub-components found within {@link CyderPanel}s on the frame
      */
-    private static ArrayList<Component> findPanelComponents(CyderPanel panel) {
+    private static Collection<Component> findPanelComponents(CyderPanel panel) {
         Preconditions.checkNotNull(panel);
 
         ArrayList<Component> ret = new ArrayList<>();
 
         panel.getLayoutComponents().forEach(child -> {
-            if (child instanceof CyderPanel childPanel) {
-                ret.addAll(findPanelComponents(childPanel));
-            }
-
+            if (child instanceof CyderPanel childPanel) ret.addAll(findPanelComponents(childPanel));
             ret.add(child);
         });
 
@@ -374,46 +351,24 @@ public final class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * The original focus owner of the frame prior to a resize event.
-     */
-    private Component originalFocusOwner;
-
-    /**
-     * A list of the focusable states of all components on the frame prior to a resize event.
-     */
-    private final ArrayList<FocusWrappedComponent> focusableComponents = new ArrayList<>();
-
-    /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("ConstantConditions")  // condition might not be true in future
     @Override
     public void mouseReleased(MouseEvent e) {
         currentlyResizing = false;
-
         Component source = e.getComponent();
         source.setCursor(sourceCursor);
 
-        if (source instanceof JComponent jComponent && !(source instanceof CyderFrame)) {
-            jComponent.setAutoscrolls(componentIsAutoscroll);
+        switch (source) {
+            case CyderFrame frame && refreshBackgroundOnResize -> frame.refreshBackground();
+            case JComponent jComponent -> jComponent.setAutoscrolls(componentIsAutoscroll);
+            default -> {}
         }
 
-        // if CyderFrame then refresh background when dragging is done and not as it is being resized
-        if (source instanceof CyderFrame frame) {
-            if (backgroundRefreshOnResize) {
-                frame.refreshBackground();
-            }
-        }
-
-        // for all focus wrapped components, restore their state
-        for (FocusWrappedComponent component : focusableComponents) {
-            component.restore();
-
-            // restore original focus owner
-            if (component.component().equals(originalFocusOwner)) {
-                component.component().requestFocus();
-            }
-        }
+        focusWrappedComponents.forEach(FocusWrappedComponent::restoreOriginalFocusableState);
+        focusWrappedComponents.stream()
+                .filter(focusWrappedComponent -> focusWrappedComponent.getComponent().equals(originalFocusOwner))
+                .findFirst().ifPresent(component -> component.getComponent().requestFocus());
     }
 
     /**
@@ -424,16 +379,12 @@ public final class CyderComponentResizer extends MouseAdapter {
         if (!currentlyResizing) return;
 
         Component source = e.getComponent();
-        Point dragged = e.getPoint();
-        SwingUtilities.convertPointToScreen(dragged, source);
+        Point dragPoint = e.getPoint();
+        SwingUtilities.convertPointToScreen(dragPoint, source);
+        changeBounds(source, dragDirection, currentBounds, pressedPoint, dragPoint);
 
-        changeBounds(source, dragDirection, currentBounds, pressedPoint, dragged);
-
-        // if a CyderFrame with a panel, refresh always
-        if (source instanceof CyderFrame frame) {
-            if (backgroundRefreshOnResize) {
-                frame.revalidateLayout();
-            }
+        if (source instanceof CyderFrame frame && refreshBackgroundOnResize) {
+            frame.revalidateLayout();
         }
     }
 
@@ -447,12 +398,11 @@ public final class CyderComponentResizer extends MouseAdapter {
      * @param current   the current point at which the component is pressed
      */
     private void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
+        if (!resizingAllowed) return;
         Preconditions.checkNotNull(source);
         Preconditions.checkNotNull(bounds);
         Preconditions.checkNotNull(pressed);
         Preconditions.checkNotNull(current);
-
-        if (!resizingAllowed) return;
 
         int x = bounds.x;
         int y = bounds.y;
@@ -498,26 +448,21 @@ public final class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Whether background resizing is currently allowed.
-     */
-    private boolean backgroundRefreshOnResize;
-
-    /**
      * Returns whether background resizing is enabled.
      *
      * @return whether background resizing is enabled
      */
-    public boolean backgroundResizingEnabled() {
-        return backgroundRefreshOnResize;
+    public boolean shouldRefreshBackgroundOnResize() {
+        return this.refreshBackgroundOnResize;
     }
 
     /**
      * Sets whether background resizing is enabled.
      *
-     * @param b whether background resizing is enabled
+     * @param refreshBackgroundOnResize whether background resizing is enabled
      */
-    public void setBackgroundResizing(Boolean b) {
-        backgroundRefreshOnResize = b;
+    public void setShouldRefreshBackgroundOnResize(boolean refreshBackgroundOnResize) {
+        this.refreshBackgroundOnResize = refreshBackgroundOnResize;
     }
 
     /**
@@ -614,37 +559,8 @@ public final class CyderComponentResizer extends MouseAdapter {
                 + ", pressedPoint=" + pressedPoint
                 + ", minimumSize=" + minimumSize
                 + ", maximumSize=" + maximumSize
-                + ", backgroundRefreshOnResize=" + backgroundRefreshOnResize
+                + ", backgroundRefreshOnResize=" + refreshBackgroundOnResize
                 + ", resizingAllowed=" + resizingAllowed
                 + "}";
-    }
-
-    /**
-     * An entity to link the original ability of a {@link Component} to gain focus to itself.
-     * Used for restorations after resize events.
-     *
-     * @param component    the component
-     * @param wasFocusable whether the component in its current state can gain focus
-     */
-    private static record FocusWrappedComponent(Component component, boolean wasFocusable) {
-        /**
-         * Constructs a new FocusWrappedComponent.
-         *
-         * @param component the component
-         * @param wasFocusable  whether the component in its current state can gain focus
-         */
-        public FocusWrappedComponent(Component component, boolean wasFocusable) {
-            this.component = Preconditions.checkNotNull(component);
-            this.wasFocusable = wasFocusable;
-
-            Logger.log(LogTag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Resets the original focusable property of the encapsulated component.
-         */
-        public void restore() {
-            if (wasFocusable) component.setFocusable(true);
-        }
     }
 }
