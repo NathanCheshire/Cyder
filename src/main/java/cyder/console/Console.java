@@ -107,6 +107,9 @@ public enum Console {
      */
     Console() {
         Logger.log(LogTag.OBJECT_CREATION, "Console singleton constructed");
+        DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
+        introTheme = StaticUtil.getStaticResource("introtheme.mp3");
+        chimeFile = StaticUtil.getStaticResource("chime.mp3");
     }
 
     /**
@@ -256,6 +259,8 @@ public enum Console {
 
         this.uuid = uuid;
 
+        initializeStaticUtilConstants();
+
         UserDataManager.INSTANCE.initialize(uuid);
         UserUtil.logoutAllUsers();
         UserDataManager.INSTANCE.setLoggedIn(true);
@@ -317,6 +322,13 @@ public enum Console {
         performTimingChecks();
 
         introMusicCheck();
+    }
+
+    /**
+     * Initializes any resources loaded from the {@link StaticUtil}.
+     */
+    private void initializeStaticUtilConstants() {
+
     }
 
     /**
@@ -1158,7 +1170,7 @@ public enum Console {
     /**
      * The chime audio file.
      */
-    private final File chimeFile = StaticUtil.getStaticResource("chime.mp3");
+    private final File chimeFile;
 
     /**
      * The last hour a chime sound was played at.
@@ -1303,12 +1315,12 @@ public enum Console {
     /**
      * The default intro music to play if enabled an no user music is present.
      */
-    private static final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
+    private final File DEFAULT_INTRO_MUSIC;
 
     /**
      * The Cyder intro theme file.
      */
-    private static final File introTheme = StaticUtil.getStaticResource("introtheme.mp3");
+    private final File introTheme;
 
     /**
      * The thread name of the intro music grayscale checker.

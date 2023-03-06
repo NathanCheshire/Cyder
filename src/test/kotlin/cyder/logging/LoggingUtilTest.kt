@@ -304,6 +304,8 @@ class LoggingUtilTest {
      */
     @Test
     fun testWriteCyderAsciiArtToFile() {
+        StaticUtil.loadStaticResources()
+
         assertThrows(NullPointerException::class.java) { LoggingUtil.writeCyderAsciiArtToFile(null) }
         assertThrows(IllegalArgumentException::class.java) {
             LoggingUtil.writeCyderAsciiArtToFile(File("file_that_does_not_exist"))

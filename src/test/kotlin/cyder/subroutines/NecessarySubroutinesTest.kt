@@ -1,5 +1,6 @@
 package cyder.subroutines
 
+import cyder.utils.StaticUtil
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -12,6 +13,7 @@ class NecessarySubroutinesTest {
      */
     @Test
     fun testSubroutinesCompleteSuccessfully() {
+        StaticUtil.loadStaticResources()
         NecessarySubroutines.subroutines.forEach { it.routine.get()?.let { it1 -> assertTrue(it1) } }
     }
 }

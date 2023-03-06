@@ -121,6 +121,7 @@ public final class ExceptionHandler {
                 if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
                     Logger.log(LogTag.EXCEPTION, write);
 
+                    // todo this throws a lot
                     boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
                     boolean silenceErrors = UserDataManager.INSTANCE.shouldSilenceErrors();
                     if (consoleOpen && !silenceErrors) {
