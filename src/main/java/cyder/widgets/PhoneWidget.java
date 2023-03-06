@@ -1,7 +1,6 @@
 package cyder.widgets;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
@@ -19,6 +18,10 @@ import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.StaticUtil;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.strings.CyderStrings.*;
@@ -30,66 +33,8 @@ import static cyder.strings.CyderStrings.*;
 @CyderAuthor
 public final class PhoneWidget {
     /**
-     * The field numbers are stored in.
+     * The dialing string.
      */
-    private static CyderTextField numberField;
-
-    /**
-     * The current number.
-     */
-    private static String currentPhoneNumber;
-
-    /**
-     * Suppress default constructor.
-     */
-    private PhoneWidget() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * The widget title.
-     */
-    private static final String TITLE = "Phone";
-
-    /**
-     * The button theme.
-     */
-    private static final ThemeBuilder theme = new ThemeBuilder()
-            .setFont(CyderFonts.SEGOE_30)
-            .setBackgroundColor(CyderColors.regularOrange)
-            .setBorderColor(CyderColors.navy)
-            .setBorderLength(5);
-
-    /**
-     * The widget frame.
-     */
-    private static CyderFrame phoneFrame;
-
-    /**
-     * A regex for targeting anything that is not a digit.
-     */
-    private static final String NON_DIGITS_REGEX = "[^\\d.]";
-
-    /**
-     * The suicide hotline special runnable.
-     */
-    private static final String SUICIDE_HOTLINE = "18002738255";
-
-    /**
-     * The 223s special runnable.
-     */
-    private static final String TWO_TWO_THREES = "223";
-
-    // todo be able to kill these if still playing when frame is disposed
-    /**
-     * The map of special numbers to runnables.
-     */
-    private static final ImmutableMap<String, Runnable> specialNumbers = ImmutableMap.of(
-            SUICIDE_HOTLINE,
-            () -> GeneralAndSystemAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3")),
-            TWO_TWO_THREES, () -> GeneralAndSystemAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"))
-    );
-
     private static final String DIALING = "Dialing: ";
 
     /**
@@ -112,6 +57,110 @@ public final class PhoneWidget {
      */
     private static final String CALL = "Call";
 
+    /**
+     * A regex for targeting anything that is not a digit.
+     */
+    private static final String NON_DIGITS_REGEX = "[^\\d.]";
+
+    /**
+     * The widget title.
+     */
+    private static final String TITLE = "Phone";
+
+    /**
+     * The button theme.
+     */
+    private static final ThemeBuilder theme = new ThemeBuilder()
+            .setFont(CyderFonts.SEGOE_30)
+            .setBackgroundColor(CyderColors.regularOrange)
+            .setBorderColor(CyderColors.navy)
+            .setBorderLength(5);
+
+    /**
+     * The field numbers are stored in.
+     */
+    private static CyderTextField numberField;
+
+    /**
+     * The current number.
+     */
+    private static String currentPhoneNumber;
+
+    /**
+     * The widget frame.
+     */
+    private static CyderFrame phoneFrame;
+
+    /**
+     * Suppress default constructor.
+     */
+    private PhoneWidget() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Special numbers which when dialed trigger an audio file to play, generally with the same name as the number.
+     */
+    private enum SpecialNumber {
+        /**
+         * The 1800 number, plays 1800 by Logic.
+         */
+        SUICIDE_HOTLINE(18002738255L, StaticUtil.getStaticResource("1800.mp3")),
+
+        /**
+         * The 223 number, plays 223 by YNW Melly
+         */
+        TWO_TWO_THREE(223L, StaticUtil.getStaticResource("223.mp3"));
+
+        /**
+         * The number dialed to trigger this.
+         */
+        private final long number;
+
+        /**
+         * The audio file to play.
+         */
+        private final File audioFile;
+
+        SpecialNumber(long number, File audioFile) {
+            this.number = number;
+            this.audioFile = audioFile;
+        }
+
+        /**
+         * Returns the number dialed to trigger this.
+         *
+         * @return the number dialed to trigger this
+         */
+        public long getNumber() {
+            return number;
+        }
+
+        /**
+         * Returns the audio file to play.
+         *
+         * @return the audio file to play
+         */
+        public File getAudioFile() {
+            return audioFile;
+        }
+
+        /**
+         * Plays this audio file using the general audio player.
+         */
+        public void play() {
+            GeneralAndSystemAudioPlayer.playGeneralAudio(audioFile);
+        }
+
+        /**
+         * Ends all special audio files if playing.
+         */
+        public static void endAllAudio() {
+            Arrays.stream(values()).forEach(specialNumber ->
+                    GeneralAndSystemAudioPlayer.stopAudioIfFilePlaying(specialNumber.getAudioFile()));
+        }
+    }
+
     @Widget(triggers = "phone", description = "A phone emulating widget")
     public static void showGui() {
         UiUtil.closeIfOpen(phoneFrame);
@@ -121,6 +170,12 @@ public final class PhoneWidget {
                 .setHeight(FRAME_HEIGHT)
                 .setTitle(TITLE)
                 .build();
+        phoneFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                SpecialNumber.endAllAudio();
+            }
+        });
 
         numberField = new CyderTextField();
         numberField.setText(hash);
@@ -136,7 +191,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(zero);
         zero.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + zero.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         zero.setTheme(theme);
 
@@ -145,7 +200,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(one);
         one.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + one.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         one.setTheme(theme);
 
@@ -154,7 +209,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(two);
         two.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + two.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         two.setTheme(theme);
 
@@ -163,7 +218,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(three);
         three.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + three.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         three.setTheme(theme);
 
@@ -172,7 +227,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(four);
         four.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + four.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         four.setTheme(theme);
 
@@ -181,7 +236,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(five);
         five.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + five.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         five.setTheme(theme);
 
@@ -190,7 +245,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(six);
         six.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + six.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         six.setTheme(theme);
 
@@ -199,7 +254,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(seven);
         seven.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + seven.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         seven.setTheme(theme);
 
@@ -208,7 +263,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(eight);
         eight.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + eight.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         eight.setTheme(theme);
 
@@ -217,7 +272,7 @@ public final class PhoneWidget {
         phoneFrame.getContentPane().add(nine);
         nine.addClickRunnable(() -> {
             currentPhoneNumber = currentPhoneNumber + nine.getText();
-            numberField.setText(phoneNumFormat(currentPhoneNumber));
+            refreshFieldText();
         });
         nine.setTheme(theme);
 
@@ -227,7 +282,7 @@ public final class PhoneWidget {
         back.addClickRunnable(() -> {
             if (!currentPhoneNumber.isEmpty()) {
                 currentPhoneNumber = currentPhoneNumber.substring(0, currentPhoneNumber.length() - 1);
-                numberField.setText(phoneNumFormat(currentPhoneNumber));
+                refreshFieldText();
             }
         });
         back.setTheme(theme);
@@ -250,11 +305,18 @@ public final class PhoneWidget {
         if (checkForNumbers()) return;
 
         phoneFrame.toast(DIALING + numberField.getText());
-        numberField.setText(phoneNumFormat(currentPhoneNumber));
+        refreshFieldText();
     }
 
     /**
-     * Checks {@link #specialNumbers} for a special number.
+     * Refreshes the field text based on the current phone number.
+     */
+    private static void refreshFieldText() {
+        numberField.setText(formatNumber(currentPhoneNumber));
+    }
+
+    /**
+     * Checks the {@link SpecialNumber}s for a special number.
      *
      * @return whether a special number was found and the runnable invoked
      */
@@ -262,12 +324,15 @@ public final class PhoneWidget {
     private static boolean checkForNumbers() {
         AtomicBoolean ret = new AtomicBoolean();
 
-        specialNumbers.forEach((number, runnable) -> {
-            if (checkForNumber(number)) {
-                runnable.run();
-                ret.set(true);
-            }
-        });
+        long dialedNumber = Long.parseLong(StringUtil.getTrimmedText(numberField.getText())
+                .replaceAll(NON_DIGITS_REGEX, ""));
+        Arrays.stream(SpecialNumber.values()).filter(specialNumber -> specialNumber.getNumber() == dialedNumber)
+                .findFirst().ifPresent(specialNumber -> {
+                    specialNumber.play();
+                    ret.set(true);
+                    currentPhoneNumber = "";
+                    refreshFieldText();
+                });
 
         return ret.get();
     }
@@ -279,7 +344,7 @@ public final class PhoneWidget {
      * @param num the current phone number
      * @return the phone number formatted
      */
-    private static String phoneNumFormat(String num) {
+    private static String formatNumber(String num) {
         Preconditions.checkNotNull(num);
 
         if (num.isEmpty())
@@ -315,21 +380,10 @@ public final class PhoneWidget {
             String leadingDigits = num.substring(0, length - 10);
             int offset = leadingDigits.length();
 
-            return (leadingDigits + space + openingBracket + num.substring(offset, 3 + offset) + closingParenthesis +
+            return (leadingDigits + space + openingParenthesis + num.substring(offset, 3 + offset) +
+                    closingParenthesis +
                     space
                     + num.substring(3 + offset, 6 + offset) + space + num.substring(6 + offset, length));
         }
-    }
-
-    /**
-     * Checks for the current number equaling the provided raw number string.
-     * The number passed in should only contain digits.
-     *
-     * @param numberString the digit string of the expected field text
-     * @return whether the field is currently a form of the provided number string
-     */
-    private static boolean checkForNumber(String numberString) {
-        return StringUtil.getTrimmedText(numberField.getText())
-                .replaceAll(NON_DIGITS_REGEX, "").equals(numberString);
     }
 }

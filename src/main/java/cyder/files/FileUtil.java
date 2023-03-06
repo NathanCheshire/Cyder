@@ -483,12 +483,10 @@ public final class FileUtil {
      *
      * @param closable the object to close and free
      */
-    @SuppressWarnings("UnusedAssignment") /* Freeing up resource */
     public static void closeIfNotNull(Closeable closable) {
         if (closable != null) {
             try {
                 closable.close();
-                closable = null;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -913,20 +911,5 @@ public final class FileUtil {
         }
 
         return true;
-    }
-
-    /**
-     * Closes the provided closable if non-null.
-     *
-     * @param closeable the closeable
-     */
-    @SuppressWarnings("UnusedAssignment") /* Optimizations */
-    public void closeIfOpen(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException ignored) {}
-        }
-        closeable = null;
     }
 }

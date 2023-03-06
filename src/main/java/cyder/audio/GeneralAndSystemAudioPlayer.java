@@ -2,8 +2,10 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
+import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -18,6 +20,7 @@ import javazoom.jl.player.Player;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Optional;
 
 /**
  * Utilities related to playing general and system audio.
@@ -29,19 +32,14 @@ public final class GeneralAndSystemAudioPlayer {
     private static final String GENERAL_AUDIO_THREAD_NAME = "General Audio Player";
 
     /**
-     * An empty runnable.
-     */
-    private static final Runnable EMPTY_RUNNABLE = () -> {};
-
-    /**
      * The thread name for the system audio player.
      */
     private static final String SYSTEM_AUDIO_PLAYER_THREAD_NAME = "System Audio Player";
 
     /**
-     * Player used to play general audio files that may be user terminated.
+     * An empty runnable.
      */
-    private static Player generalAudioPlayer;
+    private static final Runnable EMPTY_RUNNABLE = () -> {};
 
     /**
      * The list of paths of audio files to ignore when logging a play audio call.
@@ -50,6 +48,16 @@ public final class GeneralAndSystemAudioPlayer {
             StaticUtil.getStaticPath("chime.mp3"),
             StaticUtil.getStaticPath("typing.mp3")
     );
+
+    /**
+     * Player used to play general audio files that may be user terminated.
+     */
+    private static Player generalAudioPlayer;
+
+    /**
+     * The audio file currently playing via the {@link #generalAudioPlayer}.
+     */
+    private static File currentGeneralAudioFile = null;
 
     /**
      * Suppress default constructor.
@@ -75,7 +83,7 @@ public final class GeneralAndSystemAudioPlayer {
      * @param file                 the audio file to play
      * @param onCompletionCallback the callback to invoke upon completion of playing the audio file
      */
-    @SuppressWarnings("UnusedAssignment") /* Memory management */
+    @SuppressWarnings("UnusedAssignment") /* Memory optimizations */
     public static void playGeneralAudioWithCompletionCallback(File file, Runnable onCompletionCallback) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
@@ -90,10 +98,13 @@ public final class GeneralAndSystemAudioPlayer {
             try {
                 FileInputStream fis = new FileInputStream(file);
                 BufferedInputStream bis = new BufferedInputStream(fis);
+
                 generalAudioPlayer = new Player(bis);
+                currentGeneralAudioFile = file;
 
                 generalAudioPlayer.play();
-                generalAudioPlayer.close();
+                if (generalAudioPlayer != null) generalAudioPlayer.close();
+                currentGeneralAudioFile = null;
 
                 FileUtil.closeIfNotNull(fis);
                 FileUtil.closeIfNotNull(bis);
@@ -119,8 +130,37 @@ public final class GeneralAndSystemAudioPlayer {
     }
 
     /**
-     * Plays the requested audio file using a new JLayer Player object.
-     * (this cannot be stopped util the MPEG is finished)
+     * Returns the file currently being played as general audio if present. Empty optional else.
+     *
+     * @return the file currently being played as general audio if present. Empty optional else
+     */
+    public static Optional<File> getCurrentGeneralAudioFile() {
+        return Optional.ofNullable(currentGeneralAudioFile);
+    }
+
+    /**
+     * Stops the current general audio if the provided file is playing.
+     *
+     * @param audioFile the audio file
+     * @return whether any audio was stopped.
+     */
+    @CanIgnoreReturnValue
+    public static boolean stopAudioIfFilePlaying(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
+
+        if (audioFile.equals(currentGeneralAudioFile)) {
+            stopGeneralAudio();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Plays the requested audio file using a new JLayer Player object
+     * (this cannot be stopped util the MPEG is finished).
      *
      * @param file the audio file to play
      */
