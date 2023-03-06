@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
 
-import static cyder.strings.CyderStrings.*;
+import static cyder.strings.CyderStrings.quote;
 
 /**
  * Utilities for casting things to strings.
@@ -138,51 +138,19 @@ public final class ToStringUtil {
 
         StringBuilder ret = new StringBuilder();
 
-        ret.append("Component")
-                .append(colon)
-                .append(space)
-                .append(ReflectionUtil.getBottomLevelClass(component.getClass()))
-                .append(comma)
-                .append(space)
-                .append("hash")
-                .append(colon)
-                .append(space)
-                .append(component.hashCode())
-                .append(comma)
-                .append(space)
-                .append("bounds")
-                .append(colon)
-                .append(space)
-                .append(openingParenthesis)
-                .append(component.getX())
-                .append(comma)
-                .append(space)
-                .append(component.getY())
-                .append(comma)
-                .append(space)
-                .append(component.getWidth())
-                .append(comma)
-                .append(space)
-                .append(component.getHeight())
-                .append(closingParenthesis)
-                .append(comma)
-                .append(space)
-                .append("parent frame")
-                .append(colon)
-                .append(space)
-                .append(parentFrame);
+        ret.append("Component: ").append(ReflectionUtil.getBottomLevelClass(component.getClass()))
+                .append(", ").append("hash: ").append(component.hashCode())
+                .append(", ").append("bounds: (").append(component.getX())
+                .append(", ").append(component.getY())
+                .append(", ").append(component.getWidth())
+                .append(", ").append(component.getHeight())
+                .append("), ").append("parent frame: ").append(parentFrame);
 
         getterMethods.forEach(specialMethod -> {
             String result = specialMethod.getMethodResult();
             if (result != null && !result.isEmpty()) {
-                ret.append(comma)
-                        .append(space)
-                        .append(specialMethod.getStartsWith())
-                        .append(colon)
-                        .append(space)
-                        .append(quote)
-                        .append(result)
-                        .append(quote);
+                ret.append(", ").append(specialMethod.getStartsWith())
+                        .append(": ").append(quote).append(result).append(quote);
             }
         });
 
@@ -201,17 +169,7 @@ public final class ToStringUtil {
         Preconditions.checkNotNull(object);
 
         return ReflectionUtil.getBottomLevelClass(object.getClass())
-                + comma
-                + space
-                + "hash"
-                + colon
-                + space
-                + object.hashCode()
-                + comma
-                + space
-                + "reflection data"
-                + colon
-                + space
-                + ReflectionUtil.buildGetterString(object);
+                + ", hash: " + object.hashCode()
+                + ", reflection data: " + ReflectionUtil.buildGetterString(object);
     }
 }

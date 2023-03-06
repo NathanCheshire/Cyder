@@ -542,31 +542,18 @@ public enum Console {
      * @param consoleIcon the console icon record to use for the direct props
      */
     private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
-        CyderFrame.Builder builder = new CyderFrame.Builder()
+        consoleCyderFrame = new CyderFrame.Builder()
                 .setWidth((int) consoleIcon.dimension().getWidth())
                 .setHeight((int) consoleIcon.dimension().getHeight())
-                .setBackgroundIcon(consoleIcon.background());
-
-        consoleCyderFrame = new CyderFrame(builder) {
-            /**
-             * Sets the bounds of the console frame and performs the following revalidation calls:
-             * <ul>
-             *     <li>Revalidating field bounds, both input and output</li>
-             *     <li>Revalidating menu bounds, both audio and taskbar</li>
-             *     <li>Revalidating a possible title notify</li>
-             * </ul>
-             */
-            @Override
-            public void setBounds(int x, int y, int width, int height) {
-                // todo hook
-                super.setBounds(x, y, width, height);
-                revalidateInputAndOutputBounds();
-                revalidateConsoleMenuBounds();
-                revalidateAudioMenuBounds();
-                revalidateMenu();
-                revalidateTitleNotify();
-            }
-        };
+                .setBackgroundIcon(consoleIcon.background())
+                .build();
+        consoleCyderFrame.addPostSetBoundsRunnable(() -> {
+            revalidateInputAndOutputBounds();
+            revalidateConsoleMenuBounds();
+            revalidateAudioMenuBounds();
+            consoleCyderFrame.revalidateMenu();
+            revalidateTitleNotify();
+        });
         consoleCyderFrame.addPreMinimizeAndIconifyAction(this::saveScreenStat);
         consoleCyderFrame.addPreCloseAction(() -> {
             outputArea.setFocusable(false);

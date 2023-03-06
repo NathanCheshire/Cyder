@@ -174,6 +174,11 @@ public class CyderFrame extends JFrame {
     private final ArrayList<Runnable> postCloseActions = new ArrayList<>();
 
     /**
+     * The list of actions to invoke following a {@link #setBounds(int, int, int, int)} invocation.
+     */
+    private final ArrayList<Runnable> postSetBoundsRunnables = new ArrayList<>();
+
+    /**
      * The foreground color of the title label
      */
     private Color titleLabelColor = CyderColors.vanilla;
@@ -1861,6 +1866,7 @@ public class CyderFrame extends JFrame {
         this.height = height;
 
         postSetSizeSetBounds(sameSizes);
+        postSetBoundsRunnables.forEach(Runnable::run);
     }
 
     /**
@@ -1873,6 +1879,16 @@ public class CyderFrame extends JFrame {
         if (!Props.autoTriggerSimilarCommands.getValue()) return width;
 
         return Math.max(width, minimumWidth);
+    }
+
+    /**
+     * Adds the provided runnable to the list of actions to invoke
+     * following a {@link #setBounds(int, int, int, int)} invocation
+     *
+     * @param runnable the runnable
+     */
+    public void addPostSetBoundsRunnable(Runnable runnable) {
+        postSetBoundsRunnables.add(Preconditions.checkNotNull(runnable));
     }
 
     /**
