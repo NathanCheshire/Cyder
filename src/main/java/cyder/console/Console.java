@@ -558,6 +558,7 @@ public enum Console {
              */
             @Override
             public void setBounds(int x, int y, int width, int height) {
+                // todo hook
                 super.setBounds(x, y, width, height);
                 revalidateInputAndOutputBounds();
                 revalidateConsoleMenuBounds();

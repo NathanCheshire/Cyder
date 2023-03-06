@@ -41,6 +41,7 @@ import cyder.ui.resizing.CyderComponentResizer;
 import cyder.user.UserDataManager;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
+import cyder.utils.JvmUtil;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -1162,10 +1163,22 @@ public class CyderFrame extends JFrame {
             case DEFAULT -> {
                 boolean notDefaultState = getTopDragLabel().getPinButton()
                         .getCurrentState() != PinButton.PinState.DEFAULT;
-                setAlwaysOnTop(notDefaultState);
+                setAlwaysOnTopProxy(notDefaultState);
             }
-            case INPUT_GETTER, POPUP -> setAlwaysOnTop(true);
+            case INPUT_GETTER, POPUP -> setAlwaysOnTopProxy(true);
         }
+    }
+
+    /**
+     * Sets whether this frame should be always on top.
+     * This is a proxy method and not an override because
+     * {@link Frame#setAlwaysOnTop(boolean)} is a final method.
+     *
+     * @param alwaysOnTop whether this frame should be always on top
+     */
+    public void setAlwaysOnTopProxy(boolean alwaysOnTop) {
+        if (JvmUtil.currentInstanceLaunchedWithDebug()) alwaysOnTop = false;
+        setAlwaysOnTop(alwaysOnTop);
     }
 
     /**

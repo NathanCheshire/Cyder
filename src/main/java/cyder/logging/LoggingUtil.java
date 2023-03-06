@@ -12,6 +12,7 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
+import cyder.utils.StaticUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -309,7 +310,7 @@ public final class LoggingUtil {
     }
 
     /**
-     * Writes the Cyder Ascii art from {@link LoggingConstants#cyderSignatureLines} to the provided file.
+     * Writes the Cyder Ascii art from {@link LoggingUtil#getBoostrapLines()} to the provided file.
      */
     static void writeCyderAsciiArtToFile(File file) {
         Preconditions.checkNotNull(file);
@@ -317,7 +318,7 @@ public final class LoggingUtil {
         Preconditions.checkArgument(file.isFile());
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-            for (String line : cyderSignatureLines) {
+            for (String line : LoggingUtil.getCyderSignatureLines()) {
                 writer.write(line);
                 writer.newLine();
             }
@@ -339,7 +340,7 @@ public final class LoggingUtil {
         Preconditions.checkArgument(file.isFile());
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            for (String line : boostrapLines) {
+            for (String line : LoggingUtil.getBoostrapLines()) {
                 writer.write(line);
                 writer.newLine();
             }
@@ -471,6 +472,14 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(string);
 
         return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
+    }
+
+    public static ImmutableList<String> getCyderSignatureLines() {
+        return FileUtil.getFileLines(StaticUtil.getStaticResource("cyder.txt"));
+    }
+
+    public static ImmutableList<String> getBoostrapLines() {
+        return FileUtil.getFileLines(StaticUtil.getStaticResource("bootstrap.txt"));
     }
 
     /**

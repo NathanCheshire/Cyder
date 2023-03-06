@@ -2,9 +2,7 @@ package cyder.logging;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
-import cyder.files.FileUtil;
 import cyder.strings.CyderStrings;
-import cyder.utils.StaticUtil;
 
 import java.util.regex.Pattern;
 
@@ -110,20 +108,6 @@ public final class LoggingConstants {
      * The maximum number of chars per line of a log.
      */
     static final int maxLogLineLength = 120;
-
-    /**
-     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
-     */
-    static final ImmutableList<String> cyderSignatureLines = ImmutableList.copyOf(
-            FileUtil.getFileLines(StaticUtil.getStaticResource("cyder.txt"))
-    );
-
-    /**
-     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
-     */
-    static final ImmutableList<String> boostrapLines = ImmutableList.copyOf(
-            FileUtil.getFileLines(StaticUtil.getStaticResource("bootstrap.txt"))
-    );
 
     /**
      * The group to extract from the {@link #objectsCreatedSinceLastDeltaPattern}

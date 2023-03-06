@@ -267,14 +267,14 @@ public final class JvmUtil {
     }
 
     /**
-     * Returns the jvm name, such as "temurin-17.0.3".
+     * Returns the JVM name, that of the vm name, vm vendor, and vm version.
      *
      * @return the jvm name
      */
     public static String getJvmName() {
-        ImmutableList<String> javaExePathParts = ImmutableList.copyOf(
-                JvmUtil.getCurrentJavaExe().getAbsolutePath().split("\\\\"));
-        return javaExePathParts.get(javaExePathParts.size() - 3);
+        return ManagementFactory.getRuntimeMXBean().getVmName()
+                + space + ManagementFactory.getRuntimeMXBean().getVmVendor()
+                + space + ManagementFactory.getRuntimeMXBean().getVmVersion();
     }
 
     /**
