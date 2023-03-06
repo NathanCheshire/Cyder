@@ -49,6 +49,7 @@ public class CyderIconButton extends JButton {
 
         addMouseListener();
         addFocusListener();
+        addKeyListeners();
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
@@ -63,6 +64,20 @@ public class CyderIconButton extends JButton {
         } else {
             addFocusListener(builder.getFocusListener());
         }
+    }
+
+    /**
+     * Adds the key listeners necessary for this button.
+     */
+    private void addKeyListeners() {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    onClick();
+                }
+            }
+        });
     }
 
     /**
@@ -117,18 +132,7 @@ public class CyderIconButton extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Runnable runnable = builder.getClickAction();
-                if (runnable != null) runnable.run();
-
-                if (builder.isToggleButton()) {
-                    toggledOn = !toggledOn;
-
-                    if (toggledOn) {
-                        setIcon(builder.getDefaultIcon());
-                    } else {
-                        setIcon(builder.getHoverAndFocusIcon());
-                    }
-                }
+                onClick();
             }
 
             @Override
@@ -158,6 +162,24 @@ public class CyderIconButton extends JButton {
                 }
             }
         });
+    }
+
+    /**
+     * The actions to invoke on a click/mouse enter event.
+     */
+    public void onClick() {
+        Runnable runnable = builder.getClickAction();
+        if (runnable != null) runnable.run();
+
+        if (builder.isToggleButton()) {
+            toggledOn = !toggledOn;
+
+            if (toggledOn) {
+                setIcon(builder.getDefaultIcon());
+            } else {
+                setIcon(builder.getHoverAndFocusIcon());
+            }
+        }
     }
 
     /**

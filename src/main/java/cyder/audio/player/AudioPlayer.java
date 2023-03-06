@@ -640,6 +640,14 @@ public final class AudioPlayer {
                     playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
                 }
             });
+            playPauseButton.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        handlePlayPauseButtonClick();
+                    }
+                }
+            });
             playPauseButton.setSize(CONTROL_BUTTON_SIZE);
             audioPlayerFrame.getContentPane().add(playPauseButton);
 
