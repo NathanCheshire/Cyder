@@ -9,7 +9,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.Props;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
 import cyder.user.data.MappedExecutable;
 
 import java.io.*;
@@ -44,6 +46,11 @@ public final class SerializationUtil {
             .create();
 
     /**
+     * The number of chars to log prior to a deserialization or after a serialization of an object.
+     */
+    private static final int charsToLog = 50;
+
+    /**
      * Suppress default constructor.
      */
     private SerializationUtil() {
@@ -64,7 +71,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(clazz);
 
         T ret = gson.fromJson(json, clazz);
-        Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+        log(LogTag.OBJECT_DESERIALIZATION, clazz, json);
         return ret;
     }
 
@@ -83,7 +90,7 @@ public final class SerializationUtil {
 
         try (Reader reader = new BufferedReader(new FileReader(file))) {
             T ret = gson.fromJson(reader, clazz);
-            Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+            log(LogTag.OBJECT_DESERIALIZATION, clazz, gson.toJson(ret));
             return ret;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -105,7 +112,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(clazz);
 
         T ret = gson.fromJson(reader, clazz);
-        Logger.log(LogTag.OBJECT_DESERIALIZATION, clazz);
+        log(LogTag.OBJECT_DESERIALIZATION, clazz, gson.toJson(ret));
         return ret;
     }
 
@@ -123,7 +130,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(type);
 
         T ret = gson.fromJson(json, type);
-        Logger.log(LogTag.OBJECT_DESERIALIZATION, type);
+        log(LogTag.OBJECT_DESERIALIZATION, type, json);
         return ret;
     }
 
@@ -138,7 +145,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(writer);
 
         gson.toJson(object, writer);
-        Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
+        log(LogTag.OBJECT_SERIALIZATION, object.getClass(), gson.toJson(object));
     }
 
     /**
@@ -151,7 +158,7 @@ public final class SerializationUtil {
         Preconditions.checkNotNull(object);
 
         String ret = gson.toJson(object);
-        Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
+        log(LogTag.OBJECT_SERIALIZATION, object.getClass(), ret);
         return ret;
     }
 
@@ -172,12 +179,66 @@ public final class SerializationUtil {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
             toJson(object, writer);
-            Logger.log(LogTag.OBJECT_SERIALIZATION, object.getClass());
         } catch (IOException e) {
             ExceptionHandler.handle(e);
             ret = false;
         }
 
         return ret;
+    }
+
+    /**
+     * Logs a serialization or deserialization action.
+     *
+     * @param tag                 the primary log tag to use
+     * @param classOrType         the class or type serialized/deserialized
+     * @param serializationString the string which was deserialized or the result of a serialization
+     * @param <T>                 the type of the class or Type
+     */
+    private static <T> void log(LogTag tag, T classOrType, String serializationString) {
+        if (shouldIgnoreObjectSerializationOrDeserialization(classOrType)) return;
+
+        String classOrTypeTag;
+        if (classOrType instanceof Class<?> clazz) {
+            classOrTypeTag = ReflectionUtil.getBottomLevelClass(clazz);
+        } else if (classOrType instanceof Type type) {
+            classOrTypeTag = type.getTypeName();
+        } else {
+            throw new FatalException("Failed to get name for: " + classOrType);
+        }
+
+        ImmutableList<String> tags = ImmutableList.of(
+                tag.getLogName(), classOrTypeTag
+        );
+
+        String logStatement = serializationString;
+        int length = serializationString.length();
+        if (length > charsToLog) {
+            String firstPart = logStatement.substring(0, charsToLog / 2);
+            String secondPart = logStatement.substring(length - charsToLog / 2 - 1, length);
+            logStatement = CyderStrings.quote + firstPart + CyderStrings.quote
+                    + CyderStrings.dots + CyderStrings.quote + secondPart + CyderStrings.quote;
+        }
+        Logger.log(tags, logStatement);
+    }
+
+    /**
+     * Returns whether the provided object or type should not be logged when serialized/deserialized.
+     *
+     * @param classOrType the class or type
+     * @param <T>         the type, one of Class or type
+     * @return whether the provided object or type should not be logged
+     */
+    private static <T> boolean shouldIgnoreObjectSerializationOrDeserialization(T classOrType) {
+        ImmutableList<String> ignoreClasses = Props.ignoreSerializationData.getValue().getList();
+        if (ignoreClasses.contains("all")) return true;
+
+        if (classOrType instanceof Class<?> clazz) {
+            return StringUtil.in(ReflectionUtil.getBottomLevelClass(clazz), true, ignoreClasses);
+        } else if (classOrType instanceof Type type) {
+            return StringUtil.in(type.getTypeName(), true, ignoreClasses);
+        }
+
+        return true;
     }
 }

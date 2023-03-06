@@ -25,7 +25,6 @@ import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -318,20 +317,6 @@ public final class Logger {
                     }
 
                     return;
-                }
-
-                break;
-            case OBJECT_DESERIALIZATION, OBJECT_SERIALIZATION:
-                if (shouldIgnoreObjectSerializationOrDeserialization(statement)) return;
-
-                String action = tag == LogTag.OBJECT_SERIALIZATION ? "Serialized" : "Deserialized";
-
-                if (statement instanceof Class<?> clazz) {
-                    tags.add(tag.getLogName());
-                    logBuilder.append(action).append(space).append(ReflectionUtil.getBottomLevelClass(clazz));
-                } else if (statement instanceof Type type) {
-                    tags.add(tag.getLogName());
-                    logBuilder.append(action).append(space).append(type.getTypeName());
                 }
 
                 break;

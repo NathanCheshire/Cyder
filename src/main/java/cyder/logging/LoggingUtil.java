@@ -8,15 +8,12 @@ import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.props.Props;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ArrayUtil;
-import cyder.utils.ReflectionUtil;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -474,25 +471,6 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(string);
 
         return CyderStrings.openingBracket + string + CyderStrings.closingBracket;
-    }
-
-    /**
-     * Returns whether the provided object or type should not be logged when serialized/deserialized.
-     *
-     * @param classOrType the class or type
-     * @param <T>         the type, one of Class or type
-     * @return whether the provided object or type should not be logged
-     */
-    static <T> boolean shouldIgnoreObjectSerializationOrDeserialization(T classOrType) {
-        if (classOrType instanceof Class<?> clazz) {
-            return StringUtil.in(ReflectionUtil.getBottomLevelClass(clazz),
-                    true, Props.ignoreSerializationData.getValue().getList());
-        } else if (classOrType instanceof Type type) {
-            return StringUtil.in(type.getTypeName(),
-                    true, Props.ignoreSerializationData.getValue().getList());
-        }
-
-        return true;
     }
 
     /**
