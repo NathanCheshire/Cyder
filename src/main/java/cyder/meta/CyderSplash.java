@@ -13,6 +13,7 @@ import cyder.props.Props;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.ui.UiUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.label.CyderLabel;
@@ -24,6 +25,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -108,11 +110,6 @@ public enum CyderSplash {
      * The animation delay for the letter blocks.
      */
     private static final int blockAnimationDelay = 6;
-
-    /**
-     * The minor axis length of animated borders.
-     */
-    private static final int minorAxisBorderLength = 10;
 
     /**
      * The animated border timeout.
@@ -205,34 +202,35 @@ public enum CyderSplash {
     private static final String DEFAULT_LOADING_MESSAGE = "Loading Components";
 
     /**
-     * Whether the splash has been disposed this instance.
-     */
-    private final AtomicBoolean disposed = new AtomicBoolean();
-
-    /**
      * The width and height for the borderless splash frame.
      */
     private static final int FRAME_LEN = 600;
 
     /**
-     * The length of the blue borders that animate in to surround the Cyder logo.
+     * The length of the major axis of the blue borders that animate in to surround the Cyder logo.
      */
-    private static final int LOGO_BORDER_LEN = 200;
+    private static final int LOGO_BORDER_MAJOR_LEN = 200;
+
+    /**
+     * The length of the minor axis of the blue borders that animate in to surround the Cyder logo.
+     */
+    private static final int LOGO_BORDER_MINOR_LEN = 10;
 
     /**
      * The timeout between loading label updates.
      */
-    private static final int loadingLabelUpdateTimeout = 25;
+    private static final Duration loadingLabelUpdateTimeout = Duration.ofMillis(25);
 
     /**
      * The maximum seconds of the splash should be visible for.
      */
-    private static final int showLoadingLabelTimeout = 30 * 1000;
+    private static final Duration showLoadingLabelTimeout = Duration.ofSeconds(30);
 
     /**
      * The number of times to update the loading label.
      */
-    private static final int loadingLabelUpdateIterations = (showLoadingLabelTimeout) / loadingLabelUpdateTimeout;
+    private static final int loadingLabelUpdateIterations =
+            (int) ((showLoadingLabelTimeout.toMillis()) / loadingLabelUpdateTimeout.toMillis());
 
     /**
      * The timeout before starting to display loading messages after finishing the splash animation.
@@ -242,7 +240,7 @@ public enum CyderSplash {
     /**
      * The font used for the loading label messages.
      */
-    private final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
+    private static final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
 
     /**
      * The name of the font for the developer signature label.
@@ -262,7 +260,12 @@ public enum CyderSplash {
     /**
      * The font used for the author signature.
      */
-    private final Font developerSignatureFont = new Font(developerSignatureFontName, Font.BOLD, 50);
+    private static final Font developerSignatureFont = new Font(developerSignatureFontName, Font.BOLD, 50);
+
+    /**
+     * Whether the splash has been disposed this instance.
+     */
+    private final AtomicBoolean disposed = new AtomicBoolean();
 
     /**
      * The list of harmonic rectangles.
@@ -285,20 +288,6 @@ public enum CyderSplash {
      */
     private final AtomicBoolean splashAnimationCompleted = new AtomicBoolean();
 
-    /**
-     * The window adapter for the splash frame.
-     */
-    private final WindowAdapter splashFrameWindowAdapter = new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-            stopHarmonicRectangles();
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-            stopHarmonicRectangles();
-        }
-    };
     /**
      * The color for the generated animation border sides.
      */
@@ -380,7 +369,7 @@ public enum CyderSplash {
 
             CyderThreadRunner.submit(() -> {
                 addAndAnimateLetterBlocks();
-                addAndAnimateBorders();
+                addAndAnimateLetterBorders();
                 addAndAnimateCreatorLabel();
 
                 ThreadUtil.sleep(loadingMessageStartTimeout);
@@ -392,7 +381,7 @@ public enum CyderSplash {
                 constructAndAddHarmonicRectangles();
                 animateHarmonicRectangles();
 
-                ThreadUtil.sleep(showLoadingLabelTimeout);
+                ThreadUtil.sleep(showLoadingLabelTimeout.toMillis());
 
                 loadingLabel.setText(loadingMessage.get());
                 loadingLabel.repaint();
@@ -418,7 +407,17 @@ public enum CyderSplash {
                 .setType(FrameType.POPUP)
                 .setBorderless(true)
                 .build();
-        splashFrame.addWindowListener(splashFrameWindowAdapter);
+        splashFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                stopHarmonicRectangles();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                stopHarmonicRectangles();
+            }
+        });
         splashFrame.addEndDragEventCallback(dragEventCallback);
     }
 
@@ -426,7 +425,7 @@ public enum CyderSplash {
      * Closes the frame and informs the user that a fatal exception occurred.
      */
     private void fatalError() {
-        splashFrame.dispose(true);
+        UiUtil.disposeAllFrames(true);
         new InformHandler.Builder(FATAL_EXCEPTION_TEXT)
                 .setTitle(STARTUP_EXCEPTION)
                 .setPostCloseAction(FATAL_EXCEPTION_POST_CLOSE_ACTION).inform();
@@ -436,11 +435,11 @@ public enum CyderSplash {
      * Adds and animates the letter blocks.
      */
     private void addAndAnimateLetterBlocks() {
-        JLabel cBlock = new JLabel(generateCIcon());
+        JLabel cBlock = new JLabel(getCIcon());
         cBlock.setBounds(blockHorizontalPadding, FRAME_LEN / 2 - ICON_LEN / 2, ICON_LEN, ICON_LEN);
         splashFrame.getContentPane().add(cBlock);
 
-        JLabel yBlock = new JLabel(generateYIcon());
+        JLabel yBlock = new JLabel(getYIcon());
         yBlock.setBounds(FRAME_LEN - ICON_LEN - blockHorizontalPadding,
                 FRAME_LEN / 2 - ICON_LEN / 2, ICON_LEN, ICON_LEN);
         splashFrame.getContentPane().add(yBlock);
@@ -453,50 +452,50 @@ public enum CyderSplash {
     }
 
     /**
-     * Adds and animates the borders.
+     * Adds and animates the letter borders.
      */
-    private void addAndAnimateBorders() {
+    private void addAndAnimateLetterBorders() {
         JLabel topBorder = generateAnimationBorderSide(Direction.TOP);
-        topBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_LEN / 2,
-                -minorAxisBorderLength, LOGO_BORDER_LEN, minorAxisBorderLength);
+        topBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_MAJOR_LEN / 2,
+                -LOGO_BORDER_MINOR_LEN, LOGO_BORDER_MAJOR_LEN, LOGO_BORDER_MINOR_LEN);
         splashFrame.getContentPane().add(topBorder);
 
-        while (topBorder.getY() < FRAME_LEN / 2 - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2
-                - 2 * minorAxisBorderLength) {
+        while (topBorder.getY() < FRAME_LEN / 2 - (LOGO_BORDER_MAJOR_LEN - LOGO_BORDER_PADDING) / 2
+                - 2 * LOGO_BORDER_MINOR_LEN) {
             topBorder.setLocation(topBorder.getX(), topBorder.getY() + borderAnimationIncrement);
             ThreadUtil.sleep(borderAnimationTimeout);
         }
 
         JLabel rightBorder = generateAnimationBorderSide(Direction.RIGHT);
-        rightBorder.setBounds(FRAME_LEN, splashFrame.getHeight() / 2 - LOGO_BORDER_LEN / 2,
-                minorAxisBorderLength, LOGO_BORDER_LEN);
+        rightBorder.setBounds(FRAME_LEN, splashFrame.getHeight() / 2 - LOGO_BORDER_MAJOR_LEN / 2,
+                LOGO_BORDER_MINOR_LEN, LOGO_BORDER_MAJOR_LEN);
         splashFrame.getContentPane().add(rightBorder);
 
         while (rightBorder.getX() > FRAME_LEN / 2
-                + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + minorAxisBorderLength) {
+                + (LOGO_BORDER_MAJOR_LEN - LOGO_BORDER_PADDING) / 2 + LOGO_BORDER_MINOR_LEN) {
             rightBorder.setLocation(rightBorder.getX() - borderAnimationIncrement, rightBorder.getY());
             ThreadUtil.sleep(borderAnimationTimeout);
         }
 
         JLabel bottomBorder = generateAnimationBorderSide(Direction.BOTTOM);
-        bottomBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_LEN / 2,
-                splashFrame.getHeight() + minorAxisBorderLength,
-                LOGO_BORDER_LEN, minorAxisBorderLength);
+        bottomBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_MAJOR_LEN / 2,
+                splashFrame.getHeight() + LOGO_BORDER_MINOR_LEN,
+                LOGO_BORDER_MAJOR_LEN, LOGO_BORDER_MINOR_LEN);
         splashFrame.getContentPane().add(bottomBorder);
 
         while (bottomBorder.getY() > FRAME_LEN / 2
-                + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + minorAxisBorderLength) {
+                + (LOGO_BORDER_MAJOR_LEN - LOGO_BORDER_PADDING) / 2 + LOGO_BORDER_MINOR_LEN) {
             bottomBorder.setLocation(bottomBorder.getX(), bottomBorder.getY() - borderAnimationIncrement);
             ThreadUtil.sleep(borderAnimationTimeout);
         }
 
         JLabel leftBorder = generateAnimationBorderSide(Direction.LEFT);
-        leftBorder.setBounds(-minorAxisBorderLength, splashFrame.getHeight() / 2
-                - LOGO_BORDER_LEN / 2, minorAxisBorderLength, LOGO_BORDER_LEN);
+        leftBorder.setBounds(-LOGO_BORDER_MINOR_LEN, splashFrame.getHeight() / 2
+                - LOGO_BORDER_MAJOR_LEN / 2, LOGO_BORDER_MINOR_LEN, LOGO_BORDER_MAJOR_LEN);
         splashFrame.getContentPane().add(leftBorder);
 
         while (leftBorder.getX() < FRAME_LEN / 2
-                - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 - 2 * minorAxisBorderLength) {
+                - (LOGO_BORDER_MAJOR_LEN - LOGO_BORDER_PADDING) / 2 - 2 * LOGO_BORDER_MINOR_LEN) {
             leftBorder.setLocation(leftBorder.getX() + borderAnimationIncrement, leftBorder.getY());
             ThreadUtil.sleep(borderAnimationTimeout);
         }
@@ -542,7 +541,7 @@ public enum CyderSplash {
                 loadingLabel.setText(loadingMessage.get());
                 loadingLabel.repaint();
 
-                ThreadUtil.sleep(loadingLabelUpdateTimeout);
+                ThreadUtil.sleep(loadingLabelUpdateTimeout.toMillis());
 
                 if (splashFrame.isDisposed()) return;
             }
@@ -633,8 +632,8 @@ public enum CyderSplash {
                 g.setColor(animationBorderSideColor);
 
                 switch (direction) {
-                    case LEFT, RIGHT -> g.fillRect(0, 0, 10, LOGO_BORDER_LEN);
-                    case TOP, BOTTOM -> g.fillRect(0, 0, LOGO_BORDER_LEN, 10);
+                    case LEFT, RIGHT -> g.fillRect(0, 0, LOGO_BORDER_MINOR_LEN, LOGO_BORDER_MAJOR_LEN);
+                    case TOP, BOTTOM -> g.fillRect(0, 0, LOGO_BORDER_MAJOR_LEN, LOGO_BORDER_MINOR_LEN);
                 }
             }
         };
@@ -692,11 +691,11 @@ public enum CyderSplash {
     }
 
     /**
-     * Generates and returns the C symbol for the splash animation.
+     * Generates if necessary and returns the C symbol for the splash animation.
      *
-     * @return the C symbol for the splash
+     * @return the C letter for the splash
      */
-    private ImageIcon generateCIcon() {
+    private ImageIcon getCIcon() {
         if (C_ICON != null) return C_ICON;
 
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
@@ -712,11 +711,11 @@ public enum CyderSplash {
     }
 
     /**
-     * Generates and returns the Y symbol for the splash animation.
+     * Generates if necessary and returns the Y symbol for the splash animation.
      *
-     * @return the Y symbol for the splash animation
+     * @return the Y letter for the splash animation
      */
-    private ImageIcon generateYIcon() {
+    private ImageIcon getYIcon() {
         if (Y_ICON != null) return Y_ICON;
 
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);

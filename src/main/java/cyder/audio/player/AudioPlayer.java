@@ -687,7 +687,6 @@ public final class AudioPlayer {
                 if (audioLocationUpdater != null) {
                     audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
                             / audioLocationSlider.getMaximum());
-
                     audioLocationUpdater.update(true);
                 }
             });
