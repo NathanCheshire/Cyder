@@ -76,6 +76,61 @@ public final class GeneralAndSystemAudioPlayer {
         playGeneralAudioWithCompletionCallback(file, EMPTY_RUNNABLE);
     }
 
+    private static class InnerPlayer {
+        private final File audioFile;
+        private FileInputStream fis;
+        private BufferedInputStream bis;
+        private Player player;
+
+        public InnerPlayer(File audioFile) {
+            Preconditions.checkNotNull(audioFile);
+            Preconditions.checkArgument(audioFile.exists());
+            Preconditions.checkArgument(audioFile.isFile());
+            Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
+
+            this.audioFile = audioFile;
+        }
+
+        public void play() {
+            try {
+                fis = new FileInputStream(audioFile);
+                bis = new BufferedInputStream(fis);
+                player = new Player(bis);
+                player.play();
+                stop();
+                if (onCompletionCallback != null) onCompletionCallback.run();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                if (onCanceledCallback != null) onCanceledCallback.run();
+            }
+        }
+
+        public void stop() {
+            try {
+                if (fis != null) fis.close();
+                fis = null;
+                if (bis != null) bis.close();
+                bis = null;
+                if (player != null) player.close();
+                player = null;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+
+        private Runnable onCompletionCallback;
+
+        public void setOnCompletionCallback(Runnable callback) {
+            onCompletionCallback = Preconditions.checkNotNull(callback);
+        }
+
+        private Runnable onCanceledCallback;
+
+        public void setOnCancelCallback(Runnable callback) {
+            onCanceledCallback = Preconditions.checkNotNull(callback);
+        }
+    }
+
     /**
      * Plays the requested audio file using the general
      * {@link Player} player which can be terminated by the user.
