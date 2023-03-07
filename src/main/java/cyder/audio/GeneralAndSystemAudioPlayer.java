@@ -76,12 +76,45 @@ public final class GeneralAndSystemAudioPlayer {
         playGeneralAudioWithCompletionCallback(file, EMPTY_RUNNABLE);
     }
 
+    /**
+     * An encapsulated player class for playing singular audio files.
+     */
     private static class InnerPlayer {
+        /**
+         * The audio file.
+         */
         private final File audioFile;
+
+        /**
+         * The file input stream for the audio file.
+         */
         private FileInputStream fis;
+
+        /**
+         * The buffered input stream for the file input stream.
+         */
         private BufferedInputStream bis;
+
+        /**
+         * The JLayer player object.
+         */
         private Player player;
 
+        /**
+         * The runnable to invoke upon a completion event.
+         */
+        private Runnable onCompletionCallback;
+
+        /**
+         * The runnable to invoke upon a cancel event.
+         */
+        private Runnable onCanceledCallback;
+
+        /**
+         * Constructs a new inner player object.
+         *
+         * @param audioFile the audio file this player will play
+         */
         public InnerPlayer(File audioFile) {
             Preconditions.checkNotNull(audioFile);
             Preconditions.checkArgument(audioFile.exists());
@@ -91,6 +124,9 @@ public final class GeneralAndSystemAudioPlayer {
             this.audioFile = audioFile;
         }
 
+        /**
+         * Plays the encapsulated audio file.
+         */
         public void play() {
             try {
                 fis = new FileInputStream(audioFile);
@@ -105,6 +141,9 @@ public final class GeneralAndSystemAudioPlayer {
             }
         }
 
+        /**
+         * Stops the player if playing and frees all resources allocated by this object.
+         */
         public void stop() {
             try {
                 if (fis != null) fis.close();
@@ -118,14 +157,20 @@ public final class GeneralAndSystemAudioPlayer {
             }
         }
 
-        private Runnable onCompletionCallback;
-
+        /**
+         * Sets the callback to invoke upon a completion event.
+         *
+         * @param callback the callback to invoke upon a completion event
+         */
         public void setOnCompletionCallback(Runnable callback) {
             onCompletionCallback = Preconditions.checkNotNull(callback);
         }
 
-        private Runnable onCanceledCallback;
-
+        /**
+         * Sets the callback to invoke upon a cancel event.
+         *
+         * @param callback the callback to invoke upon a cancel event
+         */
         public void setOnCancelCallback(Runnable callback) {
             onCanceledCallback = Preconditions.checkNotNull(callback);
         }
