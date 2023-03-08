@@ -2,11 +2,13 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import cyder.audio.CPlayer;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,7 +50,7 @@ public final class CyderThreadRunner {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        Logger.log(LogTag.THREAD_STARTED, name);
+        logThread(name);
         new Thread(runnable, name).start();
         threadsRan.incrementAndGet();
     }
@@ -118,5 +120,14 @@ public final class CyderThreadRunner {
                 ThreadUtil.sleep(frequency.toMillis());
             }
         }, threadName);
+    }
+
+    /**
+     * Logs the running of the thread with the provided name.
+     *
+     * @param name the name of the thread being ran
+     */
+    private static void logThread(String name) {
+        if (!CPlayer.fileInIgnorePaths(new File(name))) Logger.log(LogTag.THREAD_STARTED, name);
     }
 }

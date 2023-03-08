@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadFactory;
  * A custom thread factory for Cyder.
  */
 @Immutable
-public class CyderThreadFactory implements ThreadFactory {
+public final class CyderThreadFactory implements ThreadFactory {
     /**
      * The name of this thread factory.
      */

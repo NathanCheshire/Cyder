@@ -8,7 +8,6 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.StaticUtil;
@@ -23,6 +22,8 @@ import java.util.Objects;
  * An encapsulated JLayer {@link Player} for playing singular audio files and stopping.
  */
 public final class CPlayer {
+    // todo a better pattern for this would be to define a list of system sounds which cannot be stopped
+    //  nor should be logged, we then don't have to distinguish between general or system player
     /**
      * The list of paths of audio files to ignore when logging a play audio call.
      */
@@ -84,8 +85,6 @@ public final class CPlayer {
      * Plays the encapsulated audio file.
      */
     public void play() {
-        String threadName = CyderStrings.quote + FileUtil.getFilename(audioFile)
-                + CyderStrings.quote + " CPlayer";
         CyderThreadRunner.submit(() -> {
             try {
                 logAudio(audioFile);
@@ -103,7 +102,7 @@ public final class CPlayer {
                 playing = false;
                 Console.INSTANCE.revalidateAudioMenuVisibility();
             }
-        }, threadName);
+        }, audioFile.getAbsolutePath());
     }
 
     /**
@@ -213,14 +212,21 @@ public final class CPlayer {
     }
 
     /**
+     * Returns whether the provided audio file's path is contained in {@link #ignoreLoggingAudioPaths}.
+     *
+     * @param file the audio file
+     * @return whether the provided file's path is contained in {@link #ignoreLoggingAudioPaths}
+     */
+    public static boolean fileInIgnorePaths(File file) {
+        return StringUtil.in(Preconditions.checkNotNull(file).getAbsolutePath(), true, ignoreLoggingAudioPaths);
+    }
+
+    /**
      * Logs the provided audio file using an audio tag.
      *
      * @param file the file to log
      */
     private static void logAudio(File file) {
-        String filePath = file.getAbsolutePath();
-        if (!StringUtil.in(filePath, true, ignoreLoggingAudioPaths)) {
-            Logger.log(LogTag.AUDIO, filePath);
-        }
+        if (!fileInIgnorePaths(file)) Logger.log(LogTag.AUDIO, file.getAbsolutePath());
     }
 }

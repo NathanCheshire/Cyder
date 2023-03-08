@@ -10,7 +10,6 @@ import static cyder.strings.CyderStrings.EMPTY;
 /**
  * The props recognized by Cyder.
  */
-@SuppressWarnings("unused") /* Have yet to be used */
 public final class Props {
     /**
      * Whether the props can be reloaded mid-runtime (Meta AF).
@@ -244,6 +243,7 @@ public final class Props {
     /**
      * Use javaw.exe instead of java.exe for bootstrapping (javaw has no console window).
      */
+    // todo use me, a cmd window should open so the user can see the log
     public static final Prop<Boolean> preferJavawOverJavaForBootstrapping =
             new Prop<>("prefer_javaw_over_java_for_bootstrapping", false, Boolean.class);
 

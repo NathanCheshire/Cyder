@@ -10,7 +10,7 @@ import java.util.List;
  * A list type for the value of a prop.
  */
 @Immutable
-public class PropValueList {
+public final class PropValueList {
     /**
      * The list containing the values for a prop.
      */
