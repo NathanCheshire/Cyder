@@ -53,7 +53,7 @@ public final class PhoneWidget {
     private static final String backText = "<<";
 
     /**
-     * The call string.
+     * The string used for the call button.
      */
     private static final String CALL = "Call";
 

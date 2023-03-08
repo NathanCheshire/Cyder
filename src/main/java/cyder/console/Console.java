@@ -3104,11 +3104,8 @@ public enum Console {
      */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
-        if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
-            playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
-        } else {
-            playPauseAudioLabel.setIcon(AudioIcons.playIcon);
-        }
+        boolean playing = GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying();
+        playPauseAudioLabel.setIcon(playing ? AudioIcons.pauseIcon : AudioIcons.playIcon);
     }
 
     /**
@@ -3237,7 +3234,6 @@ public enum Console {
                 if (AudioPlayer.isWidgetOpen()) {
                     AudioPlayer.handlePlayPauseButtonClick();
                 }
-
                 if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
                     GeneralAndSystemAudioPlayer.stopGeneralAudio();
                 }
@@ -3245,7 +3241,7 @@ public enum Console {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
@@ -3254,7 +3250,7 @@ public enum Console {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIcon);
