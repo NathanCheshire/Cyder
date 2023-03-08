@@ -6,7 +6,7 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.annotations.Widget;
-import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enumerations.Dynamic;
@@ -894,7 +894,7 @@ public class BaseInputHandler {
 
                 if (typingAnimationCharsInserted.get() == TYPING_ANIMATION_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
-                        GeneralAndSystemAudioPlayer.playSystemAudio(typingSoundFile);
+                        GeneralAudioPlayer.playSystemAudio(typingSoundFile);
                         typingAnimationCharsInserted.set(0);
                     }
                 } else {
@@ -1024,7 +1024,7 @@ public class BaseInputHandler {
     public final void escapeThreads() {
         killThreads();
         escapeWrapShell = true;
-        GeneralAndSystemAudioPlayer.stopGeneralAudio();
+        GeneralAudioPlayer.stopGeneralAudio();
         YouTubeDownloadManager.INSTANCE.cancelAllActiveDownloads();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;

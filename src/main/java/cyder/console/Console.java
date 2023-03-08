@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
-import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.audio.player.AudioPlayer;
 import cyder.bounds.BoundsString;
 import cyder.bounds.BoundsUtil;
@@ -1218,7 +1218,7 @@ public enum Console {
 
                         if (min == 0 && sec == 0 && lastChimeHour.get() != hour) {
                             if (UserDataManager.INSTANCE.shouldPlayHourlyChimes()) {
-                                GeneralAndSystemAudioPlayer.playSystemAudio(chimeFile);
+                                GeneralAudioPlayer.playSystemAudio(chimeFile);
                                 lastChimeHour.set(hour);
                             }
                         }
@@ -1359,9 +1359,9 @@ public enum Console {
 
         if (!musicList.isEmpty()) {
             int randomFileIndex = NumberUtil.generateRandomInt(files.length - 1);
-            GeneralAndSystemAudioPlayer.playGeneralAudio(files[randomFileIndex]);
+            GeneralAudioPlayer.playGeneralAudio(files[randomFileIndex]);
         } else {
-            GeneralAndSystemAudioPlayer.playGeneralAudio(DEFAULT_INTRO_MUSIC);
+            GeneralAudioPlayer.playGeneralAudio(DEFAULT_INTRO_MUSIC);
         }
     }
 
@@ -1374,9 +1374,9 @@ public enum Console {
             try {
                 if (ImageUtil.isGrayscale(ImageUtil.read(getCurrentBackground().getReferenceFile()))) {
                     int grayscaleAudioRandomIndex = NumberUtil.generateRandomInt(GRAYSCALE_AUDIO_PATHS.size() - 1);
-                    GeneralAndSystemAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+                    GeneralAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
                 } else {
-                    GeneralAndSystemAudioPlayer.playGeneralAudio(introTheme);
+                    GeneralAudioPlayer.playGeneralAudio(introTheme);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -2287,7 +2287,7 @@ public enum Console {
                     baseInputHandler.println("Interesting F" + functionKey + " key");
 
                     if (functionKey == F_17_KEY_CODE) {
-                        GeneralAndSystemAudioPlayer.playGeneralAudio(F_17_MUSIC_FILE);
+                        GeneralAudioPlayer.playGeneralAudio(F_17_MUSIC_FILE);
                     }
                 }
             });
@@ -3083,7 +3083,7 @@ public enum Console {
      * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
      */
     public void revalidateAudioMenuVisibility() {
-        if (!AudioPlayer.isWidgetOpen() && !GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
+        if (!AudioPlayer.isWidgetOpen() && !GeneralAudioPlayer.isGeneralAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
             } else {
@@ -3104,7 +3104,7 @@ public enum Console {
      */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
-        boolean playing = GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying();
+        boolean playing = GeneralAudioPlayer.generalOrAudioPlayerAudioPlaying();
         playPauseAudioLabel.setIcon(playing ? AudioIcons.pauseIcon : AudioIcons.playIcon);
     }
 
@@ -3234,14 +3234,14 @@ public enum Console {
                 if (AudioPlayer.isWidgetOpen()) {
                     AudioPlayer.handlePlayPauseButtonClick();
                 }
-                if (GeneralAndSystemAudioPlayer.isGeneralAudioPlaying()) {
-                    GeneralAndSystemAudioPlayer.stopGeneralAudio();
+                if (GeneralAudioPlayer.isGeneralAudioPlaying()) {
+                    GeneralAudioPlayer.stopGeneralAudio();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
+                if (GeneralAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
@@ -3250,7 +3250,7 @@ public enum Console {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (GeneralAndSystemAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
+                if (GeneralAudioPlayer.generalOrAudioPlayerAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3420,7 +3420,7 @@ public enum Console {
         consoleClosed.set(true);
 
         saveScreenStat();
-        GeneralAndSystemAudioPlayer.stopAllAudio();
+        GeneralAudioPlayer.stopAllAudio();
 
         if (baseInputHandler != null) {
             baseInputHandler.deactivate();

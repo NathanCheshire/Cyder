@@ -5,7 +5,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
@@ -149,7 +149,7 @@ public final class PhoneWidget {
          * Plays this audio file using the general audio player.
          */
         public void play() {
-            GeneralAndSystemAudioPlayer.playGeneralAudio(audioFile);
+            GeneralAudioPlayer.playGeneralAudio(audioFile);
         }
 
         /**
@@ -157,7 +157,7 @@ public final class PhoneWidget {
          */
         public static void endAllAudio() {
             Arrays.stream(values()).forEach(specialNumber ->
-                    GeneralAndSystemAudioPlayer.stopAudioIfFilePlaying(specialNumber.getAudioFile()));
+                    GeneralAudioPlayer.stopAudio(specialNumber.getAudioFile()));
         }
     }
 

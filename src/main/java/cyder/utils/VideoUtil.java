@@ -1,7 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.enumerations.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
@@ -43,7 +43,7 @@ public final class VideoUtil {
                 .build();
         cyderFrame.finalizeAndShow();
 
-        GeneralAndSystemAudioPlayer.playGeneralAudio(audioFile);
+        GeneralAudioPlayer.playGeneralAudio(audioFile);
 
         long absoluteStart = System.currentTimeMillis();
 

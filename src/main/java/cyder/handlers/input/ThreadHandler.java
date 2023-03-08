@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.audio.GeneralAndSystemAudioPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 import cyder.threads.YoutubeUuidCheckerManager;
@@ -27,7 +27,7 @@ public class ThreadHandler extends InputHandler {
             YoutubeUuidCheckerManager.INSTANCE.killAll();
             getInputHandler().println("YouTube scripts have been killed.");
         } else if (getInputHandler().inputIgnoringSpacesMatches("stopmusic")) {
-            GeneralAndSystemAudioPlayer.stopGeneralAudio();
+            GeneralAudioPlayer.stopGeneralAudio();
         } else {
             ret = false;
         }
