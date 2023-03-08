@@ -8,6 +8,7 @@ import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.StaticUtil;
@@ -83,7 +84,8 @@ public final class CPlayer {
      * Plays the encapsulated audio file.
      */
     public void play() {
-        String threadName = FileUtil.getFilename(audioFile) + " Audio Player";
+        String threadName = CyderStrings.quote + FileUtil.getFilename(audioFile)
+                + CyderStrings.quote + " CPlayer";
         CyderThreadRunner.submit(() -> {
             try {
                 logAudio(audioFile);
@@ -194,7 +196,6 @@ public final class CPlayer {
         ret = 31 * ret + Boolean.hashCode(canceled);
         return ret;
     }
-
 
     /**
      * {@inheritDoc}

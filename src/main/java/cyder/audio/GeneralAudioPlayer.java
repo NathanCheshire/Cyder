@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
@@ -11,15 +12,21 @@ import cyder.strings.CyderStrings;
 import javazoom.jl.player.Player;
 
 import java.io.File;
+import java.util.LinkedList;
 
 /**
  * Utilities related to playing general and system audio.
  */
 public final class GeneralAudioPlayer {
     /**
-     * Player used to play general audio files that may be user terminated.
+     * The player used to play general audio that may be user terminated.
      */
-    private static CPlayer generalAudioPlayer;
+    private static CPlayer generalPlayer;
+
+    /**
+     * The list of system players which are currently playing audio.
+     */
+    private static final LinkedList<CPlayer> systemPlayers = new LinkedList<>();
 
     /**
      * Suppress default constructor.
@@ -43,8 +50,8 @@ public final class GeneralAudioPlayer {
         stopGeneralAudio();
         Console.INSTANCE.showAudioButton();
 
-        generalAudioPlayer = new CPlayer(file);
-        generalAudioPlayer.play();
+        generalPlayer = new CPlayer(file);
+        generalPlayer.play();
     }
 
     /**
@@ -63,8 +70,8 @@ public final class GeneralAudioPlayer {
         stopGeneralAudio();
         Console.INSTANCE.showAudioButton();
 
-        generalAudioPlayer = new CPlayer(file).setOnCompletionCallback(onCompletionCallback);
-        generalAudioPlayer.play();
+        generalPlayer = new CPlayer(file).setOnCompletionCallback(onCompletionCallback);
+        generalPlayer.play();
     }
 
     /**
@@ -73,7 +80,7 @@ public final class GeneralAudioPlayer {
      * @return whether general audio is playing
      */
     public static boolean isGeneralAudioPlaying() {
-        return generalAudioPlayer != null && generalAudioPlayer.isPlaying();
+        return generalPlayer != null && generalPlayer.isPlaying();
     }
 
     /**
@@ -97,7 +104,7 @@ public final class GeneralAudioPlayer {
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
 
-        if (generalAudioPlayer != null && audioFile.equals(generalAudioPlayer.getAudioFile())) {
+        if (generalPlayer != null && audioFile.equals(generalPlayer.getAudioFile())) {
             stopGeneralAudio();
             return true;
         }
@@ -116,7 +123,10 @@ public final class GeneralAudioPlayer {
         Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
 
-        new CPlayer(file).play();
+        CPlayer systemPlayer = new CPlayer(file);
+        systemPlayer.setOnCompletionCallback(() -> systemPlayers.remove(systemPlayer));
+        systemPlayers.add(systemPlayer);
+        systemPlayer.play();
     }
 
     /**
@@ -124,7 +134,7 @@ public final class GeneralAudioPlayer {
      * any system audio or AudioPlayer widget audio.
      */
     public static void stopGeneralAudio() {
-        if (generalAudioPlayer != null) generalAudioPlayer.stop();
+        if (generalPlayer != null) generalPlayer.stop();
         Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
@@ -134,5 +144,14 @@ public final class GeneralAudioPlayer {
     public static void stopAllAudio() {
         if (AudioPlayer.isAudioPlaying()) AudioPlayer.handlePlayPauseButtonClick();
         if (isGeneralAudioPlaying()) stopGeneralAudio();
+    }
+
+    /**
+     * Returns a list of the current active system audio players.
+     *
+     * @return a list of the current active system audio players
+     */
+    public static ImmutableList<CPlayer> getSystemPlayers() {
+        return ImmutableList.copyOf(systemPlayers);
     }
 }
