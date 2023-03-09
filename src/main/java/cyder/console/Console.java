@@ -1218,7 +1218,7 @@ public enum Console {
 
                         if (min == 0 && sec == 0 && lastChimeHour.get() != hour) {
                             if (UserDataManager.INSTANCE.shouldPlayHourlyChimes()) {
-                                GeneralAudioPlayer.playSystemAudio(chimeFile);
+                                GeneralAudioPlayer.playAudio(chimeFile);
                                 lastChimeHour.set(hour);
                             }
                         }
@@ -1359,9 +1359,9 @@ public enum Console {
 
         if (!musicList.isEmpty()) {
             int randomFileIndex = NumberUtil.generateRandomInt(files.length - 1);
-            GeneralAudioPlayer.playGeneralAudio(files[randomFileIndex]);
+            GeneralAudioPlayer.playAudio(files[randomFileIndex]);
         } else {
-            GeneralAudioPlayer.playGeneralAudio(DEFAULT_INTRO_MUSIC);
+            GeneralAudioPlayer.playAudio(DEFAULT_INTRO_MUSIC);
         }
     }
 
@@ -1374,9 +1374,9 @@ public enum Console {
             try {
                 if (ImageUtil.isGrayscale(ImageUtil.read(getCurrentBackground().getReferenceFile()))) {
                     int grayscaleAudioRandomIndex = NumberUtil.generateRandomInt(GRAYSCALE_AUDIO_PATHS.size() - 1);
-                    GeneralAudioPlayer.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+                    GeneralAudioPlayer.playAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
                 } else {
-                    GeneralAudioPlayer.playGeneralAudio(introTheme);
+                    GeneralAudioPlayer.playAudio(introTheme);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -2287,7 +2287,7 @@ public enum Console {
                     baseInputHandler.println("Interesting F" + functionKey + " key");
 
                     if (functionKey == F_17_KEY_CODE) {
-                        GeneralAudioPlayer.playGeneralAudio(F_17_MUSIC_FILE);
+                        GeneralAudioPlayer.playAudio(F_17_MUSIC_FILE);
                     }
                 }
             });

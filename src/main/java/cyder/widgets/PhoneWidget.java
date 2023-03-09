@@ -149,7 +149,7 @@ public final class PhoneWidget {
          * Plays this audio file using the general audio player.
          */
         public void play() {
-            GeneralAudioPlayer.playGeneralAudio(audioFile);
+            GeneralAudioPlayer.playAudio(audioFile);
         }
 
         /**

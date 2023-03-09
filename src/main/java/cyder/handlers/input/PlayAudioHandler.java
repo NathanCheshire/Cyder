@@ -64,36 +64,36 @@ public class PlayAudioHandler extends InputHandler {
             "logic",
             "18002738255",
             "x",
-            "blackpanther",
-            "chadwickboseman",
+            "black panther",
+            "chadwick boseman",
             "f17",
             "play"})
     public static boolean handle() {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("heyya")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("hey.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("hey.mp3"));
         } else if (getInputHandler().commandIs("windows")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("windows.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("windows.mp3"));
         } else if (getInputHandler().commandIs("lightsaber")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("lightsaber.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("lightsaber.mp3"));
         } else if (getInputHandler().commandIs("xbox")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("xbox.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("xbox.mp3"));
         } else if (getInputHandler().commandIs("startrek")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("startrek.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("startrek.mp3"));
         } else if (getInputHandler().commandIs("toystory")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("theclaw.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("theclaw.mp3"));
         } else if (getInputHandler().commandIs("logic")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("commando.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("commando.mp3"));
         } else if (getInputHandler().getCommand().replace(CyderStrings.dash, "").equals("18002738255")) {
-            GeneralAudioPlayer.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
+            GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("1800.mp3"));
         } else if (getInputHandler().commandIs(CyderStrings.X)) {
             Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.X_ICON.getImage());
             GeneralAudioPlayer.playGeneralAudioWithCompletionCallback(
                     StaticUtil.getStaticResource("x.mp3"),
                     () -> Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.CYDER_ICON.getImage()));
-        } else if (getInputHandler().inputIgnoringSpacesMatches("blackpanther")
-                || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("black panther")
+                || getInputHandler().inputIgnoringSpacesMatches("chadwick boseman")) {
             chadwickBosemanEasterEgg();
         } else if (getInputHandler().commandIs("f17")) {
             if (RobotManager.INSTANCE.getRobot() != null) {
@@ -149,7 +149,7 @@ public class PlayAudioHandler extends InputHandler {
         CyderThreadRunner.submit(() -> {
             getInputHandler().getJTextPane().setText("");
 
-            GeneralAudioPlayer.playGeneralAudio(allTheStars);
+            GeneralAudioPlayer.playAudio(allTheStars);
             getInputHandler().getJTextPane().setFont(beynoFont);
             BletchyAnimationManager.INSTANCE.bletchy(
                     chadwickBosemanBletchyText, false, 15, false);

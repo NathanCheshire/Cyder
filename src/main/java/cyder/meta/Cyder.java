@@ -1,6 +1,7 @@
 package cyder.meta;
 
 import com.google.common.collect.ImmutableList;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
@@ -46,6 +47,7 @@ public final class Cyder {
         NecessarySubroutines.executeSubroutines();
         InstanceSocketUtil.bindToInstanceSocket();
         CyderSplash.INSTANCE.showSplash();
+        GeneralAudioPlayer.registerDefaultSystemAudioFiles();
         SufficientSubroutines.executeSubroutines();
         LoginHandler.showProperStartupFrame();
     }

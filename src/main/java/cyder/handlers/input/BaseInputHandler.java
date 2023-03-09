@@ -894,7 +894,7 @@ public class BaseInputHandler {
 
                 if (typingAnimationCharsInserted.get() == TYPING_ANIMATION_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
-                        GeneralAudioPlayer.playSystemAudio(typingSoundFile);
+                        GeneralAudioPlayer.playAudio(typingSoundFile);
                         typingAnimationCharsInserted.set(0);
                     }
                 } else {

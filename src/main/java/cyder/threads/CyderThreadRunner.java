@@ -2,7 +2,7 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import cyder.audio.CPlayer;
+import cyder.audio.GeneralAudioPlayer;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -128,6 +128,6 @@ public final class CyderThreadRunner {
      * @param name the name of the thread being ran
      */
     private static void logThread(String name) {
-        if (!CPlayer.fileInIgnorePaths(new File(name))) Logger.log(LogTag.THREAD_STARTED, name);
+        if (!GeneralAudioPlayer.isSystemAudio(new File(name))) Logger.log(LogTag.THREAD_STARTED, name);
     }
 }

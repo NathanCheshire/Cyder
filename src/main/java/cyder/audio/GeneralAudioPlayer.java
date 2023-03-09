@@ -5,19 +5,30 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.audio.player.AudioPlayer;
 import cyder.console.Console;
-import cyder.enumerations.Extension;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
+import cyder.strings.StringUtil;
+import cyder.utils.StaticUtil;
 import javazoom.jl.player.Player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
  * Utilities related to playing general and system audio.
  */
 public final class GeneralAudioPlayer {
+    // todo allow clients to register
+    /**
+     * The list of audio files to ignore when logging.
+     */
+    private static final ArrayList<File> systemAudioFiles = new ArrayList<>();
+
     /**
      * The player used to play general audio that may be user terminated.
      */
@@ -36,22 +47,29 @@ public final class GeneralAudioPlayer {
     }
 
     /**
-     * Plays the requested audio file using the general {@link CPlayer} player
-     * which can be terminated by via an API call or the Console audio menu controls.
+     * Plays the provided audio file. The general audio player is used if this is not a system sound.
+     * Otherwise, a new {@link CPlayer} instance is used to start the requested system sound.
      *
-     * @param file the audio file to play
+     * @param audioFile the audio file to play
      */
-    public static void playGeneralAudio(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(file.isFile());
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
+    public static void playAudio(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(audioFile.isFile());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
-        stopGeneralAudio();
-        Console.INSTANCE.showAudioButton();
+        if (isSystemAudio(audioFile)) {
+            CPlayer systemPlayer = new CPlayer(audioFile);
+            systemPlayer.setOnCompletionCallback(() -> systemPlayers.remove(systemPlayer));
+            systemPlayers.add(systemPlayer);
+            systemPlayer.play();
+        } else {
+            stopGeneralAudio();
+            Console.INSTANCE.showAudioButton();
 
-        generalPlayer = new CPlayer(file);
-        generalPlayer.play();
+            generalPlayer = new CPlayer(audioFile);
+            generalPlayer.play();
+        }
     }
 
     /**
@@ -102,7 +120,7 @@ public final class GeneralAudioPlayer {
     public static boolean stopAudio(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
         if (generalPlayer != null && audioFile.equals(generalPlayer.getAudioFile())) {
             stopGeneralAudio();
@@ -110,23 +128,6 @@ public final class GeneralAudioPlayer {
         }
 
         return false;
-    }
-
-    /**
-     * Plays the requested audio file using a new {@link CPlayer} object
-     * (this cannot be stopped util the MPEG is finished).
-     *
-     * @param file the audio file to play
-     */
-    public static void playSystemAudio(File file) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
-
-        CPlayer systemPlayer = new CPlayer(file);
-        systemPlayer.setOnCompletionCallback(() -> systemPlayers.remove(systemPlayer));
-        systemPlayers.add(systemPlayer);
-        systemPlayer.play();
     }
 
     /**
@@ -153,5 +154,49 @@ public final class GeneralAudioPlayer {
      */
     public static ImmutableList<CPlayer> getSystemPlayers() {
         return ImmutableList.copyOf(systemPlayers);
+    }
+
+    /**
+     * Adds the provided audio file to the system audio files list.
+     *
+     * @param audioFile the audio file
+     */
+    public static void registerSystemAudio(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
+
+        systemAudioFiles.add(audioFile);
+    }
+
+    /**
+     * Registers the default system audio files.
+     */
+    public static void registerDefaultSystemAudioFiles() {
+        try {
+            File systemAudio = StaticUtil.getStaticResource("system_audio.txt");
+            ImmutableList<String> contents = FileUtil.getFileLines(systemAudio);
+            for (String fileName : contents) {
+                if (StringUtil.isNullOrEmpty(fileName)) continue;
+                File systemAudioFile = StaticUtil.getStaticResource(fileName);
+                Logger.log(LogTag.DEBUG, "Registering system audio file: "
+                        + systemAudioFile.getAbsolutePath());
+                registerSystemAudio(systemAudioFile);
+            }
+        } catch (Exception e) {
+            throw new FatalException("Failed to register default system audio files: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Returns whether the provided audio file is a system audio file.
+     *
+     * @param audioFile the audio file
+     * @return whether the provided audio file is a system audio file
+     */
+    public static boolean isSystemAudio(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+
+        return systemAudioFiles.contains(audioFile);
     }
 }
