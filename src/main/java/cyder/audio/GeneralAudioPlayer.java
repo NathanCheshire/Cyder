@@ -13,21 +13,25 @@ import cyder.logging.Logger;
 import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.utils.StaticUtil;
-import javazoom.jl.player.Player;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Utilities related to playing general and system audio.
  */
 public final class GeneralAudioPlayer {
-    // todo allow clients to register
     /**
      * The list of audio files to ignore when logging.
      */
     private static final ArrayList<File> systemAudioFiles = new ArrayList<>();
+
+    /**
+     * Whether the default system audio has been registered.
+     */
+    private static final AtomicBoolean defaultSystemAudioRegistered = new AtomicBoolean();
 
     /**
      * The player used to play general audio that may be user terminated.
@@ -58,38 +62,28 @@ public final class GeneralAudioPlayer {
         Preconditions.checkArgument(audioFile.isFile());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
-        if (isSystemAudio(audioFile)) {
-            CPlayer systemPlayer = new CPlayer(audioFile);
-            systemPlayer.setOnCompletionCallback(() -> systemPlayers.remove(systemPlayer));
-            systemPlayers.add(systemPlayer);
-            systemPlayer.play();
+        playAudio(new CPlayer(audioFile));
+    }
+
+    /**
+     * Plays the provided player.
+     *
+     * @param player the player to play
+     */
+    public static void playAudio(CPlayer player) {
+        Preconditions.checkNotNull(player);
+
+        if (player.isSystemAudio()) {
+            systemPlayers.add(player);
+            player.addOnCompletionCallback(() -> systemPlayers.remove(player));
+            player.play();
         } else {
             stopGeneralAudio();
             Console.INSTANCE.showAudioButton();
 
-            generalPlayer = new CPlayer(audioFile);
+            generalPlayer = player;
             generalPlayer.play();
         }
-    }
-
-    /**
-     * Plays the requested audio file using the general
-     * {@link Player} player which can be terminated by the user.
-     *
-     * @param file                 the audio file to play
-     * @param onCompletionCallback the callback to invoke upon completion of playing the audio file
-     */
-    public static void playGeneralAudioWithCompletionCallback(File file, Runnable onCompletionCallback) {
-        Preconditions.checkNotNull(file);
-        Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(file));
-        Preconditions.checkNotNull(onCompletionCallback);
-
-        stopGeneralAudio();
-        Console.INSTANCE.showAudioButton();
-
-        generalPlayer = new CPlayer(file).setOnCompletionCallback(onCompletionCallback);
-        generalPlayer.play();
     }
 
     /**
@@ -122,7 +116,7 @@ public final class GeneralAudioPlayer {
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
-        if (generalPlayer != null && audioFile.equals(generalPlayer.getAudioFile())) {
+        if (generalPlayer != null && generalPlayer.isUsing(audioFile)) {
             stopGeneralAudio();
             return true;
         }
@@ -172,7 +166,10 @@ public final class GeneralAudioPlayer {
     /**
      * Registers the default system audio files.
      */
-    public static void registerDefaultSystemAudioFiles() {
+    public static synchronized void registerDefaultSystemAudioFiles() {
+        Preconditions.checkState(!defaultSystemAudioRegistered.get());
+        defaultSystemAudioRegistered.set(true);
+
         try {
             File systemAudio = StaticUtil.getStaticResource("system_audio.txt");
             ImmutableList<String> contents = FileUtil.getFileLines(systemAudio);

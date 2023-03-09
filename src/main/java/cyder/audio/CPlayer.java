@@ -13,14 +13,13 @@ import javazoom.jl.player.Player;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * An encapsulated JLayer {@link Player} for playing singular audio files and stopping.
  */
 public final class CPlayer {
-    // todo bootstrapping is broken apparently?
-
     /**
      * The audio file.
      */
@@ -44,7 +43,7 @@ public final class CPlayer {
     /**
      * The runnable to invoke upon a completion event.
      */
-    private Runnable onCompletionCallback;
+    private final ArrayList<Runnable> onCompletionCallback;
 
     /**
      * Whether this player has been canceled.
@@ -68,6 +67,7 @@ public final class CPlayer {
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
         this.audioFile = audioFile;
+        this.onCompletionCallback = new ArrayList<>();
     }
 
     /**
@@ -83,7 +83,7 @@ public final class CPlayer {
                 bis = new BufferedInputStream(fis);
                 player = new Player(bis);
                 player.play();
-                if (!canceled && onCompletionCallback != null) onCompletionCallback.run();
+                if (!canceled) onCompletionCallback.forEach(Runnable::run);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
@@ -126,14 +126,15 @@ public final class CPlayer {
     }
 
     /**
-     * Sets the callback to invoke upon a completion event.
+     * Adds the callback to invoke upon a completion event.
      *
      * @param callback the callback to invoke upon a completion event
      * @return this player
      */
     @CanIgnoreReturnValue
-    public CPlayer setOnCompletionCallback(Runnable callback) {
-        onCompletionCallback = Preconditions.checkNotNull(callback);
+    public CPlayer addOnCompletionCallback(Runnable callback) {
+        Preconditions.checkNotNull(callback);
+        onCompletionCallback.add(callback);
         return this;
     }
 
@@ -153,6 +154,25 @@ public final class CPlayer {
      */
     public File getAudioFile() {
         return audioFile;
+    }
+
+    /**
+     * Returns whether the provided audio file is equal to the encapsulated audio file.
+     *
+     * @param audioFile the audio file
+     * @return whether the provided audio file is equal to the encapsulated audio file
+     */
+    public boolean isUsing(File audioFile) {
+        return this.audioFile.equals(audioFile);
+    }
+
+    /**
+     * Returns whether the audio file encapsulated by this player is a system audio file.
+     *
+     * @return whether the audio file encapsulated by this player is a system audio file
+     */
+    public boolean isSystemAudio() {
+        return GeneralAudioPlayer.isSystemAudio(audioFile);
     }
 
     /**

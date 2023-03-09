@@ -1,6 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
+import cyder.audio.CPlayer;
 import cyder.audio.GeneralAudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderFonts;
@@ -89,9 +90,9 @@ public class PlayAudioHandler extends InputHandler {
             GeneralAudioPlayer.playAudio(StaticUtil.getStaticResource("1800.mp3"));
         } else if (getInputHandler().commandIs(CyderStrings.X)) {
             Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.X_ICON.getImage());
-            GeneralAudioPlayer.playGeneralAudioWithCompletionCallback(
-                    StaticUtil.getStaticResource("x.mp3"),
-                    () -> Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.CYDER_ICON.getImage()));
+            File audioFile = StaticUtil.getStaticResource("x.mp3");
+            GeneralAudioPlayer.playAudio(new CPlayer(audioFile).addOnCompletionCallback(
+                    () -> Console.INSTANCE.getConsoleCyderFrame().setIconImage(CyderIcons.CYDER_ICON.getImage())));
         } else if (getInputHandler().inputIgnoringSpacesMatches("black panther")
                 || getInputHandler().inputIgnoringSpacesMatches("chadwick boseman")) {
             chadwickBosemanEasterEgg();
