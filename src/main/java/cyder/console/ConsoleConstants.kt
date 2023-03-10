@@ -7,6 +7,7 @@ import cyder.strings.CyderStrings
 import cyder.utils.StaticUtil
 import java.awt.Dimension
 import java.awt.Font
+import java.io.File
 
 /**
  * Constants used for the [Console].
@@ -39,10 +40,10 @@ internal class ConsoleConstants private constructor() {
          * The possible audio files to play if the starting user background is grayscale.
          */
         @JvmField
-        val GRAYSCALE_AUDIO_PATHS = ImmutableList.of(
+        val GRAYSCALE_AUDIO_PATHS: ImmutableList<File> = ImmutableList.of(
                 StaticUtil.getStaticResource("badapple.mp3"),
                 StaticUtil.getStaticResource("beetlejuice.mp3"),
-                StaticUtil.getStaticResource("blackorwhite.mp3"))!!
+                StaticUtil.getStaticResource("blackorwhite.mp3"))
 
         /**
          * The thickness of the border around the input field and output area when enabled.
