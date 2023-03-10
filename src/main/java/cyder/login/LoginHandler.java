@@ -650,7 +650,7 @@ public final class LoginHandler {
      *
      * @param providedUsername     the username given
      * @param singlyHashedPassword the singly-hashed password
-     * @return the result of checking for the a user with the provided name and password
+     * @return the result of checking for a user with the provided name and password
      */
     private static PasswordCheckResult validateUsernamePassword(String providedUsername, String singlyHashedPassword) {
         ArrayList<String> names = new ArrayList<>();

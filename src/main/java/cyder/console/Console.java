@@ -1482,8 +1482,7 @@ public enum Console {
         Stream.of(currentFrameMenuItems, currentMappedExeItems,
                         currentDefaultMenuItems)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList())
-                .forEach(icon -> icon.setFocused(false));
+                .toList().forEach(icon -> icon.setFocused(false));
 
         if (menuLabel.isVisible()) {
             reinstallCurrentTaskbarIcons();
@@ -2925,22 +2924,20 @@ public enum Console {
 
         if (maintainConsoleSize) {
             switch (consoleDir) {
-                case TOP: // Fallthrough
-                case BOTTOM:
+                case TOP, BOTTOM -> {
                     if (Direction.isHorizontal(lastConsoleDir)) {
                         background = ImageUtil.resizeImage(background, height, width);
                     } else {
                         background = ImageUtil.resizeImage(background, width, height);
                     }
-                    break;
-                case LEFT: // Fallthrough
-                case RIGHT:
+                }
+                case LEFT, RIGHT -> {
                     if (Direction.isHorizontal(lastConsoleDir)) {
                         background = ImageUtil.resizeImage(background, width, height);
                     } else {
                         background = ImageUtil.resizeImage(background, height, width);
                     }
-                    break;
+                }
             }
         }
 

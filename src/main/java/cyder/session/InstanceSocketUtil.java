@@ -60,6 +60,11 @@ public final class InstanceSocketUtil {
     private static final Duration instanceSocketPollTimeout = Duration.ofMillis(100);
 
     /**
+     * Whether instance socket messages should be accepted.
+     */
+    private static final AtomicBoolean shouldAcceptInstanceSocketMessages = new AtomicBoolean(true);
+
+    /**
      * The instance socket.
      */
     private static ServerSocket instanceSocket;
@@ -136,6 +141,7 @@ public final class InstanceSocketUtil {
      *
      * @return the instance socket port this instance is using
      */
+    @SuppressWarnings("unused") /* Necessary API exposure */
     public static int getInstanceSocketPort() {
         return instanceSocketPort;
     }
@@ -163,7 +169,7 @@ public final class InstanceSocketUtil {
             try {
                 instanceSocket = new ServerSocket(instanceSocketPort, instanceSocketBacklog);
 
-                while (true) {
+                while (shouldAcceptInstanceSocketMessages.get()) {
                     try {
                         Socket client = instanceSocket.accept();
 
@@ -204,8 +210,7 @@ public final class InstanceSocketUtil {
 
         String executorName = "Remote Shutdown Request, host: " + host + ", port: " + port;
         return Executors.newSingleThreadExecutor(new CyderThreadFactory(executorName)).submit(() -> {
-            try {
-                Socket clientSocket = new Socket(host, port);
+            try (Socket clientSocket = new Socket(host, port)) {
                 PrintWriter outputWriter = new PrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 

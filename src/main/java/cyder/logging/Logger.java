@@ -226,7 +226,7 @@ public final class Logger {
 
         // Unique tags have a case statement, default ones do not
         switch (tag) {
-            case CONSOLE_OUT:
+            case CONSOLE_OUT -> {
                 tags.add(tag.getLogName());
                 switch (statement) {
                     case String string -> {
@@ -254,39 +254,33 @@ public final class Logger {
                         logBuilder.append(statement);
                     }
                 }
-                break;
-            case EXCEPTION:
+            }
+            case EXCEPTION -> {
                 tags.add(tag.getLogName());
                 logBuilder.append(statement);
-
                 exceptionsCounter.getAndIncrement();
-                break;
-            case LINK:
+            }
+            case LINK -> {
                 tags.add(tag.getLogName());
-
                 if (statement instanceof File file) {
                     tags.add(FileUtil.getExtension(file));
                     logBuilder.append(file.getAbsolutePath());
                 } else {
                     logBuilder.append(statement);
                 }
-
-                break;
-            case LOGOUT:
+            }
+            case LOGOUT -> {
                 tags.add(tag.getLogName());
                 tags.add(USER);
                 logBuilder.append(statement);
-                break;
-            case LOGGER_INITIALIZATION:
+            }
+            case LOGGER_INITIALIZATION -> {
                 tags.add(tag.getLogName());
                 logBuilder.append(statement);
-
                 logStarted.set(true);
-
-                break;
-            case PROGRAM_EXIT:
+            }
+            case PROGRAM_EXIT -> {
                 logConcluded = true;
-
                 if (statement instanceof ExitCondition exitCondition) {
                     concludeLog(currentLog,
                             exitCondition,
@@ -298,14 +292,14 @@ public final class Logger {
                     throw new FatalException("Provided statement is not of type ExitCondition, statement: "
                             + statement + ", class: " + ReflectionUtil.getBottomLevelClass(statement.getClass()));
                 }
-
                 return;
-            case USER_DATA:
+            }
+            case USER_DATA -> {
                 tags.add(tag.getLogName());
                 tags.add("Key");
                 logBuilder.append(statement);
-                break;
-            case OBJECT_CREATION:
+            }
+            case OBJECT_CREATION -> {
                 if (statement instanceof String) {
                     tags.add(LogTag.OBJECT_CREATION.getLogName());
                     logBuilder.append(statement);
@@ -318,19 +312,18 @@ public final class Logger {
 
                     return;
                 }
-
-                break;
-            case UI_ACTION:
+            }
+            case UI_ACTION -> {
                 tags.add(tag.getLogName());
                 if (statement instanceof Component component) {
                     tags.add(ToStringUtil.getComponentParentFrameRepresentation(component));
                 }
                 logBuilder.append(statement);
-                break;
-            default:
+            }
+            default -> {
                 tags.add(tag.getLogName());
                 logBuilder.append(statement);
-                break;
+            }
         }
 
         constructLogLinesAndLog(tags, logBuilder.toString());
@@ -641,26 +634,14 @@ public final class Logger {
         Preconditions.checkArgument(objectsCreated >= 0);
         Preconditions.checkArgument(threadsRan >= 0);
 
-        String write = constructTagsPrepend(EOL)
-                + END_OF_LOG
-                + newline
-                + constructTagsPrepend(EXIT_CONDITION)
-                + condition.getCode()
-                + comma
-                + space
-                + condition.getDescription()
-                + newline
-                + constructTagsPrepend(RUNTIME)
-                + TimeUtil.formatMillis(runtime)
-                + newline
+        String write = constructTagsPrepend(EOL) + END_OF_LOG + newline
+                + constructTagsPrepend(EXIT_CONDITION) + condition.getCode() + comma + space
+                + condition.getDescription() + newline
+                + constructTagsPrepend(RUNTIME) + TimeUtil.formatMillis(runtime) + newline
                 + constructTagsPrepend(StringUtil.getWordFormBasedOnNumber(exceptions, EXCEPTION))
-                + exceptions
-                + newline
-                + constructTagsPrepend(OBJECTS_CREATED)
-                + objectsCreated
-                + newline
-                + constructTagsPrepend(THREADS_RAN)
-                + threadsRan;
+                + exceptions + newline
+                + constructTagsPrepend(OBJECTS_CREATED) + objectsCreated + newline
+                + constructTagsPrepend(THREADS_RAN) + threadsRan;
 
         if (file.equals(currentLog)) out.println(write);
         FileUtil.writeLinesToFile(file, ImmutableList.of(write), true);
@@ -681,7 +662,7 @@ public final class Logger {
                 while (true) {
                     logSpecificObjectsCreated();
                     logTotalObjectsCreated();
-                    ThreadUtil.sleep(objectCreationLogFrequency);
+                    ThreadUtil.sleep(objectCreationLogFrequency.toMillis());
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

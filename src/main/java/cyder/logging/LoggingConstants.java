@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.strings.CyderStrings;
 
+import java.time.Duration;
 import java.util.regex.Pattern;
 
 /**
@@ -23,7 +24,7 @@ public final class LoggingConstants {
     /**
      * The rate in ms at which to log the amount of objects created.
      */
-    static final int objectCreationLogFrequency = 5000;
+    static final Duration objectCreationLogFrequency = Duration.ofSeconds(5);
 
     /**
      * The end of log tag string.
