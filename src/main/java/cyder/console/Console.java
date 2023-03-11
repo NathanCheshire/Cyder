@@ -302,10 +302,10 @@ public enum Console {
         startExecutors();
 
         /*
-        Note to maintainers: we only close splash here, all other frames are disposed when we logout
+        Note to maintainers: we only close splash here, all other frames are disposed on logout
         which is the only way this launch method is invoked more than once for an instance of Cyder.
 
-        The login frame is disposed elsewhere as well. Thus any frames left open are warnings or
+        The login frame is disposed elsewhere as well. Thus, any frames left open are warnings or
         popups from validation subroutines which the user (hopefully developer) should read and dismiss themselves.
          */
         CyderSplash.INSTANCE.fastDispose();
@@ -1313,7 +1313,7 @@ public enum Console {
     }
 
     /**
-     * The default intro music to play if enabled an no user music is present.
+     * The default intro music to play if enabled and no user music is present.
      */
     private final File DEFAULT_INTRO_MUSIC;
 
@@ -1339,7 +1339,7 @@ public enum Console {
     }
 
     /**
-     * Plays music from the user's music folder if a file is present. Otherwise the default intro music is played.
+     * Plays music from the user's music folder if a file is present. Otherwise, the default intro music is played.
      */
     @ForReadability
     private void performIntroMusic() {
@@ -1503,7 +1503,7 @@ public enum Console {
         boolean mouseTriggered = GeometryUtil.pointInOrOnRectangle(
                 MouseInfo.getPointerInfo().getLocation(), menuButtonBoundsOnScreen);
 
-        // if there's a focused item and it wasn't a mouse click
+        // if there's a focused item and the item was not a mouse click
         if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
             ImmutableList.copyOf(Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
                             .flatMap(Collection::stream)
@@ -1788,7 +1788,7 @@ public enum Console {
     );
 
     /**
-     * The default non compact taskbar icons.
+     * The default non-compact taskbar icons.
      */
     private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = constructNonCompactDefaultTaskbarIcons();
 
@@ -1830,12 +1830,12 @@ public enum Console {
     }
 
     /**
-     * Returns whether the provided new taskbar icons comprehensive list is different than the previous menu state.
+     * Returns whether the provided new taskbar icons comprehensive list is different from the previous menu state.
      *
      * @param frameMenuItems   the new proposed taskbar frame items
      * @param mappedExeItems   the new proposed taskbar mapped exe items
      * @param defaultMenuItems the new proposed taskbar default menu items
-     * @return whether the provided new taskbar icons comprehensive list is different than the previous menu state
+     * @return whether the provided new taskbar icons comprehensive list is different from the previous menu state
      */
     private synchronized boolean differentMenuState(
             ImmutableList<TaskbarIcon> frameMenuItems, ImmutableList<TaskbarIcon> mappedExeItems,
@@ -2300,7 +2300,7 @@ public enum Console {
     };
 
     /**
-     * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
+     * The magic number that denotes the mouse wheel is being scrolled up.
      */
     private static final int WHEEL_UP = -1;
 
@@ -2499,7 +2499,7 @@ public enum Console {
      *
      * @param index the index to switch the console background to
      */
-    @SuppressWarnings("UnusedMethod")
+    @SuppressWarnings("unused")
     private void setBackgroundIndex(int index) {
         setBackgroundIndex(index, false);
     }
@@ -3569,7 +3569,7 @@ public enum Console {
     }
 
     /**
-     * An semaphore to ensure only one title notification is ever visible
+     * A semaphore to ensure only one title notification is ever visible.
      */
     private final Semaphore titleNotifyLock = new Semaphore(1);
 
