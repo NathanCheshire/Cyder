@@ -881,14 +881,12 @@ public class BaseInputHandler {
                 throw new FatalException("Failed to acquire output pane lock");
             }
 
-            for (char c : line.toCharArray()) {
-                String character = String.valueOf(c);
-                String insertChar = UserDataManager.INSTANCE.isCapsMode()
-                        ? character.toUpperCase()
-                        : character;
+            // todo sometimes this just breaks?
+            for (String word : line.split("((?=\\s+))")) {
+                String insertWord = UserDataManager.INSTANCE.isCapsMode() ? word.toUpperCase() : word;
 
                 StyledDocument document = (StyledDocument) getJTextPane().getDocument();
-                document.insertString(document.getLength(), insertChar, null);
+                document.insertString(document.getLength(), insertWord, null);
 
                 getJTextPane().setCaretPosition(getJTextPane().getDocument().getLength());
 
@@ -902,7 +900,7 @@ public class BaseInputHandler {
                 }
 
                 if (!shouldFinishPrinting) {
-                    ThreadUtil.sleep(Props.printingAnimationCharTimeout.getValue());
+                    ThreadUtil.sleep(Props.printingAnimationWordTimeout.getValue());
                 }
             }
 

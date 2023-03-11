@@ -111,10 +111,10 @@ public final class Props {
             new Prop<>("ffmpeg_audio_output_format", "mp3", String.class);
 
     /**
-     * The time in ms between char appends for the console printing animation if enabled.
+     * The time in ms between word appends for the console printing animation if enabled.
      */
-    public static final Prop<Integer> printingAnimationCharTimeout =
-            new Prop<>("printing_animation_char_timeout", 8, Integer.class);
+    public static final Prop<Integer> printingAnimationWordTimeout =
+            new Prop<>("printing_animation_word_timeout", 160, Integer.class);
 
     /**
      * The time in ms between sound effects for the console printing animation if enabled.
