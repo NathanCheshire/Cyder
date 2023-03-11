@@ -42,7 +42,7 @@ public final class PythonUtil {
     private static final String versionPrefix = "Version" + CyderStrings.colon + CyderStrings.space;
 
     /**
-     * The install keyword for pip installations.
+     * The "install" keyword for pip installations.
      */
     private static final String INSTALL = "install";
 

@@ -1835,11 +1835,11 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setSize(int width, int height) {
-        Preconditions.checkArgument(width >= minimumWidth);
-        Preconditions.checkArgument(height >= minimumHeight);
-
         width = attemptInitialWidthCorrectionIfEnabled(width);
         height = attemptInitialHeightCorrectionIfEnabled(height);
+
+        Preconditions.checkArgument(width >= minimumWidth);
+        Preconditions.checkArgument(height >= minimumHeight);
 
         boolean sameSizes = this.width == width && this.height == height;
         super.setSize(width, height);
@@ -1854,11 +1854,11 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        Preconditions.checkArgument(width >= minimumWidth);
-        Preconditions.checkArgument(height >= minimumHeight);
-
         width = attemptInitialWidthCorrectionIfEnabled(width);
         height = attemptInitialHeightCorrectionIfEnabled(height);
+
+        Preconditions.checkArgument(width >= minimumWidth);
+        Preconditions.checkArgument(height >= minimumHeight);
 
         boolean sameSizes = this.width == width && this.height == height;
         super.setBounds(x, y, width, height);

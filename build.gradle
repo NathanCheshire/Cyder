@@ -29,7 +29,7 @@ allprojects {
     }
 }
 
-for (it in tasks.withType(JavaCompile)) {
+tasks.withType(JavaCompile).each {
     it.options.compilerArgs.add('--enable-preview')
 }
 

@@ -20,7 +20,6 @@ import cyder.strings.CyderStrings;
 import cyder.strings.StringUtil;
 import cyder.user.UserUtil;
 import cyder.utils.ArrayUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StaticUtil;
 
@@ -124,9 +123,6 @@ public final class NecessarySubroutines {
 
             new Subroutine(NecessarySubroutines::validateWidgets,
                     "Validating Widgets", "Validation of Widgets failed"),
-
-            new Subroutine(() -> !OsUtil.OperatingSystem.OSX.isCurrentOperatingSystem(),
-                    "Ensuring Supported OS", "Unsupported OS"),
 
             new Subroutine(NecessarySubroutines::validateVanillaAnnotations,
                     "Validating vanilla classes", "Validation of vanilla classes failed"),
@@ -263,7 +259,7 @@ public final class NecessarySubroutines {
      *     <li></li>
      * </ul>
      * <p>
-     * All of the above checks may be skipped if the the method contains a
+     * All of the above checks may be skipped if the method contains a
      * {@link CyderInspection#WidgetInspection} suppression.
      *
      * @param method the method to validate
@@ -309,7 +305,7 @@ public final class NecessarySubroutines {
     }
 
     /**
-     * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
+     * Validates all widget classes annotated with {@link cyder.annotations.Vanilla} annotation.
      *
      * @return whether all vanilla annotations are valid
      */

@@ -150,7 +150,7 @@ public final class Logger {
     }
 
     /**
-     * Creates the top level logs directory, the log sub-directory for today,
+     * Creates the top level logs directory, the log subdirectory for today,
      * and the log file for this session if it is not generated or set.
      */
     private static void generateAndSetLogFile() {
@@ -679,7 +679,7 @@ public final class Logger {
             if (StringUtil.in(bottomLevelClassName, true,
                     Props.specificObjectCreationLogs.getValue().getList())) {
                 String line = bottomLevelClassName + space + "objects created since last delta"
-                        + space + openingParenthesis + objectCreationLogFrequency
+                        + space + openingParenthesis + objectCreationLogFrequency.toMillis()
                         + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
                         + colon + space + objectCreationCounter.get(key).get();
 
@@ -698,7 +698,7 @@ public final class Logger {
             totalObjectsCreated += currentObjectsCreated;
 
             String line = objectsCreatedSinceLastDelta
-                    + space + openingParenthesis + objectCreationLogFrequency
+                    + space + openingParenthesis + objectCreationLogFrequency.toMillis()
                     + TimeUtil.MILLISECOND_ABBREVIATION + closingParenthesis
                     + colon + space + currentObjectsCreated;
 

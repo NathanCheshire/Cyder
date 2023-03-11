@@ -20,7 +20,7 @@ public final class CyderIcons {
     public static final ImageIcon CYDER_ICON = new ImageIcon(StaticUtil.getStaticPath("CyderIcon.png"));
 
     /**
-     * The x easter egg icon.
+     * The x Easter egg icon.
      */
     public static final ImageIcon X_ICON = new ImageIcon(StaticUtil.getStaticPath("x.png"));
 

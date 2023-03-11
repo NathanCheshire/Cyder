@@ -18,6 +18,7 @@ import cyder.ui.frame.enumerations.FrameType;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.list.CyderScrollList;
 import cyder.utils.HtmlUtil;
+import cyder.utils.OsUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -71,7 +72,7 @@ public final class GetterUtil {
     private final ArrayList<CyderFrame> getFileFrames = new ArrayList<>();
 
     /**
-     * All the currently active get confirmation confirmation associated with this instance.
+     * All the currently active get confirmation frames associated with this instance.
      */
     private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
 
@@ -132,7 +133,7 @@ public final class GetterUtil {
     /**
      * Opens up frame with a field and a label for the user to enter input to be returned.
      * <p>
-     * See usage below for how to setup usage of this method so that the calling thread is not blocked.
+     * See usage below for how to set up usage of this method so that the calling thread is not blocked.
      * <p>
      * Usage:
      * <pre>
@@ -420,7 +421,7 @@ public final class GetterUtil {
     private CyderButton submitFileButton;
 
     /**
-     * The submit text for the submit button.
+     * The "submit" text for the submit button.
      */
     private static final String SUBMIT = "Submit";
 
@@ -438,7 +439,7 @@ public final class GetterUtil {
      * Opens up frame with a field and a file chooser for the user to enter
      * a file location or navigate to a file/directory and submit it.
      * <p>
-     * See usage below for how to setup usage of this method so that the calling thread is not blocked.
+     * See usage below for how to set up usage of this method so that the calling thread is not blocked.
      * <p>
      * Usage:
      * <pre>
@@ -788,7 +789,7 @@ public final class GetterUtil {
     /**
      * Opens up a frame with a label and a yes/no button for the user to confirm or deny some action.
      * <p>
-     * See usage below for how to setup usage of this method so that the calling thread is not blocked.
+     * See usage below for how to set up usage of this method so that the calling thread is not blocked.
      * <p>
      * Usage:
      * <pre>
@@ -884,6 +885,7 @@ public final class GetterUtil {
 
                 confirmationFrame.setLocationRelativeTo(relativeTo);
                 confirmationFrame.setVisible(true);
+                OsUtil.setMouseLocation(noButton);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

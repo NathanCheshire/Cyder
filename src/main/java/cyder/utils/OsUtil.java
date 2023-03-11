@@ -58,7 +58,7 @@ public final class OsUtil {
     }
 
     /**
-     * The top-level operating system name (the operating system the JVM is currently being ran on).
+     * The top-level operating system name (the operating system the JVM is currently running on).
      */
     public static final String OPERATING_SYSTEM_NAME = SystemPropertyKey.OS_NAME.getProperty();
 
@@ -194,15 +194,6 @@ public final class OsUtil {
      */
     public static boolean isWindows() {
         return OperatingSystem.WINDOWS.isCurrentOperatingSystem();
-    }
-
-    /**
-     * Returns whether the operating system is OSX.
-     *
-     * @return whether the operating system is OSX
-     */
-    public static boolean isOsx() {
-        return OperatingSystem.OSX.isCurrentOperatingSystem();
     }
 
     /**
@@ -580,7 +571,7 @@ public final class OsUtil {
         if (exes.exists()) {
             File[] exeFiles = exes.listFiles();
 
-            if (exeFiles != null && exeFiles.length > 0) {
+            if (!ArrayUtil.nullOrEmpty(exeFiles)) {
                 for (File exe : exeFiles) {
                     if (exe.getName().equalsIgnoreCase(filename)) {
                         return true;
