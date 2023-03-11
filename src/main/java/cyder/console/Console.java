@@ -611,8 +611,8 @@ public enum Console {
         int height;
         ImageIcon icon;
 
-        boolean randombackground = UserDataManager.INSTANCE.shouldChooseRandomBackground();
-        if (randombackground && reloadAndGetBackgrounds().size() > 1) {
+        boolean randomBackground = UserDataManager.INSTANCE.shouldChooseRandomBackground();
+        if (randomBackground && reloadAndGetBackgrounds().size() > 1) {
             backgroundIndex = NumberUtil.generateRandomInt(backgrounds.size() - 1);
         }
 
@@ -3329,7 +3329,8 @@ public enum Console {
     /**
      * The record used for frames pinned to the console.
      */
-    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {}
+    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
+    }
 
     /**
      * Returns a list of all frames that are pinned to the Console.
