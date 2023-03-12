@@ -161,22 +161,22 @@ public class CyderFrame extends JFrame {
      * Whether threads that were spawned by this instance of CyderFrame have been killed yet.
      * Examples include notifications and dancing.
      */
-    private final AtomicBoolean threadsKilled = new AtomicBoolean();
+    private final AtomicBoolean threadsKilled;
 
     /**
      * Actions to be invoked before dispose is invoked.
      */
-    private final ArrayList<Runnable> preCloseActions = new ArrayList<>();
+    private final ArrayList<Runnable> preCloseActions;
 
     /**
      * Actions to be invoked after dispose is invoked.
      */
-    private final ArrayList<Runnable> postCloseActions = new ArrayList<>();
+    private final ArrayList<Runnable> postCloseActions;
 
     /**
      * The list of actions to invoke following a {@link #setBounds(int, int, int, int)} invocation.
      */
-    private final ArrayList<Runnable> postSetBoundsRunnables = new ArrayList<>();
+    private final ArrayList<Runnable> postSetBoundsRunnables;
 
     /**
      * The foreground color of the title label
@@ -281,7 +281,7 @@ public class CyderFrame extends JFrame {
     private JLabel iconLabel;
 
     /**
-     * The true content pane of the CyderFrame. This is necessary so we can do layering
+     * The true content pane of the CyderFrame. This is necessary for layering
      * between the components, the background, the background image, notifications,
      * drag labels, etc.
      */
@@ -338,6 +338,11 @@ public class CyderFrame extends JFrame {
 
         this.width = builder.width;
         this.height = builder.height;
+        this.threadsKilled = new AtomicBoolean();
+        this.preCloseActions = new ArrayList<>();
+        this.postCloseActions = new ArrayList<>();
+        this.postSetBoundsRunnables = new ArrayList<>();
+
         setSize(width, height);
         setResizable(false);
         setUndecorated(true);
@@ -1411,7 +1416,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Adds the provided runnable to be invoked before a minimize and iconify invocation.
+     * Adds the provided runnable to be invoked before a minimize-and-iconify invocation.
      *
      * @param runnable the runnable
      */
@@ -1420,7 +1425,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Adds the provided runnable to be invoked after a minimize and iconify invocation.
+     * Adds the provided runnable to be invoked after a minimize-and-iconify invocation.
      *
      * @param runnable the runnable
      */
@@ -1475,12 +1480,12 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The actions to invoke prior to a minimize and iconify invocation.
+     * The actions to invoke prior to a minimize-and-iconify invocation.
      */
     private final ArrayList<Runnable> preMinimizeAndIconifyActions = new ArrayList<>();
 
     /**
-     * The actions to invoke after a minimize and iconify invocation.
+     * The actions to invoke after a minimize-and-iconify invocation.
      */
     private final ArrayList<Runnable> postMinimizeAndIconifyActions = new ArrayList<>();
 
@@ -1866,7 +1871,7 @@ public class CyderFrame extends JFrame {
         this.height = height;
 
         postSetSizeSetBounds(sameSizes);
-        postSetBoundsRunnables.forEach(Runnable::run);
+        if (postSetBoundsRunnables != null) postSetBoundsRunnables.forEach(Runnable::run);
     }
 
     /**
@@ -1921,7 +1926,7 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
-        notificationController.revalidateCurrentNotificationPosition();
+        if (notificationController != null) notificationController.revalidateCurrentNotificationPosition();
     }
 
     /**
@@ -2493,7 +2498,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Removes all pre close actions.
+     * Removes all pre-close actions.
      */
     public void removePreCloseActions() {
         preCloseActions.clear();
@@ -2892,7 +2897,7 @@ public class CyderFrame extends JFrame {
     public static final int DRAG_OPACITY_ANIMATION_DELAY = 5;
 
     /**
-     * Whether the animater to transition the frame back to DEFAULT_OPACITY is underway.
+     * Whether the animator to transition the frame back to DEFAULT_OPACITY is underway.
      */
     private boolean animatingOut = false;
 
