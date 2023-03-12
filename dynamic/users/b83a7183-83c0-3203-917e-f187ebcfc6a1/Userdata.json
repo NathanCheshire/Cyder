@@ -18,7 +18,7 @@
   "drawConsoleClock": true,
   "showConsoleClockSeconds": false,
   "filterChat": true,
-  "lastSessionStart": 1678333435231,
+  "lastSessionStart": 1678648029812,
   "minimizeOnClose": false,
   "typingAnimation": true,
   "showBusyAnimation": false,
@@ -33,16 +33,16 @@
   "persistNotifications": false,
   "doAnimations": true,
   "compactTextMode": false,
-  "wrapNativeShell": true,
+  "wrapNativeShell": false,
   "drawWeatherMap": true,
   "paintClockWidgetHourLabels": true,
   "showClockWidgetSecondHand": true,
   "screenStat": {
-    "consoleX": 1388,
-    "consoleY": 132,
-    "consoleWidth": 984,
-    "consoleHeight": 984,
-    "monitor": 0,
+    "consoleX": 510,
+    "consoleY": 122,
+    "consoleWidth": 800,
+    "consoleHeight": 800,
+    "monitor": 1,
     "consoleOnTop": false,
     "consoleDirection": "TOP"
   },
@@ -51,5 +51,5 @@
   },
   "shownWelcomeMessage": true,
   "accountCreationTime": 0,
-  "audioPlayerVolumePercent": 13
+  "audioPlayerVolumePercent": 68
 }
